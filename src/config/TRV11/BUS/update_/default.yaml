@@ -1,0 +1,11 @@
+message:
+  update_target: order.billing
+  order:
+    id: O1
+    billing:
+      name: John Doe
+      email: john_doe@example.com
+      phone: +91-9897867564
+
+
+

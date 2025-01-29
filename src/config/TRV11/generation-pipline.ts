@@ -1,7 +1,7 @@
 import { createContext } from "./create-context";
 import fs from "fs";
 import yaml from "js-yaml";
-import { Generator } from "./api-factory";
+import { Generator } from "./METRO/api-factory";
 import path from "path";
 import { SessionData } from "./session-types";
 import { error } from "console";

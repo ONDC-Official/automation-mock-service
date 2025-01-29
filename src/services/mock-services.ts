@@ -1,4 +1,4 @@
-import { getActionData } from "../config/TRV11/getActionConfig";
+import { getActionData } from "../config/TRV11/METRO/getActionConfig";
 import { actionSelectionCodeTests } from "../generated/action-selector";
 import { defaultSelectionCodeTests } from "../generated/default-selector";
 import logger from "../utils/logger";
