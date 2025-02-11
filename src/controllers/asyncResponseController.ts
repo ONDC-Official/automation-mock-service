@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import logger from "../utils/logger";
 import { getMockResponseMetaData } from "../services/mock-services";
-import { createMockReponse } from "../config/TRV11/generation-pipline";
+import { createMockResponse } from "../config/TRV11/METRO/version-factory";
 import { sendToApiService } from "../utils/request-utils";
 import { BecknContext } from "../config/TRV11/session-types";
 
@@ -33,9 +33,11 @@ async function sendResponse(body: any) {
 			body
 		);
 		console.log(mockResponseMetaData.action,mockResponseMetaData.actionID);
-		const mockReponse = await createMockReponse(
+		const mockReponse = await createMockResponse(
+			body.context.version,
+			mockResponseMetaData.sessionData,
 			mockResponseMetaData.actionID,
-			mockResponseMetaData.sessionData
+
 		);
 		await sendToApiService(mockResponseMetaData.action, mockReponse);
 	} catch (err) {

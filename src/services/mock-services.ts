@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { getActionData } from "../config/TRV11/METRO/getActionConfig";
+=======
+import { getActionData } from "../config/TRV11/METRO/2.0.1/getActionConfig";
+>>>>>>> feature/rework
 import { actionSelectionCodeTests } from "../generated/action-selector";
 import { defaultSelectionCodeTests } from "../generated/default-selector";
 import logger from "../utils/logger";

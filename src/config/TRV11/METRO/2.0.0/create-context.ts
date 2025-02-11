@@ -1,4 +1,4 @@
-import { BecknContext } from "./session-types";
+import { BecknContext } from "../../session-types";
 
 export function createContext(partialContext: Partial<BecknContext>) {
 	// const newContext
@@ -18,7 +18,7 @@ export function createContext(partialContext: Partial<BecknContext>) {
 		message_id: generateUuid(),
 		timestamp: new Date().toISOString(),
 		transaction_id: generateUuid(),
-		ttl: "PT10M",
+		ttl: "PT30S",
 		version: "2.0.0",
 	};
 

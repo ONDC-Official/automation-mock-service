@@ -1,5 +1,10 @@
 {
     "TESTS": {
+        "search": [
+            {
+
+            }
+        ],
         "select": [
             {
                 "NAME": "all_item_ids_are_present_in_the_array",

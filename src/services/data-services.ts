@@ -64,7 +64,7 @@ export async function saveData(
 		const sessionData = await loadSessionData(payload?.context.transaction_id);
 		const actionFolderPath = path.resolve(
 			__dirname,
-			`../config/TRV11/${action}`
+			`../config/TRV11/METRO/${payload.context.version}/${action}`
 		);
 		const saveDataFilePath = path.join(actionFolderPath, "save-data.yaml");
 		const fileContent = fs.readFileSync(saveDataFilePath, "utf8");

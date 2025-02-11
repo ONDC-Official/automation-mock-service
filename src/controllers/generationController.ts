@@ -2,9 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import { TriggerRequest } from "../routes/trigger";
 import { loadSessionData } from "../services/data-services";
 import logger from "../utils/logger";
-import { createMockReponse } from "../config/TRV11/generation-pipline";
 import { updateAllJsonPaths } from "../utils/json-editor-utils/jsonPathEditor";
 import { delay } from "../utils/generic-utils";
+import { createMockResponse } from "../config/TRV11/METRO/version-factory";
 
 export async function generateMockResponseMiddleware(
 	req: TriggerRequest,
@@ -32,9 +32,10 @@ export async function generateMockResponseMiddleware(
 			txn,
 			req.queryData.subscriber_url
 		);
-		const mockResponse = await createMockReponse(
+		const mockResponse = await createMockResponse(
+			req.queryData.version ?? "2.0.0",
+			sessionData,
 			req.queryData?.action_id,
-			sessionData
 		);
 		req.mockResponse = mockResponse;
 		next();

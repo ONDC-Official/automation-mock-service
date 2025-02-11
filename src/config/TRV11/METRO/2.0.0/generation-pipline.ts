@@ -1,11 +1,15 @@
 import { createContext } from "./create-context";
 import fs from "fs";
 import yaml from "js-yaml";
+<<<<<<< HEAD:src/config/TRV11/generation-pipline.ts
 import { Generator } from "./METRO/api-factory";
+=======
+>>>>>>> feature/rework:src/config/TRV11/METRO/2.0.0/generation-pipline.ts
 import path from "path";
-import { SessionData } from "./session-types";
 import { error } from "console";
-import logger from "../../utils/logger";
+import { SessionData } from "../../session-types";
+import { Generator } from "../2.0.0/api-factory";
+import logger from "../../../../utils/logger";
 function yamlToJson(filePath: string): object {
 	try {
 		// Read the YAML file contents
@@ -50,7 +54,7 @@ function getDetailsByActionId(
 	throw new Error("Invalid action id found!");
 }
 
-export async function createMockReponse(
+export async function createMockReponse1(
 	actionID: string,
 	sessionData: SessionData
 ) {
@@ -59,7 +63,7 @@ export async function createMockReponse(
 	// 3. run faker
 
 	const factoryData = loadFactoryYaml(
-		path.resolve(__dirname, "../TRV11/factory.yaml")
+		path.resolve(__dirname, "../2.0.0/factory.yaml")
 	);
 	const api_details = getDetailsByActionId(actionID, factoryData);
 	const context_object = {

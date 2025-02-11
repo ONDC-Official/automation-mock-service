@@ -15,6 +15,7 @@ const triggerRouter = Router();
 interface QuerySettings {
 	transaction_id: string;
 	action_id: string;
+	version: string;
 	subscriber_url?: string;
 	[key: string]: undefined | string | string[] | any;
 }
