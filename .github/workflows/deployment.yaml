@@ -59,6 +59,7 @@ jobs:
           echo "API_SERVICE_LAYER=${{ vars.API_SERVICE_LAYER }}" >> \$REPO_DIR/.env
           echo "CONTAINER_NAME=${{ vars.CONTAINER_NAME }}" >> \$REPO_DIR/.env
           echo "DOMAIN=${{ vars.DOMAIN }}" >> \$REPO_DIR/.env
+
           EOF
 
       - name: Verify .env and docker-compose.yml files

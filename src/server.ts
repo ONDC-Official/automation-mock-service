@@ -8,36 +8,44 @@ import triggerRouter from "./routes/trigger";
 import { setAckResponse, setBadRequestNack } from "./utils/ackUtils";
 
 const createServer = (): Application => {
-  const app = express();
+	const app = express();
 
-  // Middleware
-  app.use(express.json({ limit: "50mb" }));
-  app.use(cors());
+	// Middleware
+	app.use(express.json({ limit: "50mb" }));
+	app.use(cors());
 
-  // Log all requests in development
-  if (config.port !== "production") {
-    app.use((req: Request, res: Response, next: NextFunction) => {
-      logger.debug(`${req.method} ${req.url}`);
-      next();
-    });
-  }
+	// Log all requests in development
+	if (config.port !== "production") {
+		app.use((req: Request, res: Response, next: NextFunction) => {
+			logger.debug(`${req.method} ${req.url}`);
+			next();
+		});
+	}
 
-  app.use("/manual", manualRouter);
-//   app.use("/mock", defaultRouter);
-  app.use("/trigger", triggerRouter);
+	const domain = process.env.DOMAIN;
+	// var version = process.env.VERSION;
+	if (!domain) {
+		throw new Error("Domain and version are required in env");
+	}
 
-  // Health Check
-  app.get("/health", (req: Request, res: Response) => {
-    res.status(200).send(setAckResponse(true));
-  });
+	const base = `/mock/${domain}`;
 
-  // Error Handling Middleware
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    logger.error(err.message, { stack: err.stack });
-    res.status(200).send(setBadRequestNack(err.message));
-  });
+	app.use(`${base}/manual`, manualRouter);
+	//   app.use("/mock", defaultRouter);
+	app.use(`${base}/trigger`, triggerRouter);
 
-  return app;
+	// Health Check
+	app.get(`${base}/health`, (req: Request, res: Response) => {
+		res.status(200).send(setAckResponse(true));
+	});
+
+	// Error Handling Middleware
+	app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+		logger.error(err.message, { stack: err.stack });
+		res.status(200).send(setBadRequestNack(err.message));
+	});
+
+	return app;
 };
 
 export default createServer;
