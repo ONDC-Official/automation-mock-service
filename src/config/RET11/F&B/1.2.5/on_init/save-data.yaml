@@ -1,0 +1,13 @@
+save-data:
+  items: "$.message.order.items[*]"
+  fulfillments: "$.message.order.fulfillments[*]"
+  fulfillment_end_location: "$.message.order.fulfillments[*].end.location"
+  fulfillment_end_contact: "$.message.order.fulfillments[*].end.contact"
+  billing: "$.message.order.billing"
+  billing_address: "$.message.order.billing.address"
+  quote: "$.message.order.quote"
+  quote_price: "$.message.order.quote.price"
+  quote_breakup: "$.message.order.quote.breakup[*]"
+  payment: "$.message.order.payment"
+  payment_settlement_details: "$.message.order.payment.@ondc/org/settlement_details[*]"
+  tags: "$.message.order.tags[*]"

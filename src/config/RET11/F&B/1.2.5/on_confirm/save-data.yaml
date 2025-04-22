@@ -1,0 +1,3 @@
+order_id: "$.message.order.id"
+status: "$.message.order.status"
+fulfillments: "$.message.order.fulfillments[*]"

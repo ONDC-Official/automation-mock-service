@@ -1,0 +1,14 @@
+message:
+  update_target: payment
+  order:
+    id: O1
+    fulfillments:
+    - id: C1
+      type: Cancel
+    payment:
+      ondc/org/settlement_details:
+      - settlement_counterparty: buyer
+        settlement_phase: refund
+        settlement_type: upi
+        settlement_amount: "170.00"
+        settlement_timestamp: "2025-01-08T11:00:00.000Z"

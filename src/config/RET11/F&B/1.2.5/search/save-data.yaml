@@ -1,0 +1,14 @@
+save-data:
+  domain: "$.context.domain"
+  transaction_id: "$.context.transaction_id"
+  message_id: "$.context.message_id"
+  bap_id: "$.context.bap_id"
+  bap_uri: "$.context.bap_uri"
+  city_code: "$.context.city"
+  bnp_features:
+    "001": "$.message.intent.tags[?(@.code == 'bnp_features')].list[?(@.code == '001')].value == 'yes'"
+    "002": "$.message.intent.tags[?(@.code == 'bnp_features')].list[?(@.code == '002')].value == 'yes'"
+    "003": "$.message.intent.tags[?(@.code == 'bnp_features')].list[?(@.code == '003')].value == 'yes'"
+    "004": "$.message.intent.tags[?(@.code == 'bnp_features')].list[?(@.code == '004')].value == 'yes'"
+    "005": "$.message.intent.tags[?(@.code == 'bnp_features')].list[?(@.code == '005')].value == 'yes'"
+    "006": "$.message.intent.tags[?(@.code == 'bnp_features')].list[?(@.code == '006')].value == 'yes'"

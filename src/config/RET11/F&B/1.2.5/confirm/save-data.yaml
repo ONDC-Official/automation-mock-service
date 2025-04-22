@@ -1,0 +1,12 @@
+save-data:
+  message_id: "$.context.message_id"
+  order_id: "$.message.order.id"
+  fulfillment_id: "$.message.order.fulfillments[0].id"
+  provider_id: "$.message.order.provider.id"
+  payment_uri: "$.message.order.payment.uri"
+  payment_status: "$.message.order.payment.status"
+  total_amount: "$.message.order.payment.params.amount"
+  settlement_details: "$.message.order.payment.@ondc/org/settlement_details"
+  buyer_tax_number: "$.message.order.tags[?(@.code=='bap_terms')].list[?(@.code=='tax_number')].value"
+  seller_tax_number: "$.message.order.tags[?(@.code=='bpp_terms')].list[?(@.code=='tax_number')].value"
+  items: "$.message.order.items[*]"
