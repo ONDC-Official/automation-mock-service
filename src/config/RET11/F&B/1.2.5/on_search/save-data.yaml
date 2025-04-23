@@ -1,10 +1,3 @@
 save-data:
   bpp_id: "$.context.bpp_id"
   bpp_uri: "$.context.bpp_uri"
-  item_availability_enabled: "$.message.catalog.bpp/providers[0].items[0].time.label == 'enable'"
-  item_timing:
-    day_from: "$.message.catalog.bpp/providers[0].items[0].tags[?(@.code == 'timing')].list[?(@.code == 'day_from')].value"
-    day_to: "$.message.catalog.bpp/providers[0].items[0].tags[?(@.code == 'timing')].list[?(@.code == 'day_to')].value"
-    time_from: "$.message.catalog.bpp/providers[0].items[0].tags[?(@.code == 'timing')].list[?(@.code == 'time_from')].value"
-    time_to: "$.message.catalog.bpp/providers[0].items[0].tags[?(@.code == 'timing')].list[?(@.code == 'time_to')].value"
-    timestamp: "$.message.catalog.bpp/providers[0].items[0].time.timestamp"

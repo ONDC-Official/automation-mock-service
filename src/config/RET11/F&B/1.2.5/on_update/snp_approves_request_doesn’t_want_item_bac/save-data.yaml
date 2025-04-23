@@ -1,0 +1,3 @@
+save-data:
+  order_id: "$.message.order.id"
+  order_state: "$.message.order.state"

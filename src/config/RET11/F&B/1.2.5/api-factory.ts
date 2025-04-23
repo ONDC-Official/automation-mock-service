@@ -6,6 +6,9 @@ import { initGenerator } from "./init/generator";
 import { onInitGenerator } from "./on_init/generator";
 import { confirmGenerator } from "./confirm/generator";
 import { onConfirmGenerator } from "./on_confirm/generator";
+import { search1Generator } from "./search/search_1/generator";
+import { onSearch1Generator } from "./on_search/on_search_1/generator";
+import { onSearch2Generator } from "./on_search/on_search_2/generator";
 
 export async function Generator(
   action_id: string,
@@ -13,12 +16,17 @@ export async function Generator(
   sessionData: any,
   inputs?: Record<string, string>
 ) {
-  console.log("inside generator");
   switch (action_id) {
     case "search":
       return await searchGenerator(existingPayload, sessionData);
     case "on_search":
       return await onSearchGenerator(existingPayload, sessionData);
+    case "search_1":
+      return await search1Generator(existingPayload, sessionData, inputs);
+    case "on_search_1":
+      return await onSearch1Generator(existingPayload, sessionData);
+    case "on_search_2":
+      return await onSearch2Generator(existingPayload, sessionData);
     case "select":
       return await selectGenerator(existingPayload, sessionData);
     case "on_select":

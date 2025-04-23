@@ -83,9 +83,9 @@ export async function createMockReponseRET(
     delete context.bpp_uri;
   }
 
-  if (actionID.startsWith("on_")) {
-    delete context.ttl;
-  }
+  // if (actionID.startsWith("on_")) {
+  //   delete context.ttl;
+  // }
 
   if (!api_details.message_id) {
     context.message_id = sessionData.message_id as string;

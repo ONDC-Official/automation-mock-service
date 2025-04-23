@@ -1,0 +1,3 @@
+save-data:
+  order_id: "$.message.order.id"
+  fulfillments_type: "$.message.order.fulfillments.type"
