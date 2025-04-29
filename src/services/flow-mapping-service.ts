@@ -46,6 +46,7 @@ export function getFlowCompleteStatus(
 					unsolicited: flowStep.unsolicited,
 					pairActionId: flowStep.pair,
 					description: flowStep.description,
+					label: flowStep.label,
 				});
 			} else {
 				mappedFlow.missedSteps.push({
@@ -99,6 +100,7 @@ export function getFlowCompleteStatus(
 				pairActionId: item.pair,
 				description: item.description,
 				expect: item.expect,
+				label: item.label,
 			};
 			if (subscriberType === item.owner) {
 				mappedFlow.sequence.push(base);
@@ -137,6 +139,7 @@ export function getFlowCompleteStatus(
 				pairActionId: item.pair,
 				description: item.description,
 				expect: item.expect,
+				label: item.label,
 			});
 		}
 	}
