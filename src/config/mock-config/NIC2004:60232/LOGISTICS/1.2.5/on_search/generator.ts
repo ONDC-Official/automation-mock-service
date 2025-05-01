@@ -192,10 +192,10 @@ export async function onSearch1Generator(
         return fulfillment;
       }
     );
-
   if (
     sessionData?.is_cod === "yes" ||
-    inputs?.feature_discovery?.includes("017")
+    (Array.isArray(inputs?.feature_discovery) &&
+      inputs.feature_discovery.includes("017"))
   ) {
     const items = existingPayload.message.catalog["bpp/providers"][0].items;
     items.forEach(
@@ -256,7 +256,7 @@ export async function onSearch1Generator(
       },
     ];
   }
-  if (inputs?.feature_discovery?.includes("017")) {
+  if (inputs?.feature_discovery && inputs?.feature_discovery?.includes("017")) {
     existingPayload.message.catalog["bpp/providers"][0].items.push({
       id: "I3",
       parent_item_id: "",
@@ -285,7 +285,7 @@ export async function onSearch1Generator(
     });
   }
   console.log(inputs);
-  
+
   if (inputs?.feature_discovery || inputs?.default_feature) {
     let codesArray = inputs.feature_discovery || [];
     console.log(inputs?.default_feature);
