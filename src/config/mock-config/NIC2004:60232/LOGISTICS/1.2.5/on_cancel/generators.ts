@@ -197,7 +197,8 @@ export const onCancelGenerator = (
   if (sessionData.payment) {
     existingPayload.message.order.payment = sessionData.payment;
   }
-  if (sessionData.cancellation_terms) {
+  if (Array.isArray(sessionData.cancellation_terms) &&
+  sessionData.cancellation_terms.length > 0) {
     existingPayload.message.order.cancellation_terms =
       sessionData.cancellation_terms;
   }

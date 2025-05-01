@@ -56,7 +56,10 @@ export const confirmGenerator = (
     existingPayload.message.order.fulfillments = sessionData.fulfillments;
   }
 
-  if (sessionData.cancellation_terms) {
+  if (
+    Array.isArray(sessionData.cancellation_terms) &&
+    sessionData.cancellation_terms.length > 0
+  ) {
     existingPayload.message.order.cancellation_terms =
       sessionData.cancellation_terms;
   }

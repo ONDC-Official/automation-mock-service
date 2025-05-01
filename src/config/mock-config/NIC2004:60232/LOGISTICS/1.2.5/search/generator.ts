@@ -117,7 +117,7 @@ export async function searchGenerator(
 
     existingPayload.message.intent.fulfillment.tags.push(tag);
   }
-  if (inputs?.feature_discovery?.includes("009")) {
+  if (inputs?.feature_discovery && inputs?.feature_discovery?.includes("009")) {
     existingPayload.message.intent.fulfillment.start.instructions = {
       code: "5",
     };
