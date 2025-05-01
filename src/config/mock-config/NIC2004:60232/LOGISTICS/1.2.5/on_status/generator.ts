@@ -325,7 +325,8 @@ export const onStatusGenerator = async (
   existingPayload.message.order.updated_at = existingPayload.context.timestamp;
 
   existingPayload.message.order.quote = sessionData.quote;
-  if (sessionData.cancellation_terms) {
+  if (Array.isArray(sessionData.cancellation_terms) &&
+  sessionData.cancellation_terms.length > 0) {
     existingPayload.message.order.cancellation_terms =
       sessionData.cancellation_terms;
   }
