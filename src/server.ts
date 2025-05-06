@@ -1,11 +1,13 @@
 import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
-import logger from "./utils/logger";
+import {logError} from "./utils/logger";
 import { config } from "./config/serverConfig";
 // import defaultRouter from "./routes/defaultRoute";
 import manualRouter from "./routes/manual";
 import triggerRouter from "./routes/trigger";
 import { setAckResponse, setBadRequestNack } from "./utils/ackUtils";
+import requestLog from "./middleware/requestLog";
+import responseLog from "./middleware/responseLog";
 
 const createServer = (): Application => {
 	const app = express();
@@ -14,13 +16,16 @@ const createServer = (): Application => {
 	app.use(express.json({ limit: "50mb" }));
 	app.use(cors());
 
-	// Log all requests in development
-	if (config.port !== "production") {
-		app.use((req: Request, res: Response, next: NextFunction) => {
-			logger.debug(`${req.method} ${req.url}`);
-			next();
-		});
-	}
+	// // Log all requests in development
+	// if (config.port !== "production") {
+	// 	app.use((req: Request, res: Response, next: NextFunction) => {
+	// 		logger.debug(`${req.method} ${req.url}`);
+	// 		next();
+	// 	});
+	// }
+	// Log all requests
+	app.use(requestLog);
+	app.use(responseLog);
 
 	const domain = process.env.DOMAIN;
 	// var version = process.env.VERSION;
@@ -41,7 +46,10 @@ const createServer = (): Application => {
 
 	// Error Handling Middleware
 	app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-		logger.error(err.message, { stack: err.stack });
+		logError({
+			message: "Triggered By Error Handling Middleware",
+			error: err,
+		});
 		res.status(200).send(setBadRequestNack(err.message));
 	});
 
