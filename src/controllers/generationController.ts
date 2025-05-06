@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { TriggerRequest } from "../routes/trigger";
 import { loadSessionData } from "../services/data-services";
-import logger from "../utils/logger";
+import {logger} from "../utils/logger";
 import { updateAllJsonPaths } from "../utils/json-editor-utils/jsonPathEditor";
 import { delay } from "../utils/generic-utils";
 import { createMockResponse } from "../config/TRV11/METRO/version-factory";

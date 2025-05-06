@@ -5,7 +5,7 @@ import {
 	replaceJsonPaths,
 } from "../controllers/generationController";
 
-import logger from "../utils/logger";
+import { logInfo, logError } from "../utils/logger";
 import { sendToApiService } from "../utils/request-utils";
 import { setAckResponse } from "../utils/ackUtils";
 import { getSafeActions } from "../services/mock-services";
@@ -38,28 +38,70 @@ triggerRouter.post(
 	replaceJsonPaths,
 	async (req: TriggerRequest, res) => {
 		try {
+			logInfo({
+				message: "Entering trigger /api-service/:action route",
+				transaction_id: req.queryData?.transaction_id,
+				meta: {
+					action: req.params.action
+				}
+			})
 			if (!req.mockResponse) {
+				logError({
+					message: "Error in /api-service/:action route",
+					error: new Error("Mock response not found"),
+					transaction_id: req.queryData?.transaction_id,
+					meta: {
+						action: req.params.action
+					}
+				});
 				throw new Error("Mock response not found");
 			}
 			const action = req.params.action;
 			await sendToApiService(action, req.mockResponse, req.queryData);
+			logInfo({
+				message: "Exiting /api-service/:action route",
+				transaction_id: req.queryData?.transaction_id,
+				meta: {
+					action: req.params.action
+				}
+			})
 			res.status(200).send(setAckResponse(true));
 		} catch (err) {
-			logger.error("Error in forwarding request to API service", err);
+			// logger.error("Error in forwarding request to API service", err);
+			logError({
+				message: "Error in forwarding request to API service",
+				error: err,
+				transaction_id: req.queryData?.transaction_id,
+				meta: {
+					action: req.params.action
+				}
+			});
 			res.status(500).send("Error in forwarding request to API service");
 		}
 	}
 );
 
 triggerRouter.get("/safe-actions", async (req, res) => {
+
+	logInfo({
+		message: "Entering trigger /safe-actions route",
+		transaction_id: req.query?.transaction_id as string,
+	});
 	const transaction_id = req.query.transaction_id as string;
 	const mockType = req.query.mock_type as string;
 	if (!transaction_id) {
+		logError({
+			message: "Transaction ID not found in query data",
+		});
 		res.status(400).send("Transaction ID not found in query data");
 		return;
 	}
 
 	if (!mockType) {
+		logError({
+			message: "Mock Type not found in query data",
+			transaction_id: transaction_id,
+		});
 		res.status(400).send("Mock type not found in query data");
 		return;
 	}
@@ -73,7 +115,14 @@ triggerRouter.get("/safe-actions", async (req, res) => {
 
   const { usecaseId } = data;
 	const safeActions = await getSafeActions(transaction_id, undefined, mockType,usecaseId);
-	logger.info(`Returning safe actions ${JSON.stringify(safeActions)}`);
+	res.status(200).send(safeActions);
+	logInfo({
+		message: "Exiting /safe-actions route. Returning safe actions",
+		transaction_id: transaction_id,
+		meta: {
+			safeActions
+		}
+	});
 	res.status(200).send(safeActions);
 });
 
@@ -81,11 +130,32 @@ triggerRouter.get(
 	"/payload/:action",
 	generateMockResponseMiddleware,
 	(req: TriggerRequest, res) => {
+		logInfo({
+			message: "Entering trigger /payload/:action route",
+			transaction_id: req.queryData?.transaction_id,
+			meta: {
+				action: req.params.action
+			}
+		})
 		if (!req.mockResponse) {
-			logger.error("Mock response not found");
+			// logger.error("Mock response not found");
+			logError({
+				message: "Mock response not found",
+				transaction_id: req.queryData?.transaction_id,
+				meta: {
+					action: req.params.action
+				}
+			});
 			res.status(404).send("Mock response not found");
 		}
-		logger.info("Returning mock response");
+		// logger.info("Returning mock response");
+		logInfo({
+			message: "Exiting /payload/:action route. Returning mock response",
+			transaction_id: req.queryData?.transaction_id,
+			meta: {
+				action: req.params.action
+			}
+		})
 		res.status(200).send(req.mockResponse);
 	}
 );
