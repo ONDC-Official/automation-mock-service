@@ -5,7 +5,7 @@ import { RedisService } from "ondc-automation-cache-lib";
 import jsonpath from "jsonpath";
 
 import { SessionData } from "../config/TRV11/session-types";
-import logger from "../utils/logger";
+import  { logInfo, logError, logDebug } from "../utils/logger";
 import { isArrayKey } from "../types/type-utils";
 
 export function updateSessionData(
@@ -17,12 +17,21 @@ export function updateSessionData(
 		message: string;
 	}
 ) {
-	logger.info(`updating session`);
+	// logger.info(`updating session`);
+	logInfo({
+		message: "Entering updateSessionData Function",
+		transaction_id: payload?.context.transaction_id,
+	});
 	try {
 		for (const key in saveData) {
 			const jsonPath = saveData[key as keyof typeof saveData];
 			const result = jsonpath.query(payload, jsonPath);
-			logger.debug(`updating ${key} for path $${jsonPath}`);
+
+			// logger.debug(`updating ${key} for path $${jsonPath}`);
+			logDebug({
+				message: `Updating ${key} for path $${jsonPath}`,
+				transaction_id: payload?.context.transaction_id,
+			});
 			if (
 				isArrayKey<SessionData>(key as keyof typeof sessionData, sessionData)
 			) {
@@ -38,16 +47,35 @@ export function updateSessionData(
 			sessionData.error_code = undefined;
 			sessionData.error_message = undefined;
 		}
+		logInfo({
+			message: "Exiting updateSessionData Function",
+			transaction_id: payload?.context.transaction_id,
+		});
 	} catch (e) {
-		logger.error("Error in updating session data", e);
+		// logger.error("Error in updating session data", e);
+		logError({
+			message: "Error in updateSessionData Function",
+			error: e,
+			transaction_id: payload?.context.transaction_id,
+		});		
 	}
 }
 function yamlToJson(filePath: string): object {
 	try {
+		logInfo({
+			message: "Entering yamlToJson Function",
+		});
 		const fileContents = fs.readFileSync(filePath, "utf8");
 		const jsonData = yaml.load(fileContents) as any;
+		logInfo({
+			message: "Exiting yamlToJson Function",
+		});
 		return jsonData;
 	} catch (error) {
+		logError({
+			message: "Error in yamlToJson Function",
+			error: error,
+		});
 		throw error;
 	}
 }
@@ -61,8 +89,11 @@ export async function saveData(
 	}
 ) {
 	try {
+		logInfo({
+			message: "Entering SaveData Function",
+			transaction_id: payload?.context.transaction_id,
+		});
 		const sessionData = await loadSessionData(payload?.context.transaction_id);
-		
 		const actionFolderPath = path.resolve(
 			__dirname,
 			`../config/TRV11/METRO/${payload.context.version}/${action}`
@@ -75,9 +106,18 @@ export async function saveData(
 			payload?.context.transaction_id,
 			JSON.stringify(sessionData)
 		);
-		logger.info("Data saved to session");
+		// logger.info("Data saved to session");
+		logInfo({
+			message: "Exiting SaveData Function. Data saved to session",
+			transaction_id: payload?.context.transaction_id,
+		});
 	} catch (e) {
-		logger.error("Error in saving data to session", e);
+		// logger.error("Error in saving data to session", e);
+		logError({
+			message: "Error in SaveData Function",
+			error: e,
+			transaction_id: payload?.context.transaction_id,
+		});
 	}
 }
 
@@ -85,6 +125,10 @@ export async function loadSessionData(
 	transactionID: string,
 	subscriber_url?: string
 ) {
+	logInfo({
+		message: "Entering LoadSessionData Function",
+		transaction_id: transactionID,
+	});
 	const keyExists = await RedisService.keyExists(transactionID);
 	let sessionData: SessionData = {} as SessionData;
 	if (!keyExists) {
@@ -97,12 +141,20 @@ export async function loadSessionData(
 		sessionData.bap_uri = process.env.BAP_URI;
 		sessionData.bpp_uri = process.env.BPP_URI;
 		sessionData.subscriber_url = subscriber_url;
-		logger.info(`new session data is ${JSON.stringify(sessionData)}`);
+		logInfo({message:`new session data is ${JSON.stringify(sessionData)}`});
+		logInfo({
+			message: "Exiting LoadSessionData Function",
+			transaction_id: transactionID,
+		});
 		return sessionData;
 	} else {
 		const rawData = await RedisService.getKey(transactionID);
-		logger.info(`loading session data for ${transactionID}`);
+		logInfo({message:`loading session data for ${transactionID}`});
 		const sessionData = JSON.parse(rawData ?? "{}") as SessionData;
+		logInfo({
+			message: "Exiting LoadSessionData Function",
+			transaction_id: transactionID,
+		});
 		return sessionData;
 	}
 }
