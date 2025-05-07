@@ -19,7 +19,8 @@
     "@types/jsonpath": "^0.2.4",
     "@types/node": "^22.10.0",
     "nodemon": "^3.1.7",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "@types/lodash": "^4.17.16"
   },
   "dependencies": {
     "@types/chalk": "^2.2.4",
@@ -36,6 +37,16 @@
     "ondc-automation-cache-lib": "^2.1.0",
     "uuid": "^11.0.3",
     "winston": "^3.17.0",
-    "winston-daily-rotate-file": "^5.0.0"
+    "winston-daily-rotate-file": "^5.0.0",
+    "@opentelemetry/api": "1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "0.57.1",
+    "@opentelemetry/exporter-jaeger": "2.0.0",
+    "@opentelemetry/exporter-prometheus": "0.200.0",
+    "@opentelemetry/resources": "^1.8.0",
+    "@opentelemetry/sdk-logs": "0.200.0",
+    "@opentelemetry/sdk-metrics": "2.0.0",
+    "@opentelemetry/sdk-node": "0.200.0",
+    "@opentelemetry/semantic-conventions": "1.32.0",
+    "lodash": "^4.17.21"
   }
 }
