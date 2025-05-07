@@ -1,7 +1,7 @@
-import axios from "axios";
 import { BecknContext } from "../../types/BeknTypes";
 import { Flow } from "../../types/flow-types";
 import logger from "../logger";
+import { SessionCache } from "../../types/api-session-cache";
 
 export function computeSubscriber(context: BecknContext) {
 	const action = context.action;
@@ -21,34 +21,24 @@ export function computeSubscriber(context: BecknContext) {
 	return context.bap_uri;
 }
 
-export async function fetchFlow(
-	domain: string,
-	version: string,
-	flowId: string,
-	usecaseId: string
-): Promise<Flow> {
+export function fetchFlow(sessionData: SessionCache, flowId: string): Flow {
 	try {
-		logger.info(
-			`Fetching flow for domain: ${domain}, version: ${version}, flowId: ${flowId}`
-		);
-
-		const url = `${process.env.CONFIG_SERVICE}/mock/flow`;
-		const config = await axios.get(url, {
-			params: {
-				domain: domain,
-				version: version,
-				flowId: flowId,
-				usecase: usecaseId,
-			},
-		});
-		return config.data.data;
+		const flow = sessionData.flowConfigs[flowId];
+		if (!flow) {
+			logger.error(
+				`Flow not found for flowId: ${flowId} in sessionData: ${JSON.stringify(
+					sessionData
+				)}`
+			);
+			throw new Error(`Flow not found for flowId: ${flowId}`);
+		}
+		return flow;
 	} catch (error) {
 		logger.error(
-			`Error fetching flow for domain: ${domain}, version: ${version}, flowId: ${flowId} usecaseId: ${usecaseId}`,
-			error
+			`Error fetching flow for flowId: ${flowId} in sessionData: ${JSON.stringify(
+				sessionData
+			)}`
 		);
-		throw new Error(
-			`Error fetching flow for domain: ${domain}, version: ${version}, flowId: ${flowId} usecaseId: ${usecaseId}`
-		);
+		throw error;
 	}
 }

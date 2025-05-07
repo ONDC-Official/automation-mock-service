@@ -66,12 +66,7 @@ export async function setFlowAndTransactionId(
 			transactionData.sessionId
 		);
 
-		const flow = await fetchFlow(
-			context.domain,
-			context.version ?? context.core_version,
-			flowId,
-			sessionData.usecaseId
-		);
+		const flow = await fetchFlow(sessionData, flowId);
 		req.flow = flow;
 		req.transactionData = transactionData;
 		req.subscriberUrl = subscriberUrl;
@@ -116,12 +111,7 @@ export async function startNewFLow(
 		const sessionData = await new SessionCacheService().loadSessionThatExists(
 			sessionId
 		);
-		const flow = await fetchFlow(
-			sessionData.domain,
-			sessionData.version,
-			flowId,
-			sessionData.usecaseId
-		);
+		const flow = await fetchFlow(sessionData, flowId);
 
 		req.flow = flow;
 		req.transactionId = transactionId;
