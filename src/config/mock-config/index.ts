@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import logger from "../../utils/logger";
+import { logger, logInfo } from "../../utils/logger";
 import { createMockResponse } from "./NIC2004:60232/LOGISTICS/version-factory";
 import path from "path";
 import yaml from "js-yaml";
@@ -43,12 +43,22 @@ export function getActionData(code: number) {
 }
 
 export function getSaveDataContent(version: string, action: string) {
-  let actionFolderPath = path.resolve(
+logInfo({
+  message: "Entering getSaveDataContent Function.",
+  meta: { version, action },
+});  
+let actionFolderPath = path.resolve(
     __dirname,
     `./NIC2004:60232/LOGISTICS/${version}/${action}`
   );
 
   const saveDataFilePath = path.join(actionFolderPath, "save-data.yaml");
   const fileContent = readFileSync(saveDataFilePath, "utf8");
-  return yaml.load(fileContent) as any;
+  const cont = yaml.load(fileContent) as any;
+  // console.log(cont);
+  logInfo({
+    message: "Exiting getSaveDataContent Function.",
+    meta: { version, action, content: cont },
+  });
+  return cont;
 }
