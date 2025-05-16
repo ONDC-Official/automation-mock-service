@@ -2,7 +2,7 @@ import { SessionData } from "../../../session-types";
 
 function injectTicketFulfillments(payload: any, sessionData: SessionData) {
     const ticketFulfillments =
-      sessionData.fulfillments?.filter((f: any) => f?.type === "PASS") || [];
+      sessionData.fulfillments?.filter((f: any) => f?.type === "TRIP") || [];
   
     payload.message.order.fulfillments = ticketFulfillments.map((f: any, idx: number) => ({
       id: f.id,
