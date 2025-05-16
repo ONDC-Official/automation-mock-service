@@ -69,10 +69,9 @@ triggerRouter.get("/safe-actions", async (req, res) => {
 	console.log("api_session is ", api_session, "session_id is ",req.query.session_id)
 
   const data = JSON.parse(api_session) as SessionCache;
-  console.log("data is", data)
 
   const { usecaseId } = data;
-	const safeActions = await getSafeActions(transaction_id, undefined, mockType,usecaseId);
+	const safeActions = await getSafeActions(transaction_id, data.subscriberUrl, mockType,usecaseId);
 	logger.info(`Returning safe actions ${JSON.stringify(safeActions)}`);
 	res.status(200).send(safeActions);
 });

@@ -1,11 +1,10 @@
 import { config } from "./config/serverConfig";
 import createServer from "./server";
-
 import logger from "./utils/logger";
 import { RedisService } from "ondc-automation-cache-lib";
 
 const app = createServer();
-RedisService.useDb(1);
+RedisService.useDb(0);
 
 const server = app.listen(config.port, () => {
 	logger.info(
