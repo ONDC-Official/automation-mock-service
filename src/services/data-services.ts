@@ -97,7 +97,7 @@ export async function saveData(
 		const saveData = getSaveDataContent(payload.context.version, action);
 		updateSessionData(saveData["save-data"], payload, sessionData, errorData);
 		await RedisService.setKey(
-			payload?.context.transaction_id,
+			`MOCK_${payload?.context.transaction_id}::${subscriber_url}`,
 			JSON.stringify(sessionData)
 		);
 		logger.info("Data saved to session");
