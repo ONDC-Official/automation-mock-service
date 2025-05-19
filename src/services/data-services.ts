@@ -1,7 +1,9 @@
+import fs from "fs";
+import yaml from "js-yaml";
 import { RedisService } from "ondc-automation-cache-lib";
 import jsonpath from "jsonpath";
 
-import { logError, logger, logInfo } from "../utils/logger";
+import {logger} from "../utils/logger";
 import { isArrayKey } from "../types/type-utils";
 import {
 	defaultSessionData,
@@ -46,25 +48,27 @@ export function updateSessionData(
 		logger.error("Error in updating session data", e);
 	}
 }
+function yamlToJson(filePath: string): object {
+  try {
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    const jsonData = yaml.load(fileContents) as any;
+    return jsonData;
+  } catch (error) {
+    throw error;
+  }
+}
 
 export async function saveData(
-	action: string,
-	payload: any,
-	subscriber_url: string,
-	errorData?: {
-		code: number;
-		message: string;
-	}
+  action: string,
+  payload: any,
+  errorData?: {
+    code: number;
+    message: string;
+  }
 ) {
-	logInfo({
-		message: "Entering saveData Function.",
-		meta: { action },
-		transaction_id: payload?.context.transaction_id,
-	});
 	try {
 		const sessionData = await loadMockSessionData(
-			`MOCK_${payload?.context.transaction_id}::${subscriber_url}`,
-			subscriber_url
+			payload?.context.transaction_id
 		);
 		const saveData = getSaveDataContent(payload?.context?.version
 			|| payload?.context?.core_version, action);
@@ -73,34 +77,17 @@ export async function saveData(
 			payload?.context.transaction_id,
 			JSON.stringify(sessionData)
 		);
-		// logger.info("Data saved to session");
-		logInfo({
-			message: "Exiting saveData Function. Data saved to session.",
-			meta: { action },
-			transaction_id: payload?.context.transaction_id,
-		});
+		logger.info("Data saved to session");
 	} catch (e) {
-		// logger.error("Error in saving data to session", e);
-		logError({
-			message: "Error in saving data to session",
-			meta: { action },
-			transaction_id: payload?.context.transaction_id,
-			error: e,
-		});
+		logger.error("Error in saving data to session", e);
 	}
 }
 
 export async function loadMockSessionData(
 	transactionID: string,
-	subscriber_url: string
+	subscriber_url?: string
 ) {
-	logInfo({
-		message: "Entering loadMockSessionData Function. Loading mock session data",
-		meta: { transactionID, subscriber_url },
-		transaction_id: transactionID,
-	});
-	const key = `MOCK_${transactionID}::${subscriber_url}`
-	const keyExists = await RedisService.keyExists(key);
+	const keyExists = await RedisService.keyExists(transactionID);
 	let sessionData: MockSessionData = {} as MockSessionData;
 	if (!keyExists) {
 		const raw = defaultSessionData;
@@ -110,26 +97,12 @@ export async function loadMockSessionData(
 		sessionData.bap_uri = "https://dev-automation.ondc.org/buyer";
 		sessionData.bpp_uri = "https://dev-automation.ondc.org/seller";
 		sessionData.subscriber_url = subscriber_url;
-		// logger.info(`new session data is ${JSON.stringify(sessionData)}`);
-		logInfo({
-			message: `New session data created for transaction ID: ${transactionID}`,
-			meta: { transactionID, subscriber_url },
-		});
+		logger.info(`new session data is ${JSON.stringify(sessionData)}`);
 		return sessionData;
 	} else {
-		const rawData = await RedisService.getKey(
-			`MOCK_${transactionID}::${subscriber_url}`
-		  );
-		// logger.info(`loading session data for ${transactionID}`);
-		logInfo({
-			message: `Loaded mock session data for transaction ID: ${transactionID}`,
-		});
+		const rawData = await RedisService.getKey(transactionID);
+		logger.info(`loading session data for ${transactionID}`);
 		const sessionData = JSON.parse(rawData ?? "{}") as MockSessionData;
-		logInfo({
-			message: `Exiting loadMockSessionData Function. Loaded mock session data for transaction ID: ${transactionID}`,
-			meta: { transactionID, subscriber_url },
-			transaction_id: transactionID,
-			});
 		return sessionData;
 	}
 }

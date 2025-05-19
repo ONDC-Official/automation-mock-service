@@ -24,7 +24,7 @@ export async function saveDataMiddleware(
 		const subscriber_url = action.includes("on_")
 			? body.context.bpp_uri
 			: body.context.bap_uri;
-		await saveData(action, body, subscriber_url, req.l2Error);
+		await saveData(action, body, req.l2Error);
 		logInfo({
 			message: "Exiting saveDataMiddleware",
 			meta: {action: req.params.action},
