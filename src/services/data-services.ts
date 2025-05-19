@@ -1,5 +1,3 @@
-import fs from "fs";
-import yaml from "js-yaml";
 import { RedisService } from "ondc-automation-cache-lib";
 import jsonpath from "jsonpath";
 
@@ -10,97 +8,43 @@ import {
 	getSaveDataContent,
 	MockSessionData,
 } from "../config/mock-config";
-import { SessionData } from "../config/mock-config/NIC2004:60232/session-types";
 
 export function updateSessionData(
-	saveData: Record<
-	  string,
-	  string | { path: string; mode?: "append" | "override" }
-	>,
+	saveData: Record<string, string>,
 	payload: any,
-	sessionData: SessionData,
+	sessionData: MockSessionData,
 	errorData?: {
-	  code: number;
-	  message: string;
+		code: number;
+		message: string;
 	}
-  ) {
-	// logger.info(`updating session`);
-	logInfo({
-	  message: "Entering updateSessionData Function.",
-	  meta: { saveData, payload },
-	  transaction_id: payload?.context.transaction_id,
-	});
+) {
+	logger.info(`updating session`);
 	try {
-	  for (const key in saveData) {
-		const entry = saveData[key];
-		let jsonPath: string;
-		let mode: "append" | "override" = "override"; // default mode
-  
-		// Support legacy string format
-		if (typeof entry === "string") {
-		  jsonPath = entry;
-		} else {
-		  jsonPath = entry.path;
-		  mode = entry.mode ?? "override";
+		for (const key in saveData) {
+			const jsonPath = saveData[key as keyof typeof saveData];
+			const result = jsonpath.query(payload, jsonPath);
+			logger.debug(`updating ${key} for path $${jsonPath}`);
+			if (
+				isArrayKey<MockSessionData>(
+					key as keyof typeof sessionData,
+					sessionData
+				)
+			) {
+				sessionData[key as keyof typeof sessionData] = result;
+			} else {
+				sessionData[key as keyof typeof sessionData] = result[0];
+			}
 		}
-  
-		const result = jsonpath.query(payload, jsonPath);
-		// logger.debug(`updating ${key} for path ${jsonPath} with mode ${mode}`);
-		logInfo({ message: `Updating ${key} for path ${jsonPath} with mode ${mode}` });
-  
-		if (mode === "append") {
-		  const existing = sessionData[key as keyof SessionData] || [];
-		  if (!Array.isArray(existing)) {
-			// logger.warn(`Expected array for ${key}, found: ${typeof existing}`);
-			logInfo({
-			  message: `Expected array for ${key}, found: ${typeof existing}`,
-			  meta: { key, existing },
-			  transaction_id: payload?.context.transaction_id,
-			});
-			sessionData[key as keyof SessionData] = result;
-			continue;
-		  }
-		  sessionData[key as keyof SessionData] = existing.concat(result);
+		if (errorData) {
+			sessionData.error_code = errorData.code.toString();
+			sessionData.error_message = errorData.message;
 		} else {
-		  if (isArrayKey<SessionData>(key as keyof SessionData, sessionData)) {
-			sessionData[key as keyof SessionData] = result;
-		  } else {
-			sessionData[key as keyof SessionData] = result[0];
-		  }
+			sessionData.error_code = undefined;
+			sessionData.error_message = undefined;
 		}
-	  }
-  
-	  if (errorData) {
-		sessionData.error_code = errorData.code.toString();
-		sessionData.error_message = errorData.message;
-	  } else {
-		sessionData.error_code = undefined;
-		sessionData.error_message = undefined;
-	  }
-	  logInfo({
-		message: "Exiting updateSessionData Function.",
-		meta: { saveData, payload, sessionData },
-		transaction_id: payload?.context.transaction_id,
-	  });
 	} catch (e) {
-	//   logger.error("Error in updating session data", e);
-	logError({
-		message: "Error in updating session data",
-		meta: { saveData, payload },
-		transaction_id: payload?.context.transaction_id,
-		error: e,
-	  });
-	  throw e;
+		logger.error("Error in updating session data", e);
 	}
-  }
-function yamlToJson(filePath: string): object {
-  try {
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const jsonData = yaml.load(fileContents) as any;
-    return jsonData;
-  } catch (error) {
-    throw error;
-  }
 }
 
 export async function saveData(
