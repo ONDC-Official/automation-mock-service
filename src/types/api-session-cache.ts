@@ -1,3 +1,4 @@
+import { Flow } from "./flow-types";
 export interface SessionCache {
 	// against session_id
 	transactionIds: string[];
@@ -9,6 +10,7 @@ export interface SessionCache {
 	subscriberUrl: string;
 	usecaseId: string;
 	env: "STAGING" | "PRE-PRODUCTION";
+	flowConfigs: Record<string, Flow>;
 	// sessionDifficulty: SessionDifficulty;
 }
 

@@ -3,7 +3,7 @@ import yaml from "js-yaml";
 import { RedisService } from "ondc-automation-cache-lib";
 import jsonpath from "jsonpath";
 
-import logger from "../utils/logger";
+import {logger} from "../utils/logger";
 import { isArrayKey } from "../types/type-utils";
 import {
 	defaultSessionData,
