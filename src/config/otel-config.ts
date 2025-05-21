@@ -6,21 +6,19 @@ import {logger} from '../utils/logger';
 
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
-import { JaegerExporter } from '@opentelemetry/exporter-jaeger';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { resourceFromAttributes } from '@opentelemetry/resources';
-import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
-
+import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 logger.info('Starting opentelemetry tracing');
 
-console.log(process.env.SERVICE_NAME)
 const resource = resourceFromAttributes({
-  [SemanticResourceAttributes.SERVICE_NAME]: process.env.SERVICE_NAME,
+  [ATTR_SERVICE_NAME]: process.env.SERVICE_NAME,
 });
 
 const sdk = new NodeSDK({
-  traceExporter: new JaegerExporter({
-    endpoint: process.env.TRACE_URL,
-  }),
+traceExporter: new OTLPTraceExporter({
+   url: process.env.TRACE_URL
+ }),
   instrumentations: [getNodeAutoInstrumentations()],
   resource,
 });
