@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../utils/axios";
 import { logger, logInfo } from "./logger";
 import { saveData } from "../services/data-services";
 import { error } from "console";

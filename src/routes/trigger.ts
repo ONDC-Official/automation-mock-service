@@ -12,7 +12,7 @@ import { getSafeActions } from "../services/mock-services";
 import { RedisService } from "ondc-automation-cache-lib";
 import { SessionCache } from "../types/api-session-cache";
 import otelTracing from "../middlewares/tracing";
-
+import apiKeyValidation from "../middlewares/api-key";
 const triggerRouter = Router();
 
 interface QuerySettings {
@@ -32,6 +32,8 @@ export interface BodyTriggerType {
 	payload?: any;
 	json_path_changes?: Record<string, any>;
 }
+
+triggerRouter.use(apiKeyValidation);
 
 triggerRouter.post(
 	"/api-service/:action",

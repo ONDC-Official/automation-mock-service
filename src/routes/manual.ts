@@ -11,6 +11,7 @@ import { SessionCache } from "../types/api-session-cache";
 import { l2Validation } from "../controllers/validationControllers";
 import { logInfo } from "../utils/logger";
 import otelTracing from "../middlewares/tracing";
+import apiKeyValidation from "../middlewares/api-key";
 
 const manualRouter = Router();
 
@@ -29,6 +30,7 @@ export interface ApiRequest extends Request {
 
 manualRouter.post(
   "/:action",
+  apiKeyValidation,
   otelTracing(
 		'body.context.transaction_id',
 		'body.context.session_id',
