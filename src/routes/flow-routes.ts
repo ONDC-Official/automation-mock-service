@@ -6,6 +6,7 @@ import {
 	startNewFLow,
 } from "../controllers/flowController";
 import validateRequiredParams from "../middlewares/validateParams";
+import apiKeyValidation from "../middlewares/api-key";
 import otelTracing from "../middlewares/tracing";
 
 const flowRouter = Router();
@@ -32,7 +33,7 @@ flowRouter.use((req, res, next) => {
 		next();
 	}
 });
-
+flowRouter.use(apiKeyValidation);
 /**
  * @swagger
  * /flow/new:
