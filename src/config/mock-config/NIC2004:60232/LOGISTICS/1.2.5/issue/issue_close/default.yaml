@@ -212,13 +212,13 @@ message:
         action_by: NP1
         actor_details:
           name: Sam Manuel
-        tags:
-          - descriptor:
-              code: CLOSURE_DETAILS
-            list:
-              - descriptor:
-                  code: RATING
-                value: THUMBS_UP
+        # tags:
+        #   - descriptor:
+        #       code: CLOSURE_DETAILS
+        #     list:
+        #       - descriptor:
+        #           code: RATING
+        #         value: THUMBS_UP
     resolutions:
       - id: R_PARENT
         descriptor:
