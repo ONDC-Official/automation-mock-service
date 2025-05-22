@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import logger from "../utils/logger";
+import { logError, logger, logInfo } from "../utils/logger";
 
 import { ApiRequest } from "../routes/manual";
 import { performL2Validations } from "../config/mock-config/generated/L2-validations";
@@ -11,8 +11,16 @@ export async function l2Validation(
 	next: NextFunction
 ) {
 	try {
+		logInfo({
+			message: "L2 Validation",
+			meta: { action: req.params.action },
+			});
+		const action = req.params.action;
+		const body = req.body;
+		const subscriber_url = action.includes("on_")?body.context.bpp_uri : body.context.bap_uri
 		const sessionData = await loadMockSessionData(
-			req.body.context.transaction_id
+			req.body.context.transaction_id,
+			subscriber_url
 		);
 		const errors = performL2Validations(
 			req.params.action,
@@ -27,14 +35,25 @@ export async function l2Validation(
 				message: firstError.description || "validation failed",
 			};
 		}
-		logger.info(
-			`L2 validations completed found ${
-				errors.filter((s) => !s.valid).length
-			} errors`
-		);
+		// logger.info(
+		// 	`L2 validations completed found ${
+		// 		errors.filter((s) => !s.valid).length
+		// 	} errors`
+		// );
+		logInfo({
+			message: `L2 validations completed found ${errors.filter((s) => !s.valid).length} errors`,
+			meta: { action: req.params.action },
+			transaction_id: req.body.context.transaction_id,
+		});
 		next();
 	} catch (e) {
-		logger.error("failed to run L2 validations", e);
+		// logger.error("failed to run L2 validations", e);
+		logError({
+			message: "failed to run L2 validations",
+			meta: { action: req.params.action },
+			transaction_id: req.body.context.transaction_id,
+			error: e,
+		});
 		next();
 	}
 }
