@@ -14,7 +14,6 @@ export async function createMockResponse(
   RedisService.useDb(0);
   console.log("session id in create mock response", session_id);
   const api_session = (await RedisService.getKey(session_id)) ?? "";
-  console.log("api_session is ", api_session);
   const data = JSON.parse(api_session) as SessionCache;
   console.log("data is", data);
   const { version, usecaseId, domain } = data;

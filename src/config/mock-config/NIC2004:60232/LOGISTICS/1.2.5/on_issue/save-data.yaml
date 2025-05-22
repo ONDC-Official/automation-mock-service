@@ -1,0 +1,3 @@
+save-data:
+  latest_issue_payload: $.message.issue
+  last_action: $.context.action
