@@ -49,3 +49,6 @@ session_data:
   cancellation_terms: []
   rto_action: null
   rto_verification_code: null
+  igm_action: null
+  latest_issue_payload: null
+  latest_on_issue_payload: null

@@ -8,6 +8,7 @@ export async function sendToApiService(
 	queryData = {}
 ) {
 	try {
+		console.log("The domain is",JSON.stringify(body));
 		// const domain = process.env.DOMAIN;
 		const domain = body.context.domain
 		const version = body.context.version ?? body.context.core_version;
