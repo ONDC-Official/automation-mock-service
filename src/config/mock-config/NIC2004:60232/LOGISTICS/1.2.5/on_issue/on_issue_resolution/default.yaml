@@ -70,7 +70,7 @@ message:
         person:
           name: Grievance Officer SNP
     source_id: CUST1
-    complainant_id: NP1
+    complaint_id: NP1
     respondent_ids:
     - NP2
     resolver_ids:

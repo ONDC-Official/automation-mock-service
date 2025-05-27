@@ -47,7 +47,7 @@ message:
           person:
             name: John Doe
     source_id: CUST1
-    complainant_id: NP1
+    complaint_id: NP1
     descriptor:
       code: ITM004
       short_desc: Issue with product quality

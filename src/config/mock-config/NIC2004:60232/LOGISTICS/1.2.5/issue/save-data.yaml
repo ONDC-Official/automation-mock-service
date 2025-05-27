@@ -7,7 +7,7 @@ save-data:
   # issue_refs : "$.message.issue.refs[*]"
   # issue_actors : "$.message.issue.actors[*]"
   # issue_source_id : "$.message.issue.source_id"
-  # issue_complainant_id : "$.message.issue.complainant_id"
+  # issue_complaint_id : "$.message.issue.complaint_id"
   # issue_respondent_id : "$.message.issue.respondent_id"
   # issue_descriptor_code : "$.message.issue.descriptor-code"
   # issue_descriptor_short_desc : "$.message.issue.descriptor.short_desc"
