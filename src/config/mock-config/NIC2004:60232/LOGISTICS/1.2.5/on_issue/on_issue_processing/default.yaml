@@ -60,7 +60,7 @@ message:
           person:
             name: Jane Doe
     source_id: CUST1
-    complaint_id: NP1
+    complainant_id: NP1
     respondent_ids:
       - NP2
     descriptor:

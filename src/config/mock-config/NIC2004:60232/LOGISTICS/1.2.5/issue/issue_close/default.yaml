@@ -71,7 +71,7 @@ message:
           person:
             name: Grievance Officer BNP
     source_id: CUST1
-    complaint_id: NP1
+    complainant_id: NP1
     respondent_ids:
       - NP2
     resolver_ids:
