@@ -32,7 +32,7 @@ export async function sendToApiService(
 	  });
       throw new Error("subscriber url not provided ");
     }
-		await saveData(action, body,subscriber_url);
+		await saveData(action, body);
 		// logger.debug(`Sending response to api service ${url} ${action}`);
 		logInfo({
 			message: "Sending response to api service",
