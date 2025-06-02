@@ -1,6 +1,6 @@
 {
-  "transaction_id": "cd8e01d9-9ded-43c1-99df-6f872b16292a",
-  "message_id": "169d3819-2efa-4cd2-84cc-73934b6149b5",
+  "transaction_id": "2121fef7-8f87-4576-9852-6ad4b5f49bcf",
+  "message_id": "5b012df5-050f-4eff-89cb-f548e4cb5f58",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -68,8 +68,8 @@
     "phone": "9898989898",
     "name": "ONDC buyer",
     "email": "nobody@nomail.com",
-    "created_at": "2025-05-22T05:33:21.346Z",
-    "updated_at": "2025-05-22T05:33:21.346Z"
+    "created_at": "2025-05-23T06:46:56.444Z",
+    "updated_at": "2025-05-23T06:46:56.444Z"
   },
   "fulfillments": [
     {
@@ -158,7 +158,7 @@
             },
             {
               "code": "id",
-              "value": "I1"
+              "value": "I2"
             },
             {
               "code": "currency",
@@ -166,7 +166,7 @@
             },
             {
               "code": "value",
-              "value": "-200.00"
+              "value": "-9800.00"
             }
           ]
         }
@@ -176,15 +176,15 @@
   "quote": {
     "breakup": [
       {
-        "@ondc/org/item_id": "I2",
+        "@ondc/org/item_id": "I1",
         "@ondc/org/item_quantity": {
-          "count": 49
+          "count": 2
         },
         "title": "Plain Atta",
         "@ondc/org/title_type": "item",
         "price": {
           "currency": "INR",
-          "value": "9800.00"
+          "value": "200.00"
         },
         "item": {
           "quantity": {
@@ -197,7 +197,7 @@
           },
           "price": {
             "currency": "INR",
-            "value": "200.00"
+            "value": "100.00"
           }
         }
       },
@@ -222,11 +222,11 @@
     ],
     "price": {
       "currency": "INR",
-      "value": "9800.00"
+      "value": "200.00"
     },
     "ttl": "P1D"
   },
-  "order_id": "854385",
+  "order_id": "237146",
   "payment": {
     "params": {
       "amount": "10000.00",
@@ -255,7 +255,7 @@
     ]
   },
   "order_state": "In-progress",
-  "order_created_at": "2025-05-22T05:33:26.356Z",
+  "order_created_at": "2025-05-23T06:47:01.450Z",
   "on_select_fulfillments": [
     {
       "id": "F1",
@@ -306,10 +306,10 @@
         },
         "time": {
           "range": {
-            "start": "2025-05-22T05:43:26.370Z",
-            "end": "2025-05-22T05:53:26.370Z"
+            "start": "2025-05-23T06:57:01.465Z",
+            "end": "2025-05-23T07:07:01.465Z"
           },
-          "timestamp": "2025-05-22T05:33:26.377Z"
+          "timestamp": "2025-05-23T06:47:01.473Z"
         }
       },
       "end": {
@@ -334,8 +334,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-05-22T05:53:26.370Z",
-            "end": "2025-05-24T05:43:26.370Z"
+            "start": "2025-05-23T07:07:01.465Z",
+            "end": "2025-05-25T06:57:01.465Z"
           }
         }
       },
@@ -399,7 +399,7 @@
             },
             {
               "code": "id",
-              "value": "I1"
+              "value": "I2"
             },
             {
               "code": "currency",
@@ -407,7 +407,7 @@
             },
             {
               "code": "value",
-              "value": "-200.00"
+              "value": "-9800.00"
             }
           ]
         }
@@ -461,9 +461,14 @@
   },
   "out_of_stock_item_ids": [],
   "cancellation_reason_id": null,
+  "update_fulfillments": [],
   "bap_id": "dev-automation.ondc.org",
   "bpp_id": "dev-automation.ondc.org",
   "bap_uri": "https://dev-automation.ondc.org/buyer",
   "bpp_uri": "https://dev-automation.ondc.org/seller",
-  "subscriber_url": "test-subscriber-url"
+  "subscriber_url": "test-subscriber-url",
+  "update_fulfillment": {
+    "id": "c_e1ef592c-5ccf-476b-97c8-85f276f07b53_1",
+    "type": "Cancel"
+  }
 }

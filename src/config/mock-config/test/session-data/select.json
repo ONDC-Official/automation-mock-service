@@ -1,6 +1,6 @@
 {
-  "transaction_id": "cd8e01d9-9ded-43c1-99df-6f872b16292a",
-  "message_id": "4af6dffe-cd7d-408e-8660-9044c9f828b7",
+  "transaction_id": "f736ee4f-8f31-4206-86a3-b3d04559b1a0",
+  "message_id": "00dabcee-33b5-4198-aa8c-decc2190487c",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -47,6 +47,7 @@
   "bpp_terms": null,
   "out_of_stock_item_ids": [],
   "cancellation_reason_id": null,
+  "update_fulfillments": [],
   "bap_id": "dev-automation.ondc.org",
   "bpp_id": "dev-automation.ondc.org",
   "bap_uri": "https://dev-automation.ondc.org/buyer",

@@ -30,7 +30,7 @@ export const breakupItem = {
 
 export const breakup = [
 	{
-		"@ondc/org/item_id": "I1",
+		"@ondc/org/item_id": "F1",
 		title: "Delivery charges",
 		"@ondc/org/title_type": "delivery",
 		price: {
@@ -39,7 +39,7 @@ export const breakup = [
 		},
 	},
 	{
-		"@ondc/org/item_id": "I1",
+		"@ondc/org/item_id": "F1",
 		title: "Convenience Fee",
 		"@ondc/org/title_type": "misc",
 		price: {

@@ -7,6 +7,10 @@ export const RET10GROCERY125Catalog = {
 				id: "F1",
 				type: "Delivery",
 			},
+			{
+				id: "F2",
+				type: "Self-Pickup",
+			}
 		],
 		"bpp/descriptor": {
 			name: "Mock Seller NP",
@@ -81,6 +85,15 @@ export const RET10GROCERY125Catalog = {
 							email: "nobody@nomail.com",
 						},
 					},
+					{
+						id: "F2",
+						type: "Self-Pickup",
+						contact: {
+							phone: "9594663710",
+							email: "nobody@nomail.com",
+						},
+					}
+		  
 				],
 				items: [
 					{
