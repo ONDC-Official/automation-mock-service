@@ -20,12 +20,13 @@ export async function saveDataForUnit(
 	lastAction: string,
 	action: string,
 	payload: any,
+	flowId: string,
 	errorData?: {
 		code: number;
 		message: string;
 	}
 ) {
-	const sessionData = loadMockSessionDataUnit(lastAction);
+	const sessionData = loadMockSessionDataUnit(lastAction, flowId);
 	const saveData = getSaveDataContent(
 		payload?.context?.version || payload?.context?.core_version,
 		action
@@ -35,7 +36,7 @@ export async function saveDataForUnit(
 	writeFileSync(filePath, JSON.stringify(sessionData, null, 2));
 }
 
-export function loadMockSessionDataUnit(action: string) {
+export function loadMockSessionDataUnit(action: string, flowId: string) {
 	const filePath = path.resolve(__dirname, `./session-data/${action}.json`);
 	let sessionData: MockSessionData = {} as MockSessionData;
 	if (!existsSync(filePath)) {
@@ -43,7 +44,6 @@ export function loadMockSessionDataUnit(action: string) {
 			"### LAST ACTION NOT FOUND RETURNING DEFAULT SAVE-DATA ###"
 		);
 		const raw = defaultSessionData();
-		console.log(JSON.stringify(raw, null, 2));
 		sessionData = raw.session_data;
 		sessionData.transaction_id = uuidv4();
 		sessionData.bpp_id = sessionData.bap_id = "dev-automation.ondc.org";

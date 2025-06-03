@@ -65,6 +65,7 @@ export async function on_update_part_cancel_generator(
 		(item: any) => item.id === cancelId
 	);
 	cancelItem.fulfillment_id = cancelFulfillment.id;
+	existingPayload.message.order.items = sessionData.items;
 	cancelFulfillment.tags[0].list[1].value = existingPayload.context.bpp_id;
 	cancelFulfillment.tags[1].list[1].value = cancelId;
 	let itemQuote = sessionData.quote.breakup.find(

@@ -11,26 +11,46 @@ import {
 } from "./utils";
 import path from "path";
 const inputsData = {
-	Self_Pickup_Flow: {
-    select: {
-      provider: "P1",
-      provider_location: ["L1"],
-      location_gps: "12.1233,12.9992",
-      location_pin_code: "110092",
-      items: [
-        {
-          itemId: "I1",
-          quantity: 2,
-          location: "L1",
-        },
-        {
-          itemId: "I2",
-          quantity: 49,
-          location: "L1",
-        },
-      ],
-    },
-  },
+	Multi_Option_Fulfillment_Flow: {
+		select: {
+			provider: "P1",
+			provider_location: ["L1"],
+			location_gps: "12.1233,12.9992",
+			location_pin_code: "110092",
+			items: [
+				{
+					itemId: "I1",
+					quantity: 2,
+					location: "L1",
+				},
+				{
+					itemId: "I2",
+					quantity: 49,
+					location: "L1",
+				},
+			],
+		},
+	},
+	Return_Flow: {
+		select: {
+			provider: "P1",
+			provider_location: ["L1"],
+			location_gps: "12.1233,12.9992",
+			location_pin_code: "110092",
+			items: [
+				{
+					itemId: "I1",
+					quantity: 2,
+					location: "L1",
+				},
+				{
+					itemId: "I2",
+					quantity: 49,
+					location: "L1",
+				},
+			],
+		},
+	},
 };
 
 const inputPathChanges = {
@@ -61,25 +81,25 @@ export async function testUnitApi(
   lastAction: string,
   flowId: string
 ) {
-  const sesData = loadMockSessionDataUnit(lastAction);
-  // @ts-ignore
-  sesData.user_inputs = inputsData[flowId][actionId];
-  let mockResponse = await createMockResponseRET10_125(actionId, sesData);
-  // @ts-ignore
-  if (inputPathChanges[flowId] && inputPathChanges[flowId][actionId]) {
-    // @ts-ignore
-    const changes = inputPathChanges[flowId][actionId];
-    mockResponse = updateAllJsonPaths(mockResponse, changes);
-  }
-  await saveDataForUnit(lastAction, action, mockResponse);
-  const folderPath = path.resolve(__dirname, `./logs/${flowId}`);
-  const filePath = path.resolve(folderPath, `${actionId}.json`);
-  if (!existsSync(filePath)) {
-    mkdirSync(folderPath, { recursive: true });
-  }
-  // await testWithApiService(mockResponse, action);
-  writeFileSync(filePath, JSON.stringify(mockResponse, null, 2));
-  customConsoleLog(
-    `-- DONE -- saved mock response for action: ${action} in file: ${filePath}`
-  );
+	const sesData = loadMockSessionDataUnit(lastAction, flowId);
+	// @ts-ignore
+	sesData.user_inputs = inputsData[flowId][actionId];
+	let mockResponse = await createMockResponseRET10_125(actionId, sesData);
+	// @ts-ignore
+	if (inputPathChanges[flowId] && inputPathChanges[flowId][actionId]) {
+		// @ts-ignore
+		const changes = inputPathChanges[flowId][actionId];
+		mockResponse = updateAllJsonPaths(mockResponse, changes);
+	}
+	await saveDataForUnit(lastAction, action, mockResponse, flowId);
+	const folderPath = path.resolve(__dirname, `./logs/${flowId}`);
+	const filePath = path.resolve(folderPath, `${actionId}.json`);
+	if (!existsSync(filePath)) {
+		mkdirSync(folderPath, { recursive: true });
+	}
+	// await testWithApiService(mockResponse, action);
+	writeFileSync(filePath, JSON.stringify(mockResponse, null, 2));
+	customConsoleLog(
+		`-- DONE -- saved mock response for action: ${action} in file: ${filePath}`
+	);
 }

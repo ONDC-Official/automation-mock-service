@@ -117,4 +117,15 @@ export class SessionCacheService {
 		});
 		return JSON.parse(rawData) as SessionCache;
 	};
+	savedToCache = async (sessionId: string, data: SessionCache) => {
+		try {
+			await RedisService.setKey(sessionId, JSON.stringify(data));
+		} catch (error) {
+			logInfo({
+				message: "Error while saving to cache",
+				meta: { sessionId, error },
+			});
+			throw error;
+		}
+	};
 }

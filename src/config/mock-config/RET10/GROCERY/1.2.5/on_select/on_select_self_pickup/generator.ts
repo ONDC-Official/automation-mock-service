@@ -1,6 +1,6 @@
 import { SessionData } from "../../../../session-types";
 import { createQuote } from "../../api-objects/breakup";
-import { RET10GROCERY125Catalog } from "../../on_search/on_search/catalog";
+import { RET10GROCERY125Catalog } from "../../on_search/catalog";
 
 export type SelectedItems = {
     id: string;
@@ -90,7 +90,7 @@ export async function on_select_self_pickup_generator(
             fulfillment_id: "F1",
         };
     });
-    const catalogItems = catalog.catalog["bpp/providers"][0].items.filter((i) => {
+    const catalogItems = catalog.catalog["bpp/providers"][0].items.filter((i:any) => {
         console.log("Catalog Item: ", i.id);
         const idMap = selectedItemsObj.map((item) => item.id);
         console.log("ID Map: ", idMap);

@@ -10,7 +10,11 @@ export const RET10GROCERY125Catalog = {
 			{
 				id: "F2",
 				type: "Self-Pickup",
-			}
+			},
+			{
+				id: "F32822",
+				type: "Buyer-Delivery",
+			},
 		],
 		"bpp/descriptor": {
 			name: "Mock Seller NP",
@@ -85,15 +89,6 @@ export const RET10GROCERY125Catalog = {
 							email: "nobody@nomail.com",
 						},
 					},
-					{
-						id: "F2",
-						type: "Self-Pickup",
-						contact: {
-							phone: "9594663710",
-							email: "nobody@nomail.com",
-						},
-					}
-		  
 				],
 				items: [
 					{
@@ -279,62 +274,6 @@ export const RET10GROCERY125Catalog = {
 							},
 						],
 						id: "I3",
-					},
-					{
-						descriptor: {
-							name: "Dasheri Mango",
-							code: "1:XXXXXXXXXXXXX",
-							symbol: "https://sellerNP.com/images/i1.png",
-							short_desc: "Alphanso",
-							long_desc: "Alphanso Mango freshly hand picked",
-							images: ["https://sellerNP.com/images/i1.png"],
-						},
-						price: {
-							currency: "INR",
-							value: "30.00",
-							maximum_value: "30.00",
-						},
-						quantity: {
-							unitized: {
-								measure: {
-									unit: "kilogram",
-									value: "1",
-								},
-							},
-							available: {
-								count: "0",
-							},
-							maximum: {
-								count: "99",
-							},
-						},
-						category_id: "Fruits and Vegetables",
-						fulfillment_id: "F1",
-						location_id: "L1",
-						"@ondc/org/returnable": false,
-						"@ondc/org/cancellable": false,
-						"@ondc/org/return_window": "P1D",
-						"@ondc/org/seller_pickup_return": false,
-						"@ondc/org/time_to_ship": "PT5M",
-						"@ondc/org/available_on_cod": false,
-						"@ondc/org/contact_details_consumer_care":
-							"Ramesh,ramesh@abc.com,18004254444",
-						time: {
-							label: "enable",
-							timestamp: "2024-12-23T06:55:45.035Z",
-						},
-						tags: [
-							{
-								code: "origin",
-								list: [
-									{
-										code: "country",
-										value: "THA",
-									},
-								],
-							},
-						],
-						id: OUT_OF_STOCK_ID,
 					},
 				],
 				tags: [

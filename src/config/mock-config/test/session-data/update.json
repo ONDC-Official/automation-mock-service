@@ -1,6 +1,6 @@
 {
-  "transaction_id": "1d2a22ce-2291-4e04-84be-8fb27d0e9237",
-  "message_id": "88d675d2-539d-4cc8-bb4a-f55e3450eec7",
+  "transaction_id": "151ba3a1-5a8e-4a80-b424-3132c1ba24c3",
+  "message_id": "72618f0f-9da1-478e-8d5e-9f2adf1dd38c",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -34,19 +34,17 @@
   "items": [
     {
       "id": "I1",
-      "fulfillment_id": "F1",
+      "fulfillment_id": "F32822",
       "quantity": {
         "count": 2
-      },
-      "location_id": "L1"
+      }
     },
     {
       "id": "I2",
-      "fulfillment_id": "F1",
+      "fulfillment_id": "F32822",
       "quantity": {
         "count": 49
-      },
-      "location_id": "L1"
+      }
     }
   ],
   "provider": {
@@ -59,25 +57,25 @@
   },
   "billing": {
     "address": {
-      "building": "my building name or house",
-      "city": "Mumbai",
-      "state": "Maharashtra",
+      "name": "Door no. or building name",
+      "building": "New_Building",
+      "locality": "6th Cross Road",
+      "city": "Bengaluru",
+      "state": "Karnataka",
       "country": "IND",
-      "area_code": "400053",
-      "locality": "my street name",
-      "name": "my house or door or floor"
+      "area_code": "560027"
     },
-    "phone": "9898989898",
-    "name": "ONDC buyer",
+    "phone": "9399788618",
+    "name": "John Doe",
     "email": "nobody@nomail.com",
-    "created_at": "2025-05-23T07:28:32.913Z",
-    "updated_at": "2025-05-23T07:28:32.913Z"
+    "created_at": "2025-05-28T10:27:21.726Z",
+    "updated_at": "2025-05-28T10:27:21.726Z"
   },
   "fulfillments": [
     {
-      "id": "F1",
-      "type": "Delivery",
-      "tracking": true,
+      "id": "F32822",
+      "type": "Buyer-Delivery",
+      "tracking": false,
       "state": {
         "descriptor": {
           "code": "Pending"
@@ -122,16 +120,9 @@
             "city": "mock-city",
             "state": "mock-state",
             "country": "IND",
-            "area_code": "400053",
+            "area_code": "110092",
             "locality": "mock-locality",
             "name": "mock-house-name"
-          }
-        },
-        "instructions": {
-          "long_desc": "Leave package outside the door and do not ring the bell.",
-          "additional_desc": {
-            "content_type": "text/html",
-            "url": "url for additional info"
           }
         }
       }
@@ -192,7 +183,7 @@
         }
       },
       {
-        "@ondc/org/item_id": "I1",
+        "@ondc/org/item_id": "F1",
         "title": "Delivery charges",
         "@ondc/org/title_type": "delivery",
         "price": {
@@ -201,7 +192,7 @@
         }
       },
       {
-        "@ondc/org/item_id": "I1",
+        "@ondc/org/item_id": "F1",
         "title": "Convenience Fee",
         "@ondc/org/title_type": "misc",
         "price": {
@@ -216,7 +207,7 @@
     },
     "ttl": "P1D"
   },
-  "order_id": "893496",
+  "order_id": "413946",
   "payment": {
     "params": {
       "amount": "10000.00",
@@ -244,28 +235,82 @@
       }
     ]
   },
-  "order_state": "Accepted",
-  "order_created_at": "2025-05-23T07:28:37.919Z",
+  "order_state": "In-progress",
+  "order_created_at": "2025-05-28T10:27:26.737Z",
   "on_select_fulfillments": [
     {
-      "id": "F1",
-      "type": "Delivery",
-      "@ondc/org/provider_name": "LSP or Provider Name",
-      "tracking": true,
-      "@ondc/org/category": "Standard Delivery",
+      "id": "F32822",
+      "type": "Buyer-Delivery",
+      "@ondc/org/provider_name": "",
+      "tracking": false,
+      "@ondc/org/category": "",
       "@ondc/org/TAT": "P2D",
       "state": {
         "descriptor": {
           "code": "Serviceable"
         }
-      }
+      },
+      "tags": [
+        {
+          "code": "weight",
+          "list": [
+            {
+              "code": "unit",
+              "value": "kilogram"
+            },
+            {
+              "code": "value",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "code": "length",
+          "list": [
+            {
+              "code": "unit",
+              "value": "centimeter"
+            },
+            {
+              "code": "value",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "code": "breadth",
+          "list": [
+            {
+              "code": "unit",
+              "value": "centimeter"
+            },
+            {
+              "code": "value",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "code": "height",
+          "list": [
+            {
+              "code": "unit",
+              "value": "centimeter"
+            },
+            {
+              "code": "value",
+              "value": "1"
+            }
+          ]
+        }
+      ]
     }
   ],
   "on_status_fulfillments": [
     {
-      "id": "F1",
-      "type": "Delivery",
-      "tracking": true,
+      "id": "F32822",
+      "type": "Buyer-Delivery",
+      "tracking": false,
       "state": {
         "descriptor": {
           "code": "Pending"
@@ -293,12 +338,6 @@
         "contact": {
           "phone": "9594663710",
           "email": "nobody@nomail.com"
-        },
-        "time": {
-          "range": {
-            "start": "2025-05-23T07:38:37.923Z",
-            "end": "2025-05-23T07:48:37.923Z"
-          }
         }
       },
       "end": {
@@ -316,42 +355,28 @@
             "city": "mock-city",
             "state": "mock-state",
             "country": "IND",
-            "area_code": "400053",
+            "area_code": "110092",
             "locality": "mock-locality",
             "name": "mock-house-name"
-          }
-        },
-        "time": {
-          "range": {
-            "start": "2025-05-23T07:48:37.923Z",
-            "end": "2025-05-25T07:38:37.923Z"
           }
         }
       },
       "tags": [
+        {
+          "code": "state",
+          "list": [
+            {
+              "code": "ready_to_ship",
+              "value": "yes"
+            }
+          ]
+        },
         {
           "code": "routing",
           "list": [
             {
               "code": "type",
               "value": "P2P"
-            }
-          ]
-        },
-        {
-          "code": "tracking",
-          "list": [
-            {
-              "code": "gps_enabled",
-              "value": "no"
-            },
-            {
-              "code": "url_enabled",
-              "value": "yes"
-            },
-            {
-              "code": "url",
-              "value": "https://sellerNP.com/ondc/tracking_url"
             }
           ]
         }
@@ -368,7 +393,7 @@
         },
         {
           "code": "tax_number",
-          "value": "00ABCCH7409R1ZZ"
+          "value": "37ABACA6712B1Z6"
         },
         {
           "code": "provider_tax_number",
@@ -395,7 +420,7 @@
       },
       {
         "code": "tax_number",
-        "value": "00ABCCH7409R1ZZ"
+        "value": "37ABACA6712B1Z6"
       },
       {
         "code": "provider_tax_number",
@@ -407,27 +432,39 @@
   "cancellation_reason_id": null,
   "update_fulfillments": [
     {
-      "id": "F1",
-      "end": {
-        "location": {
-          "gps": "12.4535,77.9283",
-          "address": {
-            "name": "My new House",
-            "building": "Bldg 7 new ",
-            "locality": "MG Road",
-            "city": "Bengaluru",
-            "state": "Karnataka",
-            "country": "IND",
-            "area_code": "560037"
-          }
+      "id": "F32822",
+      "tags": [
+        {
+          "code": "update_state",
+          "list": [
+            {
+              "code": "state",
+              "value": "Order-delivered"
+            }
+          ]
         },
-        "person": {
-          "name": "Buyer 1"
-        },
-        "contact": {
-          "phone": "9886098860"
+        {
+          "code": "update_fulfillment_time",
+          "list": [
+            {
+              "code": "state",
+              "value": "Order-delivered"
+            },
+            {
+              "code": "timestamp",
+              "value": "2025-05-28T10:27:26.756Z"
+            },
+            {
+              "code": "start_time",
+              "value": "2025-05-28T10:27:26.753Z"
+            },
+            {
+              "code": "end_time",
+              "value": "2025-05-28T10:27:26.756Z"
+            }
+          ]
         }
-      }
+      ]
     }
   ],
   "bap_id": "dev-automation.ondc.org",

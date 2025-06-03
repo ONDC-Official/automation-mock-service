@@ -1,6 +1,6 @@
 {
-  "transaction_id": "f736ee4f-8f31-4206-86a3-b3d04559b1a0",
-  "message_id": "00dabcee-33b5-4198-aa8c-decc2190487c",
+  "transaction_id": "5051db68-0a66-433a-8361-964504c12a82",
+  "message_id": "00668c4c-e53f-4913-b35a-7d445b618d85",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -32,106 +32,16 @@
     }
   ],
   "items": [],
-  "provider": null,
+  "provider": {
+    "id": "P1",
+    "locations": [
+      {
+        "id": "L1"
+      }
+    ]
+  },
   "billing": null,
   "fulfillments": [],
-  "quote": {
-    "breakup": [
-      {
-        "@ondc/org/item_id": "I1",
-        "@ondc/org/item_quantity": {
-          "count": 2
-        },
-        "title": "Plain Atta",
-        "@ondc/org/title_type": "item",
-        "price": {
-          "currency": "INR",
-          "value": "200.00"
-        },
-        "item": {
-          "quantity": {
-            "available": {
-              "count": "99"
-            },
-            "maximum": {
-              "count": "99"
-            }
-          },
-          "price": {
-            "currency": "INR",
-            "value": "100.00"
-          }
-        }
-      },
-      {
-        "@ondc/org/item_id": "I2",
-        "@ondc/org/item_quantity": {
-          "count": 49
-        },
-        "title": "Plain Atta",
-        "@ondc/org/title_type": "item",
-        "price": {
-          "currency": "INR",
-          "value": "9800.00"
-        },
-        "item": {
-          "quantity": {
-            "available": {
-              "count": "99"
-            },
-            "maximum": {
-              "count": "99"
-            }
-          },
-          "price": {
-            "currency": "INR",
-            "value": "200.00"
-          }
-        }
-      },
-      {
-        "@ondc/org/item_id": "F1",
-        "title": "Delivery charges",
-        "@ondc/org/title_type": "delivery",
-        "price": {
-          "currency": "INR",
-          "value": "00.00"
-        }
-      },
-      {
-        "@ondc/org/item_id": "F1",
-        "title": "Convenience Fee",
-        "@ondc/org/title_type": "misc",
-        "price": {
-          "currency": "INR",
-          "value": "00.00"
-        }
-      },
-      {
-        "@ondc/org/item_id": "F2",
-        "title": "Delivery charges",
-        "@ondc/org/title_type": "delivery",
-        "price": {
-          "currency": "INR",
-          "value": "00.00"
-        }
-      },
-      {
-        "@ondc/org/item_id": "F2",
-        "title": "Convenience Fee",
-        "@ondc/org/title_type": "misc",
-        "price": {
-          "currency": "INR",
-          "value": "00.00"
-        }
-      }
-    ],
-    "price": {
-      "currency": "INR",
-      "value": "10000.00"
-    },
-    "ttl": "P1D"
-  },
   "order_id": null,
   "payment": null,
   "order_state": null,
@@ -140,10 +50,10 @@
     {
       "id": "F1",
       "type": "Delivery",
-      "@ondc/org/provider_name": "LSP or provider name",
+      "@ondc/org/provider_name": "LSP or Provider Name",
       "tracking": true,
-      "@ondc/org/category": "Standard delivery",
-      "@ondc/org/TAT": "P2D",
+      "@ondc/org/category": "Immediate Delivery",
+      "@ondc/org/TAT": "PT60M",
       "state": {
         "descriptor": {
           "code": "Serviceable"
@@ -152,11 +62,24 @@
     },
     {
       "id": "F2",
-      "type": "Self-Pickup",
-      "@ondc/org/provider_name": "",
+      "type": "Delivery",
+      "@ondc/org/provider_name": "LSP or Provider Name",
       "tracking": true,
-      "@ondc/org/category": "Takeaway",
-      "@ondc/org/TAT": "PT15M",
+      "@ondc/org/category": "Immediate Delivery",
+      "@ondc/org/TAT": "PT2H",
+      "state": {
+        "descriptor": {
+          "code": "Serviceable"
+        }
+      }
+    },
+    {
+      "id": "F3",
+      "type": "Delivery",
+      "@ondc/org/provider_name": "LSP or Provider Name",
+      "tracking": true,
+      "@ondc/org/category": "Immediate Delivery",
+      "@ondc/org/TAT": "P1D",
       "state": {
         "descriptor": {
           "code": "Serviceable"
@@ -171,6 +94,29 @@
   "out_of_stock_item_ids": [],
   "cancellation_reason_id": null,
   "update_fulfillments": [],
+  "on_select_items": [
+    {
+      "id": "I1",
+      "fulfillment_ids": [
+        "F1",
+        "F3"
+      ]
+    },
+    {
+      "id": "I2",
+      "fulfillment_ids": [
+        "F2",
+        "F3"
+      ]
+    },
+    {
+      "id": "I3",
+      "fulfillment_ids": [
+        "F1",
+        "F2"
+      ]
+    }
+  ],
   "bap_id": "dev-automation.ondc.org",
   "bpp_id": "dev-automation.ondc.org",
   "bap_uri": "https://dev-automation.ondc.org/buyer",

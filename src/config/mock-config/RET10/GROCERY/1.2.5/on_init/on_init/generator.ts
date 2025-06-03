@@ -6,6 +6,7 @@ export async function on_init_generator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {
+	console.log("###### on init_generator ####");
 	existingPayload.message.order.items = sessionData.items;
 	existingPayload.message.order.fulfillments = createFulfillments(
 		"on_init",

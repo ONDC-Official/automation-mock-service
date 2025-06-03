@@ -2,3 +2,4 @@ save-data:
   quote: $.message.order.quote
   on_select_fulfillments: $.message.order.fulfillments[*]
   out_of_stock_item_ids: $.message.order.quote.breakup[?(@.item.quantity.available.count == '0')]['@ondc/org/item_id']
+  on_select_items: $.message.order.items[*]

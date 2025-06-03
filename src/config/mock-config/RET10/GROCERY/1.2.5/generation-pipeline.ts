@@ -23,6 +23,13 @@ function getDetailsByActionId(
 	const entry = factoryData.codes.find(
 		(item: any) => item.action_id === actionId
 	);
+	if (actionId.startsWith("dyn_on_status")) {
+		return {
+			default: "GROCERY/1.2.5/on_status/dyn_on_status/default.yaml",
+			action: "on_status",
+			message_id: true,
+		};
+	}
 	if (entry) {
 		return {
 			default: entry.default,
@@ -56,7 +63,11 @@ export async function createMockResponseRET10_125(
 	const factoryData = loadFactoryYaml(
 		path.resolve(__dirname, "../../factory.yaml")
 	);
-	const api_details = getDetailsByActionId(actionID, factoryData);
+	let api_details: any = {};
+	if (actionID.startsWith("dyn_on_status")) {
+		api_details = getDetailsByActionId("dyn_on_status", factoryData);
+	}
+	api_details = getDetailsByActionId(actionID, factoryData);
 	const context_object = {
 		action: api_details?.action,
 		transaction_id: sessionData?.transaction_id,

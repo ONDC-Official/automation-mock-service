@@ -1,5 +1,5 @@
 import { SessionData } from "../../../../session-types";
-import { RET10GROCERY125Catalog } from "../../on_search/on_search/catalog";
+import { RET10GROCERY125Catalog } from "../../on_search/catalog";
 import { breakup, breakupItem, SelectedItems } from "../on_select/generator";
 
 export async function on_select_out_of_stock_generator(

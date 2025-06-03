@@ -1,0 +1,46 @@
+order:
+  provider:
+    id: P1
+    locations:
+      - id: L1
+  items:
+    - id: I1
+      fulfillment_ids:
+        - F1
+        - F3
+    - id: I2
+      fulfillment_ids:
+        - F2
+        - F3
+    - id: I3
+      fulfillment_ids:
+        - F1
+        - F2
+  fulfillments:
+    - id: F1
+      type: Delivery
+      "@ondc/org/provider_name": LSP or Provider Name
+      tracking: true
+      "@ondc/org/category": Immediate Delivery
+      "@ondc/org/TAT": PT60M
+      state:
+        descriptor:
+          code: Serviceable
+    - id: F2
+      type: Delivery
+      "@ondc/org/provider_name": LSP or Provider Name
+      tracking: true
+      "@ondc/org/category": Immediate Delivery
+      "@ondc/org/TAT": PT2H
+      state:
+        descriptor:
+          code: Serviceable
+    - id: F3
+      type: Delivery
+      "@ondc/org/provider_name": LSP or Provider Name
+      tracking: true
+      "@ondc/org/category": Immediate Delivery
+      "@ondc/org/TAT": P1D
+      state:
+        descriptor:
+          code: Serviceable

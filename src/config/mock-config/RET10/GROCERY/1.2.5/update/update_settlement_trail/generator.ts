@@ -3,46 +3,63 @@ import { Fulfillments } from "../../api-objects/fulfillments";
 import jsonpath from "jsonpath";
 
 type tags = {
-	code: string;
-	list: {
-		code: string;
-		value: string;
-	}[];
+  code: string;
+  list: {
+    code: string;
+    value: string;
+  }[];
 };
 
 export async function update_partial_cancel_settlement_generator(
-	existingPayload: any,
-	sessionData: SessionData
+  existingPayload: any,
+  sessionData: SessionData
 ) {
-	existingPayload.message.order.id = sessionData.order_id;
-	const fulfillments = sessionData.fulfillments as Fulfillments;
-	const cancelId =
-		fulfillments.filter((f) => f.type === "Cancel")[0].id ??
-		"CANCEL_FULFILLMENTS_ID_123";
-	existingPayload.message.fulfillments = [{ id: cancelId, type: "Cancel" }];
-	const trail = jsonpath.query(
-		sessionData.fulfillments,
-		`$.tags[?(@.code=="quote_trail")]`
-	) as tags[];
+  existingPayload.message.order.id = sessionData.order_id;
+  const fulfillments = sessionData.fulfillments as Fulfillments;
+  existingPayload.message.order.fulfillments = [];
+  const cancelId =
+    fulfillments.filter((f) => f.type === "Cancel")[0]?.id || undefined;
+  if (cancelId) {
+    existingPayload.message.order.fulfillments = [
+      { id: cancelId, type: "Cancel" },
+    ];
+  }
+  const returnId =
+    fulfillments.filter((f) => f.type === "Return")[0]?.id || undefined;
+  if (returnId) {
+    existingPayload.message.order.fulfillments.push({
+      id: returnId,
+      type: "Return",
+    });
+  }
 
-	const amounts = trail.flatMap((t) => {
-		return t.list
-			.filter((l) => l.code === "value")
-			.map((l) => {
-				return parseInt(l.value);
-			});
-	});
-	const totalAmount = amounts.reduce((acc, curr) => acc + curr, 0);
+  const trail = jsonpath.query(
+    sessionData.fulfillments,
+    `$..tags[?(@.code=="quote_trail")]`
+  ) as tags[];
 
-	existingPayload.message.payment = {
-		"@ondc/org/settlement_details": {
-			settlement_counterparty: "buyer",
-			settlement_phase: "refund",
-			settlement_type: "netbanking",
-			settlement_amount: -1 * totalAmount,
-			settlement_timestamp: new Date().toISOString(),
-		},
-	};
+  console.log("trail", JSON.stringify(trail, null, 2));
 
-	return existingPayload;
+  const amounts = trail.flatMap((t) => {
+    return t.list
+      .filter((l) => l.code === "value")
+      .map((l) => {
+        return parseInt(l.value);
+      });
+  });
+  const totalAmount = amounts.reduce((acc, curr) => acc + curr, 0);
+
+  existingPayload.message.order.payment = {
+    "@ondc/org/settlement_details": [
+      {
+        settlement_counterparty: "buyer",
+        settlement_phase: "refund",
+        settlement_type: "netbanking",
+        settlement_amount: `${-1 * totalAmount}`,
+        settlement_timestamp: new Date().toISOString(),
+      },
+    ],
+  };
+
+  return existingPayload;
 }

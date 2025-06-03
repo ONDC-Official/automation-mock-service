@@ -1,5 +1,5 @@
 import { SessionData } from "../../../../session-types";
-import { RET10GROCERY125Catalog } from "./catalog";
+import { RET10GROCERY125Catalog } from "../catalog";
 
 export async function on_search_generator(
 	existingPayload: any,

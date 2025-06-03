@@ -1,6 +1,6 @@
 {
-  "transaction_id": "2121fef7-8f87-4576-9852-6ad4b5f49bcf",
-  "message_id": "5b012df5-050f-4eff-89cb-f548e4cb5f58",
+  "transaction_id": "509abcf9-71cb-4dab-aaf9-0f8bde24e5c4",
+  "message_id": "331b2df9-418e-4015-be8e-88ec982a9f04",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -33,18 +33,20 @@
   ],
   "items": [
     {
-      "id": "oc_72",
+      "id": "I1",
+      "fulfillment_id": "F1",
       "quantity": {
-        "count": 4
+        "count": 2
       },
-      "fulfillment_id": "05fddb5e0d6bfe1251975d039599c525"
+      "location_id": "L1"
     },
     {
-      "id": "oc_72",
+      "id": "I2",
+      "fulfillment_id": "c_e1ef592c-5ccf-476b-97c8-85f276f07b53_1",
       "quantity": {
-        "count": 1
+        "count": 49
       },
-      "fulfillment_id": "c_e1ef592c-5ccf-476b-97c8-85f276f07b53_1"
+      "location_id": "L1"
     }
   ],
   "provider": {
@@ -68,8 +70,8 @@
     "phone": "9898989898",
     "name": "ONDC buyer",
     "email": "nobody@nomail.com",
-    "created_at": "2025-05-23T06:46:56.444Z",
-    "updated_at": "2025-05-23T06:46:56.444Z"
+    "created_at": "2025-05-22T06:30:05.688Z",
+    "updated_at": "2025-05-22T06:30:05.688Z"
   },
   "fulfillments": [
     {
@@ -202,7 +204,7 @@
         }
       },
       {
-        "@ondc/org/item_id": "I1",
+        "@ondc/org/item_id": "F1",
         "title": "Delivery charges",
         "@ondc/org/title_type": "delivery",
         "price": {
@@ -211,7 +213,7 @@
         }
       },
       {
-        "@ondc/org/item_id": "I1",
+        "@ondc/org/item_id": "F1",
         "title": "Convenience Fee",
         "@ondc/org/title_type": "misc",
         "price": {
@@ -226,7 +228,7 @@
     },
     "ttl": "P1D"
   },
-  "order_id": "237146",
+  "order_id": "457190",
   "payment": {
     "params": {
       "amount": "10000.00",
@@ -255,7 +257,7 @@
     ]
   },
   "order_state": "In-progress",
-  "order_created_at": "2025-05-23T06:47:01.450Z",
+  "order_created_at": "2025-05-22T06:30:10.701Z",
   "on_select_fulfillments": [
     {
       "id": "F1",
@@ -306,10 +308,10 @@
         },
         "time": {
           "range": {
-            "start": "2025-05-23T06:57:01.465Z",
-            "end": "2025-05-23T07:07:01.465Z"
+            "start": "2025-05-22T06:40:10.712Z",
+            "end": "2025-05-22T06:50:10.712Z"
           },
-          "timestamp": "2025-05-23T06:47:01.473Z"
+          "timestamp": "2025-05-22T06:30:10.718Z"
         }
       },
       "end": {
@@ -334,8 +336,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-05-23T07:07:01.465Z",
-            "end": "2025-05-25T06:57:01.465Z"
+            "start": "2025-05-22T06:50:10.712Z",
+            "end": "2025-05-24T06:40:10.712Z"
           }
         }
       },
@@ -461,14 +463,9 @@
   },
   "out_of_stock_item_ids": [],
   "cancellation_reason_id": null,
-  "update_fulfillments": [],
   "bap_id": "dev-automation.ondc.org",
   "bpp_id": "dev-automation.ondc.org",
   "bap_uri": "https://dev-automation.ondc.org/buyer",
   "bpp_uri": "https://dev-automation.ondc.org/seller",
-  "subscriber_url": "test-subscriber-url",
-  "update_fulfillment": {
-    "id": "c_e1ef592c-5ccf-476b-97c8-85f276f07b53_1",
-    "type": "Cancel"
-  }
+  "subscriber_url": "test-subscriber-url"
 }

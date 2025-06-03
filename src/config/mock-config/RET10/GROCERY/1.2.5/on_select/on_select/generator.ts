@@ -1,6 +1,5 @@
 import { SessionData } from "../../../../session-types";
 import { createQuote } from "../../api-objects/breakup";
-import { RET10GROCERY125Catalog } from "../../on_search/on_search/catalog";
 
 export type SelectedItems = {
 	id: string;
@@ -63,21 +62,12 @@ export async function on_select_generator(
 	sessionData: SessionData
 ) {
 	const selectedItemsObj = sessionData.selected_items as SelectedItems;
-	console.log("Selected Items: ", selectedItemsObj);
-	const catalog = RET10GROCERY125Catalog;
 	existingPayload.message.order.items = selectedItemsObj.map((item) => {
 		return {
 			id: item.id,
 			fulfillment_id: "F1",
 		};
 	});
-	const catalogItems = catalog.catalog["bpp/providers"][0].items.filter((i) => {
-		console.log("Catalog Item: ", i.id);
-		const idMap = selectedItemsObj.map((item) => item.id);
-		console.log("ID Map: ", idMap);
-		return idMap.includes(i.id);
-	});
-	console.log("Catalog Items: ", catalogItems);
 	const quote = createQuote(
 		selectedItemsObj.map((item) => {
 			return {

@@ -14,6 +14,7 @@ export async function createMockResponse(
 		throw new Error("Session not found");
 	}
 	sessionData.user_inputs = input;
+	sessionData.protocol_session_id = session_id;
 	const data = JSON.parse(api_session);
 	const { version, usecaseId } = data;
 	let payload: any = {};

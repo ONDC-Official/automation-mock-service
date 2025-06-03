@@ -1,5 +1,5 @@
 import { SessionData } from "../../../session-types";
-import { RET10GROCERY125Catalog } from "../on_search/on_search/catalog";
+import { RET10GROCERY125Catalog } from "../on_search/catalog";
 
 export const breakupItem = {
 	"@ondc/org/item_id": "I1",

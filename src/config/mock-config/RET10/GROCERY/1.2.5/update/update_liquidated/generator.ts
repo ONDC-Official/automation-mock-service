@@ -1,10 +1,8 @@
+import { SessionData } from "../../../../session-types";
 
-                import { SessionData } from "../../../../session-types";
-
-                export async function update_liquidated_generator(
-		         existingPayload: any,
-		         sessionData: SessionData
-		            ) {
-		            return existingPayload;
-		            }
-            
+export async function update_liquidated_generator(
+	existingPayload: any,
+	sessionData: SessionData
+) {
+	return existingPayload;
+}
