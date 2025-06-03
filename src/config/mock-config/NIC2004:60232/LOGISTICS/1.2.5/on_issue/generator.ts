@@ -32,23 +32,27 @@ sessionData.latest_issue_payload?.expected_resolution_time || { duration: "P1D" 
     },
   ];
   // existingPayload.message.issue.descriptor.media.url = sessionData.latest_issue_payload?.descriptor?.media?.url || "https://example.com/media.mp4";
-  existingPayload.message.issue.last_action_id = sessionData.last_action || "issue";
+  
 
   // Update status and descriptors
   existingPayload.message.issue.status = sessionData.status || "OPEN";
   if(sessionData.igm_action === "on_issue_processing" ) {
     existingPayload.message.issue.status = "PROCESSING";
     existingPayload.message.issue.descriptor.short_desc = "Issue with product quality"
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL2";
 
   }
   if(sessionData.igm_action === "on_issue_need_more_info" ) {
     existingPayload.message.issue.status = "NEED_MORE_INFO";
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL3";
   }
   if(sessionData.igm_action === "on_issue_provided" ) {
     existingPayload.message.issue.status = "INFO_PROVIDED";
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL5";
   }
   if(sessionData.igm_action === "on_issue_resolution" ) {
     existingPayload.message.issue.status = "RESOLVED";
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL6";
   }
  
  

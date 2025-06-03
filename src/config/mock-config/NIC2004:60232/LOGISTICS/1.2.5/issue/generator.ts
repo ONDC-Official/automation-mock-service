@@ -36,16 +36,21 @@ export const issueStatusGenerator = async (
   if(sessionData.igm_action === "issue_open" ) {
     existingPayload.message.issue.status = "OPEN";
     existingPayload.message.issue.descriptor.short_desc = "Issue with product quality"
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL1";
 
   }
   if(sessionData.igm_action === "issue_close" ) {
     existingPayload.message.issue.status = "CLOSED";
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL8";
+
   }
   if(sessionData.igm_action === "issue_info_provided" ) {
-    existingPayload.message.issue.status = "RESOLVED";
+    existingPayload.message.issue.status = "INFO_PROVIDED";
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL4";
   }
   if(sessionData.igm_action === "issue_resolution_accept" ) {
     existingPayload.message.issue.status = "PROCESSING";
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL7";
   }
   //@ts-ignore
   sessionData.test = "hell";
