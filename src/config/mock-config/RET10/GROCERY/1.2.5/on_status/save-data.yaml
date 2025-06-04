@@ -1,3 +1,5 @@
 save-data:
   order_state: $.message.order.state
   on_status_fulfillments: $.message.order.fulfillments[*]
+  fulfillments: $.message.order.fulfillments[*]
+  last_updated_at: $.message.order.updated_at

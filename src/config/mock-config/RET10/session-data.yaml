@@ -23,3 +23,5 @@ session_data:
   cancellation_reason_id: null
   update_fulfillments: []
   on_select_items: []
+  selected_offers: []
+  last_updated_at: null

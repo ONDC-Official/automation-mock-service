@@ -17,10 +17,12 @@ export async function on_select_buyer_delivery_generator(
 			return {
 				id: item.id,
 				count: item.quantity.count,
+				fulfillment_id: "F32822",
 			};
 		}),
 		sessionData,
-		existingPayload
+		existingPayload,
+		existingPayload.message.order.fulfillments
 	);
 	existingPayload.message.order.quote = quote;
 	return existingPayload;

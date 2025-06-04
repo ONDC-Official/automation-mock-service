@@ -8,9 +8,19 @@ export async function update_return(
 	existingPayload.message.order.id = sessionData.order_id;
 	const items = sessionData.items;
 	const itemIds = items.map((item: any) => item.id);
-	const id = getRandomItem(itemIds);
-	const tags = existingPayload.message.order.fulfillments[0].tags;
-	tags[0].list[0].value = uuid();
-	tags[0].list[1].value = id;
+	// const id = getRandomItem(itemIds);
+
+	const allTags = sessionData.items.map((item: any) => {
+		const tags = JSON.parse(
+			JSON.stringify(existingPayload.message.order.fulfillments[0].tags)
+		);
+		tags[0].list[0].value = uuid();
+		tags[0].list[1].value = item.id;
+		tags[0].list[2].value = `${item.quantity?.count}` || "0";
+		return tags;
+	});
+	existingPayload.message.order.fulfillments[0].tags = allTags;
+	// tags[0].list[0].value = uuid();
+	// tags[0].list[1].value = id;
 	return existingPayload;
 }

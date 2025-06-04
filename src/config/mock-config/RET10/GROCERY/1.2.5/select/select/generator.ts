@@ -1,4 +1,3 @@
-import { logger } from "../../../../../../../utils/logger";
 import { SessionData } from "../../../../session-types";
 import { stateCodes } from "../state-codes";
 
@@ -12,6 +11,7 @@ type SelectInputType = {
 		quantity?: number;
 		location?: string;
 	}[];
+	[key: string]: any; // Allow additional properties
 };
 
 export async function select_generator(
@@ -19,8 +19,6 @@ export async function select_generator(
 	sessionData: SessionData
 ) {
 	console.log("***** Select Generator *****");
-	//@ts-ignore
-	sessionData.test = "hello";
 	const inputs = sessionData.user_inputs as SelectInputType;
 	if (!inputs) return existingPayload;
 	console.log("inputs", inputs);
@@ -57,6 +55,29 @@ export async function select_generator(
 			};
 		});
 	}
+	const inputKeys = Object.keys(inputs);
+	console.log("inputKeys", inputKeys);
+	const offers = inputKeys.filter((k) => k.startsWith("offers_"));
+	if (offers.length > 0) {
+		existingPayload.message.order.offers = offers
+			.filter((offer) => inputs[offer] !== false && inputs[offer] !== null)
+			.map((offer) => {
+				return {
+					id: inputs[offer],
+					tags: [
+						{
+							code: "selection",
+							list: [
+								{
+									code: "apply",
+									value: "yes",
+								},
+							],
+						},
+					],
+				};
+			});
+	}
 	return existingPayload;
 }
 
@@ -68,5 +89,27 @@ sample input:
   location_gps: '12.12333,12.99921',
   location_pin_code: '110092',
   items: [ { itemId: 'I1', quantity: 2, location: 'L2' } ]
+  "offers_FLAT50": "FLAT50",
+  "offers_buy2get3": false
+
 }
+*/
+
+/*
+"offers": [
+        {
+          "id": "FLAT50",
+          "tags": [
+            {
+              "code": "selection",
+              "list": [
+                {
+                  "code": "apply",
+                  "value": "yes"
+                }
+              ]
+            }
+          ]
+        }
+],
 */

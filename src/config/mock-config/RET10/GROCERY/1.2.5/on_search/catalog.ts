@@ -102,8 +102,8 @@ export const RET10GROCERY125Catalog = {
 						},
 						price: {
 							currency: "INR",
-							value: "100.00",
-							maximum_value: "100.00",
+							value: "200.00",
+							maximum_value: "200.00",
 						},
 						quantity: {
 							unitized: {
@@ -166,7 +166,7 @@ export const RET10GROCERY125Catalog = {
 						},
 						price: {
 							currency: "INR",
-							value: "200.00",
+							value: "300.00",
 							maximum_value: "200.00",
 						},
 						quantity: {
@@ -230,7 +230,7 @@ export const RET10GROCERY125Catalog = {
 						},
 						price: {
 							currency: "INR",
-							value: "50.00",
+							value: "250.00",
 							maximum_value: "50.00",
 						},
 						quantity: {
@@ -398,12 +398,12 @@ export const RET10GROCERY125Catalog = {
 							images: ["https://sellerNP.com/images/offer2-banner.png"],
 						},
 						location_ids: ["L1"],
-						item_ids: ["I1"],
+						item_ids: ["I1", "I2", "I3"],
 						time: {
 							label: "valid",
 							range: {
 								start: "2024-12-23T06:55:45.035Z",
-								end: "2024-12-23T08:12:15.033Z",
+								end: "2030-12-23T08:12:15.033Z",
 							},
 						},
 						tags: [
@@ -412,7 +412,7 @@ export const RET10GROCERY125Catalog = {
 								list: [
 									{
 										code: "min_value",
-										value: "200.00",
+										value: "100.00",
 									},
 								],
 							},
@@ -438,7 +438,7 @@ export const RET10GROCERY125Catalog = {
 									},
 									{
 										code: "auto",
-										value: "yes",
+										value: "no",
 									},
 								],
 							},
@@ -452,12 +452,12 @@ export const RET10GROCERY125Catalog = {
 						},
 						location_ids: ["L1"],
 						category_ids: [],
-						item_ids: ["I1", "I2"],
+						item_ids: ["I1", "I2", "I3"],
 						time: {
 							label: "valid",
 							range: {
 								start: "2025-01-01T16:00:00.000Z",
-								end: "2025-01-01T23:00:00.000Z",
+								end: "2030-01-01T23:00:00.000Z",
 							},
 						},
 						tags: [
@@ -484,6 +484,60 @@ export const RET10GROCERY125Catalog = {
 									{
 										code: "item_value",
 										value: "0.00",
+									},
+								],
+							},
+							{
+								code: "meta",
+								list: [
+									{
+										code: "additive",
+										value: "no",
+									},
+									{
+										code: "auto",
+										value: "no",
+									},
+								],
+							},
+						],
+					},
+					{
+						id: "combo1",
+						descriptor: {
+							code: "combo",
+							images: ["https://snp.com/images/offer1-banner.webp"],
+						},
+						location_ids: ["L1"],
+						category_ids: ["C1"],
+						item_ids: ["I1", "I2", "I3"],
+						time: {
+							label: "valid",
+							range: {
+								start: "2025-01-01T16:00:00.000Z",
+								end: "2030-01-01T23:00:00.000Z",
+							},
+						},
+						tags: [
+							{
+								code: "qualifier",
+								list: [
+									{
+										code: "item_id",
+										value: "I1,I2,I3",
+									},
+								],
+							},
+							{
+								code: "benefit",
+								list: [
+									{
+										code: "value_type",
+										value: "amount",
+									},
+									{
+										code: "value",
+										value: "-75.00",
 									},
 								],
 							},

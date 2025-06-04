@@ -131,3 +131,6 @@ dist
 .pnp.*
 flows
 app.js
+
+
+src/config/mock-config/test/session-data/

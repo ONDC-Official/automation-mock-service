@@ -37,6 +37,8 @@ export type SessionData = {
 	cancellation_reason_id: string | undefined;
 	update_fulfillments: any | undefined;
 	on_select_items: any | undefined;
+	selected_offers: any | undefined;
+	last_updated_at: string | undefined;
 };
 
 export type BecknContext = {

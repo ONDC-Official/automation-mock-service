@@ -50,13 +50,15 @@ export async function update_partial_cancel_settlement_generator(
 	const totalAmount = amounts.reduce((acc, curr) => acc + curr, 0);
 
 	existingPayload.message.order.payment = {
-		"@ondc/org/settlement_details": {
-			settlement_counterparty: "buyer",
-			settlement_phase: "refund",
-			settlement_type: "netbanking",
-			settlement_amount: -1 * totalAmount,
-			settlement_timestamp: new Date().toISOString(),
-		},
+		"@ondc/org/settlement_details": [
+			{
+				settlement_counterparty: "buyer",
+				settlement_phase: "refund",
+				settlement_type: "netbanking",
+				settlement_amount: `${-1 * totalAmount}`,
+				settlement_timestamp: new Date().toISOString(),
+			},
+		],
 	};
 
 	return existingPayload;

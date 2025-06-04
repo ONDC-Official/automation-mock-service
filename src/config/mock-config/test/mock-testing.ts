@@ -7,11 +7,11 @@ import {
 	loadFlowConfig,
 	loadMockSessionDataUnit,
 	saveDataForUnit,
-	testWithApiService,
 } from "./utils";
 import path from "path";
+import { off } from "process";
 const inputsData = {
-	Multi_Option_Fulfillment_Flow: {
+	RTO_And_Part_Cancellation_Flow: {
 		select: {
 			provider: "P1",
 			provider_location: ["L1"],
@@ -20,15 +20,22 @@ const inputsData = {
 			items: [
 				{
 					itemId: "I1",
-					quantity: 2,
+					quantity: 1,
+					location: "L1",
+				},
+				{
+					itemId: "I3",
+					quantity: 1,
 					location: "L1",
 				},
 				{
 					itemId: "I2",
-					quantity: 49,
-					location: "L1",
+					quantity: 1,
 				},
 			],
+			offers_FLAT50: false,
+			offers_buy2get3: false,
+			offers_combo1: "combo1",
 		},
 	},
 	Return_Flow: {
@@ -49,6 +56,9 @@ const inputsData = {
 					location: "L1",
 				},
 			],
+			offers_FLAT50: "FLAT50",
+			offers_buy2get3: false,
+			offers_combo1: false,
 		},
 	},
 };

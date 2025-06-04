@@ -1,6 +1,6 @@
 {
-  "transaction_id": "4c99b5d9-4aab-4eea-bc57-e56327b41e07",
-  "message_id": "a4de95d8-1c63-47a8-9c80-5322fc283d81",
+  "transaction_id": "682678f7-fc10-4f99-95e5-05c60647f5f7",
+  "message_id": "ea53a91f-422d-4817-91a1-2ef5c080c730",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -37,42 +37,39 @@
       "fulfillment_id": "F1",
       "quantity": {
         "count": 2
-      },
-      "location_id": "L1"
+      }
     },
     {
       "id": "I2",
       "fulfillment_id": "F1",
       "quantity": {
         "count": 49
-      },
-      "location_id": "L1"
+      }
     }
   ],
   "provider": {
-    "id": "sellerNP.com",
+    "id": "P1",
     "locations": [
       {
-        "id": "69b685813a63a8114c7c40e4b17dd08c"
+        "id": "L1"
       }
     ]
   },
   "billing": {
-    "name": "Abcde",
     "address": {
-      "name": "7/6, August Kranti Marg",
-      "building": "Siri Fort Institutional",
-      "locality": "Siri Fort Institutional Area, Siri Fort",
-      "city": "New Delhi",
-      "state": "Delhi",
-      "country": "India",
-      "area_code": "110049"
+      "building": "my building name or house",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "country": "IND",
+      "area_code": "400053",
+      "locality": "my street name",
+      "name": "my house or door or floor"
     },
-    "tax_number": "29AAACU1901H1ZK",
-    "phone": "9999999999",
-    "email": "abc@gmail.com",
-    "created_at": "2025-05-27T10:01:24.394Z",
-    "updated_at": "2025-05-27T10:01:24.394Z"
+    "phone": "9898989898",
+    "name": "ONDC buyer",
+    "email": "nobody@nomail.com",
+    "created_at": "2025-06-03T09:09:05.155Z",
+    "updated_at": "2025-06-03T09:09:05.155Z"
   },
   "fulfillments": [
     {
@@ -123,7 +120,7 @@
             "city": "mock-city",
             "state": "mock-state",
             "country": "IND",
-            "area_code": "400053",
+            "area_code": "110092",
             "locality": "mock-locality",
             "name": "mock-house-name"
           }
@@ -142,33 +139,7 @@
         "@ondc/org/title_type": "item",
         "price": {
           "currency": "INR",
-          "value": "200.00"
-        },
-        "item": {
-          "quantity": {
-            "available": {
-              "count": "99"
-            },
-            "maximum": {
-              "count": "99"
-            }
-          },
-          "price": {
-            "currency": "INR",
-            "value": "100.00"
-          }
-        }
-      },
-      {
-        "@ondc/org/item_id": "I2",
-        "@ondc/org/item_quantity": {
-          "count": 49
-        },
-        "title": "Plain Atta",
-        "@ondc/org/title_type": "item",
-        "price": {
-          "currency": "INR",
-          "value": "9800.00"
+          "value": "400.00"
         },
         "item": {
           "quantity": {
@@ -182,6 +153,32 @@
           "price": {
             "currency": "INR",
             "value": "200.00"
+          }
+        }
+      },
+      {
+        "@ondc/org/item_id": "I2",
+        "@ondc/org/item_quantity": {
+          "count": 49
+        },
+        "title": "Plain Atta",
+        "@ondc/org/title_type": "item",
+        "price": {
+          "currency": "INR",
+          "value": "14700.00"
+        },
+        "item": {
+          "quantity": {
+            "available": {
+              "count": "99"
+            },
+            "maximum": {
+              "count": "99"
+            }
+          },
+          "price": {
+            "currency": "INR",
+            "value": "300.00"
           }
         }
       },
@@ -202,44 +199,99 @@
           "currency": "INR",
           "value": "00.00"
         }
+      },
+      {
+        "@ondc/org/item_id": "FLAT50",
+        "title": "Flat discount of ₹50 on minimum cart value of ₹200",
+        "@ondc/org/title_type": "offer",
+        "price": {
+          "currency": "INR",
+          "value": "-50.00"
+        },
+        "item": {
+          "tags": [
+            {
+              "code": "quote",
+              "list": [
+                {
+                  "code": "type",
+                  "value": "order"
+                }
+              ]
+            },
+            {
+              "code": "offer",
+              "list": [
+                {
+                  "code": "id",
+                  "value": "FLAT50"
+                },
+                {
+                  "code": "type",
+                  "value": "discount"
+                },
+                {
+                  "code": "auto",
+                  "value": "no"
+                },
+                {
+                  "code": "additive",
+                  "value": "no"
+                },
+                {
+                  "code": "item_id",
+                  "value": ""
+                },
+                {
+                  "code": "item_value",
+                  "value": ""
+                },
+                {
+                  "code": "item_count",
+                  "value": ""
+                }
+              ]
+            }
+          ]
+        }
       }
     ],
     "price": {
       "currency": "INR",
-      "value": "10000.00"
+      "value": "15050.00"
     },
     "ttl": "P1D"
   },
-  "order_id": "953677",
+  "order_id": "769131",
   "payment": {
-    "type": "ON-FULFILLMENT",
-    "status": "NOT-PAID",
-    "collected_by": "BPP",
+    "params": {
+      "amount": "15050.00",
+      "currency": "INR",
+      "transaction_id": "mock_payment_id_123"
+    },
+    "status": "PAID",
+    "type": "ON-ORDER",
+    "collected_by": "BAP",
     "@ondc/org/buyer_app_finder_fee_type": "percent",
-    "@ondc/org/buyer_app_finder_fee_amount": "3",
+    "@ondc/org/buyer_app_finder_fee_amount": "3.0",
     "@ondc/org/settlement_basis": "delivery",
     "@ondc/org/settlement_window": "P1D",
     "@ondc/org/withholding_amount": "10.00",
-    "params": {
-      "currency": "INR",
-      "amount": "10000.00"
-    },
     "@ondc/org/settlement_details": [
       {
-        "settlement_counterparty": "buyer-app",
+        "settlement_counterparty": "seller-app",
         "settlement_phase": "sale-amount",
-        "settlement_type": "upi",
-        "beneficiary_name": "Xyz",
-        "upi_address": "abc@upi",
-        "settlement_bank_account_no": "12345588548",
-        "settlement_ifsc_code": "sdsd0005685",
-        "bank_name": "ABC",
-        "branch_name": "XYZ"
+        "settlement_type": "neft",
+        "beneficiary_name": "xxxx",
+        "settlement_bank_account_no": "xxxx",
+        "settlement_ifsc_code": "xxxx",
+        "bank_name": "xxxx",
+        "branch_name": "xxxx"
       }
     ]
   },
   "order_state": "In-progress",
-  "order_created_at": "2025-05-27T10:01:29.413Z",
+  "order_created_at": "2025-06-03T09:09:10.163Z",
   "on_select_fulfillments": [
     {
       "id": "F1",
@@ -290,10 +342,10 @@
         },
         "time": {
           "range": {
-            "start": "2025-05-27T10:11:29.431Z",
-            "end": "2025-05-27T10:21:29.431Z"
+            "start": "2025-06-03T09:19:10.170Z",
+            "end": "2025-06-03T09:29:10.170Z"
           },
-          "timestamp": "2025-05-27T10:01:29.447Z"
+          "timestamp": "2025-06-03T09:09:10.181Z"
         }
       },
       "end": {
@@ -311,15 +363,15 @@
             "city": "mock-city",
             "state": "mock-state",
             "country": "IND",
-            "area_code": "400053",
+            "area_code": "110092",
             "locality": "mock-locality",
             "name": "mock-house-name"
           }
         },
         "time": {
           "range": {
-            "start": "2025-05-27T10:21:29.431Z",
-            "end": "2025-05-29T10:11:29.431Z"
+            "start": "2025-06-03T09:29:10.170Z",
+            "end": "2025-06-05T09:19:10.170Z"
           }
         }
       },
@@ -377,7 +429,7 @@
     "list": [
       {
         "code": "tax_number",
-        "value": "33AAAAA0000A1Z5"
+        "value": "00ABCCH7409R1ZZ"
       }
     ]
   },
@@ -401,6 +453,32 @@
   "out_of_stock_item_ids": [],
   "cancellation_reason_id": null,
   "update_fulfillments": [],
+  "on_select_items": [
+    {
+      "id": "I1",
+      "fulfillment_id": "F1"
+    },
+    {
+      "id": "I2",
+      "fulfillment_id": "F1"
+    }
+  ],
+  "selected_offers": [
+    {
+      "id": "FLAT50",
+      "tags": [
+        {
+          "code": "selection",
+          "list": [
+            {
+              "code": "apply",
+              "value": "yes"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "bap_id": "dev-automation.ondc.org",
   "bpp_id": "dev-automation.ondc.org",
   "bap_uri": "https://dev-automation.ondc.org/buyer",

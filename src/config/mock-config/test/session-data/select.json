@@ -1,6 +1,6 @@
 {
-  "transaction_id": "5051db68-0a66-433a-8361-964504c12a82",
-  "message_id": "00668c4c-e53f-4913-b35a-7d445b618d85",
+  "transaction_id": "8110d3db-0e8e-4ebb-bab9-e4a4b68eee8f",
+  "message_id": "f4290e72-2a11-4456-b7d6-48ccaed94727",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -56,6 +56,23 @@
   "cancellation_reason_id": null,
   "update_fulfillments": [],
   "on_select_items": [],
+  "selected_offers": [
+    {
+      "id": "FLAT50",
+      "tags": [
+        {
+          "code": "selection",
+          "list": [
+            {
+              "code": "apply",
+              "value": "yes"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "last_updated_at": null,
   "bap_id": "dev-automation.ondc.org",
   "bpp_id": "dev-automation.ondc.org",
   "bap_uri": "https://dev-automation.ondc.org/buyer",
