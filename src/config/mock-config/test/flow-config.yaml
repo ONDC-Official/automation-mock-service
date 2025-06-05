@@ -51,6 +51,8 @@ flows:
         description: Seller Accepts confirmation
       - key: on_status_accepted
         type: on_status
+      - key: on_status_accepted
+        type: on_status
         unsolicited: true
         pair: null
         owner: BPP

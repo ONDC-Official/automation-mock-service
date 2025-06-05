@@ -499,3 +499,73 @@ codes:
     default: GROCERY/1.2.5/confirm/confirm_multi_fulfillment/default.yaml
     action: confirm
     message_id: true
+  - code: 198
+    default: GROCERY/1.2.5/update/update_buyer_instructions/default.yaml
+    action_id: update_buyer_instructions
+    action: update
+    message_id: true
+  - code: 199
+    default: GROCERY/1.2.5/update/update_delivery_address/default.yaml
+    action_id: update_delivery_address
+    action: update
+    message_id: true
+  - code: 200
+    default: GROCERY/1.2.5/on_update/on_update_buyer_instructions/default.yaml
+    action_id: on_update_buyer_instructions
+    action: on_update
+    message_id: false
+  - code: 201
+    default: GROCERY/1.2.5/on_update/on_update_delivery_address/default.yaml
+    action_id: on_update_delivery_address
+    action: on_update
+    message_id: false
+  - code: 202
+    default: GROCERY/1.2.5/on_update/on_update_delivery_auth/default.yaml
+    action_id: on_update_delivery_auth
+    action: on_update
+    message_id: true
+  - code: 203
+    default: GROCERY/1.2.5/on_select/on_select_slotted_delivery/default.yaml
+    action_id: on_select_slotted_delivery
+    action: on_select
+    message_id: false
+  - code: 204
+    default: GROCERY/1.2.5/init/init_slotted_delivery/default.yaml
+    action_id: init_slotted_delivery
+    action: init
+    message_id: true
+  - code: 205
+    default: GROCERY/1.2.5/on_init/on_init_slotted_delivery/default.yaml
+    action_id: on_init_slotted_delivery
+    action: on_init
+    message_id: false
+  - code: 206
+    default: GROCERY/1.2.5/on_select/on_select_self_pickup/default.yaml
+    action_id: on_select_self_pickup
+    action: on_select
+    message_id: false
+  - code: 207
+    default: GROCERY/1.2.5/init/init_self_pickup/default.yaml
+    action_id: init_self_pickup
+    action: init
+    message_id: true
+  - code: 208
+    default: GROCERY/1.2.5/on_init/on_init_self_pickup/default.yaml
+    action_id: on_init_self_pickup
+    action: on_init
+    message_id: false
+  - code: 209
+    default: GROCERY/1.2.5/on_status/on_status_accepted/default.yaml
+    action_id: on_status_accepted
+    action: on_status
+    message_id: true
+  - code: 210
+    default: GROCERY/1.2.5/on_status/on_status_self_pick_packed/default.yaml
+    action_id: on_status_self_pick_packed
+    action: on_status
+    message_id: true
+  - code: 211
+    default: GROCERY/1.2.5/on_status/on_status_self_pick_picked/default.yaml
+    action_id: on_status_self_pick_picked
+    action: on_status
+    message_id: true

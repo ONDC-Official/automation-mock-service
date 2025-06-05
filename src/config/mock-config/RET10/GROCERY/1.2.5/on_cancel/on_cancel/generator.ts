@@ -7,6 +7,7 @@ export async function on_cancel_generator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {
+	const savedItems = JSON.parse(JSON.stringify(sessionData.items));
 	const cancelItems = sessionData.items.map((item: any) => {
 		const ob = {
 			id: item.id,
@@ -26,18 +27,19 @@ export async function on_cancel_generator(
 		sessionData.fulfillments,
 		sessionData
 	);
-	existingPayload.message.order.quote = createQuote(
-		sessionData.items.map((item: any) => {
-			return {
-				id: item.id,
-				count: item.quantity.count,
-			};
-		}),
-		sessionData,
-		existingPayload,
-		existingPayload.message.order.fulfillments,
-		true
-	);
+	// existingPayload.message.order.quote = createQuote(
+	// 	savedItems.map((item: any) => {
+	// 		return {
+	// 			id: item.id,
+	// 			count: 0,
+	// 			fulfillment_id: item.fulfillment_id,
+	// 		};
+	// 	}),
+	// 	sessionData,
+	// 	existingPayload,
+	// 	existingPayload.message.order.fulfillments,
+	// 	true
+	// );
 	existingPayload.message.order.payment = sessionData.payment;
 	existingPayload.message.order.id = sessionData.order_id;
 	existingPayload.message.order.created_at = sessionData.order_created_at;
@@ -48,6 +50,7 @@ export async function on_cancel_generator(
 			id: sessionData.cancellation_reason_id,
 		},
 	};
+	existingPayload.message.order.quote = sessionData.quote;
 	return existingPayload;
 }
 
@@ -115,6 +118,9 @@ function createQuoteTrail(quote: Quote) {
 	for (const item of breakup) {
 		const priceStr = item.price?.value || "0.00";
 		const priceValue = parseFloat(priceStr);
+		if (item["@ondc/org/item_quantity"]) {
+			item["@ondc/org/item_quantity"].count = 0;
+		}
 		if (priceValue !== 0) {
 			const trail = JSON.parse(JSON.stringify(sampleQuoteTrail));
 			trail.list[0].value = item["@ondc/org/title_type"] || "misc";
@@ -122,6 +128,9 @@ function createQuoteTrail(quote: Quote) {
 			trail.list[2].value = item.price?.currency || "INR";
 			trail.list[3].value = (-1 * priceValue).toFixed(2);
 			tags.push(trail);
+			if (item.price) {
+				item.price.value = "0.00";
+			}
 		}
 	}
 

@@ -2,765 +2,765 @@ import { SessionData } from "../../../session-types";
 import { isoDurToSec } from "./utils";
 
 export type Fulfillment = {
-	/**
-	 * Unique reference ID to the fulfillment of an order
-	 */
-	id?: string;
-	/**
-	 * This describes the type of fulfillment ("Pickup" - Buyer picks up from store by themselves or through their logistics provider; "Delivery" - seller delivers to buyer)
-	 */
-	type?: string;
-	/**
-	 * fulfillment turnaround time in ISO8601 durations format e.g. 'PT24H' indicates 24 hour TAT
-	 */
-	"@ondc/org/TAT"?: string;
-	"@ondc/org/provider_name"?: string;
-	provider_id?: string;
-	/**
-	 * Describes the properties of a vehicle used in a mobility service
-	 */
-	vehicle?: {
-		registration?: string;
-		[k: string]: unknown;
-	};
-	/**
-	 * Describes an order executor
-	 */
-	agent?: {
-		phone?: string;
-		email?: string;
-		[k: string]: unknown;
-	};
-	/**
-	 * Rating value given to the object (1 - Poor; 2 - Needs improvement; 3 - Satisfactory; 4 - Good; 5 - Excellent)
-	 */
-	rating?: number;
-	/**
-	 * Describes a state
-	 */
-	state?: {
-		/**
-		 * Describes the description of a real-world object.
-		 */
-		descriptor?: {
-			code?: string;
-			name?: string;
-			short_desc?: string;
-			[k: string]: unknown;
-		};
-		updated_at?: string;
-		[k: string]: unknown;
-	};
-	/**
-	 * Indicates whether the fulfillment allows tracking
-	 */
-	tracking?: boolean;
-	/**
-	 * Details on the start of fulfillment
-	 */
-	start?: {
-		/**
-		 * Describes the location of a runtime object.
-		 */
-		location?: {
-			id?: string;
-			/**
-			 * Describes the description of a real-world object.
-			 */
-			descriptor?: {
-				code?: string;
-				name?: string;
-				short_desc?: string;
-				[k: string]: unknown;
-			};
-			/**
-			 * Describes a gps coordinate
-			 */
-			gps?: string;
-			/**
-			 * Describes an address
-			 */
-			address?: {
-				/**
-				 * Name of address if applicable. Example, shop name
-				 */
-				name?: string;
-				/**
-				 * Name of the building or block
-				 */
-				building?: string;
-				/**
-				 * Street name or number
-				 */
-				street?: string;
-				/**
-				 * Name of the locality, apartments
-				 */
-				locality?: string;
-				/**
-				 * City name
-				 */
-				city?: string;
-				/**
-				 * State name
-				 */
-				state?: string;
-				/**
-				 * Country name
-				 */
-				country?: string;
-				/**
-				 * Area code. This can be Pincode, ZIP code or any equivalent
-				 */
-				area_code?: string;
-				[k: string]: unknown;
-			};
-			/**
-			 * Describes the location of a runtime object.
-			 */
-			location?: {
-				id?: string;
-				/**
-				 * Describes the description of a real-world object.
-				 */
-				descriptor?: {
-					name?: string;
-					code?: string;
-					symbol?: string;
-					short_desc?: string;
-					long_desc?: string;
-					images?: string[];
-					tags?: {
-						/**
-						 * The machine-readable name of the tag group. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value. Values outside the allowed values may or may not be ignored by the rendering platform. As this schema is purely for catalog display purposes, it is not recommended to send this value during search.
-						 */
-						code?: string;
-						/**
-						 * An array of Tag objects listed under this group. This property can be set by BAPs during search to narrow the `search` and achieve more relevant results. When received during `on_search`, BAPs must render this list under the heading described by the `name` property of this schema.
-						 */
-						list?: {
-							/**
-							 * The machine-readable name of the tag. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value.
-							 */
-							code?: string;
-							/**
-							 * The human-readable name of the tag. This set by the BPP and rendered as-is by the BAP. Sometimes, the network policy may reserve some names for this property. Values outside the reserved values can be set by the BPP. However,the BAP may choose to rename or even ignore this value and render the output purely using the `code` property, but it is recommended for BAPs to keep the name same to avoid confusion and provide consistency.
-							 */
-							name?: string;
-							/**
-							 * The value of the tag. This set by the BPP and rendered as-is by the BAP.
-							 */
-							value?: string;
-							[k: string]: unknown;
-						}[];
-						[k: string]: unknown;
-					}[];
-					[k: string]: unknown;
-				};
-				/**
-				 * Describes a gps coordinate
-				 */
-				gps?: string;
-				/**
-				 * Describes an address
-				 */
-				address?: {
-					/**
-					 * Name of address if applicable. Example, shop name
-					 */
-					name?: string;
-					/**
-					 * Name of the building or block
-					 */
-					building?: string;
-					/**
-					 * Street name or number
-					 */
-					street?: string;
-					/**
-					 * Name of the locality, apartments
-					 */
-					locality?: string;
-					/**
-					 * City name
-					 */
-					city?: string;
-					/**
-					 * State name
-					 */
-					state?: string;
-					/**
-					 * Country name
-					 */
-					country?: string;
-					/**
-					 * Area code. This can be Pincode, ZIP code or any equivalent
-					 */
-					area_code?: string;
-					[k: string]: unknown;
-				};
-				/**
-				 * Describes a city
-				 */
-				city?: {
-					/**
-					 * Name of the city
-					 */
-					name?: string;
-					/**
-					 * Codification of city code will be using the std code of the city e.g. for Bengaluru, city code is 'std:080'
-					 */
-					code?: string;
-					[k: string]: unknown;
-				};
-				/**
-				 * Describes a state.
-				 */
-				state?: {
-					/**
-					 * Name of the state
-					 */
-					name?: string;
-					/**
-					 * State code as per ISO 3166 Alpha-2 code format
-					 */
-					code?: string;
-					[k: string]: unknown;
-				};
-				/**
-				 * Describes time in its various forms. It can be a single point in time; duration; or a structured timetable of operations
-				 */
-				time?: {
-					label?: string;
-					timestamp?: string;
-					range?: {
-						start?: string;
-						end?: string;
-						[k: string]: unknown;
-					};
-					/**
-					 * comma separated values representing days of the week
-					 */
-					days?: string;
-					/**
-					 * Describes a schedule
-					 */
-					schedule?: {
-						/**
-						 * Describes duration as per ISO8601 format
-						 */
-						frequency?: string;
-						holidays?: string[];
-						times?: string[];
-						[k: string]: unknown;
-					};
-					[k: string]: unknown;
-				};
-				/**
-				 * Describes a circular area on the map
-				 */
-				circle?: {
-					/**
-					 * Describes a gps coordinate
-					 */
-					gps?: string;
-					/**
-					 * An object representing a scalar quantity.
-					 */
-					radius?: {
-						type?: string;
-						value?: string;
-						estimated_value?: number;
-						computed_value?: number;
-						range?: {
-							min?: number;
-							max?: number;
-							[k: string]: unknown;
-						};
-						unit?: string;
-						[k: string]: unknown;
-					};
-					[k: string]: unknown;
-				};
-				[k: string]: unknown;
-			};
-			[k: string]: unknown;
-		};
-		/**
-		 * Describes time in its various forms. It can be a single point in time; duration; or a structured timetable of operations
-		 */
-		time?: {
-			label?: string;
-			timestamp?: string;
-			range?: {
-				start?: string;
-				end?: string;
-				[k: string]: unknown;
-			};
-			/**
-			 * comma separated values representing days of the week
-			 */
-			days?: string;
-			/**
-			 * Describes a schedule
-			 */
-			schedule?: {
-				/**
-				 * Describes duration as per ISO8601 format
-				 */
-				frequency?: string;
-				holidays?: string[];
-				times?: string[];
-				[k: string]: unknown;
-			};
-			[k: string]: unknown;
-		};
-		/**
-		 * Describes the description of a real-world object.
-		 */
-		instructions?: {
-			name?: string;
-			code?: string;
-			symbol?: string;
-			short_desc?: string;
-			long_desc?: string;
-			images?: string[];
-			tags?: {
-				/**
-				 * The machine-readable name of the tag group. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value. Values outside the allowed values may or may not be ignored by the rendering platform. As this schema is purely for catalog display purposes, it is not recommended to send this value during search.
-				 */
-				code?: string;
-				/**
-				 * An array of Tag objects listed under this group. This property can be set by BAPs during search to narrow the `search` and achieve more relevant results. When received during `on_search`, BAPs must render this list under the heading described by the `name` property of this schema.
-				 */
-				list?: {
-					/**
-					 * The machine-readable name of the tag. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value.
-					 */
-					code?: string;
-					/**
-					 * The human-readable name of the tag. This set by the BPP and rendered as-is by the BAP. Sometimes, the network policy may reserve some names for this property. Values outside the reserved values can be set by the BPP. However,the BAP may choose to rename or even ignore this value and render the output purely using the `code` property, but it is recommended for BAPs to keep the name same to avoid confusion and provide consistency.
-					 */
-					name?: string;
-					/**
-					 * The value of the tag. This set by the BPP and rendered as-is by the BAP.
-					 */
-					value?: string;
-					[k: string]: unknown;
-				}[];
-				[k: string]: unknown;
-			}[];
-			[k: string]: unknown;
-		};
-		contact?: {
-			phone?: string;
-			email?: string;
-			[k: string]: unknown;
-		};
-		/**
-		 * Describes a person.
-		 */
-		person?: {
-			/**
-			 * Describes the name of a person.
-			 */
-			name?: string;
-			[k: string]: unknown;
-		};
-		/**
-		 * Describes an authorization mechanism
-		 */
-		authorization?: {
-			/**
-			 * Type of authorization mechanism used
-			 */
-			type?: string;
-			/**
-			 * Token used for authorization
-			 */
-			token?: string;
-			/**
-			 * Timestamp in RFC3339 format from which token is valid
-			 */
-			valid_from?: string;
-			/**
-			 * Timestamp in RFC3339 format until which token is valid
-			 */
-			valid_to?: string;
-			[k: string]: unknown;
-		};
-		[k: string]: unknown;
-	};
-	/**
-	 * Details on the end of fulfillment
-	 */
-	end?: {
-		/**
-		 * Describes the location of a runtime object.
-		 */
-		location?: {
-			id?: string;
-			/**
-			 * Describes the description of a real-world object.
-			 */
-			descriptor?: {
-				code?: string;
-				name?: string;
-				short_desc?: string;
-				[k: string]: unknown;
-			};
-			/**
-			 * Describes a gps coordinate
-			 */
-			gps?: string;
-			/**
-			 * Describes an address
-			 */
-			address?: {
-				/**
-				 * Name of address if applicable. Example, shop name
-				 */
-				name?: string;
-				/**
-				 * Name of the building or block
-				 */
-				building?: string;
-				/**
-				 * Street name or number
-				 */
-				street?: string;
-				/**
-				 * Name of the locality, apartments
-				 */
-				locality?: string;
-				/**
-				 * City name
-				 */
-				city?: string;
-				/**
-				 * State name
-				 */
-				state?: string;
-				/**
-				 * Country name
-				 */
-				country?: string;
-				/**
-				 * Area code. This can be Pincode, ZIP code or any equivalent
-				 */
-				area_code?: string;
-				[k: string]: unknown;
-			};
-			/**
-			 * Describes the location of a runtime object.
-			 */
-			location?: {
-				id?: string;
-				/**
-				 * Describes the description of a real-world object.
-				 */
-				descriptor?: {
-					name?: string;
-					code?: string;
-					symbol?: string;
-					short_desc?: string;
-					long_desc?: string;
-					images?: string[];
-					tags?: {
-						/**
-						 * The machine-readable name of the tag group. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value. Values outside the allowed values may or may not be ignored by the rendering platform. As this schema is purely for catalog display purposes, it is not recommended to send this value during search.
-						 */
-						code?: string;
-						/**
-						 * An array of Tag objects listed under this group. This property can be set by BAPs during search to narrow the `search` and achieve more relevant results. When received during `on_search`, BAPs must render this list under the heading described by the `name` property of this schema.
-						 */
-						list?: {
-							/**
-							 * The machine-readable name of the tag. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value.
-							 */
-							code?: string;
-							/**
-							 * The human-readable name of the tag. This set by the BPP and rendered as-is by the BAP. Sometimes, the network policy may reserve some names for this property. Values outside the reserved values can be set by the BPP. However,the BAP may choose to rename or even ignore this value and render the output purely using the `code` property, but it is recommended for BAPs to keep the name same to avoid confusion and provide consistency.
-							 */
-							name?: string;
-							/**
-							 * The value of the tag. This set by the BPP and rendered as-is by the BAP.
-							 */
-							value?: string;
-							[k: string]: unknown;
-						}[];
-						[k: string]: unknown;
-					}[];
-					[k: string]: unknown;
-				};
-				/**
-				 * Describes a gps coordinate
-				 */
-				gps?: string;
-				/**
-				 * Describes an address
-				 */
-				address?: {
-					/**
-					 * Name of address if applicable. Example, shop name
-					 */
-					name?: string;
-					/**
-					 * Name of the building or block
-					 */
-					building?: string;
-					/**
-					 * Street name or number
-					 */
-					street?: string;
-					/**
-					 * Name of the locality, apartments
-					 */
-					locality?: string;
-					/**
-					 * City name
-					 */
-					city?: string;
-					/**
-					 * State name
-					 */
-					state?: string;
-					/**
-					 * Country name
-					 */
-					country?: string;
-					/**
-					 * Area code. This can be Pincode, ZIP code or any equivalent
-					 */
-					area_code?: string;
-					[k: string]: unknown;
-				};
-				/**
-				 * Describes a city
-				 */
-				city?: {
-					/**
-					 * Name of the city
-					 */
-					name?: string;
-					/**
-					 * Codification of city code will be using the std code of the city e.g. for Bengaluru, city code is 'std:080'
-					 */
-					code?: string;
-					[k: string]: unknown;
-				};
-				/**
-				 * Describes a state.
-				 */
-				state?: {
-					/**
-					 * Name of the state
-					 */
-					name?: string;
-					/**
-					 * State code as per ISO 3166 Alpha-2 code format
-					 */
-					code?: string;
-					[k: string]: unknown;
-				};
-				/**
-				 * Describes time in its various forms. It can be a single point in time; duration; or a structured timetable of operations
-				 */
-				time?: {
-					label?: string;
-					timestamp?: string;
-					range?: {
-						start?: string;
-						end?: string;
-						[k: string]: unknown;
-					};
-					/**
-					 * comma separated values representing days of the week
-					 */
-					days?: string;
-					/**
-					 * Describes a schedule
-					 */
-					schedule?: {
-						/**
-						 * Describes duration as per ISO8601 format
-						 */
-						frequency?: string;
-						holidays?: string[];
-						times?: string[];
-						[k: string]: unknown;
-					};
-					[k: string]: unknown;
-				};
-				/**
-				 * Describes a circular area on the map
-				 */
-				circle?: {
-					/**
-					 * Describes a gps coordinate
-					 */
-					gps?: string;
-					/**
-					 * An object representing a scalar quantity.
-					 */
-					radius?: {
-						type?: string;
-						value?: string;
-						estimated_value?: number;
-						computed_value?: number;
-						range?: {
-							min?: number;
-							max?: number;
-							[k: string]: unknown;
-						};
-						unit?: string;
-						[k: string]: unknown;
-					};
-					[k: string]: unknown;
-				};
-				[k: string]: unknown;
-			};
-			[k: string]: unknown;
-		};
-		/**
-		 * Describes time in its various forms. It can be a single point in time; duration; or a structured timetable of operations
-		 */
-		time?: {
-			label?: string;
-			timestamp?: string;
-			range?: {
-				start?: string;
-				end?: string;
-				[k: string]: unknown;
-			};
-			/**
-			 * comma separated values representing days of the week
-			 */
-			days?: string;
-			/**
-			 * Describes a schedule
-			 */
-			schedule?: {
-				/**
-				 * Describes duration as per ISO8601 format
-				 */
-				frequency?: string;
-				holidays?: string[];
-				times?: string[];
-				[k: string]: unknown;
-			};
-			[k: string]: unknown;
-		};
-		/**
-		 * Describes the description of a real-world object.
-		 */
-		instructions?: {
-			name?: string;
-			code?: string;
-			symbol?: string;
-			short_desc?: string;
-			long_desc?: string;
-			images?: string[];
-			tags?: {
-				/**
-				 * The machine-readable name of the tag group. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value. Values outside the allowed values may or may not be ignored by the rendering platform. As this schema is purely for catalog display purposes, it is not recommended to send this value during search.
-				 */
-				code?: string;
-				/**
-				 * An array of Tag objects listed under this group. This property can be set by BAPs during search to narrow the `search` and achieve more relevant results. When received during `on_search`, BAPs must render this list under the heading described by the `name` property of this schema.
-				 */
-				list?: {
-					/**
-					 * The machine-readable name of the tag. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value.
-					 */
-					code?: string;
-					/**
-					 * The human-readable name of the tag. This set by the BPP and rendered as-is by the BAP. Sometimes, the network policy may reserve some names for this property. Values outside the reserved values can be set by the BPP. However,the BAP may choose to rename or even ignore this value and render the output purely using the `code` property, but it is recommended for BAPs to keep the name same to avoid confusion and provide consistency.
-					 */
-					name?: string;
-					/**
-					 * The value of the tag. This set by the BPP and rendered as-is by the BAP.
-					 */
-					value?: string;
-					[k: string]: unknown;
-				}[];
-				[k: string]: unknown;
-			}[];
-			[k: string]: unknown;
-		};
-		contact?: {
-			phone?: string;
-			email?: string;
-			[k: string]: unknown;
-		};
-		/**
-		 * Describes a person.
-		 */
-		person?: {
-			/**
-			 * Describes the name of a person.
-			 */
-			name?: string;
-			[k: string]: unknown;
-		};
-		/**
-		 * Describes an authorization mechanism
-		 */
-		authorization?: {
-			/**
-			 * Type of authorization mechanism used
-			 */
-			type?: string;
-			/**
-			 * Token used for authorization
-			 */
-			token?: string;
-			/**
-			 * Timestamp in RFC3339 format from which token is valid
-			 */
-			valid_from?: string;
-			/**
-			 * Timestamp in RFC3339 format until which token is valid
-			 */
-			valid_to?: string;
-			[k: string]: unknown;
-		};
-		[k: string]: unknown;
-	};
-	tags?: {
-		/**
-		 * The machine-readable name of the tag group. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value. Values outside the allowed values may or may not be ignored by the rendering platform. As this schema is purely for catalog display purposes, it is not recommended to send this value during search.
-		 */
-		code?: string;
-		/**
-		 * An array of Tag objects listed under this group. This property can be set by BAPs during search to narrow the `search` and achieve more relevant results. When received during `on_search`, BAPs must render this list under the heading described by the `name` property of this schema.
-		 */
-		list?: {
-			/**
-			 * The machine-readable name of the tag. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value.
-			 */
-			code?: string;
-			/**
-			 * The human-readable name of the tag. This set by the BPP and rendered as-is by the BAP. Sometimes, the network policy may reserve some names for this property. Values outside the reserved values can be set by the BPP. However,the BAP may choose to rename or even ignore this value and render the output purely using the `code` property, but it is recommended for BAPs to keep the name same to avoid confusion and provide consistency.
-			 */
-			name?: string;
-			/**
-			 * The value of the tag. This set by the BPP and rendered as-is by the BAP.
-			 */
-			value?: string;
-			[k: string]: unknown;
-		}[];
-		[k: string]: unknown;
-	}[];
-	[k: string]: unknown;
+  /**
+   * Unique reference ID to the fulfillment of an order
+   */
+  id?: string;
+  /**
+   * This describes the type of fulfillment ("Pickup" - Buyer picks up from store by themselves or through their logistics provider; "Delivery" - seller delivers to buyer)
+   */
+  type?: string;
+  /**
+   * fulfillment turnaround time in ISO8601 durations format e.g. 'PT24H' indicates 24 hour TAT
+   */
+  "@ondc/org/TAT"?: string;
+  "@ondc/org/provider_name"?: string;
+  provider_id?: string;
+  /**
+   * Describes the properties of a vehicle used in a mobility service
+   */
+  vehicle?: {
+    registration?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Describes an order executor
+   */
+  agent?: {
+    phone?: string;
+    email?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Rating value given to the object (1 - Poor; 2 - Needs improvement; 3 - Satisfactory; 4 - Good; 5 - Excellent)
+   */
+  rating?: number;
+  /**
+   * Describes a state
+   */
+  state?: {
+    /**
+     * Describes the description of a real-world object.
+     */
+    descriptor?: {
+      code?: string;
+      name?: string;
+      short_desc?: string;
+      [k: string]: unknown;
+    };
+    updated_at?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Indicates whether the fulfillment allows tracking
+   */
+  tracking?: boolean;
+  /**
+   * Details on the start of fulfillment
+   */
+  start?: {
+    /**
+     * Describes the location of a runtime object.
+     */
+    location?: {
+      id?: string;
+      /**
+       * Describes the description of a real-world object.
+       */
+      descriptor?: {
+        code?: string;
+        name?: string;
+        short_desc?: string;
+        [k: string]: unknown;
+      };
+      /**
+       * Describes a gps coordinate
+       */
+      gps?: string;
+      /**
+       * Describes an address
+       */
+      address?: {
+        /**
+         * Name of address if applicable. Example, shop name
+         */
+        name?: string;
+        /**
+         * Name of the building or block
+         */
+        building?: string;
+        /**
+         * Street name or number
+         */
+        street?: string;
+        /**
+         * Name of the locality, apartments
+         */
+        locality?: string;
+        /**
+         * City name
+         */
+        city?: string;
+        /**
+         * State name
+         */
+        state?: string;
+        /**
+         * Country name
+         */
+        country?: string;
+        /**
+         * Area code. This can be Pincode, ZIP code or any equivalent
+         */
+        area_code?: string;
+        [k: string]: unknown;
+      };
+      /**
+       * Describes the location of a runtime object.
+       */
+      location?: {
+        id?: string;
+        /**
+         * Describes the description of a real-world object.
+         */
+        descriptor?: {
+          name?: string;
+          code?: string;
+          symbol?: string;
+          short_desc?: string;
+          long_desc?: string;
+          images?: string[];
+          tags?: {
+            /**
+             * The machine-readable name of the tag group. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value. Values outside the allowed values may or may not be ignored by the rendering platform. As this schema is purely for catalog display purposes, it is not recommended to send this value during search.
+             */
+            code?: string;
+            /**
+             * An array of Tag objects listed under this group. This property can be set by BAPs during search to narrow the `search` and achieve more relevant results. When received during `on_search`, BAPs must render this list under the heading described by the `name` property of this schema.
+             */
+            list?: {
+              /**
+               * The machine-readable name of the tag. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value.
+               */
+              code?: string;
+              /**
+               * The human-readable name of the tag. This set by the BPP and rendered as-is by the BAP. Sometimes, the network policy may reserve some names for this property. Values outside the reserved values can be set by the BPP. However,the BAP may choose to rename or even ignore this value and render the output purely using the `code` property, but it is recommended for BAPs to keep the name same to avoid confusion and provide consistency.
+               */
+              name?: string;
+              /**
+               * The value of the tag. This set by the BPP and rendered as-is by the BAP.
+               */
+              value?: string;
+              [k: string]: unknown;
+            }[];
+            [k: string]: unknown;
+          }[];
+          [k: string]: unknown;
+        };
+        /**
+         * Describes a gps coordinate
+         */
+        gps?: string;
+        /**
+         * Describes an address
+         */
+        address?: {
+          /**
+           * Name of address if applicable. Example, shop name
+           */
+          name?: string;
+          /**
+           * Name of the building or block
+           */
+          building?: string;
+          /**
+           * Street name or number
+           */
+          street?: string;
+          /**
+           * Name of the locality, apartments
+           */
+          locality?: string;
+          /**
+           * City name
+           */
+          city?: string;
+          /**
+           * State name
+           */
+          state?: string;
+          /**
+           * Country name
+           */
+          country?: string;
+          /**
+           * Area code. This can be Pincode, ZIP code or any equivalent
+           */
+          area_code?: string;
+          [k: string]: unknown;
+        };
+        /**
+         * Describes a city
+         */
+        city?: {
+          /**
+           * Name of the city
+           */
+          name?: string;
+          /**
+           * Codification of city code will be using the std code of the city e.g. for Bengaluru, city code is 'std:080'
+           */
+          code?: string;
+          [k: string]: unknown;
+        };
+        /**
+         * Describes a state.
+         */
+        state?: {
+          /**
+           * Name of the state
+           */
+          name?: string;
+          /**
+           * State code as per ISO 3166 Alpha-2 code format
+           */
+          code?: string;
+          [k: string]: unknown;
+        };
+        /**
+         * Describes time in its various forms. It can be a single point in time; duration; or a structured timetable of operations
+         */
+        time?: {
+          label?: string;
+          timestamp?: string;
+          range?: {
+            start?: string;
+            end?: string;
+            [k: string]: unknown;
+          };
+          /**
+           * comma separated values representing days of the week
+           */
+          days?: string;
+          /**
+           * Describes a schedule
+           */
+          schedule?: {
+            /**
+             * Describes duration as per ISO8601 format
+             */
+            frequency?: string;
+            holidays?: string[];
+            times?: string[];
+            [k: string]: unknown;
+          };
+          [k: string]: unknown;
+        };
+        /**
+         * Describes a circular area on the map
+         */
+        circle?: {
+          /**
+           * Describes a gps coordinate
+           */
+          gps?: string;
+          /**
+           * An object representing a scalar quantity.
+           */
+          radius?: {
+            type?: string;
+            value?: string;
+            estimated_value?: number;
+            computed_value?: number;
+            range?: {
+              min?: number;
+              max?: number;
+              [k: string]: unknown;
+            };
+            unit?: string;
+            [k: string]: unknown;
+          };
+          [k: string]: unknown;
+        };
+        [k: string]: unknown;
+      };
+      [k: string]: unknown;
+    };
+    /**
+     * Describes time in its various forms. It can be a single point in time; duration; or a structured timetable of operations
+     */
+    time?: {
+      label?: string;
+      timestamp?: string;
+      range?: {
+        start?: string;
+        end?: string;
+        [k: string]: unknown;
+      };
+      /**
+       * comma separated values representing days of the week
+       */
+      days?: string;
+      /**
+       * Describes a schedule
+       */
+      schedule?: {
+        /**
+         * Describes duration as per ISO8601 format
+         */
+        frequency?: string;
+        holidays?: string[];
+        times?: string[];
+        [k: string]: unknown;
+      };
+      [k: string]: unknown;
+    };
+    /**
+     * Describes the description of a real-world object.
+     */
+    instructions?: {
+      name?: string;
+      code?: string;
+      symbol?: string;
+      short_desc?: string;
+      long_desc?: string;
+      images?: string[];
+      tags?: {
+        /**
+         * The machine-readable name of the tag group. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value. Values outside the allowed values may or may not be ignored by the rendering platform. As this schema is purely for catalog display purposes, it is not recommended to send this value during search.
+         */
+        code?: string;
+        /**
+         * An array of Tag objects listed under this group. This property can be set by BAPs during search to narrow the `search` and achieve more relevant results. When received during `on_search`, BAPs must render this list under the heading described by the `name` property of this schema.
+         */
+        list?: {
+          /**
+           * The machine-readable name of the tag. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value.
+           */
+          code?: string;
+          /**
+           * The human-readable name of the tag. This set by the BPP and rendered as-is by the BAP. Sometimes, the network policy may reserve some names for this property. Values outside the reserved values can be set by the BPP. However,the BAP may choose to rename or even ignore this value and render the output purely using the `code` property, but it is recommended for BAPs to keep the name same to avoid confusion and provide consistency.
+           */
+          name?: string;
+          /**
+           * The value of the tag. This set by the BPP and rendered as-is by the BAP.
+           */
+          value?: string;
+          [k: string]: unknown;
+        }[];
+        [k: string]: unknown;
+      }[];
+      [k: string]: unknown;
+    };
+    contact?: {
+      phone?: string;
+      email?: string;
+      [k: string]: unknown;
+    };
+    /**
+     * Describes a person.
+     */
+    person?: {
+      /**
+       * Describes the name of a person.
+       */
+      name?: string;
+      [k: string]: unknown;
+    };
+    /**
+     * Describes an authorization mechanism
+     */
+    authorization?: {
+      /**
+       * Type of authorization mechanism used
+       */
+      type?: string;
+      /**
+       * Token used for authorization
+       */
+      token?: string;
+      /**
+       * Timestamp in RFC3339 format from which token is valid
+       */
+      valid_from?: string;
+      /**
+       * Timestamp in RFC3339 format until which token is valid
+       */
+      valid_to?: string;
+      [k: string]: unknown;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Details on the end of fulfillment
+   */
+  end?: {
+    /**
+     * Describes the location of a runtime object.
+     */
+    location?: {
+      id?: string;
+      /**
+       * Describes the description of a real-world object.
+       */
+      descriptor?: {
+        code?: string;
+        name?: string;
+        short_desc?: string;
+        [k: string]: unknown;
+      };
+      /**
+       * Describes a gps coordinate
+       */
+      gps?: string;
+      /**
+       * Describes an address
+       */
+      address?: {
+        /**
+         * Name of address if applicable. Example, shop name
+         */
+        name?: string;
+        /**
+         * Name of the building or block
+         */
+        building?: string;
+        /**
+         * Street name or number
+         */
+        street?: string;
+        /**
+         * Name of the locality, apartments
+         */
+        locality?: string;
+        /**
+         * City name
+         */
+        city?: string;
+        /**
+         * State name
+         */
+        state?: string;
+        /**
+         * Country name
+         */
+        country?: string;
+        /**
+         * Area code. This can be Pincode, ZIP code or any equivalent
+         */
+        area_code?: string;
+        [k: string]: unknown;
+      };
+      /**
+       * Describes the location of a runtime object.
+       */
+      location?: {
+        id?: string;
+        /**
+         * Describes the description of a real-world object.
+         */
+        descriptor?: {
+          name?: string;
+          code?: string;
+          symbol?: string;
+          short_desc?: string;
+          long_desc?: string;
+          images?: string[];
+          tags?: {
+            /**
+             * The machine-readable name of the tag group. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value. Values outside the allowed values may or may not be ignored by the rendering platform. As this schema is purely for catalog display purposes, it is not recommended to send this value during search.
+             */
+            code?: string;
+            /**
+             * An array of Tag objects listed under this group. This property can be set by BAPs during search to narrow the `search` and achieve more relevant results. When received during `on_search`, BAPs must render this list under the heading described by the `name` property of this schema.
+             */
+            list?: {
+              /**
+               * The machine-readable name of the tag. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value.
+               */
+              code?: string;
+              /**
+               * The human-readable name of the tag. This set by the BPP and rendered as-is by the BAP. Sometimes, the network policy may reserve some names for this property. Values outside the reserved values can be set by the BPP. However,the BAP may choose to rename or even ignore this value and render the output purely using the `code` property, but it is recommended for BAPs to keep the name same to avoid confusion and provide consistency.
+               */
+              name?: string;
+              /**
+               * The value of the tag. This set by the BPP and rendered as-is by the BAP.
+               */
+              value?: string;
+              [k: string]: unknown;
+            }[];
+            [k: string]: unknown;
+          }[];
+          [k: string]: unknown;
+        };
+        /**
+         * Describes a gps coordinate
+         */
+        gps?: string;
+        /**
+         * Describes an address
+         */
+        address?: {
+          /**
+           * Name of address if applicable. Example, shop name
+           */
+          name?: string;
+          /**
+           * Name of the building or block
+           */
+          building?: string;
+          /**
+           * Street name or number
+           */
+          street?: string;
+          /**
+           * Name of the locality, apartments
+           */
+          locality?: string;
+          /**
+           * City name
+           */
+          city?: string;
+          /**
+           * State name
+           */
+          state?: string;
+          /**
+           * Country name
+           */
+          country?: string;
+          /**
+           * Area code. This can be Pincode, ZIP code or any equivalent
+           */
+          area_code?: string;
+          [k: string]: unknown;
+        };
+        /**
+         * Describes a city
+         */
+        city?: {
+          /**
+           * Name of the city
+           */
+          name?: string;
+          /**
+           * Codification of city code will be using the std code of the city e.g. for Bengaluru, city code is 'std:080'
+           */
+          code?: string;
+          [k: string]: unknown;
+        };
+        /**
+         * Describes a state.
+         */
+        state?: {
+          /**
+           * Name of the state
+           */
+          name?: string;
+          /**
+           * State code as per ISO 3166 Alpha-2 code format
+           */
+          code?: string;
+          [k: string]: unknown;
+        };
+        /**
+         * Describes time in its various forms. It can be a single point in time; duration; or a structured timetable of operations
+         */
+        time?: {
+          label?: string;
+          timestamp?: string;
+          range?: {
+            start?: string;
+            end?: string;
+            [k: string]: unknown;
+          };
+          /**
+           * comma separated values representing days of the week
+           */
+          days?: string;
+          /**
+           * Describes a schedule
+           */
+          schedule?: {
+            /**
+             * Describes duration as per ISO8601 format
+             */
+            frequency?: string;
+            holidays?: string[];
+            times?: string[];
+            [k: string]: unknown;
+          };
+          [k: string]: unknown;
+        };
+        /**
+         * Describes a circular area on the map
+         */
+        circle?: {
+          /**
+           * Describes a gps coordinate
+           */
+          gps?: string;
+          /**
+           * An object representing a scalar quantity.
+           */
+          radius?: {
+            type?: string;
+            value?: string;
+            estimated_value?: number;
+            computed_value?: number;
+            range?: {
+              min?: number;
+              max?: number;
+              [k: string]: unknown;
+            };
+            unit?: string;
+            [k: string]: unknown;
+          };
+          [k: string]: unknown;
+        };
+        [k: string]: unknown;
+      };
+      [k: string]: unknown;
+    };
+    /**
+     * Describes time in its various forms. It can be a single point in time; duration; or a structured timetable of operations
+     */
+    time?: {
+      label?: string;
+      timestamp?: string;
+      range?: {
+        start?: string;
+        end?: string;
+        [k: string]: unknown;
+      };
+      /**
+       * comma separated values representing days of the week
+       */
+      days?: string;
+      /**
+       * Describes a schedule
+       */
+      schedule?: {
+        /**
+         * Describes duration as per ISO8601 format
+         */
+        frequency?: string;
+        holidays?: string[];
+        times?: string[];
+        [k: string]: unknown;
+      };
+      [k: string]: unknown;
+    };
+    /**
+     * Describes the description of a real-world object.
+     */
+    instructions?: {
+      name?: string;
+      code?: string;
+      symbol?: string;
+      short_desc?: string;
+      long_desc?: string;
+      images?: string[];
+      tags?: {
+        /**
+         * The machine-readable name of the tag group. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value. Values outside the allowed values may or may not be ignored by the rendering platform. As this schema is purely for catalog display purposes, it is not recommended to send this value during search.
+         */
+        code?: string;
+        /**
+         * An array of Tag objects listed under this group. This property can be set by BAPs during search to narrow the `search` and achieve more relevant results. When received during `on_search`, BAPs must render this list under the heading described by the `name` property of this schema.
+         */
+        list?: {
+          /**
+           * The machine-readable name of the tag. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value.
+           */
+          code?: string;
+          /**
+           * The human-readable name of the tag. This set by the BPP and rendered as-is by the BAP. Sometimes, the network policy may reserve some names for this property. Values outside the reserved values can be set by the BPP. However,the BAP may choose to rename or even ignore this value and render the output purely using the `code` property, but it is recommended for BAPs to keep the name same to avoid confusion and provide consistency.
+           */
+          name?: string;
+          /**
+           * The value of the tag. This set by the BPP and rendered as-is by the BAP.
+           */
+          value?: string;
+          [k: string]: unknown;
+        }[];
+        [k: string]: unknown;
+      }[];
+      [k: string]: unknown;
+    };
+    contact?: {
+      phone?: string;
+      email?: string;
+      [k: string]: unknown;
+    };
+    /**
+     * Describes a person.
+     */
+    person?: {
+      /**
+       * Describes the name of a person.
+       */
+      name?: string;
+      [k: string]: unknown;
+    };
+    /**
+     * Describes an authorization mechanism
+     */
+    authorization?: {
+      /**
+       * Type of authorization mechanism used
+       */
+      type?: string;
+      /**
+       * Token used for authorization
+       */
+      token?: string;
+      /**
+       * Timestamp in RFC3339 format from which token is valid
+       */
+      valid_from?: string;
+      /**
+       * Timestamp in RFC3339 format until which token is valid
+       */
+      valid_to?: string;
+      [k: string]: unknown;
+    };
+    [k: string]: unknown;
+  };
+  tags?: {
+    /**
+     * The machine-readable name of the tag group. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value. Values outside the allowed values may or may not be ignored by the rendering platform. As this schema is purely for catalog display purposes, it is not recommended to send this value during search.
+     */
+    code?: string;
+    /**
+     * An array of Tag objects listed under this group. This property can be set by BAPs during search to narrow the `search` and achieve more relevant results. When received during `on_search`, BAPs must render this list under the heading described by the `name` property of this schema.
+     */
+    list?: {
+      /**
+       * The machine-readable name of the tag. The allowed values of this property can be published at three levels namely, a) Core specification, b) industry sector-specific adaptations, and c) Network-specific adaptations. Except core, each adaptation (sector or network) should prefix a unique namespace with the allowed value.
+       */
+      code?: string;
+      /**
+       * The human-readable name of the tag. This set by the BPP and rendered as-is by the BAP. Sometimes, the network policy may reserve some names for this property. Values outside the reserved values can be set by the BPP. However,the BAP may choose to rename or even ignore this value and render the output purely using the `code` property, but it is recommended for BAPs to keep the name same to avoid confusion and provide consistency.
+       */
+      name?: string;
+      /**
+       * The value of the tag. This set by the BPP and rendered as-is by the BAP.
+       */
+      value?: string;
+      [k: string]: unknown;
+    }[];
+    [k: string]: unknown;
+  }[];
+  [k: string]: unknown;
 };
 export type Fulfillments = Fulfillment[];
 
 export function createFulfillments(
-	action: string,
-	actionId: string,
-	sessionData: SessionData,
-	defaultFulfillments: Fulfillments
+  action: string,
+  actionId: string,
+  sessionData: SessionData,
+  defaultFulfillments: Fulfillments
 ) {
 	if (defaultFulfillments.length < 1) {
 		throw new Error("Empty fulfillments found");

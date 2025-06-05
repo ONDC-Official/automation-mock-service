@@ -95,6 +95,19 @@ import { init_multi_fulfillment_generator } from "./init/init_multi_fulfillment/
 import { on_init_multi_fulfillment_generator } from "./on_init/on_init_multi_fulfillment/generator";
 import { dyn_on_status_generator } from "./on_status/dyn_on_status/generator";
 import { confirm_multi_fulfillment_generator } from "./confirm/confirm_multi_fulfillment/generator";
+import { update_buyer_instructions } from "./update/update_buyer_instructions/generator";
+import { on_update_buyer_instructions } from "./on_update/on_update_buyer_instructions/generator";
+import { update_delivery_address } from "./update/update_delivery_address/generator";
+import { on_update_delivery_address } from "./on_update/on_update_delivery_address/generator";
+import { on_update_delivery_auth } from "./on_update/on_update_delivery_auth/generator";
+import { on_select_slotted_delivery_generator } from "./on_select/on_select_slotted_delivery/generator";
+import { init_slotted_delivery_generator } from "./init/init_slotted_delivery/generator";
+import { on_init_slotted_delivery_generator } from "./on_init/on_init_slotted_delivery/generator";
+import { on_select_self_pickup_generator } from "./on_select/on_select_self_pickup/generator";
+import { init_self_pickup_generator } from "./init/init_self_pickup/generator";
+import { on_init_self_pickup_generator } from "./on_init/on_init_self_pickup/generator";
+import { on_status_self_pickup_packed_generator } from "./on_status/on_status_self_pick_packed/generator";
+import { on_status_self_pickup_picked_generator } from "./on_status/on_status_self_pick_picked/generator";
 
 export async function Generator(
 	action_id: string,
@@ -350,6 +363,32 @@ export async function Generator(
 			return on_init_multi_fulfillment_generator(existingPayload, sessionData);
 		case "confirm_multi_fulfillment":
 			return confirm_multi_fulfillment_generator(existingPayload, sessionData);
+		case "update_buyer_instructions":
+			return update_buyer_instructions(existingPayload,sessionData)
+		case "on_update_buyer_instructions":
+			return on_update_buyer_instructions(existingPayload,sessionData)
+		case "update_delivery_address":
+			return update_delivery_address(existingPayload,sessionData)
+		case "on_update_delivery_address":
+			return on_update_delivery_address(existingPayload,sessionData)
+		case "on_update_delivery_auth":
+			return on_update_delivery_auth(existingPayload,sessionData)
+		case "on_select_slotted_delivery":
+			return on_select_slotted_delivery_generator(existingPayload,sessionData)
+		case "init_slotted_delivery":
+			return init_slotted_delivery_generator(existingPayload,sessionData)
+		case "on_init_slotted_delivery":
+			return on_init_slotted_delivery_generator(existingPayload,sessionData)
+		case "on_select_self_pickup":
+			return on_select_self_pickup_generator(existingPayload,sessionData)
+		case "init_self_pickup":
+			return init_self_pickup_generator(existingPayload,sessionData)
+		case "on_init_self_pickup":
+			return on_init_self_pickup_generator(existingPayload,sessionData)
+		case "on_status_self_pick_packed":
+			return on_status_self_pickup_packed_generator(existingPayload,sessionData)
+		case "on_status_self_pick_picked":
+			return on_status_self_pickup_picked_generator(existingPayload,sessionData)
 		default:
 			console.log(action_id);
 			throw new Error("Invalid action id found! ");
