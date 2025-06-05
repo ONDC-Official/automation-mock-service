@@ -9,5 +9,7 @@ export const search1Generator = (
     existingPayload.message.intent.tags[0].list[0].value = inputs.search_mode;
   }
 
+  existingPayload.context.city = "*";
+
   return existingPayload;
 };
