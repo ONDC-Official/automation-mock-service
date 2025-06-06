@@ -101,6 +101,7 @@ export async function onUpdateAcceptedGenerator(
       15
     );
   }
+  existingPayload.message.order.status = "CANCELLED"
   const now = new Date().toISOString();
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = now;

@@ -1,4 +1,29 @@
 import { onCancelHardGenerator } from "../on_cancel_hard/generator";
+type Price = {
+  value: string;
+  currency: string;
+};
+
+type Item = {
+  id: string;
+  price: Price;
+  quantity: {
+    selected: {
+      count: number;
+    };
+  };
+};
+
+type Breakup = {
+  title: string;
+  item?: Item;
+  price: Price;
+};
+
+type Quote = {
+  price: Price;
+  breakup: Breakup[];
+};
 function stripTicketAuthorizations(order:any) {
     if (!order.fulfillments) return order;
   
@@ -17,10 +42,12 @@ function stripTicketAuthorizations(order:any) {
   
     return order;
   }
-
 export async function onCancelInitGenerator(existingPayload: any,sessionData: any){
     existingPayload = await onCancelHardGenerator(existingPayload,sessionData)
 	existingPayload.message.order.status = "CANCELLATION_INITIATED"
     existingPayload.message.order = stripTicketAuthorizations(existingPayload.message.order)
+    const now = new Date().toISOString();
+    existingPayload.message.order.created_at = sessionData.created_at
+    existingPayload.message.order.updated_at = now
     return existingPayload;
 }
