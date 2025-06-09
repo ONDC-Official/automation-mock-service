@@ -1,4 +1,4 @@
-import { onCancelHardGenerator } from "../on_cancel_hard/generator";
+import { onCancelSoftGenerator } from "../on_cancel_soft/generator";
 type Price = {
   value: string;
   currency: string;
@@ -43,7 +43,7 @@ function stripTicketAuthorizations(order:any) {
     return order;
   }
 export async function onCancelInitGenerator(existingPayload: any,sessionData: any){
-    existingPayload = await onCancelHardGenerator(existingPayload,sessionData)
+    existingPayload = await onCancelSoftGenerator(existingPayload,sessionData)
 	existingPayload.message.order.status = "CANCELLATION_INITIATED"
     existingPayload.message.order = stripTicketAuthorizations(existingPayload.message.order)
     const now = new Date().toISOString();

@@ -94,9 +94,7 @@ export async function onCancelHardGenerator(existingPayload: any,sessionData: Se
 	existingPayload.message.order.quote = sessionData.quote
 	}
 	existingPayload.message.order.status = "CANCELLED"
-	if(sessionData.quote != null){
-		existingPayload.message.order.quote = applyCancellation(sessionData.quote,15)
-	}
+  
 	const now = new Date().toISOString();
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now
