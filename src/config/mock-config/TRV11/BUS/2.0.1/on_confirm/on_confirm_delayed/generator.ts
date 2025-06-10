@@ -18,7 +18,6 @@ function enhancePayments(payments:any) {
   const additionalParams = {
     bank_code: "XXXXXXXX",
     bank_account_number: "xxxxxxxxxxxxxx",
-    virtual_payment_address: "9988199772@okicic"
   };
   
   return payments.map((payment:any) => ({
