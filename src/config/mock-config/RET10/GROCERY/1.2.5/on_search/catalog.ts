@@ -40,6 +40,7 @@ export const RET10GROCERY125Catalog = {
 					label: "enable",
 					timestamp: "2024-12-23T06:55:45.035Z",
 				},
+				rating: "4",
 				descriptor: {
 					name: "Store 1",
 					symbol: "https://sellerNP.com/images/store1.png",
@@ -100,6 +101,7 @@ export const RET10GROCERY125Catalog = {
 							long_desc: "Plain Atta",
 							images: ["https://sellerNP.com/images/i1.png"],
 						},
+						rating: "4.0",
 						price: {
 							currency: "INR",
 							value: "200.00",
@@ -164,6 +166,7 @@ export const RET10GROCERY125Catalog = {
 							long_desc: "Plain Atta",
 							images: ["https://sellerNP.com/images/i1.png"],
 						},
+						rating: "3.0",
 						price: {
 							currency: "INR",
 							value: "300.00",
@@ -228,6 +231,7 @@ export const RET10GROCERY125Catalog = {
 							long_desc: "Alphanso Mango freshly hand picked",
 							images: ["https://sellerNP.com/images/i1.png"],
 						},
+						rating: "3.0",
 						price: {
 							currency: "INR",
 							value: "250.00",

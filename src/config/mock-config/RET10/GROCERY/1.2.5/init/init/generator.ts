@@ -35,5 +35,8 @@ export async function init_generator(
 		existingPayload.message.order.fulfillments
 	);
 	existingPayload.message.order.provider = sessionData.provider;
+	if (sessionData.selected_offers) {
+		existingPayload.message.order.offers = sessionData.selected_offers;
+	}
 	return existingPayload;
 }

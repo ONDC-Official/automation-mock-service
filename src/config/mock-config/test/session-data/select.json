@@ -1,22 +1,28 @@
 {
-  "transaction_id": "8110d3db-0e8e-4ebb-bab9-e4a4b68eee8f",
-  "message_id": "f4290e72-2a11-4456-b7d6-48ccaed94727",
+  "transaction_id": "4db25d8c-a40c-4658-b4ee-be81457dbecb",
+  "message_id": "b5c78c67-6111-4c92-b557-d0232fc3da6d",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
     {
       "id": "I1",
       "quantity": {
-        "count": 2
+        "count": 1
+      },
+      "location": "L1"
+    },
+    {
+      "id": "I3",
+      "quantity": {
+        "count": 1
       },
       "location": "L1"
     },
     {
       "id": "I2",
       "quantity": {
-        "count": 49
-      },
-      "location": "L1"
+        "count": 1
+      }
     }
   ],
   "selected_fulfillments": [
@@ -58,7 +64,7 @@
   "on_select_items": [],
   "selected_offers": [
     {
-      "id": "FLAT50",
+      "id": "combo1",
       "tags": [
         {
           "code": "selection",

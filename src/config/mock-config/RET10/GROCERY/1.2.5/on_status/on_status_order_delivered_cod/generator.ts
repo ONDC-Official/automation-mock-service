@@ -1,3 +1,4 @@
+import { zip } from "lodash";
 import { SessionData } from "../../../../session-types";
 import { createFulfillments } from "../../api-objects/fulfillments";
 import { createGenericOnStatus } from "../on_status_packed/generator";
@@ -19,6 +20,7 @@ export async function on_status_order_delivered_cod_generator(
 			...generalPayload.message.order.payment.params,
 			transaction_id: generateSixDigitCode(),
 		},
+		status: "PAID",
 	};
 	return generalPayload;
 }

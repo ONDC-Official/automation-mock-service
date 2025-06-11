@@ -1,5 +1,5 @@
 // iterate -> generate -> save -> log
-import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, rmSync, writeFileSync } from "fs";
 import { updateAllJsonPaths } from "../../../utils/json-editor-utils/jsonPathEditor";
 import { createMockResponseRET10_125 } from "../RET10/GROCERY/1.2.5/generation-pipeline";
 import {
@@ -9,7 +9,6 @@ import {
 	saveDataForUnit,
 } from "./utils";
 import path from "path";
-import { off } from "process";
 const inputsData = {
 	RTO_And_Part_Cancellation_Flow: {
 		select: {
@@ -73,15 +72,25 @@ const inputPathChanges = {
 
 export async function testFlow() {
 	customConsoleLog("### TESTING FLOW ###");
-	const flow = loadFlowConfig();
-	customConsoleLog("-- loaded flow with id: ", flow.id);
+	const flows = loadFlowConfig();
+	customConsoleLog(
+		"-- loaded flow with id: ",
+		flows.map((f) => f.id)
+	);
 	let lastAction = "null";
-	for (const step of flow.sequence) {
-		customConsoleLog(
-			`--> testing step with key: ${step.key} and type: ${step.type}`
-		);
-		await testUnitApi(step.key, step.type, lastAction, flow.id);
-		lastAction = step.type;
+
+	for (const flow of flows) {
+		rmSync(path.resolve(__dirname, "./session-data"), {
+			recursive: true,
+			force: true,
+		});
+		for (const step of flow.sequence) {
+			customConsoleLog(
+				`--> testing step with key: ${step.key} and type: ${step.type}`
+			);
+			await testUnitApi(step.key, step.type, lastAction, flow.id);
+			lastAction = step.type;
+		}
 	}
 }
 
@@ -93,7 +102,7 @@ export async function testUnitApi(
 ) {
 	const sesData = loadMockSessionDataUnit(lastAction, flowId);
 	// @ts-ignore
-	sesData.user_inputs = inputsData[flowId][actionId];
+	sesData.user_inputs = inputsData["RTO_And_Part_Cancellation_Flow"][actionId];
 	let mockResponse = await createMockResponseRET10_125(actionId, sesData);
 	// @ts-ignore
 	if (inputPathChanges[flowId] && inputPathChanges[flowId][actionId]) {

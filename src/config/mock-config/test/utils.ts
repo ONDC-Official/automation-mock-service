@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import yaml from "js-yaml";
 import path from "path";
 import { Flow } from "../../../types/flow-types";
@@ -13,7 +13,7 @@ export function loadFlowConfig() {
 	const loadedData = yaml.load(data) as {
 		flows: Flow[];
 	};
-	return loadedData.flows[0] as Flow;
+	return loadedData.flows;
 }
 
 export async function saveDataForUnit(
@@ -32,6 +32,9 @@ export async function saveDataForUnit(
 		action
 	);
 	updateSessionData(saveData["save-data"], payload, sessionData, errorData);
+	if (!existsSync(path.resolve(__dirname, "./session-data"))) {
+		mkdirSync(path.resolve(__dirname, "./session-data"));
+	}
 	const filePath = path.resolve(__dirname, `./session-data/${action}.json`);
 	writeFileSync(filePath, JSON.stringify(sessionData, null, 2));
 }

@@ -7,7 +7,6 @@ export async function on_cancel_generator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {
-	const savedItems = JSON.parse(JSON.stringify(sessionData.items));
 	const cancelItems = sessionData.items.map((item: any) => {
 		const ob = {
 			id: item.id,
@@ -132,6 +131,9 @@ function createQuoteTrail(quote: Quote) {
 				item.price.value = "0.00";
 			}
 		}
+	}
+	if (quote.price && quote.price.value) {
+		quote.price.value = "0.00";
 	}
 
 	return tags;

@@ -31,5 +31,6 @@ export function createGenericOnStatus(
 	const timeISO = new Date().toISOString();
 	existingPayload.message.order.updated_at = timeISO;
 	existingPayload.message.order.created_at = sessionData.order_created_at;
+	existingPayload.message.order.payment = sessionData.payment;
 	return existingPayload;
 }
