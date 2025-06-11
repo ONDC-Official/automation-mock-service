@@ -6,7 +6,7 @@ message:
       time:
         timestamp: "2025-01-08T06:20:00.000Z"
       updated_at: "2025-01-08T06:30:00.000Z"
-    url: "https://snp.com/ondc/tracking/F1"
+    # url: "https://snp.com/ondc/tracking/F1"
     status: active
     tags:
       - code: order

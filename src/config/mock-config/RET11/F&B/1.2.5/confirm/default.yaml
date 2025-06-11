@@ -132,7 +132,7 @@ message:
         tracking: false
         end:
           person:
-            name: name_of_person
+            name: ONDC buyer
           contact:
             email: nobody@nomail.com
             phone: "9886098860"

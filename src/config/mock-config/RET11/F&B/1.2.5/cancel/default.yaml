@@ -1,8 +1,6 @@
 message:
   order_id: O1
-  cancellation_reason_id: "006"
-
-
+  cancellation_reason_id: "001"
 # normail canmcel 001
 # force cancel 006
 # unsolicited cancel 002
