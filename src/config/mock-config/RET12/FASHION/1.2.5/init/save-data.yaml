@@ -1,0 +1,6 @@
+save-data:
+  message_id: $.context.message_id
+  items: $.message.order.items[*]
+  provider: $.message.order.provider
+  billing: $.message.order.billing
+  fulfillments: $.message.order.fulfillments[*]

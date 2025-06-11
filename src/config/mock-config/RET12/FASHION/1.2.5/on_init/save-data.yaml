@@ -1,0 +1,5 @@
+save-data:
+  fulfillments: $.message.order.fulfillments[*]
+  tags: $.message.order.tags[*]
+  bpp_terms: $.message.order.tags[?(@.code == 'bpp_terms')]
+  quote: $.message.order.quote

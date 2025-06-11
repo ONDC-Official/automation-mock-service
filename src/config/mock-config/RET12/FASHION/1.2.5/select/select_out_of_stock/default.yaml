@@ -1,0 +1,16 @@
+order:
+  provider:
+    id: P1
+    locations:
+      - id: L1
+  items:
+    - id: I3
+      quantity:
+        count: 1
+      location_id: L1
+  fulfillments:
+    - end:
+        location:
+          gps: 12.966545,77.592074
+          address:
+            area_code: "560027"

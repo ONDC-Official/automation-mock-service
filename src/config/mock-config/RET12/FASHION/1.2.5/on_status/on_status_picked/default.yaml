@@ -1,0 +1,136 @@
+order:
+  id: O1
+  state: Accepted
+  provider:
+    id: P1
+    locations:
+      - id: L1
+  items:
+    - id: I1
+      quantity:
+        count: 1
+      fulfillment_id: F1
+  billing:
+    address:
+      building: my building name or house
+      city: Bengaluru
+      state: Karnataka
+      country: IND
+      area_code: "560027"
+      locality: my street name
+      name: my house or door or floor
+    phone: "9898989898"
+    name: ONDC buyer
+    email: nobody@nomail.com
+    created_at: "2024-08-14T09:10:34.369Z"
+    updated_at: "2024-08-14T09:10:34.369Z"
+  fulfillments:
+    - id: F1
+      "@ondc/org/provider_name": Seller Business
+      "@ondc/org/TAT": P3D
+      state:
+        descriptor:
+          code: Order-picked-up
+      type: Delivery
+      tracking: false
+      start:
+        location:
+          id: L1
+          descriptor:
+            name: Seller Business
+          gps: 12.925810,77.583624
+          address:
+            building: my building name or house
+            country: IND
+            locality: my street name
+            city: Bengaluru
+            area_code: "560011"
+            state: Karnataka
+            name: my house or door or floor
+        contact:
+          phone: "9594663710"
+          email: nobody@nomail.com
+        time:
+          range:
+            start: "2024-08-14T09:27:36.706Z"
+            end: "2024-08-16T09:27:36.707Z"
+          timestamp: "2024-08-14T09:27:57.891Z"
+      end:
+        person:
+          name: John Doe
+        contact:
+          email: nobody@nomail.com
+          phone: "9898989898"
+        location:
+          gps: 12.966545,77.592074
+          address:
+            building: my building name or house
+            city: Bengaluru
+            state: Karnataka
+            country: IND
+            area_code: "560027"
+            locality: my street name
+            name: my house or door or floor
+        time:
+          range:
+            start: "2024-08-17T09:27:36.706Z"
+            end: "2024-08-19T09:27:36.707Z"
+      tags:
+        - code: routing
+          list:
+            - code: type
+              value: P2P
+  quote:
+    price:
+      currency: INR
+      value: "2756.75"
+    breakup:
+      - "@ondc/org/item_id": I1
+        "@ondc/org/item_quantity":
+          count: 1
+        title: Butterfly Beautiful 13 Gold Necklace
+        "@ondc/org/title_type": item
+        price:
+          currency: INR
+          value: "2260.00"
+        item:
+          price:
+            currency: INR
+            value: "2260.00"
+      - "@ondc/org/item_id": F1
+        title: Delivery charges
+        "@ondc/org/title_type": delivery
+        price:
+          currency: INR
+          value: "493.75"
+      - "@ondc/org/item_id": F1
+        title: Convenience Fee
+        "@ondc/org/title_type": misc
+        price:
+          currency: INR
+          value: "3.00"
+    ttl: P1D
+  payment:
+    params:
+      amount: "2756.75"
+      currency: INR
+      transaction_id: order_Okj0iihMKJod0V
+    status: PAID
+    type: ON-ORDER
+    collected_by: BAP
+    "@ondc/org/buyer_app_finder_fee_type": percent
+    "@ondc/org/buyer_app_finder_fee_amount": "3.0"
+    "@ondc/org/settlement_details":
+      - settlement_counterparty: seller-app
+        settlement_phase: sale-amount
+        settlement_type: neft
+        beneficiary_name: xxxx
+        settlement_bank_account_no: xxxx
+        settlement_ifsc_code: xxxx
+        bank_name: xxxx
+        branch_name: xxxx
+  documents:
+    - url: https://dev-automation.ondc.org
+      label: Invoice
+  created_at: "2024-08-14T09:11:00.810Z"
+  updated_at: "2024-08-14T09:28:03.142Z"

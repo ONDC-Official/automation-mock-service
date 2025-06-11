@@ -1,0 +1,5 @@
+save-data:
+  fulfillments: $.message.order.fulfillments[*]
+  quote: $.message.order.quote
+  items: $.message.order.items[*]
+  on_status_fulfillments: $.message.order.fulfillments[*]

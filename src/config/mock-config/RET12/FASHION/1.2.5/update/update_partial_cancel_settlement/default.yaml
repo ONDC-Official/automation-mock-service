@@ -1,0 +1,13 @@
+update_target: payment
+order:
+  id: O1
+  fulfillments:
+    - id: C1
+      type: Cancel
+  payment:
+    "@ondc/org/settlement_details":
+      - settlement_counterparty: buyer
+        settlement_phase: refund
+        settlement_type: netbanking
+        settlement_amount: "9040"
+        settlement_timestamp: "2024-08-08T12:39:19.054Z"

@@ -1,0 +1,236 @@
+codes:
+  - code: 100
+    default: FASHION/1.2.5/search/search/default.yaml
+    action_id: search
+    action: search
+    message_id: true
+  - code: 101
+    default: FASHION/1.2.5/on_search/on_search/default.yaml
+    action_id: on_search
+    action: on_search
+    message_id: false
+  - code: 102
+    default: FASHION/1.2.5/search/search_inc/default.yaml
+    action_id: search_inc
+    action: search
+    message_id: true
+  - code: 103
+    default: FASHION/1.2.5/on_search/on_search_inc/default.yaml
+    action_id: on_search_inc
+    action: on_search
+    message_id: true
+  - code: 104
+    default: FASHION/1.2.5/on_search/on_search_inc_disable/default.yaml
+    action_id: on_search_inc_disable
+    action: on_search
+    message_id: true
+  - code: 201
+    default: FASHION/1.2.5/select/select/default.yaml
+    action_id: select
+    action: select
+    message_id: true
+  - code: 202
+    default: FASHION/1.2.5/on_select/on_select/default.yaml
+    action_id: on_select
+    action: on_select
+    message_id: false
+  - code: 203
+    default: FASHION/1.2.5/init/init/default.yaml
+    action_id: init
+    action: init
+    message_id: true
+  - code: 213
+    default: FASHION/1.2.5/init/init_cod/default.yaml
+    action_id: init_cod
+    action: init
+    message_id: true
+  - code: 204
+    default: FASHION/1.2.5/on_init/on_init/default.yaml
+    action_id: on_init
+    action: on_init
+    message_id: false
+  - code: 214
+    default: FASHION/1.2.5/on_init/on_init_cod/default.yaml
+    action_id: on_init_cod
+    action: on_init
+    message_id: false
+  - code: 205
+    default: FASHION/1.2.5/confirm/confirm/default.yaml
+    action_id: confirm
+    action: confirm
+    message_id: true
+  - code: 215
+    default: FASHION/1.2.5/confirm/confirm_cod/default.yaml
+    action_id: confirm_cod
+    action: confirm
+    message_id: true
+  - code: 225
+    default: FASHION/1.2.5/confirm/confirm_seller_cred/default.yaml
+    action_id: confirm_seller_cred
+    action: confirm
+    message_id: true
+  - code: 206
+    default: FASHION/1.2.5/on_confirm/on_confirm/default.yaml
+    action_id: on_confirm
+    action: on_confirm
+    message_id: false
+  - code: 216
+    default: FASHION/1.2.5/on_confirm/on_confirm_cod/default.yaml
+    action_id: on_confirm_cod
+    action: on_confirm
+    message_id: false
+  - code: 226
+    default: FASHION/1.2.5/on_confirm/on_confirm_seller_cred/default.yaml
+    action_id: on_confirm_seller_cred
+    action: on_confirm
+    message_id: false
+  - code: 207
+    default: FASHION/1.2.5/on_status/on_status_pending/default.yaml
+    action_id: on_status_pending
+    action: on_status
+    message_id: true
+  - code: 208
+    default: FASHION/1.2.5/on_status/on_status_packed/default.yaml
+    action_id: on_status_packed
+    action: on_status
+    message_id: true
+  - code: 209
+    default: FASHION/1.2.5/on_status/on_status_agent_assigned/default.yaml
+    action_id: on_status_agent_assigned
+    action: on_status
+    message_id: true
+  - code: 210
+    default: FASHION/1.2.5/on_status/on_status_picked/default.yaml
+    action_id: on_status_picked
+    action: on_status
+    message_id: true
+  - code: 211
+    default: FASHION/1.2.5/on_status/on_status_out_for_delivery/default.yaml
+    action_id: on_status_out_for_delivery
+    action: on_status
+    message_id: true
+  - code: 212
+    default: FASHION/1.2.5/on_status/on_status_order_delivered/default.yaml
+    action_id: on_status_order_delivered
+    action: on_status
+    message_id: true
+  - code: 222
+    default: FASHION/1.2.5/on_status/on_status_order_delivered_cod/default.yaml
+    action_id: on_status_order_delivered_cod
+    action: on_status
+    message_id: true
+  - code: 302
+    default: FASHION/1.2.5/select/select_out_of_stock/default.yaml
+    action_id: select_out_of_stock
+    action: select
+    message_id: true
+  - code: 303
+    default: FASHION/1.2.5/on_select/on_select_out_of_stock/default.yaml
+    action_id: on_select_out_of_stock
+    action: on_select
+    message_id: false
+  - code: 401
+    default: FASHION/1.2.5/cancel/cancel/default.yaml
+    action_id: cancel
+    action: cancel
+    message_id: true
+  - code: 402
+    default: FASHION/1.2.5/on_cancel/on_cancel/default.yaml
+    action_id: on_cancel
+    action: on_cancel
+    message_id: false
+  - code: 135
+    default: FASHION/1.2.5/on_status/on_status_pending/default.yaml
+    action_id: on_status_pending
+    action: on_status
+    message_id: false
+  - code: 139
+    default: FASHION/1.2.5/on_cancel/on_cancel_rto/default.yaml
+    action_id: on_cancel_rto
+    action: on_cancel
+    message_id: false
+  - code: 140
+    default: FASHION/1.2.5/on_status/on_status_rto_delivereddisposed/default.yaml
+    action_id: on_status_rto_delivereddisposed
+    action: on_status
+    message_id: false
+  - code: 148
+    default: FASHION/1.2.5/on_update/on_update_part_cancel/default.yaml
+    action_id: on_update_part_cancel
+    action: on_update
+    message_id: false
+  - code: 149
+    default: FASHION/1.2.5/update/update_partial_cancel_settlement/default.yaml
+    action_id: update_partial_cancel_settlement
+    action: update
+    message_id: true
+  - code: 164
+    default: FASHION/1.2.5/update/update_reverse_qc/default.yaml
+    action_id: update_reverse_qc
+    action: update
+    message_id: true
+  - code: 165
+    default: FASHION/1.2.5/on_update/on_update_interim_reverseQc/default.yaml
+    action_id: on_update_interim_reverseQc
+    action: on_update
+    message_id: false
+  - code: 166
+    default: FASHION/1.2.5/on_update/on_update_return_approved/default.yaml
+    action_id: on_update_return_approved
+    action: on_update
+    message_id: false
+  - code: 167
+    default: FASHION/1.2.5/on_update/on_update_picked/default.yaml
+    action_id: on_update_return_picked
+    action: on_update
+    message_id: false
+  - code: 168
+    default: FASHION/1.2.5/update/update_reverse_qc_settlement/default.yaml
+    action_id: update_reverse_qc_settlement
+    action: update
+    message_id: true
+  - code: 169
+    default: FASHION/1.2.5/on_update/on_update_return_delivered/default.yaml
+    action_id: on_update_return_delivered
+    action: on_update
+    message_id: false
+  - code: 170
+    default: FASHION/1.2.5/on_update/on_update_interim_reverse_qc/default.yaml
+    action_id: on_update_interim_reverse_qc
+    action: on_update
+    message_id: false
+  - code: 171
+    default: FASHION/1.2.5/on_update/on_update_approval/default.yaml
+    action_id: on_update_approval
+    action: on_update
+    message_id: false
+  - code: 172
+    default: FASHION/1.2.5/on_update/on_update_picked_172/default.yaml
+    action_id: on_update_picked_172
+    action: on_update
+    message_id: false
+  - code: 173
+    default: FASHION/1.2.5/on_update/on_update_return_delivered_173/default.yaml
+    action_id: on_update_return_delivered_173
+    action: on_update
+    message_id: false
+  - code: 174
+    default: FASHION/1.2.5/on_update/on_update_interim_liquidated_174/default.yaml
+    action_id: on_update_interim_liquidated_174
+    action: on_update
+    message_id: false
+  - code: 175
+    default: FASHION/1.2.5/on_update/on_update_liquidated_175/default.yaml
+    action_id: on_update_liquidated_175
+    action: on_update
+    message_id: false
+  - code: 176
+    default: FASHION/1.2.5/cancel/cancel_return_request/default.yaml
+    action_id: cancel_return_request
+    action: cancel
+    message_id: true
+  - code: 177
+    default: FASHION/1.2.5/on_cancel/on_cancel_return_request/default.yaml
+    action_id: on_cancel_return_request
+    action: on_cancel
+    message_id: false
