@@ -64,7 +64,7 @@ export interface SessionData {
   igm_action : string;
   latest_issue_payload?: any;
   latest_on_issue_payload?: any;
-
+  on_search_batch_fulfillment?: any;
 
 };
 
@@ -105,4 +105,5 @@ export interface Input {
   retailCategory?: string;
   returnToOrigin?: string;
   default_feature?: string[];
+  fulfillReqCount?: string;
 }

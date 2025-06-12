@@ -15,6 +15,9 @@ import { statusGenerator } from "./status/generator";
 import { onUpdate1Generator } from "./on_update/on_update_1/generator";
 import { issueStatusGenerator } from "./issue/generator";
 import { onIssueStatusGenerator } from "./on_issue/generator";
+import { searchQCGenerator } from "./search/search_qc/generator";
+import { onSearchQCGenerator } from "./on_search/on_search_qc/generator";
+import { initQCGenerator } from "./init/init_qc/generator";
 
 export async function Generator(
   action_id: string,
@@ -27,6 +30,8 @@ export async function Generator(
   switch (action_id) {
     case "search_LOGISTICS":
       return await searchGenerator(existingPayload, sessionData, inputs);
+    case "search_qc":
+      return await searchQCGenerator(existingPayload, sessionData, inputs);
     case "search_1_LOGISITCS":
       return await searchGenerator(existingPayload, sessionData, inputs);
     case "search_2_LOGISTICS":
@@ -35,6 +40,8 @@ export async function Generator(
       return await searchGenerator(existingPayload, sessionData, inputs);
     case "init_LOGISTICS":
       return await initGenerator(existingPayload, sessionData);
+    case "init_qc":
+      return await initQCGenerator(existingPayload, sessionData);
     case "confirm_LOGISTICS":
       return await confirmGenerator(existingPayload, sessionData, inputs);
     case "update_LOGISTICS":
@@ -43,6 +50,8 @@ export async function Generator(
       return await trackGenerator(existingPayload, sessionData);
     case "cancel_LOGISTICS":
       return await cancelGenerator(existingPayload, sessionData);
+    case "on_search_qc":
+      return await onSearchQCGenerator(existingPayload, sessionData, inputs);
     case "on_search_LOGISTICS":
       return await onSearch1Generator(existingPayload, sessionData, inputs);
     case "on_init_LOGISTICS":
@@ -127,58 +136,56 @@ export async function Generator(
     case "on_update_1_LOGISTICS":
       return await onUpdate1Generator(existingPayload, sessionData);
     case "issue_processing":
-      return await issueStatusGenerator(existingPayload,{
+      return await issueStatusGenerator(existingPayload, {
         ...sessionData,
-        igm_action: "issue_processing"
-      }); 
+        igm_action: "issue_processing",
+      });
     case "issue_open":
-      return await issueStatusGenerator(existingPayload,{
+      return await issueStatusGenerator(existingPayload, {
         ...sessionData,
-        igm_action: "issue_open"
+        igm_action: "issue_open",
       });
     case "issue_close":
-      return await issueStatusGenerator(existingPayload,{
+      return await issueStatusGenerator(existingPayload, {
         ...sessionData,
-        igm_action: "issue_close"
+        igm_action: "issue_close",
       });
     case "on_issue_processing":
-      return await onIssueStatusGenerator(existingPayload,{
+      return await onIssueStatusGenerator(existingPayload, {
         ...sessionData,
-        igm_action: "on_issue_processing"
+        igm_action: "on_issue_processing",
       });
     case "issue_resolution_accept":
-      return await issueStatusGenerator(existingPayload,{
+      return await issueStatusGenerator(existingPayload, {
         ...sessionData,
-        igm_action: "issue_resolution_accept"
+        igm_action: "issue_resolution_accept",
       });
 
     case "on_issue_need_more_info":
-      return await onIssueStatusGenerator(existingPayload,{
+      return await onIssueStatusGenerator(existingPayload, {
         ...sessionData,
-        igm_action: "on_issue_need_more_info"
+        igm_action: "on_issue_need_more_info",
       });
     case "issue_info_provided":
-      return await issueStatusGenerator(existingPayload,{
+      return await issueStatusGenerator(existingPayload, {
         ...sessionData,
-        igm_action: "issue_info_provided"
-      });  
-    case  "on_issue_provided":
-      return await onIssueStatusGenerator(existingPayload,{
-        ...sessionData,
-        igm_action: "on_issue_provided"
-      });  
-    case "on_issue_resolution":
-      return await onIssueStatusGenerator(existingPayload,{
-        ...sessionData,
-        igm_action: "on_issue_resolution"
-      });  
-    case "on_issue_resolved":
-      return await onIssueStatusGenerator(existingPayload,{
-        ...sessionData,
-        igm_action: "on_issue_resolved"
+        igm_action: "issue_info_provided",
       });
-      
-    
+    case "on_issue_provided":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_provided",
+      });
+    case "on_issue_resolution":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_resolution",
+      });
+    case "on_issue_resolved":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_resolved",
+      });
 
     default:
       throw new Error(`Invalid request type ${action_id}`);
