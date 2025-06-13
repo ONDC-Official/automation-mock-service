@@ -92,6 +92,9 @@ export async function onUpdateVehConGenerator(existingPayload: any,sessionData: 
     if (sessionData.order_id) {
     existingPayload.message.order.id = sessionData.order_id;
     }
+    if (sessionData.quote != null) {
+      existingPayload.message.order.quote = sessionData.quote
+    }
     const now = new Date().toISOString();
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now

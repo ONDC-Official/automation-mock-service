@@ -18,7 +18,6 @@ function enhancePayments(payments:any) {
   const additionalParams = {
     bank_code: "XXXXXXXX",
     bank_account_number: "xxxxxxxxxxxxxx",
-    virtual_payment_address: "9988199772@okicic"
   };
   
   return payments.map((payment:any) => ({
@@ -123,8 +122,6 @@ export async function onConfirmDelayedGenerator(
   const delay_duration = isoDurationToSeconds(sessionData.ttl) + 2
   console.log("the delay duration is", delay_duration)
   const now = new Date().toISOString();
-  existingPayload.message.order.created_at = now
-  existingPayload.message.order.updated_at = now 
   await delay(delay_duration*1000);
   existingPayload = updateOrderTimestamps(existingPayload)
   return existingPayload;

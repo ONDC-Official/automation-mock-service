@@ -7,7 +7,6 @@ import { SessionData as MockSessionData } from "./TRV11/session-types";
 import { createMockResponse } from "./TRV11/version-factory";
 
 export { MockSessionData };
-
 const actionConfig = yaml.load(
   readFileSync(path.join(__dirname, "./TRV11/factory.yaml"), "utf8")
 ) as any;
@@ -22,7 +21,9 @@ export async function generateMockResponse(
   action_id: string
 ) {
   try {
-    return await createMockResponse(session_id, sessionData, action_id);
+    let payload = await createMockResponse(session_id, sessionData, action_id);
+    payload.context.timestamp = new Date().toISOString();
+    return payload
   } catch (e) {
     logger.error("Error in generating mock response", e);
     throw e;

@@ -2,9 +2,7 @@ import axios from "axios";
 import logger from "./logger";
 import { saveData } from "../services/data-services";
 import { error } from "console";
-function delay(ms: number): Promise<void> {
-	return new Promise((resolve) => setTimeout(resolve, ms));
-}
+ 
 export async function sendToApiService(
 	action: string,
 	body: any,

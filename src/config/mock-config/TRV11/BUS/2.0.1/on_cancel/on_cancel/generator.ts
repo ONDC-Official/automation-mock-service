@@ -114,7 +114,7 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
     if (sessionData.order_id) {
     existingPayload.message.order.id = sessionData.order_id;
     }
-    existingPayload.message.order.status = "CANCEL"
+    existingPayload.message.order.status = "CANCELLED"
     if(sessionData.quote != null){
     existingPayload.message.order.quote = applyCancellation(sessionData.quote,15)
     }

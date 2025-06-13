@@ -180,7 +180,6 @@ message:
           amount: '70'
           bank_code: XXXXXXXX
           bank_account_number: xxxxxxxxxxxxxx
-          virtual_payment_address: 9988199772@okicic
         tags:
           - descriptor:
               code: BUYER_FINDER_FEES
@@ -201,7 +200,7 @@ message:
                 value: Delivery
               - descriptor:
                   code: SETTLEMENT_TYPE
-                value: upi
+                value: neft
               - descriptor:
                   code: MANDATORY_ARBITRATION
                 value: 'true'

@@ -15,7 +15,6 @@ export async function onInitGenerator(
       params: {
         bank_code: "XXXXXXXX",
         bank_account_number: "xxxxxxxxxxxxxx",
-        virtual_payment_address: "9988199772@okicic"
       },
       tags: [
         {
@@ -60,7 +59,7 @@ export async function onInitGenerator(
               descriptor: {
                 code: "SETTLEMENT_TYPE",
               },
-              value: "upi",
+              value: "neft",
             },
             {
               descriptor: {

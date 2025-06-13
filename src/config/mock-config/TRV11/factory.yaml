@@ -450,7 +450,7 @@ codes:
     action_id: on_status_cancellation_BUS_201
     action: on_status
     default: BUS/2.0.1/on_status/on_status_cancellation/default.yaml
-    message_id: false
+    message_id: true
   - code: 188
     action_id: search0_BUS_201
     action: search

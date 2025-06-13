@@ -101,7 +101,7 @@ message:
                     https://dtc.delhi.gov.in/sites/default/files/DTC/logo/dtc_logo_2.png
                   size_type: xs
             fulfillment_ids:
-              - F3
+              - F1
             price:
               currency: INR
               value: '30'
@@ -119,7 +119,7 @@ message:
                     https://dtc.delhi.gov.in/sites/default/files/DTC/logo/dtc_logo_2.png
                   size_type: xs
             fulfillment_ids:
-              - F3
+              - F1
             price:
               currency: INR
               value: '20'
@@ -147,7 +147,7 @@ message:
                     https://dtc.delhi.gov.in/sites/default/files/DTC/logo/dtc_logo_2.png
                   size_type: xs
             fulfillment_ids:
-              - F3
+              - F1
             price:
               currency: INR
               value: '15'
@@ -243,52 +243,6 @@ message:
                   - descriptor:
                       code: OPERATIONAL_END_TIME
                     value: '2023-09-14T20:30:00.000Z'
-          - id: F3
-            type: TRIP
-            stops:
-              - type: START
-                location:
-                  descriptor:
-                    name: kashmere gate
-                    code: KASHMERE_GATE
-                  gps: '28.666576, 77.233332'
-                id: '1'
-              - type: INTERMEDIATE_STOP
-                instructions:
-                  name: Stop 1
-                location:
-                  descriptor:
-                    name: Indira Gandhi Technical Unviversity
-                    code: INDIRA_GANDHI_TECHNICAL_UNIV
-                  gps: '28.624097, 77.204991'
-                id: '2'
-                parent_stop_id: '1'
-              - type: END
-                location:
-                  descriptor:
-                    name: Greater Kailash
-                    code: GREATER_KAILASH
-                  gps: '28.548230, 77.238039'
-                id: '3'
-                parent_stop_id: '2'
-            vehicle:
-              category: BUS
-            tags:
-              - descriptor:
-                  code: ROUTE_INFO
-                list:
-                  - descriptor:
-                      code: ROUTE_ID
-                    value: '241'
-                  - descriptor:
-                      code: ROUTE_DIRECTION
-                    value: UP
-                  - descriptor:
-                      code: OPERATION_START_TIME
-                    value: '2023-09-14T05:30:00.000Z'
-                  - descriptor:
-                      code: OPERATION_END_TIME
-                    value: '2023-09-14T20:30:00.000Z'
         payments:
           - collected_by: BAP
             tags:
@@ -305,7 +259,7 @@ message:
                 list:
                   - descriptor:
                       code: SETTLEMENT_WINDOW
-                    value: PT30D
+                    value: P30D
                   - descriptor:
                       code: SETTLEMENT_BASIS
                     value: INVOICE_RECEIPT
