@@ -212,11 +212,26 @@ codes:
     action: on_issue
     default: on_issue/on_issue_resolved/default.yaml  
     message_id: true 
-  - code: 138
+  - code: 139
     action_id: on_update_IGM
     action: on_update 
     default: on_update/on_update_IGM/default.yaml
     message_id: true
+  - code: 138
+    action_id: search_qc
+    action: search
+    default: search/search_qc/default.yaml
+    message_id: true  
+  - code: 139
+    action_id: on_search_qc
+    action: on_search
+    default: on_search/on_search_qc/default.yaml
+    message_id: false
+  - code: 101
+    action_id: init_qc
+    action: init
+    default: init/init_qc/default.yaml
+    message_id: true
 
-         
+
 

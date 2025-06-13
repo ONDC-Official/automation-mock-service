@@ -1,5 +1,5 @@
-import { removeTagsByCodes } from "../../../../../../utils/generic-utils";
-import { SessionData, Input } from "../../../session-types";
+import { removeTagsByCodes } from "../../../../../../../utils/generic-utils";
+import { SessionData, Input } from "../../../../session-types";
 
 const TatMapping: any = {
   "Immediate Delivery": { code: "PT60M", day: 0, pickupTime: "PT15M" },
@@ -16,7 +16,7 @@ function getDateFromToday(days: number) {
   return today.toISOString().split("T")[0];
 }
 
-export async function onSearch1Generator(
+export async function onSearchQCGenerator(
   existingPayload: any,
   sessionData: SessionData,
   inputs?: Input
@@ -56,47 +56,86 @@ export async function onSearch1Generator(
     }
   });
 
-  if (isFulfillRequest) {
-    existingPayload.message.catalog["bpp/providers"][0].items.push({
-      id: "I3",
-      parent_item_id: "",
-      category_id: "Instant Delivery",
-      fulfillment_id: "1",
-      descriptor: {
-        name: "Fast delivery",
-        short_desc: "Fast delivery services",
-        long_desc: "Fast delivery services",
+  existingPayload.message.catalog["bpp/providers"][0].items.push({
+    id: "I2",
+    parent_item_id: "",
+    category_id: "Instant Delivery",
+    fulfillment_id: "2",
+    descriptor: {
+      name: "RTO - Fast delivery",
+      short_desc: "RTO - Fast delivery services",
+      long_desc: "RTO - Fast delivery services",
+    },
+    price: {
+      currency: "INR",
+      value: "35.50",
+    },
+    time: {
+      label: "TAT",
+      duration: "PT10M",
+      timestamp: "2024-11-20",
+    },
+    tags: [
+      {
+        code: "type",
+        list: [
+          {
+            code: "type",
+            value: sessionData?.rate_basis,
+          },
+          ...(sessionData?.rate_basis === "rider"
+            ? [
+                {
+                  code: "unit",
+                  value: "hour",
+                },
+              ]
+            : []),
+        ],
       },
-      price: {
-        currency: "INR",
-        value: "88.50",
+    ],
+  });
+
+
+  existingPayload.message.catalog["bpp/providers"][0].items.push({
+    id: "I3",
+    parent_item_id: "",
+    category_id: "Instant Delivery",
+    fulfillment_id: "1",
+    descriptor: {
+      name: "Fast delivery",
+      short_desc: "Fast delivery services",
+      long_desc: "Fast delivery services",
+    },
+    price: {
+      currency: "INR",
+      value: "35.50",
+    },
+    time: {
+      label: "TAT",
+      duration: "PT10M",
+      timestamp: "2024-11-20",
+    },
+    tags: [
+      {
+        code: "type",
+        list: [
+          {
+            code: "type",
+            value: sessionData?.rate_basis,
+          },
+          ...(sessionData?.rate_basis === "rider"
+            ? [
+                {
+                  code: "unit",
+                  value: "hour",
+                },
+              ]
+            : []),
+        ],
       },
-      time: {
-        label: "TAT",
-        duration: "PT10M",
-        timestamp: "2024-11-20",
-      },
-      tags: [
-        {
-          code: "type",
-          list: [
-            {
-              code: "type",
-              value: sessionData?.rate_basis,
-            },
-            ...(sessionData?.rate_basis === "rider"
-              ? [
-                  {
-                    code: "unit",
-                    value: "hour",
-                  },
-                ]
-              : []),
-          ],
-        },
-      ],
-    });
-  }
+    ],
+  });
 
   existingPayload.message.catalog["bpp/providers"][0].items =
     existingPayload.message.catalog["bpp/providers"][0].items.map(
@@ -139,14 +178,18 @@ export async function onSearch1Generator(
   existingPayload.message.catalog["bpp/providers"][0].fulfillments =
     existingPayload.message.catalog["bpp/providers"][0].fulfillments.map(
       (fulfillment: any) => {
-        if (fulfillment.type === "Delivery") {
-          if (sessionData?.domain === "ONDC:LOG11") {
-            removeTagsByCodes(fulfillment.tags, ["distance"]);
-            if (fulfillment.tags.length < 1) delete fulfillment.tags;
-          }
+        if (fulfillment.type === "Batch") {
           if (isFulfillRequest) {
+            const tag = sessionData.fulfillment.tags.find(
+              (tag: any) => tag.code === "fulfill_request"
+            );
+
+            const count =
+              tag.list.find((item: any) => item.code === "rider_count")
+                ?.value ??
+              tag.list.find((item: any) => item.code === "order_count")?.value;
+
             fulfillment.tags = [
-              ...fulfillment.tags,
               {
                 code: "fulfill_response",
                 list: [
@@ -154,7 +197,7 @@ export async function onSearch1Generator(
                     ? [
                         {
                           code: "rider_count",
-                          value: "2",
+                          value: count,
                         },
                         {
                           code: "rate_basis",
@@ -164,7 +207,7 @@ export async function onSearch1Generator(
                     : [
                         {
                           code: "order_count",
-                          value: "10",
+                          value: count,
                         },
                         {
                           code: "rate_basis",
