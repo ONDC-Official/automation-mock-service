@@ -57,7 +57,16 @@ export interface SessionData {
   cancellation_terms?: any;
   rto_action: string;
   rto_verification_code: string;
-}
+  issue_id: string;
+  timestamp: string;
+  last_action_id: string;
+  status: string;
+  igm_action : string;
+  latest_issue_payload?: any;
+  latest_on_issue_payload?: any;
+  on_search_batch_fulfillment?: any;
+
+};
 
 export type BecknContext = {
   action: string;
@@ -96,4 +105,5 @@ export interface Input {
   retailCategory?: string;
   returnToOrigin?: string;
   default_feature?: string[];
+  fulfillReqCount?: string;
 }

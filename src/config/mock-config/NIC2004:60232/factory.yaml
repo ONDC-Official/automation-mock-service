@@ -159,3 +159,79 @@ codes:
     action: search
     default: search/search_3/default.yaml
     message_id: true
+
+
+  - code: 129
+    action_id: issue_close
+    action: issue
+    default: issue/issue_close/default.yaml
+    message_id: true
+  - code: 130
+    action_id: issue_open
+    action: issue
+    default: issue/issue_open/default.yaml
+    message_id: true 
+  - code: 131
+    action_id: issue_info_provided
+    action: issue
+    default: issue/issue_info_provided/default.yaml
+    message_id: true 
+  - code: 132
+    action_id: issue_resolution_accept
+    action: issue
+    default: issue/issue_resolution_accept/default.yaml
+    message_id: true  
+  - code: 133
+    action_id: issue_resolution
+    action: issue
+    default: issue/issue_resolution/default.yaml
+    message_id: true   
+
+  - code: 133
+    action_id: on_issue_processing
+    action: on_issue
+    default: on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 134
+    action_id: on_issue_need_more_info
+    action: on_issue
+    default: on_issue/on_issue_need_more_info/default.yaml  
+    message_id: true
+  - code: 135
+    action_id: on_issue_provided
+    action: on_issue
+    default: on_issue/on_issue_provided/default.yaml  
+    message_id: false  
+  - code: 136
+    action_id: on_issue_resolution
+    action: on_issue
+    default: on_issue/on_issue_resolution/default.yaml  
+    message_id: true
+  - code: 137
+    action_id: on_issue_resolved
+    action: on_issue
+    default: on_issue/on_issue_resolved/default.yaml  
+    message_id: true 
+  - code: 139
+    action_id: on_update_IGM
+    action: on_update 
+    default: on_update/on_update_IGM/default.yaml
+    message_id: true
+  - code: 138
+    action_id: search_qc
+    action: search
+    default: search/search_qc/default.yaml
+    message_id: true  
+  - code: 139
+    action_id: on_search_qc
+    action: on_search
+    default: on_search/on_search_qc/default.yaml
+    message_id: false
+  - code: 101
+    action_id: init_qc
+    action: init
+    default: init/init_qc/default.yaml
+    message_id: true
+
+
+

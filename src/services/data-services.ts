@@ -38,6 +38,7 @@ export function updateSessionData(
 			}
 		}
 		if (errorData) {
+			console.log("errorData", errorData);
 			sessionData.error_code = errorData.code.toString();
 			sessionData.error_message = errorData.message;
 		} else {
