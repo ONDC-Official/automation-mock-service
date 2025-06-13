@@ -12,7 +12,48 @@ export const issueStatusGenerator = async (
   sessionData.latest_issue_payload?.expected_response_time || { duration: "PT2H" };
   existingPayload.message.issue.expected_resolution_time =
   sessionData.latest_issue_payload?.expected_resolution_time || { duration: "P1D" };
-  existingPayload.message.issue.refs = sessionData.latest_issue_payload?.refs || existingPayload.message.issue.refs;
+
+  const provider = sessionData.provider_id;
+  let fulfillment = "F1";
+  if(sessionData.fulfillments){
+    fulfillment = sessionData.fulfillments[0].id;
+  }
+  const item = sessionData.items[0].id;
+  const order = sessionData.order_id;
+  const refs = [
+    {
+      "ref_id": order,
+      "ref_type": "ORDER"
+    },
+    {
+      "ref_id": provider,
+      "ref_type": "PROVIDER"
+    },
+    {
+      "ref_id": fulfillment,
+      "ref_type": "FULFILLMENT"
+    },
+    {
+      "ref_id": item,
+      "ref_type": "ITEM",
+      "tags": [
+        {
+          "descriptor": {
+            "code": "message.order.items"
+          },
+          "list": [
+            {
+              "descriptor": {
+                "code": "quantity.selected.count"
+              },
+              "value": "1"
+            }
+          ]
+        }
+      ]
+    }
+  ];
+  existingPayload.message.issue.refs = sessionData.latest_issue_payload?.refs || refs;
   existingPayload.message.issue.actors = sessionData.latest_issue_payload?.actors || existingPayload.message.issue.actors;
   existingPayload.message.issue.source_id = sessionData.latest_issue_payload?.source_id || existingPayload.message.issue.source_id;
   existingPayload.message.issue.complainant_id = sessionData.latest_issue_payload?.complainant_id || "NP1";

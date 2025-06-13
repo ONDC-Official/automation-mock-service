@@ -180,6 +180,11 @@ codes:
     action_id: issue_resolution_accept
     action: issue
     default: issue/issue_resolution_accept/default.yaml
+    message_id: true  
+  - code: 133
+    action_id: issue_resolution
+    action: issue
+    default: issue/issue_resolution/default.yaml
     message_id: true   
 
   - code: 133
@@ -207,6 +212,11 @@ codes:
     action: on_issue
     default: on_issue/on_issue_resolved/default.yaml  
     message_id: true 
-  -     
+  - code: 138
+    action_id: on_update_IGM
+    action: on_update 
+    default: on_update/on_update_IGM/default.yaml
+    message_id: true
+
          
 

@@ -11,11 +11,6 @@ export async function sendToApiService(
 	queryData: any
 ) {
 
-	logInfo({
-		message: "Entering sendToApiService",
-		meta: { action, body, queryData },
-		transaction_id: body.context.transaction_id,
-	});
 	try {
 		console.log("The domain is",JSON.stringify(body));
 		// const domain = process.env.DOMAIN;
@@ -50,12 +45,12 @@ export async function sendToApiService(
 			transaction_id: body.context.transaction_id,
 			});
 	} catch (err) {
-		// logger.error("Error in sending response to api service", err);
-		logInfo({
-			message: "Error in sending response to api service",
-			meta: { action, body, queryData },
-			transaction_id: body.context.transaction_id,
-		});
+		logger.error("Error in sending response to api service", err);
+		// logInfo({
+		// 	message: "Error in sending response to api service",
+		// 	meta: { action, body, queryData },
+		// 	transaction_id: body.context.transaction_id,
+		// });
 	}
 }
 

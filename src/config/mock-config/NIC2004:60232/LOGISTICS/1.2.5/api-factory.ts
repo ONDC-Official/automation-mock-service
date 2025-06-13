@@ -16,6 +16,7 @@ import { onUpdate1Generator } from "./on_update/on_update_1/generator";
 import { issueStatusGenerator } from "./issue/generator";
 import { onIssueStatusGenerator } from "./on_issue/generator";
 
+
 export async function Generator(
   action_id: string,
   existingPayload: any,
@@ -147,9 +148,15 @@ export async function Generator(
         igm_action: "on_issue_processing"
       });
     case "issue_resolution_accept":
+      console.log("------- LLALALALALLAALALALLALA AXasljfasldfjslkdfjasldkfjsldfjsaldf RUPAL --------- ");
       return await issueStatusGenerator(existingPayload,{
         ...sessionData,
         igm_action: "issue_resolution_accept"
+      });
+    case "issue_resolution":  
+      return await issueStatusGenerator(existingPayload,{
+        ...sessionData,
+        igm_action: "issue_resolution"
       });
 
     case "on_issue_need_more_info":
@@ -177,6 +184,9 @@ export async function Generator(
         ...sessionData,
         igm_action: "on_issue_resolved"
       });
+      case "on_update_IGM":
+        return await onUpdate1Generator(existingPayload, sessionData);
+
       
     
 
