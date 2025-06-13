@@ -56,7 +56,7 @@ jobs:
           echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> \$REPO_DIR/.env
           echo "REDIS_PORT=${{ vars.REDIS_PORT_STAGING }}" >> \$REPO_DIR/.env
           echo "PORT=${{ vars.PORT }}" >> \$REPO_DIR/.env
-          echo "API_SERVICE_LAYER=${{ vars.API_SERVICE_LAYER_STAGING }}" >> \$REPO_DIR/.env
+          echo "API_SERVICE_URL=${{ vars.API_SERVICE_URL_STAGING }}" >> \$REPO_DIR/.env
           echo "CONTAINER_NAME=${{ vars.CONTAINER_NAME }}" >> \$REPO_DIR/.env
           echo "DOMAIN=${{ vars.DOMAIN }}" >> \$REPO_DIR/.env
           echo "CONFIG_SERVICE=${{ vars.CONFIG_SERVICE_STAGING }}" >> \$REPO_DIR/.env
