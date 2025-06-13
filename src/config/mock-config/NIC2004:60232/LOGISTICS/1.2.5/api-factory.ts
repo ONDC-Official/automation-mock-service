@@ -19,6 +19,7 @@ import { searchQCGenerator } from "./search/search_qc/generator";
 import { onSearchQCGenerator } from "./on_search/on_search_qc/generator";
 import { initQCGenerator } from "./init/init_qc/generator";
 
+
 export async function Generator(
   action_id: string,
   existingPayload: any,
@@ -156,9 +157,15 @@ export async function Generator(
         igm_action: "on_issue_processing",
       });
     case "issue_resolution_accept":
-      return await issueStatusGenerator(existingPayload, {
+      console.log("------- LLALALALALLAALALALLALA AXasljfasldfjslkdfjasldkfjsldfjsaldf RUPAL --------- ");
+      return await issueStatusGenerator(existingPayload,{
         ...sessionData,
-        igm_action: "issue_resolution_accept",
+        igm_action: "issue_resolution_accept"
+      });
+    case "issue_resolution":  
+      return await issueStatusGenerator(existingPayload,{
+        ...sessionData,
+        igm_action: "issue_resolution"
       });
 
     case "on_issue_need_more_info":
@@ -186,6 +193,11 @@ export async function Generator(
         ...sessionData,
         igm_action: "on_issue_resolved",
       });
+      case "on_update_IGM":
+        return await onUpdate1Generator(existingPayload, sessionData);
+
+      
+    
 
     default:
       throw new Error(`Invalid request type ${action_id}`);
