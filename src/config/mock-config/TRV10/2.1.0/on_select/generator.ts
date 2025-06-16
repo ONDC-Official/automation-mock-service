@@ -88,6 +88,5 @@ export async function onSelectGenerator(
     existingPayload.message.order.items = items;
     existingPayload.message.order.fulfillments = fulfillments;
     existingPayload.message.order.quote = quote;
-
     return existingPayload;
 }

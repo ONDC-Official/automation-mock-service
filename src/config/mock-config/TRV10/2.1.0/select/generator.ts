@@ -10,6 +10,9 @@ export async function selectMultipleStopsGenerator(existingPayload: any, session
     if (sessionData.item_ids){
       const item_ids = sessionData.item_ids
     const item_id = getRandomId(item_ids)
+    const item = sessionData.items.find(i => i.id === item_id);
+    const fulfillmentId = item?.fulfillment_ids?.[0];
+    existingPayload.message.order.fulfillments[0].id = fulfillmentId
     existingPayload.message.order.items[0].id = item_id
     existingPayload.message.order.provider.id = sessionData.provider_id
     }

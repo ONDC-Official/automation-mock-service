@@ -28,7 +28,7 @@ export async function onCancelSoftGenerator(
         ...stop,
         authorization: {
           type: "OTP",
-          token: generateOTP(),
+          token: "234234",
         },
       }));
     }

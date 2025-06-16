@@ -1,6 +1,8 @@
 message:
   order:
     items:
-      - id: I1 # Reference to the selected item from search results
+      - id: I1
+    fulfillments:
+      - id: F1
     provider:
-      id: P1 # Mobility service provider ID
+      id: P1

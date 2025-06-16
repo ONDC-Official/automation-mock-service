@@ -78,7 +78,7 @@ message:
                 display: true
                 list:
                   - descriptor:
-                      code: "TOTAL_HOUR"
+                      code: "TOTAL_HOURS"
                     value: "1"
                   - descriptor:
                       code: "TOTAL_DISTANCE"
@@ -125,11 +125,40 @@ message:
                 display: true
                 list:
                   - descriptor:
-                      code: "TOTAL_HOUR"
+                      code: "TOTAL_HOURS"
                     value: "1"
                   - descriptor:
                       code: "TOTAL_DISTANCE"
                     value: "10"
+        # cancellation_terms:
+        #   - cancellation_fee:
+        #       percentage: '0'
+        #     fulfillment_state:
+        #       descriptor:
+        #         code: RIDE_ASSIGNED
+        #     reason_required: true
+        #   - cancellation_fee:
+        #       amount:
+        #         currency: INR
+        #         value: '30'
+        #     fulfillment_state:
+        #       descriptor:
+        #         code: RIDE_ENROUTE_PICKUP
+        #     reason_required: true
+        #   - cancellation_fee:
+        #       amount:
+        #         currency: INR
+        #         value: '50'
+        #     fulfillment_state:
+        #       descriptor:
+        #         code: RIDE_ARRIVED_PICKUP
+        #     reason_required: true
+        #   - cancellation_fee:
+        #       percentage: '100'
+        #     fulfillment_state:
+        #       descriptor:
+        #         code: RIDE_STARTED
+        #     reason_required: true
         locations:
           - id: "L1"
             gps: "12.916468,77.608998"

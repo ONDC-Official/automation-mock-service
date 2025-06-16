@@ -173,7 +173,13 @@ function filterItemsById(sessionData: any, selected_item_id: string) {
                                 selected: {
                                     count: quantity
                                 }
-                            }
+                            },
+                            unitized: {
+                                    measure: {
+                                        value: "10",
+                                        unit: "KILOMETERS"
+                                    }
+                                }
                         }
                     ]
                 },
