@@ -18,6 +18,8 @@
     "@types/js-yaml": "^4.0.9",
     "@types/jsonpath": "^0.2.4",
     "@types/node": "^22.10.0",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
@@ -37,6 +39,8 @@
     "jsonpath-plus": "^10.2.0",
     "ondc-automation-cache-lib": "^2.1.0",
     "require": "^2.4.20",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^11.0.3",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"

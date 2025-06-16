@@ -1,17 +1,20 @@
-import path from "path";
 import fs from "fs";
 import yaml from "js-yaml";
 import { RedisService } from "ondc-automation-cache-lib";
 import jsonpath from "jsonpath";
 
-import { SessionData } from "../config/TRV10/session-types";
 import logger from "../utils/logger";
 import { isArrayKey } from "../types/type-utils";
+import {
+	defaultSessionData,
+	getSaveDataContent,
+	MockSessionData,
+} from "../config/mock-config";
 
 export function updateSessionData(
 	saveData: Record<string, string>,
 	payload: any,
-	sessionData: SessionData,
+	sessionData: MockSessionData,
 	errorData?: {
 		code: number;
 		message: string;
@@ -24,7 +27,10 @@ export function updateSessionData(
 			const result = jsonpath.query(payload, jsonPath);
 			logger.debug(`updating ${key} for path $${jsonPath}`);
 			if (
-				isArrayKey<SessionData>(key as keyof typeof sessionData, sessionData)
+				isArrayKey<MockSessionData>(
+					key as keyof typeof sessionData,
+					sessionData
+				)
 			) {
 				sessionData[key as keyof typeof sessionData] = result;
 			} else {
@@ -61,17 +67,10 @@ export async function saveData(
 	}
 ) {
 	try {
-		const sessionData = await loadSessionData(payload?.context.transaction_id);
-		let actionFolderPath = path.resolve(
-			__dirname,
-			`../config/TRV10/${payload.context.version}/${action}`
+		const sessionData = await loadMockSessionData(
+			payload?.context.transaction_id
 		);
-		if (/\/update$/.test(actionFolderPath)) {
-			actionFolderPath += "_";
-		  }
-		const saveDataFilePath = path.join(actionFolderPath, "save-data.yaml");
-		const fileContent = fs.readFileSync(saveDataFilePath, "utf8");
-		const saveData = yaml.load(fileContent) as any;
+		const saveData = getSaveDataContent(payload.context.version, action);
 		updateSessionData(saveData["save-data"], payload, sessionData, errorData);
 		await RedisService.setKey(
 			payload?.context.transaction_id,
@@ -83,16 +82,14 @@ export async function saveData(
 	}
 }
 
-export async function loadSessionData(
+export async function loadMockSessionData(
 	transactionID: string,
 	subscriber_url?: string
 ) {
 	const keyExists = await RedisService.keyExists(transactionID);
-	let sessionData: SessionData = {} as SessionData;
+	let sessionData: MockSessionData = {} as MockSessionData;
 	if (!keyExists) {
-		const raw = yamlToJson(
-			path.resolve(__dirname, "../config/TRV10/session-data.yaml")
-		) as any;
+		const raw = defaultSessionData;
 		sessionData = raw.session_data;
 		sessionData.transaction_id = transactionID;
 		sessionData.bpp_id = sessionData.bap_id = "dev-automation.ondc.org";
@@ -104,7 +101,7 @@ export async function loadSessionData(
 	} else {
 		const rawData = await RedisService.getKey(transactionID);
 		logger.info(`loading session data for ${transactionID}`);
-		const sessionData = JSON.parse(rawData ?? "{}") as SessionData;
+		const sessionData = JSON.parse(rawData ?? "{}") as MockSessionData;
 		return sessionData;
 	}
 }

@@ -1,8 +1,8 @@
-import { getActionData } from "../config/TRV10/getActionConfig";
-import { actionSelectionCodeTests } from "../generated/action-selector";
-import { defaultSelectionCodeTests } from "../generated/default-selector";
+import { getActionData } from "../config/mock-config";
+import { actionSelectionCodeTests } from "../config/mock-config/generated/action-selector";
+import { defaultSelectionCodeTests } from "../config/mock-config/generated/default-selector";
 import logger from "../utils/logger";
-import { loadSessionData } from "./data-services";
+import { loadMockSessionData } from "./data-services";
 
 export async function getMockResponseMetaData(action: string, body: any) {
 	logger.info("getting meta data for action " + action);
@@ -27,14 +27,14 @@ export async function getSessionData(
 	transactionID: string,
 	subscriber_url?: string
 ) {
-	return await loadSessionData(transactionID, subscriber_url);
+	return await loadMockSessionData(transactionID, subscriber_url);
 }
 
 export async function getSafeActions(
 	transaction_id: string,
 	subscriber_url?: string,
 	mock_type?: string,
-	usecaseId?: string,
+	usecaseId?: string
 ) {
 	const sessionData = await getSessionData(transaction_id, subscriber_url);
 	sessionData.mock_type = mock_type;

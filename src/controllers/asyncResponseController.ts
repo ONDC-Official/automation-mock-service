@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import logger from "../utils/logger";
 import { getMockResponseMetaData } from "../services/mock-services";
-import { createMockResponse } from "../config/TRV10/version-factory";
 import { sendToApiService } from "../utils/request-utils";
 import { ApiRequest } from "../routes/manual";
+import { generateMockResponse } from "../config/mock-config";
 
 export async function initAsyncMiddleware(
 	req: ApiRequest,
@@ -32,12 +32,11 @@ async function sendResponse(body: any) {
 			body.context.action,
 			body
 		);
-		console.log(mockResponseMetaData.action,mockResponseMetaData.actionID);
-		const mockReponse = await createMockResponse(
+		console.log(mockResponseMetaData.action, mockResponseMetaData.actionID);
+		const mockReponse = await generateMockResponse(
 			body.context.version,
 			mockResponseMetaData.sessionData,
-			mockResponseMetaData.actionID,
-
+			mockResponseMetaData.actionID
 		);
 		await sendToApiService(mockResponseMetaData.action, mockReponse);
 	} catch (err) {

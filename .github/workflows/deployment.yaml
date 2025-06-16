@@ -1,16 +1,17 @@
 name: ONDC Automation Mock Service Deployment
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
   push:
-    branches:
-      - "release-staging"
-      - "main"
+    branches: ["draft-trv10"]
 
 jobs:
-  deploy-main:
-    if: github.ref == 'refs/heads/main'
+  deployment-dev:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name }}
+      url: https://github.com
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -23,11 +24,11 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} -T <<EOF
-          REPO_DIR=~/ONDC-automation-framework/automation-mock-service
+          REPO_DIR=~/ONDC-automation-framework/mock/automation-mock-service-${{ github.ref_name }}
           echo "Removing existing repository directory if exists"
           rm -rf \$REPO_DIR
-          echo "Cloning repository from main branch"
-          git clone --single-branch --branch main https://github.com/ONDC-Official/automation-mock-service.git \$REPO_DIR
+          echo "Cloning repository from the relevant branch"
+          git clone --single-branch --branch ${{ github.ref_name }} https://github.com/ONDC-Official/automation-mock-service.git \$REPO_DIR
           EOF
 
       - name: Install Docker Compose (if not installed)
@@ -48,23 +49,25 @@ jobs:
         run: |
           echo "Writing secrets to .env file"
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-          REPO_DIR=~/ONDC-automation-framework/automation-mock-service
+          REPO_DIR=~/ONDC-automation-framework/mock/automation-mock-service-${{ github.ref_name }}
           echo "Writing environment variables to .env file"
           echo "REDIS_USERNAME=${{ secrets.REDIS_USERNAME }}" >> \$REPO_DIR/.env
           echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> \$REPO_DIR/.env
           echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> \$REPO_DIR/.env
           echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> \$REPO_DIR/.env
-          echo "PORT=${{ secrets.PORT }}" >> \$REPO_DIR/.env
-          echo "API_SERVICE_LAYER=${{ secrets.API_SERVICE_LAYER }}" >> \$REPO_DIR/.env
-          echo "BAP_URI=${{ secrets.BAP_URI }}" >> \$REPO_DIR/.env
-          echo "BPP_URI=${{ secrets.BPP_URI }}" >> \$REPO_DIR/.env
-          echo "CONTAINER_NAME=${{ secrets.CONTAINER_NAME }}" >> \$REPO_DIR/.env
+          echo "PORT=${{ vars.PORT }}" >> \$REPO_DIR/.env
+          echo "API_SERVICE_URL=${{ vars.API_SERVICE_URL }}" >> \$REPO_DIR/.env
+          echo "CONTAINER_NAME=${{ vars.CONTAINER_NAME }}" >> \$REPO_DIR/.env
+          echo "DOMAIN=${{ vars.DOMAIN }}" >> \$REPO_DIR/.env
+          echo "CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL_DEV }}" >> \$REPO_DIR/.env
+          echo "API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}" >> \$REPO_DIR/.env
+
           EOF
 
       - name: Verify .env and docker-compose.yml files
         run: |
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-          REPO_DIR=~/ONDC-automation-framework/automation-mock-service
+          REPO_DIR=~/ONDC-automation-framework/mock/automation-mock-service-${{ github.ref_name }}
           # Check if .env and docker-compose.yml files exist
           if [ ! -f \$REPO_DIR/.env ]; then
             echo ".env file not found in \$REPO_DIR!"
@@ -81,9 +84,9 @@ jobs:
         run: |
           echo "Deploying with Docker Compose"
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-          REPO_DIR=~/ONDC-automation-framework/automation-mock-service
+          REPO_DIR=~/ONDC-automation-framework/mock/automation-mock-service-${{ github.ref_name }}
           cd \$REPO_DIR
- 
+
           # Ensure the .env and docker-compose.yml files exist
           if [ ! -f .env ]; then
             echo ".env file not found!"
@@ -99,100 +102,3 @@ jobs:
           echo "Running docker-compose up -d --build"
           sudo docker compose up -d --build
           EOF
-
-  deploy-staging:
-      if: github.ref == 'refs/heads/release-staging'
-      runs-on: ubuntu-latest
-      environment: 
-            name: staging
-            url: https://github.com
-
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v2
-
-        - name: SSH Setup and Cloning Repository
-          run: |
-            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ./key.pem
-            chmod 600 ./key.pem
-            mkdir -p ~/.ssh
-            ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-
-            ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} -T <<EOF
-            REPO_DIR=~/ONDC-automation-framework-staging/automation-mock-service
-            echo "Removing existing repository directory if exists"
-            rm -rf \$REPO_DIR
-            echo "Cloning repository from release-staging branch"
-            git clone --single-branch --branch release-staging https://github.com/ONDC-Official/automation-mock-service.git \$REPO_DIR
-            EOF
-
-        - name: Install Docker Compose (if not installed)
-          run: |
-            ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-            # Check if Docker Compose is installed
-            if ! command -v docker-compose &> /dev/null
-            then
-              echo "Docker Compose not found. Installing..."
-              sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-              sudo chmod +x /usr/local/bin/docker-compose
-            else
-              echo "Docker Compose is already installed."
-            fi
-            EOF
-
-        - name: Write secrets to .env on EC2
-          run: |
-            echo "Writing secrets to .env file"
-            ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-            REPO_DIR=~/ONDC-automation-framework-staging/automation-mock-service
-            echo "Writing environment variables to .env file"
-            echo "REDIS_USERNAME=${{ secrets.REDIS_USERNAME }}" >> \$REPO_DIR/.env
-            echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> \$REPO_DIR/.env
-            echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> \$REPO_DIR/.env
-            echo "REDIS_PORT=${{ vars.REDIS_PORT }}" >> \$REPO_DIR/.env
-            echo "PORT=${{ vars.PORT }}" >> \$REPO_DIR/.env
-            echo "API_SERVICE_LAYER=${{ vars.API_SERVICE_LAYER }}" >> \$REPO_DIR/.env
-            echo "CONTAINER_NAME=${{ vars.CONTAINER_NAME }}" >> \$REPO_DIR/.env
-            echo "BAP_URI=${{ vars.BAP_URI }}" >> \$REPO_DIR/.env
-            echo "BPP_URI=${{ vars.BPP_URI }}" >> \$REPO_DIR/.env
-            EOF
-
-        - name: Verify .env and docker-compose.yml files
-          run: |
-            ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-            REPO_DIR=~/ONDC-automation-framework-staging/automation-mock-service
-            # Check if .env and docker-compose.yml files exist
-            if [ ! -f \$REPO_DIR/.env ]; then
-              echo ".env file not found in \$REPO_DIR!"
-              exit 1
-            fi
-            if [ ! -f \$REPO_DIR/docker-compose.yml ]; then
-              echo "docker-compose.yml file not found in \$REPO_DIR!"
-              exit 1
-            fi
-            echo ".env and docker-compose.yml files found."
-            EOF
-
-        - name: Automation Mock Server Deployment
-          run: |
-            echo "Deploying with Docker Compose"
-            ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-            REPO_DIR=~/ONDC-automation-framework-staging/automation-mock-service
-            cd \$REPO_DIR
-  
-            # Ensure the .env and docker-compose.yml files exist
-            if [ ! -f .env ]; then
-              echo ".env file not found!"
-              exit 1
-            fi
-
-            if [ ! -f docker-compose.yml ]; then
-              echo "docker-compose.yml file not found!"
-              exit 1
-            fi
-
-            # Start the containers using Docker Compose
-            echo "Running docker-compose up -d --build"
-            sudo docker compose -p automation-staging up -d --build
-            EOF
-

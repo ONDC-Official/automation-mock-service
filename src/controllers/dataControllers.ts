@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import logger from "../utils/logger";
-import { getMockResponseMetaData } from "../services/mock-services";
 import { saveData } from "../services/data-services";
 import { ApiRequest } from "../routes/manual";
 
@@ -8,7 +7,6 @@ import { ApiRequest } from "../routes/manual";
 	save data middleware:
 	update the session data against the transaction id 
 	and json paths to be saved are all present in the api config
-
 */
 export async function saveDataMiddleware(
 	req: ApiRequest,

@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { TriggerRequest } from "../routes/trigger";
-import { loadSessionData } from "../services/data-services";
+import { loadMockSessionData } from "../services/data-services";
 import logger from "../utils/logger";
 import { updateAllJsonPaths } from "../utils/json-editor-utils/jsonPathEditor";
 import { delay } from "../utils/generic-utils";
-import { createMockResponse } from "../config/TRV10/version-factory";
+import { generateMockResponse } from "../config/mock-config";
 
 export async function generateMockResponseMiddleware(
 	req: TriggerRequest,
@@ -28,15 +28,14 @@ export async function generateMockResponseMiddleware(
 			res.status(400).send("Action ID not found in query data");
 			return;
 		}
-		const sessionData = await loadSessionData(
+		const sessionData = await loadMockSessionData(
 			txn,
 			req.queryData.subscriber_url
 		);
-		console.log("query data is", req.queryData)
-		const mockResponse = await createMockResponse(
+		const mockResponse = await generateMockResponse(
 			req.queryData.session_id ?? "",
 			sessionData,
-			req.queryData?.action_id,
+			req.queryData?.action_id
 		);
 		req.mockResponse = mockResponse;
 		next();

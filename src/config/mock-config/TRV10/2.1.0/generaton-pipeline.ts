@@ -4,7 +4,7 @@ import yaml from "js-yaml";
 import path from "path";
 import { error } from "console";
 import { SessionData } from "../session-types";
-import logger from "../../../utils/logger";
+import logger from "../../../../utils/logger";
 import { Generator } from "./api-factory";
 function yamlToJson(filePath: string): object {
 	try {
