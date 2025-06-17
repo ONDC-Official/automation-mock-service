@@ -14,7 +14,7 @@ export const onSelectGenerator = (
 
 	if (sessionData?.items && sessionData?.select_fulfillment?.length) {
 		existingPayload.message.order.items = tempItems.map((item: any) => {
-			// delete item.quantity;
+			delete item.quantity;
 			return {
 				...item,
 				fulfillment_id: existingPayload.message.order.fulfillments?.find(

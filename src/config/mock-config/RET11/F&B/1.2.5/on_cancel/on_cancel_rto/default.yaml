@@ -29,10 +29,6 @@ message:
       phone: "9886098860"
       created_at: "2025-01-08T09:00:00.000Z"
       updated_at: "2025-01-08T09:00:00.000Z"
-    cancellation:
-      cancelled_by: bnp.com
-      reason:
-        id: "006"
     fulfillments:
       - id: F1
         "@ondc/org/provider_name": LSP or Provider Name

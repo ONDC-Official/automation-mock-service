@@ -353,7 +353,7 @@ export const buildRetailQuote = (
           currency: "INR",
           value: initialItemsData.price.value,
         },
-        tags: item.tags,
+        tags: removeTagsByCodes(item.tags, ["rto_action"]),
       },
     });
 
@@ -371,7 +371,7 @@ export const buildRetailQuote = (
       },
       item: {
         parent_item_id: item.parent_item_id,
-        tags: item.tags,
+        tags: removeTagsByCodes(item.tags, ["rto_action"]),
       },
     });
   });
@@ -527,7 +527,7 @@ export const buildRetailQuote = (
           ];
         }
       } else if (fulfillment.type === "Buyer-Delivery") {
-        totalPrice += 85;
+        totalPrice += 25;
         deliveryBreakup = [
           ...deliveryBreakup,
           {
@@ -536,7 +536,7 @@ export const buildRetailQuote = (
             "@ondc/org/title_type": "delivery",
             price: {
               currency: "INR",
-              value: "60.00",
+              value: "0.00",
             },
           },
           {
@@ -594,7 +594,7 @@ export const buildRetailQuote = (
 
   quote.price = {
     currency: "INR",
-    value: totalPrice.toString(),
+    value: totalPrice.toFixed(2).toString(),
   };
 
   quote.breakup = breakup;

@@ -19,17 +19,6 @@ export const updateSettlelmentGenerator = (
   } else if (action_id === "update_settelment_return") {
     sessionData.fulfillments?.forEach((fulfillment) => {
       if (fulfillment.type === "Return") {
-        // const total = fulfillment.tags
-        //   .filter((tag: any) => tag.code === "quote_trail")
-        //   .map((tag: any) => {
-        //     const valueItem = tag.list.find(
-        //       (item: any) => item.code === "value"
-        //     );
-        //     return valueItem ? parseFloat(valueItem.value) : 0;
-        //   })
-        //   .reduce((sum: any, val: any) => sum + val, 0);
-
-        // refundAmount = Math.abs(total).toString();
 
         existingPayload.message.order.fulfillments = [
           {
@@ -41,14 +30,14 @@ export const updateSettlelmentGenerator = (
     });
 
     refundAmount = (
-      parseInt(sessionData?.on_confirm_quote?.price?.value) -
-      parseInt(sessionData?.on_update_quote?.price?.value)
-    ).toString();
+      parseFloat(sessionData?.on_confirm_quote?.price?.value) -
+      parseFloat(sessionData?.on_update_quote?.price?.value)
+    ).toFixed(2).toString();
   } else if (action_id === "update_settelment_part_cancel") {
     refundAmount = (
-      parseInt(sessionData?.on_confirm_quote?.price?.value) -
-      parseInt(sessionData?.on_update_quote?.price?.value)
-    ).toString();
+      parseFloat(sessionData?.on_confirm_quote?.price?.value) -
+      parseFloat(sessionData?.on_update_quote?.price?.value)
+    ).toFixed(2).toString();
   }
 
   existingPayload.message.order.payment[

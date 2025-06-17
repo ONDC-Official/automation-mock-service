@@ -104,7 +104,7 @@ export async function Generator(
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "Packed",
-      });
+      }, inputs);
     case "on_status_agent_assigned":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
@@ -114,7 +114,7 @@ export async function Generator(
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "At-pickup",
-      });
+      }, inputs);
     case "on_status_order_picked":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
@@ -145,7 +145,7 @@ export async function Generator(
     case "cancel_force":
       return await cancelForceGenerator(existingPayload, sessionData);
     case "on_cancel":
-      return await onCancelGenerator(existingPayload, sessionData);
+      return await onCancelGenerator(existingPayload, sessionData, inputs);
     case "on_cancel_rto":
       return await onCancelRTOGenerator(existingPayload, sessionData);
     case "track":

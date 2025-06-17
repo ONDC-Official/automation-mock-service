@@ -87,4 +87,6 @@ export interface Input {
   partCancelItemId?: string;
   offers?: any;
   offerId?: string;
+  isSlottedDelivery?: string;
+  isForceCancel?: string;
 }

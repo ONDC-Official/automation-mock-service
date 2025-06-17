@@ -30,10 +30,6 @@ export async function initMultipleFulfillmentGenerator(
         existingPayload.message.order.fulfillments[0] = {
           ...fulfillment,
           end: {
-            location: {
-              gps: sessionData?.select_fulfillment?.[0]?.end?.location?.gps,
-              address: existingPayload.message.order.billing.address,
-            },
             contact: {
               phone: "9886098860",
             },

@@ -1,8 +1,10 @@
-import { SessionData } from "../../../session-types";
+import { getTimestampFromDuration } from "../../../../../../utils/generic-utils";
+import { SessionData, Input } from "../../../session-types";
 
 export const onStatusGenerator = (
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  inputs?: Input
 ) => {
   if (sessionData.order_id) {
     existingPayload.message.order.id = sessionData.order_id;
@@ -37,16 +39,91 @@ export const onStatusGenerator = (
       existingPayload.message.order.state = "Accepted";
       existingPayload.message.order.fulfillments[0].state.descriptor.code =
         sessionData.stateCode;
+
+      if (inputs?.isSlottedDelivery !== "yes") {
+        existingPayload.message.order.fulfillments[0].start.time = {
+          ...existingPayload.message.order.fulfillments[0].start.time,
+          range: {
+            start: existingPayload.context.timestamp,
+            end: getTimestampFromDuration(
+              existingPayload.context.timestamp,
+              "PT30M"
+            ),
+          },
+        };
+
+        existingPayload.message.order.fulfillments[0].end.time = {
+          ...existingPayload.message.order.fulfillments[0].start.time,
+          range: {
+            start: getTimestampFromDuration(
+              existingPayload.context.timestamp,
+              "PT30M"
+            ),
+            end: getTimestampFromDuration(
+              existingPayload.context.timestamp,
+              existingPayload.message.order.fulfillments[0]?.tat || "PT30M"
+            ),
+          },
+        };
+      }
+
+      existingPayload.message.order.fulfillments[0].tags = [
+        {
+          code: "routing",
+          list: [
+            {
+              code: "type",
+              value: "P2P",
+            },
+          ],
+        },
+        {
+          code: "tracking",
+          list: [
+            {
+              code: "gps_enabled",
+              value: "yes",
+            },
+            {
+              code: "url_enabled",
+              value: "no",
+            },
+            {
+              code: "url",
+              value: "https://sellerNP.com/ondc/tracking_url",
+            },
+          ],
+        },
+      ];
       break;
     case "Packed":
       existingPayload.message.order.state = "In-progress";
       existingPayload.message.order.fulfillments[0].state.descriptor.code =
         sessionData.stateCode;
+
+      // intruction inside start for self pickup
+
+      // "instructions":
+      // {
+      //   "code":"1",
+      //   "name":"ONDC order",
+      //   "short_desc":"93342342342", // pick from fullfillment end phone
+      //   "long_desc":"additional instructions such as register or counter no for self-pickup"
+      // }
+
       break;
     case "Agent-assigned":
       existingPayload.message.order.state = "In-progress";
       existingPayload.message.order.fulfillments[0].state.descriptor.code =
         sessionData.stateCode;
+      existingPayload.message.order.fulfillments[0].agent = {
+        name: "agent_name",
+        phone: "9886098860",
+      };
+      existingPayload.message.order.fulfillments[0].vehicle = {
+        registration: "3LVJ945",
+      };
+
       break;
     case "At-pickup":
       existingPayload.message.order.state = "In-progress";

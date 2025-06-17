@@ -17,7 +17,7 @@ message:
       - id: "F1"
         type: "Delivery"
         "@ondc/org/provider_name": "LSP Provider"
-        tracking: false
+        tracking: true
         "@ondc/org/category": "Immediate Delivery"
         "@ondc/org/TAT": "PT60M"
         state:

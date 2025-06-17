@@ -35,7 +35,7 @@ export const onCancelRTOGenerator = (
     ).id;
 
     sessionData.items.forEach((item: any) => {
-      if (item.fulfillment_id === fulfillmentId) {
+      if (item.fulfillment_id === fulfillmentId && item.quantity.count !== 0) {
         updatedItems.push({
           ...item,
           quantity: {
@@ -45,7 +45,7 @@ export const onCancelRTOGenerator = (
         updatedItems.push({
           ...item,
           fulfillment_id: "F1-RTO",
-          parent_item_id: `${item.parent_item_id}-RTO`,
+          // parent_item_id: `${item.parent_item_id}-RTO`,
         });
       } else {
         updatedItems.push(item);
@@ -58,8 +58,8 @@ export const onCancelRTOGenerator = (
   let startFulfillment: any = {};
   let endFulfillment: any = {};
 
-  existingPayload.message.order.fulfillments =
-    existingPayload.message.order.fulfillments.map((fulfillment: any) => {
+  existingPayload.message.order.fulfillments = sessionData?.fulfillments?.map(
+    (fulfillment: any) => {
       if (fulfillment.type === "Delivery") {
         startFulfillment = fulfillment.start;
         endFulfillment = fulfillment.end;
@@ -70,7 +70,6 @@ export const onCancelRTOGenerator = (
               code: "Cancelled",
             },
             tags: [
-              ...fulfillment?.tags,
               {
                 code: "cancel_request",
                 list: [
@@ -79,12 +78,16 @@ export const onCancelRTOGenerator = (
                     value: "F1-RTO",
                   },
                   {
+                    code: "retry_count",
+                    value: "1",
+                  },
+                  {
                     code: "reason_id",
-                    value: "013",
+                    value: "006",
                   },
                   {
                     code: "initiated_by",
-                    value: "lsp.com",
+                    value: existingPayload.context.bpp_id,
                   },
                 ],
               },
@@ -107,7 +110,8 @@ export const onCancelRTOGenerator = (
       } else {
         return fulfillment;
       }
-    });
+    }
+  );
 
   existingPayload.message.order.fulfillments.push({
     id: "F1-RTO",
@@ -135,7 +139,8 @@ export const onCancelRTOGenerator = (
     existingPayload.message.order.fulfillments
   );
 
-  existingPayload.message.order.created_at = existingPayload.context.timestamp;
+  existingPayload.message.order.created_at =
+    sessionData.confirm_created_at_timestamp;
   existingPayload.message.order.updated_at = existingPayload.context.timestamp;
 
   return existingPayload;

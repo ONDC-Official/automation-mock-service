@@ -274,7 +274,7 @@ message:
       - fulfillment_state:
           descriptor:
             code: Packed
-            short_desc: "001,003"
+            short_desc: "002,051"
         cancellation_fee:
           percentage: "100.00"
       - fulfillment_state:
@@ -286,13 +286,13 @@ message:
       - fulfillment_state:
           descriptor:
             code: At-pickup
-            short_desc: "009"
+            short_desc: "051"
         cancellation_fee:
           percentage: "100.00"
       - fulfillment_state:
           descriptor:
             code: At-delivery
-            short_desc: "010,011,012,013,014,015"
+            short_desc: "010,011,013,014"
         cancellation_fee:
           percentage: "100.00"
     tags:

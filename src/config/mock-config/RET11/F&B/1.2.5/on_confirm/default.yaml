@@ -634,18 +634,20 @@ message:
       - code: "bpp_terms"
         list:
           - code: "np_type"
-            value: "ISN"
-          - code: "tax_number"
-            value: "gst_number_of_sellerNP"
-          - code: "provider_tax_number"
-            value: "PAN_number_of_provider"
+            value: "MSN"
+          - code: tax_number
+            value: 12ABCDE3456FGZH
+          - code: provider_tax_number
+            value: JSUFK2231H
           - code: "accept_bap_terms"
             value: "Y"
       - code: "bap_terms"
         list:
           - code: "static_terms"
-            value: "https://github.com/ONDC-Official/protocol-network-extension/discussions/79"
+            value: "https://github.com/ONDC-Official/NP-Static-Terms/buyerNP_BNP/1.0/tc.pdf"
           - code: "tax_number"
-            value: "gst_number_of_buyerNP"
+            value: "12ABCDE3456FGZJ"
+          - code: "accept_bpp_terms"
+            value: "Y"
     created_at: "2025-01-08T09:30:00.000Z"
     updated_at: "2025-01-08T09:31:30.000Z"
