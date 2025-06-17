@@ -1,10 +1,10 @@
 import { readFileSync } from "fs";
 import { logger } from "../../utils/logger";
-
 import path from "path";
 import yaml from "js-yaml";
 import { SessionData as MockSessionData } from "./RET10/session-types";
 import { createMockResponse } from "./RET10/version-factory";
+import { getMockAction } from "./RET10/action-factory";
 
 export { MockSessionData };
 
@@ -36,6 +36,10 @@ export async function generateMockResponse(
 		logger.error("Error in generating mock response", e);
 		throw e;
 	}
+}
+
+export function getMockActionObject(actionId: string) {
+	return getMockAction(actionId);
 }
 
 export function getActionData(code: number) {

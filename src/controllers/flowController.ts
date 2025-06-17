@@ -412,6 +412,7 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				},
 				transaction_id: txId,
 			});
+
 			const sessionData = await loadMockSessionData(txId, subscriberUrl);
 			let mockResponse = await generateMockResponse(
 				txData.sessionId as string,
@@ -434,6 +435,7 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				flow_id: flow.id,
 				session_id: txData.sessionId,
 			});
+
 			logInfo({
 				message: "Exiting ActUponFlow Function.",
 				meta: {

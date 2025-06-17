@@ -77,6 +77,31 @@ export async function saveData(
 	}
 }
 
+export async function saveDataForConfig(
+	saveData: {
+		"save-data": Record<string, string>;
+	},
+	payload: any,
+	errorData?: {
+		code: number;
+		message: string;
+	}
+) {
+	try {
+		const sessionData = await loadMockSessionData(
+			payload?.context.transaction_id
+		);
+		updateSessionData(saveData["save-data"], payload, sessionData, errorData);
+		await RedisService.setKey(
+			payload?.context.transaction_id,
+			JSON.stringify(sessionData)
+		);
+		logger.info("Data saved to session");
+	} catch (e) {
+		logger.error("Error in saving data to session", e);
+	}
+}
+
 export async function loadMockSessionData(
 	transactionID: string,
 	subscriber_url?: string

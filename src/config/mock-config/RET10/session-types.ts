@@ -1,5 +1,3 @@
-import { Fulfillments } from "./GROCERY/1.2.5/api-objects/fulfillments";
-
 export type SessionData = {
 	protocol_session_id: string | undefined;
 	mock_type: string | undefined;
@@ -42,32 +40,32 @@ export type SessionData = {
 };
 
 export type BecknContext = {
-    action: string;
-    bap_id: string;
-    bap_uri: string;
-    bpp_id?: string;
-    bpp_uri?: string;
-    domain: string;
-    country: string;
-    city: string;
-    message_id: string;
-    timestamp: string;
-    transaction_id: string;
-    core_version: string;
-    ttl: string;
+	action: string;
+	bap_id: string;
+	bap_uri: string;
+	bpp_id?: string;
+	bpp_uri?: string;
+	domain: string;
+	country: string;
+	city: string;
+	message_id: string;
+	timestamp: string;
+	transaction_id: string;
+	core_version: string;
+	ttl: string;
 };
 
 export interface Input {
-    category?: string;
-    paymentType?: string;
-    city_code?: string;
-    start_gps?: string;
-    end_gps?: string;
-    start_code?: string;
-    end_code?: string;
-    feature_discovery?: string[];
-    fulfillRequest?: string;
-    retailCategory?: string;
-    returnToOrigin?: string;
-    default_feature?: string[];
+	category?: string;
+	paymentType?: string;
+	city_code?: string;
+	start_gps?: string;
+	end_gps?: string;
+	start_code?: string;
+	end_code?: string;
+	feature_discovery?: string[];
+	fulfillRequest?: string;
+	retailCategory?: string;
+	returnToOrigin?: string;
+	default_feature?: string[];
 }

@@ -4,7 +4,7 @@ import yaml from "js-yaml";
 import path from "path";
 import { logger } from "../../../../../utils/logger";
 import { createContext } from "./create-context";
-import { Generator } from "./generator";
+import { getMockAction } from "../../action-factory";
 
 function loadFactoryYaml(filePath: string): any {
 	try {
@@ -99,5 +99,17 @@ export async function createMockResponseRET10_125(
 		logger.info(`L2 error found: ${JSON.stringify(error_message)}`);
 		return payload;
 	}
-	return await Generator(actionID, payload, sessionData);
+	const mockAction = getMockAction(actionID);
+
+	const requirements = await mockAction.meetRequirements(sessionData);
+	if (!requirements.valid && requirements.message) {
+		return {
+			context: context,
+			error: {
+				code: "400",
+				message: requirements.message,
+			},
+		};
+	}
+	return mockAction.generator(mockAction.defaultData, sessionData);
 }
