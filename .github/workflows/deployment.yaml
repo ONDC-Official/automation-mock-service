@@ -2,12 +2,12 @@ name: ONDC Automation Mock Service Deployment
 
 on:
   workflow_dispatch:
-  # push:
+  push:
   #   branches:
       # - "release-trv11"
 
 jobs:
-  deploy-staging-trv11:
+  deploy-staging-ret12:
     runs-on: ubuntu-latest
     environment:  
               name: ${{ github.ref_name }}
@@ -27,8 +27,8 @@ jobs:
           REPO_DIR=~/ONDC-automation-framework/mock/automation-mock-service-${{ github.ref_name }}
           echo "Removing existing repository directory if exists"
           rm -rf \$REPO_DIR
-          echo "Cloning repository from release-trv11 branch"
-          git clone --single-branch --branch release-trv11 https://github.com/ONDC-Official/automation-mock-service.git \$REPO_DIR
+          echo "Cloning repository from ${{ github.ref_name }}"
+          git clone --single-branch --branch ${{ github.ref_name }} https://github.com/ONDC-Official/automation-mock-service.git \$REPO_DIR
           EOF
 
       - name: Install Docker Compose (if not installed)
