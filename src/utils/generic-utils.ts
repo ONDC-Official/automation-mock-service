@@ -410,7 +410,7 @@ export const buildRetailQuote = (
 
         breakup.push({
           "@ondc/org/item_id": offer.id,
-          title: offer.id,
+          title: "offer",
           "@ondc/org/title_type": "offer",
           price: {
             currency: "INR",
