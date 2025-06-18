@@ -17,6 +17,7 @@
     "@types/express": "^5.0.0",
     "@types/js-yaml": "^4.0.9",
     "@types/jsonpath": "^0.2.4",
+    "@types/lodash": "^4.17.16",
     "@types/node": "^22.10.0",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
@@ -25,6 +26,15 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@opentelemetry/api": "1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.58.1",
+    "@opentelemetry/exporter-jaeger": "^2.0.0",
+    "@opentelemetry/exporter-prometheus": "0.200.0",
+    "@opentelemetry/resources": "^2.0.0",
+    "@opentelemetry/sdk-logs": "0.200.0",
+    "@opentelemetry/sdk-metrics": "2.0.0",
+    "@opentelemetry/sdk-node": "^0.200.0",
+    "@opentelemetry/semantic-conventions": "1.32.0",
     "@types/chalk": "^2.2.4",
     "@types/winston": "^2.4.4",
     "axios": "^1.7.8",
@@ -37,12 +47,14 @@
     "js-yaml": "^4.1.0",
     "jsonpath": "^1.1.1",
     "jsonpath-plus": "^10.2.0",
+    "lodash": "^4.17.21",
     "ondc-automation-cache-lib": "^2.1.0",
     "require": "^2.4.20",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^11.0.3",
     "winston": "^3.17.0",
-    "winston-daily-rotate-file": "^5.0.0"
+    "winston-daily-rotate-file": "^5.0.0",
+    "winston-loki": "^6.1.3"
   }
 }
