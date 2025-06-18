@@ -41,6 +41,19 @@ export abstract class MockAction {
 	abstract get saveData(): saveType;
 	abstract get defaultData(): any;
 	abstract get inputs(): any;
+
+	get mockActionConfig() {
+		return {
+			name: this.name(),
+			description: this.description,
+			inputs: this.inputs,
+			defaultData: this.defaultData,
+			saveData: this.saveData,
+			generator: this.generator.toString(),
+			validate: this.validate.toString(),
+			meetRequirements: this.meetRequirements.toString(),
+		};
+	}
 }
 
 export type MockOutput = {
