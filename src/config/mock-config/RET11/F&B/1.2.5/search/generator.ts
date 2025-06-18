@@ -94,7 +94,7 @@ export const searchGenerator = (
         list: [
           {
             code: "category",
-            value: "F&B",
+            value: "Pasta, Soup and Noodles",
           },
           {
             code: "from",
