@@ -78,7 +78,7 @@ export const onSelectOOSGenerator = (
 			"@ondc/org/title_type": "item",
 			price: {
 				currency: "INR",
-				value: initialItemsData.price.value, /// ??????
+				value: isOOSItem ? "0" : initialItemsData.price.value, 
 			},
 			item: {
 				parent_item_id: item.parent_item_id,
