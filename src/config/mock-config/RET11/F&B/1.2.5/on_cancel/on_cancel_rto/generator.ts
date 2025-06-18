@@ -142,7 +142,7 @@ export const onCancelRTOGenerator = (
   existingPayload.message.order.cancellation = {
     cancelled_by: existingPayload.context.bap_id,
     reason: {
-      id: sessionData.cancellation_reason_id,
+      id: "002",
     },
   };
 
