@@ -1,6 +1,7 @@
 import { SessionData } from "../../../../session-types";
 import { getUpdatedBilling } from "../../api-objects/billing";
 import { createFulfillments } from "../../api-objects/fulfillments";
+import { removeItemQuantitiesFromQuote } from "../../api-objects/quotes";
 import { TagsType } from "../../api-objects/tags";
 
 export async function confirm_cod_generator(
@@ -11,7 +12,7 @@ export async function confirm_cod_generator(
 	existingPayload.message.order.id = generateSixDigitCode();
 	existingPayload.message.order.created_at = timeIso;
 	existingPayload.message.order.updated_at = timeIso;
-	existingPayload.message.order.quote = sessionData.quote;
+existingPayload.message.order.quote = removeItemQuantitiesFromQuote(sessionData.quote);
 	existingPayload.message.order.billing = getUpdatedBilling(
 		sessionData.billing
 	);

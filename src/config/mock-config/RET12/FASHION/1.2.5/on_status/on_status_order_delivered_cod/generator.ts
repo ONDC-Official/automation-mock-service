@@ -13,6 +13,7 @@ export async function on_status_order_delivered_cod_generator(
 		sessionData,
 		generalPayload.message.order.fulfillments
 	);
+	generalPayload.message.order.state = "Completed"
 	generalPayload.message.order.payment = {
 		...generalPayload.message.order.payment,
 		params: {

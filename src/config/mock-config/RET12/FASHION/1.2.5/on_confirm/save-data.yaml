@@ -2,3 +2,4 @@ save-data:
   order_state: $.message.order.state
   on_confirm_updated_at_timestamp: $.message.order.updated_at
   payment: $.message.order.payment
+  fulfillments: $.message.order.fulfillments[*]

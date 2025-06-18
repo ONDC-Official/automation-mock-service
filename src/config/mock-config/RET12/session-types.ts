@@ -23,6 +23,7 @@ export type SessionData = {
   quote: any | undefined;
   order_id: string | undefined;
   payment: any | undefined;
+  update_payment: any;
   order_state: string | undefined;
   last_action: string | undefined;
   city_code: string | undefined;
@@ -35,7 +36,8 @@ export type SessionData = {
   order_created_at?: any;
   last_updated_at?: string;
   bap_terms?: any;
-  // order phase
+  // order 
+  replacementId?: string;
   selected_item_id: string;
   end: any[];
   bnp_features: any[];
@@ -49,8 +51,11 @@ export type SessionData = {
   on_status_updated_at?: string;
   cancellation_reason_id?: string;
   cancellation?: any;
+  cancellation_return_reason_id?: string;
   stateCode?: string;
+  update_fulfillments?: any;
   np_type?: string;
+  bap_features?: string[];
 };
 
 export type BecknContext = {

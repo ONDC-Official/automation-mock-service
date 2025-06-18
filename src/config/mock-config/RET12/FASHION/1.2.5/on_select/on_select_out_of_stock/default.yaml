@@ -51,7 +51,3 @@ order:
   items:
     - id: I3
       fulfillment_id: F1
-  error:
-    type: DOMAIN-ERROR
-    code: "40002"
-    message: "[{\"item_id\":\"I3\",\"error\":\"40002\"}]"

@@ -4,3 +4,4 @@ save-data:
   fulfillments: $.message.order.fulfillments[*]
   payment: $.message.order.payment
   last_updated_at: $.message.order.updated_at
+  order_id: $.message.order.id

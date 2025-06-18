@@ -29,7 +29,7 @@ order:
       "@ondc/org/provider_name": Seller Business
       state:
         descriptor:
-          code: Out-for-delivery
+          code: Order-delivered
       type: Delivery
       tracking: false
       "@ondc/org/TAT": P3D

@@ -6,6 +6,7 @@ catalog:
           time:
             label: enable
             timestamp: "2024-08-12T06:31:44.198Z"
+          rating: "4"
           parent_item_id: V1
           descriptor:
             name: Butterfly Beautiful 12 Gold Necklace

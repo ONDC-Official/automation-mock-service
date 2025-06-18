@@ -33,7 +33,7 @@ order:
       "@ondc/org/TAT": P3D
       state:
         descriptor:
-          code: Cancelled
+          code: Completed
       type: Delivery
       tracking: false
       start:
@@ -69,19 +69,6 @@ order:
             area_code: "560027"
             locality: my street name
             name: my house or door or floor
-      tags:
-        - code: cancel_request
-          list:
-            - code: reason_id
-              value: "001"
-            - code: initiated_by
-              value: dev-automation.ondc.org
-        - code: precancel_state
-          list:
-            - code: fulfillment_state
-              value: Pending
-            - code: updated_at
-              value: "2024-08-14T09:11:01.239Z"
     - id: C1
       type: Cancel
       state:

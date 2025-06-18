@@ -7,12 +7,16 @@ order:
   items:
     - id: I1
       quantity:
-        count: 3
+        count: 2
       fulfillment_id: F1
     - id: I1
       fulfillment_id: C1
       quantity:
         count: 4
+    - id: I1
+      fulfillment_id: R1
+      quantity:
+        count: 1
   billing:
     address:
       name: my house or door or floor
@@ -76,11 +80,33 @@ order:
             start: "2024-08-11T12:39:03.396Z"
             end: "2024-08-13T12:39:03.396Z"
           timestamp: "2024-08-08T12:41:02.913Z"
+    - state:
+        descriptor:
+          code: Cancelled
+      type: Cancel
+      id: C1
+      tags:
+        - code: cancel_request
+          list:
+            - code: reason_id
+              value: "002"
+            - code: initiated_by
+              value: your id
+        - code: quote_trail
+          list:
+            - code: type
+              value: item
+            - code: id
+              value: I1
+            - code: currency
+              value: INR
+            - code: value
+              value: "-9040.00"
     - id: R1
       type: Return
       state:
         descriptor:
-          code: Return_Initiated
+          code: Return_Picked
       tags:
         - code: return_request
           list:
@@ -103,20 +129,75 @@ order:
             - code: ttl_reverseqc
               value: P3D
             - code: initiated_by
-              value: your id
+              value: buyer-app-preprod-v2.ondc.org
+        - code: quote_trail
+          list:
+            - code: type
+              value: item
+            - code: id
+              value: I1
+            - code: currency
+              value: INR
+            - code: value
+              value: "-2260.00"
+        - code: quote_trail
+          list:
+            - code: type
+              value: delivery
+            - code: id
+              value: R1
+            - code: currency
+              value: INR
+            - code: value
+              value: "582.63"
+      "@ondc/org/provider_name": Seller Business
+      start:
+        person:
+          name: ONDC Buyer
+        contact:
+          email: nobody@nomail.com
+          phone: "9898989898"
+        location:
+          gps: 12.966545,77.592074
+          address:
+            name: my house or door or floor
+            building: my building name or house
+            locality: my street name
+            city: Bengaluru
+            state: Karnataka
+            country: IND
+            area_code: "560027"
+          descriptor:
+            name: Seller Business
+        time:
+          timestamp: "2024-08-08T12:53:06.960Z"
+      end:
+        location:
+          id: L1
+          descriptor:
+            name: Seller Business
+          gps: 12.92580970146639,77.58362409712942
+          address:
+            locality: Jayanagar
+            city: Bengaluru
+            area_code: "560011"
+            state: Karnataka
+        contact:
+          email: test@gmail.com
+          phone: "9876543210"
   quote:
     price:
       currency: INR
-      value: "7373.75"
+      value: "5696.38"
     breakup:
       - "@ondc/org/item_id": I1
         "@ondc/org/item_quantity":
-          count: 3
+          count: 2
         title: Butterfly Beutiful 12 Gold Necklace
         "@ondc/org/title_type": item
         price:
           currency: INR
-          value: "6780"
+          value: "4520"
         item:
           price:
             currency: INR
@@ -133,10 +214,15 @@ order:
         price:
           currency: INR
           value: "100.00"
+      - "@ondc/org/item_id": R1
+        title: Delivery charges
+        "@ondc/org/title_type": delivery
+        price:
+          currency: INR
+          value: "582.63"
     ttl: P1D
   payment:
     uri: your payment uri
-    tl_method: http/get
     params:
       amount: "16413.75"
       currency: INR
@@ -163,4 +249,4 @@ order:
         settlement_timestamp: "2024-08-08T12:39:19.054Z"
   id: O1
   created_at: "2024-08-08T12:38:25.283Z"
-  updated_at: "2024-08-08T12:51:57.593Z"
+  updated_at: "2024-08-08T12:53:07.028Z"

@@ -13,5 +13,6 @@ export async function on_status_picked_generator(
     sessionData,
     generalPayload.message.order.fulfillments
   );
+  generalPayload.message.order.updated_at = existingPayload.context.timestamp;
   return generalPayload;
 }

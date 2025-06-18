@@ -34,3 +34,24 @@ export function getRandomItem(items: string[]): string | undefined {
 	const randomIndex = Math.floor(Math.random() * items.length);
 	return items[randomIndex];
 }
+
+export function updateTimestamps(obj: any) {
+    const currentTimestamp = new Date().toISOString();
+    
+    function recursiveUpdate(current: any) {
+        if (typeof current !== 'object' || current === null) {
+            return;
+        }
+        
+        for (const key in current) {
+            if (key === 'timestamp' && typeof current[key] === 'string') {
+                current[key] = currentTimestamp;
+            } else if (typeof current[key] === 'object') {
+                recursiveUpdate(current[key]);
+            }
+        }
+    }
+    
+    recursiveUpdate(obj);
+    return obj;
+}

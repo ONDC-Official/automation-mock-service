@@ -3,15 +3,18 @@ import { createFulfillments } from "../../api-objects/fulfillments";
 import { createGenericOnStatus } from "../../api-objects/on_status";
 
 export async function on_status_order_delivered_generator(
-	existingPayload: any,
-	sessionData: SessionData
+  existingPayload: any,
+  sessionData: SessionData
 ) {
-	const generalPayload = createGenericOnStatus(existingPayload, sessionData);
-	generalPayload.message.order.fulfillments = createFulfillments(
-		"on_status",
-		"on_status_order_delivered",
-		sessionData,
-		generalPayload.message.order.fulfillments
-	);
-	return generalPayload;
+  const generalPayload = createGenericOnStatus(existingPayload, sessionData);
+  generalPayload.message.order.fulfillments = createFulfillments(
+    "on_status",
+    "on_status_order_delivered",
+    sessionData,
+    generalPayload.message.order.fulfillments
+  );
+  generalPayload.message.order.fulfillments[0].end.time.timestamp = existingPayload.context.timestamp;
+  generalPayload.message.order.updated_at = existingPayload.context.timestamp;
+  generalPayload.message.order.state = "Completed";
+  return generalPayload;
 }

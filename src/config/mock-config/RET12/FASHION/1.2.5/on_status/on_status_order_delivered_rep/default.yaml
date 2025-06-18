@@ -1,4 +1,3 @@
-
 order:
   provider:
     id: P1
@@ -34,11 +33,11 @@ order:
     updated_at: '2024-08-14T09:10:34.369Z'
   fulfillments:
     - id: F1
-      '@ondc/org/provider_name': Seller Business
-      '@ondc/org/TAT': PT72H
+      '@ondc/org/provider_name': Epic Store
+      '@ondc/org/TAT': P3D
       state:
         descriptor:
-          code: Order-picked-up
+          code: Order-delivered
       type: Delivery
       tracking: false
       start:
@@ -53,8 +52,8 @@ order:
             area_code: '110041'
             state: Delhi
         contact:
-          email: test@gmail.com
-          phone: '9876543210'
+          email: rajesh@gmail.com
+          phone: '8273946283'
         time:
           range:
             start: '2025-01-28T16:21:50.523Z'
@@ -156,7 +155,7 @@ order:
               value: INR
             - code: value
               value: '582.63'
-      '@ondc/org/provider_name': Epic Store
+      '@ondc/org/provider_name': Store name
       start:
         person:
           name: your-name
@@ -180,20 +179,20 @@ order:
         location:
           id: L1
           descriptor:
-            name: Seller Business
-          gps: 12.966545,77.592074
+            name: Epic Store
+          gps: 28.679701,77.063873
           address:
             locality: Nangloi Extension
             city: New Delhi
             area_code: '110041'
             state: Delhi
         contact:
-          email: test@gmail.com
-          phone: '9876543210'
+          email: rajesh@gmail.com
+          phone: '8273946283'
         time:
           timestamp: '2025-01-28T16:23:35.028Z'
     - id: FR1
-      '@ondc/org/provider_name': ONDC Buyer
+      '@ondc/org/provider_name': Epic Store
       '@ondc/org/TAT': P3D
       state:
         descriptor:
@@ -212,8 +211,8 @@ order:
             area_code: '110041'
             state: Delhi
         contact:
-          email: test@gmail.com
-          phone: '9876543210'
+          email: rajesh@gmail.com
+          phone: '8273946283'
         time:
           range:
             start: '2025-01-28T17:21:50.523Z'
@@ -236,8 +235,9 @@ order:
             area_code: '560027'
         time:
           range:
-            start: '2024-08-11T12:39:03.396Z'
-            end: '2024-08-13T12:39:03.396Z'
+            start: '2025-01-31T17:21:50.523Z'
+            end: '2025-02-02T17:21:50.523Z'
+          timestamp: '2025-02-01T17:21:50.523Z'
   quote:
     price:
       currency: INR
@@ -296,7 +296,7 @@ order:
         settlement_timestamp: '2025-01-28T16:21:40.763Z'
   id: 2025-01-28-470338
   created_at: '2025-01-28T16:17:08.546Z'
-  updated_at: '2025-01-28T19:22:51.523Z'
+  updated_at: '2025-02-01T17:21:50.523Z'
   documents:
     - url: https://invoice_url
       label: Invoice

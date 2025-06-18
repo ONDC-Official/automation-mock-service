@@ -121,12 +121,12 @@ order:
         - code: np_type
           value: MSN
         - code: tax_number
-          value: gst_number_of_sellerNP
+          value: 37ABACA6712B1Z6
         - code: provider_tax_number
-          value: PAN_number_of_provider
+          value: USYDS6482D
     - code: bap_terms
       list:
         - code: tax_number
-          value: gst_number_of_buyerNP
+          value: 37ABACA6712B1Z6
   created_at: "2024-08-14T09:11:00.810Z"
   updated_at: "2024-08-14T09:11:01.239Z"

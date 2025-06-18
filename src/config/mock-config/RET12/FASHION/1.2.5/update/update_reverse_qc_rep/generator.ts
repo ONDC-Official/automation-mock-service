@@ -1,7 +1,7 @@
 import { SessionData } from "../../../../session-types";
 import { getRandomItem } from "../../api-objects/utils";
 import { v4 as uuid } from "uuid";
-export async function update_reverse_qc_generator(
+export async function update_reverse_qc_rep_generator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {

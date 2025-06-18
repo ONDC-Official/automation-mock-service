@@ -9,5 +9,6 @@ export async function search_inc_generator(
 	if (sessionData.inc_mode) {
 		existingPayload.message.intent.tags[0].list[0].value = "stop";
 	}
+	existingPayload.context.city = "*";
 	return existingPayload;
 }

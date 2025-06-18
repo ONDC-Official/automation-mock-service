@@ -1,11 +1,14 @@
 import { endianness } from "os";
 import { SessionData } from "../../../../session-types";
 import { Fulfillment } from "../../api-objects/fulfillments";
+import { uniqueId } from "lodash";
+import { randomUUID } from "crypto";
 
 export async function on_update_approved_generator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {
+
 	existingPayload.message.order.id = sessionData.order_id;
 	existingPayload.message.order.provider = sessionData.provider;
 	existingPayload.message.order.items = sessionData.items;
@@ -14,7 +17,6 @@ export async function on_update_approved_generator(
 	existingPayload.message.order.payment = sessionData.payment;
 	existingPayload.message.order.created_at = sessionData.order_created_at;
 	existingPayload.message.order.updated_at = new Date().toISOString();
-
 	const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
 		(f: Fulfillment) => f.type == "Delivery"
 	) as Fulfillment;
@@ -59,6 +61,5 @@ export async function on_update_approved_generator(
 			return f;
 		}
 	);
-
 	return existingPayload;
 }

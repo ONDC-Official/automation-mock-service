@@ -71,6 +71,7 @@ catalog:
             label: enable
             timestamp: "2024-08-12T05:30:48.998Z"
           parent_item_id: V1
+          rating: "4"
           descriptor:
             name: Butterfly Beautiful 12 Gold Necklace
             symbol: https://sellerNP.com/images/i1.png
@@ -136,6 +137,7 @@ catalog:
           time:
             label: enable
             timestamp: "2024-08-12T10:27:48.913Z"
+          rating: "4"
           parent_item_id: V1
           descriptor:
             name: Butterfly Necklace 2nd
@@ -220,6 +222,7 @@ catalog:
             currency: INR
             value: "499.00"
             maximum_value: "1199.00"
+          rating: "4"
           category_id: T Shirts
           fulfillment_id: F1
           location_id: L1

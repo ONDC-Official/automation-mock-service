@@ -12,6 +12,8 @@ session_data:
   quote: null
   order_id: null
   payment: null
+  update_payment: null
+  replacementId: null
   order_state: null
   last_action: null
   mock_type: null
@@ -24,11 +26,14 @@ session_data:
   on_status_updated_at: null
   stateCode: null
   cancellation: null
+  cancellation_return_reason_id: null
   np_type: null
   out_of_stock_item_ids: []
   on_status_fulfillments: []
   on_select_fulfillments: []
+  update_fulfillments: []
   bpp_terms: null
   bap_terms: null
   order_created_at: null
   last_updated_at: null
+  bap_features: []

@@ -1057,5 +1057,179 @@ export function createFulfillments(
     });
     return finalFulfillments;
   }
+  if (action === "on_status_rep") {
+    console.log("######## createFulfillments on_status #########");
+    let fulfillments = sessionData.fulfillments as Fulfillments;
+    const tags = {
+      tags: [
+        {
+          code: "routing",
+          list: [
+            {
+              code: "type",
+              value: "P2P",
+            },
+          ],
+        },
+        {
+          code: "tracking",
+          list: [
+            {
+              code: "gps_enabled",
+              value: "no",
+            },
+            {
+              code: "url_enabled",
+              value: "yes",
+            },
+            {
+              code: "url",
+              value: "https://sellerNP.com/ondc/tracking_url",
+            },
+          ],
+        },
+      ],
+    };
+    let finalFulfillments = sessionData.on_status_fulfillments as Fulfillments;
+    if (sessionData.on_status_fulfillments.length <= 0) {
+      const time = new Date(new Date().getTime() + 10 * 1000 * 60);
+      const start_end = new Date(time.getTime() + 10 * 1000 * 60).toISOString();
+      finalFulfillments = fulfillments
+        // .filter((f) => f.type == "Delivery")
+        .map((f) => {
+          if (f.type == "Delivery") {
+            return {
+              ...f,
+              start: {
+                ...f.start,
+                time: {
+                  range: {
+                    start: time.toISOString(),
+                    end: start_end,
+                  },
+                },
+              },
+              end: {
+                ...f.end,
+                time: {
+                  range: {
+                    start: start_end,
+                    end: new Date(
+                      time.getTime() +
+                        1000 * isoDurToSec(f["@ondc/org/TAT"] || "PT0H")
+                    ).toISOString(),
+                  },
+                },
+              },
+              tags: tags.tags,
+            };
+          }
+          return f;
+        });
+    }
+    let state = "Pending";
+    switch (actionId) {
+      case "on_status_packed":
+        state = "Packed";
+        break;
+      case "on_status_accepted":
+        state = "Pending";
+        break;
+      case "on_status_agent_assigned":
+        state = "Agent-assigned";
+        break;
+      case "on_status_picked":
+        state = "Order-picked-up";
+        finalFulfillments = finalFulfillments.map((f) => {
+          if (f.type === "Delivery") {
+            return {
+              ...f,
+              start: {
+                ...f.start,
+                time: {
+                  ...f.start?.time,
+                  timestamp: new Date().toISOString(),
+                },
+              },
+            };
+          }
+          return f;
+        });
+        break;
+      case "on_status_out_for_delivery":
+        state = "Out-for-delivery";
+        break;
+      case "on_status_order_delivered":
+        state = "Order-delivered";
+        finalFulfillments = finalFulfillments.map((f) => {
+          if (f.type === "Delivery") {
+            return {
+              ...f,
+              end: {
+                ...f.end,
+                time: {
+                  ...f.end?.time,
+                  timestamp: new Date().toISOString(),
+                },
+              },
+            };
+          }
+          return f;
+        });
+        break;
+      case "on_status_rto_delivered":
+        state = "Cancelled";
+      case "on_status_ready_to_ship":
+        state = "Packed";
+        finalFulfillments = finalFulfillments.map((f) => {
+          if (f.type === "Buyer-Delivery") {
+            const tags = f.tags || [];
+            return {
+              ...f,
+              tags: [
+                ...tags,
+                {
+                  code: "state",
+                  list: [
+                    {
+                      code: "ready_to_ship",
+                      value: "yes",
+                    },
+                  ],
+                },
+                {
+                  code: "routing",
+                  list: [
+                    {
+                      code: "type",
+                      value: "P2P",
+                    },
+                  ],
+                },
+              ],
+            };
+          }
+          return f;
+        });
+        break;
+
+      default:
+        break;
+    }
+    finalFulfillments = finalFulfillments.map((f) => {
+      if (f.type === "Delivery") {
+        return {
+          ...f,
+          state: {
+            descriptor: {
+              code: state,
+            },
+          },
+        };
+      }
+      return f;
+    });
+    return finalFulfillments;
+  }
   return defaultFulfillments;
 }

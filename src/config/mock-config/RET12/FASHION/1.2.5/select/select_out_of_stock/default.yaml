@@ -8,6 +8,10 @@ order:
       quantity:
         count: 1
       location_id: L1
+    - id: I2
+      quantity:
+        count: 1
+      location_id: L1
   fulfillments:
     - end:
         location:

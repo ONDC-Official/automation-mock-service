@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { SessionData } from "../../../../session-types";
 import { getUpdatedBilling } from "../../api-objects/billing";
 import { createFulfillments } from "../../api-objects/fulfillments";
@@ -7,6 +8,7 @@ export async function on_confirm_seller_cred_generator(
     existingPayload: any,
     sessionData: SessionData
 ) {
+    
     const timeIso = new Date().toISOString();
     existingPayload.message.order.updated_at = timeIso;
     existingPayload.message.order.created_at = sessionData.order_created_at;
@@ -29,5 +31,13 @@ export async function on_confirm_seller_cred_generator(
     if (bapTerms) {
         bapTerms.list = sessionData.bap_terms.list;
     }
+    existingPayload.message.order.provider.creds = existingPayload.message.order.provider.creds || [];
+    existingPayload.message.order.provider.creds.push({
+        id: randomUUID().toString(),
+        descriptor: {
+            code : "Seller_Credential",
+            type: "GI"
+        }
+    });
     return existingPayload;
 }

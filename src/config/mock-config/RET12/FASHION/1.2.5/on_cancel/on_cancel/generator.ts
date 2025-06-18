@@ -33,7 +33,7 @@ export async function on_cancel_generator(
 	existingPayload.message.order.cancellation = {
 		cancelled_by: existingPayload.context.bap_id,
 		reason: {
-			id: sessionData.cancellation_reason_id,
+			id: `${sessionData.cancellation_reason_id}`,
 		},
 	};
 	existingPayload.message.order.quote = sessionData.quote;

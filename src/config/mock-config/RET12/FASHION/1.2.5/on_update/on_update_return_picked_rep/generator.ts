@@ -1,8 +1,10 @@
 import { SessionData } from "../../../../session-types";
 import { Quote } from "../../api-objects/breakup-type";
 import { Fulfillment, Fulfillments } from "../../api-objects/fulfillments";
-import jsonpath from "jsonpath";
-export async function on_update_picked_generator(
+import { v4 as uuid } from "uuid";
+import { isoDurToSec } from "../../api-objects/utils";
+
+export async function on_update_picked_rep_generator(
   existingPayload: any,
   sessionData: SessionData
 ) {
@@ -47,7 +49,101 @@ export async function on_update_picked_generator(
     (f: Fulfillment) => f.type == "Return"
   )?.id;
 
-  console.log("returnFulfillmentId", returnFulfillmentId);
+  const replacementId = uuid();
+  const replacementTag = {
+    code: "replace_request",
+    list: [
+      {
+        code: "id",
+        value: replacementId,
+      },
+    ],
+  };
+  sessionData.replacementId = replacementId
+  let sessionDataFulfillments = sessionData.fulfillments as Fulfillments;
+  let replacementFulfillment: Fulfillment | undefined = undefined; // Store as object
+
+  const tags = {
+    tags: [
+      {
+        code: "routing",
+        list: [
+          {
+            code: "type",
+            value: "P2P",
+          },
+        ],
+      },
+      {
+        code: "tracking",
+        list: [
+          {
+            code: "gps_enabled",
+            value: "no",
+          },
+          {
+            code: "url_enabled",
+            value: "yes",
+          },
+          {
+            code: "url",
+            value: "https://sellerNP.com/ondc/tracking_url",
+          },
+        ],
+      },
+    ],
+  };
+
+  if (sessionData.on_status_fulfillments.length <= 0) {
+    const now = new Date();
+    const startTime = new Date(now.getTime() + 10 * 60 * 1000);
+    const endTime = new Date(
+      startTime.getTime() + 10 * 60 * 1000
+    ).toISOString();
+
+    const deliveryFulfillment = sessionDataFulfillments.find(
+      (f) => f.type === "Delivery"
+    );
+
+    if (deliveryFulfillment) {
+      replacementFulfillment = {
+        ...deliveryFulfillment,
+        start: {
+          ...deliveryFulfillment.start,
+          time: {
+            range: {
+              start: startTime.toISOString(),
+              end: endTime,
+            },
+          },
+        },
+        end: {
+          ...deliveryFulfillment.end,
+          time: {
+            range: {
+              start: endTime,
+              end: new Date(
+                startTime.getTime() +
+                  1000 *
+                    isoDurToSec(deliveryFulfillment["@ondc/org/TAT"] || "PT0H")
+              ).toISOString(),
+            },
+          },
+        },
+        tags: tags.tags,
+      };
+    }
+  }
+
+  replacementFulfillment = {
+    ...replacementFulfillment,
+    id: replacementId,
+    state: {
+      descriptor: {
+        code: "Pending",
+      },
+    },
+  };
 
   returnItems.forEach((retItem: any) => {
     const item = items.find((i: any) => i.id === retItem.item_id);
@@ -57,14 +153,12 @@ export async function on_update_picked_generator(
     }
   });
 
-  console.log("returnItems", returnItems);
   const returnFulfillmentItems = returnItems.map((retItem: any) => ({
     id: retItem.item_id,
     fulfillment_id: returnFulfillmentId,
     quantity: { count: parseInt(retItem.item_quantity, 10) },
   }));
 
-  // Combine both
   const updatedItems = [...items, ...returnFulfillmentItems];
 
   console.log("updatedItems", updatedItems);
@@ -80,7 +174,7 @@ export async function on_update_picked_generator(
     );
     if (retItem && b["@ondc/org/title_type"] === "item") {
       const newCount =
-        b["@ondc/org/item_quantity"]?.count -
+        parseInt(b["@ondc/org/item_quantity"]?.count, 10) -
         parseInt(retItem.item_quantity, 10);
       const itemPrice = parseFloat(b.item.price.value);
       const newValue = (newCount * itemPrice).toFixed(2);
@@ -97,10 +191,9 @@ export async function on_update_picked_generator(
   const totalValue = updatedBreakup
     .reduce((acc, b) => acc + parseFloat(b.price.value), 0)
     .toFixed(2);
-
   existingPayload.message.order.quote = {
     breakup: updatedBreakup,
-    price: { currency: "INR", value: totalValue },
+    price: { currency: "INR", value: `${totalValue}` },
     ttl: "P1D",
   };
 
@@ -121,9 +214,6 @@ export async function on_update_picked_generator(
       ],
     };
   });
-
-  console.log("quoteTrails", quoteTrails);
-
   existingPayload.message.order.fulfillments = sessionData.fulfillments.map(
     (f: Fulfillment) => {
       if (f.type == "Return") {
@@ -142,11 +232,13 @@ export async function on_update_picked_generator(
               timeStamp: new Date().toISOString(),
             },
           },
-          tags: [...tags, ...quoteTrails],
+          tags: [...tags, replacementTag, ...quoteTrails],
         };
       }
       return f;
     }
   );
+  existingPayload.message.order.fulfillments.push(replacementFulfillment);
+  existingPayload.message.order.state = "Completed";
   return existingPayload;
 }

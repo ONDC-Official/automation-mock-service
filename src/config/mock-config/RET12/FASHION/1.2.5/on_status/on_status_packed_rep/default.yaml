@@ -1,6 +1,6 @@
 order:
   id: O1
-  state: Completed
+  state: In-progress
   provider:
     id: P1
     locations:
@@ -29,7 +29,7 @@ order:
       "@ondc/org/provider_name": Seller Business
       state:
         descriptor:
-          code: Order-delivered
+          code: Packed
       type: Delivery
       tracking: false
       "@ondc/org/TAT": P3D
@@ -47,14 +47,13 @@ order:
             state: Karnataka
             locality: my street name
             name: my house or door or floor
-        contact: 
-          phone: "9594663710"
-          email: nobody@nomail.com
         time:
           range:
             start: "2024-08-14T09:27:36.706Z"
             end: "2024-08-16T09:27:36.707Z"
-          timestamp: "2024-08-14T09:27:57.891Z"
+        contact:
+          phone: "9594663710"
+          email: nobody@nomail.com
       end:
         person:
           name: John Doe
@@ -71,11 +70,11 @@ order:
             area_code: "560027"
             locality: my street name
             name: my house or door or floor
-          time:
-            range:
-              start: "2024-08-17T09:27:36.706Z"
-              end: "2024-08-19T09:27:36.707Z"
-        tags:
+        time:
+          range:
+            start: "2024-08-17T09:27:36.706Z"
+            end: "2024-08-19T09:27:36.707Z"
+      tags:
         - code: routing
           list:
             - code: type
@@ -130,7 +129,7 @@ order:
         bank_name: xxxx
         branch_name: xxxx
   documents:
-    - url: https://invoice_url
+    - url: https://dev-automation.ondc.org
       label: Invoice
   created_at: "2024-08-14T09:11:00.810Z"
-  updated_at: "2024-08-14T09:28:25.171Z"
+  updated_at: "2024-08-14T09:27:49.623Z"

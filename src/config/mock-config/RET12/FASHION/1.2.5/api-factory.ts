@@ -17,6 +17,10 @@ import { on_status_agent_assigned_generator } from "./on_status/on_status_agent_
 import { on_status_picked_generator } from "./on_status/on_status_picked/generator";
 import { on_status_out_for_delivery_generator } from "./on_status/on_status_out_for_delivery/generator";
 import { on_status_order_delivered_generator } from "./on_status/on_status_order_delivered/generator";
+import { on_status_packed_rep_generator } from "./on_status/on_status_packed_rep/generator";
+import { on_status_picked_rep_generator } from "./on_status/on_status_picked_rep/generator";
+import { on_status_out_for_delivery_rep_generator } from "./on_status/on_status_out_for_delivery_rep/generator";
+import { on_status_order_delivered_rep_generator } from "./on_status/on_status_order_delivered_rep/generator";
 
 import { select_out_of_stock_generator } from "./select/select_out_of_stock/generator";
 import { on_select_out_of_stock_generator } from "./on_select/on_select_out_of_stock/generator";
@@ -45,6 +49,8 @@ import { on_confirm_cod_generator } from "./on_confirm/on_confirm_cod/generator"
 import { on_status_order_delivered_cod_generator } from "./on_status/on_status_order_delivered_cod/generator";
 import { confirm_seller_cred_generator } from "./confirm/confirm_seller_cred/generator";
 import { on_confirm_seller_cred_generator } from "./on_confirm/on_confirm_seller_cred/generator";
+import { update_reverse_qc_rep_generator } from "./update/update_reverse_qc_rep/generator";
+import { on_update_picked_rep_generator } from "./on_update/on_update_return_picked_rep/generator";
 export async function Generator(
   action_id: string,
   existingPayload: any,
@@ -77,14 +83,28 @@ export async function Generator(
       return on_status_pending_generator(existingPayload, sessionData);
     case "on_status_packed":
       return on_status_packed_generator(existingPayload, sessionData);
+    case "on_status_packed_rep":
+      return on_status_packed_rep_generator(existingPayload, sessionData);
     case "on_status_agent_assigned":
       return on_status_agent_assigned_generator(existingPayload, sessionData);
     case "on_status_picked":
       return on_status_picked_generator(existingPayload, sessionData);
+    case "on_status_picked_rep":
+      return on_status_picked_rep_generator(existingPayload, sessionData);
     case "on_status_out_for_delivery":
       return on_status_out_for_delivery_generator(existingPayload, sessionData);
+    case "on_status_out_for_delivery_rep":
+      return on_status_out_for_delivery_rep_generator(
+        existingPayload,
+        sessionData
+      );
     case "on_status_order_delivered":
       return on_status_order_delivered_generator(existingPayload, sessionData);
+    case "on_status_order_delivered_rep":
+      return on_status_order_delivered_rep_generator(
+        existingPayload,
+        sessionData
+      );
     case "select_out_of_stock":
       return select_out_of_stock_generator(existingPayload, sessionData);
     case "on_select_out_of_stock":
@@ -107,7 +127,7 @@ export async function Generator(
         existingPayload,
         sessionData
       );
-    case "update_reverse_qc_generator":
+    case "update_reverse_qc":
       return update_reverse_qc_generator(existingPayload, sessionData);
     case "on_update_interim_reverseQc":
       return on_update_interim_reverseQc_generator(
@@ -124,6 +144,7 @@ export async function Generator(
         sessionData
       );
     case "on_update_return_delivered":
+    case "on_update_return_delivered_rep":
       return on_update_return_delivered_generator(existingPayload, sessionData);
     case "cancel_return_request":
       return cancel_return_request_generator(existingPayload, sessionData);
@@ -146,6 +167,10 @@ export async function Generator(
       return confirm_seller_cred_generator(existingPayload, sessionData);
     case "on_confirm_seller_cred":
       return on_confirm_seller_cred_generator(existingPayload, sessionData);
+    case "update_reverse_qc_rep":
+      return update_reverse_qc_rep_generator(existingPayload, sessionData);
+    case "on_update_return_picked_rep":
+      return on_update_picked_rep_generator(existingPayload, sessionData);
     default:
       console.log(action_id);
       throw new Error("Invalid action id found! ");

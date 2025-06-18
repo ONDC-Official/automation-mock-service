@@ -2,3 +2,4 @@ save-data:
   message_id: $.context.message_id
   city: $.context.city
   inc_mode: $.message.intent.tags[?(@.code=="catalog_inc")].list[?(@.code=="mode")].value
+  bap_features: $.message.intent.tags[?(@.code=="bap_features")].list[?(@.value=="yes")].code
