@@ -364,31 +364,39 @@ export async function Generator(
 		case "confirm_multi_fulfillment":
 			return confirm_multi_fulfillment_generator(existingPayload, sessionData);
 		case "update_buyer_instructions":
-			return update_buyer_instructions(existingPayload,sessionData)
+			return update_buyer_instructions(existingPayload, sessionData);
 		case "on_update_buyer_instructions":
-			return on_update_buyer_instructions(existingPayload,sessionData)
+			return on_update_buyer_instructions(existingPayload, sessionData);
 		case "update_delivery_address":
-			return update_delivery_address(existingPayload,sessionData)
+			return update_delivery_address(existingPayload, sessionData);
 		case "on_update_delivery_address":
-			return on_update_delivery_address(existingPayload,sessionData)
+			return on_update_delivery_address(existingPayload, sessionData);
 		case "on_update_delivery_auth":
-			return on_update_delivery_auth(existingPayload,sessionData)
+			return on_update_delivery_auth(existingPayload, sessionData);
 		case "on_select_slotted_delivery":
-			return on_select_slotted_delivery_generator(existingPayload,sessionData)
+			return on_select_slotted_delivery_generator(existingPayload, sessionData);
 		case "init_slotted_delivery":
-			return init_slotted_delivery_generator(existingPayload,sessionData)
+			return init_slotted_delivery_generator(existingPayload, sessionData);
 		case "on_init_slotted_delivery":
-			return on_init_slotted_delivery_generator(existingPayload,sessionData)
+			return on_init_slotted_delivery_generator(existingPayload, sessionData);
 		case "on_select_self_pickup":
-			return on_select_self_pickup_generator(existingPayload,sessionData)
+			return on_select_self_pickup_generator(existingPayload, sessionData);
 		case "init_self_pickup":
-			return init_self_pickup_generator(existingPayload,sessionData)
+			return init_self_pickup_generator(existingPayload, sessionData);
 		case "on_init_self_pickup":
-			return on_init_self_pickup_generator(existingPayload,sessionData)
+			return on_init_self_pickup_generator(existingPayload, sessionData);
 		case "on_status_self_pick_packed":
-			return on_status_self_pickup_packed_generator(existingPayload,sessionData)
+			return on_status_self_pickup_packed_generator(
+				existingPayload,
+				sessionData
+			);
 		case "on_status_self_pick_picked":
-			return on_status_self_pickup_picked_generator(existingPayload,sessionData)
+			return on_status_self_pickup_picked_generator(
+				existingPayload,
+				sessionData
+			);
+		case "search_inc_stop":
+			return search_inc_generator(existingPayload, sessionData);
 		default:
 			console.log(action_id);
 			throw new Error("Invalid action id found! ");

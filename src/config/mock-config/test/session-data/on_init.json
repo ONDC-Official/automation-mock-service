@@ -1,6 +1,6 @@
 {
-  "transaction_id": "25b8147d-3235-4862-9fd8-61da85b56ff5",
-  "message_id": "2f21abd2-f974-432e-b6b6-2e86fe52d008",
+  "transaction_id": "6bde15b3-0c12-4e6d-87ac-c5330f731eb8",
+  "message_id": "d0394dbe-3a0b-4dd8-ae71-f90f9d468b45",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -44,14 +44,14 @@
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F3"
+      "fulfillment_id": "F1"
     },
     {
       "id": "I3",
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F1"
+      "fulfillment_id": "F2"
     },
     {
       "id": "I2",
@@ -82,12 +82,12 @@
     "phone": "9898989898",
     "name": "ONDC buyer",
     "email": "nobody@nomail.com",
-    "created_at": "2025-06-19T08:41:19.854Z",
-    "updated_at": "2025-06-19T08:41:19.854Z"
+    "created_at": "2025-06-19T08:47:15.528Z",
+    "updated_at": "2025-06-19T08:47:15.528Z"
   },
   "fulfillments": [
     {
-      "id": "F3",
+      "id": "F1",
       "type": "Delivery",
       "end": {
         "contact": {
@@ -110,7 +110,30 @@
       "tracking": true
     },
     {
-      "id": "F1",
+      "id": "F2",
+      "type": "Delivery",
+      "end": {
+        "contact": {
+          "email": "nobody@nomail.com",
+          "phone": "9898989898"
+        },
+        "location": {
+          "gps": "12.1233,12.9992",
+          "address": {
+            "building": "mock-building",
+            "city": "mock-city",
+            "state": "mock-state",
+            "country": "IND",
+            "area_code": "110092",
+            "locality": "mock-locality",
+            "name": "mock-house-name"
+          }
+        }
+      },
+      "tracking": true
+    },
+    {
+      "id": "F3",
       "type": "Delivery",
       "end": {
         "contact": {
@@ -268,6 +291,24 @@
               ]
             }
           ]
+        }
+      },
+      {
+        "@ondc/org/item_id": "F2",
+        "title": "Delivery charges",
+        "@ondc/org/title_type": "delivery",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "F2",
+        "title": "Convenience Fee",
+        "@ondc/org/title_type": "misc",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
         }
       },
       {

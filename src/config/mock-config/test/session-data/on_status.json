@@ -1,6 +1,6 @@
 {
-  "transaction_id": "25b8147d-3235-4862-9fd8-61da85b56ff5",
-  "message_id": "92801edc-52f4-4c9e-b7be-4c3a7b913b5f",
+  "transaction_id": "6bde15b3-0c12-4e6d-87ac-c5330f731eb8",
+  "message_id": "a6daeed6-1fe9-4f25-80c6-27ae65482478",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -44,14 +44,14 @@
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F3"
+      "fulfillment_id": "F1"
     },
     {
       "id": "I3",
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F1"
+      "fulfillment_id": "F2"
     },
     {
       "id": "I2",
@@ -82,12 +82,12 @@
     "phone": "9898989898",
     "name": "ONDC buyer",
     "email": "nobody@nomail.com",
-    "created_at": "2025-06-19T08:41:19.854Z",
-    "updated_at": "2025-06-19T08:41:19.854Z"
+    "created_at": "2025-06-19T08:47:15.528Z",
+    "updated_at": "2025-06-19T08:47:15.528Z"
   },
   "fulfillments": [
     {
-      "id": "F3",
+      "id": "F1",
       "type": "Delivery",
       "tracking": true,
       "state": {
@@ -95,7 +95,7 @@
           "code": "Pending"
         }
       },
-      "@ondc/org/TAT": "P1D",
+      "@ondc/org/TAT": "PT60M",
       "@ondc/org/provider_name": "mock_provider_name_0",
       "start": {
         "location": {
@@ -120,8 +120,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T08:51:24.865Z",
-            "end": "2025-06-19T09:01:24.865Z"
+            "start": "2025-06-19T08:57:20.542Z",
+            "end": "2025-06-19T09:07:20.542Z"
           }
         }
       },
@@ -147,8 +147,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T09:01:24.865Z",
-            "end": "2025-06-20T08:51:24.865Z"
+            "start": "2025-06-19T09:07:20.542Z",
+            "end": "2025-06-19T09:57:20.542Z"
           }
         }
       },
@@ -182,7 +182,7 @@
       ]
     },
     {
-      "id": "F1",
+      "id": "F2",
       "type": "Delivery",
       "tracking": true,
       "state": {
@@ -190,7 +190,7 @@
           "code": "Pending"
         }
       },
-      "@ondc/org/TAT": "PT60M",
+      "@ondc/org/TAT": "PT2H",
       "@ondc/org/provider_name": "mock_provider_name_1",
       "start": {
         "location": {
@@ -215,8 +215,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T08:51:24.865Z",
-            "end": "2025-06-19T09:01:24.865Z"
+            "start": "2025-06-19T08:57:20.542Z",
+            "end": "2025-06-19T09:07:20.542Z"
           }
         }
       },
@@ -242,8 +242,103 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T09:01:24.865Z",
-            "end": "2025-06-19T09:51:24.865Z"
+            "start": "2025-06-19T09:07:20.542Z",
+            "end": "2025-06-19T10:57:20.542Z"
+          }
+        }
+      },
+      "tags": [
+        {
+          "code": "routing",
+          "list": [
+            {
+              "code": "type",
+              "value": "P2H2P"
+            }
+          ]
+        },
+        {
+          "code": "tracking",
+          "list": [
+            {
+              "code": "gps_enabled",
+              "value": "no"
+            },
+            {
+              "code": "url_enabled",
+              "value": "yes"
+            },
+            {
+              "code": "url",
+              "value": "https://sellerNP.com/ondc/tracking_url"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "type": "Delivery",
+      "tracking": true,
+      "state": {
+        "descriptor": {
+          "code": "Pending"
+        }
+      },
+      "@ondc/org/TAT": "P1D",
+      "@ondc/org/provider_name": "mock_provider_name_2",
+      "start": {
+        "location": {
+          "id": "L1",
+          "descriptor": {
+            "name": "ABC Store"
+          },
+          "gps": "19.129076,72.825803",
+          "address": {
+            "building": "my building name or house",
+            "city": "Mumbai",
+            "state": "Maharashtra",
+            "country": "IND",
+            "area_code": "400053",
+            "locality": "my street name",
+            "name": "my house or door or floor"
+          }
+        },
+        "contact": {
+          "phone": "9594663710",
+          "email": "nobody@nomail.com"
+        },
+        "time": {
+          "range": {
+            "start": "2025-06-19T08:57:20.542Z",
+            "end": "2025-06-19T09:07:20.542Z"
+          }
+        }
+      },
+      "end": {
+        "contact": {
+          "email": "nobody@nomail.com",
+          "phone": "9898989898"
+        },
+        "person": {
+          "name": "mock-person"
+        },
+        "location": {
+          "gps": "12.1233,12.9992",
+          "address": {
+            "building": "mock-building",
+            "city": "mock-city",
+            "state": "mock-state",
+            "country": "IND",
+            "area_code": "110092",
+            "locality": "mock-locality",
+            "name": "mock-house-name"
+          }
+        },
+        "time": {
+          "range": {
+            "start": "2025-06-19T09:07:20.542Z",
+            "end": "2025-06-20T08:57:20.542Z"
           }
         }
       },
@@ -415,6 +510,24 @@
         }
       },
       {
+        "@ondc/org/item_id": "F2",
+        "title": "Delivery charges",
+        "@ondc/org/title_type": "delivery",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "F2",
+        "title": "Convenience Fee",
+        "@ondc/org/title_type": "misc",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
         "@ondc/org/item_id": "F3",
         "title": "Delivery charges",
         "@ondc/org/title_type": "delivery",
@@ -439,7 +552,7 @@
     },
     "ttl": "P1D"
   },
-  "order_id": "742626",
+  "order_id": "846639",
   "payment": {
     "params": {
       "amount": "675.00",
@@ -468,7 +581,7 @@
     ]
   },
   "order_state": "Accepted",
-  "order_created_at": "2025-06-19T08:41:24.861Z",
+  "order_created_at": "2025-06-19T08:47:20.537Z",
   "on_select_fulfillments": [
     {
       "id": "F1",
@@ -512,7 +625,7 @@
   ],
   "on_status_fulfillments": [
     {
-      "id": "F3",
+      "id": "F1",
       "type": "Delivery",
       "tracking": true,
       "state": {
@@ -520,7 +633,7 @@
           "code": "Pending"
         }
       },
-      "@ondc/org/TAT": "P1D",
+      "@ondc/org/TAT": "PT60M",
       "@ondc/org/provider_name": "mock_provider_name_0",
       "start": {
         "location": {
@@ -545,8 +658,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T08:51:24.865Z",
-            "end": "2025-06-19T09:01:24.865Z"
+            "start": "2025-06-19T08:57:20.542Z",
+            "end": "2025-06-19T09:07:20.542Z"
           }
         }
       },
@@ -572,8 +685,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T09:01:24.865Z",
-            "end": "2025-06-20T08:51:24.865Z"
+            "start": "2025-06-19T09:07:20.542Z",
+            "end": "2025-06-19T09:57:20.542Z"
           }
         }
       },
@@ -607,7 +720,7 @@
       ]
     },
     {
-      "id": "F1",
+      "id": "F2",
       "type": "Delivery",
       "tracking": true,
       "state": {
@@ -615,7 +728,7 @@
           "code": "Pending"
         }
       },
-      "@ondc/org/TAT": "PT60M",
+      "@ondc/org/TAT": "PT2H",
       "@ondc/org/provider_name": "mock_provider_name_1",
       "start": {
         "location": {
@@ -640,8 +753,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T08:51:24.865Z",
-            "end": "2025-06-19T09:01:24.865Z"
+            "start": "2025-06-19T08:57:20.542Z",
+            "end": "2025-06-19T09:07:20.542Z"
           }
         }
       },
@@ -667,8 +780,103 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T09:01:24.865Z",
-            "end": "2025-06-19T09:51:24.865Z"
+            "start": "2025-06-19T09:07:20.542Z",
+            "end": "2025-06-19T10:57:20.542Z"
+          }
+        }
+      },
+      "tags": [
+        {
+          "code": "routing",
+          "list": [
+            {
+              "code": "type",
+              "value": "P2H2P"
+            }
+          ]
+        },
+        {
+          "code": "tracking",
+          "list": [
+            {
+              "code": "gps_enabled",
+              "value": "no"
+            },
+            {
+              "code": "url_enabled",
+              "value": "yes"
+            },
+            {
+              "code": "url",
+              "value": "https://sellerNP.com/ondc/tracking_url"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "type": "Delivery",
+      "tracking": true,
+      "state": {
+        "descriptor": {
+          "code": "Pending"
+        }
+      },
+      "@ondc/org/TAT": "P1D",
+      "@ondc/org/provider_name": "mock_provider_name_2",
+      "start": {
+        "location": {
+          "id": "L1",
+          "descriptor": {
+            "name": "ABC Store"
+          },
+          "gps": "19.129076,72.825803",
+          "address": {
+            "building": "my building name or house",
+            "city": "Mumbai",
+            "state": "Maharashtra",
+            "country": "IND",
+            "area_code": "400053",
+            "locality": "my street name",
+            "name": "my house or door or floor"
+          }
+        },
+        "contact": {
+          "phone": "9594663710",
+          "email": "nobody@nomail.com"
+        },
+        "time": {
+          "range": {
+            "start": "2025-06-19T08:57:20.542Z",
+            "end": "2025-06-19T09:07:20.542Z"
+          }
+        }
+      },
+      "end": {
+        "contact": {
+          "email": "nobody@nomail.com",
+          "phone": "9898989898"
+        },
+        "person": {
+          "name": "mock-person"
+        },
+        "location": {
+          "gps": "12.1233,12.9992",
+          "address": {
+            "building": "mock-building",
+            "city": "mock-city",
+            "state": "mock-state",
+            "country": "IND",
+            "area_code": "110092",
+            "locality": "mock-locality",
+            "name": "mock-house-name"
+          }
+        },
+        "time": {
+          "range": {
+            "start": "2025-06-19T09:07:20.542Z",
+            "end": "2025-06-20T08:57:20.542Z"
           }
         }
       },
@@ -789,7 +997,7 @@
       ]
     }
   ],
-  "last_updated_at": "2025-06-19T08:41:24.865Z",
+  "last_updated_at": "2025-06-19T08:47:20.542Z",
   "bap_id": "dev-automation.ondc.org",
   "bpp_id": "dev-automation.ondc.org",
   "bap_uri": "https://dev-automation.ondc.org/buyer",

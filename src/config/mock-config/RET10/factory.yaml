@@ -569,3 +569,8 @@ codes:
     action_id: on_status_self_pick_picked
     action: on_status
     message_id: true
+  - code: 212
+    action_id: search_inc_stop
+    default: GROCERY/1.2.5/search/search_inc/default.yaml
+    action: search
+    message_id: true
