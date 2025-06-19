@@ -1,6 +1,7 @@
 import { SessionData, Input } from "../../../session-types";
 import { discount, buyXgetY } from "./offers";
 import { getFutureDate } from "../../../../../../utils/generic-utils";
+import { stateCodes } from "../areaCodes";
 
 export const onSearchGenerator = (
   existingPayload: any,
@@ -17,6 +18,12 @@ export const onSearchGenerator = (
       existingPayload.message.catalog["bpp/providers"][0].offers = buyXgetY;
     }
   }
+
+  existingPayload.message.catalog[
+    "bpp/providers"
+  ][0].locations[0].address.area_code = Object.keys(stateCodes).find(
+    (k) => stateCodes[k] === existingPayload.context.city
+  );
 
   existingPayload.message.catalog[
     "bpp/providers"
