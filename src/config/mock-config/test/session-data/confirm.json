@@ -1,6 +1,6 @@
 {
-  "transaction_id": "4db25d8c-a40c-4658-b4ee-be81457dbecb",
-  "message_id": "d1263871-37e8-41d3-abe6-0e371b5aeb90",
+  "transaction_id": "a31c1ca7-afe8-49d9-bc05-852af82fdf68",
+  "message_id": "6c7dea2a-5ac7-47dd-baa8-0dfbf5e1ffca",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -43,14 +43,14 @@
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F3"
+      "fulfillment_id": "F1"
     },
     {
       "id": "I3",
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F1"
+      "fulfillment_id": "F2"
     },
     {
       "id": "I2",
@@ -81,38 +81,10 @@
     "phone": "9898989898",
     "name": "ONDC buyer",
     "email": "nobody@nomail.com",
-    "created_at": "2025-06-11T07:15:12.574Z",
-    "updated_at": "2025-06-11T07:15:12.574Z"
+    "created_at": "2025-06-18T10:58:03.799Z",
+    "updated_at": "2025-06-18T10:58:03.799Z"
   },
   "fulfillments": [
-    {
-      "id": "F3",
-      "type": "Delivery",
-      "end": {
-        "contact": {
-          "email": "nobody@nomail.com",
-          "phone": "9898989898"
-        },
-        "person": {
-          "name": "mock-person"
-        },
-        "location": {
-          "gps": "12.1233,12.9992",
-          "address": {
-            "building": "mock-building",
-            "city": "mock-city",
-            "state": "mock-state",
-            "country": "IND",
-            "area_code": "110092",
-            "locality": "mock-locality",
-            "name": "mock-house-name"
-          }
-        }
-      },
-      "tracking": true,
-      "@ondc/org/category": "Immediate Delivery",
-      "@ondc/org/TAT": "P1D"
-    },
     {
       "id": "F1",
       "type": "Delivery",
@@ -140,9 +112,65 @@
       "tracking": true,
       "@ondc/org/category": "Immediate Delivery",
       "@ondc/org/TAT": "PT60M"
+    },
+    {
+      "id": "F2",
+      "type": "Delivery",
+      "end": {
+        "contact": {
+          "email": "nobody@nomail.com",
+          "phone": "9898989898"
+        },
+        "person": {
+          "name": "mock-person"
+        },
+        "location": {
+          "gps": "12.1233,12.9992",
+          "address": {
+            "building": "mock-building",
+            "city": "mock-city",
+            "state": "mock-state",
+            "country": "IND",
+            "area_code": "110092",
+            "locality": "mock-locality",
+            "name": "mock-house-name"
+          }
+        }
+      },
+      "tracking": true,
+      "@ondc/org/category": "Immediate Delivery",
+      "@ondc/org/TAT": "PT2H"
+    },
+    {
+      "id": "F3",
+      "type": "Delivery",
+      "end": {
+        "contact": {
+          "email": "nobody@nomail.com",
+          "phone": "9898989898"
+        },
+        "person": {
+          "name": "mock-person"
+        },
+        "location": {
+          "gps": "12.1233,12.9992",
+          "address": {
+            "building": "mock-building",
+            "city": "mock-city",
+            "state": "mock-state",
+            "country": "IND",
+            "area_code": "110092",
+            "locality": "mock-locality",
+            "name": "mock-house-name"
+          }
+        }
+      },
+      "tracking": true,
+      "@ondc/org/category": "Immediate Delivery",
+      "@ondc/org/TAT": "P1D"
     }
   ],
-  "order_id": "243573",
+  "order_id": "801435",
   "payment": {
     "params": {
       "currency": "INR",
@@ -170,7 +198,7 @@
     ]
   },
   "order_state": "Created",
-  "order_created_at": "2025-06-11T07:15:17.579Z",
+  "order_created_at": "2025-06-18T10:58:08.805Z",
   "on_select_fulfillments": [
     {
       "id": "F1",

@@ -50,7 +50,8 @@ export async function on_select_out_of_stock_generator(
 			existingPayload.error = {
 				type: "DOMAIN-ERROR",
 				code: "40002",
-				message: `Item with id: ${i.id} is out of stock`,
+				// message: `Item with id: ${i.id} is out of stock`,
+				message: `{"item_id":"${i.id}","error":"40002"}`,
 			};
 		}
 	}

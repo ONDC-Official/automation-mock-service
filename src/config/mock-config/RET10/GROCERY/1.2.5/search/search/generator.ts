@@ -9,7 +9,7 @@ export async function search_generator(
 	let codesArray = sessionData?.user_inputs?.feature_discovery || [];
 	const tags = existingPayload.message.intent.tags as any[];
 	tags.push({
-		code: "bnp_features",
+		code: "bap_features",
 		list: [
 			{
 				code: "001",

@@ -30,6 +30,7 @@ const inputsData = {
 				{
 					itemId: "I2",
 					quantity: 1,
+					location: "L1",
 				},
 			],
 			offers_FLAT50: false,
