@@ -1,6 +1,6 @@
 {
-  "transaction_id": "a31c1ca7-afe8-49d9-bc05-852af82fdf68",
-  "message_id": "80e5a01b-ab10-4963-852e-18161a5f1a85",
+  "transaction_id": "25b8147d-3235-4862-9fd8-61da85b56ff5",
+  "message_id": "eeda5f21-0f12-4e3e-a7c2-8cc61afb78dc",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -22,7 +22,8 @@
       "id": "I2",
       "quantity": {
         "count": 1
-      }
+      },
+      "location": "L1"
     }
   ],
   "selected_fulfillments": [

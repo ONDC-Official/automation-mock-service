@@ -1,6 +1,6 @@
 {
-  "transaction_id": "a31c1ca7-afe8-49d9-bc05-852af82fdf68",
-  "message_id": "80e5a01b-ab10-4963-852e-18161a5f1a85",
+  "transaction_id": "25b8147d-3235-4862-9fd8-61da85b56ff5",
+  "message_id": "eeda5f21-0f12-4e3e-a7c2-8cc61afb78dc",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -22,7 +22,8 @@
       "id": "I2",
       "quantity": {
         "count": 1
-      }
+      },
+      "location": "L1"
     }
   ],
   "selected_fulfillments": [
@@ -48,6 +49,186 @@
   },
   "billing": null,
   "fulfillments": [],
+  "quote": {
+    "breakup": [
+      {
+        "@ondc/org/item_id": "I1",
+        "@ondc/org/item_quantity": {
+          "count": 1
+        },
+        "title": "Plain Atta",
+        "@ondc/org/title_type": "item",
+        "price": {
+          "currency": "INR",
+          "value": "200.00"
+        },
+        "item": {
+          "quantity": {
+            "available": {
+              "count": "99"
+            },
+            "maximum": {
+              "count": "99"
+            }
+          },
+          "price": {
+            "currency": "INR",
+            "value": "200.00"
+          }
+        }
+      },
+      {
+        "@ondc/org/item_id": "I3",
+        "@ondc/org/item_quantity": {
+          "count": 1
+        },
+        "title": "Alphanso Mango",
+        "@ondc/org/title_type": "item",
+        "price": {
+          "currency": "INR",
+          "value": "250.00"
+        },
+        "item": {
+          "quantity": {
+            "available": {
+              "count": "99"
+            },
+            "maximum": {
+              "count": "99"
+            }
+          },
+          "price": {
+            "currency": "INR",
+            "value": "250.00"
+          }
+        }
+      },
+      {
+        "@ondc/org/item_id": "I2",
+        "@ondc/org/item_quantity": {
+          "count": 1
+        },
+        "title": "Plain Atta",
+        "@ondc/org/title_type": "item",
+        "price": {
+          "currency": "INR",
+          "value": "300.00"
+        },
+        "item": {
+          "quantity": {
+            "available": {
+              "count": "99"
+            },
+            "maximum": {
+              "count": "99"
+            }
+          },
+          "price": {
+            "currency": "INR",
+            "value": "300.00"
+          }
+        }
+      },
+      {
+        "@ondc/org/item_id": "F1",
+        "title": "Delivery charges",
+        "@ondc/org/title_type": "delivery",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "F1",
+        "title": "Convenience Fee",
+        "@ondc/org/title_type": "misc",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "combo1",
+        "title": "Flat discount of ₹75 on combo",
+        "@ondc/org/title_type": "offer",
+        "price": {
+          "currency": "INR",
+          "value": "-75.00"
+        },
+        "item": {
+          "tags": [
+            {
+              "code": "quote",
+              "list": [
+                {
+                  "code": "type",
+                  "value": "order"
+                }
+              ]
+            },
+            {
+              "code": "offer",
+              "list": [
+                {
+                  "code": "type",
+                  "value": "combo"
+                },
+                {
+                  "code": "additive",
+                  "value": "no"
+                },
+                {
+                  "code": "auto",
+                  "value": "no"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "@ondc/org/item_id": "F2",
+        "title": "Delivery charges",
+        "@ondc/org/title_type": "delivery",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "F2",
+        "title": "Convenience Fee",
+        "@ondc/org/title_type": "misc",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "F3",
+        "title": "Delivery charges",
+        "@ondc/org/title_type": "delivery",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "F3",
+        "title": "Convenience Fee",
+        "@ondc/org/title_type": "misc",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      }
+    ],
+    "price": {
+      "currency": "INR",
+      "value": "675.00"
+    },
+    "ttl": "P1D"
+  },
   "order_id": null,
   "payment": null,
   "order_state": null,

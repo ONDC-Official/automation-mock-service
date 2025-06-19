@@ -3,7 +3,7 @@ import { Fulfillments } from "../../api-objects/fulfillments";
 import { on_init_generator } from "../on_init/generator";
 import { SessionCacheService } from "../../../../../../../services/cache-services";
 import { logger } from "../../../../../../../utils/logger";
-
+import jsonpath from "jsonpath";
 export async function on_init_multi_fulfillment_generator(
 	existingPayload: any,
 	sessionData: SessionData
@@ -13,6 +13,15 @@ export async function on_init_multi_fulfillment_generator(
 		payload.message.order.fulfillments,
 		sessionData
 	);
+	const selectedFids = jsonpath.query(
+		payload,
+		"$.message.order.items[*].fulfillment_id"
+	);
+	const breakup = payload.message.order.quote.breakup || [];
+	payload.message.order.quote.breakup = breakup.filter((b: any) => {
+		if (!["F1", "F2", "F3"].includes(b["@ondc/org/item_id"])) return true;
+		return selectedFids.includes(b["@ondc/org/item_id"]);
+	});
 	return payload;
 }
 

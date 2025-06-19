@@ -1,6 +1,6 @@
 {
-  "transaction_id": "a31c1ca7-afe8-49d9-bc05-852af82fdf68",
-  "message_id": "6c7dea2a-5ac7-47dd-baa8-0dfbf5e1ffca",
+  "transaction_id": "25b8147d-3235-4862-9fd8-61da85b56ff5",
+  "message_id": "92801edc-52f4-4c9e-b7be-4c3a7b913b5f",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -22,7 +22,8 @@
       "id": "I2",
       "quantity": {
         "count": 1
-      }
+      },
+      "location": "L1"
     }
   ],
   "selected_fulfillments": [
@@ -43,14 +44,14 @@
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F1"
+      "fulfillment_id": "F3"
     },
     {
       "id": "I3",
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F2"
+      "fulfillment_id": "F1"
     },
     {
       "id": "I2",
@@ -81,12 +82,12 @@
     "phone": "9898989898",
     "name": "ONDC buyer",
     "email": "nobody@nomail.com",
-    "created_at": "2025-06-18T10:58:03.799Z",
-    "updated_at": "2025-06-18T10:58:03.799Z"
+    "created_at": "2025-06-19T08:41:19.854Z",
+    "updated_at": "2025-06-19T08:41:19.854Z"
   },
   "fulfillments": [
     {
-      "id": "F1",
+      "id": "F3",
       "type": "Delivery",
       "tracking": true,
       "state": {
@@ -94,7 +95,7 @@
           "code": "Pending"
         }
       },
-      "@ondc/org/TAT": "PT60M",
+      "@ondc/org/TAT": "P1D",
       "@ondc/org/provider_name": "mock_provider_name_0",
       "start": {
         "location": {
@@ -141,7 +142,7 @@
       }
     },
     {
-      "id": "F2",
+      "id": "F1",
       "type": "Delivery",
       "tracking": true,
       "state": {
@@ -149,63 +150,8 @@
           "code": "Pending"
         }
       },
-      "@ondc/org/TAT": "PT2H",
+      "@ondc/org/TAT": "PT60M",
       "@ondc/org/provider_name": "mock_provider_name_1",
-      "start": {
-        "location": {
-          "id": "L1",
-          "descriptor": {
-            "name": "ABC Store"
-          },
-          "gps": "19.129076,72.825803",
-          "address": {
-            "building": "my building name or house",
-            "city": "Mumbai",
-            "state": "Maharashtra",
-            "country": "IND",
-            "area_code": "400053",
-            "locality": "my street name",
-            "name": "my house or door or floor"
-          }
-        },
-        "contact": {
-          "phone": "9594663710",
-          "email": "nobody@nomail.com"
-        }
-      },
-      "end": {
-        "contact": {
-          "email": "nobody@nomail.com",
-          "phone": "9898989898"
-        },
-        "person": {
-          "name": "mock-person"
-        },
-        "location": {
-          "gps": "12.1233,12.9992",
-          "address": {
-            "building": "mock-building",
-            "city": "mock-city",
-            "state": "mock-state",
-            "country": "IND",
-            "area_code": "110092",
-            "locality": "mock-locality",
-            "name": "mock-house-name"
-          }
-        }
-      }
-    },
-    {
-      "id": "F3",
-      "type": "Delivery",
-      "tracking": true,
-      "state": {
-        "descriptor": {
-          "code": "Pending"
-        }
-      },
-      "@ondc/org/TAT": "P1D",
-      "@ondc/org/provider_name": "mock_provider_name_2",
       "start": {
         "location": {
           "id": "L1",
@@ -251,9 +197,172 @@
       }
     }
   ],
-  "order_id": "801435",
+  "quote": {
+    "breakup": [
+      {
+        "@ondc/org/item_id": "I1",
+        "@ondc/org/item_quantity": {
+          "count": 1
+        },
+        "title": "Plain Atta",
+        "@ondc/org/title_type": "item",
+        "price": {
+          "currency": "INR",
+          "value": "200.00"
+        },
+        "item": {
+          "quantity": {
+            "available": {
+              "count": "99"
+            },
+            "maximum": {
+              "count": "99"
+            }
+          },
+          "price": {
+            "currency": "INR",
+            "value": "200.00"
+          }
+        }
+      },
+      {
+        "@ondc/org/item_id": "I3",
+        "@ondc/org/item_quantity": {
+          "count": 1
+        },
+        "title": "Alphanso Mango",
+        "@ondc/org/title_type": "item",
+        "price": {
+          "currency": "INR",
+          "value": "250.00"
+        },
+        "item": {
+          "quantity": {
+            "available": {
+              "count": "99"
+            },
+            "maximum": {
+              "count": "99"
+            }
+          },
+          "price": {
+            "currency": "INR",
+            "value": "250.00"
+          }
+        }
+      },
+      {
+        "@ondc/org/item_id": "I2",
+        "@ondc/org/item_quantity": {
+          "count": 1
+        },
+        "title": "Plain Atta",
+        "@ondc/org/title_type": "item",
+        "price": {
+          "currency": "INR",
+          "value": "300.00"
+        },
+        "item": {
+          "quantity": {
+            "available": {
+              "count": "99"
+            },
+            "maximum": {
+              "count": "99"
+            }
+          },
+          "price": {
+            "currency": "INR",
+            "value": "300.00"
+          }
+        }
+      },
+      {
+        "@ondc/org/item_id": "F1",
+        "title": "Delivery charges",
+        "@ondc/org/title_type": "delivery",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "F1",
+        "title": "Convenience Fee",
+        "@ondc/org/title_type": "misc",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "combo1",
+        "title": "Flat discount of ₹75 on combo",
+        "@ondc/org/title_type": "offer",
+        "price": {
+          "currency": "INR",
+          "value": "-75.00"
+        },
+        "item": {
+          "tags": [
+            {
+              "code": "quote",
+              "list": [
+                {
+                  "code": "type",
+                  "value": "order"
+                }
+              ]
+            },
+            {
+              "code": "offer",
+              "list": [
+                {
+                  "code": "type",
+                  "value": "combo"
+                },
+                {
+                  "code": "additive",
+                  "value": "no"
+                },
+                {
+                  "code": "auto",
+                  "value": "no"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "@ondc/org/item_id": "F3",
+        "title": "Delivery charges",
+        "@ondc/org/title_type": "delivery",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "F3",
+        "title": "Convenience Fee",
+        "@ondc/org/title_type": "misc",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      }
+    ],
+    "price": {
+      "currency": "INR",
+      "value": "675.00"
+    },
+    "ttl": "P1D"
+  },
+  "order_id": "742626",
   "payment": {
     "params": {
+      "amount": "675.00",
       "currency": "INR",
       "transaction_id": "mock_payment_id_123"
     },
@@ -279,7 +388,7 @@
     ]
   },
   "order_state": "Accepted",
-  "order_created_at": "2025-06-18T10:58:08.805Z",
+  "order_created_at": "2025-06-19T08:41:24.861Z",
   "on_select_fulfillments": [
     {
       "id": "F1",
