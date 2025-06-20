@@ -4,6 +4,7 @@ session_data:
   last_action: null
   mock_type: null
   city_code: null
+  country_code: null
   bap_id: null
   bap_uri: null
   bpp_id: null
@@ -42,5 +43,8 @@ session_data:
   selected_add_ons: []
   created_at: null
   cancellation_reason_id: null
-  cancellation_quote: []
+  cancellation_quote: null
   selected_fulfillment_id: null
+  cancellation_fulfillments: []
+  cancellation_reason: null
+  payment_id: null

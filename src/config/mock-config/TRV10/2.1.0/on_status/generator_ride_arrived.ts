@@ -5,7 +5,7 @@ function updateFulfillmentStatus(order: any) {
     // Check if fulfillments exist
     if (order.fulfillments) {
       order.fulfillments.forEach((fulfillment: any) => {
-          fulfillment.state.descriptor.code = "RIDE_ARRIVED_PICKUP";
+          fulfillment.state.descriptor.code = "RIDE_ARRIVED_PICKUPP";
       });
     }
     return order;
