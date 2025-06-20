@@ -37,6 +37,7 @@ export interface SessionData {
 	payment_id: string
 	created_at: string
 	update_fulfillment: any[]
+	buyer_side_fulfillment_ids: any[]
 }
 
 export type BecknContext = {

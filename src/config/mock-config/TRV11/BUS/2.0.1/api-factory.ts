@@ -1,5 +1,5 @@
 import { Session } from "inspector/promises";
-import { confirmGenerator } from "./confirm/generator";
+import { confirmGenerator } from "./confirm/confirm/generator";
 import { initGenerator } from "./init/generator";
 import { onConfirmGenerator } from "./on_confirm/on_confirm/generator";
 import { onInitGenerator } from "./on_init/generator";
@@ -24,6 +24,7 @@ import { onUpdateAcceptedGenerator } from "./on_update/on_update_accepted/genera
 import { onConfirmVehConfGenerator } from "./on_confirm/on_confirm_vehicle/generator";
 import { updateGenerator } from "./update_/generator";
 import { onUpdateVehConGenerator } from "./on_update/on_update_vehicle/generator";
+import { confirmVehConGenerator } from "./confirm/confirm_veh_con/generator";
 
 export async function Generator(
   action_id: string,
@@ -72,21 +73,23 @@ export async function Generator(
     case "search0_BUS_201":
       return await search0Generator(existingPayload, sessionData);
     case "on_search_catalog1_BUS_201":
-      return await onSearchCatalogGenerator(existingPayload,sessionData)
+      return await onSearchCatalogGenerator(existingPayload, sessionData);
     case "on_search_catalog2_BUS_201":
-      return await onSearchCatalogGenerator(existingPayload,sessionData)
+      return await onSearchCatalogGenerator(existingPayload, sessionData);
     case "on_search_catalog3_BUS_201":
-      return await onSearchCatalogGenerator(existingPayload,sessionData)
+      return await onSearchCatalogGenerator(existingPayload, sessionData);
     case "on_search_catalog4_BUS_201":
-      return await onSearchCatalogGenerator(existingPayload,sessionData)
+      return await onSearchCatalogGenerator(existingPayload, sessionData);
     case "on_update_accepted_BUS_201":
-      return await onUpdateAcceptedGenerator(existingPayload,sessionData)
+      return await onUpdateAcceptedGenerator(existingPayload, sessionData);
     case "on_confirm_veh_con_BUS_201":
-      return await onConfirmVehConfGenerator(existingPayload,sessionData)
+      return await onConfirmVehConfGenerator(existingPayload, sessionData);
     case "update_BUS_201":
-      return await updateGenerator(existingPayload,sessionData)
+      return await updateGenerator(existingPayload, sessionData);
     case "on_update_veh_con_BUS_201":
-      return await onUpdateVehConGenerator(existingPayload,sessionData)
+      return await onUpdateVehConGenerator(existingPayload, sessionData);
+    case "confirm_veh_con_BUS_201":
+      return await confirmVehConGenerator(existingPayload,sessionData)
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }

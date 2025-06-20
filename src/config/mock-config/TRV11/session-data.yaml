@@ -36,3 +36,4 @@ session_data:
   payment_id: null
   created_at: null
   update_fulfillment: []
+  buyer_side_fulfillment_ids: []

@@ -73,13 +73,24 @@ export async function initGenerator(existingPayload: any,sessionData: SessionDat
     if (sessionData.billing && Object.keys(sessionData.billing).length > 0) {
         existingPayload.message.order.billing = sessionData.billing;
       }
-      
+    console.log("buyer side fulfillment_ids",sessionData.buyer_side_fulfillment_ids)
     if (sessionData.selected_items && sessionData.selected_items.length > 0) {
     existingPayload.message.order.items = sessionData.selected_items;
     }
     if(sessionData.provider_id){
       existingPayload.message.order.provider.id = sessionData.provider_id
     }
+    const chosenItemsIds = sessionData.items.map((item:any) => item.id);
+	  const filteredItems = sessionData.items.filter((item:any) => 
+		chosenItemsIds.includes(item.id)
+	  );
+	  const uniqueFulfillmentIds = [
+      ...new Set(
+        filteredItems.flatMap((item:any) => item.fulfillment_ids || [])
+      )
+      ];
+      const formattedFulfillmentIds = uniqueFulfillmentIds.map(id => ({ id }));
+	  existingPayload.message.order.fulfillments = formattedFulfillmentIds
     existingPayload = updateSettlementAmount(existingPayload,sessionData)
     existingPayload = updateCollectedByAndBuyerFees(existingPayload,sessionData)
     return existingPayload;

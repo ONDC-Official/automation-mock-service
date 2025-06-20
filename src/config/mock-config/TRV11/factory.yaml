@@ -389,7 +389,7 @@ codes:
   - code: 178
     action_id: confirm_BUS_201
     action: confirm
-    default: BUS/2.0.1/confirm/default.yaml
+    default: BUS/2.0.1/confirm/confirm/default.yaml
     message_id: true
   - code: 179
     action_id: on_confirm_BUS_201
@@ -515,3 +515,8 @@ codes:
     action_id: on_cancel_tech_BUS_200
     action: on_cancel
     default: BUS/2.0.0/on_cancel/on_cancel_tech/default.yaml
+  - code: 201
+    action_id: confirm_veh_con_BUS_201
+    action: confirm
+    default: BUS/2.0.1/confirm/confirm/confirm_veh_con/default.yaml
+    message_id: true

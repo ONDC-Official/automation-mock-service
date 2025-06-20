@@ -55,5 +55,17 @@ export async function selectGenerator(existingPayload: any, sessionData: any) {
 	if(sessionData.provider_id){
 		existingPayload.message.order.provider.id = sessionData.provider_id
 	  }
+	  const chosenItemsIds = chosen_items.map((item:any) => item.id);
+	  const filteredItems = sessionData.items.filter((item:any) => 
+		chosenItemsIds.includes(item.id)
+	  );
+	  const uniqueFulfillmentIds = [
+		...new Set(
+			filteredItems.flatMap((item:any) => item.fulfillment_ids || [])
+		)
+	  ];
+	  const formattedFulfillmentIds = uniqueFulfillmentIds.map(id => ({ id }));
+	  console.log("select formatted_fulfil",sessionData.buyer_side_fulfillment_ids)
+	  existingPayload.message.order.fulfillments = formattedFulfillmentIds
 	return existingPayload;
 }
