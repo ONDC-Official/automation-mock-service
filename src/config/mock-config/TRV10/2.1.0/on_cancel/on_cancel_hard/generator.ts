@@ -101,6 +101,8 @@ type Price = {
           authorization: {
             type: "OTP",
             token: generateOTP(),
+            status: stop?.authorization?.status || "UNCLAIMED",
+            valid_to: stop?.authorization?.valid_to || new Date(Date.now() + 3600000).toISOString(), // Default to 1 hour from now
           },
         }));
       }
