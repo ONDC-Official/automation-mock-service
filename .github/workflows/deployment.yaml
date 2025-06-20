@@ -6,7 +6,7 @@ on:
     branches: ["release-RET11"]
 
 jobs:
-  deployment-dev:
+  deployment-staging:
     runs-on: ubuntu-latest
     environment:  
           name: ${{ github.ref_name }}
@@ -60,8 +60,8 @@ jobs:
           echo "API_SERVICE_URL=${{ vars.API_SERVICE_URL }}" >> \$REPO_DIR/.env
           echo "CONTAINER_NAME=${{ vars.CONTAINER_NAME }}" >> \$REPO_DIR/.env
           echo "DOMAIN=${{ vars.DOMAIN }}" >> \$REPO_DIR/.env
-          echo "CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL_DEV }}" >> \$REPO_DIR/.env
-          echo "API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}" >> \$REPO_DIR/.env
+          echo "CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL_STAGING }}" >> \$REPO_DIR/.env
+          echo "API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_STAGING }}" >> \$REPO_DIR/.env
 
           EOF
 
