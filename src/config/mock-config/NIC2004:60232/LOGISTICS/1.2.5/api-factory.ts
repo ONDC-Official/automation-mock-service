@@ -24,7 +24,6 @@ import { onConfirmQCGenerator } from "./on_confirm/on_confirm_qc/generator";
 import { updateQCGenerator } from "./update/update_qc/generator";
 import { onUpdateQCGenerator } from "./on_update/on_update_qc/generator";
 
-
 export async function Generator(
   action_id: string,
   existingPayload: any,
@@ -172,15 +171,14 @@ export async function Generator(
         igm_action: "on_issue_processing",
       });
     case "issue_resolution_accept":
-      console.log("------- LLALALALALLAALALALLALA AXasljfasldfjslkdfjasldkfjsldfjsaldf RUPAL --------- ");
-      return await issueStatusGenerator(existingPayload,{
+      return await issueStatusGenerator(existingPayload, {
         ...sessionData,
-        igm_action: "issue_resolution_accept"
+        igm_action: "issue_resolution_accept",
       });
-    case "issue_resolution":  
-      return await issueStatusGenerator(existingPayload,{
+    case "issue_resolution":
+      return await issueStatusGenerator(existingPayload, {
         ...sessionData,
-        igm_action: "issue_resolution"
+        igm_action: "issue_resolution",
       });
 
     case "on_issue_need_more_info":
@@ -208,11 +206,8 @@ export async function Generator(
         ...sessionData,
         igm_action: "on_issue_resolved",
       });
-      case "on_update_IGM":
-        return await onUpdate1Generator(existingPayload, sessionData);
-
-      
-    
+    case "on_update_IGM":
+      return await onUpdate1Generator(existingPayload, sessionData);
 
     default:
       throw new Error(`Invalid request type ${action_id}`);
