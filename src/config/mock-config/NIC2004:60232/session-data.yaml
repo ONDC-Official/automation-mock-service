@@ -53,3 +53,6 @@ session_data:
   latest_issue_payload: null
   latest_on_issue_payload: null
   on_search_batch_fulfillment: {}
+  rider_count: null
+  order_count: null
+  update_fulfillments: []

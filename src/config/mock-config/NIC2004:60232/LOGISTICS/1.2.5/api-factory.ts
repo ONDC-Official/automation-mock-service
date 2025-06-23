@@ -18,6 +18,11 @@ import { onIssueStatusGenerator } from "./on_issue/generator";
 import { searchQCGenerator } from "./search/search_qc/generator";
 import { onSearchQCGenerator } from "./on_search/on_search_qc/generator";
 import { initQCGenerator } from "./init/init_qc/generator";
+import { onInitQCGenerator } from "./on_init/on_init_qc/generator";
+import { confirmQCGenerator } from "./confirm/confirm_qc/generator";
+import { onConfirmQCGenerator } from "./on_confirm/on_confirm_qc/generator";
+import { updateQCGenerator } from "./update/update_qc/generator";
+import { onUpdateQCGenerator } from "./on_update/on_update_qc/generator";
 
 export async function Generator(
   action_id: string,
@@ -56,10 +61,20 @@ export async function Generator(
       return await onSearch1Generator(existingPayload, sessionData, inputs);
     case "on_init_LOGISTICS":
       return await onInitGenerator(existingPayload, sessionData);
+    case "on_init_qc":
+      return await onInitQCGenerator(existingPayload, sessionData);
+    case "confirm_qc":
+      return await confirmQCGenerator(existingPayload, sessionData, inputs);
+    case "on_confirm_qc":
+      return await onConfirmQCGenerator(existingPayload, sessionData);
     case "on_confirm_LOGISTICS":
       return await onConfirmGenerator(existingPayload, sessionData);
     case "on_update_LOGISTICS":
       return await onUpdateGenerator(existingPayload, sessionData);
+    case "update_qc":
+      return await updateQCGenerator(existingPayload, sessionData);
+    case "on_update_qc":
+      return await onUpdateQCGenerator(existingPayload, sessionData);
     case "on_status_LOGISTICS":
       return await onStatusGenerator(existingPayload, sessionData);
     case "on_status_1_LOGISTICS":

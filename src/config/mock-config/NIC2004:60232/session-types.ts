@@ -35,7 +35,7 @@ export interface SessionData {
   is_cancel_called?: string;
   order_updated_at_timestamp?: string;
   rto_id?: string;
-  update_fulfillments?: any;
+  update_fulfillments?: any[];
   items?: any;
   on_search_fulfillment?: any;
   on_search_items?: any[];
@@ -65,7 +65,8 @@ export interface SessionData {
   latest_issue_payload?: any;
   latest_on_issue_payload?: any;
   on_search_batch_fulfillment?: any;
-
+  rider_count: string;
+  order_count: string;
 };
 
 export type BecknContext = {

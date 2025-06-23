@@ -1,22 +1,48 @@
 message:
   order:
+    id: O2
+    state: Created
     provider:
       id: P1
+
     items:
       - id: I1
         fulfillment_id: "1"
         category_id: Immediate Delivery
+        time:
+          label: TAT
+          duration: PT45M
+          timestamp: "2024-11-20"
+    quote:
+      price:
+        currency: INR
+        value: "59.00"
+      breakup:
+        - "@ondc/org/item_id": I1
+          "@ondc/org/title_type": delivery
+          price:
+            currency: INR
+            value: "50.00"
+        - "@ondc/org/item_id": I1
+          "@ondc/org/title_type": tax
+          price:
+            currency: INR
+            value: "9.00"
     fulfillments:
       - id: "1"
         type: Batch
         start:
+          time:
+            duration: PT15M
+          person:
+            name: person_name
           location:
             id: S1
-            gps: "12.453544,77.928379"
+            gps: "12.4535,77.9283"
             address:
-              name: My store name
-              building: My building name
-              locality: My street name
+              name: Store name
+              building: House or building name
+              locality: Locality
               city: Bengaluru
               state: Karnataka
               country: India
@@ -24,6 +50,13 @@ message:
           contact:
             phone: "9886098860"
             email: abcd.efgh@gmail.com
+          instructions:
+            code: "2"
+            short_desc: value of PCC
+            long_desc: additional instructions for pickup
+            additional_desc:
+              content_type: text/html
+              url: ..
         tags:
           - code: linked_provider
             list:
@@ -31,17 +64,27 @@ message:
                 value: P1
               - code: name
                 value: Seller1
+              - code: address
+                value: "shop_name,building_name,locality,city,state,pincode"
+          - code: state
+            list:
+              - code: ready_to_ship
+                value: "no"
+          - code: rto_action
+            list:
+              - code: return_to_origin
+                value: "no"
     billing:
       name: ONDC Logistics Buyer NP
       address:
-        name: My house or building no
+        name: name
         building: My house or building name
-        locality: Jayanagar
+        locality: My street name
         city: Bengaluru
         state: Karnataka
         country: India
         area_code: "560076"
-      tax_number: AS34234HKJ342KH
+      tax_number: 29AAACU1901H1ZK
       phone: "9886098860"
       email: abcd.efgh@gmail.com
       created_at: "2024-11-20T21:30:00.000Z"
@@ -53,9 +96,8 @@ message:
       "@ondc/org/settlement_basis": invoicing
       "@ondc/org/settlement_window": P15D
       "@ondc/org/settlement_details":
-        - settlement_counterparty: lsp
+        - settlement_counterparty: lbnp
           settlement_type: upi
-          beneficiary_name: xxxxx
           upi_address: gft@oksbi
           settlement_bank_account_no: XXXXXXXXXX
           settlement_ifsc_code: XXXXXXXXX
@@ -64,3 +106,5 @@ message:
         list:
           - code: accept_bpp_terms
             value: "yes"
+    created_at: "2024-11-20T22:00:00.000Z"
+    updated_at: "2024-11-20T22:00:00.000Z"

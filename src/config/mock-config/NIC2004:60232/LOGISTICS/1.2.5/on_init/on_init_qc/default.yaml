@@ -1,0 +1,84 @@
+message:
+  order:
+    provider:
+      id: P1
+
+    items:
+      - id: I1
+        fulfillment_id: "1"
+    fulfillments:
+      - id: "1"
+        type: Delivery
+        start:
+          location:
+            id: S1
+            gps: "12.4535,77.9283"
+            address:
+              name: Store name
+              building: House or building name
+              locality: Locality
+              city: Bengaluru
+              state: Karnataka
+              country: India
+              area_code: "560041"
+          contact:
+            phone: "9886098860"
+            email: abcd.efgh@gmail.com
+        end:
+          location:
+            gps: "12.453544,77.928379"
+            address:
+              name: "My house #"
+              building: My house or building name
+              locality: locality
+              city: Bengaluru
+              state: Karnataka
+              country: India
+              area_code: "560076"
+          contact:
+            phone: "9886098860"
+            email: abcd.efgh@gmail.com
+        tags:
+          - code: rider_check
+            list:
+              - code: inline_check_for_rider
+                value: "yes"
+          - code: linked_provider
+            list:
+              - code: id
+                value: P1
+              - code: name
+                value: Seller1
+    quote:
+      price:
+        currency: INR
+        value: "59.00"
+      breakup:
+        - "@ondc/org/item_id": I1
+          "@ondc/org/title_type": delivery
+          price:
+            currency: INR
+            value: "50.00"
+        - "@ondc/org/item_id": I1
+          "@ondc/org/title_type": tax
+          price:
+            currency: INR
+            value: "9.00"
+      ttl: PT15M
+    payment:
+      "@ondc/org/collection_amount": "300.00"
+      type: ON-FULFILLMENT
+      collected_by: BPP
+      "@ondc/org/settlement_details":
+        - settlement_counterparty: lbnp
+          settlement_type: upi
+          beneficiary_name: xxxxx
+          upi_address: gft@oksbi
+          settlement_bank_account_no: XXXXXXXXXX
+          settlement_ifsc_code: XXXXXXXXX
+    tags:
+      - code: bpp_terms
+        list:
+          - code: static_terms
+            value: >-
+              https://github.com/ONDC-Official/protocol-network-extension/discussions/79

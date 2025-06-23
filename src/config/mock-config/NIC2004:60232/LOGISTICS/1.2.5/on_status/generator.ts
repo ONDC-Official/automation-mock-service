@@ -30,47 +30,54 @@ export const onStatusGenerator = async (
   if (sessionData?.fulfillments) {
     existingPayload.message.order.fulfillments = sessionData.fulfillments;
   }
-
+  let count = 0;
+  if (sessionData.rate_basis === "rider") {
+    count = parseInt(sessionData.rider_count);
+  } else if (sessionData.rate_basis === "order") {
+    count = parseInt(sessionData.order_count);
+  }
   switch (sessionData.stateCode) {
     case "Order-picked-up":
       existingPayload.message.order.state = "In-progress";
       existingPayload.message.order.fulfillments =
         existingPayload.message.order.fulfillments.map((fulfillment: any) => {
-          fulfillment.state.descriptor.code = sessionData.stateCode;
-          fulfillment.start.time = {
-            ...fulfillment.start.time,
-            timestamp: existingPayload.context?.timestamp,
-          };
-          const p2pList = [
-            {
-              code: "gps_enabled",
-              value: "yes",
-            },
-            {
-              code: "url_enabled",
-              value: "no",
-            },
-          ];
+          if (fulfillment.type === "Delivery") {
+            fulfillment.state.descriptor.code = sessionData.stateCode;
+            fulfillment.start.time = {
+              ...fulfillment.start.time,
+              timestamp: existingPayload.context?.timestamp,
+            };
+            const p2pList = [
+              {
+                code: "gps_enabled",
+                value: "yes",
+              },
+              {
+                code: "url_enabled",
+                value: "no",
+              },
+            ];
 
-          const p2h2pList = [
-            {
-              code: "gps_enabled",
-              value: "no",
-            },
-            {
-              code: "url_enabled",
-              value: "yes",
-            },
-            {
-              code: "url",
-              value: "https://tracking_url.com",
-            },
-          ];
+            const p2h2pList = [
+              {
+                code: "gps_enabled",
+                value: "no",
+              },
+              {
+                code: "url_enabled",
+                value: "yes",
+              },
+              {
+                code: "url",
+                value: "https://tracking_url.com",
+              },
+            ];
 
-          fulfillment.tags.push({
-            code: "tracking",
-            list: sessionData?.domain === "ONDC:LOG10" ? p2pList : p2h2pList,
-          });
+            fulfillment.tags.push({
+              code: "tracking",
+              list: sessionData?.domain === "ONDC:LOG10" ? p2pList : p2h2pList,
+            });
+          }
           return fulfillment;
         });
       break;
@@ -78,7 +85,9 @@ export const onStatusGenerator = async (
       existingPayload.message.order.state = "In-progress";
       existingPayload.message.order.fulfillments =
         existingPayload.message.order.fulfillments.map((fulfillment: any) => {
-          fulfillment.state.descriptor.code = sessionData.stateCode;
+          if (fulfillment.type === "Delivery") {
+            fulfillment.state.descriptor.code = sessionData.stateCode;
+          }
           return fulfillment;
         });
       break;
@@ -86,7 +95,9 @@ export const onStatusGenerator = async (
       existingPayload.message.order.state = "In-progress";
       existingPayload.message.order.fulfillments =
         existingPayload.message.order.fulfillments.map((fulfillment: any) => {
-          fulfillment.state.descriptor.code = sessionData.stateCode;
+          if (fulfillment.type === "Delivery") {
+            fulfillment.state.descriptor.code = sessionData.stateCode;
+          }
           return fulfillment;
         });
       break;
@@ -94,7 +105,9 @@ export const onStatusGenerator = async (
       existingPayload.message.order.state = "In-progress";
       existingPayload.message.order.fulfillments =
         existingPayload.message.order.fulfillments.map((fulfillment: any) => {
-          fulfillment.state.descriptor.code = sessionData.stateCode;
+          if (fulfillment.type === "Delivery") {
+            fulfillment.state.descriptor.code = sessionData.stateCode;
+          }
           return fulfillment;
         });
       break;
@@ -102,30 +115,40 @@ export const onStatusGenerator = async (
       existingPayload.message.order.state = "Completed";
       existingPayload.message.order.fulfillments =
         existingPayload.message.order.fulfillments.map((fulfillment: any) => {
-          fulfillment.state.descriptor.code = sessionData.stateCode;
-          fulfillment.end.time.timestamp = existingPayload.context.timestamp;
-          if (sessionData?.is_cod === "yes") {
-            fulfillment.tags.push({
-              code: "cod_collection_detail",
-              list: [
-                {
-                  code: "currency",
-                  value: "INR",
-                },
-                {
-                  code: "value",
-                  value: sessionData?.collection_amount || "300.00",
-                },
-                {
-                  code: "transaction_id",
-                  value: "39371234_ondc",
-                },
-                {
-                  code: "timestamp",
-                  value: existingPayload.context.timestamp,
-                },
-              ],
-            });
+          if (fulfillment.type === "Delivery") {
+            fulfillment.state.descriptor.code = sessionData.stateCode;
+
+            if (!fulfillment.end.time) {
+              fulfillment.end.time = {
+                timestamp: existingPayload.context.timestamp,
+              };
+            } else {
+              fulfillment.end.time.timestamp =
+                existingPayload.context.timestamp;
+            }
+            if (sessionData?.is_cod === "yes") {
+              fulfillment.tags.push({
+                code: "cod_collection_detail",
+                list: [
+                  {
+                    code: "currency",
+                    value: "INR",
+                  },
+                  {
+                    code: "value",
+                    value: sessionData?.collection_amount || "300.00",
+                  },
+                  {
+                    code: "transaction_id",
+                    value: "39371234_ondc",
+                  },
+                  {
+                    code: "timestamp",
+                    value: existingPayload.context.timestamp,
+                  },
+                ],
+              });
+            }
           }
           return fulfillment;
         });
@@ -259,58 +282,48 @@ export const onStatusGenerator = async (
       existingPayload.message.order.fulfillments =
         existingPayload.message.order.fulfillments.map((fulfillment: any) => {
           fulfillment.state.descriptor.code = sessionData.stateCode;
-          fulfillment.agent = {
-            name: "person_name",
-            phone: "9886098860",
-          };
-          fulfillment.vehicle = {
-            registration: "3LVJ945",
-          };
+
+          if (!sessionData.rate_basis) {
+            fulfillment.agent = {
+              name: "person_name",
+              phone: "9886098860",
+            };
+            fulfillment.vehicle = {
+              registration: "3LVJ945",
+            };
+          }
+
+          // dynamically generate rider_details list
+          const dynamicRiderTags =
+            sessionData?.rate_basis && fulfillment.type === "Batch"
+              ? Array.from({ length: count }, (_, i) => ({
+                  code: "rider_details",
+                  list: [
+                    {
+                      code: "name",
+                      value: `person_name${i + 1}`,
+                    },
+                    {
+                      code: "phone",
+                      value: "9886098860", // optionally replace with sessionData.phones[i]
+                    },
+                    {
+                      code: "vehicle_registration",
+                      value: `XYZ${1000 + i}`, // or your actual logic
+                    },
+                  ],
+                }))
+              : [];
+
           fulfillment.tags = [
             ...removeTagsByCodes(fulfillment.tags, [
               "weather_check",
               "rto_action",
               "state",
             ]),
-            ...(sessionData?.rate_basis
-              ? [
-                  {
-                    code: "rider_details",
-                    list: [
-                      {
-                        code: "name",
-                        value: "person_name1",
-                      },
-                      {
-                        code: "phone",
-                        value: "9886098860",
-                      },
-                      {
-                        code: "vehicle_registration",
-                        value: "3LVJ945",
-                      },
-                    ],
-                  },
-                  {
-                    code: "rider_details",
-                    list: [
-                      {
-                        code: "name",
-                        value: "person_name2",
-                      },
-                      {
-                        code: "phone",
-                        value: "9886098860",
-                      },
-                      {
-                        code: "vehicle_registration",
-                        value: "3KVJ947",
-                      },
-                    ],
-                  },
-                ]
-              : []),
+            ...dynamicRiderTags,
           ];
+
           return fulfillment;
         });
       break;
@@ -325,8 +338,10 @@ export const onStatusGenerator = async (
   existingPayload.message.order.updated_at = existingPayload.context.timestamp;
 
   existingPayload.message.order.quote = sessionData.quote;
-  if (Array.isArray(sessionData.cancellation_terms) &&
-  sessionData.cancellation_terms.length > 0) {
+  if (
+    Array.isArray(sessionData.cancellation_terms) &&
+    sessionData.cancellation_terms.length > 0
+  ) {
     existingPayload.message.order.cancellation_terms =
       sessionData.cancellation_terms;
   }
@@ -364,7 +379,7 @@ export const onStatusGenerator = async (
     existingPayload.message.order.cancellation = sessionData.cancellation;
   }
 
-  if (sessionData.linked_order) {
+  if (sessionData.linked_order && !sessionData.rate_basis) {
     existingPayload.message.order["@ondc/org/linked_order"] =
       sessionData.linked_order;
   }

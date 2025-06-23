@@ -21,11 +21,6 @@ message:
           gps: 12.4535,77.9283
           address:
             area_code: "560041"
-      end:
-        location:
-          gps: 12.4535,77.9283
-          address:
-            area_code: "560001"
       tags:
         - code: linked_provider
           list:
@@ -33,25 +28,5 @@ message:
               value: P1
             - code: name
               value: Seller1
-        - code: linked_order
-          list:
-            - code: currency
-              value: INR
-            - code: declared_value
-              value: "300.0"
-            - code: category
-              value: Grocery
-            - code: weight_unit
-              value: kilogram
-            - code: weight_value
-              value: "3.0"
-            - code: dim_unit
-              value: centimeter
-            - code: length
-              value: "1.0"
-            - code: breadth
-              value: "1.0"
-            - code: height
-              value: "1.0"
     payment:
       type: POST-FULFILLMENT

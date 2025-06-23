@@ -10,19 +10,24 @@ export const populateFulfillmentUpdate = (
       let isReadyToShip = false;
       let isOrderReady = false;
 
-      // NEED TO FIX
-      sessionData.update_fulfillments.tags.forEach((tag: any) => {
-        if (tag.code === "state") {
-          tag.list.forEach((item: any) => {
-            if (item.code === "ready_to_ship" && item.value == "yes") {
-              isReadyToShip = true;
-            }
-            if (item.code === "order_ready" && item.value == "yes") {
-              isOrderReady = true;
-            }
-          });
-        }
-      });
+      if (sessionData.update_fulfillments?.length) {
+        sessionData.update_fulfillments.forEach((fulfillment: any) => {
+          if (fulfillment.tags?.length) {
+            fulfillment.tags.forEach((tag: any) => {
+              if (tag.code === "state") {
+                tag.list?.forEach((item: any) => {
+                  if (item.code === "ready_to_ship" && item.value === "yes") {
+                    isReadyToShip = true;
+                  }
+                  if (item.code === "order_ready" && item.value === "yes") {
+                    isOrderReady = true;
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
 
       fulfillment.tracking = true;
 

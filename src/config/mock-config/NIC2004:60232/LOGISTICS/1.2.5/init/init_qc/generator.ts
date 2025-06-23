@@ -54,9 +54,7 @@ export const initQCGenerator = async (
       if (!isCodTagPresent && !isRiderTagPresent && !isSurgeTagPresent) {
         existingPayload.message.order.items[0] = {
           id: item.id,
-          fulfillment_id: sessionData?.rate_basis
-            ? ""
-            : sessionData.on_search_batch_fulfillment.id,
+          fulfillment_id: sessionData.on_search_batch_fulfillment.id,
           category_id: item.category_id,
           tags:
             sessionData?.is_cod === "yes" || sessionData?.rate_basis
@@ -135,22 +133,22 @@ export const initQCGenerator = async (
       }),
     },
     end: {
-      location: {
-        gps: sessionData.end_location,
-        address: {
-          name: "My store name 2",
-          building: "My building name 2",
-          locality: "My street name 2",
-          city: "my city name 2",
-          state: "my state 2",
-          country: "India",
-          area_code: sessionData.end_area_code,
-        },
-      },
-      contact: {
-        phone: "9123426789",
-        email: "xyz.qweq@gmail.com",
-      },
+      // location: {
+      //   gps: sessionData.end_location,
+      //   address: {
+      //     name: "My store name 2",
+      //     building: "My building name 2",
+      //     locality: "My street name 2",
+      //     city: "my city name 2",
+      //     state: "my state 2",
+      //     country: "India",
+      //     area_code: sessionData.end_area_code,
+      //   },
+      // },
+      // contact: {
+      //   phone: "9123426789",
+      //   email: "xyz.qweq@gmail.com",
+      // },
       ...(sessionData?.fulfillment?.end?.instructions && {
         instructions: sessionData.fulfillment.end.instructions,
       }),
