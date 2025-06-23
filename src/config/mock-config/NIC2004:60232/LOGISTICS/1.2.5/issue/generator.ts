@@ -12,7 +12,48 @@ export const issueStatusGenerator = async (
   sessionData.latest_issue_payload?.expected_response_time || { duration: "PT2H" };
   existingPayload.message.issue.expected_resolution_time =
   sessionData.latest_issue_payload?.expected_resolution_time || { duration: "P1D" };
-  existingPayload.message.issue.refs = sessionData.latest_issue_payload?.refs || existingPayload.message.issue.refs;
+
+  const provider = sessionData.provider_id;
+  let fulfillment = "F1";
+  if(sessionData.fulfillments){
+    fulfillment = sessionData.fulfillments[0].id;
+  }
+  const item = sessionData.items[0].id;
+  const order = sessionData.order_id;
+  const refs = [
+    {
+      "ref_id": order,
+      "ref_type": "ORDER"
+    },
+    {
+      "ref_id": provider,
+      "ref_type": "PROVIDER"
+    },
+    {
+      "ref_id": fulfillment,
+      "ref_type": "FULFILLMENT"
+    },
+    {
+      "ref_id": item,
+      "ref_type": "ITEM",
+      "tags": [
+        {
+          "descriptor": {
+            "code": "message.order.items"
+          },
+          "list": [
+            {
+              "descriptor": {
+                "code": "quantity.selected.count"
+              },
+              "value": "1"
+            }
+          ]
+        }
+      ]
+    }
+  ];
+  existingPayload.message.issue.refs = sessionData.latest_issue_payload?.refs || refs;
   existingPayload.message.issue.actors = sessionData.latest_issue_payload?.actors || existingPayload.message.issue.actors;
   existingPayload.message.issue.source_id = sessionData.latest_issue_payload?.source_id || existingPayload.message.issue.source_id;
   existingPayload.message.issue.complainant_id = sessionData.latest_issue_payload?.complainant_id || "NP1";
@@ -36,16 +77,21 @@ export const issueStatusGenerator = async (
   if(sessionData.igm_action === "issue_open" ) {
     existingPayload.message.issue.status = "OPEN";
     existingPayload.message.issue.descriptor.short_desc = "Issue with product quality"
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL1";
 
   }
   if(sessionData.igm_action === "issue_close" ) {
     existingPayload.message.issue.status = "CLOSED";
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL8";
+
   }
   if(sessionData.igm_action === "issue_info_provided" ) {
-    existingPayload.message.issue.status = "RESOLVED";
+    existingPayload.message.issue.status = "INFO_PROVIDED";
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL4";
   }
   if(sessionData.igm_action === "issue_resolution_accept" ) {
     existingPayload.message.issue.status = "PROCESSING";
+    existingPayload.message.issue.last_action_id = sessionData.last_action || "AL7";
   }
   //@ts-ignore
   sessionData.test = "hell";
