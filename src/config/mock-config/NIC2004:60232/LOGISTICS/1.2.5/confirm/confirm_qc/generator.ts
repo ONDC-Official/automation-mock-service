@@ -62,13 +62,16 @@ export const confirmQCGenerator = (
     existingPayload.message.order.cancellation_terms =
       sessionData.cancellation_terms;
   }
-  // existingPayload.message.order.fulfillments[0].start.time = {
-  //   duration: sessionData.on_search_fulfillment.start.time.duration,
-  // };
-
-  // existingPayload.message.order.fulfillments[0].start.person = {
-  //   name: "person_name_1",
-  // };
+  for (let i = 0; i < existingPayload.message.order.fulfillments.length; i++) {
+    existingPayload.message.order.fulfillments[i].start = {
+      time: {
+        duration: sessionData.on_search_fulfillment.start.time.duration,
+      },
+      person: {
+        name: `person_name_1`,
+      },
+    };
+  }
 
   // existingPayload.message.order.fulfillments[0].end.person = {
   //   name: "person_name_2",
