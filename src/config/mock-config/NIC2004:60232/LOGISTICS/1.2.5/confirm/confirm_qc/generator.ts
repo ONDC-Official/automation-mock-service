@@ -51,10 +51,6 @@ export const confirmQCGenerator = (
       });
   }
 
-  if (sessionData.fulfillments) {
-    existingPayload.message.order.fulfillments = sessionData.fulfillments;
-  }
-
   if (
     Array.isArray(sessionData.cancellation_terms) &&
     sessionData.cancellation_terms.length > 0
@@ -62,14 +58,25 @@ export const confirmQCGenerator = (
     existingPayload.message.order.cancellation_terms =
       sessionData.cancellation_terms;
   }
+  if (sessionData.fulfillments) {
+    existingPayload.message.order.fulfillments = sessionData.fulfillments;
+  }
+  
   for (let i = 0; i < existingPayload.message.order.fulfillments.length; i++) {
-    existingPayload.message.order.fulfillments[i].start = {
-      time: {
-        duration: sessionData.on_search_batch_fulfillment.start.time.duration,
-      },
-      person: {
-        name: `person_name_1`,
-      },
+    const fulfillment = existingPayload.message.order.fulfillments[i];
+  
+    // Initialize start object if it doesn't exist
+    fulfillment.start = fulfillment.start || {};
+  
+    // Preserve other attributes and only update required ones
+    fulfillment.start.time = {
+      ...(fulfillment.start.time || {}),
+      duration: sessionData.on_search_batch_fulfillment.start.time.duration,
+    };
+  
+    fulfillment.start.person = {
+      ...(fulfillment.start.person || {}),
+      name: `person_name_1`,
     };
   }
 
