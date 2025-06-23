@@ -96,7 +96,6 @@ export async function onSearchQCGenerator(
     ],
   });
 
-
   existingPayload.message.catalog["bpp/providers"][0].items.push({
     id: "I3",
     parent_item_id: "",
@@ -205,6 +204,10 @@ export async function onSearchQCGenerator(
                         },
                       ]
                     : [
+                        {
+                          code: "rider_count",
+                          value: "2",
+                        },
                         {
                           code: "order_count",
                           value: count,

@@ -65,7 +65,7 @@ export const confirmQCGenerator = (
   for (let i = 0; i < existingPayload.message.order.fulfillments.length; i++) {
     existingPayload.message.order.fulfillments[i].start = {
       time: {
-        duration: sessionData.on_search_fulfillment.start.time.duration,
+        duration: sessionData.on_search_batch_fulfillment.start.time.duration,
       },
       person: {
         name: `person_name_1`,

@@ -11,15 +11,29 @@ export const onInitQCGenerator = (
 
   const tempItems = sessionData.items;
   let count = 0;
+  const initFulfillments = sessionData?.fulfillments;
+  let deliveryfulfillmentCount = 0;
+  initFulfillments?.forEach((ful) => {
+    if (ful.type === "Delivery") {
+      deliveryfulfillmentCount++;
+    }
+  });
+  if (sessionData.rate_basis === "rider")
+    count = Math.max(
+      parseInt(sessionData.rider_count),
+      deliveryfulfillmentCount
+    );
+  else if (sessionData.rate_basis === "order")
+    count = parseInt(sessionData.order_count);
 
-  if (sessionData.rate_basis === "rider") count = parseInt(sessionData.rider_count);
-  else if (sessionData.rate_basis === "order") count = parseInt(sessionData.order_count);
-  
   tempItems.forEach((item: any) => {
     delete item.tags;
 
-    if (sessionData?.rate_basis && typeof count === 'number') {
-      item.fulfillment_ids = Array.from({ length: count }, (_, i) => `F${i + 1}`);
+    if (sessionData?.rate_basis && typeof count === "number") {
+      item.fulfillment_ids = Array.from(
+        { length: count },
+        (_, i) => `F${i + 1}`
+      );
     }
   });
 
@@ -29,13 +43,14 @@ export const onInitQCGenerator = (
     // Step 1: Start with the existing fulfillment as-is
     existingPayload.message.order.fulfillments = [sessionData.fulfillments[0]];
 
-  
     // Step 2: Add (count) new fulfillments
     for (let i = 1; i <= count; i++) {
-      const newFulfillment = JSON.parse(JSON.stringify(sessionData.fulfillments[0])); // Deep copy
-      newFulfillment.id = `F${i}`;      // New unique ID
+      const newFulfillment = JSON.parse(
+        JSON.stringify(sessionData.fulfillments[0])
+      ); // Deep copy
+      newFulfillment.id = `F${i}`; // New unique ID
       newFulfillment.type = "Delivery"; // New type
-  
+
       existingPayload.message.order.fulfillments.push(newFulfillment);
     }
   }
@@ -133,10 +148,12 @@ export const onInitQCGenerator = (
     value: calculateQuotePrice(existingPayload.message.order.quote.breakup),
   };
 
-
   existingPayload.message.order.fulfillments =
     existingPayload.message.order.fulfillments.map((fulfillment: any) => {
-      if (sessionData.category_id === "Immediate Delivery" && fulfillment.type === 'Delivery') {
+      if (
+        sessionData.category_id === "Immediate Delivery" &&
+        fulfillment.type === "Delivery"
+      ) {
         fulfillment.tags.push({
           code: "rider_check",
           list: [
