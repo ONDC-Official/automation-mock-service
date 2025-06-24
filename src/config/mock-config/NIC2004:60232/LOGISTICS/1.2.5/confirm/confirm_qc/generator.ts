@@ -61,19 +61,19 @@ export const confirmQCGenerator = (
   if (sessionData.fulfillments) {
     existingPayload.message.order.fulfillments = sessionData.fulfillments;
   }
-  
+
   for (let i = 0; i < existingPayload.message.order.fulfillments.length; i++) {
     const fulfillment = existingPayload.message.order.fulfillments[i];
-  
+
     // Initialize start object if it doesn't exist
     fulfillment.start = fulfillment.start || {};
-  
+
     // Preserve other attributes and only update required ones
     fulfillment.start.time = {
       ...(fulfillment.start.time || {}),
       duration: sessionData.on_search_batch_fulfillment.start.time.duration,
     };
-  
+
     fulfillment.start.person = {
       ...(fulfillment.start.person || {}),
       name: `person_name_1`,
@@ -318,33 +318,23 @@ export const confirmQCGenerator = (
 
   let allTags = tags;
 
-  if (sessionData.rate_basis) {
-    const preTags = removeTagsByCodes(
-      existingPayload.message.order.fulfillments[1].tags,
-      ["linked_provider"]
-    );
-
-    allTags = [...allTags, ...preTags];
-  }
-
   allTags = removeTagsByCodes(allTags, ["rider_check"]);
 
   existingPayload.message.order.fulfillments =
     existingPayload.message.order.fulfillments.map((fulfillment: any) => {
+      if (sessionData.rate_basis && fulfillment.type === "Delivery") {
+        const preTags = removeTagsByCodes(fulfillment.tags, [
+          "fulfill_request",
+          "fulfill_response",
+        ]);
+
+        allTags = [...allTags, ...preTags];
+      }
       fulfillment.tags = allTags;
       return fulfillment;
     });
   let isReadyToShip = false;
 
-  existingPayload.message.order.fulfillments[0].tags.forEach((tag: any) => {
-    if (tag.code === "state") {
-      tag.list.forEach((item: any) => {
-        if (item.code === "ready_to_ship" && item.value == "yes") {
-          isReadyToShip = true;
-        }
-      });
-    }
-  });
 
   existingPayload.message.order.fulfillments =
     existingPayload.message.order.fulfillments.map(

@@ -30,12 +30,9 @@ export const onStatusGenerator = async (
   if (sessionData?.fulfillments) {
     existingPayload.message.order.fulfillments = sessionData.fulfillments;
   }
-  let count = 0;
-  if (sessionData.rate_basis === "rider") {
-    count = parseInt(sessionData.rider_count);
-  } else if (sessionData.rate_basis === "order") {
-    count = parseInt(sessionData.order_count);
-  }
+
+  const count = parseInt(sessionData.rider_count);
+
   switch (sessionData.stateCode) {
     case "Order-picked-up":
       existingPayload.message.order.state = "In-progress";
@@ -283,9 +280,9 @@ export const onStatusGenerator = async (
         existingPayload.message.order.fulfillments.map((fulfillment: any) => {
           fulfillment.state.descriptor.code = sessionData.stateCode;
 
-          if (!sessionData.rate_basis) {
+          if (!(sessionData.rate_basis === "rider")) {
             fulfillment.agent = {
-              name: "person_name",
+              name: "agent_name",
               phone: "9886098860",
             };
             fulfillment.vehicle = {
@@ -301,15 +298,15 @@ export const onStatusGenerator = async (
                   list: [
                     {
                       code: "name",
-                      value: `person_name${i + 1}`,
+                      value: `agent_name`,
                     },
                     {
                       code: "phone",
-                      value: "9886098860", // optionally replace with sessionData.phones[i]
+                      value: "9886098860",
                     },
                     {
                       code: "vehicle_registration",
-                      value: `XYZ${1000 + i}`, // or your actual logic
+                      value: `3LVJ945`,
                     },
                   ],
                 }))
