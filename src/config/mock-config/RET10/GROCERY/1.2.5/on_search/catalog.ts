@@ -1,6 +1,590 @@
 export const OUT_OF_STOCK_ID = "I4-OUT-OF-STOCK";
 
-export const RET10GROCERY125Catalog = {
+export const RET10GROCERY125Catalog = JSON.parse(
+	JSON.stringify({
+		catalog: {
+			"bpp/fulfillments": [
+				{
+					id: "F1",
+					type: "Delivery",
+				},
+				{
+					id: "F2",
+					type: "Self-Pickup",
+				},
+				{
+					id: "F32822",
+					type: "Buyer-Delivery",
+				},
+			],
+			"bpp/descriptor": {
+				name: "Mock Seller NP",
+				symbol: "https://sellerNP.com/images/np.png",
+				short_desc: "Seller Marketplace",
+				long_desc: "Seller Marketplace",
+				images: ["https://sellerNP.com/images/np.png"],
+				tags: [
+					{
+						code: "bpp_terms",
+						list: [
+							{
+								code: "np_type",
+								value: "MSN",
+							},
+						],
+					},
+				],
+			},
+			"bpp/providers": [
+				{
+					time: {
+						label: "enable",
+						timestamp: "2024-12-23T06:55:45.035Z",
+					},
+					rating: "4",
+					descriptor: {
+						name: "Store 1",
+						symbol: "https://sellerNP.com/images/store1.png",
+						short_desc: "Store 1",
+						long_desc: "Store 1",
+						images: ["https://sellerNP.com/images/store1.png"],
+					},
+					ttl: "P1D",
+					locations: [
+						{
+							id: "L1",
+							time: {
+								label: "enable",
+								timestamp: "2024-12-23T06:55:45.035Z",
+								days: "1,2,3,4,5,6,7",
+								schedule: {
+									holidays: [],
+								},
+								range: {
+									start: "0000",
+									end: "2359",
+								},
+							},
+							gps: "19.129076,72.825803",
+							address: {
+								street: "1 & 2,AMAR JYOTI CHS.BLDG.,OPP.NAND KRIPA HALL",
+								locality: "ANDHERI FOUR BUNGLOW AMAR JYOTI CHS",
+								city: "mock-seller-city",
+								state: "mock-state",
+								area_code: "400053",
+							},
+							circle: {
+								gps: "19.129076,72.825803",
+								radius: {
+									unit: "km",
+									value: "3",
+								},
+							},
+						},
+					],
+					fulfillments: [
+						{
+							id: "F1",
+							type: "Delivery",
+							contact: {
+								phone: "9594663710",
+								email: "nobody@nomail.com",
+							},
+						},
+						{
+							id: "F2",
+							type: "Self-Pickup",
+							contact: {
+								phone: "9594663999",
+								email: "mock@nomail.com",
+							},
+						},
+						{
+							id: "F32822",
+							type: "Buyer-Delivery",
+							contact: {
+								phone: "9594663888",
+								email: "mock2@nomail.com",
+							},
+						},
+					],
+					items: [
+						{
+							descriptor: {
+								name: "Plain Atta",
+								code: "1:978020137962",
+								symbol: "https://sellerNP.com/images/i1.png",
+								short_desc: "Plain Atta",
+								long_desc: "Plain Atta",
+								images: ["https://sellerNP.com/images/i1.png"],
+							},
+							rating: "4.0",
+							price: {
+								currency: "INR",
+								value: "200.00",
+								maximum_value: "200.00",
+							},
+							quantity: {
+								unitized: {
+									measure: {
+										unit: "kilogram",
+										value: "3",
+									},
+								},
+								available: {
+									count: "99",
+								},
+								maximum: {
+									count: "99",
+								},
+							},
+							category_id: "Atta, Flours and Sooji",
+							fulfillment_id: "F1",
+							location_id: "L1",
+							"@ondc/org/returnable": true,
+							"@ondc/org/cancellable": true,
+							"@ondc/org/return_window": "P7D",
+							"@ondc/org/seller_pickup_return": false,
+							"@ondc/org/time_to_ship": "PT5M",
+							"@ondc/org/available_on_cod": true,
+							"@ondc/org/contact_details_consumer_care":
+								"Ramesh,ramesh@abc.com,18004254444",
+							"@ondc/org/statutory_reqs_packaged_commodities": {
+								manufacturer_or_packer_name: "ITC",
+								manufacturer_or_packer_address:
+									"ITC Quality Care Cell,P.O Box No.592,Bangalore-560005",
+								common_or_generic_name_of_commodity: "Ashirwad Atta",
+								month_year_of_manufacture_packing_import: "01/2023",
+							},
+							time: {
+								label: "enable",
+								timestamp: "2024-12-23T06:55:45.035Z",
+							},
+							tags: [
+								{
+									code: "origin",
+									list: [
+										{
+											code: "country",
+											value: "IND",
+										},
+									],
+								},
+							],
+							id: "I1",
+							parent_item_id: "V1",
+						},
+						{
+							descriptor: {
+								name: "Plain Atta",
+								code: "1:4741318191894",
+								symbol: "https://sellerNP.com/images/i1.png",
+								short_desc: "Plain Atta",
+								long_desc: "Plain Atta",
+								images: ["https://sellerNP.com/images/i1.png"],
+							},
+							rating: "3.0",
+							price: {
+								currency: "INR",
+								value: "300.00",
+								maximum_value: "300.00",
+							},
+							quantity: {
+								unitized: {
+									measure: {
+										unit: "kilogram",
+										value: "5",
+									},
+								},
+								available: {
+									count: "99",
+								},
+								maximum: {
+									count: "99",
+								},
+							},
+							category_id: "Atta, Flours and Sooji",
+							fulfillment_id: "F1",
+							location_id: "L1",
+							"@ondc/org/returnable": true,
+							"@ondc/org/cancellable": true,
+							"@ondc/org/return_window": "P7D",
+							"@ondc/org/seller_pickup_return": false,
+							"@ondc/org/time_to_ship": "PT5M",
+							"@ondc/org/available_on_cod": true,
+							"@ondc/org/contact_details_consumer_care":
+								"Ramesh,ramesh@abc.com,18004254444",
+							"@ondc/org/statutory_reqs_packaged_commodities": {
+								manufacturer_or_packer_name: "ITC",
+								manufacturer_or_packer_address:
+									"ITC Quality Care Cell,P.O Box No.592,Bangalore-560005",
+								common_or_generic_name_of_commodity: "Ashirwad Atta",
+								month_year_of_manufacture_packing_import: "01/2023",
+							},
+							time: {
+								label: "enable",
+								timestamp: "2024-12-23T06:55:45.035Z",
+							},
+							tags: [
+								{
+									code: "origin",
+									list: [
+										{
+											code: "country",
+											value: "IND",
+										},
+									],
+								},
+							],
+							id: "I2",
+							parent_item_id: "V1",
+						},
+						{
+							descriptor: {
+								name: "Alphanso Mango",
+								code: "1:7396373975957",
+								symbol: "https://sellerNP.com/images/i1.png",
+								short_desc: "Alphanso",
+								long_desc: "Alphanso Mango freshly hand picked",
+								images: ["https://sellerNP.com/images/i1.png"],
+							},
+							rating: "3.0",
+							price: {
+								currency: "INR",
+								value: "250.00",
+								maximum_value: "50.00",
+							},
+							quantity: {
+								unitized: {
+									measure: {
+										unit: "kilogram",
+										value: "1",
+									},
+								},
+								available: {
+									count: "99",
+								},
+								maximum: {
+									count: "99",
+								},
+							},
+							category_id: "Fruits and Vegetables",
+							fulfillment_id: "F1",
+							location_id: "L1",
+							"@ondc/org/returnable": false,
+							"@ondc/org/cancellable": false,
+							"@ondc/org/return_window": "P1D",
+							"@ondc/org/seller_pickup_return": false,
+							"@ondc/org/time_to_ship": "PT5M",
+							"@ondc/org/available_on_cod": true,
+							"@ondc/org/contact_details_consumer_care":
+								"Ramesh,ramesh@abc.com,18004254444",
+							time: {
+								label: "enable",
+								timestamp: "2024-12-23T06:55:45.035Z",
+							},
+							tags: [
+								{
+									code: "origin",
+									list: [
+										{
+											code: "country",
+											value: "IND",
+										},
+									],
+								},
+							],
+							id: "I3",
+						},
+					],
+					tags: [
+						{
+							code: "timing",
+							list: [
+								{
+									code: "type",
+									value: "All",
+								},
+								{
+									code: "location",
+									value: "L1",
+								},
+								{
+									code: "day_from",
+									value: "1",
+								},
+								{
+									code: "day_to",
+									value: "7",
+								},
+								{
+									code: "time_from",
+									value: "0000",
+								},
+								{
+									code: "time_to",
+									value: "2359",
+								},
+							],
+						},
+						{
+							code: "serviceability",
+							list: [
+								{
+									code: "location",
+									value: "L1",
+								},
+								{
+									code: "category",
+									value: "Atta, Flours and Sooji",
+								},
+								{
+									code: "type",
+									value: "10",
+								},
+								{
+									code: "val",
+									value: "3",
+								},
+								{
+									code: "unit",
+									value: "km",
+								},
+							],
+						},
+						{
+							code: "serviceability",
+							list: [
+								{
+									code: "location",
+									value: "L1",
+								},
+								{
+									code: "category",
+									value: "Fruits and Vegetables",
+								},
+								{
+									code: "type",
+									value: "10",
+								},
+								{
+									code: "val",
+									value: "3",
+								},
+								{
+									code: "unit",
+									value: "km",
+								},
+							],
+						},
+					],
+					categories: [
+						{
+							id: "V1",
+							tags: [
+								{
+									code: "type",
+									list: [
+										{
+											code: "type",
+											value: "variant_group",
+										},
+									],
+								},
+								{
+									code: "attr",
+									list: [
+										{
+											code: "name",
+											value: "item.quantity.unitized.measure",
+										},
+										{
+											code: "seq",
+											value: "1",
+										},
+									],
+								},
+							],
+							descriptor: {
+								name: "Plain Atta",
+							},
+						},
+					],
+					id: "P1",
+					offers: [
+						{
+							id: "FLAT50",
+							descriptor: {
+								code: "discount",
+								images: ["https://sellerNP.com/images/offer2-banner.png"],
+							},
+							location_ids: ["L1"],
+							item_ids: ["I1", "I2", "I3"],
+							time: {
+								label: "valid",
+								range: {
+									start: "2024-12-23T06:55:45.035Z",
+									end: "2030-12-23T08:12:15.033Z",
+								},
+							},
+							tags: [
+								{
+									code: "qualifier",
+									list: [
+										{
+											code: "min_value",
+											value: "100.00",
+										},
+									],
+								},
+								{
+									code: "benefit",
+									list: [
+										{
+											code: "value_type",
+											value: "amount",
+										},
+										{
+											code: "value",
+											value: "-50.00",
+										},
+									],
+								},
+								{
+									code: "meta",
+									list: [
+										{
+											code: "additive",
+											value: "no",
+										},
+										{
+											code: "auto",
+											value: "no",
+										},
+									],
+								},
+							],
+						},
+						{
+							id: "buy2get3",
+							descriptor: {
+								code: "buyXgetY",
+								images: ["https://snp.com/images/offer1-banner.webp"],
+							},
+							location_ids: ["L1"],
+							category_ids: [],
+							item_ids: ["I1", "I2", "I3"],
+							time: {
+								label: "valid",
+								range: {
+									start: "2025-01-01T16:00:00.000Z",
+									end: "2030-01-01T23:00:00.000Z",
+								},
+							},
+							tags: [
+								{
+									code: "qualifier",
+									list: [
+										{
+											code: "item_count",
+											value: "2",
+										},
+									],
+								},
+								{
+									code: "benefit",
+									list: [
+										{
+											code: "item_count",
+											value: "1",
+										},
+										{
+											code: "item_id",
+											value: "I2",
+										},
+										{
+											code: "item_value",
+											value: "0.00",
+										},
+									],
+								},
+								{
+									code: "meta",
+									list: [
+										{
+											code: "additive",
+											value: "no",
+										},
+										{
+											code: "auto",
+											value: "no",
+										},
+									],
+								},
+							],
+						},
+						{
+							id: "combo1",
+							descriptor: {
+								code: "combo",
+								images: ["https://snp.com/images/offer1-banner.webp"],
+							},
+							location_ids: ["L1"],
+							category_ids: ["C1"],
+							item_ids: ["I1", "I2", "I3"],
+							time: {
+								label: "valid",
+								range: {
+									start: "2025-01-01T16:00:00.000Z",
+									end: "2030-01-01T23:00:00.000Z",
+								},
+							},
+							tags: [
+								{
+									code: "qualifier",
+									list: [
+										{
+											code: "item_id",
+											value: "I1,I2,I3",
+										},
+									],
+								},
+								{
+									code: "benefit",
+									list: [
+										{
+											code: "value_type",
+											value: "amount",
+										},
+										{
+											code: "value",
+											value: "-75.00",
+										},
+									],
+								},
+								{
+									code: "meta",
+									list: [
+										{
+											code: "additive",
+											value: "no",
+										},
+										{
+											code: "auto",
+											value: "no",
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+			],
+		},
+	})
+) as typeof typeCatalog;
+
+const typeCatalog = {
 	catalog: {
 		"bpp/fulfillments": [
 			{
@@ -68,8 +652,8 @@ export const RET10GROCERY125Catalog = {
 						address: {
 							street: "1 & 2,AMAR JYOTI CHS.BLDG.,OPP.NAND KRIPA HALL",
 							locality: "ANDHERI FOUR BUNGLOW AMAR JYOTI CHS",
-							city: "Mumbai",
-							state: "Maharashtra",
+							city: "mock-seller-city",
+							state: "mock-state",
 							area_code: "400053",
 						},
 						circle: {
@@ -90,12 +674,28 @@ export const RET10GROCERY125Catalog = {
 							email: "nobody@nomail.com",
 						},
 					},
+					{
+						id: "F2",
+						type: "Self-Pickup",
+						contact: {
+							phone: "9594663999",
+							email: "mock@nomail.com",
+						},
+					},
+					{
+						id: "F32822",
+						type: "Buyer-Delivery",
+						contact: {
+							phone: "9594663888",
+							email: "mock2@nomail.com",
+						},
+					},
 				],
 				items: [
 					{
 						descriptor: {
 							name: "Plain Atta",
-							code: "1:XXXXXXXXXXXXX",
+							code: "1:978020137962",
 							symbol: "https://sellerNP.com/images/i1.png",
 							short_desc: "Plain Atta",
 							long_desc: "Plain Atta",
@@ -129,7 +729,7 @@ export const RET10GROCERY125Catalog = {
 						"@ondc/org/return_window": "P7D",
 						"@ondc/org/seller_pickup_return": false,
 						"@ondc/org/time_to_ship": "PT5M",
-						"@ondc/org/available_on_cod": false,
+						"@ondc/org/available_on_cod": true,
 						"@ondc/org/contact_details_consumer_care":
 							"Ramesh,ramesh@abc.com,18004254444",
 						"@ondc/org/statutory_reqs_packaged_commodities": {
@@ -149,7 +749,7 @@ export const RET10GROCERY125Catalog = {
 								list: [
 									{
 										code: "country",
-										value: "THA",
+										value: "IND",
 									},
 								],
 							},
@@ -160,7 +760,7 @@ export const RET10GROCERY125Catalog = {
 					{
 						descriptor: {
 							name: "Plain Atta",
-							code: "1:XXXXXXXXXXXXX",
+							code: "1:4741318191894",
 							symbol: "https://sellerNP.com/images/i1.png",
 							short_desc: "Plain Atta",
 							long_desc: "Plain Atta",
@@ -170,7 +770,7 @@ export const RET10GROCERY125Catalog = {
 						price: {
 							currency: "INR",
 							value: "300.00",
-							maximum_value: "200.00",
+							maximum_value: "300.00",
 						},
 						quantity: {
 							unitized: {
@@ -194,7 +794,7 @@ export const RET10GROCERY125Catalog = {
 						"@ondc/org/return_window": "P7D",
 						"@ondc/org/seller_pickup_return": false,
 						"@ondc/org/time_to_ship": "PT5M",
-						"@ondc/org/available_on_cod": false,
+						"@ondc/org/available_on_cod": true,
 						"@ondc/org/contact_details_consumer_care":
 							"Ramesh,ramesh@abc.com,18004254444",
 						"@ondc/org/statutory_reqs_packaged_commodities": {
@@ -214,7 +814,7 @@ export const RET10GROCERY125Catalog = {
 								list: [
 									{
 										code: "country",
-										value: "THA",
+										value: "IND",
 									},
 								],
 							},
@@ -225,7 +825,7 @@ export const RET10GROCERY125Catalog = {
 					{
 						descriptor: {
 							name: "Alphanso Mango",
-							code: "1:XXXXXXXXXXXXX",
+							code: "1:7396373975957",
 							symbol: "https://sellerNP.com/images/i1.png",
 							short_desc: "Alphanso",
 							long_desc: "Alphanso Mango freshly hand picked",
@@ -259,7 +859,7 @@ export const RET10GROCERY125Catalog = {
 						"@ondc/org/return_window": "P1D",
 						"@ondc/org/seller_pickup_return": false,
 						"@ondc/org/time_to_ship": "PT5M",
-						"@ondc/org/available_on_cod": false,
+						"@ondc/org/available_on_cod": true,
 						"@ondc/org/contact_details_consumer_care":
 							"Ramesh,ramesh@abc.com,18004254444",
 						time: {
@@ -272,7 +872,7 @@ export const RET10GROCERY125Catalog = {
 								list: [
 									{
 										code: "country",
-										value: "THA",
+										value: "IND",
 									},
 								],
 							},
@@ -554,7 +1154,7 @@ export const RET10GROCERY125Catalog = {
 									},
 									{
 										code: "auto",
-										value: "yes",
+										value: "no",
 									},
 								],
 							},

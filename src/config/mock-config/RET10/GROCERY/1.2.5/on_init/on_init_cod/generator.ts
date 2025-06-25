@@ -6,5 +6,6 @@ export async function on_init_cod_generator(
 	sessionData: SessionData
 ) {
 	existingPayload = await on_init_generator(existingPayload, sessionData);
+	// delete existingPayload.message.order.payment[""];
 	return existingPayload;
 }

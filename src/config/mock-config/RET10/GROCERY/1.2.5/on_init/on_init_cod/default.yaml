@@ -89,17 +89,17 @@ order:
     "@ondc/org/buyer_app_finder_fee_amount": "3"
     "@ondc/org/settlement_basis": delivery
     "@ondc/org/settlement_window": P1D
-    "@ondc/org/withholding_amount": "10.00"
-    "@ondc/org/settlement_details":
-      - settlement_counterparty: buyer-app
-        settlement_phase: sale-amount
-        settlement_type: upi
-        beneficiary_name: Xyz
-        upi_address: abc@upi
-        settlement_bank_account_no: "12345588548"
-        settlement_ifsc_code: sdsd0005685
-        bank_name: ABC
-        branch_name: XYZ
+    "@ondc/org/withholding_amount": "0.00"
+    # "@ondc/org/settlement_details":
+    #   - settlement_counterparty: buyer-app
+    #     settlement_phase: sale-amount
+    #     settlement_type: upi
+    #     beneficiary_name: Xyz
+    #     upi_address: abc@upi
+    #     settlement_bank_account_no: "12345588548"
+    #     settlement_ifsc_code: sdsd0005685
+    #     bank_name: ABC
+    #     branch_name: XYZ
   tags:
     - code: bpp_terms
       list:

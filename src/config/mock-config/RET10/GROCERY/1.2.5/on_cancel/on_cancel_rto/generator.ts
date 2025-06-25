@@ -111,6 +111,7 @@ function createRtoFulfillment(
 		})
 		.filter((x): x is NonNullable<typeof x> => x !== null);
 	delete deliveryFulfillment.end?.time;
+	delete deliveryFulfillment.start?.time;
 	rtoClone.start = {
 		...deliveryFulfillment.end,
 		time: {
@@ -120,6 +121,7 @@ function createRtoFulfillment(
 	rtoClone.end = {
 		...deliveryFulfillment.start,
 	};
+
 	return rtoClone;
 }
 

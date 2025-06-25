@@ -872,22 +872,20 @@ export function createFulfillments(
 						},
 					},
 					"@ondc/org/TAT": selected["@ondc/org/TAT"],
-					"@ondc/org/provider_name": `mock_provider_name_${index}`,
+					"@ondc/org/provider_name": "Store 1",
 					start: {
 						location: {
 							id: "L1",
 							descriptor: {
-								name: "ABC Store",
+								name: "Store 1",
 							},
 							gps: "19.129076,72.825803",
 							address: {
-								building: "my building name or house",
-								city: "Mumbai",
-								state: "Maharashtra",
-								country: "IND",
+								street: "1 & 2,AMAR JYOTI CHS.BLDG.,OPP.NAND KRIPA HALL",
+								locality: "ANDHERI FOUR BUNGLOW AMAR JYOTI CHS",
+								city: "mock-seller-city",
+								state: "mock-state",
 								area_code: "400053",
-								locality: "my street name",
-								name: "my house or door or floor",
 							},
 						},
 						contact: {
@@ -981,6 +979,19 @@ export function createFulfillments(
 				break;
 			case "on_status_agent_assigned":
 				state = "Agent-assigned";
+
+				finalFulfillments = finalFulfillments.map((f) => {
+					if (f.type === "Delivery") {
+						return {
+							...f,
+							agent: {
+								name: "mock-agent",
+								phone: "9886098860",
+							},
+						};
+					}
+					return f; // leave other types unchanged
+				});
 				break;
 			case "on_status_picked":
 				state = "Order-picked-up";
@@ -1023,6 +1034,37 @@ export function createFulfillments(
 				break;
 			case "on_status_rto_delivered":
 				state = "Cancelled";
+				finalFulfillments = finalFulfillments.map((f) => {
+					if (f.type === "RTO") {
+						return {
+							...f,
+							end: {
+								...f.end,
+								time: {
+									...f.end?.time,
+									timestamp: new Date().toISOString(),
+								},
+							},
+							state: {
+								descriptor: {
+									code: "RTO-Delivered",
+								},
+							},
+						};
+					}
+					if (f.type === "Delivery") {
+						return {
+							...f,
+							state: {
+								descriptor: {
+									code: "Cancelled",
+								},
+							},
+						};
+					}
+					return f; // leave other types unchanged
+				});
+
 			case "on_status_ready_to_ship":
 				state = "Packed";
 				finalFulfillments = finalFulfillments.map((f) => {

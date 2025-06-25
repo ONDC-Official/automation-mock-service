@@ -45,8 +45,26 @@ export async function init_self_pickup_generator(
 		true
 	);
 	if (sessionData.selected_offers) {
-		existingPayload.message.order.offers = sessionData.selected_offers;
+		existingPayload.message.order.offers = sessionData.selected_offers.map(
+			(offer: any) => {
+				return {
+					id: offer.id,
+					tags: [
+						{
+							code: "selection",
+							list: [
+								{
+									code: "apply",
+									value: "yes",
+								},
+							],
+						},
+					],
+				};
+			}
+		);
 	}
+
 	return existingPayload;
 }
 2;

@@ -66,6 +66,16 @@ export async function dyn_on_status_generator(
 				},
 			};
 		}
+
+		if (target.state?.descriptor?.code === "Agent-assigned") {
+			target = {
+				...target,
+				agent: {
+					name: "mock_agent",
+					phone: "9999333333",
+				},
+			};
+		}
 	}
 
 	if (

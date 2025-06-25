@@ -1,6 +1,6 @@
 {
-  "transaction_id": "6bde15b3-0c12-4e6d-87ac-c5330f731eb8",
-  "message_id": "d0394dbe-3a0b-4dd8-ae71-f90f9d468b45",
+  "transaction_id": "9359c477-3615-4582-91c5-576ea3c4d004",
+  "message_id": "e0b42fea-39fe-48b5-915c-4a9b3f00595e",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -13,13 +13,6 @@
     },
     {
       "id": "I3",
-      "quantity": {
-        "count": 1
-      },
-      "location": "L1"
-    },
-    {
-      "id": "I2",
       "quantity": {
         "count": 1
       },
@@ -44,21 +37,14 @@
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F1"
+      "fulfillment_id": "F3"
     },
     {
       "id": "I3",
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F2"
-    },
-    {
-      "id": "I2",
-      "quantity": {
-        "count": 1
-      },
-      "fulfillment_id": "F3"
+      "fulfillment_id": "F1"
     }
   ],
   "provider": {
@@ -82,58 +68,35 @@
     "phone": "9898989898",
     "name": "ONDC buyer",
     "email": "nobody@nomail.com",
-    "created_at": "2025-06-19T08:47:15.528Z",
-    "updated_at": "2025-06-19T08:47:15.528Z"
+    "created_at": "2025-06-25T04:39:11.935Z",
+    "updated_at": "2025-06-25T04:39:11.935Z"
   },
   "fulfillments": [
     {
-      "id": "F1",
-      "type": "Delivery",
-      "end": {
-        "contact": {
-          "email": "nobody@nomail.com",
-          "phone": "9898989898"
-        },
-        "location": {
-          "gps": "12.1233,12.9992",
-          "address": {
-            "building": "mock-building",
-            "city": "mock-city",
-            "state": "mock-state",
-            "country": "IND",
-            "area_code": "110092",
-            "locality": "mock-locality",
-            "name": "mock-house-name"
-          }
-        }
-      },
-      "tracking": true
-    },
-    {
-      "id": "F2",
-      "type": "Delivery",
-      "end": {
-        "contact": {
-          "email": "nobody@nomail.com",
-          "phone": "9898989898"
-        },
-        "location": {
-          "gps": "12.1233,12.9992",
-          "address": {
-            "building": "mock-building",
-            "city": "mock-city",
-            "state": "mock-state",
-            "country": "IND",
-            "area_code": "110092",
-            "locality": "mock-locality",
-            "name": "mock-house-name"
-          }
-        }
-      },
-      "tracking": true
-    },
-    {
       "id": "F3",
+      "type": "Delivery",
+      "end": {
+        "contact": {
+          "email": "nobody@nomail.com",
+          "phone": "9898989898"
+        },
+        "location": {
+          "gps": "12.1233,12.9992",
+          "address": {
+            "building": "mock-building",
+            "city": "mock-city",
+            "state": "mock-state",
+            "country": "IND",
+            "area_code": "110092",
+            "locality": "mock-locality",
+            "name": "mock-house-name"
+          }
+        }
+      },
+      "tracking": true
+    },
+    {
+      "id": "F1",
       "type": "Delivery",
       "end": {
         "contact": {
@@ -170,14 +133,6 @@
           "value": "200.00"
         },
         "item": {
-          "quantity": {
-            "available": {
-              "count": "99"
-            },
-            "maximum": {
-              "count": "99"
-            }
-          },
           "price": {
             "currency": "INR",
             "value": "200.00"
@@ -196,14 +151,6 @@
           "value": "250.00"
         },
         "item": {
-          "quantity": {
-            "available": {
-              "count": "99"
-            },
-            "maximum": {
-              "count": "99"
-            }
-          },
           "price": {
             "currency": "INR",
             "value": "250.00"
@@ -211,32 +158,6 @@
         }
       },
       {
-        "@ondc/org/item_id": "I2",
-        "@ondc/org/item_quantity": {
-          "count": 1
-        },
-        "title": "Plain Atta",
-        "@ondc/org/title_type": "item",
-        "price": {
-          "currency": "INR",
-          "value": "300.00"
-        },
-        "item": {
-          "quantity": {
-            "available": {
-              "count": "99"
-            },
-            "maximum": {
-              "count": "99"
-            }
-          },
-          "price": {
-            "currency": "INR",
-            "value": "300.00"
-          }
-        }
-      },
-      {
         "@ondc/org/item_id": "F1",
         "title": "Delivery charges",
         "@ondc/org/title_type": "delivery",
@@ -247,63 +168,6 @@
       },
       {
         "@ondc/org/item_id": "F1",
-        "title": "Convenience Fee",
-        "@ondc/org/title_type": "misc",
-        "price": {
-          "currency": "INR",
-          "value": "00.00"
-        }
-      },
-      {
-        "@ondc/org/item_id": "combo1",
-        "title": "Flat discount of ₹75 on combo",
-        "@ondc/org/title_type": "offer",
-        "price": {
-          "currency": "INR",
-          "value": "-75.00"
-        },
-        "item": {
-          "tags": [
-            {
-              "code": "quote",
-              "list": [
-                {
-                  "code": "type",
-                  "value": "order"
-                }
-              ]
-            },
-            {
-              "code": "offer",
-              "list": [
-                {
-                  "code": "type",
-                  "value": "combo"
-                },
-                {
-                  "code": "additive",
-                  "value": "no"
-                },
-                {
-                  "code": "auto",
-                  "value": "no"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "@ondc/org/item_id": "F2",
-        "title": "Delivery charges",
-        "@ondc/org/title_type": "delivery",
-        "price": {
-          "currency": "INR",
-          "value": "00.00"
-        }
-      },
-      {
-        "@ondc/org/item_id": "F2",
         "title": "Convenience Fee",
         "@ondc/org/title_type": "misc",
         "price": {
@@ -332,7 +196,7 @@
     ],
     "price": {
       "currency": "INR",
-      "value": "675.00"
+      "value": "450.00"
     },
     "ttl": "P1D"
   },
@@ -447,18 +311,7 @@
   ],
   "selected_offers": [
     {
-      "id": "combo1",
-      "tags": [
-        {
-          "code": "selection",
-          "list": [
-            {
-              "code": "apply",
-              "value": "yes"
-            }
-          ]
-        }
-      ]
+      "id": true
     }
   ],
   "last_updated_at": null,

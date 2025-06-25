@@ -22,6 +22,16 @@ export async function on_init_multi_fulfillment_generator(
 		if (!["F1", "F2", "F3"].includes(b["@ondc/org/item_id"])) return true;
 		return selectedFids.includes(b["@ondc/org/item_id"]);
 	});
+
+	existingPayload.message.order.quote.breakup =
+		existingPayload.message.order.quote.breakup.map((b: any) => {
+			if (b["@ondc/org/title_type"] === "item") {
+				if (b.item && b.item.quantity) delete b.item.quantity;
+			}
+			console.log("Quote Breakup: ", b);
+			return b;
+		});
+
 	return payload;
 }
 

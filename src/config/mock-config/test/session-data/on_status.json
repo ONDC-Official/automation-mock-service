@@ -1,6 +1,6 @@
 {
-  "transaction_id": "6bde15b3-0c12-4e6d-87ac-c5330f731eb8",
-  "message_id": "a6daeed6-1fe9-4f25-80c6-27ae65482478",
+  "transaction_id": "9359c477-3615-4582-91c5-576ea3c4d004",
+  "message_id": "e7fb21c5-d8c4-4d9b-86c6-3436631833ba",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -13,13 +13,6 @@
     },
     {
       "id": "I3",
-      "quantity": {
-        "count": 1
-      },
-      "location": "L1"
-    },
-    {
-      "id": "I2",
       "quantity": {
         "count": 1
       },
@@ -44,21 +37,14 @@
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F1"
+      "fulfillment_id": "F3"
     },
     {
       "id": "I3",
       "quantity": {
         "count": 1
       },
-      "fulfillment_id": "F2"
-    },
-    {
-      "id": "I2",
-      "quantity": {
-        "count": 1
-      },
-      "fulfillment_id": "F3"
+      "fulfillment_id": "F1"
     }
   ],
   "provider": {
@@ -82,200 +68,10 @@
     "phone": "9898989898",
     "name": "ONDC buyer",
     "email": "nobody@nomail.com",
-    "created_at": "2025-06-19T08:47:15.528Z",
-    "updated_at": "2025-06-19T08:47:15.528Z"
+    "created_at": "2025-06-25T04:39:11.935Z",
+    "updated_at": "2025-06-25T04:39:11.935Z"
   },
   "fulfillments": [
-    {
-      "id": "F1",
-      "type": "Delivery",
-      "tracking": true,
-      "state": {
-        "descriptor": {
-          "code": "Pending"
-        }
-      },
-      "@ondc/org/TAT": "PT60M",
-      "@ondc/org/provider_name": "mock_provider_name_0",
-      "start": {
-        "location": {
-          "id": "L1",
-          "descriptor": {
-            "name": "ABC Store"
-          },
-          "gps": "19.129076,72.825803",
-          "address": {
-            "building": "my building name or house",
-            "city": "Mumbai",
-            "state": "Maharashtra",
-            "country": "IND",
-            "area_code": "400053",
-            "locality": "my street name",
-            "name": "my house or door or floor"
-          }
-        },
-        "contact": {
-          "phone": "9594663710",
-          "email": "nobody@nomail.com"
-        },
-        "time": {
-          "range": {
-            "start": "2025-06-19T08:57:20.542Z",
-            "end": "2025-06-19T09:07:20.542Z"
-          }
-        }
-      },
-      "end": {
-        "contact": {
-          "email": "nobody@nomail.com",
-          "phone": "9898989898"
-        },
-        "person": {
-          "name": "mock-person"
-        },
-        "location": {
-          "gps": "12.1233,12.9992",
-          "address": {
-            "building": "mock-building",
-            "city": "mock-city",
-            "state": "mock-state",
-            "country": "IND",
-            "area_code": "110092",
-            "locality": "mock-locality",
-            "name": "mock-house-name"
-          }
-        },
-        "time": {
-          "range": {
-            "start": "2025-06-19T09:07:20.542Z",
-            "end": "2025-06-19T09:57:20.542Z"
-          }
-        }
-      },
-      "tags": [
-        {
-          "code": "routing",
-          "list": [
-            {
-              "code": "type",
-              "value": "P2H2P"
-            }
-          ]
-        },
-        {
-          "code": "tracking",
-          "list": [
-            {
-              "code": "gps_enabled",
-              "value": "no"
-            },
-            {
-              "code": "url_enabled",
-              "value": "yes"
-            },
-            {
-              "code": "url",
-              "value": "https://sellerNP.com/ondc/tracking_url"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "F2",
-      "type": "Delivery",
-      "tracking": true,
-      "state": {
-        "descriptor": {
-          "code": "Pending"
-        }
-      },
-      "@ondc/org/TAT": "PT2H",
-      "@ondc/org/provider_name": "mock_provider_name_1",
-      "start": {
-        "location": {
-          "id": "L1",
-          "descriptor": {
-            "name": "ABC Store"
-          },
-          "gps": "19.129076,72.825803",
-          "address": {
-            "building": "my building name or house",
-            "city": "Mumbai",
-            "state": "Maharashtra",
-            "country": "IND",
-            "area_code": "400053",
-            "locality": "my street name",
-            "name": "my house or door or floor"
-          }
-        },
-        "contact": {
-          "phone": "9594663710",
-          "email": "nobody@nomail.com"
-        },
-        "time": {
-          "range": {
-            "start": "2025-06-19T08:57:20.542Z",
-            "end": "2025-06-19T09:07:20.542Z"
-          }
-        }
-      },
-      "end": {
-        "contact": {
-          "email": "nobody@nomail.com",
-          "phone": "9898989898"
-        },
-        "person": {
-          "name": "mock-person"
-        },
-        "location": {
-          "gps": "12.1233,12.9992",
-          "address": {
-            "building": "mock-building",
-            "city": "mock-city",
-            "state": "mock-state",
-            "country": "IND",
-            "area_code": "110092",
-            "locality": "mock-locality",
-            "name": "mock-house-name"
-          }
-        },
-        "time": {
-          "range": {
-            "start": "2025-06-19T09:07:20.542Z",
-            "end": "2025-06-19T10:57:20.542Z"
-          }
-        }
-      },
-      "tags": [
-        {
-          "code": "routing",
-          "list": [
-            {
-              "code": "type",
-              "value": "P2H2P"
-            }
-          ]
-        },
-        {
-          "code": "tracking",
-          "list": [
-            {
-              "code": "gps_enabled",
-              "value": "no"
-            },
-            {
-              "code": "url_enabled",
-              "value": "yes"
-            },
-            {
-              "code": "url",
-              "value": "https://sellerNP.com/ondc/tracking_url"
-            }
-          ]
-        }
-      ]
-    },
     {
       "id": "F3",
       "type": "Delivery",
@@ -286,22 +82,20 @@
         }
       },
       "@ondc/org/TAT": "P1D",
-      "@ondc/org/provider_name": "mock_provider_name_2",
+      "@ondc/org/provider_name": "Store 1",
       "start": {
         "location": {
           "id": "L1",
           "descriptor": {
-            "name": "ABC Store"
+            "name": "Store 1"
           },
           "gps": "19.129076,72.825803",
           "address": {
-            "building": "my building name or house",
-            "city": "Mumbai",
-            "state": "Maharashtra",
-            "country": "IND",
-            "area_code": "400053",
-            "locality": "my street name",
-            "name": "my house or door or floor"
+            "street": "1 & 2,AMAR JYOTI CHS.BLDG.,OPP.NAND KRIPA HALL",
+            "locality": "ANDHERI FOUR BUNGLOW AMAR JYOTI CHS",
+            "city": "mock-seller-city",
+            "state": "mock-state",
+            "area_code": "400053"
           }
         },
         "contact": {
@@ -310,8 +104,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T08:57:20.542Z",
-            "end": "2025-06-19T09:07:20.542Z"
+            "start": "2025-06-25T04:49:17.082Z",
+            "end": "2025-06-25T04:59:17.082Z"
           }
         }
       },
@@ -337,8 +131,101 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T09:07:20.542Z",
-            "end": "2025-06-20T08:57:20.542Z"
+            "start": "2025-06-25T04:59:17.082Z",
+            "end": "2025-06-26T04:49:17.082Z"
+          }
+        }
+      },
+      "tags": [
+        {
+          "code": "routing",
+          "list": [
+            {
+              "code": "type",
+              "value": "P2H2P"
+            }
+          ]
+        },
+        {
+          "code": "tracking",
+          "list": [
+            {
+              "code": "gps_enabled",
+              "value": "no"
+            },
+            {
+              "code": "url_enabled",
+              "value": "yes"
+            },
+            {
+              "code": "url",
+              "value": "https://sellerNP.com/ondc/tracking_url"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F1",
+      "type": "Delivery",
+      "tracking": true,
+      "state": {
+        "descriptor": {
+          "code": "Pending"
+        }
+      },
+      "@ondc/org/TAT": "PT60M",
+      "@ondc/org/provider_name": "Store 1",
+      "start": {
+        "location": {
+          "id": "L1",
+          "descriptor": {
+            "name": "Store 1"
+          },
+          "gps": "19.129076,72.825803",
+          "address": {
+            "street": "1 & 2,AMAR JYOTI CHS.BLDG.,OPP.NAND KRIPA HALL",
+            "locality": "ANDHERI FOUR BUNGLOW AMAR JYOTI CHS",
+            "city": "mock-seller-city",
+            "state": "mock-state",
+            "area_code": "400053"
+          }
+        },
+        "contact": {
+          "phone": "9594663710",
+          "email": "nobody@nomail.com"
+        },
+        "time": {
+          "range": {
+            "start": "2025-06-25T04:49:17.082Z",
+            "end": "2025-06-25T04:59:17.082Z"
+          }
+        }
+      },
+      "end": {
+        "contact": {
+          "email": "nobody@nomail.com",
+          "phone": "9898989898"
+        },
+        "person": {
+          "name": "mock-person"
+        },
+        "location": {
+          "gps": "12.1233,12.9992",
+          "address": {
+            "building": "mock-building",
+            "city": "mock-city",
+            "state": "mock-state",
+            "country": "IND",
+            "area_code": "110092",
+            "locality": "mock-locality",
+            "name": "mock-house-name"
+          }
+        },
+        "time": {
+          "range": {
+            "start": "2025-06-25T04:59:17.082Z",
+            "end": "2025-06-25T05:49:17.082Z"
           }
         }
       },
@@ -386,14 +273,6 @@
           "value": "200.00"
         },
         "item": {
-          "quantity": {
-            "available": {
-              "count": "99"
-            },
-            "maximum": {
-              "count": "99"
-            }
-          },
           "price": {
             "currency": "INR",
             "value": "200.00"
@@ -412,14 +291,6 @@
           "value": "250.00"
         },
         "item": {
-          "quantity": {
-            "available": {
-              "count": "99"
-            },
-            "maximum": {
-              "count": "99"
-            }
-          },
           "price": {
             "currency": "INR",
             "value": "250.00"
@@ -427,32 +298,6 @@
         }
       },
       {
-        "@ondc/org/item_id": "I2",
-        "@ondc/org/item_quantity": {
-          "count": 1
-        },
-        "title": "Plain Atta",
-        "@ondc/org/title_type": "item",
-        "price": {
-          "currency": "INR",
-          "value": "300.00"
-        },
-        "item": {
-          "quantity": {
-            "available": {
-              "count": "99"
-            },
-            "maximum": {
-              "count": "99"
-            }
-          },
-          "price": {
-            "currency": "INR",
-            "value": "300.00"
-          }
-        }
-      },
-      {
         "@ondc/org/item_id": "F1",
         "title": "Delivery charges",
         "@ondc/org/title_type": "delivery",
@@ -463,63 +308,6 @@
       },
       {
         "@ondc/org/item_id": "F1",
-        "title": "Convenience Fee",
-        "@ondc/org/title_type": "misc",
-        "price": {
-          "currency": "INR",
-          "value": "00.00"
-        }
-      },
-      {
-        "@ondc/org/item_id": "combo1",
-        "title": "Flat discount of ₹75 on combo",
-        "@ondc/org/title_type": "offer",
-        "price": {
-          "currency": "INR",
-          "value": "-75.00"
-        },
-        "item": {
-          "tags": [
-            {
-              "code": "quote",
-              "list": [
-                {
-                  "code": "type",
-                  "value": "order"
-                }
-              ]
-            },
-            {
-              "code": "offer",
-              "list": [
-                {
-                  "code": "type",
-                  "value": "combo"
-                },
-                {
-                  "code": "additive",
-                  "value": "no"
-                },
-                {
-                  "code": "auto",
-                  "value": "no"
-                }
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "@ondc/org/item_id": "F2",
-        "title": "Delivery charges",
-        "@ondc/org/title_type": "delivery",
-        "price": {
-          "currency": "INR",
-          "value": "00.00"
-        }
-      },
-      {
-        "@ondc/org/item_id": "F2",
         "title": "Convenience Fee",
         "@ondc/org/title_type": "misc",
         "price": {
@@ -548,14 +336,14 @@
     ],
     "price": {
       "currency": "INR",
-      "value": "675.00"
+      "value": "450.00"
     },
     "ttl": "P1D"
   },
-  "order_id": "846639",
+  "order_id": "275853",
   "payment": {
     "params": {
-      "amount": "675.00",
+      "amount": "450.00",
       "currency": "INR",
       "transaction_id": "mock_payment_id_123"
     },
@@ -581,7 +369,7 @@
     ]
   },
   "order_state": "Accepted",
-  "order_created_at": "2025-06-19T08:47:20.537Z",
+  "order_created_at": "2025-06-25T04:39:17.052Z",
   "on_select_fulfillments": [
     {
       "id": "F1",
@@ -625,196 +413,6 @@
   ],
   "on_status_fulfillments": [
     {
-      "id": "F1",
-      "type": "Delivery",
-      "tracking": true,
-      "state": {
-        "descriptor": {
-          "code": "Pending"
-        }
-      },
-      "@ondc/org/TAT": "PT60M",
-      "@ondc/org/provider_name": "mock_provider_name_0",
-      "start": {
-        "location": {
-          "id": "L1",
-          "descriptor": {
-            "name": "ABC Store"
-          },
-          "gps": "19.129076,72.825803",
-          "address": {
-            "building": "my building name or house",
-            "city": "Mumbai",
-            "state": "Maharashtra",
-            "country": "IND",
-            "area_code": "400053",
-            "locality": "my street name",
-            "name": "my house or door or floor"
-          }
-        },
-        "contact": {
-          "phone": "9594663710",
-          "email": "nobody@nomail.com"
-        },
-        "time": {
-          "range": {
-            "start": "2025-06-19T08:57:20.542Z",
-            "end": "2025-06-19T09:07:20.542Z"
-          }
-        }
-      },
-      "end": {
-        "contact": {
-          "email": "nobody@nomail.com",
-          "phone": "9898989898"
-        },
-        "person": {
-          "name": "mock-person"
-        },
-        "location": {
-          "gps": "12.1233,12.9992",
-          "address": {
-            "building": "mock-building",
-            "city": "mock-city",
-            "state": "mock-state",
-            "country": "IND",
-            "area_code": "110092",
-            "locality": "mock-locality",
-            "name": "mock-house-name"
-          }
-        },
-        "time": {
-          "range": {
-            "start": "2025-06-19T09:07:20.542Z",
-            "end": "2025-06-19T09:57:20.542Z"
-          }
-        }
-      },
-      "tags": [
-        {
-          "code": "routing",
-          "list": [
-            {
-              "code": "type",
-              "value": "P2H2P"
-            }
-          ]
-        },
-        {
-          "code": "tracking",
-          "list": [
-            {
-              "code": "gps_enabled",
-              "value": "no"
-            },
-            {
-              "code": "url_enabled",
-              "value": "yes"
-            },
-            {
-              "code": "url",
-              "value": "https://sellerNP.com/ondc/tracking_url"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "F2",
-      "type": "Delivery",
-      "tracking": true,
-      "state": {
-        "descriptor": {
-          "code": "Pending"
-        }
-      },
-      "@ondc/org/TAT": "PT2H",
-      "@ondc/org/provider_name": "mock_provider_name_1",
-      "start": {
-        "location": {
-          "id": "L1",
-          "descriptor": {
-            "name": "ABC Store"
-          },
-          "gps": "19.129076,72.825803",
-          "address": {
-            "building": "my building name or house",
-            "city": "Mumbai",
-            "state": "Maharashtra",
-            "country": "IND",
-            "area_code": "400053",
-            "locality": "my street name",
-            "name": "my house or door or floor"
-          }
-        },
-        "contact": {
-          "phone": "9594663710",
-          "email": "nobody@nomail.com"
-        },
-        "time": {
-          "range": {
-            "start": "2025-06-19T08:57:20.542Z",
-            "end": "2025-06-19T09:07:20.542Z"
-          }
-        }
-      },
-      "end": {
-        "contact": {
-          "email": "nobody@nomail.com",
-          "phone": "9898989898"
-        },
-        "person": {
-          "name": "mock-person"
-        },
-        "location": {
-          "gps": "12.1233,12.9992",
-          "address": {
-            "building": "mock-building",
-            "city": "mock-city",
-            "state": "mock-state",
-            "country": "IND",
-            "area_code": "110092",
-            "locality": "mock-locality",
-            "name": "mock-house-name"
-          }
-        },
-        "time": {
-          "range": {
-            "start": "2025-06-19T09:07:20.542Z",
-            "end": "2025-06-19T10:57:20.542Z"
-          }
-        }
-      },
-      "tags": [
-        {
-          "code": "routing",
-          "list": [
-            {
-              "code": "type",
-              "value": "P2H2P"
-            }
-          ]
-        },
-        {
-          "code": "tracking",
-          "list": [
-            {
-              "code": "gps_enabled",
-              "value": "no"
-            },
-            {
-              "code": "url_enabled",
-              "value": "yes"
-            },
-            {
-              "code": "url",
-              "value": "https://sellerNP.com/ondc/tracking_url"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "F3",
       "type": "Delivery",
       "tracking": true,
@@ -824,22 +422,20 @@
         }
       },
       "@ondc/org/TAT": "P1D",
-      "@ondc/org/provider_name": "mock_provider_name_2",
+      "@ondc/org/provider_name": "Store 1",
       "start": {
         "location": {
           "id": "L1",
           "descriptor": {
-            "name": "ABC Store"
+            "name": "Store 1"
           },
           "gps": "19.129076,72.825803",
           "address": {
-            "building": "my building name or house",
-            "city": "Mumbai",
-            "state": "Maharashtra",
-            "country": "IND",
-            "area_code": "400053",
-            "locality": "my street name",
-            "name": "my house or door or floor"
+            "street": "1 & 2,AMAR JYOTI CHS.BLDG.,OPP.NAND KRIPA HALL",
+            "locality": "ANDHERI FOUR BUNGLOW AMAR JYOTI CHS",
+            "city": "mock-seller-city",
+            "state": "mock-state",
+            "area_code": "400053"
           }
         },
         "contact": {
@@ -848,8 +444,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T08:57:20.542Z",
-            "end": "2025-06-19T09:07:20.542Z"
+            "start": "2025-06-25T04:49:17.082Z",
+            "end": "2025-06-25T04:59:17.082Z"
           }
         }
       },
@@ -875,8 +471,101 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-19T09:07:20.542Z",
-            "end": "2025-06-20T08:57:20.542Z"
+            "start": "2025-06-25T04:59:17.082Z",
+            "end": "2025-06-26T04:49:17.082Z"
+          }
+        }
+      },
+      "tags": [
+        {
+          "code": "routing",
+          "list": [
+            {
+              "code": "type",
+              "value": "P2H2P"
+            }
+          ]
+        },
+        {
+          "code": "tracking",
+          "list": [
+            {
+              "code": "gps_enabled",
+              "value": "no"
+            },
+            {
+              "code": "url_enabled",
+              "value": "yes"
+            },
+            {
+              "code": "url",
+              "value": "https://sellerNP.com/ondc/tracking_url"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F1",
+      "type": "Delivery",
+      "tracking": true,
+      "state": {
+        "descriptor": {
+          "code": "Pending"
+        }
+      },
+      "@ondc/org/TAT": "PT60M",
+      "@ondc/org/provider_name": "Store 1",
+      "start": {
+        "location": {
+          "id": "L1",
+          "descriptor": {
+            "name": "Store 1"
+          },
+          "gps": "19.129076,72.825803",
+          "address": {
+            "street": "1 & 2,AMAR JYOTI CHS.BLDG.,OPP.NAND KRIPA HALL",
+            "locality": "ANDHERI FOUR BUNGLOW AMAR JYOTI CHS",
+            "city": "mock-seller-city",
+            "state": "mock-state",
+            "area_code": "400053"
+          }
+        },
+        "contact": {
+          "phone": "9594663710",
+          "email": "nobody@nomail.com"
+        },
+        "time": {
+          "range": {
+            "start": "2025-06-25T04:49:17.082Z",
+            "end": "2025-06-25T04:59:17.082Z"
+          }
+        }
+      },
+      "end": {
+        "contact": {
+          "email": "nobody@nomail.com",
+          "phone": "9898989898"
+        },
+        "person": {
+          "name": "mock-person"
+        },
+        "location": {
+          "gps": "12.1233,12.9992",
+          "address": {
+            "building": "mock-building",
+            "city": "mock-city",
+            "state": "mock-state",
+            "country": "IND",
+            "area_code": "110092",
+            "locality": "mock-locality",
+            "name": "mock-house-name"
+          }
+        },
+        "time": {
+          "range": {
+            "start": "2025-06-25T04:59:17.082Z",
+            "end": "2025-06-25T05:49:17.082Z"
           }
         }
       },
@@ -983,21 +672,10 @@
   ],
   "selected_offers": [
     {
-      "id": "combo1",
-      "tags": [
-        {
-          "code": "selection",
-          "list": [
-            {
-              "code": "apply",
-              "value": "yes"
-            }
-          ]
-        }
-      ]
+      "id": true
     }
   ],
-  "last_updated_at": "2025-06-19T08:47:20.542Z",
+  "last_updated_at": "2025-06-25T04:39:17.082Z",
   "bap_id": "dev-automation.ondc.org",
   "bpp_id": "dev-automation.ondc.org",
   "bap_uri": "https://dev-automation.ondc.org/buyer",

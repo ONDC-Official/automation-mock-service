@@ -1,6 +1,6 @@
 {
-  "transaction_id": "6bde15b3-0c12-4e6d-87ac-c5330f731eb8",
-  "message_id": "d9bac377-7e4b-47a2-b4f6-696d3aeaf467",
+  "transaction_id": "9359c477-3615-4582-91c5-576ea3c4d004",
+  "message_id": "26aed11c-8392-4af8-834f-a0f745b7b78b",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -13,13 +13,6 @@
     },
     {
       "id": "I3",
-      "quantity": {
-        "count": 1
-      },
-      "location": "L1"
-    },
-    {
-      "id": "I2",
       "quantity": {
         "count": 1
       },
@@ -65,18 +58,7 @@
   "on_select_items": [],
   "selected_offers": [
     {
-      "id": "combo1",
-      "tags": [
-        {
-          "code": "selection",
-          "list": [
-            {
-              "code": "apply",
-              "value": "yes"
-            }
-          ]
-        }
-      ]
+      "id": true
     }
   ],
   "last_updated_at": null,

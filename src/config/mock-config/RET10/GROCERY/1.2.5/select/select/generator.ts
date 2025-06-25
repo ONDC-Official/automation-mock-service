@@ -64,17 +64,17 @@ export async function select_generator(
 			.map((offer) => {
 				return {
 					id: inputs[offer],
-					tags: [
-						{
-							code: "selection",
-							list: [
-								{
-									code: "apply",
-									value: "yes",
-								},
-							],
-						},
-					],
+					// tags: [
+					// 	{
+					// 		code: "selection",
+					// 		list: [
+					// 			{
+					// 				code: "apply",
+					// 				value: "yes",
+					// 			},
+					// 		],
+					// 	},
+					// ],
 				};
 			});
 	}

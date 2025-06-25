@@ -27,16 +27,16 @@ const inputsData = {
 					quantity: 1,
 					location: "L1",
 				},
-				{
-					itemId: "I2",
-					quantity: 1,
-					location: "L1",
-				},
 			],
-			offers_FLAT50: false,
+			offers_FLAT50: true,
 			offers_buy2get3: false,
-			offers_combo1: "combo1",
+			offers_combo1: false,
 		},
+		// 		{
+		// 	itemId: "I2",
+		// 	quantity: 1,
+		// 	location: "L1",
+		// },
 	},
 	Return_Flow: {
 		select: {
@@ -111,12 +111,14 @@ export async function testUnitApi(
 		const changes = inputPathChanges[flowId][actionId];
 		mockResponse = updateAllJsonPaths(mockResponse, changes);
 	}
+	mockResponse.context.timestamp = new Date().toISOString();
 	await saveDataForUnit(lastAction, action, mockResponse, flowId);
 	const folderPath = path.resolve(__dirname, `./logs/${flowId}`);
 	const filePath = path.resolve(folderPath, `${actionId}.json`);
 	if (!existsSync(filePath)) {
 		mkdirSync(folderPath, { recursive: true });
 	}
+
 	// await testWithApiService(mockResponse, action);
 	writeFileSync(filePath, JSON.stringify(mockResponse, null, 2));
 	customConsoleLog(

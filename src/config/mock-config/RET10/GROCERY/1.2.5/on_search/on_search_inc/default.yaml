@@ -12,8 +12,8 @@ catalog:
               - https://sellerNP.com/images/i1.png
           price:
             currency: INR
-            value: "100.00"
-            maximum_value: "100.00"
+            value: "200.00"
+            maximum_value: "200.00"
           quantity:
             unitized:
               measure:

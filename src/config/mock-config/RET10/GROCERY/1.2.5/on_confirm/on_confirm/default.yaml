@@ -1,6 +1,6 @@
 order:
   id: O1
-  state: Accepted
+  state: Created
   provider:
     id: P1
     locations:
@@ -26,7 +26,7 @@ order:
     updated_at: "2024-12-23T07:01:43.145Z"
   fulfillments:
     - id: F1
-      "@ondc/org/provider_name": 24x7 Wellness Forever - ANDHERI FOUR BUNGLOW
+      "@ondc/org/provider_name": Store 1
       state:
         descriptor:
           code: Pending

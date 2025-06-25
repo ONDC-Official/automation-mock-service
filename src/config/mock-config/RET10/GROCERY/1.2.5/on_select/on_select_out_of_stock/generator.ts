@@ -27,7 +27,7 @@ export async function on_select_out_of_stock_generator(
 	const randomOutOfStockItem = getRandomItem(
 		catalogItems.map((item) => item.id)
 	);
-	for (const i of catalogItems) {
+	for (let i of catalogItems) {
 		const quantity =
 			selectedItemsObj?.find((item) => item.id === i.id)?.quantity.count ?? 1;
 		const price = parseFloat(i.price.value) * quantity;
@@ -46,7 +46,7 @@ export async function on_select_out_of_stock_generator(
 		) {
 			breakupItem.item.quantity.available.count = "0";
 			breakupItem.item.quantity.maximum.count = "0";
-			breakupItem["@ondc/org/title_type"] = "0";
+			breakupItem["@ondc/org/item_quantity"].count = 0;
 			existingPayload.error = {
 				type: "DOMAIN-ERROR",
 				code: "40002",
