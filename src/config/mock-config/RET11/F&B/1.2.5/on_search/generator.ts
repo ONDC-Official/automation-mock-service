@@ -22,7 +22,7 @@ export const onSearchGenerator = (
   existingPayload.message.catalog[
     "bpp/providers"
   ][0].locations[0].address.area_code = Object.keys(stateCodes).find(
-    (k) => stateCodes[k] === existingPayload.context.city
+    (k) => "std:" + stateCodes[k] === existingPayload.context.city
   );
 
   existingPayload.message.catalog[
