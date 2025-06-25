@@ -20,8 +20,9 @@ export async function on_update_picked_generator(
 
 	const itemCodes = jsonpath.query(
 		sessionData.fulfillments,
-		`$..tags[*][?(@.code=="return_request")].list[?(@.code=="item_id")].value`
+		`$..tags[?(@.code=="return_request")].list[?(@.code=="item_id")].value`
 	);
+	console.log(JSON.stringify(sessionData.fulfillments), "fulfillment");
 	console.log("itemCodes", itemCodes);
 	const items: any[] = [];
 	const fulfillments = sessionData.fulfillments as Fulfillments;
@@ -45,11 +46,20 @@ export async function on_update_picked_generator(
 	existingPayload.message.order.items = items;
 	const quote = sessionData.quote as Quote;
 	const breakup = quote.breakup ?? [];
+	const itemPrice =
+		breakup.find((item) => item["@ondc/org/item_id"] === itemCodes[0])?.price
+			?.value ?? "0.00";
+	const itemPriceNum = parseFloat(itemPrice);
+
 	if (quote.price) {
-		quote.price.value = "0.00";
+		const existingPrice = parseFloat(quote.price.value || "0");
+		quote.price.value = `${(existingPrice - itemPriceNum).toFixed(2)}`;
 	}
 	const quoteTrails = breakup
 		.map((item) => {
+			if (item["@ondc/org/item_id"] !== itemCodes[0]) {
+				return item;
+			}
 			const price = parseFloat(item.price?.value || "0");
 			if (price === 0) return null;
 			if (item.price) {

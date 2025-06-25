@@ -27,26 +27,26 @@ export async function on_select_out_of_stock_generator(
 	const randomOutOfStockItem = getRandomItem(
 		catalogItems.map((item) => item.id)
 	);
-	for (let i of catalogItems) {
+	for (const i of catalogItems) {
 		const quantity =
 			selectedItemsObj?.find((item) => item.id === i.id)?.quantity.count ?? 1;
 		const price = parseFloat(i.price.value) * quantity;
-		console.log("Price: ", price, i.price.value);
+		console.log("Price: ", price, i.price.value, i.id);
 		totalPrice += price;
-		const item = breakupItem;
-		breakupItem["@ondc/org/item_id"] = i.id;
-		breakupItem.title = i.descriptor.name;
-		breakupItem["@ondc/org/item_quantity"].count = quantity;
-		breakupItem.price.value = `${price.toFixed(2)}`;
-		breakupItem.item.price.value = i.price.value;
+		const item = JSON.parse(JSON.stringify(breakupItem));
+		item["@ondc/org/item_id"] = i.id;
+		item.title = i.descriptor.name;
+		item["@ondc/org/item_quantity"].count = quantity;
+		item.price.value = `${price.toFixed(2)}`;
+		item.item.price.value = i.price.value;
 		breakupObject.push(item);
 		if (
 			sessionData.out_of_stock_item_ids?.includes(i.id) ||
 			i.id === randomOutOfStockItem
 		) {
-			breakupItem.item.quantity.available.count = "0";
-			breakupItem.item.quantity.maximum.count = "0";
-			breakupItem["@ondc/org/item_quantity"].count = 0;
+			item.item.quantity.available.count = "0";
+			item.item.quantity.maximum.count = "0";
+			item["@ondc/org/item_quantity"].count = 0;
 			existingPayload.error = {
 				type: "DOMAIN-ERROR",
 				code: "40002",
@@ -55,6 +55,7 @@ export async function on_select_out_of_stock_generator(
 			};
 		}
 	}
+	console.log("Breakup Object: ", breakupObject);
 	breakupObject.push(breakup[0]);
 	breakupObject.push(breakup[1]);
 	existingPayload.message.order.quote.breakup = breakupObject;
