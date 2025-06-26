@@ -1,3 +1,0 @@
-save-data:
-  order_state: $.message.order.state
-  fulfillments: $.message.order.fulfillments[*]

@@ -1,5 +1,0 @@
-save-data:
-  fulfillments: $.message.order.fulfillments[*]
-  quote: $.message.order.quote
-  items: $.message.order.items[*]
-  # quote_trail: $.message.order.fulfillments[*].tags[?(@.code=="quote_trail")]

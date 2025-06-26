@@ -1,10 +1,10 @@
-import { SessionData } from "../../session-types";
+import { SessionData } from "../session-types";
 import fs from "fs";
 import yaml from "js-yaml";
 import path from "path";
-import { logger } from "../../../../../utils/logger";
+import { logger } from "../../../../utils/logger";
 import { createContext } from "./create-context";
-import { getMockAction } from "../../action-factory";
+import { getMockAction } from "../action-factory";
 
 function loadFactoryYaml(filePath: string): any {
 	try {
@@ -56,12 +56,12 @@ function yamlToJson(filePath: string): object {
 	}
 }
 
-export async function createMockResponseRET10_125(
+export async function createMockResponseTRV14_200(
 	actionID: string,
 	sessionData: SessionData
 ) {
 	const factoryData = loadFactoryYaml(
-		path.resolve(__dirname, "../../factory.yaml")
+		path.resolve(__dirname, "../factory.yaml")
 	);
 	let api_details: any = {};
 	if (actionID.startsWith("dyn_on_status")) {
@@ -75,10 +75,15 @@ export async function createMockResponseRET10_125(
 		bap_uri: sessionData?.bap_uri,
 		bpp_id: sessionData?.bpp_id,
 		bpp_uri: sessionData?.bpp_uri,
-		city: sessionData?.city ?? "std:011",
-		country: "IND",
+		location: {
+			city: {
+				code: sessionData.city_code ?? "std:011",
+			},
+			country: {
+				code: "IND",
+			},
+		},
 	};
-
 	let context = createContext(context_object);
 	if (!api_details.message_id) {
 		context.message_id = sessionData.message_id as string;

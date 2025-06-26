@@ -1,9 +1,0 @@
-tracking:
-  id: F1
-  # location:
-  #   gps: 19.129076,72.825803
-  #   time:
-  #     timestamp: '2024-12-23T07:45:38.230Z'
-  #   updated_at: '2024-12-23T07:45:38.230Z'
-  url: https://MockNP.com/ondc/tracking_url
-  status: active
