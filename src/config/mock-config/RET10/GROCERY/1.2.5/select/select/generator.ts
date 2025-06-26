@@ -63,7 +63,7 @@ export async function select_generator(
 			.filter((offer) => inputs[offer] !== false && inputs[offer] !== null)
 			.map((offer) => {
 				return {
-					id: inputs[offer],
+					id: offer.replace("offers_", ""),
 					// tags: [
 					// 	{
 					// 		code: "selection",

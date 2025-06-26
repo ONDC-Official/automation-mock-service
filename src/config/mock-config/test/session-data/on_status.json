@@ -1,6 +1,6 @@
 {
-  "transaction_id": "a78a6f5b-56a0-4f6c-ab2d-0580925f8106",
-  "message_id": "59c3aaf7-2289-4acb-84a7-2da98ac1afc7",
+  "transaction_id": "db048bbb-745e-4bbf-82ba-062b9a0306ee",
+  "message_id": "2f7bb520-e0a6-443b-b666-f2ea2f82db8b",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -68,8 +68,8 @@
     "phone": "9898989898",
     "name": "ONDC buyer",
     "email": "nobody@nomail.com",
-    "created_at": "2025-06-25T07:57:05.370Z",
-    "updated_at": "2025-06-25T07:57:05.370Z"
+    "created_at": "2025-06-25T08:32:13.001Z",
+    "updated_at": "2025-06-25T08:32:13.001Z"
   },
   "fulfillments": [
     {
@@ -104,8 +104,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-25T08:07:10.388Z",
-            "end": "2025-06-25T08:17:10.388Z"
+            "start": "2025-06-25T08:42:18.034Z",
+            "end": "2025-06-25T08:52:18.034Z"
           }
         }
       },
@@ -131,8 +131,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-25T08:17:10.388Z",
-            "end": "2025-06-26T08:07:10.388Z"
+            "start": "2025-06-25T08:52:18.034Z",
+            "end": "2025-06-26T08:42:18.034Z"
           }
         }
       },
@@ -197,8 +197,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-25T08:07:10.388Z",
-            "end": "2025-06-25T08:17:10.388Z"
+            "start": "2025-06-25T08:42:18.034Z",
+            "end": "2025-06-25T08:52:18.034Z"
           }
         }
       },
@@ -224,8 +224,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-25T08:17:10.388Z",
-            "end": "2025-06-25T10:07:10.388Z"
+            "start": "2025-06-25T08:52:18.034Z",
+            "end": "2025-06-25T10:42:18.034Z"
           }
         }
       },
@@ -298,6 +298,61 @@
         }
       },
       {
+        "@ondc/org/item_id": "FLAT50",
+        "title": "Flat discount of ₹50 on minimum cart value of ₹200",
+        "@ondc/org/title_type": "offer",
+        "price": {
+          "currency": "INR",
+          "value": "-50.00"
+        },
+        "item": {
+          "tags": [
+            {
+              "code": "quote",
+              "list": [
+                {
+                  "code": "type",
+                  "value": "order"
+                }
+              ]
+            },
+            {
+              "code": "offer",
+              "list": [
+                {
+                  "code": "id",
+                  "value": "FLAT50"
+                },
+                {
+                  "code": "type",
+                  "value": "discount"
+                },
+                {
+                  "code": "auto",
+                  "value": "no"
+                },
+                {
+                  "code": "additive",
+                  "value": "no"
+                },
+                {
+                  "code": "item_id",
+                  "value": ""
+                },
+                {
+                  "code": "item_value",
+                  "value": ""
+                },
+                {
+                  "code": "item_count",
+                  "value": ""
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
         "@ondc/org/item_id": "F2",
         "title": "Delivery charges",
         "@ondc/org/title_type": "delivery",
@@ -336,14 +391,14 @@
     ],
     "price": {
       "currency": "INR",
-      "value": "450.00"
+      "value": "400.00"
     },
     "ttl": "P1D"
   },
-  "order_id": "300099",
+  "order_id": "865368",
   "payment": {
     "params": {
-      "amount": "450.00",
+      "amount": "400.00",
       "currency": "INR",
       "transaction_id": "mock_payment_id_123"
     },
@@ -369,7 +424,7 @@
     ]
   },
   "order_state": "Accepted",
-  "order_created_at": "2025-06-25T07:57:10.381Z",
+  "order_created_at": "2025-06-25T08:32:18.012Z",
   "on_select_fulfillments": [
     {
       "id": "F1",
@@ -444,8 +499,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-25T08:07:10.388Z",
-            "end": "2025-06-25T08:17:10.388Z"
+            "start": "2025-06-25T08:42:18.034Z",
+            "end": "2025-06-25T08:52:18.034Z"
           }
         }
       },
@@ -471,8 +526,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-25T08:17:10.388Z",
-            "end": "2025-06-26T08:07:10.388Z"
+            "start": "2025-06-25T08:52:18.034Z",
+            "end": "2025-06-26T08:42:18.034Z"
           }
         }
       },
@@ -537,8 +592,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-25T08:07:10.388Z",
-            "end": "2025-06-25T08:17:10.388Z"
+            "start": "2025-06-25T08:42:18.034Z",
+            "end": "2025-06-25T08:52:18.034Z"
           }
         }
       },
@@ -564,8 +619,8 @@
         },
         "time": {
           "range": {
-            "start": "2025-06-25T08:17:10.388Z",
-            "end": "2025-06-25T10:07:10.388Z"
+            "start": "2025-06-25T08:52:18.034Z",
+            "end": "2025-06-25T10:42:18.034Z"
           }
         }
       },
@@ -672,10 +727,10 @@
   ],
   "selected_offers": [
     {
-      "id": true
+      "id": "FLAT50"
     }
   ],
-  "last_updated_at": "2025-06-25T07:57:10.388Z",
+  "last_updated_at": "2025-06-25T08:32:18.033Z",
   "bap_id": "dev-automation.ondc.org",
   "bpp_id": "dev-automation.ondc.org",
   "bap_uri": "https://dev-automation.ondc.org/buyer",
