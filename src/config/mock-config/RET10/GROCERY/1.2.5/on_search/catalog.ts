@@ -523,60 +523,60 @@ export const RET10GROCERY125Catalog = JSON.parse(
 								},
 							],
 						},
-						{
-							id: "combo1",
-							descriptor: {
-								code: "combo",
-								images: ["https://snp.com/images/offer1-banner.webp"],
-							},
-							location_ids: ["L1"],
-							category_ids: ["C1"],
-							item_ids: ["I1", "I2", "I3"],
-							time: {
-								label: "valid",
-								range: {
-									start: "2025-01-01T16:00:00.000Z",
-									end: "2030-01-01T23:00:00.000Z",
-								},
-							},
-							tags: [
-								{
-									code: "qualifier",
-									list: [
-										{
-											code: "item_id",
-											value: "I1,I2,I3",
-										},
-									],
-								},
-								{
-									code: "benefit",
-									list: [
-										{
-											code: "value_type",
-											value: "amount",
-										},
-										{
-											code: "value",
-											value: "-75.00",
-										},
-									],
-								},
-								{
-									code: "meta",
-									list: [
-										{
-											code: "additive",
-											value: "no",
-										},
-										{
-											code: "auto",
-											value: "no",
-										},
-									],
-								},
-							],
-						},
+						// {
+						// 	id: "combo1",
+						// 	descriptor: {
+						// 		code: "combo",
+						// 		images: ["https://snp.com/images/offer1-banner.webp"],
+						// 	},
+						// 	location_ids: ["L1"],
+						// 	category_ids: ["C1"],
+						// 	item_ids: ["I1", "I2", "I3"],
+						// 	time: {
+						// 		label: "valid",
+						// 		range: {
+						// 			start: "2025-01-01T16:00:00.000Z",
+						// 			end: "2030-01-01T23:00:00.000Z",
+						// 		},
+						// 	},
+						// 	tags: [
+						// 		{
+						// 			code: "qualifier",
+						// 			list: [
+						// 				{
+						// 					code: "item_id",
+						// 					value: "I1,I2,I3",
+						// 				},
+						// 			],
+						// 		},
+						// 		{
+						// 			code: "benefit",
+						// 			list: [
+						// 				{
+						// 					code: "value_type",
+						// 					value: "amount",
+						// 				},
+						// 				{
+						// 					code: "value",
+						// 					value: "-75.00",
+						// 				},
+						// 			],
+						// 		},
+						// 		{
+						// 			code: "meta",
+						// 			list: [
+						// 				{
+						// 					code: "additive",
+						// 					value: "no",
+						// 				},
+						// 				{
+						// 					code: "auto",
+						// 					value: "no",
+						// 				},
+						// 			],
+						// 		},
+						// 	],
+						// },
 					],
 				},
 			],
