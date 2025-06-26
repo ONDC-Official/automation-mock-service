@@ -1,0 +1,4 @@
+message:
+  order:
+    id: O1
+    status: TECHNICAL_CONFIRM_CANCELLED 

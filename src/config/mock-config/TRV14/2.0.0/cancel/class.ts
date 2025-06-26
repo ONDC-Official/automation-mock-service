@@ -1,11 +1,11 @@
 import { readFileSync } from "fs";
 import yaml from "js-yaml";
 import path from "path";
-import { MockAction, MockOutput, saveType } from "../../../classes/mock-action";
-import { SessionData } from "../../../session-types";
-import { search_generator } from "./generator";
+import { MockAction, MockOutput, saveType } from "../../classes/mock-action";
+import { SessionData } from "../../session-types";
+import { cancelDefaultGenerator } from "./generator";
 
-export class MockSearchIncrementalPull extends MockAction {
+export class MockCancelClass extends MockAction {
     get saveData(): saveType {
         return yaml.load(
             readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
@@ -13,20 +13,20 @@ export class MockSearchIncrementalPull extends MockAction {
     }
     get defaultData(): any {
         return yaml.load(
-            readFileSync(path.resolve(__dirname, "./search_incremental_pull.yaml"), "utf8")
+            readFileSync(path.resolve(__dirname, "./default.yaml"), "utf8")
         );
     }
     get inputs(): any {
         return {};
     }
     name(): string {
-        return "search_incremental_pull";
+        return "cancel_default";
     }
     get description(): string {
-        return "Mock for search_incremental_pull";
+        return "Mock for cancel_default";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-        return search_generator(existingPayload, sessionData);
+        return cancelDefaultGenerator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
         return { valid: true };

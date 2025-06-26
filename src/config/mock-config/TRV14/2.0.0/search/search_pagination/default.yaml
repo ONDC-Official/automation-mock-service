@@ -1,3 +1,4 @@
+
 message:
   intent:
     category:
@@ -37,4 +38,4 @@ message:
         value: https://api.example-bap.com/booking/terms
       - descriptor:
           code: SETTLEMENT_WINDOW
-        value: P30D 
+        value: P30D

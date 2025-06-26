@@ -3,15 +3,15 @@ import {
 	MockAction,
 	MockOutput,
 	saveType,
-} from "../../classes/mock-action";
-import { SessionData } from "../../session-types";
+} from "../../../classes/mock-action";
+import { SessionData } from "../../../session-types";
 import yaml from "js-yaml";
 import path from "path";
-import { search_generator } from "./generator";
-export class MockSearchTRV14 extends MockAction {
+import { search_incremental_pull_generator } from "./generator";
+export class search_incremental_pull_class extends MockAction {
 	get saveData(): saveType {
 		return yaml.load(
-			readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
+			readFileSync(path.resolve(__dirname, "../save-data.yaml"), "utf8")
 		) as saveType;
 	}
 	get defaultData(): any {
@@ -29,7 +29,7 @@ export class MockSearchTRV14 extends MockAction {
 		return "Mock action for searching items in TRV14.";
 	}
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-		return search_generator(existingPayload, sessionData);
+		return search_incremental_pull_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
 		return {

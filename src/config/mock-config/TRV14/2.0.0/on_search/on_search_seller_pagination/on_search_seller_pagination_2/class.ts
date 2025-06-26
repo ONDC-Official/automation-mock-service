@@ -1,32 +1,32 @@
 import { readFileSync } from "fs";
 import yaml from "js-yaml";
 import path from "path";
-import { MockAction, MockOutput, saveType } from "../../../classes/mock-action";
-import { SessionData } from "../../../session-types";
-import { search_generator } from "./generator";
+import { MockAction, MockOutput, saveType } from "../../../../classes/mock-action";
+import { SessionData } from "../../../../session-types";
+import { onSearchSellerPagination2Generator } from "./generator";
 
-export class MockSearchIncrementalPull extends MockAction {
+export class MockOnSearchSellerPagination2Class extends MockAction {
     get saveData(): saveType {
         return yaml.load(
-            readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
+            readFileSync(path.resolve(__dirname, "../../save-data.yaml"), "utf8")
         ) as saveType;
     }
     get defaultData(): any {
         return yaml.load(
-            readFileSync(path.resolve(__dirname, "./search_incremental_pull.yaml"), "utf8")
+            readFileSync(path.resolve(__dirname, "./on_search_seller_pagination_2.yaml"), "utf8")
         );
     }
     get inputs(): any {
         return {};
     }
     name(): string {
-        return "search_incremental_pull";
+        return "on_search_seller_pagination_2";
     }
     get description(): string {
-        return "Mock for search_incremental_pull";
+        return "Mock for on_search_seller_pagination_2";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-        return search_generator(existingPayload, sessionData);
+        return onSearchSellerPagination2Generator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
         return { valid: true };

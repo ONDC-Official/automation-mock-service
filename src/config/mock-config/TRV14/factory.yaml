@@ -2,42 +2,42 @@ codes:
   - code: 100
     action_id: search_seller_pagination
     action: search
-    default: TRV14/2.0.0/search/default.yaml
+    default: TRV14/2.0.0/search/search_pagination/default.yaml
     message_id: true
   - code: 101
     action_id: on_search_seller_pagination_1
     action: on_search
-    default: TRV14/2.0.0/on_search/default.yaml
+    default: TRV14/2.0.0/on_search/on_search_seller_pagination/on_search_seller_pagination_1/default.yaml
     message_id: false
   - code: 102
     action_id: on_search_seller_pagination_2
     action: on_search
-    default: TRV14/2.0.0/on_search/on_search_seller_pagination_2.yaml
+    default: TRV14/2.0.0/on_search/on_search_seller_pagination/on_search_seller_pagination_2/default.yaml
     message_id: true
   - code: 103
     action_id: on_search_seller_pagination_3
     action: on_search
-    default: TRV14/2.0.0/on_search/on_search_seller_pagination_3.yaml
+    default: TRV14/2.0.0/on_search/on_search_seller_pagination/on_search_seller_pagination_3/default.yaml
     message_id: true
   - code: 104
     action_id: search_incremental_pull
     action: search
-    default: TRV14/2.0.0/search/search_incremental_pull.yaml
+    default: TRV14/2.0.0/search/search_incremental_pull/default.yaml
     message_id: true
   - code: 105
     action_id: on_search_incremental_pull_1
     action: on_search
-    default: TRV14/2.0.0/on_search/on_search_incremental_pull_1.yaml
+    default: TRV14/2.0.0/on_search/on_search_incremental_pull/on_search_incremental_pull_1/default.yaml
     message_id: false
   - code: 106
     action_id: on_search_incremental_pull_2
     action: on_search
-    default: TRV14/2.0.0/on_search/on_search_incremental_pull_2.yaml
+    default: TRV14/2.0.0/on_search/on_search_incremental_pull/on_search_incremental_pull_2/default.yaml
     message_id: true
   - code: 107
     action_id: on_search_incremental_pull_3
     action: on_search
-    default: TRV14/2.0.0/on_search/on_search_incremental_pull_3.yaml
+    default: TRV14/2.0.0/on_search/on_search_incremental_pull/on_search_incremental_pull_3/default.yaml
     message_id: true
   - code: 108
     action_id: select
@@ -92,85 +92,85 @@ codes:
   - code: 118
     action_id: on_confirm_technical_cancellation
     action: on_confirm
-    default: TRV14/2.0.0/on_confirm/on_confirm_technical_cancellation.yaml
+    default: TRV14/2.0.0/on_confirm/on_confirm_technical_cancellation/default.yaml
     message_id: false
   - code: 119
     action_id: status_technical_cancellation
     action: status
-    default: TRV14/2.0.0/status/status_technical_cancellation.yaml
+    default: TRV14/2.0.0/status/status_technical_cancellation/default.yaml
     message_id: true
   - code: 120
     action_id: on_status_technical_cancellation
     action: on_status
-    default: TRV14/2.0.0/on_status/on_status_technical_cancellation.yaml
+    default: TRV14/2.0.0/on_status/on_status_technical_cancellation/default.yaml
     message_id: false
   - code: 121
     action_id: cancel_soft_technical_cancellation
     action: cancel
-    default: TRV14/2.0.0/cancel/cancel_soft_technical_cancellation.yaml
+    default: TRV14/2.0.0/cancel/cancel_soft_technical_cancellation/default.yaml
     message_id: true
   - code: 122
     action_id: on_cancel_soft_technical_cancellation
     action: on_cancel
-    default: TRV14/2.0.0/on_cancel/on_cancel_soft_technical_cancellation.yaml
+    default: TRV14/2.0.0/on_cancel/on_cancel_soft_technical_cancellation/default.yaml
     message_id: false
   - code: 123
     action_id: cancel_confirm_technical_cancellation
     action: cancel
-    default: TRV14/2.0.0/cancel/cancel_confirm_technical_cancellation.yaml
+    default: TRV14/2.0.0/cancel/cancel_confirm_technical_cancellation/default.yaml
     message_id: true
   - code: 124
     action_id: on_cancel_confirm_technical_cancellation
     action: on_cancel
-    default: TRV14/2.0.0/on_cancel/on_cancel_confirm_technical_cancellation.yaml
+    default: TRV14/2.0.0/on_cancel/on_cancel_confirm_technical_cancellation/default.yaml
     message_id: false
   - code: 125
     action_id: on_confirm_user_cancellation
     action: on_confirm
-    default: TRV14/2.0.0/on_confirm/on_confirm_user_cancellation.yaml
+    default: TRV14/2.0.0/on_confirm/on_confirm_user_cancellation/default.yaml
     message_id: false
   - code: 126
     action_id: status_user_cancellation
     action: status
-    default: TRV14/2.0.0/status/status_user_cancellation.yaml
+    default: TRV14/2.0.0/status/status_user_cancellation/default.yaml
     message_id: true
   - code: 127
     action_id: on_status_user_cancellation
     action: on_status
-    default: TRV14/2.0.0/on_status/on_status_user_cancellation.yaml
+    default: TRV14/2.0.0/on_status/on_status_user_cancellation/default.yaml
     message_id: false
   - code: 128
     action_id: cancel_soft_user_cancellation
     action: cancel
-    default: TRV14/2.0.0/cancel/cancel_soft_user_cancellation.yaml
+    default: TRV14/2.0.0/cancel/cancel_soft_user_cancellation/default.yaml
     message_id: true
   - code: 129
     action_id: on_cancel_soft_user_cancellation
     action: on_cancel
-    default: TRV14/2.0.0/on_cancel/on_cancel_soft_user_cancellation.yaml
+    default: TRV14/2.0.0/on_cancel/on_cancel_soft_user_cancellation/default.yaml
     message_id: false
   - code: 130
     action_id: cancel_confirm_user_cancellation
     action: cancel
-    default: TRV14/2.0.0/cancel/cancel_confirm_user_cancellation.yaml
+    default: TRV14/2.0.0/cancel/cancel_confirm_user_cancellation/default.yaml
     message_id: true
   - code: 131
     action_id: on_cancel_confirm_user_cancellation
     action: on_cancel
-    default: TRV14/2.0.0/on_cancel/on_cancel_confirm_user_cancellation.yaml
+    default: TRV14/2.0.0/on_cancel/on_cancel_confirm_user_cancellation/default.yaml
     message_id: false
   - code: 132
     action_id: on_confirm_partial_cancellation
     action: on_confirm
-    default: TRV14/2.0.0/on_confirm/on_confirm_partial_cancellation.yaml
+    default: TRV14/2.0.0/on_confirm/on_confirm_partial_cancellation/default.yaml
     message_id: false
   - code: 133
     action_id: cancel_soft_partial_cancellation
     action: cancel
-    default: TRV14/2.0.0/cancel/cancel_soft_partial_cancellation.yaml
+    default: TRV14/2.0.0/cancel/cancel_soft_partial_cancellation/default.yaml
     message_id: true
   - code: 134
     action_id: on_cancel_soft_partial_cancellation
     action: on_cancel
-    default: TRV14/2.0.0/on_cancel/on_cancel_soft_partial_cancellation.yaml
+    default: TRV14/2.0.0/on_cancel/on_cancel_soft_partial_cancellation/default.yaml
     message_id: false
