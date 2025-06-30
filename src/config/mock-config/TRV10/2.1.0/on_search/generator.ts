@@ -101,7 +101,7 @@ type Location = {
     sessionData: any
   ) {
     try {
-      const { start_location, end_location } = sessionData;
+      const { start_location, end_location, country_code, city_code } = sessionData;
       
       if (!start_location || !end_location) {
         throw new Error("Start and End locations are required");
@@ -110,7 +110,10 @@ type Location = {
       // Create fulfillments with the provided locations
       const fulfillments = createFulfillments(start_location, end_location);
       existingPayload.message.catalog.providers[0].fulfillments = fulfillments;
-  
+
+      existingPayload.context.location.city.code = city_code
+      existingPayload.context.location.country.code = country_code
+
       // Update items with new prices
       existingPayload.message.catalog.providers[0].items = 
         existingPayload.message.catalog.providers[0].items.map((item: any, index: number) => {

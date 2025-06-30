@@ -43,8 +43,11 @@ export interface SessionData {
 	selected_add_ons: any[]
 	created_at: string
 	cancellation_reason_id: string
-	cancellation_quote: any[]
+	cancellation_quote: any
 	selected_fulfillment_id: string
+	payment_id: string
+	cancellation_fulfillments: any[];
+	cancellation_reason: any
 }
 
 export type BecknContext = {
