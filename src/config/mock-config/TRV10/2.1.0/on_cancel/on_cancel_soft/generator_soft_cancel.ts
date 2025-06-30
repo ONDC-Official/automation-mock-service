@@ -29,6 +29,10 @@ export async function onCancelSoftGenerator(
         authorization: {
           type: "OTP",
           token: "234234",
+          status: stop?.authorization?.status || "UNCLAIMED",
+          valid_to:
+            stop?.authorization?.valid_to ||
+            new Date(Date.now() + 3600000).toISOString(), // Default to 1 hour from now
         },
       }));
     }
@@ -41,7 +45,8 @@ export async function onCancelSoftGenerator(
     existingPayload.message.order.quote = sessionData.quote;
   }
   let quote = existingPayload.message.order.quote;
-  const refund_price = existingPayload.message.order.quote.price.value;
+  console.log('existingPayload--', JSON.stringify(existingPayload))
+  const refund_price = existingPayload.message.order.quote?.price?.value;
   quote.breakup.push(
     {
       title: "CANCELLATION_CHARGES",

@@ -84,35 +84,35 @@ message:
                   - value: AC
                   - value: LOW_PRICE
                   - value: FREE_WIFI
-        # cancellation_terms:
-        #   - cancellation_fee:
-        #       percentage: '0'
-        #     fulfillment_state:
-        #       descriptor:
-        #         code: RIDE_ASSIGNED
-        #     reason_required: true
-        #   - cancellation_fee:
-        #       amount:
-        #         currency: INR
-        #         value: '30'
-        #     fulfillment_state:
-        #       descriptor:
-        #         code: RIDE_ENROUTE_PICKUP
-        #     reason_required: true
-        #   - cancellation_fee:
-        #       amount:
-        #         currency: INR
-        #         value: '50'
-        #     fulfillment_state:
-        #       descriptor:
-        #         code: RIDE_ARRIVED_PICKUP
-        #     reason_required: true
-        #   - cancellation_fee:
-        #       percentage: '100'
-        #     fulfillment_state:
-        #       descriptor:
-        #         code: RIDE_STARTED
-        #     reason_required: true
+        cancellation_terms:
+          - cancellation_fee:
+              percentage: '0'
+            fulfillment_state:
+              descriptor:
+                code: RIDE_ASSIGNED
+            reason_required: true
+          - cancellation_fee:
+              amount:
+                currency: INR
+                value: '30'
+            fulfillment_state:
+              descriptor:
+                code: RIDE_ENROUTE_PICKUP
+            reason_required: true
+          - cancellation_fee:
+              amount:
+                currency: INR
+                value: '50'
+            fulfillment_state:
+              descriptor:
+                code: RIDE_ARRIVED_PICKUP
+            reason_required: true
+          - cancellation_fee:
+              percentage: '100'
+            fulfillment_state:
+              descriptor:
+                code: RIDE_STARTED
+            reason_required: true
         locations:
           - gps: '12.916468,77.608998'
             id: L1

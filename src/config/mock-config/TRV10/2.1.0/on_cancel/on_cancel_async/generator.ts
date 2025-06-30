@@ -78,17 +78,30 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
   };
 }
 
-export async function onCancelAsyncGenerator(existingPayload: any, sessionData: SessionData) {
+export async function onCancelAsyncGenerator(
+  existingPayload: any,
+  sessionData: SessionData
+) {
   if (sessionData.payments?.length > 0) {
     existingPayload.message.order.payments = sessionData.payments;
   }
-  
+
   if (sessionData.items?.length > 0) {
     existingPayload.message.order.items = sessionData.items;
   }
 
   if (sessionData.fulfillments?.length > 0) {
-    existingPayload.message.order.fulfillments = sessionData.selected_fulfillments;
+    existingPayload.message.order.fulfillments =
+      sessionData.selected_fulfillments;
+
+    existingPayload.message.order.fulfillments[0] = {
+      ...existingPayload.message.order.fulfillments[0],
+      state: {
+        descriptor: {
+          code: "RIDE_CANCELLED",
+        },
+      },
+    };
   }
 
   if (sessionData.order_id) {
@@ -97,10 +110,13 @@ export async function onCancelAsyncGenerator(existingPayload: any, sessionData: 
 
   if (sessionData.quote != null) {
     // Using standard cancellation charges for async cancellation
-    existingPayload.message.order.quote = applyCancellation(sessionData.quote, 20);
+    existingPayload.message.order.quote = applyCancellation(
+      sessionData.quote,
+      20
+    );
   }
   const now = new Date().toISOString();
-  existingPayload.message.order.created_at = sessionData.created_at
-  existingPayload.message.order.updated_at = now 
+  existingPayload.message.order.created_at = sessionData.created_at;
+  existingPayload.message.order.updated_at = now;
   return existingPayload;
 }
