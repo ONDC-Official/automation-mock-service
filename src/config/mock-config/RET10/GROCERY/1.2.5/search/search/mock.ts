@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import {
+	FormConfigType,
 	MockAction,
 	MockOutput,
 	saveType,
@@ -19,8 +20,8 @@ export class MockSearch extends MockAction {
 			readFileSync(path.resolve(__dirname, "./default.yaml"), "utf8")
 		);
 	}
-	get inputs(): any {
-		return {};
+	get inputs(): FormConfigType | undefined {
+		return undefined;
 	}
 	name(): string {
 		return "search";

@@ -1,3 +1,4 @@
+import { getMockAction } from "../config/mock-config/RET10/action-factory";
 import { Flow } from "../types/flow-types";
 import { FlowMap, MappedStep, ReducedApiData } from "../types/mapped-flow";
 import { ApiData, TransactionCache } from "../types/transaction-cache";
@@ -128,11 +129,13 @@ export function getFlowCompleteStatus(
 			if (subscriberType === item.owner) {
 				mappedFlow.sequence.push(base);
 			} else {
-				if (item.input) {
+				const input = getMockAction(item.key).inputs;
+				if (input && input.length > 0) {
 					mappedFlow.sequence.push({
 						...base,
 						status:
 							flowStatus === "AVAILABLE" ? "INPUT-REQUIRED" : "RESPONDING",
+						input: input,
 					});
 				} else {
 					if (item.unsolicited) {
