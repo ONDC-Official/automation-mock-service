@@ -7,9 +7,9 @@ import {
 import { SessionData } from "../../../../session-types";
 import yaml from "js-yaml";
 import path from "path";
-import { search_inc_generator } from "./generator";
+import { cancel_generator } from "./generator";
 
-export class MockSearchInc extends MockAction {
+export class MockCancel extends MockAction {
 	get saveData(): saveType {
 		return yaml.load(
 			readFileSync(path.resolve(__dirname, "../save-data.yaml"), "utf8")
@@ -24,15 +24,15 @@ export class MockSearchInc extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "search_inc";
+		return "cancel";
 	}
 	get description(): string {
-		return "Mock mock action for searching items in a grocery with incremental data.";
+		return "Mock action for cancelling an order.";
 	}
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-		return search_inc_generator(existingPayload, sessionData);
+		return cancel_generator(existingPayload, sessionData);
 	}
-	async validate(targetPayload: any) {
+	async validate(targetPayload: any): Promise<MockOutput> {
 		return {
 			valid: true,
 		};
