@@ -569,3 +569,23 @@ codes:
     action_id: on_status_self_pick_picked
     action: on_status
     message_id: true
+  - code: 212
+    action_id: search_inc_stop
+    default: GROCERY/1.2.5/search/search_inc/default.yaml
+    action: search
+    message_id: true
+  - code: 213
+    action_id: cancel_force
+    action: cancel
+    default: GROCERY/1.2.5/cancel/cancel_force/default.yaml
+    message_id: true
+  - code: 214
+    action_id: on_cancel_force
+    action: on_cancel
+    default: GROCERY/1.2.5/on_cancel/on_cancel_force/default.yaml
+    message_id: false
+  - code: 215
+    action_id: cancel_breach
+    action: cancel
+    default: GROCERY/1.2.5/cancel/cancel_breach/default.yaml
+    message_id: true

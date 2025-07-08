@@ -135,11 +135,11 @@ order:
     - code: bpp_terms
       list:
         - code: np_type
-          value: ISN
+          value: MSN
         - code: tax_number
-          value: 22AAAAA0000A1Z5
+          value: 00ABCCH7409R1ZZ
         - code: provider_tax_number
-          value: AAAAA0000A
+          value: ABCDE1234F
     - code: bap_terms
       list:
         - code: tax_number

@@ -19,9 +19,21 @@ export async function sendToApiService(
 				...queryData,
 			},
 		});
+		
+		// Add delay after axios call for cancel_breach action
+		if (action === "cancel_breach") {
+			await delay(5000);
+		}
 	} catch (err) {
 		logger.error("Error in sending response to api service", err);
 	}
+}
+
+/**
+ * Returns a Promise that resolves after a given delay in milliseconds.
+ */
+function delay(ms: number): Promise<void> {
+	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export function createSellerUrl(domain: string, version: string) {

@@ -112,7 +112,8 @@ function getOfferObjects(
 	}[]
 ) {
 	if (!sessionData.selected_offers) return [];
-	const offerId = sessionData.selected_offers[0].id;
+	const offerId = sessionData.selected_offers[0]?.id ?? "";
+
 	if (offerId === "FLAT50") {
 		return [];
 	}
@@ -123,7 +124,7 @@ function getOfferObjects(
 				list: [
 					{
 						code: "type",
-						value: "item",
+						value: "offer",
 					},
 					{
 						code: "id",
@@ -196,7 +197,7 @@ function getOfferObjects(
 				list: [
 					{
 						code: "type",
-						value: "item",
+						value: "offer",
 					},
 					{
 						code: "id",

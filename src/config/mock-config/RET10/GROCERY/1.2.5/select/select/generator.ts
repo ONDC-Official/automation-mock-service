@@ -3,7 +3,7 @@ import { stateCodes } from "../state-codes";
 
 type SelectInputType = {
 	provider?: string;
-	provider_location?: string[];
+	provider_location?: string[] | string;
 	location_gps?: string;
 	location_pin_code?: string;
 	items?: {
@@ -25,13 +25,22 @@ export async function select_generator(
 	if (inputs.provider) {
 		existingPayload.message.order.provider.id = inputs.provider;
 	}
-	if (inputs.provider_location) {
+	if (inputs.provider_location && Array.isArray(inputs.provider_location)) {
 		existingPayload.message.order.provider.locations =
 			inputs.provider_location.map((location) => {
 				return {
 					id: location,
 				};
 			});
+	} else if (
+		inputs.provider_location &&
+		typeof inputs.provider_location === "string"
+	) {
+		existingPayload.message.order.provider.locations = [
+			{
+				id: inputs.provider_location,
+			},
+		];
 	}
 	if (inputs.location_gps) {
 		existingPayload.message.order.fulfillments[0].end.location.gps =
@@ -63,18 +72,18 @@ export async function select_generator(
 			.filter((offer) => inputs[offer] !== false && inputs[offer] !== null)
 			.map((offer) => {
 				return {
-					id: inputs[offer],
-					tags: [
-						{
-							code: "selection",
-							list: [
-								{
-									code: "apply",
-									value: "yes",
-								},
-							],
-						},
-					],
+					id: offer.replace("offers_", ""),
+					// tags: [
+					// 	{
+					// 		code: "selection",
+					// 		list: [
+					// 			{
+					// 				code: "apply",
+					// 				value: "yes",
+					// 			},
+					// 		],
+					// 	},
+					// ],
 				};
 			});
 	}

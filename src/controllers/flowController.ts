@@ -401,6 +401,7 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			latestMeta.status === "INPUT-REQUIRED"
 		) {
 			res.status(200).send("Mock service is now responding");
+			await setFlowStatusService(txId, subscriberUrl, "WORKING");
 			// logger.info("Mock service is now responding");
 			logInfo({
 				message: "Mock service is now responding",
@@ -429,7 +430,6 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			}
 
 			const action = latestMeta.actionType;
-			await setFlowStatusService(txId, subscriberUrl, "WORKING");
 			await sendToApiService(action, mockResponse, {
 				subscriber_url: subscriberUrl,
 				flow_id: flow.id,

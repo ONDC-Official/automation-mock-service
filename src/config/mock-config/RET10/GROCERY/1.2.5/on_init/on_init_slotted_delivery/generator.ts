@@ -26,5 +26,14 @@ export async function on_init_slotted_delivery_generator(
 		existingPayload.message.order.quote.breakup.filter(
 			(item: any) => !missingIds.includes(item["@ondc/org/item_id"])
 		);
+	existingPayload.message.order.quote.breakup =
+		existingPayload.message.order.quote.breakup.map((b: any) => {
+			if (b["@ondc/org/title_type"] === "item") {
+				if (b.item && b.item.quantity) delete b.item.quantity;
+			}
+			console.log("Quote Breakup: ", b);
+			return b;
+		});
+
 	return existingPayload;
 }
