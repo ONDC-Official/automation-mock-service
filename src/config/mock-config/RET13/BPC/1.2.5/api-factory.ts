@@ -63,6 +63,9 @@ import { on_status_agent_assigned_ccc_generator } from "./on_status/on_status_ag
 import { on_status_picked_ccc_generator } from "./on_status/on_status_picked_ccc/generator";
 import { on_status_out_for_delivery_ccc_generator } from "./on_status/on_status_out_for_delivery_ccc/generator";
 import { on_status_order_delivered_ccc_generator } from "./on_status/on_status_order_delivered_ccc/generator";
+import { select_offers_generator } from "./select/select_offers/generator";
+import { on_select_offers_generator } from "./on_select/on_select_offers/generator";
+import { init_offers_generator } from "./init/init_offers/generator";
 export async function Generator(
   action_id: string,
   existingPayload: any,
@@ -81,10 +84,16 @@ export async function Generator(
       return on_search_inc_disable_generator(existingPayload, sessionData);
     case "select":
       return select_generator(existingPayload, sessionData);
+    case "select_offers":
+      return select_offers_generator(existingPayload, sessionData);
     case "on_select":
       return on_select_generator(existingPayload, sessionData);
+    case "on_select_offers":
+      return on_select_offers_generator(existingPayload, sessionData);
     case "init":
       return init_generator(existingPayload, sessionData);
+    case "init_offers":
+      return init_offers_generator(existingPayload, sessionData);
     case "on_init":
       return on_init_generator(existingPayload, sessionData);
     case "confirm":
