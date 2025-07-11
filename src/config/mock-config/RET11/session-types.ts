@@ -89,4 +89,5 @@ export interface Input {
   offerId?: string;
   isSlottedDelivery?: string;
   isForceCancel?: string;
+  isRefund?: string;
 }

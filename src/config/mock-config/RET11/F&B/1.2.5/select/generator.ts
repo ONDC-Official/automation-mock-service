@@ -88,8 +88,7 @@ export const selectGenerator = (
               list: [
                 {
                   code: "id",
-                  // TO-DO: get the vlaue in input itself
-                  value: getParentIdValue(on_search_items, customisation),
+                  value: item.relation[customisation],
                 },
               ],
             },

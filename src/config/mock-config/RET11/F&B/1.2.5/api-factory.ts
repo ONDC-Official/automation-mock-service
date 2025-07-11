@@ -160,7 +160,8 @@ export async function Generator(
       return await updateSettlelmentGenerator(
         existingPayload,
         sessionData,
-        action_id
+        action_id,
+        inputs
       );
     case "update_settelment_return":
       return await updateSettlelmentGenerator(
