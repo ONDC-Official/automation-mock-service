@@ -1,8 +1,6 @@
 import { SessionData } from "../../../../session-types";
 import { getUpdatedBilling } from "../../api-objects/billing";
 import { createFulfillments } from "../../api-objects/fulfillments";
-import { v4 as uuidV4 } from "uuid";
-import { TagsType } from "../../api-objects/tags";
 export async function confirm_fin_generator(
   existingPayload: any,
   sessionData: SessionData
@@ -64,7 +62,7 @@ export async function confirm_fin_generator(
       },
       {
         code: "transaction_id",
-        value: uuidV4,
+        value: "txid1234"
       },
       {
         code: "timestamp",

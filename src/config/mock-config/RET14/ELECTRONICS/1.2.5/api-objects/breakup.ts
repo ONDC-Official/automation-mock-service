@@ -104,6 +104,9 @@ export function createQuote(
     breakupClone["@ondc/org/item_quantity"].count = quantity;
     breakupClone.price.value = `${price.toFixed(2)}`;
     if (selectedItem.tags) {
+      if (selectedItem.parent_item_id) {
+        breakupClone.parent_item_id = selectedItem.parent_item_id;
+      }
       breakupClone.tags = selectedItem.tags;
     }
     breakupClone.item.price.value = catalogItem.price.value;
@@ -111,8 +114,8 @@ export function createQuote(
 
     if (sessionData.out_of_stock_item_ids?.includes(catalogItem.id)) {
       breakupClone.item.quantity.available.count = "0";
-      breakupClone.item.quantity.maximum.count = "0"; // Skip if item not found in catalog
-      breakupClone["@ondc/org/title_type"] = "0";
+      breakupClone.item.quantity.maximum.count = "0";
+      breakupClone["@ondc/org/title_type"] = "item";
       existingPayload.error = {
         type: "DOMAIN-ERROR",
         code: "40002",

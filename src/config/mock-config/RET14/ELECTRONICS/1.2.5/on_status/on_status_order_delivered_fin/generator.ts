@@ -13,10 +13,11 @@ export async function on_status_order_delivered_fin_generator(
     sessionData,
     generalPayload.message.order.fulfillments
   );
-  generalPayload.message.order.state = "Completed";``
+  generalPayload.message.order.state = "Completed";
 	generalPayload.message.order.items = sessionData.order_items
   generalPayload.message.order.quote = sessionData.quote;
   generalPayload.message.order.payment = sessionData.payment;
   generalPayload.message.order.tags = sessionData.order_tags;
+  generalPayload.message.order.fulfillments[0].end.time.timestamp = existingPayload.context.timestamp;
   return generalPayload;
 }

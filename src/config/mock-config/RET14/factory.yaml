@@ -193,7 +193,7 @@ codes:
     default: ELECTRONICS/1.2.5/confirm/confirm_snp/default.yaml
     action_id: confirm_snp
     action: confirm
-    message_id: false
+    message_id: true
   - code: 181
     default: ELECTRONICS/1.2.5/init/init_fin/default.yaml
     action_id: init_fin
@@ -208,7 +208,7 @@ codes:
     default: ELECTRONICS/1.2.5/confirm/confirm_fin/default.yaml
     action_id: confirm_fin
     action: confirm
-    message_id: false
+    message_id: true
   - code: 183
     default: ELECTRONICS/1.2.5/on_confirm/on_confirm_fin/default.yaml
     action_id: on_confirm_fin

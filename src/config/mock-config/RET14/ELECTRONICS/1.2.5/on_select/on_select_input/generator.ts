@@ -92,11 +92,25 @@ export async function on_select_input_generator(
   });
 
   const quote = createQuote(
-    existingPayload.message.order.items,
+    selectedItemsObj.map((item) => {
+      const newItem: any = {
+        id: item.id,
+        fulfillment_id: item.fulfillment_id || "F1",
+        count: item.quantity.count,
+      };
+
+      if (item.parent_item_id && item.tags) {
+        newItem.parent_item_id = item.parent_item_id;
+        newItem.tags = item.tags;
+      }
+
+      return newItem;
+    }),
     sessionData,
     existingPayload,
     existingPayload.message.order.fulfillments
   );
+
   existingPayload.message.order.quote = quote;
   console.log("existingpayload", JSON.stringify(existingPayload));
   return existingPayload;

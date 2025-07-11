@@ -16,6 +16,7 @@ export async function on_status_packed_fin_generator(
 	);
 	generalPayload.message.order.quote = sessionData.quote;
 	generalPayload.message.order.payment = sessionData.payment;
+	generalPayload.message.order.state = "In-progress"
 	generalPayload.message.order.tags = sessionData.order_tags;
 	return generalPayload;
 }

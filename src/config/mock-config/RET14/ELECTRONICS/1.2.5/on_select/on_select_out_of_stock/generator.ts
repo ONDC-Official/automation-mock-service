@@ -1,7 +1,7 @@
 import { SessionData } from "../../../../session-types";
 import { getRandomItem } from "../../api-objects/utils";
 import { RET14ELECTRONICS125Catalog } from "../../on_search/on_search/catalog";
-import { breakup, breakupItem, SelectedItems } from "../on_select/generator";
+import { breakupItem, SelectedItems } from "../on_select/generator";
 export async function on_select_out_of_stock_generator(
   existingPayload: any,
   sessionData: SessionData

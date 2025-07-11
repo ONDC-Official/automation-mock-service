@@ -16,6 +16,7 @@ export async function init_generator(
 
   existingPayload.message.order.items = items.map((item: any) => {
     const newItem: any = {
+      quantity: item.quantity,
       id: item.id,
       fulfillment_id: fId || "F1",
     };

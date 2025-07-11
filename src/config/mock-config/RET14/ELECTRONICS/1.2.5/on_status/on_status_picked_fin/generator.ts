@@ -13,6 +13,7 @@ export async function on_status_picked_fin_generator(
     sessionData,
     generalPayload.message.order.fulfillments
   );
+  generalPayload.message.order.fulfillments[0].start.time.timestamp =  existingPayload.context.timestamp;
   generalPayload.message.order.items[0].tags = [
     {
       code: "verify",

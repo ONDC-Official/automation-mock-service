@@ -79,7 +79,7 @@ export async function select_input_generator(
     quantity: {
       count: 1,
     },
-    parent_item_id: "DI1",
+    parent_item_id: parentItemId,
     descriptor: {
       tags: [
         {

@@ -1,3 +1,4 @@
+import { title } from "process";
 import { SessionData } from "../../../../session-types";
 import { getUpdatedBilling } from "../../api-objects/billing";
 import { createFulfillments } from "../../api-objects/fulfillments";
@@ -25,6 +26,7 @@ export async function on_init_fin_generator(
   existingPayload.message.order.quote.breakup.push({
     "@ondc/org/item_id": `${itemId}`,
     "@ondc/org/title_type": "offer",
+    title:"offer",
     price: {
       currency: "INR",
       value: "0",

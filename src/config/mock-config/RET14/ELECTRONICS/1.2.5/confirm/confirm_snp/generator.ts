@@ -19,6 +19,9 @@ export async function confirm_snp_generator(
   existingPayload.message.order.items = sessionData.items;
   existingPayload.message.order.provider = sessionData.provider;
   existingPayload.message.order.payment = sessionData.payment;
+  existingPayload.message.order.provider = sessionData.provider;
+	existingPayload.message.order.payment.params.amount =
+		sessionData.quote?.price?.value;
   existingPayload.message.order.fulfillments = createFulfillments(
     "confirm",
     "confirm",
