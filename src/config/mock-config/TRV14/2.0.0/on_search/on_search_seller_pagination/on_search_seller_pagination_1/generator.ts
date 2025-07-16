@@ -67,10 +67,10 @@ export async function onSearchSellerPagination1Generator(existingPayload: any, s
         existingPayload.message.catalog.providers[0].payments[0].collected_by = sessionData.collected_by;
     }
 
-    // Set tags if present
-    if (sessionData.tags && existingPayload.message?.catalog) {
-        existingPayload.message.catalog.tags = [...existingPayload.message.catalog.tags, ...sessionData.tags[0]]
-    }
+    // Set tags if present // wrong in developer guide bap_terms shouldn't be in on_search
+    // if (sessionData.tags && existingPayload.message?.catalog) {
+    //     existingPayload.message.catalog.tags = [...existingPayload.message.catalog.tags, ...sessionData.tags[0]]
+    // }
 
     // Set timerange
     if (sessionData.start_time && sessionData.end_time) {

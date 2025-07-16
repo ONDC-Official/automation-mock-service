@@ -90,9 +90,9 @@ export async function onSearchSellerPagination3Generator(existingPayload: any, s
   }
   
   // Set tags (includes business terms and pagination info)
-  if (sessionData.tags) {
-    existingPayload.message.catalog.tags .push( sessionData.tags);
-  }
+  // if (sessionData.tags) {
+  //   existingPayload.message.catalog.tags .push( sessionData.tags);
+  // }
   
   // Set dynamic timerange with random date generation
   if (sessionData.start_time && sessionData.end_time) {

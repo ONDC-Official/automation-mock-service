@@ -89,9 +89,9 @@ export async function onSearchSellerPagination2Generator(existingPayload: any, s
   }
   
   // Set tags (includes business terms and pagination info)
-  if (sessionData.tags) {
-    existingPayload.message.catalog.tags .push( sessionData.tags);
-  }
+  // if (sessionData.tags) {
+  //   existingPayload.message.catalog.tags .push( sessionData.tags);
+  // }
   
   // Set dynamic timerange using session start and end times directly
   if (sessionData.start_time && sessionData.end_time) {
