@@ -15,7 +15,7 @@ export async function createMockResponse(
 	console.log(api_session);
 	const data = JSON.parse(api_session) as SessionCache;
 	const { version, usecaseId } = data;
-
+	sessionData.user_inputs = input
 	let payload: any = {};
 	if (version === "2.0.0") {
 		payload = await createMockResponseTRV14_200(action_id, sessionData);

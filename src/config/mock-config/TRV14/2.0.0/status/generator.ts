@@ -1,4 +1,5 @@
 export async function statusDefaultGenerator(existingPayload: any, sessionData: any) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
+  if(sessionData.order_id){
+    existingPayload.message.order_id = sessionData.order_id;
+  }
   return existingPayload;} 

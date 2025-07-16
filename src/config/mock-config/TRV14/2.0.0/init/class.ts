@@ -3,7 +3,7 @@ import yaml from "js-yaml";
 import path from "path";
 import { MockAction, MockOutput, saveType } from "../../classes/mock-action";
 import { SessionData } from "../../session-types";
-import { initDefaultGenerator } from "./generator";
+import { initGenerator } from "./generator";
 
 export class MockInitClass extends MockAction {
     get saveData(): saveType {
@@ -26,12 +26,34 @@ export class MockInitClass extends MockAction {
         return "Mock for init_default";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-        return initDefaultGenerator(existingPayload, sessionData);
+        return initGenerator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
+        // Validate required session data for init generator
+        if (!sessionData.selected_items || !Array.isArray(sessionData.selected_items) || sessionData.selected_items.length === 0) {
+            return { 
+                valid: false, 
+                message: "No selected_items available in session data" 
+            };
+        }
+        
+        if (!sessionData.selected_fulfillments || !Array.isArray(sessionData.selected_fulfillments)) {
+            return { 
+                valid: false, 
+                message: "No selected_fulfillments available in session data" 
+            };
+        }
+        
+        if (!sessionData.selected_provider) {
+            return { 
+                valid: false, 
+                message: "No selected_provider available in session data" 
+            };
+        }
+        
         return { valid: true };
     }
 } 

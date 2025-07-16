@@ -1,4 +1,3 @@
-message:
-  order:
-    id: O1
-    status: CONFIRMED 
+
+order:
+  status: CONFIRMED 
