@@ -24,7 +24,7 @@ export class MockSelect142 extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "select_142";
+		return "select";
 	}
 	get description(): string {
 		return "Mock action for selecting items in a grocery order with scenario 142.";

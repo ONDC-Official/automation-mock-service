@@ -24,7 +24,7 @@ export class MockUpdateReturn extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "update_return";
+		return "update";
 	}
 	get description(): string {
 		return "Mock action for updating return request.";

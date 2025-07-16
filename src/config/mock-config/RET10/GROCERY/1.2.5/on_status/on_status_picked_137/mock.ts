@@ -24,7 +24,7 @@ export class MockOnStatusPicked137 extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_status_picked_137";
+		return "on_status";
 	}
 	get description(): string {
 		return "Mock action for on_status_picked_137 response from provider.";

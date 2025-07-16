@@ -24,7 +24,7 @@ export class MockOnSelect130 extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_select_130";
+		return "on_select";
 	}
 	get description(): string {
 		return "Mock action for on_select_130 response from provider.";

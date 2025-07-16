@@ -24,7 +24,7 @@ export class MockOnInitMultiFulfillment extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_init_multi_fulfillment";
+		return "on_init";
 	}
 	get description(): string {
 		return "Mock action for on_init_multi_fulfillment response from provider.";

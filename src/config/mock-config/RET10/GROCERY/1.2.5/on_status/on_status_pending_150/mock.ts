@@ -24,7 +24,7 @@ export class MockOnStatusPending150 extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_status_pending_150";
+		return "on_status";
 	}
 	get description(): string {
 		return "Mock action for on_status_pending_150 response from provider.";

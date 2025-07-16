@@ -24,7 +24,7 @@ export class MockInitSelfPickup extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "init_self_pickup";
+		return "init";
 	}
 	get description(): string {
 		return "Mock action for initializing order in a grocery with self pickup.";

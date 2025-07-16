@@ -24,7 +24,7 @@ export class MockOnUpdateReturnDelivered173 extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_update_return_delivered_173";
+		return "on_update";
 	}
 	get description(): string {
 		return "Mock action for on_update_return_delivered_173 response from provider.";

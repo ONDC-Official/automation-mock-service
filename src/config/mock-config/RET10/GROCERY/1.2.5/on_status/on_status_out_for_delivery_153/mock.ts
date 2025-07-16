@@ -24,7 +24,7 @@ export class MockOnStatusOutForDelivery153 extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_status_out_for_delivery_153";
+		return "on_status";
 	}
 	get description(): string {
 		return "Mock action for on_status_out_for_delivery_153 response from provider.";

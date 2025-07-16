@@ -24,7 +24,7 @@ export class MockDynOnStatus extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "dyn_on_status";
+		return "on_status";
 	}
 	get description(): string {
 		return "Mock action for dyn_on_status response from provider.";

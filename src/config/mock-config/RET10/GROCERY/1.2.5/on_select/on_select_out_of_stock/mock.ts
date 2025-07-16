@@ -24,7 +24,7 @@ export class MockOnSelectOutOfStock extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_select_out_of_stock";
+		return "on_select";
 	}
 	get description(): string {
 		return "Mock action for on_select_out_of_stock response from provider.";

@@ -24,7 +24,7 @@ export class MockUpdateSettlementTrail extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "update_settlement_trail";
+		return "update";
 	}
 	get description(): string {
 		return "Mock action for updating settlement trail.";

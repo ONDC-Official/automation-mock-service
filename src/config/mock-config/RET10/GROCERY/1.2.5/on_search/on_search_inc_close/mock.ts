@@ -24,7 +24,7 @@ export class MockOnSearchIncClose extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_search_inc_close";
+		return "on_search";
 	}
 	get description(): string {
 		return "Mock action for on_search_inc_close response from provider.";

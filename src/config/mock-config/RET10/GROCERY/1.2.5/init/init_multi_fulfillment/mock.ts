@@ -24,7 +24,7 @@ export class MockInitMultiFulfillment extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "init_multi_fulfillment";
+		return "init";
 	}
 	get description(): string {
 		return "Mock action for initializing order in a grocery with multiple fulfillments.";

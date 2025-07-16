@@ -24,7 +24,7 @@ export class MockConfirm146 extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "confirm_146";
+		return "confirm";
 	}
 	get description(): string {
 		return "Mock action for confirming order with 146 variation in a grocery.";

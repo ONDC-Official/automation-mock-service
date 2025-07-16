@@ -24,7 +24,7 @@ export class MockOnInitSlottedDelivery extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_init_slotted_delivery";
+		return "on_init";
 	}
 	get description(): string {
 		return "Mock action for on_init_slotted_delivery response from provider.";

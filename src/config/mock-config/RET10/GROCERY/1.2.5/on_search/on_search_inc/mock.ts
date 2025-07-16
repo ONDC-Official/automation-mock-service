@@ -24,7 +24,7 @@ export class MockOnSearchInc extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_search_inc";
+		return "on_search";
 	}
 	get description(): string {
 		return "Mock action for on_search_inc response from provider.";

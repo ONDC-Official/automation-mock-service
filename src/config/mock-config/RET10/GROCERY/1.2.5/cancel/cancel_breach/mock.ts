@@ -7,9 +7,9 @@ import {
 import { SessionData } from "../../../../session-types";
 import yaml from "js-yaml";
 import path from "path";
-import { on_init_132_generator } from "./generator";
+import { cancel_breach_generator } from "./generator";
 
-export class MockOnInit132 extends MockAction {
+export class MockCancelBreach extends MockAction {
 	get saveData(): saveType {
 		return yaml.load(
 			readFileSync(path.resolve(__dirname, "../save-data.yaml"), "utf8")
@@ -24,13 +24,13 @@ export class MockOnInit132 extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_init";
+		return "cancel";
 	}
 	get description(): string {
-		return "Mock action for on_init_132 response from provider.";
+		return "Mock action for cancel breach scenario.";
 	}
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-		return on_init_132_generator(existingPayload, sessionData);
+		return cancel_breach_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
 		return {

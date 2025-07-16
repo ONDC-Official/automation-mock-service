@@ -24,7 +24,7 @@ export class MockOnStatusPacked151 extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_status_packed_151";
+		return "on_status";
 	}
 	get description(): string {
 		return "Mock action for on_status_packed_151 response from provider.";

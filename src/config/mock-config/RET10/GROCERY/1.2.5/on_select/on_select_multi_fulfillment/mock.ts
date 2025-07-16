@@ -24,7 +24,7 @@ export class MockOnSelectMultiFulfillment extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_select_multi_fulfillment";
+		return "on_select";
 	}
 	get description(): string {
 		return "Mock action for on_select_multi_fulfillment response from provider.";

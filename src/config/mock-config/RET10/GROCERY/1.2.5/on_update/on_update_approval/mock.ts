@@ -24,7 +24,7 @@ export class MockOnUpdateApproval extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_update_approval";
+		return "on_update";
 	}
 	get description(): string {
 		return "Mock action for on_update_approval response from provider.";

@@ -24,7 +24,7 @@ export class MockOnStatusAccepted extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_status_accepted";
+		return "on_status";
 	}
 	get description(): string {
 		return "Mock action for on_status_accepted response from provider.";

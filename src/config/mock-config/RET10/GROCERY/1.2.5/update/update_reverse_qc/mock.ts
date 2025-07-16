@@ -24,7 +24,7 @@ export class MockUpdateReverseQc extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "update_reverse_qc";
+		return "update";
 	}
 	get description(): string {
 		return "Mock action for updating reverse quality check.";

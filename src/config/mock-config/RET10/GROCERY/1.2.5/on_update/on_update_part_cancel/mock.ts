@@ -24,7 +24,7 @@ export class MockOnUpdatePartCancel extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_update_part_cancel";
+		return "on_update";
 	}
 	get description(): string {
 		return "Mock action for on_update_part_cancel response from provider.";

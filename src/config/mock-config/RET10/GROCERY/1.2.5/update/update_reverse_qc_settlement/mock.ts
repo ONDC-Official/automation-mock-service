@@ -24,7 +24,7 @@ export class MockUpdateReverseQcSettlement extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "update_reverse_qc_settlement";
+		return "update";
 	}
 	get description(): string {
 		return "Mock action for updating reverse QC settlement.";

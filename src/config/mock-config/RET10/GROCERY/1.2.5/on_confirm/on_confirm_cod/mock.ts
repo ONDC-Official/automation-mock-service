@@ -24,7 +24,7 @@ export class MockOnConfirmCod extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_confirm_cod";
+		return "on_confirm";
 	}
 	get description(): string {
 		return "Mock action for on_confirm_cod response from provider.";

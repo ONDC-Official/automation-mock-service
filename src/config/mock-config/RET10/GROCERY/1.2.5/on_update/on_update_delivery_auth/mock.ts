@@ -24,7 +24,7 @@ export class MockOnUpdateDeliveryAuth extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_update_delivery_auth";
+		return "on_update";
 	}
 	get description(): string {
 		return "Mock action for on_update_delivery_auth response from provider.";

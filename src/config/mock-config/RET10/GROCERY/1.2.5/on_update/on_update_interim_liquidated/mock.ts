@@ -24,7 +24,7 @@ export class MockOnUpdateInterimLiquidated extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_update_interim_liquidated";
+		return "on_update";
 	}
 	get description(): string {
 		return "Mock action for on_update_interim_liquidated response from provider.";

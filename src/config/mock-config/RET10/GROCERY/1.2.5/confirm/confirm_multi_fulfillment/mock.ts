@@ -24,7 +24,7 @@ export class MockConfirmMultiFulfillment extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "confirm_multi_fulfillment";
+		return "confirm";
 	}
 	get description(): string {
 		return "Mock action for confirming order with multiple fulfillments in a grocery.";

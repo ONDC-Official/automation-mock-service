@@ -24,7 +24,7 @@ export class MockOnInit145 extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_init_145";
+		return "on_init";
 	}
 	get description(): string {
 		return "Mock action for on_init_145 response from provider.";

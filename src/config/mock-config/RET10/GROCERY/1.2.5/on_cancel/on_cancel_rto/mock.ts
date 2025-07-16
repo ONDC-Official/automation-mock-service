@@ -24,7 +24,7 @@ export class MockOnCancelRto extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_cancel_rto";
+		return "on_cancel";
 	}
 	get description(): string {
 		return "Mock action for on_cancel_rto response from provider.";

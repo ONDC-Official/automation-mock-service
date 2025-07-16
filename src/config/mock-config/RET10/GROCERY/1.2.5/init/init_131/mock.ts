@@ -24,7 +24,7 @@ export class MockInit131 extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "init_131";
+		return "init";
 	}
 	get description(): string {
 		return "Mock action for initializing order in a grocery with 131 variation.";

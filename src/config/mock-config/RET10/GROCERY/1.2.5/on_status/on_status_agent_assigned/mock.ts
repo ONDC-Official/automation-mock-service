@@ -24,7 +24,7 @@ export class MockOnStatusAgentAssigned extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_status_agent_assigned";
+		return "on_status";
 	}
 	get description(): string {
 		return "Mock action for on_status_agent_assigned response from provider.";

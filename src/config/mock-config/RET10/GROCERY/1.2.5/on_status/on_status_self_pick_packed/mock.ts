@@ -24,7 +24,7 @@ export class MockOnStatusSelfPickPacked extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_status_self_pick_packed";
+		return "on_status";
 	}
 	get description(): string {
 		return "Mock action for on_status_self_pick_packed response from provider.";

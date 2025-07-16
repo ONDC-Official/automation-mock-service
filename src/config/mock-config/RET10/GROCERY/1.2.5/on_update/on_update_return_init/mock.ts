@@ -24,7 +24,7 @@ export class MockOnUpdateReturnInit extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_update_return_init";
+		return "on_update";
 	}
 	get description(): string {
 		return "Mock action for on_update_return_init response from provider.";

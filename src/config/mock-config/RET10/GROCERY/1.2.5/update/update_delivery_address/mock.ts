@@ -24,7 +24,7 @@ export class MockUpdateDeliveryAddress extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "update_delivery_address";
+		return "update";
 	}
 	get description(): string {
 		return "Mock action for updating delivery address.";

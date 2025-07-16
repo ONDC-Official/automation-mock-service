@@ -24,7 +24,7 @@ export class MockOnSelectSelfPickup extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_select_self_pickup";
+		return "on_select";
 	}
 	get description(): string {
 		return "Mock action for on_select_self_pickup response from provider.";

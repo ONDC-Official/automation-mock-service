@@ -24,7 +24,7 @@ export class MockOnStatusReadyToShip extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_status_ready_to_ship";
+		return "on_status";
 	}
 	get description(): string {
 		return "Mock action for on_status_ready_to_ship response from provider.";

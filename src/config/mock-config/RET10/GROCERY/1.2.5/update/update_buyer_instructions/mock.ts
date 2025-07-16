@@ -24,7 +24,7 @@ export class MockUpdateBuyerInstructions extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "update_buyer_instructions";
+		return "update";
 	}
 	get description(): string {
 		return "Mock action for updating buyer instructions.";

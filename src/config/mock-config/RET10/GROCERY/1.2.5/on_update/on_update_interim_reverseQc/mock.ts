@@ -24,7 +24,7 @@ export class MockOnUpdateInterimReverseQc extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "on_update_interim_reverseQc";
+		return "on_update";
 	}
 	get description(): string {
 		return "Mock action for on_update_interim_reverseQc response from provider.";

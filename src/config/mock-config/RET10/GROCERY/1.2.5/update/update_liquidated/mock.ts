@@ -24,7 +24,7 @@ export class MockUpdateLiquidated extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "update_liquidated";
+		return "update";
 	}
 	get description(): string {
 		return "Mock action for updating liquidated status.";
