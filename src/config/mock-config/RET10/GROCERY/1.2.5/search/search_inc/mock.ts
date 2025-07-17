@@ -32,14 +32,39 @@ export class MockSearchInc extends MockAction {
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
 		return search_inc_generator(existingPayload, sessionData);
 	}
-	async validate(targetPayload: any) {
-		return {
-			valid: true,
-		};
+	async validate(targetPayload: any): Promise<MockOutput> {
+		// Search action validation
+		if (!targetPayload) {
+			return { valid: false, message: "Payload is required" };
+		}
+
+		// Check if context exists and has required fields
+		if (!targetPayload.context) {
+			return { valid: false, message: "Context is required" };
+		}
+
+		const { context } = targetPayload;
+		
+		if (!context.domain) {
+			return { valid: false, message: "Context domain is required" };
+		}
+		
+		if (!context.action) {
+			return { valid: false, message: "Context action is required" };
+		}
+		
+		if (!context.country) {
+			return { valid: false, message: "Context country is required" };
+		}
+		
+		if (!context.city) {
+			return { valid: false, message: "Context city is required" };
+		}
+
+		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		return {
-			valid: true,
-		};
+		// Search action has no specific session data requirements
+		return { valid: true };
 	}
 }

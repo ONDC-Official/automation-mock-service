@@ -33,13 +33,25 @@ export class MockOnTrack extends MockAction {
 		return on_track_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		return {
-			valid: true,
-		};
+		// On_track action validation
+		if (!targetPayload) {
+			return { valid: false, message: "Payload is required" };
+		}
+
+		// Check if message exists
+		if (!targetPayload.message) {
+			return { valid: false, message: "Message is required" };
+		}
+
+		// Check if tracking object exists
+		if (!targetPayload.message.tracking) {
+			return { valid: false, message: "Message.tracking is required" };
+		}
+
+		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		return {
-			valid: true,
-		};
+		// on_track has no specific requirements
+		return { valid: true };
 	}
 }
