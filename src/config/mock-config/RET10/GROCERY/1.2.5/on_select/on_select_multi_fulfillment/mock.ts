@@ -62,6 +62,12 @@ export class MockOnSelectMultiFulfillment extends MockAction {
 		if (!sessionData.selected_items || !Array.isArray(sessionData.selected_items)) {
 			return { valid: false, message: "selected_items array is required" };
 		}
+		if (sessionData.out_of_stock_item_ids && !Array.isArray(sessionData.out_of_stock_item_ids)) {
+			return { valid: false, message: "out_of_stock_item_ids must be an array if provided" };
+		}
+		if (sessionData.selected_offers && !Array.isArray(sessionData.selected_offers)) {
+			return { valid: false, message: "selected_offers must be an array if provided" };
+		}
 		return { valid: true };
 	}
 }

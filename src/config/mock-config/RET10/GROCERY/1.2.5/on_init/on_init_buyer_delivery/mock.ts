@@ -79,6 +79,9 @@ export class MockOnInitBuyerDelivery extends MockAction {
 		if (!sessionData.quote) {
 			return { valid: false, message: "quote is required" };
 		}
+		if (!sessionData.fulfillments || !Array.isArray(sessionData.fulfillments)) {
+			return { valid: false, message: "fulfillments array is required" };
+		}
 		return { valid: true };
 	}
 }

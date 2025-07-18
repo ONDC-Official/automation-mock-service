@@ -63,8 +63,10 @@ export class MockSearch extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		// search only uses user_inputs.feature_discovery if available
-		// No mandatory session data requirements
+		if (!sessionData.user_inputs) {
+			return { valid: false, message: "User Inputs is required for search action" };
+		}
+
 		return { valid: true };
 	}
 }

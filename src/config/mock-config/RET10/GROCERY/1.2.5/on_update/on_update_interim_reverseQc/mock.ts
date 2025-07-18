@@ -70,6 +70,36 @@ export class MockOnUpdateInterimReverseQc extends MockAction {
 		if (!sessionData.order || typeof sessionData.order !== 'object') {
 			return { valid: false, message: "order object is required" };
 		}
+		if (!sessionData.order_id) {
+			return { valid: false, message: "order_id is required" };
+		}
+		if (!sessionData.provider || typeof sessionData.provider !== 'object') {
+			return { valid: false, message: "provider object is required" };
+		}
+		if (!sessionData.billing || typeof sessionData.billing !== 'object') {
+			return { valid: false, message: "billing object is required" };
+		}
+		if (!sessionData.payment || typeof sessionData.payment !== 'object') {
+			return { valid: false, message: "payment object is required" };
+		}
+		if (!sessionData.order_created_at) {
+			return { valid: false, message: "order_created_at is required" };
+		}
+		if (!sessionData.items || !Array.isArray(sessionData.items)) {
+			return { valid: false, message: "items array is required" };
+		}
+		if (!sessionData.fulfillments || !Array.isArray(sessionData.fulfillments)) {
+			return { valid: false, message: "fulfillments array is required" };
+		}
+		if (!sessionData.quote || typeof sessionData.quote !== 'object') {
+			return { valid: false, message: "quote object is required" };
+		}
+		if (sessionData.selected_offers && !Array.isArray(sessionData.selected_offers)) {
+			return { valid: false, message: "selected_offers must be an array if provided" };
+		}
+		if (sessionData.out_of_stock_item_ids && !Array.isArray(sessionData.out_of_stock_item_ids)) {
+			return { valid: false, message: "out_of_stock_item_ids must be an array if provided" };
+		}
 		return { valid: true };
 	}
 }

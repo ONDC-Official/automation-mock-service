@@ -51,7 +51,13 @@ export class MockOnTrack extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		// on_track has no specific requirements
+		// on_track requires at least transaction_id and order
+		if (!sessionData.transaction_id) {
+			return { valid: false, message: "transaction_id is required" };
+		}
+		if (!sessionData.order || typeof sessionData.order !== 'object') {
+			return { valid: false, message: "order object is required" };
+		}
 		return { valid: true };
 	}
 }

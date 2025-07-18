@@ -70,27 +70,27 @@ export class MockSelect extends MockAction {
 		}
 
 		// Check required fields in user_inputs
-		if (!sessionData.user_inputs.provider) {
+		if (!sessionData.user_inputs?.provider) {
 			return { valid: false, message: "Provider is required in user inputs for select action" };
 		}
 
-		if (!sessionData.user_inputs.provider_location) {
+		if (!sessionData.user_inputs?.provider_location) {
 			return { valid: false, message: "Provider location is required in user inputs for select action" };
 		}
 
-		if (!sessionData.user_inputs.location_gps) {
+		if (!sessionData.user_inputs?.location_gps) {
 			return { valid: false, message: "Location GPS coordinates are required in user inputs for select action" };
 		}
 
-		if (!sessionData.user_inputs.location_pin_code) {
+		if (!sessionData.user_inputs?.location_pin_code) {
 			return { valid: false, message: "Location pin code is required in user inputs for select action" };
 		}
 
-		if (!sessionData.user_inputs.items || !Array.isArray(sessionData.user_inputs.items)) {
+		if (!sessionData.user_inputs?.items || !Array.isArray(sessionData.user_inputs?.items)) {
 			return { valid: false, message: "Items array is required in user inputs for select action" };
 		}
 
-		if (sessionData.user_inputs.items.length === 0) {
+		if (sessionData.user_inputs?.items.length === 0) {
 			return { valid: false, message: "Items array cannot be empty in user inputs for select action" };
 		}
 

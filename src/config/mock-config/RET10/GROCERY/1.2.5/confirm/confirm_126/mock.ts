@@ -70,7 +70,6 @@ export class MockConfirm126 extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		// Confirm requires transaction_id, order_id, and payment
 		if (!sessionData.transaction_id) {
 			return { valid: false, message: "Transaction ID is required for confirm action" };
 		}

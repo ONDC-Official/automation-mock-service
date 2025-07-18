@@ -80,6 +80,10 @@ export class MockInitSelfPickup extends MockAction {
 			return { valid: false, message: "Provider object is required for init action" };
 		}
 
+		if (!sessionData.selected_offers || !Array.isArray(sessionData.selected_offers)) {
+			return { valid: false, message: "Selected offers array is required for init action" };
+		}
+
 		return { valid: true };
 	}
 }
