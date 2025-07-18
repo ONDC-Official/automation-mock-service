@@ -185,13 +185,7 @@ function generateAddOnQuote(addOn: any, items: any[]) {
                 selected: {
                   count: quantity,
                 },
-              },
-              unitized: {
-                measure: {
-                  value: "10",
-                  unit: "KILOMETERS",
-                },
-              },
+              }
             },
           ],
         },
