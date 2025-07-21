@@ -136,6 +136,12 @@ export async function on_cancel_rto_generator(
 	existingPayload.message.order.payment = sessionData.payment;
 	existingPayload.message.order.billing = sessionData.billing;
 	existingPayload.message.order.provider = sessionData.provider;
+	existingPayload.message.order.cancellation = {
+		cancelled_by: existingPayload.context.bpp_id,
+		reason: {
+			id: "013",
+		},
+	};
 	console.log(sessionData.items);
 	let mapRtoItems = sessionData.items.map((item: any) => {
 		if (item.fulfillment_id === "F1" && item.quantity.count > 0) {

@@ -118,7 +118,7 @@ export const RET10GROCERY125Catalog = JSON.parse(
 								long_desc: "Plain Atta",
 								images: ["https://sellerNP.com/images/i1.png"],
 							},
-							rating: "4.0",
+							rating: "4",
 							price: {
 								currency: "INR",
 								value: "200.00",
@@ -183,7 +183,7 @@ export const RET10GROCERY125Catalog = JSON.parse(
 								long_desc: "Plain Atta",
 								images: ["https://sellerNP.com/images/i1.png"],
 							},
-							rating: "3.0",
+							rating: "3",
 							price: {
 								currency: "INR",
 								value: "300.00",
@@ -248,11 +248,11 @@ export const RET10GROCERY125Catalog = JSON.parse(
 								long_desc: "Alphanso Mango freshly hand picked",
 								images: ["https://sellerNP.com/images/i1.png"],
 							},
-							rating: "3.0",
+							rating: "3",
 							price: {
 								currency: "INR",
 								value: "250.00",
-								maximum_value: "50.00",
+								maximum_value: "250.00",
 							},
 							quantity: {
 								unitized: {
@@ -701,7 +701,7 @@ const typeCatalog = {
 							long_desc: "Plain Atta",
 							images: ["https://sellerNP.com/images/i1.png"],
 						},
-						rating: "4.0",
+						rating: "4",
 						price: {
 							currency: "INR",
 							value: "200.00",
@@ -766,7 +766,7 @@ const typeCatalog = {
 							long_desc: "Plain Atta",
 							images: ["https://sellerNP.com/images/i1.png"],
 						},
-						rating: "3.0",
+						rating: "3",
 						price: {
 							currency: "INR",
 							value: "300.00",
@@ -831,11 +831,11 @@ const typeCatalog = {
 							long_desc: "Alphanso Mango freshly hand picked",
 							images: ["https://sellerNP.com/images/i1.png"],
 						},
-						rating: "3.0",
+						rating: "3",
 						price: {
 							currency: "INR",
 							value: "250.00",
-							maximum_value: "50.00",
+							maximum_value: "250.00",
 						},
 						quantity: {
 							unitized: {

@@ -850,7 +850,6 @@ export function createFulfillments(
 					location: f.end?.location,
 				},
 				tracking: f.tracking,
-				"@ondc/org/category": onSelectFulfillment?.["@ondc/org/category"],
 				"@ondc/org/TAT": onSelectFulfillment?.["@ondc/org/TAT"],
 			};
 		});

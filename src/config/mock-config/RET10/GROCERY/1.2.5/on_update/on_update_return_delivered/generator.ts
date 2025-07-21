@@ -27,7 +27,7 @@ export async function on_update_return_delivered_generator(
 						...f.end,
 						time: {
 							...f.end?.time,
-							timeStamp: new Date().toISOString(),
+							timestamp: new Date().toISOString(),
 						},
 					},
 				};
