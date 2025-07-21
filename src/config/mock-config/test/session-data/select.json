@@ -1,6 +1,6 @@
 {
-  "transaction_id": "39a063e4-def3-4990-96c0-366042824037",
-  "message_id": "30b2381c-64fd-4a64-b025-cc8ed33d2438",
+  "transaction_id": "881b3c13-ab02-4572-aa13-6d6e2313695a",
+  "message_id": "79b60c6d-5f31-498b-92d7-5933634d9f10",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -12,7 +12,7 @@
       "location": "L1"
     },
     {
-      "id": "I3",
+      "id": "I2",
       "quantity": {
         "count": 1
       },
@@ -56,11 +56,7 @@
   "cancellation_reason_id": null,
   "update_fulfillments": [],
   "on_select_items": [],
-  "selected_offers": [
-    {
-      "id": "FLAT50"
-    }
-  ],
+  "selected_offers": [],
   "last_updated_at": null,
   "bap_id": "dev-automation.ondc.org",
   "bpp_id": "dev-automation.ondc.org",

@@ -252,7 +252,7 @@ export const RET10GROCERY125Catalog = JSON.parse(
 							price: {
 								currency: "INR",
 								value: "250.00",
-								maximum_value: "50.00",
+								maximum_value: "250.00",
 							},
 							quantity: {
 								unitized: {
@@ -835,7 +835,7 @@ const typeCatalog = {
 						price: {
 							currency: "INR",
 							value: "250.00",
-							maximum_value: "50.00",
+							maximum_value: "250.00",
 						},
 						quantity: {
 							unitized: {
