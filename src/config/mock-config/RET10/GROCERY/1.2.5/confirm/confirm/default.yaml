@@ -25,8 +25,7 @@ order:
     locations:
       - id: L1
   fulfillments:
-    - "@ondc/org/category": Standard Delivery
-      "@ondc/org/TAT": P2D
+    - "@ondc/org/TAT": P2D
       id: F1
       tracking: true
       end:

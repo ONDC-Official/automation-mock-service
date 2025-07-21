@@ -22,7 +22,7 @@ export async function on_status_order_delivered_cod_generator(
 			transaction_id: generateSixDigitCode(),
 		},
 		time: {
-			timeStamp: new Date().toISOString(),
+			timestamp: new Date().toISOString(),
 		},
 		status: "PAID",
 	};

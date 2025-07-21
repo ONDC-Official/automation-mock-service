@@ -64,7 +64,7 @@ catalog:
             long_desc: Plain Atta
             images:
               - https://sellerNP.com/images/i1.png
-          rating: "4.5"
+          rating: "4"
           price:
             currency: INR
             value: "100.00"
