@@ -33,13 +33,35 @@ export class MockOnSelectOutOfStock extends MockAction {
 		return on_select_out_of_stock_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		return {
-			valid: true,
-		};
+		// On_select action validation
+		if (!targetPayload) {
+			return { valid: false, message: "Payload is required" };
+		}
+
+		// Check if message exists
+		if (!targetPayload.message) {
+			return { valid: false, message: "Message is required" };
+		}
+
+		// Check if order object exists with items array
+		if (!targetPayload.message.order) {
+			return { valid: false, message: "Message.order is required" };
+		}
+
+		if (!targetPayload.message.order.items || !Array.isArray(targetPayload.message.order.items)) {
+			return { valid: false, message: "Message.order.items array is required" };
+		}
+
+		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		return {
-			valid: true,
-		};
+		// on_select requires transaction_id and selected_items
+		if (!sessionData.transaction_id) {
+			return { valid: false, message: "transaction_id is required" };
+		}
+		if (!sessionData.selected_items || !Array.isArray(sessionData.selected_items)) {
+			return { valid: false, message: "selected_items array is required" };
+		}
+		return { valid: true };
 	}
 }

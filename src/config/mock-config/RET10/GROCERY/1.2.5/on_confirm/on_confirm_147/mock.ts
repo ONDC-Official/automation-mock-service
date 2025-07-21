@@ -33,13 +33,62 @@ export class MockOnConfirm147 extends MockAction {
 		return on_confirm_147_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		return {
-			valid: true,
-		};
+		// On_confirm action validation
+		if (!targetPayload) {
+			return { valid: false, message: "Payload is required" };
+		}
+
+		// Check if message exists
+		if (!targetPayload.message) {
+			return { valid: false, message: "Message is required" };
+		}
+
+		// Check if order exists
+		if (!targetPayload.message.order) {
+			return { valid: false, message: "Message.order is required" };
+		}
+
+		const { order } = targetPayload.message;
+
+		// Check for required fields
+		if (!order.id) {
+			return { valid: false, message: "Message.order.id is required" };
+		}
+
+		if (!order.state) {
+			return { valid: false, message: "Message.order.state is required" };
+		}
+
+		if (!order.payment) {
+			return { valid: false, message: "Message.order.payment is required" };
+		}
+
+		if (!order.quote) {
+			return { valid: false, message: "Message.order.quote is required" };
+		}
+
+		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		return {
-			valid: true,
-		};
+		// on_confirm requires transaction_id, billing, items, provider, quote, and bpp_terms
+		if (!sessionData.transaction_id) {
+			return { valid: false, message: "transaction_id is required" };
+		}
+		if (!sessionData.billing) {
+			return { valid: false, message: "billing is required" };
+		}
+		if (!sessionData.items || !Array.isArray(sessionData.items)) {
+			return { valid: false, message: "items array is required" };
+		}
+		if (!sessionData.provider) {
+			return { valid: false, message: "provider is required" };
+		}
+		if (!sessionData.quote) {
+			return { valid: false, message: "quote is required" };
+		}
+		if (!sessionData.bpp_terms || !Array.isArray(sessionData.bpp_terms)) {
+			return { valid: false, message: "bpp_terms array is required" };
+		}
+		return { valid: true };
 	}
 }

@@ -68,4 +68,9 @@ export interface Input {
 	retailCategory?: string;
 	returnToOrigin?: string;
 	default_feature?: string[];
+	provider?: any
+	provider_location?: any
+	location_gps?: any
+	location_pin_code?: any
+	items?: any
 }

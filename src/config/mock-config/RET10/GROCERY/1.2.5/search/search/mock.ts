@@ -32,13 +32,41 @@ export class MockSearch extends MockAction {
 		return search_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		return {
-			valid: true,
-		};
+		// Search action validation
+		if (!targetPayload) {
+			return { valid: false, message: "Payload is required" };
+		}
+
+		// Check if context exists and has required fields
+		if (!targetPayload.context) {
+			return { valid: false, message: "Context is required" };
+		}
+
+		const { context } = targetPayload;
+		
+		if (!context.domain) {
+			return { valid: false, message: "Context domain is required" };
+		}
+		
+		if (!context.action) {
+			return { valid: false, message: "Context action is required" };
+		}
+		
+		if (!context.country) {
+			return { valid: false, message: "Context country is required" };
+		}
+		
+		if (!context.city) {
+			return { valid: false, message: "Context city is required" };
+		}
+
+		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		return {
-			valid: true,
-		};
+		if (!sessionData.user_inputs) {
+			return { valid: false, message: "User Inputs is required for search action" };
+		}
+
+		return { valid: true };
 	}
 }
