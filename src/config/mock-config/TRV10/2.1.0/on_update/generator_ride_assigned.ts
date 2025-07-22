@@ -12,7 +12,7 @@ function updateFulfillmentStatus(order: any) {
     // Check if fulfillments exist
     if (order.fulfillments) {
       order.fulfillments.forEach((fulfillment: any) => {
-          fulfillment.state.descriptor.code = "RIDE_ASSIGNEDDD";
+          fulfillment.state.descriptor.code = "RIDE_ASSIGNED";
       });
     }
     return order;
