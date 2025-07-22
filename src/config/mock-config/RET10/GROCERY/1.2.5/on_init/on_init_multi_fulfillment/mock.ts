@@ -70,14 +70,8 @@ export class MockOnInitMultiFulfillment extends MockAction {
 		if (!sessionData.items || !Array.isArray(sessionData.items)) {
 			return { valid: false, message: "items array is required" };
 		}
-		if (!sessionData.billing) {
-			return { valid: false, message: "billing is required" };
-		}
-		if (!sessionData.provider) {
-			return { valid: false, message: "provider is required" };
-		}
-		if (!sessionData.quote) {
-			return { valid: false, message: "quote is required" };
+		if (!sessionData.protocol_session_id) {
+			return { valid: false, message: "protocol_session_id is required" };
 		}
 		return { valid: true };
 	}

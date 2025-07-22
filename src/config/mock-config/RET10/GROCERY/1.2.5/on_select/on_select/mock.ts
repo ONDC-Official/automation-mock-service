@@ -33,17 +33,14 @@ export class MockOnSelect extends MockAction {
 		return on_select_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_select action validation
 		if (!targetPayload) {
 			return { valid: false, message: "Payload is required" };
 		}
 
-		// Check if message exists
 		if (!targetPayload.message) {
 			return { valid: false, message: "Message is required" };
 		}
 
-		// Check if order object exists with items array
 		if (!targetPayload.message.order) {
 			return { valid: false, message: "Message.order is required" };
 		}
@@ -55,18 +52,11 @@ export class MockOnSelect extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		// on_select requires transaction_id and selected_items
 		if (!sessionData.transaction_id) {
 			return { valid: false, message: "transaction_id is required" };
 		}
 		if (!sessionData.selected_items || !Array.isArray(sessionData.selected_items)) {
 			return { valid: false, message: "selected_items array is required" };
-		}
-		if (sessionData.out_of_stock_item_ids && !Array.isArray(sessionData.out_of_stock_item_ids)) {
-			return { valid: false, message: "out_of_stock_item_ids must be an array if provided" };
-		}
-		if (sessionData.selected_offers && !Array.isArray(sessionData.selected_offers)) {
-			return { valid: false, message: "selected_offers must be an array if provided" };
 		}
 		return { valid: true };
 	}

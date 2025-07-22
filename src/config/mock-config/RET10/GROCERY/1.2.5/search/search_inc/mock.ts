@@ -33,12 +33,10 @@ export class MockSearchInc extends MockAction {
 		return search_inc_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// Search action validation
 		if (!targetPayload) {
 			return { valid: false, message: "Payload is required" };
 		}
 
-		// Check if context exists and has required fields
 		if (!targetPayload.context) {
 			return { valid: false, message: "Context is required" };
 		}

@@ -33,12 +33,10 @@ export class MockOnSearch extends MockAction {
 		return on_search_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_search action validation
 		if (!targetPayload) {
 			return { valid: false, message: "Payload is required" };
 		}
 
-		// Check if context exists and has required fields
 		if (!targetPayload.context) {
 			return { valid: false, message: "Context is required" };
 		}
@@ -64,7 +62,6 @@ export class MockOnSearch extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		// on_search has no specific requirements
 		return { valid: true };
 	}
 }

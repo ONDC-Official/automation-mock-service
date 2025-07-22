@@ -93,9 +93,6 @@ export class MockOnStatusSelfPickPicked extends MockAction {
 		if (!sessionData.fulfillments || !Array.isArray(sessionData.fulfillments)) {
 			return { valid: false, message: "fulfillments array is required" };
 		}
-		if (!sessionData.on_select_fulfillments || !Array.isArray(sessionData.on_select_fulfillments)) {
-			return { valid: false, message: "on_select_fulfillments array is required" };
-		}
 		return { valid: true };
 	}
 }

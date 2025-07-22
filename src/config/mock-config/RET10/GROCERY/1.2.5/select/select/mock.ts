@@ -33,17 +33,14 @@ export class MockSelect extends MockAction {
 		return select_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// Select action validation
 		if (!targetPayload) {
 			return { valid: false, message: "Payload is required" };
 		}
 
-		// Check if message exists
 		if (!targetPayload.message) {
 			return { valid: false, message: "Message is required" };
 		}
 
-		// Check if order object exists with items array
 		if (!targetPayload.message.order) {
 			return { valid: false, message: "Message.order is required" };
 		}
@@ -59,17 +56,14 @@ export class MockSelect extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		// Select requires transaction_id
 		if (!sessionData.transaction_id) {
 			return { valid: false, message: "Transaction ID is required for select action" };
 		}
 
-		// Select requires user_inputs with specific fields
 		if (!sessionData.user_inputs) {
 			return { valid: false, message: "User inputs are required for select action" };
 		}
 
-		// Check required fields in user_inputs
 		if (!sessionData.user_inputs?.provider) {
 			return { valid: false, message: "Provider is required in user inputs for select action" };
 		}

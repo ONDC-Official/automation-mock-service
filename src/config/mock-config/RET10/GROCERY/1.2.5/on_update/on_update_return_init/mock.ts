@@ -94,11 +94,8 @@ export class MockOnUpdateReturnInit extends MockAction {
 		if (!sessionData.quote || typeof sessionData.quote !== 'object') {
 			return { valid: false, message: "quote object is required" };
 		}
-		if (sessionData.selected_offers && !Array.isArray(sessionData.selected_offers)) {
-			return { valid: false, message: "selected_offers must be an array if provided" };
-		}
-		if (sessionData.out_of_stock_item_ids && !Array.isArray(sessionData.out_of_stock_item_ids)) {
-			return { valid: false, message: "out_of_stock_item_ids must be an array if provided" };
+		if (sessionData.update_fulfillments && !Array.isArray(sessionData.update_fulfillments)) {
+			return { valid: false, message: "update_fulfillments must be an array if provided" };
 		}
 		return { valid: true };
 	}

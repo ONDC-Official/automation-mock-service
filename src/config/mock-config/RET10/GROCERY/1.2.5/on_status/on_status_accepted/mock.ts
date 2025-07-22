@@ -33,24 +33,20 @@ export class MockOnStatusAccepted extends MockAction {
 		return on_status_accepted_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_status action validation
 		if (!targetPayload) {
 			return { valid: false, message: "Payload is required" };
 		}
 
-		// Check if message exists
 		if (!targetPayload.message) {
 			return { valid: false, message: "Message is required" };
 		}
 
-		// Check if order exists
 		if (!targetPayload.message.order) {
 			return { valid: false, message: "Message.order is required" };
 		}
 
 		const { order } = targetPayload.message;
 
-		// Check for required fields
 		if (!order.id) {
 			return { valid: false, message: "Message.order.id is required" };
 		}
@@ -62,7 +58,6 @@ export class MockOnStatusAccepted extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		// on_status requires transaction_id and order
 		if (!sessionData.transaction_id) {
 			return { valid: false, message: "transaction_id is required" };
 		}
@@ -95,6 +90,9 @@ export class MockOnStatusAccepted extends MockAction {
 		}
 		if (!sessionData.on_select_fulfillments || !Array.isArray(sessionData.on_select_fulfillments)) {
 			return { valid: false, message: "on_select_fulfillments array is required" };
+		}
+		if (!sessionData.on_status_fulfillments || !Array.isArray(sessionData.on_status_fulfillments)) {
+			return { valid: false, message: "on_status_fulfillments array is required" };
 		}
 		return { valid: true };
 	}

@@ -96,6 +96,9 @@ export class MockOnStatusAgentAssigned extends MockAction {
 		if (!sessionData.on_select_fulfillments || !Array.isArray(sessionData.on_select_fulfillments)) {
 			return { valid: false, message: "on_select_fulfillments array is required" };
 		}
+		if (!sessionData.on_status_fulfillments || !Array.isArray(sessionData.on_status_fulfillments)) {
+			return { valid: false, message: "on_status_fulfillments array is required" };
+		}
 		return { valid: true };
 	}
 }

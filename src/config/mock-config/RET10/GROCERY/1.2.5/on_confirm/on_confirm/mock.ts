@@ -33,24 +33,20 @@ export class MockOnConfirm extends MockAction {
 		return on_confirm_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_confirm action validation
 		if (!targetPayload) {
 			return { valid: false, message: "Payload is required" };
 		}
 
-		// Check if message exists
 		if (!targetPayload.message) {
 			return { valid: false, message: "Message is required" };
 		}
 
-		// Check if order exists
 		if (!targetPayload.message.order) {
 			return { valid: false, message: "Message.order is required" };
 		}
 
 		const { order } = targetPayload.message;
 
-		// Check for required fields
 		if (!order.id) {
 			return { valid: false, message: "Message.order.id is required" };
 		}
@@ -70,7 +66,6 @@ export class MockOnConfirm extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		// on_confirm requires transaction_id, billing, items, provider, quote, and bpp_terms
 		if (!sessionData.transaction_id) {
 			return { valid: false, message: "transaction_id is required" };
 		}

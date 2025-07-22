@@ -33,29 +33,24 @@ export class MockOnUpdateApproval extends MockAction {
 		return on_update_approval_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_update action validation
 		if (!targetPayload) {
 			return { valid: false, message: "Payload is required" };
 		}
 
-		// Check if message exists
 		if (!targetPayload.message) {
 			return { valid: false, message: "Message is required" };
 		}
 
-		// Check if order exists
 		if (!targetPayload.message.order) {
 			return { valid: false, message: "Message.order is required" };
 		}
 
 		const { order } = targetPayload.message;
 
-		// Check for order ID
 		if (!order.id) {
 			return { valid: false, message: "Message.order.id is required" };
 		}
 
-		// Check for update_target
 		if (!targetPayload.message.update_target) {
 			return { valid: false, message: "Message.update_target is required" };
 		}
@@ -63,7 +58,6 @@ export class MockOnUpdateApproval extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		// on_update requires transaction_id and order
 		if (!sessionData.transaction_id) {
 			return { valid: false, message: "transaction_id is required" };
 		}
@@ -93,12 +87,6 @@ export class MockOnUpdateApproval extends MockAction {
 		}
 		if (!sessionData.quote || typeof sessionData.quote !== 'object') {
 			return { valid: false, message: "quote object is required" };
-		}
-		if (sessionData.selected_offers && !Array.isArray(sessionData.selected_offers)) {
-			return { valid: false, message: "selected_offers must be an array if provided" };
-		}
-		if (sessionData.out_of_stock_item_ids && !Array.isArray(sessionData.out_of_stock_item_ids)) {
-			return { valid: false, message: "out_of_stock_item_ids must be an array if provided" };
 		}
 		return { valid: true };
 	}

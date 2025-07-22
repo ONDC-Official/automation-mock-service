@@ -33,29 +33,24 @@ export class MockOnCancelRto extends MockAction {
 		return on_cancel_rto_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_cancel action validation
 		if (!targetPayload) {
 			return { valid: false, message: "Payload is required" };
 		}
 
-		// Check if message exists
 		if (!targetPayload.message) {
 			return { valid: false, message: "Message is required" };
 		}
 
-		// Check if order exists
 		if (!targetPayload.message.order) {
 			return { valid: false, message: "Message.order is required" };
 		}
 
 		const { order } = targetPayload.message;
 
-		// Check for order ID
 		if (!order.id) {
 			return { valid: false, message: "Message.order.id is required" };
 		}
 
-		// Check for cancellation object
 		if (!order.cancellation && !targetPayload.message.cancellation) {
 			return { valid: false, message: "Cancellation object is required" };
 		}
@@ -63,7 +58,6 @@ export class MockOnCancelRto extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		// on_cancel requires transaction_id, order, and cancellation_reason_id
 		if (!sessionData.transaction_id) {
 			return { valid: false, message: "transaction_id is required" };
 		}
