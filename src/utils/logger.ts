@@ -80,8 +80,8 @@ const logger = winston.createLogger({
 
 // Logging functions
 const logInfo = ({ message, transaction_id, meta }: LogParams): void => {
-	if (message.includes("Entering") || message.includes("Exiting")) return; // Skip these messages
-	logger.info(message, { transaction_id, ...meta });
+	// if (message.includes("Entering") || message.includes("Exiting")) return;
+	logger.info(message, { transaction_id });
 };
 
 const logDebug = ({ message, transaction_id, meta }: LogParams): void => {
