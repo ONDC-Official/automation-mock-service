@@ -67,6 +67,8 @@ export interface SessionData {
   on_search_batch_fulfillment?: any;
   rider_count: string;
   order_count: string;
+  static_pickup_otp: string
+  static_delivery_otp: string
 };
 
 export type BecknContext = {

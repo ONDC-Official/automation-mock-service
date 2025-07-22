@@ -56,3 +56,6 @@ session_data:
   rider_count: null
   order_count: null
   update_fulfillments: []
+  static_pickup_otp: null
+  static_delivery_otp: null
+

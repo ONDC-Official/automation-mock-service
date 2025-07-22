@@ -16,4 +16,6 @@ save-data:
   rate_basis: $.message.intent.fulfillment.tags[?(@.code=="fulfill_request")].list[?(@.code=="rate_basis")].value
   retail_category: $.message.intent.fulfillment.tags[?(@.code=="linked_order")].list[?(@.code=="category")].value
   collection_amount: $.message.intent.fulfillment.tags[?(@.code=="linked_order")].list[?(@.code=="collection_amount")].value
+  static_pickup_otp: $.message.intent.fulfillment.start.instructions.code
+  static_delivery_otp: $.message.intent.fulfillment.end.instructions.code
 

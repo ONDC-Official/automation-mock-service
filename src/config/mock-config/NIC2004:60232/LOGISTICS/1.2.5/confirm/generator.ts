@@ -340,8 +340,8 @@ export const confirmGenerator = (
         end: { instructions: { code: any } };
         tags: any;
       }) => {
-        const startCode = fulfillment?.start?.instructions?.code;
-        const endCode = fulfillment?.end?.instructions?.code;
+        const startCode = sessionData?.static_pickup_otp
+        const endCode = sessionData?.static_delivery_otp
 
         console.log("Original start code:", startCode);
         console.log("Original end code:", endCode);
