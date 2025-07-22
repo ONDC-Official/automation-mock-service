@@ -37,6 +37,7 @@ function getDetailsByActionId(
   actionId: string,
   factoryData: any
 ): { default: string; action: string; message_id: boolean } {
+  console.log(actionId);
   const entry = factoryData.codes.find(
     (item: any) => item.action_id === actionId
   );

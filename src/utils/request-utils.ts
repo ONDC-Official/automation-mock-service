@@ -11,16 +11,11 @@ export async function sendToApiService(
 	queryData: any
 ) {
 
-	logInfo({
-		message: "Entering sendToApiService",
-		meta: { action, body, queryData },
-		transaction_id: body.context.transaction_id,
-	});
 	try {
 		// const domain = process.env.DOMAIN;
 		const domain = body.context.domain
 		const version = body.context.version ?? body.context.core_version;
-		const url = `${process.env.API_SERVICE_LAYER}/${domain}/${version}/mock/${action}`;
+		const url = `${process.env.API_SERVICE_URL}/${domain}/${version}/mock/${action}`;
 		const subscriber_url = queryData.subscriber_url;
     	if (!subscriber_url) {
     //   logger.error("subscriber url not provided");
@@ -31,7 +26,7 @@ export async function sendToApiService(
 	  });
       throw new Error("subscriber url not provided ");
     }
-		await saveData(action, body,subscriber_url);
+		await saveData(action, body);
 		// logger.debug(`Sending response to api service ${url} ${action}`);
 		logInfo({
 			message: "Sending response to api service",
@@ -49,12 +44,12 @@ export async function sendToApiService(
 			transaction_id: body.context.transaction_id,
 			});
 	} catch (err) {
-		// logger.error("Error in sending response to api service", err);
-		logInfo({
-			message: "Error in sending response to api service",
-			meta: { action, body, queryData },
-			transaction_id: body.context.transaction_id,
-		});
+		logger.error("Error in sending response to api service", err);
+		// logInfo({
+		// 	message: "Error in sending response to api service",
+		// 	meta: { action, body, queryData },
+		// 	transaction_id: body.context.transaction_id,
+		// });
 	}
 }
 
@@ -63,7 +58,7 @@ export function createSellerUrl(domain: string, version: string) {
 		message: "Inside createSellerUrl",
 		meta: { domain, version },
 	});
-	return `${process.env.API_SERVICE_LAYER}/${domain}/${version}/seller`;
+	return `${process.env.API_SERVICE_URL}/${domain}/${version}/seller`;
 }
 
 export function createBuyerUrl(domain: string, version: string) {
@@ -71,5 +66,5 @@ export function createBuyerUrl(domain: string, version: string) {
 		message: "Inside createBuyerUrl",
 		meta: { domain, version },
 	});
-	return `${process.env.API_SERVICE_LAYER}/${domain}/${version}/buyer`;
+	return `${process.env.API_SERVICE_URL}/${domain}/${version}/buyer`;
 }

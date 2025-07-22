@@ -1,0 +1,32 @@
+message:
+  intent:
+    category:
+      id: Immediate Delivery
+    provider:
+      time:
+        days: "1,2,3,4,5,6,7"
+        schedule:
+          holidays:
+            - "2023-06-29"
+            - "2023-08-15"
+        duration: PT15M
+        range:
+          start: "1100"
+          end: "2100"
+    fulfillment:
+      type: Batch
+      start:
+        location:
+          id: S1
+          gps: 12.4535,77.9283
+          address:
+            area_code: "560041"
+      tags:
+        - code: linked_provider
+          list:
+            - code: id
+              value: P1
+            - code: name
+              value: Seller1
+    payment:
+      type: POST-FULFILLMENT

@@ -6,3 +6,4 @@ save-data:
   order_updated_at_timestamp: "$.message.order.updated_at"
   payment: "$.message.order.payment"
   linked_order: $.message.order["@ondc/org/linked_order"]
+

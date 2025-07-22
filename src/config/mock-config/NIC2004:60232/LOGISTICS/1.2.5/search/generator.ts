@@ -35,8 +35,8 @@ export async function searchGenerator(
         code: "lbnp_features",
         list: [
           { code: "005", value: "yes" },
-          { code: "009", value: "yes" },
-          { code: "00C", value: "yes" },
+          { code: "006", value: "yes" },
+          { code: "007", value: "yes" },
         ],
       },
     ];

@@ -122,10 +122,7 @@ triggerRouter.get("/safe-actions",
 	RedisService.useDb(0)
   const api_session =
 	(await RedisService.getKey(req.query.session_id as string)) ?? "";
-	// console.log("api_session is ", api_session, "session_id is ",req.query.session_id)
-	logInfo({
-		message: "api_session is " + api_session + "session_id is " + req.query.session_id
-	});
+	
 
   const data = JSON.parse(api_session) as SessionCache;
 
