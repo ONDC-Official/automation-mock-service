@@ -66,6 +66,11 @@ import { on_status_order_delivered_ccc_generator } from "./on_status/on_status_o
 import { select_offers_generator } from "./select/select_offers/generator";
 import { on_select_offers_generator } from "./on_select/on_select_offers/generator";
 import { init_offers_generator } from "./init/init_offers/generator";
+import { on_status_out_for_delivery_force_generator } from "./on_status/on_status_out_for_delivery_force/generator";
+import { cancel_no_generator } from "./cancel/cancel_no/generator";
+import { cancel_yes_generator } from "./cancel/cancel_yes/generator";
+import { on_cancel_yes_generator } from "./on_cancel/on_cancel_yes/generator";
+import { update_settlement_cancel_generator } from "./update/update_settlement_cancel/generator";
 export async function Generator(
   action_id: string,
   existingPayload: any,
@@ -192,30 +197,52 @@ export async function Generator(
       return update_reverse_qc_rep_generator(existingPayload, sessionData);
     case "on_update_return_picked_rep":
       return on_update_picked_rep_generator(existingPayload, sessionData);
-      case "select_ccc":
-        return select_ccc_generator(existingPayload, sessionData);
-      case "on_select_ccc":
-        return on_select_ccc_generator(existingPayload, sessionData);
-      case "init_ccc":
-        return init_ccc_generator(existingPayload, sessionData);
-      case "on_init_ccc":
-        return on_init_ccc_generator(existingPayload, sessionData);
-      case "confirm_ccc":
-        return confirm_ccc_generator(existingPayload, sessionData);
-      case "on_confirm_ccc":
-        return on_confirm_ccc_generator(existingPayload, sessionData);
-      case "on_status_accepted_ccc":
-        return on_status_accepted_ccc_generator(existingPayload, sessionData);
-      case "on_status_packed_ccc":
-        return on_status_packed_ccc_generator(existingPayload, sessionData);
-      case "on_status_agent_assigned_ccc":
-        return on_status_agent_assigned_ccc_generator(existingPayload, sessionData);
-      case "on_status_picked_ccc":
-        return on_status_picked_ccc_generator(existingPayload, sessionData);
-      case "on_status_out_for_delivery_ccc":
-        return on_status_out_for_delivery_ccc_generator(existingPayload, sessionData);
-      case "on_status_order_delivered_ccc":
-        return on_status_order_delivered_ccc_generator(existingPayload, sessionData);
+    case "select_ccc":
+      return select_ccc_generator(existingPayload, sessionData);
+    case "on_select_ccc":
+      return on_select_ccc_generator(existingPayload, sessionData);
+    case "init_ccc":
+      return init_ccc_generator(existingPayload, sessionData);
+    case "on_init_ccc":
+      return on_init_ccc_generator(existingPayload, sessionData);
+    case "confirm_ccc":
+      return confirm_ccc_generator(existingPayload, sessionData);
+    case "on_confirm_ccc":
+      return on_confirm_ccc_generator(existingPayload, sessionData);
+    case "on_status_accepted_ccc":
+      return on_status_accepted_ccc_generator(existingPayload, sessionData);
+    case "on_status_packed_ccc":
+      return on_status_packed_ccc_generator(existingPayload, sessionData);
+    case "on_status_agent_assigned_ccc":
+      return on_status_agent_assigned_ccc_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_status_picked_ccc":
+      return on_status_picked_ccc_generator(existingPayload, sessionData);
+    case "on_status_out_for_delivery_ccc":
+      return on_status_out_for_delivery_ccc_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_status_order_delivered_ccc":
+      return on_status_order_delivered_ccc_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_status_out_for_delivery_force":
+      return on_status_out_for_delivery_force_generator(
+        existingPayload,
+        sessionData
+      );
+    case "cancel_no":
+      return cancel_no_generator(existingPayload, sessionData);
+    case "cancel_yes":
+      return cancel_yes_generator(existingPayload, sessionData);
+    case "on_cancel_yes":
+      return on_cancel_yes_generator(existingPayload, sessionData);
+    case "update_settlement_cancel":
+      return update_settlement_cancel_generator(existingPayload, sessionData);
     default:
       console.log(action_id);
       throw new Error("Invalid action id found! ");

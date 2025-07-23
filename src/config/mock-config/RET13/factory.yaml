@@ -314,3 +314,28 @@ codes:
     action_id: init_offers
     action: init
     message_id: true
+  - code: 300
+    default: BPC/1.2.5/on_status/on_status_out_for_delivery_force/default.yaml
+    action_id: on_status_out_for_delivery_force
+    action: on_status
+    message_id: true
+  - code: 301
+    default: BPC/1.2.5/cancel/cancel_no/default.yaml
+    action_id: cancel_no
+    action: cancel
+    message_id: true
+  - code: 302
+    default: BPC/1.2.5/cancel/cancel_yes/default.yaml
+    action_id: cancel_yes
+    action: cancel
+    message_id: true
+  - code: 303
+    default: BPC/1.2.5/on_cancel/on_cancel_yes/default.yaml
+    action_id: on_cancel_yes
+    action: on_cancel
+    message_id: false
+  - code: 304
+    default: BPC/1.2.5/update/update_settlement_cancel/default.yaml
+    action_id: update_settlement_cancel
+    action: update
+    message_id: true
