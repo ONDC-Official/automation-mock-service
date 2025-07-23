@@ -40,7 +40,7 @@ export abstract class MockAction {
 	 */
 	abstract get saveData(): saveType;
 	abstract get defaultData(): any;
-	abstract get inputs(): any;
+	abstract get inputs(): FormConfigType | undefined;
 
 	get mockActionConfig() {
 		return {
@@ -67,3 +67,15 @@ export type saveType = {
 		[key: string]: string;
 	};
 };
+
+export interface FormFieldConfigType {
+	name: string;
+	label: string;
+	type: "text" | "select" | "textarea" | "list";
+	payloadField: string;
+	values?: string[];
+	defaultValue?: string;
+	input?: FormFieldConfigType[];
+}
+
+export type FormConfigType = FormFieldConfigType[];
