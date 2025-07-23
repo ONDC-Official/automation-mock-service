@@ -3,7 +3,7 @@ export async function onCancelConfirmTechnicalCancellationGenerator(existingPayl
   if(sessionData.order){
     existingPayload.message.order = sessionData.order;
   }
-  existingPayload.message.status = "CANCELLED";
+  existingPayload.message.order.status = "CANCELLED";
 
   return existingPayload;
 } 
