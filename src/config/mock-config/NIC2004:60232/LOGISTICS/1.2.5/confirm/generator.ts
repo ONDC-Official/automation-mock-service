@@ -1,6 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 import { SessionData, Input } from "../../../session-types";
-import { removeTagsByCodes } from "../../../../../../utils/generic-utils";
+import {
+  removeTagsByCodes,
+  TatMapping,
+} from "../../../../../../utils/generic-utils";
 
 export const confirmGenerator = (
   existingPayload: any,
@@ -116,6 +119,15 @@ export const confirmGenerator = (
           code: "id",
           value: "RO1",
         },
+        ...(sessionData?.category_id === "Immediate Delivery"
+          ? [
+              {
+                code: "prep_time",
+                value:
+                  TatMapping[sessionData?.category_id].orderPrepTime || "PT30M",
+              },
+            ]
+          : []),
         {
           code: "currency",
           value: "INR",
@@ -340,8 +352,8 @@ export const confirmGenerator = (
         end: { instructions: { code: any } };
         tags: any;
       }) => {
-        const startCode = sessionData?.static_pickup_otp
-        const endCode = sessionData?.static_delivery_otp
+        const startCode = sessionData?.static_pickup_otp;
+        const endCode = sessionData?.static_delivery_otp;
 
         console.log("Original start code:", startCode);
         console.log("Original end code:", endCode);

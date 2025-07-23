@@ -256,7 +256,10 @@ export async function onSearch1Generator(
       },
     ];
   }
-  if (inputs?.feature_discovery && inputs?.feature_discovery?.includes("017")) {
+  if (
+    (inputs?.feature_discovery && inputs?.feature_discovery?.includes("017")) ||
+    (inputs?.default_feature && inputs?.default_feature?.includes("017"))
+  ) {
     existingPayload.message.catalog["bpp/providers"][0].items.push({
       id: "I3",
       parent_item_id: "",
@@ -284,7 +287,7 @@ export async function onSearch1Generator(
       ],
     });
   }
-  console.log(inputs);
+  console.log("inputs", inputs);
 
   if (inputs?.feature_discovery || inputs?.default_feature) {
     let codesArray = inputs.feature_discovery || [];
