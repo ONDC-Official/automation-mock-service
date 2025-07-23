@@ -71,11 +71,15 @@ export type saveType = {
 export interface FormFieldConfigType {
 	name: string;
 	label: string;
-	type: "text" | "select" | "textarea" | "list";
-	payloadField: string;
+	type: "text" | "select" | "textarea" | "list" | "checkbox";
+	payloadField?: string;
 	values?: string[];
 	defaultValue?: string;
 	input?: FormFieldConfigType[];
+	options?: {
+		code: string;
+		name: string;
+	}[] | undefined;
 }
 
 export type FormConfigType = FormFieldConfigType[];

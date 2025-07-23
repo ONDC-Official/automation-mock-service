@@ -58,13 +58,7 @@ export class MockUpdateBuyerInstructions extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		if (!sessionData.transaction_id) {
-			return { valid: false, message: "Transaction ID is required for update action" };
-		}
 
-		if (!sessionData.order_id) {
-			return { valid: false, message: "Order ID is required for update action" };
-		}
 
 		if (!sessionData.fulfillments || sessionData.fulfillments.length === 0) {
 			return { valid: false, message: "Fulfillments are required for update action" };

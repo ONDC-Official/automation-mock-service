@@ -111,5 +111,7 @@ export async function createMockResponseRET10_125(
 			},
 		};
 	}
-	return mockAction.generator(mockAction.defaultData, sessionData);
+	
+	payload.message = mockAction.defaultData;
+	return mockAction.generator(payload, sessionData);
 }
