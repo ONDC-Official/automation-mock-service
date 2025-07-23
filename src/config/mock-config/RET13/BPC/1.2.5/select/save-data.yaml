@@ -1,6 +1,0 @@
-save-data:
-  message_id: $.context.message_id
-  city: $.context.city
-  selected_items: $.message.order.items[*]
-  selected_fulfillments: $.message.order.fulfillments[*]
-  provider: $.message.order.provider

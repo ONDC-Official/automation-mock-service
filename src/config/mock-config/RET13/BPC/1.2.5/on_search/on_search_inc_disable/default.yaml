@@ -1,6 +1,0 @@
-catalog:
-  bpp/providers:
-    - id: P1
-      time:
-        label: disable
-        timestamp: "2025-01-08T10:20:00.000Z"
