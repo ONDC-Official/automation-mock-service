@@ -1,0 +1,8 @@
+save-data:
+  message_id: $.context.message_id
+  order_id: $.message.order.id
+  order_state: $.message.order.state
+  order_created_at: $.message.order.created_at
+  bap_terms: $.message.order.tags[?(@.code == 'bap_terms')]
+  fulfillments: $.message.order.fulfillments[*]
+  payment: $.message.order.payment
