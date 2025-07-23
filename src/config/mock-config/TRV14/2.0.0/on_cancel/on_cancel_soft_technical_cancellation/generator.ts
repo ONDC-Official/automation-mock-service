@@ -160,7 +160,7 @@ export async function onCancelSoftTechnicalCancellationGenerator(existingPayload
   }
 
   if(sessionData.cancellation_reason_id){
-    existingPayload.message.cancellation = {
+    existingPayload.message.order.cancellation = {
       "cancelled_by": "CONSUMER",
       "reason": {
         "descriptor": {
