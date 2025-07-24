@@ -185,3 +185,8 @@ codes:
     action: on_select
     default: TRV14/2.0.0/on_select_form_submission/default.yaml
     message_id: false
+  - code: 137
+    action_id: on_cancel_rejected
+    action: on_cancel
+    default: TRV14/2.0.0/on_cancel/on_cancel_rejected/default.yaml
+    message_id: false

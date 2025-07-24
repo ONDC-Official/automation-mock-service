@@ -41,6 +41,7 @@ import { search_seller_pagination_class } from "./2.0.0/search/search_pagination
 import { search_incremental_pull_class } from "./2.0.0/search/search_incremental_pull/class";
 import { MockSelect2Class } from "./2.0.0/select_form_submission/class";
 import { MockOnSelect2Class } from "./2.0.0/on_select_form_submission/class";
+import { MockOnCancelRejectedClass } from "./2.0.0/on_cancel/on_cancel_rejected/class";
 
 export function getMockAction(actionId: string) {
 	switch (actionId) {
@@ -122,6 +123,8 @@ export function getMockAction(actionId: string) {
 			return new MockSelect2Class();
 		case "on_select_2":
 			return new MockOnSelect2Class();
+		case "on_cancel_rejected":
+			return new MockOnCancelRejectedClass();
 		default:
 			throw new Error(`Action with ID ${actionId} not found`);
 	}
