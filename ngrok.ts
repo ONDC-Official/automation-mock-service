@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import logger from "./src/utils/logger";
+import { logger } from "./src/utils/logger";
 
 const app = express();
 

@@ -1,6 +1,6 @@
 import axios from "axios";
-import logger from "./logger";
 import { saveData } from "../services/data-services";
+import { logger } from "./logger";
 
 export async function sendToApiService(
 	action: string,
@@ -10,7 +10,7 @@ export async function sendToApiService(
 	try {
 		const domain = process.env.DOMAIN;
 		const version = body.context.version ?? body.context.core_version;
-		const url = `${process.env.API_SERVICE_LAYER}/${domain}/${version}/mock/${action}`;
+		const url = `${process.env.API_SERVICE_URL}/${domain}/${version}/mock/${action}`;
 		console.log(action, JSON.stringify(body.message, null, 2));
 		await saveData(action, body);
 		logger.debug(`Sending response to api service ${url} ${action}`);
@@ -25,9 +25,9 @@ export async function sendToApiService(
 }
 
 export function createSellerUrl(domain: string, version: string) {
-	return `${process.env.API_SERVICE_LAYER}/${domain}/${version}/seller`;
+	return `${process.env.API_SERVICE_URL}/${domain}/${version}/seller`;
 }
 
 export function createBuyerUrl(domain: string, version: string) {
-	return `${process.env.API_SERVICE_LAYER}/${domain}/${version}/buyer`;
+	return `${process.env.API_SERVICE_URL}/${domain}/${version}/buyer`;
 }

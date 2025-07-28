@@ -10,6 +10,8 @@
     "rootDir": "./src",                     // Root directory for TypeScript source files
     "sourceMap": true,
     "resolveJsonModule": true,                      // Generate source maps
+    "types": ["node"],
+    "moduleResolution": "node"
   },
   "include": ["src/**/*.ts"],               // Include all TypeScript files in the src directory
   "exclude": ["node_modules"]               // Exclude node_modules from compilation
