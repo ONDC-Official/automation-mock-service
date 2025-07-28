@@ -3,7 +3,7 @@ name: ONDC Automation Mock Service Deployment
 on:
   workflow_dispatch:
   push:
-    branches: ["release-RET14-1.2.5"]
+    branches: ["draft-RET15-1.2.5"]
 
 jobs:
   deployment-staging:
