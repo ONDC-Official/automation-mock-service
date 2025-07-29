@@ -49,7 +49,8 @@ codes:
     action: on_select
     default: TRV14/2.0.0/on_select/default.yaml
     message_id: false
-  - code: 110
+
+  - code: 112
     action_id: init
     action: init
     default: TRV14/2.0.0/init/default.yaml
@@ -173,4 +174,19 @@ codes:
     action_id: on_cancel_soft_partial_cancellation
     action: on_cancel
     default: TRV14/2.0.0/on_cancel/on_cancel_soft_partial_cancellation/default.yaml
+    message_id: false
+  - code: 135
+    action_id: select_form_submission
+    action: select
+    default: TRV14/2.0.0/select_form_submission/default.yaml
+    message_id: true
+  - code: 136
+    action_id: on_select_form_submission
+    action: on_select
+    default: TRV14/2.0.0/on_select_form_submission/default.yaml
+    message_id: false
+  - code: 137
+    action_id: on_cancel_rejected
+    action: on_cancel
+    default: TRV14/2.0.0/on_cancel/on_cancel_rejected/default.yaml
     message_id: false

@@ -32,6 +32,28 @@ export class MockOnSelectClass extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
+        // Validate required session data for on_select
+        if (!sessionData.items || !Array.isArray(sessionData.items)) {
+            return { 
+                valid: false, 
+                message: "No items available in session data" 
+            };
+        }
+        
+        if (!sessionData.selected_items || !Array.isArray(sessionData.selected_items)) {
+            return { 
+                valid: false, 
+                message: "No selected_items available in session data" 
+            };
+        }
+        
+        if (sessionData.selected_items.length === 0) {
+            return { 
+                valid: false, 
+                message: "selected_items array is empty" 
+            };
+        }
+        
         return { valid: true };
     }
 } 

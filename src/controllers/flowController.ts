@@ -23,6 +23,8 @@ import {
 	setFlowStatusService,
 } from "../services/mock-flow-status-service";
 import { generateMockResponse } from "../config/mock-config";
+import { getMockActionObject } from "../config/mock-config";
+import { saveDataForConfig } from "../services/data-services";
 
 export async function setFlowAndTransactionId(
 	req: ApiRequest,
@@ -430,6 +432,11 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 
 			const action = latestMeta.actionType;
 			await setFlowStatusService(txId, subscriberUrl, "WORKING");
+
+			const mockActionOb = getMockActionObject(latestMeta.actionId);
+			const saveData = mockActionOb.saveData;
+			await saveDataForConfig(saveData, mockResponse);
+
 			await sendToApiService(action, mockResponse, {
 				subscriber_url: subscriberUrl,
 				flow_id: flow.id,
