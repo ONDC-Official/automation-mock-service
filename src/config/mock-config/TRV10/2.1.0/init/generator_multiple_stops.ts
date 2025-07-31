@@ -23,6 +23,7 @@ export async function initMultipleStopsGenerator(
     },
   };
   delete existingPayload.message.order.fulfillments[0].type;
+  delete existingPayload.message.order.fulfillments[0].tags;
   existingPayload.message.order.items[0] = {
     id: sessionData.selected_item_id,
   };

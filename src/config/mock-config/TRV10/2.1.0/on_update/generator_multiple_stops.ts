@@ -23,6 +23,12 @@ export async function onUpdateMultipleStopsGenerator(
       (fulfillment: any, index: number) => {
         fulfillment.id =
           sessionData?.selected_fulfillments[index]?.id || index + 1;
+          fulfillment.vehicle={
+             ...fulfillment.vehicle,
+             make: 'Bajaj',
+             model: 'Compact RE',
+             registration: 'KA-01-AD-9876' 
+          }
         return fulfillment;
       }
     );
@@ -35,7 +41,7 @@ export async function onUpdateMultipleStopsGenerator(
   }
   const now = new Date().toISOString();
   existingPayload.message.order.created_at = sessionData.created_at;
-  existingPayload.message.order.updated_at = now;
+  existingPayload.message.order.updated_at = existingPayload.context.timestamp;
   if (sessionData.payments.length > 0) {
     existingPayload.message.order.payments = sessionData.payments;
   }

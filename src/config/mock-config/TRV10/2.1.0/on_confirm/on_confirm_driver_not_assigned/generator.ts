@@ -11,16 +11,13 @@ const agent = {
 const vehicle = {
   category: "AUTO_RICKSHAW",
   variant: "AUTO_RICKSHAW",
-  make: "Bajaj",
-  model: "Compact RE",
-  registration: "KA-01-AD-9876",
 };
 
 function updateOrderTimestamps(payload: any) {
   const now = new Date().toISOString();
   if (payload.message.order) {
-    payload.message.order.created_at = now;
-    payload.message.order.updated_at = now;
+    payload.message.order.created_at = payload.context.timestamp;
+    payload.message.order.updated_at = payload.context.timestamp;
   }
   return payload;
 }

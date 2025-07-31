@@ -11,6 +11,7 @@ import { onStatusRideArrivedGenerator } from "./on_status/generator_ride_arrived
 import { onStatusRidePaidGenerator } from "./on_status/generator_ride_paid";
 import { onStatusRideEnrouteGenerator } from "./on_status/generator_ride_pickup";
 import { onStatusRideStartedGenerator } from "./on_status/generator_ride_started";
+import { onStatusRideCancelGenerator } from "./on_status/generator_ride_soft_cancel";
 import { onTrackMultipleStopsGenerator } from "./on_track/generator_multiple_stops";
 import { onUpdateRideSoftUpdateGenerator } from "./on_update/generator_ride_soft_update";
 import { onUpdateRideUpdatedGenerator } from "./on_update/generator_ride_updated";
@@ -52,6 +53,7 @@ import { onUpdateRideAssignedGenerator } from "./on_update/generator_ride_assign
 import { searchMultipleStopsScheduleTripGenerator } from "./search/generator-schedule-trip";
 import { onSelectMultipleStopsPreOrderGenerator } from "./on_select/generator-pre-order-bid";
 import { onConfirmMultipleStopsRentalGenerator } from "./on_confirm/generator-rental";
+import { onConfirmMultipleAuthGenerator } from "./on_confirm/on_confirm_multiple_auth/generator_multiple_auth";
 
 
 export async function Generator(
@@ -76,6 +78,8 @@ export async function Generator(
             return await confirmMultipleStopsGenerator(existingPayload, sessionData);
         case "on_confirm":
             return await onConfirmMultipleStopsGenerator(existingPayload, sessionData);
+        case "on_confirm_on_demand_rental":
+            return await onConfirmMultipleAuthGenerator(existingPayload, sessionData);
         case "on_status_unsolicited":
             return await onStatusRideEnrouteGenerator(existingPayload, sessionData);
         case "track":
@@ -85,7 +89,7 @@ export async function Generator(
         case "on_status_ride_arrived":
             return await onStatusRideArrivedGenerator(existingPayload, sessionData);
         case "on_status_ride_arrived_2":
-            return await onStatusRideArrivedGenerator(existingPayload, sessionData);
+            return await onStatusRideCancelGenerator(existingPayload, sessionData);
         case "on_status_ride_started":
             return await onStatusRideStartedGenerator(existingPayload, sessionData);
         case "on_update":

@@ -5,13 +5,13 @@ function updateFulfillmentStatus(order: any) {
     // Check if fulfillments exist
     if (order.fulfillments) {
       order.fulfillments.forEach((fulfillment: any) => {
-          fulfillment.state.descriptor.code = "RIDE_ARRIVED_PICKUP";
+          fulfillment.state.descriptor.code = "SOFT_CANCEL";
       });
     }
     return order;
   }
 
-export async function onStatusRideArrivedGenerator(existingPayload: any,sessionData: SessionData){
+export async function onStatusRideCancelGenerator(existingPayload: any,sessionData: SessionData){
     existingPayload = await onStatusMultipleStopsGenerator(existingPayload,sessionData)
     existingPayload.message.order = updateFulfillmentStatus(existingPayload.message.order)
     return existingPayload;

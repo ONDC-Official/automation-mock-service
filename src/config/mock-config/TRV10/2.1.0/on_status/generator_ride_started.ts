@@ -11,7 +11,7 @@ function updateFulfillmentAndAuthorization(order: any) {
   
         // Find stop with type START and update authorization status
         fulfillment.stops?.forEach((stop: any) => {
-          if (stop.authorization) {
+          if (stop.authorization && stop.type === "START") {
             stop.authorization.status = "CLAIMED";
           }
         });

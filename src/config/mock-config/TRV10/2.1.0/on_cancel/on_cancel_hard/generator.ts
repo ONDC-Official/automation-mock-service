@@ -34,37 +34,26 @@ type Price = {
   
     // Calculate the total refund for items
     const refundAmount = quote.breakup
-      .filter((b) => b.title === "BASE_FARE" && b.item)
-      .reduce((sum, breakup) => {
+       .reduce((sum, breakup) => {
         const itemTotal = parseFloat(breakup.price.value);
         return sum + itemTotal;
       }, 0);
   
-    // For hard cancellation, we'll apply higher cancellation charges
-    // Create a REFUND breakup for items with full deduction
-    const refundBreakups: Breakup[] = quote.breakup
-      .filter((b) => b.title === "BASE_FARE" && b.item)
-      .map((baseFare) => ({
-        title: "REFUND",
-        item: {
-          ...baseFare.item!,
-          price: {
-            ...baseFare.item!.price,
-            value: `-${baseFare.item!.price.value}`, // Full negative for refund
-          },
-        },
-        price: {
-          ...baseFare.price,
-          value: `-${baseFare.price.value}`, // Full negative for refund
-        },
-      }));
-  
+   
+   
     // Create a CANCELLATION_CHARGES breakup with higher charges for hard cancellation
     const cancellationBreakup: Breakup = {
       title: "CANCELLATION_CHARGES",
       price: {
         currency: "INR",
         value: cancellationCharges.toFixed(2),
+      },
+    };
+    const refundBreakups: Breakup = {
+      title: "REFUND",
+      price: {
+        currency: "INR",
+        value: `-${refundAmount}`,
       },
     };
   
@@ -77,7 +66,7 @@ type Price = {
         ...quote.price,
         value: newTotal.toFixed(2),
       },
-      breakup: [...quote.breakup, ...refundBreakups, cancellationBreakup],
+      breakup: [...quote.breakup, refundBreakups, cancellationBreakup],
     };
   }
   
@@ -96,16 +85,12 @@ type Price = {
 
     for (const fulfillment of existingPayload.message.order.fulfillments) {
       if (fulfillment.stops && Array.isArray(fulfillment.stops)) {
-        fulfillment.stops = fulfillment.stops.map((stop: any) => ({
-          ...stop,
-          authorization: {
-            type: "OTP",
-            token: generateOTP(),
-            status: stop?.authorization?.status || "UNCLAIMED",
-            valid_to: stop?.authorization?.valid_to || new Date(Date.now() + 3600000).toISOString(), // Default to 1 hour from now
-          },
-        }));
+        fulfillment.stops = fulfillment.stops.map((stop: any) => {
+          const { authorization, ...rest } = stop; 
+          return rest;
+        });
       }
+      
     }
   
     if (sessionData.order_id) {
@@ -118,7 +103,7 @@ type Price = {
     }
     const now = new Date().toISOString();
     existingPayload.message.order.created_at = sessionData.created_at
-    existingPayload.message.order.updated_at = now 
+    existingPayload.message.order.updated_at =existingPayload.context.timestamp
   
     return existingPayload;
   }
