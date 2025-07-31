@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import {
+	FormConfigType,
 	MockAction,
 	MockOutput,
 	saveType,
@@ -8,7 +9,7 @@ import { SessionData } from "../../../../session-types";
 import yaml from "js-yaml";
 import path from "path";
 import { search_inc_generator } from "./generator";
-export class MockSearchInc implements MockAction {
+export class MockSearchInc extends MockAction {
 	get saveData(): saveType {
 		return yaml.load(
 			readFileSync(path.resolve(__dirname, "../save-data.yaml"), "utf8")

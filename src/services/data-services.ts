@@ -1,16 +1,12 @@
-import fs from "fs";
-import yaml from "js-yaml";
 import { RedisService } from "ondc-automation-cache-lib";
 import jsonpath from "jsonpath";
-
-import { logger } from "../utils/logger";
 import { isArrayKey } from "../types/type-utils";
 import {
 	defaultSessionData,
 	getSaveDataContent,
 	MockSessionData,
 } from "../config/mock-config";
-
+import logger from "@ondc/automation-logger";
 export function updateSessionData(
 	saveData: Record<string, string>,
 	payload: any,
@@ -20,7 +16,6 @@ export function updateSessionData(
 		message: string;
 	}
 ) {
-	logger.info(`updating session`);
 	try {
 		for (const key in saveData) {
 			const jsonPath = saveData[key as keyof typeof saveData];
@@ -38,7 +33,6 @@ export function updateSessionData(
 			}
 		}
 		if (errorData) {
-			console.log("errorData", errorData);
 			sessionData.error_code = errorData.code.toString();
 			sessionData.error_message = errorData.message;
 		} else {
@@ -46,7 +40,7 @@ export function updateSessionData(
 			sessionData.error_message = undefined;
 		}
 	} catch (e) {
-		logger.error("Error in updating session data", e);
+		logger.error("Error in updating session data", {}, e);
 	}
 }
 
@@ -73,7 +67,7 @@ export async function saveData(
 		);
 		logger.info("Data saved to session");
 	} catch (e) {
-		logger.error("Error in saving data to session", e);
+		logger.error("Error in saving data to session", {}, e);
 	}
 }
 
@@ -98,7 +92,7 @@ export async function saveDataForConfig(
 		);
 		logger.info("Data saved to session");
 	} catch (e) {
-		logger.error("Error in saving data to session", e);
+		logger.error("Error in saving data to session", {}, e);
 	}
 }
 

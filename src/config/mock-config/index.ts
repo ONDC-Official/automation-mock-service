@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { logger } from "../../utils/logger";
+import logger from "@ondc/automation-logger";
 import path from "path";
 import yaml from "js-yaml";
 import { SessionData as MockSessionData } from "./RET10/session-types";

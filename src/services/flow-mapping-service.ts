@@ -2,48 +2,33 @@ import { getMockAction } from "../config/mock-config/RET10/action-factory";
 import { Flow } from "../types/flow-types";
 import { FlowMap, MappedStep, ReducedApiData } from "../types/mapped-flow";
 import { ApiData, TransactionCache } from "../types/transaction-cache";
-import { logInfo } from "../utils/logger";
 import { MockStatusCode } from "./mock-flow-status-service";
-
+import logger from "@ondc/automation-logger";
 export function getNextActionMetaData(
 	transactionData: TransactionCache,
 	flow: Flow,
-	flowStatus: MockStatusCode
+	flowStatus: MockStatusCode,
+	loggingMeta: any
 ) {
-	logInfo({
-		message: "Entering getNextActionMetaData Function.",
-		meta: {
-			transactionData,
-			flowId: transactionData.flowId,
-			flowStatus,
-		},
-	});
-	const flowDetails = getFlowCompleteStatus(transactionData, flow, flowStatus);
+	const flowDetails = getFlowCompleteStatus(
+		transactionData,
+		flow,
+		flowStatus,
+		loggingMeta
+	);
 	const latestApi = flowDetails.sequence.find((s) =>
 		["LISTENING", "RESPONDING", "INPUT-REQUIRED"].includes(s.status)
 	);
-	logInfo({
-		message: "Exiting getNextActionMetaData Function. Returning latestApi",
-		meta: {
-			latestApi,
-		},
-	});
 	return latestApi;
 }
 
 export function getFlowCompleteStatus(
 	transactionData: TransactionCache,
 	flow: Flow,
-	flowStatus: MockStatusCode
+	flowStatus: MockStatusCode,
+	loggingMeta: any
 ) {
-	logInfo({
-		message: "Entering getFlowCompleteStatus Function.",
-		meta: {
-			transactionData,
-			flowId: transactionData.flowId,
-			flowStatus: "flowStatus",
-		},
-	});
+	logger.info("Calculating flow complete status", loggingMeta);
 	const apiList = reduceApiDataList(transactionData.apiList).sort(
 		(a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
 	);
@@ -169,22 +154,10 @@ export function getFlowCompleteStatus(
 			});
 		}
 	}
-	logInfo({
-		message: "Exiting getFlowCompleteStatus Function.",
-		meta: {
-			mappedFlow,
-		},
-	});
 	return mappedFlow;
 }
 
 function reduceApiDataList(data: ApiData[]): ReducedApiData[] {
-	logInfo({
-		message: "Entering reduceApiDataList Function.",
-		meta: {
-			data,
-		},
-	});
 	const map = new Map<string, ReducedApiData>();
 
 	for (const item of data) {
@@ -209,22 +182,10 @@ function reduceApiDataList(data: ApiData[]): ReducedApiData[] {
 				.payloads.push({ payloadId: item.payloadId, response: item.response });
 		}
 	}
-	logInfo({
-		message: "Exiting reduceApiDataList Function.",
-		meta: {
-			reducedData: Array.from(map.values()),
-		},
-	});
 	return Array.from(map.values());
 }
 
 function checkPerfectAck(response: any): "SUCCESS" | "ERROR" {
-	logInfo({
-		message: "Inside checkPerfectAck Function. Checking for perfect ack",
-		meta: {
-			response,
-		},
-	});
 	if (response?.message?.ack?.status === "ACK") {
 		return "SUCCESS";
 	}
