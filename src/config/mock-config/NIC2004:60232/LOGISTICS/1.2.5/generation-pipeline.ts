@@ -5,110 +5,110 @@ import path from "path";
 import { error } from "console";
 import { SessionData } from "../../session-types";
 import { Generator } from "./api-factory";
-import {logger} from "../../../../../utils/logger";
+import logger from "@ondc/automation-logger";
 function yamlToJson(filePath: string): object {
-  try {
-    // Read the YAML file contents
-    const fileContents = fs.readFileSync(filePath, "utf8");
+	try {
+		// Read the YAML file contents
+		const fileContents = fs.readFileSync(filePath, "utf8");
 
-    // Convert the YAML content to a JSON-compatible JavaScript object
-    const jsonData = yaml.load(fileContents) as any;
-    // Return the converted JSON data
-    return jsonData;
-  } catch (error: any) {
-    console.error(
-      `Error reading or parsing YAML file at ${filePath}: ${error.message}`
-    );
-    throw error;
-  }
+		// Convert the YAML content to a JSON-compatible JavaScript object
+		const jsonData = yaml.load(fileContents) as any;
+		// Return the converted JSON data
+		return jsonData;
+	} catch (error: any) {
+		console.error(
+			`Error reading or parsing YAML file at ${filePath}: ${error.message}`
+		);
+		throw error;
+	}
 }
 
 function loadFactoryYaml(filePath: string): any {
-  try {
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const data: any = yaml.load(fileContents) as any;
-    return data;
-  } catch (error) {
-    console.error("Error reading factory YAML:", error);
-    throw error;
-  }
+	try {
+		const fileContents = fs.readFileSync(filePath, "utf8");
+		const data: any = yaml.load(fileContents) as any;
+		return data;
+	} catch (error) {
+		console.error("Error reading factory YAML:", error);
+		throw error;
+	}
 }
 function getDetailsByActionId(
-  actionId: string,
-  factoryData: any
+	actionId: string,
+	factoryData: any
 ): { default: string; action: string; message_id: boolean } {
-  console.log(actionId);
-  const entry = factoryData.codes.find(
-    (item: any) => item.action_id === actionId
-  );
-  if (entry) {
-    return {
-      default: entry.default,
-      action: entry.action,
-      message_id: entry.message_id,
-    };
-  }
-  console.log(actionId);
-  throw new Error("Invalid action id found!");
+	console.log(actionId);
+	const entry = factoryData.codes.find(
+		(item: any) => item.action_id === actionId
+	);
+	if (entry) {
+		return {
+			default: entry.default,
+			action: entry.action,
+			message_id: entry.message_id,
+		};
+	}
+	console.log(actionId);
+	throw new Error("Invalid action id found!");
 }
 
 export async function createMockReponseLOGISTICS200(
-  actionID: string,
-  sessionData: any,
-  domain: string,
-  inputs?: Record<string, string>
+	actionID: string,
+	sessionData: any,
+	domain: string,
+	inputs?: Record<string, string>
 ) {
-  // 1. create context
-  // 2. load default
-  // 3. run faker
+	// 1. create context
+	// 2. load default
+	// 3. run faker
 
-  const factoryData = loadFactoryYaml(
-    path.resolve(__dirname, "../../factory.yaml")
-  );
-  const api_details = getDetailsByActionId(actionID, factoryData);
-  const context_object = {
-    action: api_details?.action,
-    transaction_id: sessionData?.transaction_id,
-    bap_id: sessionData?.bap_id,
-    bap_uri: sessionData?.bap_uri,
-    bpp_id: sessionData?.bpp_id,
-    bpp_uri: sessionData?.bpp_uri,
-    city: sessionData.city_code ?? "std:011",
-    domain: domain,
-    country: "IND",
-  };
+	const factoryData = loadFactoryYaml(
+		path.resolve(__dirname, "../../factory.yaml")
+	);
+	const api_details = getDetailsByActionId(actionID, factoryData);
+	const context_object = {
+		action: api_details?.action,
+		transaction_id: sessionData?.transaction_id,
+		bap_id: sessionData?.bap_id,
+		bap_uri: sessionData?.bap_uri,
+		bpp_id: sessionData?.bpp_id,
+		bpp_uri: sessionData?.bpp_uri,
+		city: sessionData.city_code ?? "std:011",
+		domain: domain,
+		country: "IND",
+	};
 
-  let context = createContext(context_object);
+	let context = createContext(context_object);
 
-  if (actionID.startsWith("search")) {
-    delete context.bpp_id;
-    delete context.bpp_uri;
-  }
+	if (actionID.startsWith("search")) {
+		delete context.bpp_id;
+		delete context.bpp_uri;
+	}
 
-  if (actionID.startsWith("on_")) {
-    delete context.ttl;
-  }
+	if (actionID.startsWith("on_")) {
+		delete context.ttl;
+	}
 
-  if (!api_details.message_id) {
-    context.message_id = sessionData.message_id as string;
-  }
-  console.log(api_details);
-  const default_message = yamlToJson(
-    path.resolve(__dirname, `./${api_details.default}`)
-  );
-  const payload: any = {
-    context: { ...context },
-    ...default_message,
-  };
-  if (sessionData.error_code && sessionData.error_message) {
-    const error_message = {
-      code: `${sessionData.error_code}`,
-      message: sessionData.error_message,
-    };
-    delete payload.message;
-    payload.error = error_message;
-    logger.debug(`Error payload is ${JSON.stringify(payload)}`);
-    return payload;
-  }
-  return await Generator(actionID, payload, sessionData, inputs);
+	if (!api_details.message_id) {
+		context.message_id = sessionData.message_id as string;
+	}
+	console.log(api_details);
+	const default_message = yamlToJson(
+		path.resolve(__dirname, `./${api_details.default}`)
+	);
+	const payload: any = {
+		context: { ...context },
+		...default_message,
+	};
+	if (sessionData.error_code && sessionData.error_message) {
+		const error_message = {
+			code: `${sessionData.error_code}`,
+			message: sessionData.error_message,
+		};
+		delete payload.message;
+		payload.error = error_message;
+		logger.debug(`Error payload is ${JSON.stringify(payload)}`);
+		return payload;
+	}
+	return await Generator(actionID, payload, sessionData, inputs);
 }

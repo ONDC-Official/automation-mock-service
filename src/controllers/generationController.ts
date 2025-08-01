@@ -1,64 +1,35 @@
 import { NextFunction, Request, Response } from "express";
 import { TriggerRequest } from "../routes/trigger";
 import { loadMockSessionData } from "../services/data-services";
-import { logger, logInfo } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 import { updateAllJsonPaths } from "../utils/json-editor-utils/jsonPathEditor";
 import { delay } from "../utils/generic-utils";
 import { generateMockResponse } from "../config/mock-config";
+import { getLoggerData } from "../utils/logger-utils";
 
 export async function generateMockResponseMiddleware(
 	req: TriggerRequest,
 	res: Response,
 	next: NextFunction
 ) {
-	logInfo({
-		message: "Entering generateMockResponseMiddleware",
-		meta: {
-			sessionId: req.query.session_id,
-			actionId: req.query.action_id,
-			subscriberUrl: req.query.subscriber_url,
-		},
-		transaction_id: req.query.transaction_id as string,
-	});
 	await delay(500);
 	req.queryData = req.query as any;
 	if (req.body.payload) {
 		req.mockResponse = req.body.payload;
-		logInfo({
-			message: "Exiting generateMockResponseMiddleware.  Mock response payload received",
-			meta: {
-				sessionId: req.query.session_id,
-				actionId: req.query.action_id,
-				subscriberUrl: req.query.subscriber_url,
-			},
-			transaction_id: req.query.transaction_id as string,
-		});
+		logger.info("Mock response payload received", getLoggerData(req));
 		next();
 	} else {
 		const txn = req.queryData?.transaction_id;
 		if (!txn) {
-			// logger.error("Transaction ID not found in query data");
-			logInfo({
-				message: "Exiting generateMockResponseMiddleware. Transaction ID not found in query data",
-				meta: {
-					sessionId: req.query.session_id,
-					actionId: req.query.action_id,
-					subscriberUrl: req.query.subscriber_url,
-				},
-			});
+			logger.warning(
+				"Transaction ID not found in query data",
+				getLoggerData(req)
+			);
 			res.status(400).send("Transaction ID not found in query data");
 			return;
 		}
 		if (!req.queryData?.action_id) {
-			// logger.error("Action ID not found in query data");
-			logInfo({
-				message: "Exiting generateMockResponseMiddleware. Action ID not found in query data",
-				meta: {
-					sessionId: req.query.session_id,
-					actionId: req.query.action_id,
-					subscriberUrl: req.query.subscriber_url,
-				},
-			});
+			logger.warning("Action ID not found in query data", getLoggerData(req));
 			res.status(400).send("Action ID not found in query data");
 			return;
 		}
@@ -73,15 +44,7 @@ export async function generateMockResponseMiddleware(
 			req.body.input
 		);
 		req.mockResponse = mockResponse;
-		logInfo({
-			message: "Exiting generateMockResponseMiddleware. Mock response generated",
-			meta: {
-				sessionId: req.query.session_id,
-				actionId: req.query.action_id,
-				subscriberUrl: req.query.subscriber_url,
-			},
-			transaction_id: req.query.transaction_id as string,
-		});
+		logger.info("Mock response generated", getLoggerData(req));
 		next();
 	}
 }
@@ -91,67 +54,29 @@ export async function replaceJsonPaths(
 	res: Response,
 	next: NextFunction
 ) {
-	logInfo({
-		message: "Entering replaceJsonPaths",
-		meta: {
-			sessionId: req.query.session_id,
-			actionId: req.query.action_id,
-			subscriberUrl: req.query.subscriber_url,
-		},
-		transaction_id: req.query.transaction_id as string,
-	});
 	if (!req.body.json_path_changes) {
-		logInfo({
-			message: "Exiting replaceJsonPaths. No json_path_changes in request body",
-			meta: {
-				sessionId: req.query.session_id,
-				actionId: req.query.action_id,
-				subscriberUrl: req.query.subscriber_url,
-			},
-			transaction_id: req.query.transaction_id as string,
-		});
+		logger.info(
+			"No json_path_changes in request body, skipping json path replacement",
+			getLoggerData(req)
+		);
 		next();
 		return;
 	}
 	try {
 		const payload = req.mockResponse;
 		if (payload.error) {
-			// logger.info("Error in response, skipping json path replacement");
-			logInfo({
-				message: "Exiting replaceJsonPaths. Error in response, skipping json path replacement",
-				meta: {
-					sessionId: req.query.session_id,
-					actionId: req.query.action_id,
-					subscriberUrl: req.query.subscriber_url,
-				},
-				transaction_id: req.query.transaction_id as string,
-			});
+			logger.info(
+				"Error in response, skipping json path replacement",
+				getLoggerData(req)
+			);
 			next();
 		}
 		const changes = req.body.json_path_changes;
 		req.mockResponse = updateAllJsonPaths(payload, changes);
-		logInfo({
-			message: "Exiting replaceJsonPaths. Json paths replaced successfully",
-			meta: {
-				sessionId: req.query.session_id,
-				actionId: req.query.action_id,
-				subscriberUrl: req.query.subscriber_url,
-			},
-			transaction_id: req.query.transaction_id as string,
-		});	
+		logger.info("Json paths replaced successfully", getLoggerData(req));
 		next();
 	} catch (e) {
-		// logger.error("Error in replacing json paths", e);
-		logInfo({
-			message: "Exiting replaceJsonPaths. Error in replacing json paths",
-			meta: {
-				sessionId: req.query.session_id,
-				actionId: req.query.action_id,
-				subscriberUrl: req.query.subscriber_url,
-			},
-			transaction_id: req.query.transaction_id as string,
-			error: e,
-		});
+		logger.error("Error in replacing json paths", getLoggerData(req), e);
 		res.status(500).send("Error in replacing json paths");
 	}
 }

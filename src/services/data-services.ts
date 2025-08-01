@@ -2,8 +2,7 @@ import fs from "fs";
 import yaml from "js-yaml";
 import { RedisService } from "ondc-automation-cache-lib";
 import jsonpath from "jsonpath";
-
-import {logger} from "../utils/logger";
+import logger from "@ondc/automation-logger";
 import { isArrayKey } from "../types/type-utils";
 import {
 	defaultSessionData,
@@ -50,29 +49,31 @@ export function updateSessionData(
 	}
 }
 function yamlToJson(filePath: string): object {
-  try {
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const jsonData = yaml.load(fileContents) as any;
-    return jsonData;
-  } catch (error) {
-    throw error;
-  }
+	try {
+		const fileContents = fs.readFileSync(filePath, "utf8");
+		const jsonData = yaml.load(fileContents) as any;
+		return jsonData;
+	} catch (error) {
+		throw error;
+	}
 }
 
 export async function saveData(
-  action: string,
-  payload: any,
-  errorData?: {
-    code: number;
-    message: string;
-  }
+	action: string,
+	payload: any,
+	errorData?: {
+		code: number;
+		message: string;
+	}
 ) {
 	try {
 		const sessionData = await loadMockSessionData(
 			payload?.context.transaction_id
 		);
-		const saveData = getSaveDataContent(payload?.context?.version
-			|| payload?.context?.core_version, action);
+		const saveData = getSaveDataContent(
+			payload?.context?.version || payload?.context?.core_version,
+			action
+		);
 		updateSessionData(saveData["save-data"], payload, sessionData, errorData);
 		await RedisService.setKey(
 			payload?.context.transaction_id,
