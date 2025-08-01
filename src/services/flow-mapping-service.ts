@@ -1,7 +1,7 @@
 import { Flow } from "../types/flow-types";
 import { FlowMap, MappedStep, ReducedApiData } from "../types/mapped-flow";
 import { ApiData, TransactionCache } from "../types/transaction-cache";
-import { logInfo } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 import { MockStatusCode } from "./mock-flow-status-service";
 
 export function getNextActionMetaData(
@@ -9,24 +9,10 @@ export function getNextActionMetaData(
 	flow: Flow,
 	flowStatus: MockStatusCode
 ) {
-	logInfo({
-		message: "Entering getNextActionMetaData Function.",
-		meta: {
-			transactionData,
-			flowId: transactionData.flowId,
-			flowStatus,
-		},
-	});
 	const flowDetails = getFlowCompleteStatus(transactionData, flow, flowStatus);
 	const latestApi = flowDetails.sequence.find((s) =>
 		["LISTENING", "RESPONDING", "INPUT-REQUIRED"].includes(s.status)
 	);
-	logInfo({
-		message: "Exiting getNextActionMetaData Function. Returning latestApi",
-		meta: {
-			latestApi,
-		},
-	});
 	return latestApi;
 }
 
@@ -35,14 +21,6 @@ export function getFlowCompleteStatus(
 	flow: Flow,
 	flowStatus: MockStatusCode
 ) {
-	logInfo({
-		message: "Entering getFlowCompleteStatus Function.",
-		meta: {
-			transactionData,
-			flowId: transactionData.flowId,
-			flowStatus,
-		},
-	});
 	const apiList = reduceApiDataList(transactionData.apiList).sort(
 		(a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
 	);
@@ -166,22 +144,10 @@ export function getFlowCompleteStatus(
 			});
 		}
 	}
-	logInfo({
-		message: "Exiting getFlowCompleteStatus Function.",
-		meta: {
-			mappedFlow,
-		},
-	});
 	return mappedFlow;
 }
 
 function reduceApiDataList(data: ApiData[]): ReducedApiData[] {
-	logInfo({
-		message: "Entering reduceApiDataList Function.",
-		meta: {
-			data,
-		},
-	});
 	const map = new Map<string, ReducedApiData>();
 
 	for (const item of data) {
@@ -206,22 +172,10 @@ function reduceApiDataList(data: ApiData[]): ReducedApiData[] {
 				.payloads.push({ payloadId: item.payloadId, response: item.response });
 		}
 	}
-	logInfo({
-		message: "Exiting reduceApiDataList Function.",
-		meta: {
-			reducedData: Array.from(map.values()),
-		},
-	});
 	return Array.from(map.values());
 }
 
 function checkPerfectAck(response: any): "SUCCESS" | "ERROR" {
-	logInfo({
-		message: "Inside checkPerfectAck Function. Checking for perfect ack",
-		meta: {
-			response,
-		},
-	});
 	if (response?.message?.ack?.status === "ACK") {
 		return "SUCCESS";
 	}

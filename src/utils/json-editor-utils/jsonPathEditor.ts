@@ -1,5 +1,5 @@
 import jsonpath from "jsonpath";
-import { logger, logInfo } from "../logger";
+import logger from "@ondc/automation-logger";
 
 /**
  * Updates a JSON object at a specific JSONPath with a new value.
@@ -14,28 +14,15 @@ function updateJsonPath<T extends object>(
 	jsonPath: string,
 	newValue: any
 ): T {
-	logInfo({
-		message: "Inside updateJsonPath Function",
-		meta: {
-			jsonPath,
-			newValue,
-		},
-		});
-		try {
+	try {
 		jsonpath.apply(json, jsonPath, (_) => newValue);
 		return json;
 	} catch (err) {
-		// logger.info(
-		// 	`Error in updating JSONPath ${jsonPath} with value ${newValue}: ${err}`
-		// );
-		logInfo({	
-			message: `Error in updating JSONPath ${jsonPath} with value ${newValue}`,
-			meta: {
-				jsonPath,
-				newValue,
-			},
-			error: err,
-		});
+		logger.error(
+			`Error updating JSONPath ${jsonPath} with value ${newValue}`,
+			{},
+			err
+		);
 		throw new Error(
 			`Error in updating JSONPath ${jsonPath} with value ${newValue}: ${err}`
 		);
@@ -53,22 +40,9 @@ export function updateAllJsonPaths<T extends object>(
 	json: T,
 	pathObject: Record<string, any>
 ): T {
-	logInfo({
-		message: "Entering updateAllJsonPaths Function",
-		meta: {
-			pathObject,
-		},
-	});
 	for (const jsonPath in pathObject) {
 		const value = pathObject[jsonPath];
 		json = updateJsonPath(json, jsonPath, value);
 	}
-	logInfo({
-		message: "Exiting updateAllJsonPaths Function",
-		meta: {
-			pathObject,
-			json,
-		},
-	});
 	return json;
 }

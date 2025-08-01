@@ -1,13 +1,14 @@
 import { Request, Response, NextFunction } from "express";
-import { logDebug } from "../utils/logger";
+import logger from "@ondc/automation-logger";
+import { getLoggerData } from "../utils/logger-utils";
 
 export default (req: Request, _res: Response, next: NextFunction) => {
-    const transaction_id = req.body?.context?.transaction_id;
-    logDebug({message: `Request Log`, transaction_id, meta: {
-        method: req.method,
-        url: req.url,
-        body: req.body
-    }});
-    next();
+	const transaction_id = req.body?.context?.transaction_id;
+	logger.info(
+		`Request received: ${req.method} ${req.url} - Transaction ID: ${
+			transaction_id || "N/A"
+		}`,
+		getLoggerData(req)
+	);
+	next();
 };
-  

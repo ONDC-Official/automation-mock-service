@@ -5,13 +5,14 @@ import {
 	replaceJsonPaths,
 } from "../controllers/generationController";
 
-import { logError, logger, logInfo } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 import { sendToApiService } from "../utils/request-utils";
 import { setAckResponse } from "../utils/ackUtils";
 import { getSafeActions } from "../services/mock-services";
 import { RedisService } from "ondc-automation-cache-lib";
 import { SessionCache } from "../types/api-session-cache";
 import otelTracing from "../middlewares/tracing";
+import { getLoggerData } from "../utils/logger-utils";
 
 const triggerRouter = Router();
 
@@ -20,7 +21,7 @@ interface QuerySettings {
 	action_id: string;
 	version: string;
 	subscriber_url?: string;
-	session_id : string;
+	session_id: string;
 	[key: string]: undefined | string | string[] | any;
 }
 export interface TriggerRequest extends Request {
@@ -36,148 +37,89 @@ export interface BodyTriggerType {
 triggerRouter.post(
 	"/api-service/:action",
 	otelTracing(
-		'query.transaction_id',
-		'query.session_id',
-		'query.bap_id',
-		'query.bpp_id'
+		"query.transaction_id",
+		"query.session_id",
+		"query.bap_id",
+		"query.bpp_id"
 	),
 	generateMockResponseMiddleware,
 	replaceJsonPaths,
 	async (req: TriggerRequest, res) => {
 		try {
-			logInfo({
-				message: "Entering trigger route",
-				meta: {
-					action: req.params.action,
-					transaction_id: req.query.transaction_id,
-					subscriber_url: req.query.subscriber_url,
-				},
-				transaction_id: req.query.transaction_id as string,
-			});
 			if (!req.mockResponse) {
-				logInfo({
-					message: "Mock response not found",
-					meta: {
-						action: req.params.action,
-						transaction_id: req.query.transaction_id,
-						subscriber_url: req.query.subscriber_url,
-					},
-					transaction_id: req.query.transaction_id as string,
-				});
+				logger.error("[FATAL] Mock response not found", getLoggerData(req));
 				throw new Error("Mock response not found");
 			}
 			const action = req.params.action;
-			await sendToApiService(action, req.mockResponse, req.queryData);
-			logInfo({
-				message: "Exiting trigger route",
-				meta: {
-					action: req.params.action,
-					transaction_id: req.query.transaction_id,
-					subscriber_url: req.query.subscriber_url,
-				},
-				transaction_id: req.query.transaction_id as string,
-			});
+			await sendToApiService(
+				action,
+				req.mockResponse,
+				req.queryData,
+				getLoggerData(req)
+			);
 			res.status(200).send(setAckResponse(true));
 		} catch (err) {
-			// logger.error("Error in forwarding request to API service", err);
-			logError({
-				message: "Error in forwarding request to API service",
-				meta: {
-					action: req.params.action,
-					transaction_id: req.query.transaction_id,
-					subscriber_url: req.query.subscriber_url,
-				},
-				transaction_id: req.query.transaction_id as string,
-				error: err,
-			});
+			logger.error(
+				"Error in forwarding request to API service",
+				getLoggerData(req),
+				err
+			);
 			res.status(500).send("Error in forwarding request to API service");
 		}
 	}
 );
 
-triggerRouter.get("/safe-actions",
+triggerRouter.get(
+	"/safe-actions",
 	otelTracing(
-		'query.transaction_id',
-		'query.session_id',
-		'query.bap_id',
-		'query.bpp_id'
-	), async (req, res) => {
-	const transaction_id = req.query.transaction_id as string;
-	const mockType = req.query.mock_type as string;
-	if (!transaction_id) {
-		logInfo({
-			message: " Exiting trigger / safe actions route. Transaction ID not found",
-			});
-		res.status(400).send("Transaction ID not found in query data");
-		return;
+		"query.transaction_id",
+		"query.session_id",
+		"query.bap_id",
+		"query.bpp_id"
+	),
+	async (req, res) => {
+		const transaction_id = req.query.transaction_id as string;
+		const mockType = req.query.mock_type as string;
+		if (!transaction_id) {
+			logger.error(
+				"Transaction ID not found in query data",
+				getLoggerData(req)
+			);
+			res.status(400).send("Transaction ID not found in query data");
+			return;
+		}
+
+		if (!mockType) {
+			logger.error("Mock type not found in query data", getLoggerData(req));
+			res.status(400).send("Mock type not found in query data");
+			return;
+		}
+		RedisService.useDb(0);
+		const api_session =
+			(await RedisService.getKey(req.query.session_id as string)) ?? "";
+
+		const data = JSON.parse(api_session) as SessionCache;
+
+		const { usecaseId } = data;
+		const safeActions = await getSafeActions(
+			transaction_id,
+			data.subscriberUrl,
+			mockType,
+			usecaseId
+		);
+		res.status(200).send(safeActions);
 	}
-
-	if (!mockType) {
-		logInfo({
-			message: " Exiting trigger / safe actions route. Mock type not found",
-			});
-		res.status(400).send("Mock type not found in query data");
-		return;
-	}
-	RedisService.useDb(0)
-  const api_session =
-	(await RedisService.getKey(req.query.session_id as string)) ?? "";
-	
-
-  const data = JSON.parse(api_session) as SessionCache;
-
-  const { usecaseId } = data;
-	const safeActions = await getSafeActions(transaction_id, data.subscriberUrl, mockType,usecaseId);
-	// logger.info(`Returning safe actions ${JSON.stringify(safeActions)}`);
-	logInfo({
-		message: `Exiting trigger / safe actions route. Returning safe actions ${JSON.stringify(
-			safeActions
-		)}`,
-		meta: {
-			transaction_id: req.query.transaction_id,
-			subscriber_url: req.query.subscriber_url,
-		},
-		transaction_id: req.query.transaction_id as string,
-	});
-	res.status(200).send(safeActions);
-});
+);
 
 triggerRouter.get(
 	"/payload/:action",
 	generateMockResponseMiddleware,
 	(req: TriggerRequest, res) => {
-		logInfo({
-			message: "Entering trigger / payload route",
-			meta: {
-				action: req.params.action,
-				transaction_id: req.query.transaction_id,
-				subscriber_url: req.query.subscriber_url,
-			},
-			transaction_id: req.query.transaction_id as string,
-		});
 		if (!req.mockResponse) {
-			// logger.error("Mock response not found");
-			logInfo({
-				message: "Exiting trigger / payload route. Mock response not found",
-				meta: {
-					action: req.params.action,
-					transaction_id: req.query.transaction_id,
-					subscriber_url: req.query.subscriber_url,
-				},
-				transaction_id: req.query.transaction_id as string,
-			});
+			logger.error("Mock response not found");
 			res.status(404).send("Mock response not found");
 		}
-		// logger.info("Returning mock response");
-		logInfo({
-			message: "Exiting trigger / payload route. Returning mock response",
-			meta: {
-				action: req.params.action,
-				transaction_id: req.query.transaction_id,
-				subscriber_url: req.query.subscriber_url,
-			},
-			transaction_id: req.query.transaction_id as string,
-		});
+		logger.info("Returning mock response", getLoggerData(req));
 		res.status(200).send(req.mockResponse);
 	}
 );

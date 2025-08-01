@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { logError, logger, logInfo } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 
 import { ApiRequest } from "../routes/manual";
 import { performL2Validations } from "../config/mock-config/generated/L2-validations";
 import { loadMockSessionData } from "../services/data-services";
+import { getLoggerData } from "../utils/logger-utils";
 
 export async function l2Validation(
 	req: ApiRequest,
@@ -11,13 +12,15 @@ export async function l2Validation(
 	next: NextFunction
 ) {
 	try {
-		logInfo({
-			message: "L2 Validation",
-			meta: { action: req.params.action },
-			});
+		logger.info("Running L2 validations", {
+			action: req.params.action,
+			transaction_id: req.body.context.transaction_id,
+		});
 		const action = req.params.action;
 		const body = req.body;
-		const subscriber_url = action.includes("on_")?body.context.bpp_uri : body.context.bap_uri
+		const subscriber_url = action.includes("on_")
+			? body.context.bpp_uri
+			: body.context.bap_uri;
 		const sessionData = await loadMockSessionData(
 			req.body.context.transaction_id,
 			subscriber_url
@@ -35,25 +38,14 @@ export async function l2Validation(
 				message: firstError.description || "validation failed",
 			};
 		}
-		// logger.info(
-		// 	`L2 validations completed found ${
-		// 		errors.filter((s) => !s.valid).length
-		// 	} errors`
-		// );
-		logInfo({
-			message: `L2 validations completed found ${errors.filter((s) => !s.valid).length} errors`,
-			meta: { action: req.params.action },
+		logger.info("L2 validations completed", {
+			action: req.params.action,
 			transaction_id: req.body.context.transaction_id,
+			errors: errors.map((e) => e.description),
 		});
 		next();
 	} catch (e) {
-		// logger.error("failed to run L2 validations", e);
-		logError({
-			message: "failed to run L2 validations",
-			meta: { action: req.params.action },
-			transaction_id: req.body.context.transaction_id,
-			error: e,
-		});
+		logger.error("failed to run L2 validations", getLoggerData(req), e);
 		next();
 	}
 }

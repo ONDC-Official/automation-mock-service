@@ -1,7 +1,7 @@
-import "./config/otel-config"
+import "./config/otel-config";
 import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
-import { logError, logger } from "./utils/logger";
+import logger from "@ondc/automation-logger";
 import { config } from "./config/serverConfig";
 import manualRouter from "./routes/manual";
 import triggerRouter from "./routes/trigger";
@@ -11,13 +11,13 @@ import { setAckResponse, setBadRequestNack } from "./utils/ackUtils";
 import flowRouter from "./routes/flow-routes";
 import requestLog from "./middlewares/requestLog";
 import responseLog from "./middlewares/responseLog";
+import { getLoggerData } from "./utils/logger-utils";
 const createServer = (): Application => {
 	const app = express();
 
 	// Middleware
 	app.use(express.json({ limit: "50mb" }));
 	app.use(cors());
-
 
 	// Log all requests in development
 	// if (config.port !== "production") {
@@ -26,6 +26,7 @@ const createServer = (): Application => {
 	// 		next();
 	// 	});
 	// }
+	app.use(logger.getCorrelationIdMiddleware());
 
 	app.use(requestLog);
 	app.use(responseLog);
@@ -59,11 +60,7 @@ const createServer = (): Application => {
 
 	// Error Handling Middleware
 	app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-		// logger.error(err.message, { stack: err.stack });
-		logError({
-			message: "Triggered By Error Handling Middleware",
-			error: err,
-		});
+		logger.error(`Error occurred: ${err.message}`, getLoggerData(req), err);
 		res.status(200).send(setBadRequestNack(err.message));
 	});
 

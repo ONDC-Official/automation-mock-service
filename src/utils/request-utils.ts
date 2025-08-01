@@ -1,5 +1,5 @@
 import axios from "axios";
-import { logger, logInfo } from "./logger";
+import logger from "@ondc/automation-logger";
 import { saveData } from "../services/data-services";
 import { error } from "console";
 function delay(ms: number): Promise<void> {
@@ -8,63 +8,42 @@ function delay(ms: number): Promise<void> {
 export async function sendToApiService(
 	action: string,
 	body: any,
-	queryData: any
+	queryData: any,
+	loggerMeta: any
 ) {
-
 	try {
-		// const domain = process.env.DOMAIN;
-		const domain = body.context.domain
+		const domain = body.context.domain;
 		const version = body.context.version ?? body.context.core_version;
 		const url = `${process.env.API_SERVICE_URL}/${domain}/${version}/mock/${action}`;
 		const subscriber_url = queryData.subscriber_url;
-    	if (!subscriber_url) {
-    //   logger.error("subscriber url not provided");
-	  logInfo({
-		message: "Exiting sendToApiService. Subscriber URL not provided",
-		meta: { action, body, queryData },
-		transaction_id: body.context.transaction_id,
-	  });
-      throw new Error("subscriber url not provided ");
-    }
+		if (!subscriber_url) {
+			throw new Error("subscriber url not provided");
+		}
+		logger.info(
+			`Sending response to API service at ${url} for action: ${action}`,
+			loggerMeta,
+			{
+				queryData: queryData,
+			}
+		);
 		await saveData(action, body);
-		// logger.debug(`Sending response to api service ${url} ${action}`);
-		logInfo({
-			message: "Sending response to api service",
-			meta: { action, body, queryData },
-			transaction_id: body.context.transaction_id,
-		});
 		await axios.post(url, body, {
 			params: {
 				...queryData,
 			},
+			headers: {
+				"X-Request-ID": loggerMeta.correlationId,
+			},
 		});
-		logInfo({
-			message: "Exiting sendToApiService",
-			meta: { action, body, queryData },
-			transaction_id: body.context.transaction_id,
-			});
 	} catch (err) {
-		logger.error("Error in sending response to api service", err);
-		// logInfo({
-		// 	message: "Error in sending response to api service",
-		// 	meta: { action, body, queryData },
-		// 	transaction_id: body.context.transaction_id,
-		// });
+		logger.error("Error in sending response to api service", loggerMeta, err);
 	}
 }
 
 export function createSellerUrl(domain: string, version: string) {
-	logInfo({
-		message: "Inside createSellerUrl",
-		meta: { domain, version },
-	});
 	return `${process.env.API_SERVICE_URL}/${domain}/${version}/seller`;
 }
 
 export function createBuyerUrl(domain: string, version: string) {
-	logInfo({
-		message: "Inside createBuyerUrl",
-		meta: { domain, version },
-	});
 	return `${process.env.API_SERVICE_URL}/${domain}/${version}/buyer`;
 }
