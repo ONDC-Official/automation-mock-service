@@ -7,7 +7,7 @@
     "skipLibCheck": true,                   // Skip type checking of all declaration files
     "forceConsistentCasingInFileNames": true, // Ensure consistent casing in file names
     "outDir": "./dist",                     // Output directory for compiled JavaScript files
-    "rootDir": "./src",                     // Root directory for TypeScript source files
+    "rootDir": "src",                     // Root directory for TypeScript source files
     "sourceMap": true,
     "resolveJsonModule": true,                      // Generate source maps
   },
