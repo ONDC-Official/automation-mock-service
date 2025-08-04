@@ -22,22 +22,6 @@ export async function onCancelSoftGenerator(
       sessionData.selected_fulfillments;
   }
 
-  for (const fulfillment of existingPayload.message.order.fulfillments) {
-    if (fulfillment.stops && Array.isArray(fulfillment.stops)) {
-      fulfillment.stops = fulfillment.stops.map((stop: any) => ({
-        ...stop,
-        authorization: {
-          type: "OTP",
-          token: "234234",
-          status: stop?.authorization?.status || "UNCLAIMED",
-          valid_to:
-            stop?.authorization?.valid_to ||
-            new Date(Date.now() + 3600000).toISOString(), // Default to 1 hour from now
-        },
-      }));
-    }
-  }
-
   if (sessionData.order_id) {
     existingPayload.message.order.id = sessionData.order_id;
   }
@@ -66,6 +50,6 @@ export async function onCancelSoftGenerator(
   existingPayload.message.order.quote.price = { currency: "INR", value: "10" };
   const now = new Date().toISOString();
   existingPayload.message.order.created_at = sessionData.created_at;
-  existingPayload.message.order.updated_at = now;
+  existingPayload.message.order.updated_at = existingPayload.context.timestamp;
   return existingPayload;
 }

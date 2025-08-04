@@ -6,6 +6,11 @@ function updateFulfillmentStatus(order: any) {
     if (order.fulfillments) {
       order.fulfillments.forEach((fulfillment: any) => {
           fulfillment.state.descriptor.code = "RIDE_CONFIRMED";
+          fulfillment.vehicle={
+            category:fulfillment.vehicle.category,
+            variant:fulfillment.vehicle.variant
+          }
+          
       });
     }
     return order;

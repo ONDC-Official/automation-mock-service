@@ -96,10 +96,7 @@ export async function onUpdateGenerator(
     existingPayload.message.order.items = sessionData.items;
   }
 
-  // Update fulfillments if present
-  if (sessionData.fulfillments?.length > 0) {
-    existingPayload.message.order.fulfillments = sessionData.fulfillments;
-  }
+  
 
   // Ensure all fulfillments have the required 'type' property
   if (existingPayload.message.order.fulfillments?.length > 0) {

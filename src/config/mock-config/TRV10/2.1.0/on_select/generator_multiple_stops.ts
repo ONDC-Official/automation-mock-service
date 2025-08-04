@@ -197,6 +197,12 @@ export async function onSelectMultipleStopsGenerator(
     item[0],
     sessionData.fulfillments
   );
+  if(sessionData.selected_add_ons?.length<1){
+      existingPayload.message.order.items=existingPayload.message.order.items.map((item: { add_ons: any; })=> {
+        delete item.add_ons
+         return item
+      } )
+  }
   filteredFulfillments[0]["tags"] = fulfillment_tags;
   existingPayload.message.order.quote = generateQuoteFromItems(item);
   existingPayload.message.order.fulfillments = filteredFulfillments;

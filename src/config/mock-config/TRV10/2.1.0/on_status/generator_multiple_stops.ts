@@ -36,7 +36,7 @@ export async function onStatusMultipleStopsGenerator(
 
   const now = new Date().toISOString();
   existingPayload.message.order.created_at = sessionData.created_at;
-  existingPayload.message.order.updated_at = now;
+  existingPayload.message.order.updated_at = existingPayload.context.timestamp;
   existingPayload.message.order.provider.id = sessionData.provider_id;
   return existingPayload;
 }

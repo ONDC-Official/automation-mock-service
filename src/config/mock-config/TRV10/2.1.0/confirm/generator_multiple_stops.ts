@@ -15,6 +15,9 @@ export async function confirmMultipleStopsGenerator(existingPayload: any,session
     existingPayload.message.order.items[0] = {
         id : sessionData.selected_item_id 
     }
+    existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
+        delete fulfillment.tags;
+      });
     existingPayload.message.order.payments = sessionData.payments
     existingPayload.message.order.provider.id = sessionData.provider_id
     return existingPayload;

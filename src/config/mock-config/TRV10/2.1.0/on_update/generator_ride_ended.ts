@@ -6,6 +6,13 @@ function updateFulfillmentStatus(order: any) {
     if (order.fulfillments) {
       order.fulfillments.forEach((fulfillment: any) => {
           fulfillment.state.descriptor.code = "RIDE_ENDED";
+
+          // Find stop with type START and update authorization status
+         fulfillment.stops?.forEach((stop: any) => {
+            if (stop.authorization) {
+              stop.authorization.status = "CLAIMED";
+            }
+          });
       });
     }
     return order;

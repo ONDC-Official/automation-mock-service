@@ -35,10 +35,32 @@ function updateFulfillments(fulfillments: any[]) {
         const endStop = fulfillment.stops.find((stop:any) => stop.type === "END");
     
         // If found, add the authorization object
+        const now = new Date();
+        const newTime = new Date(now.getTime() + 15 * 60000).toISOString();
         if (startStop) {
+            startStop.authorization = {
+            token: "234234",
+            type: "OTP",
+            valid_to: newTime,
+            status: "UNCLAIMED"
+        };
+        }
+        if (!endStop) {
             const now = new Date();
             const newTime = new Date(now.getTime() + 15 * 60000).toISOString();
-        startStop.authorization = {
+            fulfillment.stops[1] = {
+              authorization:{ token: "234234",
+                              type: "OTP",
+                              valid_to: newTime,
+                              status: "UNCLAIMED"
+                            },
+                            type:"END"
+        };
+        }else{
+          if(endStop.location){
+             delete endStop.location
+          }
+          endStop.authorization = {
             token: "234234",
             type: "OTP",
             valid_to: newTime,
@@ -50,7 +72,7 @@ function updateFulfillments(fulfillments: any[]) {
     });
     }
 
-export async function onConfirmMultipleStopsGenerator(
+export async function onConfirmMultipleAuthGenerator(
     existingPayload: any,
     sessionData: SessionData
 ) {
