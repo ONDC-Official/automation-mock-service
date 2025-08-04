@@ -32,6 +32,14 @@ export class MockOnCancelConfirmTechnicalCancellationClass extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
+        if (!sessionData.order) {
+            return {
+                valid: false,
+                message: "No order information available in session data",
+                code: "MISSING_ORDER"
+            };
+        }
+
         return { valid: true };
     }
 } 

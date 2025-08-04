@@ -32,6 +32,20 @@ export class MockOnSearchSellerPagination3Class extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
+        if (!sessionData.collected_by) {
+            return {
+                valid: false,
+                message: "Payment collection method is required in session data",
+                code: "MISSING_COLLECTED_BY"
+            };
+        }
+        if (!sessionData.start_time || !sessionData.end_time) {
+            return {
+                valid: false,
+                message: "Start time and end time are required in session data",
+                code: "MISSING_TIME_RANGE"
+            };
+        }
         return { valid: true };
     }
 } 

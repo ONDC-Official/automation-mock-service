@@ -36,14 +36,16 @@ export class MockSelectClass extends MockAction {
         if (!sessionData.items || !Array.isArray(sessionData.items) || sessionData.items.length === 0) {
             return { 
                 valid: false, 
-                message: "No items available in session data" 
+                message: "No items available in session data",
+                code: "MISSING_ITEMS"
             };
         }
         
         if (!sessionData.provider_id) {
             return { 
                 valid: false, 
-                message: "No provider_id available in session data" 
+                message: "No provider_id available in session data",
+                code: "MISSING_PROVIDER_ID"
             };
         }
         
