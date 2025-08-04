@@ -1,27 +1,50 @@
 import { SessionData } from "../../../../session-types";
 import { getUpdatedBilling } from "../../api-objects/billing";
-import {
-	createFulfillments,
-	Fulfillments,
-} from "../../api-objects/fulfillments";
 import { SelectedItems } from "../../on_select/on_select/generator";
 
-export async function init_generator(
+export async function init_slotted_delivery_generator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {
-	console.log("SESSION DATA")
-	console.log(sessionData)
 	const items = sessionData.selected_items as SelectedItems;
-	const onSelectData = sessionData.on_select_fulfillments as Fulfillments;
-	console.log("ONSELECTDATA")
-	console.log(onSelectData)
-	const fId = onSelectData.find((f) => f.type === "Delivery")?.id || "F1";
+	const onSelectFulfillments = sessionData.on_select_fulfillments;
+	const selected_fulfillment = [
+		onSelectFulfillments[Math.floor(Math.random() * items.length)],
+	];
+	const selected = sessionData.selected_fulfillments;
+	const defaultEnd = {
+		end: {
+			contact: {
+				email: "nobody@nomail.com",
+				phone: "9898989898",
+			},
+			location: {
+				gps: selected[0].end?.location?.gps,
+				address: {
+					building: "mock-building",
+					city: "mock-city",
+					state: "mock-state",
+					country: "IND",
+					area_code: "400053",
+					locality: "mock-locality",
+					name: "mock-house-name",
+				},
+			},
+		},
+	};
+	const initFulfillments = selected_fulfillment.map((f: any) => {
+		return {
+			id: f.id,
+			type: f.type,
+			end: defaultEnd.end,
+		};
+	});
+	existingPayload.message.order.fulfillments = initFulfillments;
 
 	existingPayload.message.order.items = items.map((item) => {
 		return {
 			id: item.id,
-			fulfillment_id: fId,
+			fulfillment_id: selected_fulfillment[0].id,
 			quantity: {
 				count: item.quantity.count,
 			},
@@ -32,13 +55,6 @@ export async function init_generator(
 		existingPayload.message.order.billing,
 		true
 	);
-	existingPayload.message.order.fulfillments = createFulfillments(
-		"init",
-		"init",
-		sessionData,
-		existingPayload.message.order.fulfillments
-	);
-	existingPayload.message.order.provider = sessionData.provider;
 	if (sessionData.selected_offers) {
 		existingPayload.message.order.offers = sessionData.selected_offers.map(
 			(offer: any) => {
@@ -59,5 +75,7 @@ export async function init_generator(
 			}
 		);
 	}
+
 	return existingPayload;
 }
+2;

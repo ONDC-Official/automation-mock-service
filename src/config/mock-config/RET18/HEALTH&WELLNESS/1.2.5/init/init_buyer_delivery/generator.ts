@@ -1,22 +1,15 @@
 import { SessionData } from "../../../../session-types";
 import { getUpdatedBilling } from "../../api-objects/billing";
-import {
-	createFulfillments,
-	Fulfillments,
-} from "../../api-objects/fulfillments";
+import { createFulfillments } from "../../api-objects/fulfillments";
+import { Fulfillments } from "../../api-objects/fulfillments";
 import { SelectedItems } from "../../on_select/on_select/generator";
-
-export async function init_generator(
+export async function init_buyer_delivery_generator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {
-	console.log("SESSION DATA")
-	console.log(sessionData)
 	const items = sessionData.selected_items as SelectedItems;
 	const onSelectData = sessionData.on_select_fulfillments as Fulfillments;
-	console.log("ONSELECTDATA")
-	console.log(onSelectData)
-	const fId = onSelectData.find((f) => f.type === "Delivery")?.id || "F1";
+	const fId = onSelectData.find((f) => f.type === "Buyer-Delivery")?.id || "F3";
 
 	existingPayload.message.order.items = items.map((item) => {
 		return {
@@ -34,7 +27,7 @@ export async function init_generator(
 	);
 	existingPayload.message.order.fulfillments = createFulfillments(
 		"init",
-		"init",
+		"init_buyer_delivery",
 		sessionData,
 		existingPayload.message.order.fulfillments
 	);
@@ -59,5 +52,6 @@ export async function init_generator(
 			}
 		);
 	}
+
 	return existingPayload;
 }

@@ -756,513 +756,879 @@ export type Fulfillment = {
 };
 export type Fulfillments = Fulfillment[];
 
+// export function createFulfillments(
+//   action: string,
+//   actionId: string,
+//   sessionData: SessionData,
+//   defaultFulfillments: Fulfillments
+// ) {
+//   if (defaultFulfillments.length < 1) {
+//     throw new Error("Empty fulfillments found");
+//   }
+//   if (action === "select") {
+//     // this function is not used in select
+//   }
+//   const onSelectFulfillments =
+//     sessionData.on_select_fulfillments as Fulfillments;
+//   if (action === "init") {
+//     const selected = sessionData.selected_fulfillments as Fulfillments;
+//     const defaultEnd = {
+//       end: {
+//         contact: {
+//           email: "nobody@nomail.com",
+//           phone: "9898989898",
+//         },
+//         location: {
+//           gps: selected[0].end?.location?.gps,
+//           address: {
+//             building: "mock-building",
+//             city: "mock-city",
+//             state: "mock-state",
+//             country: "IND",
+//             area_code:
+//               selected[0].end?.location?.address?.area_code || "400053",
+//             locality: "mock-locality",
+//             name: "mock-house-name",
+//           },
+//         },
+//       },
+//     };
+
+//     let targetFulfillment: Fulfillment | undefined = {};
+//     targetFulfillment = onSelectFulfillments.find((f) => f.type === "Delivery");
+//     const initFulfillments = [
+//       {
+//         id: targetFulfillment?.id || "F3",
+//         type: targetFulfillment?.type || "Delivery",
+//         end: defaultEnd.end,
+//       },
+//     ];
+
+//     return initFulfillments;
+//   }
+//   if (action === "on_init") {
+//     const fulfillments = sessionData.fulfillments as Fulfillments;
+//     return fulfillments.map((f) => {
+//       return {
+//         id: f.id,
+//         type: f.type,
+//         end: f.end,
+//         tracking: true,
+//       };
+//     });
+//   }
+//   if (action === "confirm") {
+//     const fulfillments = sessionData.fulfillments as Fulfillments;
+//     return fulfillments.map((f) => {
+//       const onSelectFulfillment = onSelectFulfillments.find(
+//         (of) => of.id === f.id
+//       );
+//       return {
+//         id: f.id,
+//         type: f.type,
+//         end: {
+//           contact: f.end?.contact,
+//           person: {
+//             name: "mock-person",
+//           },
+//           location: f.end?.location,
+//         },
+//         tracking: f.tracking,
+//         "@ondc/org/category": onSelectFulfillment?.["@ondc/org/category"],
+//         "@ondc/org/TAT": onSelectFulfillment?.["@ondc/org/TAT"],
+//       };
+//     });
+//   }
+//   if (action === "on_confirm") {
+//     const fulfillments = sessionData.fulfillments as Fulfillments;
+//     return fulfillments
+//       .filter((f) => onSelectFulfillments.some((sf) => sf.id === f.id))
+//       .map((f, index) => {
+//         const selected = onSelectFulfillments.find((sf) => sf.id === f.id)!;
+
+//         return {
+//           id: f.id,
+//           type: f.type,
+//           tracking: f.tracking,
+//           state: {
+//             descriptor: {
+//               code: "Pending",
+//             },
+//           },
+//           "@ondc/org/TAT": selected["@ondc/org/TAT"],
+//           "@ondc/org/provider_name": `Seller Business`,
+//           start: {
+//             location: {
+//               id: "L1",
+//               descriptor: {
+//                 name: "Mock Seller NP",
+//               },
+//               gps: "12.925810,77.583624",
+//               address: {
+//                 building: "my building name or house",
+//                 city: "Bengaluru",
+//                 state: "Karnataka",
+//                 country: "IND",
+//                 area_code: "560011",
+//                 locality: "my street name",
+//                 name: "my house or door or floor",
+//               },
+//             },
+//             contact: {
+//               phone: "9594663710",
+//               email: "nobody@nomail.com",
+//             },
+//           },
+//           end: f.end,
+//         };
+//       });
+//   }
+//   if (action === "on_status") {
+//     console.log("######## createFulfillments on_status #########");
+//     let fulfillments = sessionData.fulfillments as Fulfillments;
+//     const tags = {
+//       tags: [
+//         {
+//           code: "routing",
+//           list: [
+//             {
+//               code: "type",
+//               value: "P2P",
+//             },
+//           ],
+//         },
+//         {
+//           code: "tracking",
+//           list: [
+//             {
+//               code: "gps_enabled",
+//               value: "no",
+//             },
+//             {
+//               code: "url_enabled",
+//               value: "yes",
+//             },
+//             {
+//               code: "url",
+//               value: "https://sellerNP.com/ondc/tracking_url",
+//             },
+//           ],
+//         },
+//       ],
+//     };
+//     let finalFulfillments = sessionData.on_status_fulfillments as Fulfillments;
+//     console.log(
+//       "sessionData.on_status_fulfillments",
+//       JSON.stringify(finalFulfillments)
+//     );
+//     if (sessionData.on_status_fulfillments.length == 0) {
+//       const time = new Date(new Date().getTime() + 10 * 1000 * 60);
+//       const start_end = new Date(time.getTime() + 10 * 1000 * 60).toISOString();
+//       finalFulfillments = fulfillments
+//         // .filter((f) => f.type == "Delivery")
+//         .map((f) => {
+//           if (f.type == "Delivery" && actionId == "on_status_accepted") {
+//             return {
+//               ...f,
+//               start: {
+//                 ...f.start,
+//                 time: {
+//                   range: {
+//                     start: time.toISOString(),
+//                     end: start_end,
+//                   },
+//                 },
+//               },
+//               end: {
+//                 ...f.end,
+//                 time: {
+//                   range: {
+//                     start: start_end,
+//                     end: new Date(
+//                       time.getTime() +
+//                         1000 * isoDurToSec(f["@ondc/org/TAT"] || "PT0H")
+//                     ).toISOString(),
+//                   },
+//                 },
+//               },
+//               tags: tags.tags,
+//             };
+//           }
+//           return f;
+//         });
+//     }
+//     let state = "Pending";
+//     switch (actionId) {
+//       case "on_status_packed":
+//         state = "Packed";
+//         break;
+//       case "on_status_accepted":
+//         state = "Pending";
+//         break;
+//       case "on_status_agent_assigned":
+//         state = "Agent-assigned";
+//         break;
+//       case "on_status_picked":
+//         state = "Order-picked-up";
+//         finalFulfillments = finalFulfillments.map((f) => {
+//           if (f.type === "Delivery") {
+//             return {
+//               ...f,
+//               start: {
+//                 ...f.start,
+//                 time: {
+//                   ...f.start?.time,
+//                   timestamp: new Date().toISOString(),
+//                 },
+//               },
+//               tags: tags.tags,
+//             };
+//           }
+//           return f;
+//         });
+//         break;
+//       case "on_status_out_for_delivery":
+//         state = "Out-for-delivery";
+//         console.log("finalFulfillments", JSON.stringify(finalFulfillments));
+//         finalFulfillments = finalFulfillments.map((f) => {
+//           if (f.type === "Delivery") {
+//             return {
+//               ...f,
+//               tags: tags.tags,
+//             };
+//           }
+//           return f;
+//         });
+//         console.log("Final Fulfillments: ", JSON.stringify(finalFulfillments));
+//         break;
+//       case "on_status_order_delivered":
+//         state = "Order-delivered";
+//         finalFulfillments = finalFulfillments.map((f) => {
+//           if (f.type === "Delivery") {
+//             return {
+//               ...f,
+//               end: {
+//                 ...f.end,
+//                 time: {
+//                   ...f.end?.time,
+//                   timestamp: new Date().toISOString(),
+//                 },
+//               },
+//               tags: tags.tags,
+//             };
+//           }
+//           return f;
+//         });
+//         break;
+//       case "on_status_rto_delivered":
+//         state = "Cancelled";
+//         finalFulfillments = finalFulfillments.map((f) => {
+//           if (f.type === "RTO") {
+//             return {
+//               ...f,
+//               end: {
+//                 ...f.end,
+//                 time: {
+//                   ...f.end?.time,
+//                   timestamp: new Date().toISOString(),
+//                 },
+//               },
+//               tags: tags.tags,
+//             };
+//           }
+//           return f;
+//         });
+//       case "on_status_ready_to_ship":
+//         state = "Packed";
+//         finalFulfillments = finalFulfillments.map((f) => {
+//           if (f.type === "Buyer-Delivery") {
+//             const tags = f.tags || [];
+//             return {
+//               ...f,
+//               tags: [
+//                 ...tags,
+//                 {
+//                   code: "state",
+//                   list: [
+//                     {
+//                       code: "ready_to_ship",
+//                       value: "yes",
+//                     },
+//                   ],
+//                 },
+//                 {
+//                   code: "routing",
+//                   list: [
+//                     {
+//                       code: "type",
+//                       value: "P2P",
+//                     },
+//                   ],
+//                 },
+//               ],
+//             };
+//           }
+//           return f;
+//         });
+//         break;
+
+//       default:
+//         break;
+//     }
+//     finalFulfillments = finalFulfillments.map((f) => {
+//       if (f.type === "Delivery") {
+//         return {
+//           ...f,
+//           state: {
+//             descriptor: {
+//               code: state,
+//             },
+//           },
+//         };
+//       }
+//       return f;
+//     });
+//     return finalFulfillments;
+//   }
+//   if (action === "on_status_rep") {
+//     console.log("######## createFulfillments on_status #########");
+//     let fulfillments = sessionData.fulfillments as Fulfillments;
+//     const tags = {
+//       tags: [
+//         {
+//           code: "routing",
+//           list: [
+//             {
+//               code: "type",
+//               value: "P2P",
+//             },
+//           ],
+//         },
+//         {
+//           code: "tracking",
+//           list: [
+//             {
+//               code: "gps_enabled",
+//               value: "no",
+//             },
+//             {
+//               code: "url_enabled",
+//               value: "yes",
+//             },
+//             {
+//               code: "url",
+//               value: "https://sellerNP.com/ondc/tracking_url",
+//             },
+//           ],
+//         },
+//       ],
+//     };
+//     let finalFulfillments = sessionData.on_status_fulfillments as Fulfillments;
+//     if (sessionData.on_status_fulfillments.length <= 0) {
+//       const time = new Date(new Date().getTime() + 10 * 1000 * 60);
+//       const start_end = new Date(time.getTime() + 10 * 1000 * 60).toISOString();
+//       finalFulfillments = fulfillments
+//         // .filter((f) => f.type == "Delivery")
+//         .map((f) => {
+//           if (f.type == "Delivery") {
+//             return {
+//               ...f,
+//               start: {
+//                 ...f.start,
+//                 time: {
+//                   range: {
+//                     start: time.toISOString(),
+//                     end: start_end,
+//                   },
+//                 },
+//               },
+//               end: {
+//                 ...f.end,
+//                 time: {
+//                   range: {
+//                     start: start_end,
+//                     end: new Date(
+//                       time.getTime() +
+//                         1000 * isoDurToSec(f["@ondc/org/TAT"] || "PT0H")
+//                     ).toISOString(),
+//                   },
+//                 },
+//               },
+//               tags: tags.tags,
+//             };
+//           }
+//           return f;
+//         });
+//     }
+//     let state = "Pending";
+//     switch (actionId) {
+//       case "on_status_packed":
+//         state = "Packed";
+//         break;
+//       case "on_status_accepted":
+//         state = "Pending";
+//         break;
+//       case "on_status_agent_assigned":
+//         state = "Agent-assigned";
+//         break;
+//       case "on_status_picked":
+//         state = "Order-picked-up";
+//         finalFulfillments = finalFulfillments.map((f) => {
+//           if (f.type === "Delivery") {
+//             return {
+//               ...f,
+//               start: {
+//                 ...f.start,
+//                 time: {
+//                   ...f.start?.time,
+//                   timestamp: new Date().toISOString(),
+//                 },
+//               },
+//             };
+//           }
+//           return f;
+//         });
+//         break;
+//       case "on_status_out_for_delivery":
+//         state = "Out-for-delivery";
+//         break;
+//       case "on_status_order_delivered":
+//         state = "Order-delivered";
+//         finalFulfillments = finalFulfillments.map((f) => {
+//           if (f.type === "Delivery") {
+//             return {
+//               ...f,
+//               end: {
+//                 ...f.end,
+//                 time: {
+//                   ...f.end?.time,
+//                   timestamp: new Date().toISOString(),
+//                 },
+//               },
+//             };
+//           }
+//           return f;
+//         });
+//         break;
+//       case "on_status_rto_delivered":
+//         state = "Cancelled";
+//       case "on_status_ready_to_ship":
+//         state = "Packed";
+//         finalFulfillments = finalFulfillments.map((f) => {
+//           if (f.type === "Buyer-Delivery") {
+//             const tags = f.tags || [];
+//             return {
+//               ...f,
+//               tags: [
+//                 ...tags,
+//                 {
+//                   code: "state",
+//                   list: [
+//                     {
+//                       code: "ready_to_ship",
+//                       value: "yes",
+//                     },
+//                   ],
+//                 },
+//                 {
+//                   code: "routing",
+//                   list: [
+//                     {
+//                       code: "type",
+//                       value: "P2P",
+//                     },
+//                   ],
+//                 },
+//               ],
+//             };
+//           }
+//           return f;
+//         });
+//         break;
+
+//       default:
+//         break;
+//     }
+//     finalFulfillments = finalFulfillments.map((f) => {
+//       if (f.type === "Delivery") {
+//         return {
+//           ...f,
+//           state: {
+//             descriptor: {
+//               code: state,
+//             },
+//           },
+//         };
+//       }
+//       return f;
+//     });
+//     return finalFulfillments;
+//   }
+//   return defaultFulfillments;
+// }
+
 export function createFulfillments(
-  action: string,
-  actionId: string,
-  sessionData: SessionData,
-  defaultFulfillments: Fulfillments
+	action: string,
+	actionId: string,
+	sessionData: SessionData,
+	defaultFulfillments: Fulfillments
 ) {
-  if (defaultFulfillments.length < 1) {
-    throw new Error("Empty fulfillments found");
-  }
-  if (action === "select") {
-    // this function is not used in select
-  }
-  const onSelectFulfillments =
-    sessionData.on_select_fulfillments as Fulfillments;
-  if (action === "init") {
-    const selected = sessionData.selected_fulfillments as Fulfillments;
-    const defaultEnd = {
-      end: {
-        contact: {
-          email: "nobody@nomail.com",
-          phone: "9898989898",
-        },
-        location: {
-          gps: selected[0].end?.location?.gps,
-          address: {
-            building: "mock-building",
-            city: "mock-city",
-            state: "mock-state",
-            country: "IND",
-            area_code:
-              selected[0].end?.location?.address?.area_code || "400053",
-            locality: "mock-locality",
-            name: "mock-house-name",
-          },
-        },
-      },
-    };
+	if (defaultFulfillments.length < 1) {
+		throw new Error("Empty fulfillments found");
+	}
+	if (action === "select") {
+		// this function is not used in select
+	}
+	const onSelectFulfillments =
+		sessionData.on_select_fulfillments as Fulfillments;
+	if (action === "init") {
+		const selected = sessionData.selected_fulfillments as Fulfillments;
+		const defaultEnd = {
+			end: {
+				contact: {
+					email: "nobody@nomail.com",
+					phone: "9898989898",
+				},
+				location: {
+					gps: selected[0].end?.location?.gps,
+					address: {
+						building: "mock-building",
+						city: "mock-city",
+						state: "mock-state",
+						country: "IND",
+						area_code:
+							selected[0].end?.location?.address?.area_code || "400053",
+						locality: "mock-locality",
+						name: "mock-house-name",
+					},
+				},
+			},
+		};
 
-    let targetFulfillment: Fulfillment | undefined = {};
-    targetFulfillment = onSelectFulfillments.find((f) => f.type === "Delivery");
-    const initFulfillments = [
-      {
-        id: targetFulfillment?.id || "F3",
-        type: targetFulfillment?.type || "Delivery",
-        end: defaultEnd.end,
-      },
-    ];
+		let targetFulfillment: Fulfillment | undefined = {};
+		if (actionId == "init_buyer_delivery") {
+			targetFulfillment = onSelectFulfillments.find(
+				(f) => f.type === "Buyer-Delivery"
+			);
+		} else {
+			targetFulfillment = onSelectFulfillments.find(
+				(f) => f.type === "Delivery"
+			);
+		}
 
-    return initFulfillments;
-  }
-  if (action === "on_init") {
-    const fulfillments = sessionData.fulfillments as Fulfillments;
-    return fulfillments.map((f) => {
-      return {
-        id: f.id,
-        type: f.type,
-        end: f.end,
-        tracking: true,
-      };
-    });
-  }
-  if (action === "confirm") {
-    const fulfillments = sessionData.fulfillments as Fulfillments;
-    return fulfillments.map((f) => {
-      const onSelectFulfillment = onSelectFulfillments.find(
-        (of) => of.id === f.id
-      );
-      return {
-        id: f.id,
-        type: f.type,
-        end: {
-          contact: f.end?.contact,
-          person: {
-            name: "mock-person",
-          },
-          location: f.end?.location,
-        },
-        tracking: f.tracking,
-        "@ondc/org/category": onSelectFulfillment?.["@ondc/org/category"],
-        "@ondc/org/TAT": onSelectFulfillment?.["@ondc/org/TAT"],
-      };
-    });
-  }
-  if (action === "on_confirm") {
-    const fulfillments = sessionData.fulfillments as Fulfillments;
-    return fulfillments
-      .filter((f) => onSelectFulfillments.some((sf) => sf.id === f.id))
-      .map((f, index) => {
-        const selected = onSelectFulfillments.find((sf) => sf.id === f.id)!;
+		// const initFulfillments = onSelectFulfillments.map((f) => {
+		// 	return {
+		// 		id: f.id,
+		// 		type: f.type,
+		// 		end: defaultEnd.end,
+		// 	};
+		// });
+		const initFulfillments = [
+			{
+				id: targetFulfillment?.id || "F3",
+				type: targetFulfillment?.type || "Delivery",
+				end: defaultEnd.end,
+			},
+		];
 
-        return {
-          id: f.id,
-          type: f.type,
-          tracking: f.tracking,
-          state: {
-            descriptor: {
-              code: "Pending",
-            },
-          },
-          "@ondc/org/TAT": selected["@ondc/org/TAT"],
-          "@ondc/org/provider_name": `Seller Business`,
-          start: {
-            location: {
-              id: "L1",
-              descriptor: {
-                name: "Mock Seller NP",
-              },
-              gps: "12.925810,77.583624",
-              address: {
-                building: "my building name or house",
-                city: "Bengaluru",
-                state: "Karnataka",
-                country: "IND",
-                area_code: "560011",
-                locality: "my street name",
-                name: "my house or door or floor",
-              },
-            },
-            contact: {
-              phone: "9594663710",
-              email: "nobody@nomail.com",
-            },
-          },
-          end: f.end,
-        };
-      });
-  }
-  if (action === "on_status") {
-    console.log("######## createFulfillments on_status #########");
-    let fulfillments = sessionData.fulfillments as Fulfillments;
-    const tags = {
-      tags: [
-        {
-          code: "routing",
-          list: [
-            {
-              code: "type",
-              value: "P2P",
-            },
-          ],
-        },
-        {
-          code: "tracking",
-          list: [
-            {
-              code: "gps_enabled",
-              value: "no",
-            },
-            {
-              code: "url_enabled",
-              value: "yes",
-            },
-            {
-              code: "url",
-              value: "https://sellerNP.com/ondc/tracking_url",
-            },
-          ],
-        },
-      ],
-    };
-    let finalFulfillments = sessionData.on_status_fulfillments as Fulfillments;
-    console.log(
-      "sessionData.on_status_fulfillments",
-      JSON.stringify(finalFulfillments)
-    );
-    if (sessionData.on_status_fulfillments.length == 0) {
-      const time = new Date(new Date().getTime() + 10 * 1000 * 60);
-      const start_end = new Date(time.getTime() + 10 * 1000 * 60).toISOString();
-      finalFulfillments = fulfillments
-        // .filter((f) => f.type == "Delivery")
-        .map((f) => {
-          if (f.type == "Delivery" && actionId == "on_status_accepted") {
-            return {
-              ...f,
-              start: {
-                ...f.start,
-                time: {
-                  range: {
-                    start: time.toISOString(),
-                    end: start_end,
-                  },
-                },
-              },
-              end: {
-                ...f.end,
-                time: {
-                  range: {
-                    start: start_end,
-                    end: new Date(
-                      time.getTime() +
-                        1000 * isoDurToSec(f["@ondc/org/TAT"] || "PT0H")
-                    ).toISOString(),
-                  },
-                },
-              },
-              tags: tags.tags,
-            };
-          }
-          return f;
-        });
-    }
-    let state = "Pending";
-    switch (actionId) {
-      case "on_status_packed":
-        state = "Packed";
-        break;
-      case "on_status_accepted":
-        state = "Pending";
-        break;
-      case "on_status_agent_assigned":
-        state = "Agent-assigned";
-        break;
-      case "on_status_picked":
-        state = "Order-picked-up";
-        finalFulfillments = finalFulfillments.map((f) => {
-          if (f.type === "Delivery") {
-            return {
-              ...f,
-              start: {
-                ...f.start,
-                time: {
-                  ...f.start?.time,
-                  timestamp: new Date().toISOString(),
-                },
-              },
-              tags: tags.tags,
-            };
-          }
-          return f;
-        });
-        break;
-      case "on_status_out_for_delivery":
-        state = "Out-for-delivery";
-        console.log("finalFulfillments", JSON.stringify(finalFulfillments));
-        finalFulfillments = finalFulfillments.map((f) => {
-          if (f.type === "Delivery") {
-            return {
-              ...f,
-              tags: tags.tags,
-            };
-          }
-          return f;
-        });
-        console.log("Final Fulfillments: ", JSON.stringify(finalFulfillments));
-        break;
-      case "on_status_order_delivered":
-        state = "Order-delivered";
-        finalFulfillments = finalFulfillments.map((f) => {
-          if (f.type === "Delivery") {
-            return {
-              ...f,
-              end: {
-                ...f.end,
-                time: {
-                  ...f.end?.time,
-                  timestamp: new Date().toISOString(),
-                },
-              },
-              tags: tags.tags,
-            };
-          }
-          return f;
-        });
-        break;
-      case "on_status_rto_delivered":
-        state = "Cancelled";
-        finalFulfillments = finalFulfillments.map((f) => {
-          if (f.type === "RTO") {
-            return {
-              ...f,
-              end: {
-                ...f.end,
-                time: {
-                  ...f.end?.time,
-                  timestamp: new Date().toISOString(),
-                },
-              },
-              tags: tags.tags,
-            };
-          }
-          return f;
-        });
-      case "on_status_ready_to_ship":
-        state = "Packed";
-        finalFulfillments = finalFulfillments.map((f) => {
-          if (f.type === "Buyer-Delivery") {
-            const tags = f.tags || [];
-            return {
-              ...f,
-              tags: [
-                ...tags,
-                {
-                  code: "state",
-                  list: [
-                    {
-                      code: "ready_to_ship",
-                      value: "yes",
-                    },
-                  ],
-                },
-                {
-                  code: "routing",
-                  list: [
-                    {
-                      code: "type",
-                      value: "P2P",
-                    },
-                  ],
-                },
-              ],
-            };
-          }
-          return f;
-        });
-        break;
+		return initFulfillments;
+	}
+	if (action === "on_init") {
+		const fulfillments = sessionData.fulfillments as Fulfillments;
+		return fulfillments.map((f) => {
+			return {
+				id: f.id,
+				type: f.type,
+				end: f.end,
+				tracking: true,
+			};
+		});
+	}
+	if (action === "confirm") {
+		const fulfillments = sessionData.fulfillments as Fulfillments;
+		return fulfillments.map((f) => {
+			const onSelectFulfillment = onSelectFulfillments.find(
+				(of) => of.id === f.id
+			);
+			return {
+				id: f.id,
+				type: f.type,
+				end: {
+					contact: f.end?.contact,
+					person: {
+						name: "mock-person",
+					},
+					location: f.end?.location,
+				},
+				tracking: f.tracking,
+				"@ondc/org/category": onSelectFulfillment?.["@ondc/org/category"],
+				"@ondc/org/TAT": onSelectFulfillment?.["@ondc/org/TAT"],
+			};
+		});
+	}
+	if (action === "on_confirm") {
+		const fulfillments = sessionData.fulfillments as Fulfillments;
+		return fulfillments
+			.filter((f) => onSelectFulfillments.some((sf) => sf.id === f.id))
+			.map((f, index) => {
+				const selected = onSelectFulfillments.find((sf) => sf.id === f.id)!;
 
-      default:
-        break;
-    }
-    finalFulfillments = finalFulfillments.map((f) => {
-      if (f.type === "Delivery") {
-        return {
-          ...f,
-          state: {
-            descriptor: {
-              code: state,
-            },
-          },
-        };
-      }
-      return f;
-    });
-    return finalFulfillments;
-  }
-  if (action === "on_status_rep") {
-    console.log("######## createFulfillments on_status #########");
-    let fulfillments = sessionData.fulfillments as Fulfillments;
-    const tags = {
-      tags: [
-        {
-          code: "routing",
-          list: [
-            {
-              code: "type",
-              value: "P2P",
-            },
-          ],
-        },
-        {
-          code: "tracking",
-          list: [
-            {
-              code: "gps_enabled",
-              value: "no",
-            },
-            {
-              code: "url_enabled",
-              value: "yes",
-            },
-            {
-              code: "url",
-              value: "https://sellerNP.com/ondc/tracking_url",
-            },
-          ],
-        },
-      ],
-    };
-    let finalFulfillments = sessionData.on_status_fulfillments as Fulfillments;
-    if (sessionData.on_status_fulfillments.length <= 0) {
-      const time = new Date(new Date().getTime() + 10 * 1000 * 60);
-      const start_end = new Date(time.getTime() + 10 * 1000 * 60).toISOString();
-      finalFulfillments = fulfillments
-        // .filter((f) => f.type == "Delivery")
-        .map((f) => {
-          if (f.type == "Delivery") {
-            return {
-              ...f,
-              start: {
-                ...f.start,
-                time: {
-                  range: {
-                    start: time.toISOString(),
-                    end: start_end,
-                  },
-                },
-              },
-              end: {
-                ...f.end,
-                time: {
-                  range: {
-                    start: start_end,
-                    end: new Date(
-                      time.getTime() +
-                        1000 * isoDurToSec(f["@ondc/org/TAT"] || "PT0H")
-                    ).toISOString(),
-                  },
-                },
-              },
-              tags: tags.tags,
-            };
-          }
-          return f;
-        });
-    }
-    let state = "Pending";
-    switch (actionId) {
-      case "on_status_packed":
-        state = "Packed";
-        break;
-      case "on_status_accepted":
-        state = "Pending";
-        break;
-      case "on_status_agent_assigned":
-        state = "Agent-assigned";
-        break;
-      case "on_status_picked":
-        state = "Order-picked-up";
-        finalFulfillments = finalFulfillments.map((f) => {
-          if (f.type === "Delivery") {
-            return {
-              ...f,
-              start: {
-                ...f.start,
-                time: {
-                  ...f.start?.time,
-                  timestamp: new Date().toISOString(),
-                },
-              },
-            };
-          }
-          return f;
-        });
-        break;
-      case "on_status_out_for_delivery":
-        state = "Out-for-delivery";
-        break;
-      case "on_status_order_delivered":
-        state = "Order-delivered";
-        finalFulfillments = finalFulfillments.map((f) => {
-          if (f.type === "Delivery") {
-            return {
-              ...f,
-              end: {
-                ...f.end,
-                time: {
-                  ...f.end?.time,
-                  timestamp: new Date().toISOString(),
-                },
-              },
-            };
-          }
-          return f;
-        });
-        break;
-      case "on_status_rto_delivered":
-        state = "Cancelled";
-      case "on_status_ready_to_ship":
-        state = "Packed";
-        finalFulfillments = finalFulfillments.map((f) => {
-          if (f.type === "Buyer-Delivery") {
-            const tags = f.tags || [];
-            return {
-              ...f,
-              tags: [
-                ...tags,
-                {
-                  code: "state",
-                  list: [
-                    {
-                      code: "ready_to_ship",
-                      value: "yes",
-                    },
-                  ],
-                },
-                {
-                  code: "routing",
-                  list: [
-                    {
-                      code: "type",
-                      value: "P2P",
-                    },
-                  ],
-                },
-              ],
-            };
-          }
-          return f;
-        });
-        break;
+				return {
+					id: f.id,
+					type: f.type,
+					tracking: f.tracking,
+					state: {
+						descriptor: {
+							code: "Pending",
+						},
+					},
+					"@ondc/org/TAT": selected["@ondc/org/TAT"],
+					"@ondc/org/provider_name": "Store 1",
+					start: {
+						location: {
+							id: "L1",
+							descriptor: {
+								name: "Store 1",
+							},
+							gps: "19.129076,72.825803",
+							address: {
+								street: "1 & 2,AMAR JYOTI CHS.BLDG.,OPP.NAND KRIPA HALL",
+								locality: "ANDHERI FOUR BUNGLOW AMAR JYOTI CHS",
+								city: "mock-seller-city",
+								state: "mock-state",
+								area_code: "400053",
+							},
+						},
+						contact: {
+							phone: "9594663710",
+							email: "nobody@nomail.com",
+						},
+					},
+					end: f.end,
+				};
+			});
+	}
+	if (action === "on_status") {
+		console.log("######## createFulfillments on_status #########");
+		let fulfillments = sessionData.fulfillments as Fulfillments;
+		const tags = {
+			tags: [
+				{
+					code: "routing",
+					list: [
+						{
+							code: "type",
+							value: "P2H2P",
+						},
+					],
+				},
+				{
+					code: "tracking",
+					list: [
+						{
+							code: "gps_enabled",
+							value: "no",
+						},
+						{
+							code: "url_enabled",
+							value: "yes",
+						},
+						{
+							code: "url",
+							value: "https://sellerNP.com/ondc/tracking_url",
+						},
+					],
+				},
+			],
+		};
+		let finalFulfillments = sessionData.on_status_fulfillments as Fulfillments;
+		if (sessionData.on_status_fulfillments.length <= 0) {
+			const time = new Date(new Date().getTime() + 10 * 1000 * 60);
+			const start_end = new Date(time.getTime() + 10 * 1000 * 60).toISOString();
+      console.log("sessionData.on_status_fulfillments",sessionData.on_status_fulfillments);
+      
+			finalFulfillments = fulfillments
+				// .filter((f) => f.type == "Delivery")
+				.map((f) => {
+					if (f.type == "Delivery") {
+						return {
+							...f,
+							start: {
+								...f.start,
+								time: {
+									range: {
+										start: time.toISOString(),
+										end: start_end,
+									},
+								},
+							},
+							end: {
+								...f.end,
+								time: {
+									range: {
+										start: start_end,
+										end: new Date(
+											time.getTime() +
+												1000 * isoDurToSec(f["@ondc/org/TAT"] || "PT0H")
+										).toISOString(),
+									},
+								},
+							},
+							tags: tags.tags,
+						};
+					}
+					return f;
+				});
+			// fulfillments = fulfillments.filter((f) => f.type != "Delivery");
+			// finalFulfillments = { ...finalFulfillments, ...fulfillments };
+		}
+		let state = "Pending";
+		switch (actionId) {
+			case "on_status_packed":
+				state = "Packed";
+				break;
+			case "on_status_accepted":
+				state = "Pending";
+				break;
+			case "on_status_agent_assigned":
+				state = "Agent-assigned";
 
-      default:
-        break;
-    }
-    finalFulfillments = finalFulfillments.map((f) => {
-      if (f.type === "Delivery") {
-        return {
-          ...f,
-          state: {
-            descriptor: {
-              code: state,
-            },
-          },
-        };
-      }
-      return f;
-    });
-    return finalFulfillments;
-  }
-  return defaultFulfillments;
+				finalFulfillments = finalFulfillments.map((f) => {
+					if (f.type === "Delivery") {
+						return {
+							...f,
+							agent: {
+								name: "mock-agent",
+								phone: "9886098860",
+							},
+						};
+					}
+					return f; // leave other types unchanged
+				});
+				break;
+			case "on_status_picked":
+				state = "Order-picked-up";
+				finalFulfillments = finalFulfillments.map((f) => {
+					if (f.type === "Delivery") {
+						return {
+							...f,
+							start: {
+								...f.start,
+								time: {
+									...f.start?.time,
+									timestamp: new Date().toISOString(),
+								},
+							},
+						};
+					}
+					return f; // leave other types unchanged
+				});
+				break;
+			case "on_status_out_for_delivery":
+				state = "Out-for-delivery";
+				break;
+			case "on_status_order_delivered":
+				state = "Order-delivered";
+				finalFulfillments = finalFulfillments.map((f) => {
+					if (f.type === "Delivery") {
+						return {
+							...f,
+							end: {
+								...f.end,
+								time: {
+									...f.end?.time,
+									timestamp: new Date().toISOString(),
+								},
+							},
+						};
+					}
+					return f; // leave other types unchanged
+				});
+				break;
+			case "on_status_rto_delivered":
+				state = "Cancelled";
+				finalFulfillments = finalFulfillments.map((f) => {
+					if (f.type === "RTO") {
+						return {
+							...f,
+							end: {
+								...f.end,
+								time: {
+									...f.end?.time,
+									timestamp: new Date().toISOString(),
+								},
+							},
+							state: {
+								descriptor: {
+									code: "RTO-Delivered",
+								},
+							},
+						};
+					}
+					if (f.type === "Delivery") {
+						return {
+							...f,
+							state: {
+								descriptor: {
+									code: "Cancelled",
+								},
+							},
+						};
+					}
+					return f; // leave other types unchanged
+				});
+
+			case "on_status_ready_to_ship":
+				state = "Packed";
+				finalFulfillments = finalFulfillments.map((f) => {
+					if (f.type === "Buyer-Delivery") {
+						const tags = f.tags || [];
+						return {
+							...f,
+							tags: [
+								...tags,
+								{
+									code: "state",
+									list: [
+										{
+											code: "ready_to_ship",
+											value: "yes",
+										},
+									],
+								},
+								{
+									code: "routing",
+									list: [
+										{
+											code: "type",
+											value: "P2P",
+										},
+									],
+								},
+							],
+						};
+					}
+					return f; // leave other types unchanged
+				});
+				break;
+
+			default:
+				break;
+		}
+		finalFulfillments = finalFulfillments.map((f) => {
+			if (f.type === "Delivery") {
+				return {
+					...f,
+					state: {
+						descriptor: {
+							code: state,
+						},
+					},
+				};
+			}
+			return f;
+		});
+		return finalFulfillments;
+	}
+	return defaultFulfillments;
 }

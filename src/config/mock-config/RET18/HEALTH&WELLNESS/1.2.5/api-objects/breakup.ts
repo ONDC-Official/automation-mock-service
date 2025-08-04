@@ -117,6 +117,38 @@ export function createQuote(
 
   breakupObject.push(breakup[0]);
   breakupObject.push(breakup[1]);
+  if (sessionData.selected_offers && sessionData.selected_offers.length > 0) {
+		let offerQuote =
+			offerQuotes[
+				sessionData.selected_offers[0].id as keyof typeof offerQuotes
+			];
+
+		const offerId = sessionData.selected_offers[0].id;
+
+		if (offerId === "FLAT50" && totalQuantity > 0) {
+			breakupObject.push(offerQuote);
+			let offerPrice = parseFloat(offerQuote.price.value);
+			if (cancelled) offerPrice = 0;
+			totalPrice += offerPrice;
+		} else if (offerId === "combo1" && itemSet.size >= 3) {
+			breakupObject.push(offerQuote);
+			let offerPrice = parseFloat(offerQuote.price.value);
+			if (cancelled) offerPrice = 0;
+			totalPrice += offerPrice;
+		} else if (
+			offerId === "buy2get3" &&
+			totalQuantity >= 2 &&
+			!sessionData.out_of_stock_item_ids?.includes("I2")
+		) {
+			if (cancelled) {
+				//@ts-ignore
+				offerQuote["@ondc/org/item_quantity"] = {
+					count: 0,
+				};
+			}
+			breakupObject.push(offerQuote);
+		}
+	}
   totalPrice += parseFloat(breakup[0].price.value)
   totalPrice += parseFloat(breakup[1].price.value)
   console.log(`Total Price: ${totalPrice.toFixed(2)}`);
@@ -130,3 +162,153 @@ export function createQuote(
     ttl: "P1D",
   };
 }
+const offerQuotes = {
+	FLAT50: {
+		"@ondc/org/item_id": "FLAT50",
+		title: "Flat discount of ₹50 on minimum cart value of ₹200",
+		"@ondc/org/title_type": "offer",
+		price: {
+			currency: "INR",
+			value: "-50.00",
+		},
+		item: {
+			tags: [
+				{
+					code: "quote",
+					list: [
+						{
+							code: "type",
+							value: "order",
+						},
+					],
+				},
+				{
+					code: "offer",
+					list: [
+						{
+							code: "id",
+							value: "FLAT50",
+						},
+						{
+							code: "type",
+							value: "discount",
+						},
+						{
+							code: "auto",
+							value: "no",
+						},
+						{
+							code: "additive",
+							value: "no",
+						},
+						{
+							code: "item_id",
+							value: "",
+						},
+						{
+							code: "item_value",
+							value: "",
+						},
+						{
+							code: "item_count",
+							value: "",
+						},
+					],
+				},
+			],
+		},
+	},
+	combo1: {
+		"@ondc/org/item_id": "combo1",
+		title: "Flat discount of ₹75 on combo",
+		"@ondc/org/title_type": "offer",
+		price: {
+			currency: "INR",
+			value: "-75.00", // 0 if failed
+		},
+		item: {
+			tags: [
+				{
+					code: "quote",
+					list: [
+						{
+							code: "type",
+							value: "order",
+						},
+					],
+				},
+				{
+					code: "offer",
+					list: [
+						{
+							code: "type",
+							value: "combo",
+						},
+						{
+							code: "additive",
+							value: "no",
+						},
+						{
+							code: "auto",
+							value: "no",
+						},
+					],
+				},
+			],
+		},
+	},
+	buy2get3: {
+		"@ondc/org/item_id": "buy2get3",
+		"@ondc/org/item_quantity": {
+			count: 1, // if i2 is available and total quantity is more than 2
+		},
+		title: "buy 2 items, get 3rd for free or at offered price",
+		"@ondc/org/title_type": "offer",
+		price: {
+			currency: "INR",
+			value: "0.00",
+		},
+		item: {
+			tags: [
+				{
+					code: "quote",
+					list: [
+						{
+							code: "type",
+							value: "order",
+						},
+					],
+				},
+				{
+					code: "offer",
+					list: [
+						{
+							code: "type",
+							value: "buyXgetY",
+						},
+						{
+							code: "auto",
+							value: "yes",
+						},
+						{
+							code: "additive",
+							value: "no",
+						},
+						{
+							code: "item_id",
+							value: "I2",
+						},
+						{
+							code: "item_count",
+							value: "1",
+						},
+						{
+							code: "item_value",
+							value: "0.00",
+						},
+					],
+				},
+			],
+		},
+	},
+};

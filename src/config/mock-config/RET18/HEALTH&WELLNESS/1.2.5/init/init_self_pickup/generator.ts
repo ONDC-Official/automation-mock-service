@@ -1,27 +1,39 @@
 import { SessionData } from "../../../../session-types";
 import { getUpdatedBilling } from "../../api-objects/billing";
-import {
-	createFulfillments,
-	Fulfillments,
-} from "../../api-objects/fulfillments";
+import { createFulfillments } from "../../api-objects/fulfillments";
 import { SelectedItems } from "../../on_select/on_select/generator";
 
-export async function init_generator(
+export async function init_self_pickup_generator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {
-	console.log("SESSION DATA")
-	console.log(sessionData)
 	const items = sessionData.selected_items as SelectedItems;
-	const onSelectData = sessionData.on_select_fulfillments as Fulfillments;
-	console.log("ONSELECTDATA")
-	console.log(onSelectData)
-	const fId = onSelectData.find((f) => f.type === "Delivery")?.id || "F1";
+	const onSelectFulfillments = sessionData.on_select_fulfillments;
+	const selfPickupFulfillment = [
+		onSelectFulfillments.find((f: any) => f.type === "Self-Pickup"),
+	];
+	const selected = sessionData.selected_fulfillments;
+	const defaultEnd = {
+		end: {
+			contact: {
+				email: "nobody@nomail.com",
+				phone: "9898989898",
+			},
+		},
+	};
+	const initFulfillments = selfPickupFulfillment.map((f: any) => {
+		return {
+			id: f.id,
+			type: f.type,
+			end: defaultEnd.end,
+		};
+	});
+	existingPayload.message.order.fulfillments = initFulfillments;
 
 	existingPayload.message.order.items = items.map((item) => {
 		return {
 			id: item.id,
-			fulfillment_id: fId,
+			fulfillment_id: selfPickupFulfillment[0].id,
 			quantity: {
 				count: item.quantity.count,
 			},
@@ -32,13 +44,6 @@ export async function init_generator(
 		existingPayload.message.order.billing,
 		true
 	);
-	existingPayload.message.order.fulfillments = createFulfillments(
-		"init",
-		"init",
-		sessionData,
-		existingPayload.message.order.fulfillments
-	);
-	existingPayload.message.order.provider = sessionData.provider;
 	if (sessionData.selected_offers) {
 		existingPayload.message.order.offers = sessionData.selected_offers.map(
 			(offer: any) => {
@@ -59,5 +64,7 @@ export async function init_generator(
 			}
 		);
 	}
+
 	return existingPayload;
 }
+2;

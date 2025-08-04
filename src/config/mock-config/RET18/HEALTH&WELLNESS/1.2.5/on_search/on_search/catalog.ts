@@ -411,9 +411,17 @@ export const RET18HEALTH125Catalog = {
             type: "Delivery",
             contact: {
               phone: "9876543210",
-              email: "test@gmail.com",
+              email: "test@gmail.com"
             },
           },
+          {
+            id: "F3",
+            type: "Buyer-Delivery",
+            contact: {
+              phone: "9886098860",
+              email: "test@gmail.com"
+            },
+          }
         ],
         creds: [
           {
@@ -533,6 +541,173 @@ export const RET18HEALTH125Catalog = {
             ],
           },
         ],
+        offers: [
+						{
+							id: "FLAT50",
+							descriptor: {
+								code: "discount",
+								images: ["https://sellerNP.com/images/offer2-banner.png"],
+							},
+							location_ids: ["L1"],
+							item_ids: ["I1", "I2", "I3"],
+							time: {
+								label: "valid",
+								range: {
+									start: "2024-12-23T06:55:45.035Z",
+									end: "2030-12-23T08:12:15.033Z",
+								},
+							},
+							tags: [
+								{
+									code: "qualifier",
+									list: [
+										{
+											code: "min_value",
+											value: "100.00",
+										},
+									],
+								},
+								{
+									code: "benefit",
+									list: [
+										{
+											code: "value_type",
+											value: "amount",
+										},
+										{
+											code: "value",
+											value: "-50.00",
+										},
+									],
+								},
+								{
+									code: "meta",
+									list: [
+										{
+											code: "additive",
+											value: "no",
+										},
+										{
+											code: "auto",
+											value: "no",
+										},
+									],
+								},
+							],
+						},
+						{
+							id: "buy2get3",
+							descriptor: {
+								code: "buyXgetY",
+								images: ["https://snp.com/images/offer1-banner.webp"],
+							},
+							location_ids: ["L1"],
+							category_ids: [],
+							item_ids: ["I1", "I2", "I3"],
+							time: {
+								label: "valid",
+								range: {
+									start: "2025-01-01T16:00:00.000Z",
+									end: "2030-01-01T23:00:00.000Z",
+								},
+							},
+							tags: [
+								{
+									code: "qualifier",
+									list: [
+										{
+											code: "item_count",
+											value: "2",
+										},
+									],
+								},
+								{
+									code: "benefit",
+									list: [
+										{
+											code: "item_count",
+											value: "1",
+										},
+										{
+											code: "item_id",
+											value: "I2",
+										},
+										{
+											code: "item_value",
+											value: "0.00",
+										},
+									],
+								},
+								{
+									code: "meta",
+									list: [
+										{
+											code: "additive",
+											value: "no",
+										},
+										{
+											code: "auto",
+											value: "no",
+										},
+									],
+								},
+							],
+						},
+						// {
+						// 	id: "combo1",
+						// 	descriptor: {
+						// 		code: "combo",
+						// 		images: ["https://snp.com/images/offer1-banner.webp"],
+						// 	},
+						// 	location_ids: ["L1"],
+						// 	category_ids: ["C1"],
+						// 	item_ids: ["I1", "I2", "I3"],
+						// 	time: {
+						// 		label: "valid",
+						// 		range: {
+						// 			start: "2025-01-01T16:00:00.000Z",
+						// 			end: "2030-01-01T23:00:00.000Z",
+						// 		},
+						// 	},
+						// 	tags: [
+						// 		{
+						// 			code: "qualifier",
+						// 			list: [
+						// 				{
+						// 					code: "item_id",
+						// 					value: "I1,I2,I3",
+						// 				},
+						// 			],
+						// 		},
+						// 		{
+						// 			code: "benefit",
+						// 			list: [
+						// 				{
+						// 					code: "value_type",
+						// 					value: "amount",
+						// 				},
+						// 				{
+						// 					code: "value",
+						// 					value: "-75.00",
+						// 				},
+						// 			],
+						// 		},
+						// 		{
+						// 			code: "meta",
+						// 			list: [
+						// 				{
+						// 					code: "additive",
+						// 					value: "no",
+						// 				},
+						// 				{
+						// 					code: "auto",
+						// 					value: "no",
+						// 				},
+						// 			],
+						// 		},
+						// 	],
+						// },
+					]
       },
     ],
   },

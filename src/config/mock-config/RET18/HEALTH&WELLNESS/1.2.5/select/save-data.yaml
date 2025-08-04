@@ -4,3 +4,4 @@ save-data:
   selected_items: $.message.order.items[*]
   selected_fulfillments: $.message.order.fulfillments[*]
   provider: $.message.order.provider
+  selected_offers: $.message.order.offers[*]

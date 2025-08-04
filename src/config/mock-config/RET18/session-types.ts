@@ -58,6 +58,7 @@ export type SessionData = {
   update_fulfillments?: any;
   np_type?: string;
   bap_features?: string[];
+  selected_offers: any | undefined;
 };
 
 export type BecknContext = {

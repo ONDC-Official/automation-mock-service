@@ -24,6 +24,14 @@ import { on_status_order_delivered_rep_generator } from "./on_status/on_status_o
 
 import { select_out_of_stock_generator } from "./select/select_out_of_stock/generator";
 import { on_select_out_of_stock_generator } from "./on_select/on_select_out_of_stock/generator";
+import { on_select_slotted_delivery_generator } from "./on_select/on_select_slotted_delivery/generator";
+import { init_slotted_delivery_generator } from "./init/init_slotted_delivery/generator";
+import { on_init_slotted_delivery_generator } from "./on_init/on_init_slotted_delivery/generator";
+import { on_select_self_pickup_generator } from "./on_select/on_select_self_pickup/generator";
+import { init_self_pickup_generator } from "./init/init_self_pickup/generator";
+import { on_init_self_pickup_generator } from "./on_init/on_init_self_pickup/generator";
+import { on_status_self_pickup_packed_generator } from "./on_status/on_status_self_pick_packed/generator";
+import { on_status_self_pickup_picked_generator } from "./on_status/on_status_self_pick_picked/generator";
 
 import { cancel_generator } from "./cancel/cancel/generator";
 import { cancel_return_request_generator } from "./cancel/cancel_return_request/generator";
@@ -41,6 +49,11 @@ import { on_update_return_delivered_generator } from "./on_update/on_update_retu
 import { update_partial_cancel_settlement_generator } from "./update/update_partial_cancel_settlement/generator";
 import { update_reverse_qc_generator } from "./update/update_reverse_qc/generator";
 import { update_reverse_qc_settlement_generator } from "./update/update_reverse_qc_settlement/generator";
+import { update_buyer_instructions } from "./update/update_buyer_instructions/generator";
+import { on_update_buyer_instructions } from "./on_update/on_update_buyer_instructions/generator";
+import { update_delivery_address } from "./update/update_delivery_address/generator";
+import { on_update_delivery_address } from "./on_update/on_update_delivery_address/generator";
+import { on_update_delivery_auth } from "./on_update/on_update_delivery_auth/generator";
 
 import { init_cod_generator } from "./init/init_cod/generator";
 import { on_init_cod_generator } from "./on_init/on_init_cod/generator";
@@ -56,6 +69,12 @@ import { cancel_yes_generator } from "./cancel/cancel_yes/generator";
 import { update_settlement_cancel_generator } from "./update/update_settlement_cancel/generator";
 import { on_cancel_yes_generator } from "./on_cancel/on_cancel_yes/generator";
 import { on_status_out_for_delivery_force_generator } from "./on_status/on_status_out_for_delivery_force/generator";
+import { on_select_buyer_delivery_generator } from "./on_select/on_select_buyer_delivery/generator";
+import { init_buyer_delivery_generator } from "./init/init_buyer_delivery/generator";
+import { on_init_buyer_delivery_generator } from "./on_init/on_init_buyer_delivery/generator";
+import { on_status_ready_to_ship_generator } from "./on_status/on_status_ready_to_ship/generator";
+import { update_picked_up_generator } from "./update/update_picked_up/generator";
+import { update_delivered_generator } from "./update/update_delivered/generator";
 
 export async function Generator(
   action_id: string,
@@ -115,6 +134,50 @@ export async function Generator(
         existingPayload,
         sessionData
       );
+    case "on_select_slotted_delivery":
+			return on_select_slotted_delivery_generator(existingPayload, sessionData);
+		case "init_slotted_delivery":
+			return init_slotted_delivery_generator(existingPayload, sessionData);
+		case "on_init_slotted_delivery":
+			return on_init_slotted_delivery_generator(existingPayload, sessionData);
+    case "on_select_buyer_delivery":
+			return on_select_buyer_delivery_generator(existingPayload, sessionData);
+		case "init_buyer_delivery":
+			return init_buyer_delivery_generator(existingPayload, sessionData);
+		case "on_init_buyer_delivery":
+			return on_init_buyer_delivery_generator(existingPayload, sessionData);
+		case "on_status_ready_to_ship":
+			return on_status_ready_to_ship_generator(existingPayload, sessionData);
+		case "update_picked_up":
+			return update_picked_up_generator(existingPayload, sessionData);
+		case "update_delivered":
+			return update_delivered_generator(existingPayload, sessionData);
+    case "on_select_self_pickup":
+			return on_select_self_pickup_generator(existingPayload, sessionData);
+    case "init_self_pickup":
+			return init_self_pickup_generator(existingPayload, sessionData);
+		case "on_init_self_pickup":
+			return on_init_self_pickup_generator(existingPayload, sessionData);
+		case "on_status_self_pick_packed":
+			return on_status_self_pickup_packed_generator(
+				existingPayload,
+				sessionData
+			);
+		case "on_status_self_pick_picked":
+			return on_status_self_pickup_picked_generator(
+				existingPayload,
+				sessionData
+			);
+    case "update_buyer_instructions":
+			return update_buyer_instructions(existingPayload, sessionData);
+		case "on_update_buyer_instructions":
+			return on_update_buyer_instructions(existingPayload, sessionData);
+		case "update_delivery_address":
+			return update_delivery_address(existingPayload, sessionData);
+		case "on_update_delivery_address":
+			return on_update_delivery_address(existingPayload, sessionData);
+		case "on_update_delivery_auth":
+			return on_update_delivery_auth(existingPayload, sessionData);
     case "select_out_of_stock":
       return select_out_of_stock_generator(existingPayload, sessionData);
     case "on_select_out_of_stock":
