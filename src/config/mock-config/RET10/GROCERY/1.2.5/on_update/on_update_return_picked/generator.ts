@@ -94,7 +94,7 @@ export async function on_update_picked_generator(
 						location: deliveryFulfillment.end?.location,
 						time: {
 							...f.start?.time,
-							timeStamp: new Date().toISOString(),
+							timestamp: new Date().toISOString(),
 						},
 					},
 					tags: [...tags, ...quoteTrails],

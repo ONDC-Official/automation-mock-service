@@ -109,6 +109,9 @@ import { MockOnUpdateReturnDelivered } from "./GROCERY/1.2.5/on_update/on_update
 import { MockOnUpdateReturnDelivered173 } from "./GROCERY/1.2.5/on_update/on_update_return_delivered_173/mock";
 import { MockOnUpdateReturnInit } from "./GROCERY/1.2.5/on_update/on_update_return_init/mock";
 import { MockOnUpdateReturnPicked } from "./GROCERY/1.2.5/on_update/on_update_return_picked/mock";
+import { MockCancelForce } from "./GROCERY/1.2.5/cancel/cancel_force/mock";
+import { MockOnCancelForce } from "./GROCERY/1.2.5/on_cancel/on_cancel_force/mock";
+
 
 export function getMockAction(actionId: string) {
 	console.log('actionId', actionId)
@@ -161,7 +164,8 @@ export function getMockAction(actionId: string) {
 
 		case "cancel":
 			return new MockCancel();
-
+		case "cancel_force":
+			return new MockCancelForce();
 		case "track":
 			return new MockTrack();
 
@@ -258,6 +262,8 @@ export function getMockAction(actionId: string) {
 			return new MockOnCancel();
 		case "on_cancel_rto":
 			return new MockOnCancelRto();
+		case "on_cancel_force":
+			return new MockOnCancelForce();
 
 		case "on_track":
 			return new MockOnTrack();

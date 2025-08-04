@@ -86,9 +86,6 @@ export class MockOnConfirm127 extends MockAction {
 		if (!sessionData.quote) {
 			return { valid: false, message: "quote is required" };
 		}
-		if (!sessionData.bpp_terms || !Array.isArray(sessionData.bpp_terms)) {
-			return { valid: false, message: "bpp_terms array is required" };
-		}
 		return { valid: true };
 	}
 }

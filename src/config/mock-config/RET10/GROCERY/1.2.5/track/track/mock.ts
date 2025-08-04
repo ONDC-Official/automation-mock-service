@@ -41,10 +41,6 @@ export class MockTrack extends MockAction {
 			return { valid: false, message: "Message is required" };
 		}
 
-		if (!targetPayload.message.tracking) {
-			return { valid: false, message: "Message.tracking is required" };
-		}
-
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

@@ -19,6 +19,7 @@ export async function on_update_buyer_instructions(
     );
 
     if (fulfillment && fulfillment.end && update.end?.instructions) {
+      delete update.end.instructions.additional_desc.url
       fulfillment.end.instructions = update.end.instructions;
     }
   });

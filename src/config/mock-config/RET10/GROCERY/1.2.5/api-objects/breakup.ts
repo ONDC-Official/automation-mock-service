@@ -82,8 +82,22 @@ export function createQuote(
 		) {
 			continue;
 		}
-		const catalogItem = catalogItems.find((i) => i.id === selectedItem.id);
-		if (!catalogItem) continue; // Skip if item not found in catalog
+		let catalogItem: any = catalogItems.find((i) => i.id === selectedItem.id);
+		// if (!catalogItem) continue; // Skip if item not found in catalog
+		if (!catalogItem) { //If item not found, create a mock item
+			catalogItem = {
+				id: selectedItem.id,
+				descriptor: {
+					name: `Product: ${selectedItem.id}`,
+				},
+				price: {
+					value: "100.00",
+				},
+				quantity: {
+					count: selectedItem.count.toString(),
+				},
+			};
+		}
 
 		const quantity = cancelled ? 0 : selectedItem.count ?? 1;
 		const price = parseFloat(catalogItem.price.value) * quantity;

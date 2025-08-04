@@ -93,6 +93,7 @@ order:
             - code: updated_at
               value: "2024-08-08T10:11:08.138Z"
     - id: e30fcb40-27f0-416f-b7fb-9a48e044caa0
+      "@ondc/org/provider_name": Logistics Business
       type: RTO
       state:
         descriptor:

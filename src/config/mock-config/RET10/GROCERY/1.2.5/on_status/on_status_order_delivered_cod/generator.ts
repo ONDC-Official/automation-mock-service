@@ -16,13 +16,13 @@ export async function on_status_order_delivered_cod_generator(
 		generalPayload.message.order.fulfillments
 	);
 	generalPayload.message.order.payment = {
-		// ...generalPayload.message.order.payment,
+		...generalPayload.message.order.payment,
 		params: {
 			...generalPayload.message.order.payment.params,
 			transaction_id: generateSixDigitCode(),
 		},
 		time: {
-			timeStamp: new Date().toISOString(),
+			timestamp: new Date().toISOString(),
 		},
 		status: "PAID",
 	};

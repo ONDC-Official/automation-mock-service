@@ -62,10 +62,6 @@ export class MockSearchInc extends MockAction {
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		if (!sessionData.inc_mode) {
-			return { valid: false, message: "Inc mode is required for search(inc) action" };
-		}
-
 		return { valid: true };
 	}
 }

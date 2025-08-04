@@ -41,20 +41,6 @@ export class MockCancelBreach extends MockAction {
 			return { valid: false, message: "Message is required" };
 		}
 
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
-
-		const { order } = targetPayload.message;
-
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
-
-		if (!order.cancellation && !targetPayload.message.cancellation) {
-			return { valid: false, message: "Cancellation object is required" };
-		}
-
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
@@ -64,10 +50,6 @@ export class MockCancelBreach extends MockAction {
 
 		if (!sessionData.order_id) {
 			return { valid: false, message: "Order ID is required for cancel action" };
-		}
-
-		if (!sessionData.cancellation_reason_id) {
-			return { valid: false, message: "Cancellation reason ID is required for cancel action" };
 		}
 
 		return { valid: true };

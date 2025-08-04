@@ -81,9 +81,6 @@ export class MockOnConfirm extends MockAction {
 		if (!sessionData.quote) {
 			return { valid: false, message: "quote is required" };
 		}
-		if (!sessionData.bpp_terms || !Array.isArray(sessionData.bpp_terms)) {
-			return { valid: false, message: "bpp_terms array is required" };
-		}
 		if (!sessionData.order_created_at) {
 			return { valid: false, message: "order_created_at is required" };
 		}
@@ -92,9 +89,6 @@ export class MockOnConfirm extends MockAction {
 		}
 		if (!sessionData.payment) {
 			return { valid: false, message: "payment is required" };
-		}
-		if (!sessionData.bap_terms || !Array.isArray(sessionData.bap_terms)) {
-			return { valid: false, message: "bap_terms array is required" };
 		}
 		if (!sessionData.on_select_fulfillments || !Array.isArray(sessionData.on_select_fulfillments)) {
 			return { valid: false, message: "on_select_fulfillments array is required" };

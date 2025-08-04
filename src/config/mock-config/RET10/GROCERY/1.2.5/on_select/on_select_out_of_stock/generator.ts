@@ -25,20 +25,19 @@ export async function on_select_out_of_stock_generator(
 	let totalPrice = 0;
 	const breakupObject = [];
 	const randomOutOfStockItem = getRandomItem(
-		catalogItems.map((item) => item.id)
+		selectedItemsObj.map((item) => item.id)
 	);
-	for (const i of catalogItems) {
+	for (const i of selectedItemsObj) {
 		const quantity =
 			selectedItemsObj?.find((item) => item.id === i.id)?.quantity.count ?? 1;
-		const price = parseFloat(i.price.value) * quantity;
-		console.log("Price: ", price, i.price.value, i.id);
+		const price = parseFloat("100.00") * quantity;
 		totalPrice += price;
 		const item = JSON.parse(JSON.stringify(breakupItem));
 		item["@ondc/org/item_id"] = i.id;
-		item.title = i.descriptor.name;
+		item.title = `Product: ${i.id}`;
 		item["@ondc/org/item_quantity"].count = quantity;
 		item.price.value = `${price.toFixed(2)}`;
-		item.item.price.value = i.price.value;
+		item.item.price.value = "100.00"
 		breakupObject.push(item);
 		if (
 			sessionData.out_of_stock_item_ids?.includes(i.id) ||

@@ -13,8 +13,14 @@ export async function init_multi_fulfillment_generator(
 	const selectedItems = sessionData.selected_items as SelectedItems;
 
 	const selectedFids: Set<string> = new Set();
-	existingPayload.message.order.items = selectedItems.map((selectedItem) => {
-		const item = items.find((item: any) => selectedItem.id === item.id);
+		existingPayload.message.order.items = selectedItems.map((selectedItem, index) => {
+		let item = items.find((item: any) => selectedItem.id === item.id);
+		if(!item) {
+			item = {
+				fulfillment_ids: [...items[index].fulfillment_ids],
+				...selectedItem
+			}
+		}
 		const fId = getRandomItem(
 			item.fulfillment_ids || [item.fulfillment_id]
 		) as string;

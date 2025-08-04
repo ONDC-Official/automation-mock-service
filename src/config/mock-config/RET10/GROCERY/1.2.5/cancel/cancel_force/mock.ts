@@ -43,37 +43,15 @@ export class MockCancelForce extends MockAction {
 			return { valid: false, message: "Message is required" };
 		}
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
-
-		const { order } = targetPayload.message;
-
-		// Check for order ID
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
-
-		// Check for cancellation object
-		if (!order.cancellation && !targetPayload.message.cancellation) {
-			return { valid: false, message: "Cancellation object is required" };
-		}
-
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		// Cancel requires transaction_id, order_id, and cancellation_reason_id
 		if (!sessionData.transaction_id) {
 			return { valid: false, message: "Transaction ID is required for cancel action" };
 		}
 
 		if (!sessionData.order_id) {
 			return { valid: false, message: "Order ID is required for cancel action" };
-		}
-
-		if (!sessionData.cancellation_reason_id) {
-			return { valid: false, message: "Cancellation reason ID is required for cancel action" };
 		}
 
 		return { valid: true };

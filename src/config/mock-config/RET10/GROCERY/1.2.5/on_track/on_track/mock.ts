@@ -41,18 +41,11 @@ export class MockOnTrack extends MockAction {
 			return { valid: false, message: "Message is required" };
 		}
 
-		if (!targetPayload.message.tracking) {
-			return { valid: false, message: "Message.tracking is required" };
-		}
-
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		if (!sessionData.transaction_id) {
 			return { valid: false, message: "transaction_id is required" };
-		}
-		if (!sessionData.order || typeof sessionData.order !== 'object') {
-			return { valid: false, message: "order object is required" };
 		}
 		return { valid: true };
 	}

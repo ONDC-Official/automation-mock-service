@@ -66,9 +66,6 @@ export class MockOnStatusOrderDelivered154 extends MockAction {
 		if (!sessionData.transaction_id) {
 			return { valid: false, message: "transaction_id is required" };
 		}
-		if (!sessionData.order || typeof sessionData.order !== 'object') {
-			return { valid: false, message: "order object is required" };
-		}
 		if (!sessionData.order_id) {
 			return { valid: false, message: "order_id is required" };
 		}

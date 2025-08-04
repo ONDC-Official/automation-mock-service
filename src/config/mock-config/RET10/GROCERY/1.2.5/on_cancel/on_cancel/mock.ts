@@ -61,9 +61,6 @@ export class MockOnCancel extends MockAction {
 		if (!sessionData.transaction_id) {
 			return { valid: false, message: "transaction_id is required" };
 		}
-		if (!sessionData.order || typeof sessionData.order !== 'object') {
-			return { valid: false, message: "order object is required" };
-		}
 		if (!sessionData.cancellation_reason_id) {
 			return { valid: false, message: "cancellation_reason_id is required" };
 		}

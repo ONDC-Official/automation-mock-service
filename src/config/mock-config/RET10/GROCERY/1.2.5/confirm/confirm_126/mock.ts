@@ -74,14 +74,6 @@ export class MockConfirm126 extends MockAction {
 			return { valid: false, message: "Transaction ID is required for confirm action" };
 		}
 
-		if (!sessionData.order_id) {
-			return { valid: false, message: "Order ID is required for confirm action" };
-		}
-
-		if (!sessionData.payment) {
-			return { valid: false, message: "Payment is required for confirm action" };
-		}
-
 		// Additional required session data checks
 		if (!sessionData.quote) {
 			return { valid: false, message: "Quote is required for confirm action" };
@@ -97,10 +89,6 @@ export class MockConfirm126 extends MockAction {
 
 		if (!sessionData.provider) {
 			return { valid: false, message: "Provider is required for confirm action" };
-		}
-
-		if (!sessionData.bpp_terms || !Array.isArray(sessionData.bpp_terms)) {
-			return { valid: false, message: "BPP terms array is required for confirm action" };
 		}
 
 		return { valid: true };

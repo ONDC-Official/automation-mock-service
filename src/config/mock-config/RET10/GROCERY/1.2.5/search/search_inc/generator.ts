@@ -6,7 +6,7 @@ export async function search_inc_generator(
 ) {
 	delete existingPayload.context.bpp_uri;
 	delete existingPayload.context.bpp_id;
-	if (sessionData.inc_mode) {
+	if (sessionData?.inc_mode !== null) {
 		existingPayload.message.intent.tags[0].list[0].value = "stop";
 	}
 	existingPayload.context.city = "*";
