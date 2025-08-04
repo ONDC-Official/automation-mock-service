@@ -1,4 +1,3 @@
-import { add } from "winston";
 import { SessionData } from "../../session-types";
 const item_tags = [
   {
@@ -86,7 +85,7 @@ function transformTags(tags: any, quantity: any) {
   for (const tag of updatedTags) {
     if (tag.descriptor.code === "INFO" && Array.isArray(tag.list)) {
       for (const item of tag.list) {
-        if (["TOTAL_HOURS", "TOTAL_DISTANCE"].includes(item.descriptor.code)) {
+        if (["TOTAL_HOURS", "TOTAL_DISTANCE"].indexOf(item.descriptor.code) !== -1) {
           const originalValue = parseFloat(item.value);
           if (!isNaN(originalValue)) {
             item.value = (originalValue * quantity).toString();
@@ -130,8 +129,8 @@ function generateQuoteFromItems(items: any[]) {
             title: "DISTANCE_FARE",
           },
         ];
-      })
-      .flat(),
+      }),
+      // .flat(),
 
     price: {
       currency: items[0].price.currency,
