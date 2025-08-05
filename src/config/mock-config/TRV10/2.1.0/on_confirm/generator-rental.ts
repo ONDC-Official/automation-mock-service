@@ -19,5 +19,9 @@ export async function onConfirmMultipleStopsRentalGenerator(existingPayload: any
     existingPayload = await onConfirmMultipleStopsGenerator(existingPayload,sessionData)
     existingPayload.message.order = updateFulfillmentStatus(existingPayload.message.order)
     delete existingPayload.message.order.fulfillments[0]["agent"]
+    existingPayload.message.order.fulfillments[0].stops = existingPayload.message.order.fulfillments[0].stops.map((stop: any) => {
+        const { authorization, ...rest } = stop; 
+        return rest;
+    });
     return existingPayload;
 }

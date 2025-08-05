@@ -129,8 +129,7 @@ function generateQuoteFromItems(items: any[]) {
             title: "DISTANCE_FARE",
           },
         ];
-      }),
-      // .flat(),
+      }).reduce((acc, val) => acc.concat(val), []),
 
     price: {
       currency: items[0].price.currency,

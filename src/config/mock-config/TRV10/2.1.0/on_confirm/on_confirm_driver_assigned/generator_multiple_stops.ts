@@ -1,4 +1,3 @@
-import { randomBytes } from "crypto";
 import { SessionData } from "../../../session-types";
 
 const agent  = {
