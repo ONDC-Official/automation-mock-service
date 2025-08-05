@@ -1,4 +1,4 @@
-import search from "../generated/default-selector/api-tests/search";
+import search from "../config/mock-config/generated/default-selector/api-tests/search";
 
 const searchPayload = {
 	context: {
