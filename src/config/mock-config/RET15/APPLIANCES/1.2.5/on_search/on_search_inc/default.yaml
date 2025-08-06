@@ -1,0 +1,88 @@
+catalog:
+  bpp/providers:
+    - id: P1
+      items:
+        - id: I1
+          time:
+            label: enable
+            timestamp: '2024-08-12T05:30:48.998Z'
+          rating: '4'
+          descriptor:
+            name: Whirlpool 7.5 kg Fully Automatic Washing Machine
+            symbol: https://sellerNP.com/images/i1.png
+            short_desc: Fully Automatic Top Load Washing Machine with 7.5 kg capacity
+            long_desc: Whirlpool 7.5 kg Fully Automatic Washing Machine with 6th Sense Technology
+            images:
+            - https://sellerNP.com/images/i1.png
+            code: 3:8904123051111
+          quantity:
+            unitized:
+              measure:
+                unit: unit
+                value: '1'
+            available:
+              count: '99'
+            maximum:
+              count: '8'
+          price:
+            currency: INR
+            value: '35000'
+            maximum_value: '35000'
+          category_id: Washing Machine
+          location_id: L1
+          fulfillment_id: F1
+          "@ondc/org/returnable": true
+          "@ondc/org/cancellable": true
+          "@ondc/org/available_on_cod": false
+          "@ondc/org/time_to_ship": P2D
+          "@ondc/org/seller_pickup_return": true
+          "@ondc/org/return_window": P7D
+          "@ondc/org/contact_details_consumer_care": Seller Business,test@gmail.com,9876543210
+          "@ondc/org/statutory_reqs_packaged_commodities":
+            manufacturer_or_packer_name: Seller Business
+            manufacturer_or_packer_address: Seller Building Address, Jayanagar, Bengaluru, Karnataka, India - 560011
+            common_or_generic_name_of_commodity: Whirlpool Washing Machine
+            month_year_of_manufacture_packing_import: NA
+          tags:
+            - code: origin
+              list:
+              - code: country
+                value: IND
+            - code: attribute
+              list:
+              - code: brand
+                value: Whirlpool 7.5 kg Fully Automatic Washing Machine
+              - code: weight
+                value: '32'
+              - code: model
+                value: Stainwash Ultra
+              - code: colour
+                value: '#EEF6F7'
+              - code: colour_name
+                value: catskill white
+              - code: special_feature
+                value: frequency
+              - code: breadth
+                value: '12.3'
+              - code: length
+                value: '18.5'
+              - code: height
+                value: '101.5'
+              - code: includes
+                value: Power Cord, Inlet Pipe
+              - code: type
+                value: full-auto
+              - code: refurbished
+                value: no
+              - code: warranty
+                value: '4'
+              - code: energy_rating
+                value: '3'
+              - code: extended_warranty
+                value: '3'
+              - code: installation_detail
+                value: Available
+              - code: wattage
+                value: '720'
+              - code: voltage
+                value: '230'
