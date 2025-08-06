@@ -1,0 +1,599 @@
+export const RET16HOMEKITCHEN125Catalog = {
+  catalog: {
+    "bpp/fulfillments": [
+      {
+        id: "F1",
+        type: "Delivery",
+      },
+      {
+        id: "F2",
+        type: "Self-Pickup"
+      },
+    ],
+    "bpp/descriptor": {
+      name: "Mock Seller NP",
+      symbol: "https://sellerNP.com/images/np.png",
+      short_desc: "Seller Marketplace",
+      long_desc: "Seller Marketplace",
+      images: ["https://sellerNP.com/images/np.png"],
+      tags: [
+        {
+          code: "bpp_terms",
+          list: [
+            {
+              code: "np_type",
+              value: "MSN",
+            },
+          ],
+        },
+      ],
+    },
+    "bpp/providers": [
+      {
+        id: "P1",
+        time: {
+          label: "enable",
+          timestamp: "2024-08-13T06:46:19.736Z",
+        },
+        rating:"4",
+        ttl: "PT24H",
+        locations: [
+          {
+            id: "L1",
+            gps: "12.925810,77.583624",
+            address: {
+              city: "Bengaluru",
+              state: "Karnataka",
+              area_code: "560011",
+              street: "Jayanagar",
+              locality: "Jayanagar",
+            },
+            time: {
+              label: "enable",
+              timestamp: "2024-08-13T06:46:19.736Z",
+              days: "1,2,3,4,5",
+              schedule: {
+                holidays: [],
+              },
+              range: {
+                start: "0000",
+                end: "2359",
+              },
+            },
+            circle: {
+              gps: "12.925810,77.583624",
+              radius: {
+                unit: "km",
+                value: "5",
+              },
+            },
+          },
+        ],
+        descriptor: {
+          name: "Store 1",
+          symbol: "https://sellerNP.com/images/store1.png",
+          short_desc: "Store 1",
+          long_desc: "Store 1",
+          images: ["https://sellerNP.com/images/store1.png"],
+        },
+        categories: [
+          {
+            id: "V1",
+            descriptor: {
+              name: "Variant Group 1",
+            },
+            tags: [
+              {
+                code: "type",
+                list: [
+                  {
+                    code: "type",
+                    value: "variant_group",
+                  },
+                ],
+              },
+              {
+                code: "attr",
+                list: [
+                  {
+                    code: "name",
+                    value: "item.tags.attribute.colour",
+                  },
+                  {
+                    code: "seq",
+                    value: "1",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        items: [
+          {
+            id: "I1",
+            rating:"4",
+            time: {
+              label: "enable",
+              timestamp: "2024-08-12T05:30:48.998Z",
+            },
+            descriptor: {
+              name: "Scotch brite Floor Mop",
+              symbol: "https://sellerNP.com/images/i1.png",
+              short_desc:
+                "Scotch brite Cotton Handle Mop is perfect for cleaning your house.",
+              long_desc:
+                "This is a super absorbent mop  it is Durable and long lasting. It is made of quality cotton which makes it easy for you to clean and maintain it. The telescopic handle to make cleaning easy without bending. It helps to clean easily and removes hard stains without any scratches.",
+              images: ["https://sellerNP.com/images/i1.png"],
+              code: "3:9501101530007",
+            },
+            quantity: {
+              unitized: {
+                measure: {
+                  unit: "unit",
+                  value: "1",
+                },
+              },
+              available: {
+                count: "99",
+              },
+              maximum: {
+                count: "8",
+              },
+            },
+            price: {
+              currency: "INR",
+              value: "2260",
+              maximum_value: "2260",
+            },
+            category_id: "Cleaning Supplies",
+            location_id: "L1",
+            fulfillment_id: "F1",
+            "@ondc/org/returnable": true,
+            "@ondc/org/cancellable": true,
+            "@ondc/org/available_on_cod": false,
+            "@ondc/org/time_to_ship": "P2D",
+            "@ondc/org/seller_pickup_return": true,
+            "@ondc/org/return_window": "P7D",
+            "@ondc/org/contact_details_consumer_care":
+              "Seller Business,test@gmail.com,9876543210",
+            "@ondc/org/statutory_reqs_packaged_commodities": {
+              manufacturer_or_packer_name: "Seller Business",
+              manufacturer_or_packer_address:
+                "Seller Building Address, Jayanagar, Bengaluru, Karnataka, India - 560011",
+              common_or_generic_name_of_commodity: "Cleaning Supplies",
+              month_year_of_manufacture_packing_import: "NA",
+            },
+            tags: [
+              {
+                code: "origin",
+                list: [
+                  {
+                    code: "country",
+                    value: "IND",
+                  },
+                ],
+              },
+              {
+                code: "attribute",
+                "list": [
+                  {
+                    "code": "brand",
+                    "value": "Scotch brite Floor Mop - Cotton Cloth, With Rod, Multicolour, 1 pc"
+                  },
+                  {
+                    "code": "colour",
+                    "value": "#00FF00"
+                  },
+                  {
+                    "code": "colour_name",
+                    "value": "green"
+                  },
+                  {
+                    "code": "material",
+                    "value": "polycarbonate"
+                  }
+                ]
+              },
+            ],
+          },
+          {
+            id: "I2",
+            rating:"3",
+            time: {
+              label: "enable",
+              timestamp: "2024-08-12T10:27:48.913Z",
+            },
+            descriptor: {
+              name: "Polyset Heavy Unbreakable Bucket",
+              symbol: "https://sellerNP.com/images/i1.png",
+              short_desc:
+                "Polyset Heavy Unbreakable Bucket, Tulip Printed Bucket, Multicolour",
+              long_desc:
+                "This elegant looking bucket with made up of high-quality Virgin plastic serves as a perfect bucket for household application. The exquisite material quality provides a rugged product to users and also a longer life to the bucket which enhances the aesthetics and usability.",
+              images: ["https://sellerNP.com/images/i1.png"],
+              code: "3:7845632198471",
+            },
+            quantity: {
+              unitized: {
+                measure: {
+                  unit: "unit",
+                  value: "1",
+                },
+              },
+              available: {
+                count: "99",
+              },
+              maximum: {
+                count: "10",
+              },
+            },
+            price: {
+              currency: "INR",
+              value: "2460",
+              maximum_value: "2460",
+            },
+            category_id: "Cleaning Supplies",
+            location_id: "L1",
+            parent_item_id:"V1",
+            fulfillment_id: "F1",
+            "@ondc/org/returnable": true,
+            "@ondc/org/cancellable": true,
+            "@ondc/org/available_on_cod": false,
+            "@ondc/org/time_to_ship": "P2D",
+            "@ondc/org/seller_pickup_return": true,
+            "@ondc/org/return_window": "P7D",
+            "@ondc/org/contact_details_consumer_care":
+              "Seller Business,test@gmail.com,9876543210",
+            "@ondc/org/statutory_reqs_packaged_commodities": {
+              manufacturer_or_packer_name: "Seller Business",
+              manufacturer_or_packer_address:
+                "Seller Building Address, Jayanagar, Bengaluru, Karnataka, India - 560011",
+              common_or_generic_name_of_commodity: "Bucket",
+              month_year_of_manufacture_packing_import: "NA",
+            },
+            tags: [
+              {
+                code: "origin",
+                list: [
+                  {
+                    code: "country",
+                    value: "IND",
+                  },
+                ],
+              },
+              {
+                code: "attribute",
+                "list": [
+                  {
+                    "code": "brand",
+                    "value": "Polyset Heavy Unbreakable Bucket, Tulip Printed Bucket, Multicolour, 24 L"
+                  },
+                  {
+                    "code": "colour",
+                    "value": "#00FF00"
+                  },
+                  {
+                    "code": "colour_name",
+                    "value": "green"
+                  },
+                  {
+                    "code": "material",
+                    "value": "polyethylene"
+                  }
+                ]
+              },
+            ],
+          },
+          {
+            id: "I3",
+            rating:"4",
+            descriptor: {
+              name: "Polyset Elegance Plastic Laundry Basket - Assorted Colour, 53 L",
+              code: "3:6213574890238",
+              symbol: "https://sellerNP.com/images/i1.png",
+              short_desc:
+                "Polyset’s Laundry Basket made from virgin plastic is very tough, durable and long-lasting. It has a large space enough to keep all the dirty clothes in one place.",
+              long_desc:
+                "This Polyset Laundry Basket comes in large size, which gives you more space for storing multiple items like clothes, toys, groceries, kitchen and bathing accessories, Ideal for family use in the Laundry Room, Bedroom or Bathroom, its comes with Lid for protecting your articles from dust. To add to it, the design and colour are so attractive, that it immediately gels with the interior of the house, be it Bathroom, Bedroom etc. Easily portable cross ventilating body keeps your items free module formation. And it gives you extra-large space to store your products. And this is made from tough plastic which provides immense strength to the product.",
+              images: ["https://sellerNP.com/images/i1.png"],
+            },
+            price: {
+              currency: "INR",
+              value: "499.00",
+              maximum_value: "1199.00",
+            },
+            parent_item_id: "V1",
+            category_id: "Closet/Laundry/Shoe Organization",
+            fulfillment_id: "F1",
+            location_id: "L1",
+            time: {
+              label: "enable",
+              timestamp: "2024-08-12T10:27:48.913Z",
+            },
+            quantity: {
+              available: {
+                count: "99",
+              },
+              maximum: {
+                count: "99",
+              },
+              unitized: {
+                measure: {
+                  value: "1",
+                  unit: "unit",
+                },
+              },
+            },
+            "@ondc/org/returnable": true,
+            "@ondc/org/seller_pickup_return": false,
+            "@ondc/org/return_window": "P3D",
+            "@ondc/org/cancellable": true,
+            "@ondc/org/time_to_ship": "P1D",
+            "@ondc/org/available_on_cod": false,
+            "@ondc/org/contact_details_consumer_care":
+              "Dailywear Fashion,support@gmail.com,2343453434",
+            "@ondc/org/statutory_reqs_packaged_commodities": {
+              manufacturer_or_packer_name: "Seller Business",
+              manufacturer_or_packer_address:
+                "Seller Building Address, Jayanagar, Bengaluru, Karnataka, India - 560011",
+              common_or_generic_name_of_commodity: "Laundry Basket",
+              month_year_of_manufacture_packing_import: "NA",
+            },
+            tags: [
+              {
+                code: "origin",
+                list: [
+                  {
+                    code: "country",
+                    value: "IND",
+                  },
+                ],
+              },
+              {
+                code: "attribute",
+                "list": [
+                    {
+                      "code": "brand",
+                      "value": "Polyset Elegance Plastic Laundry Basket - Assorted Colour, 53 L"
+                    },
+                    {
+                      "code": "colour",
+                      "value": "#964B00"
+                    },
+                    {
+                      "code": "colour_name",
+                      "value": "brown"
+                    },
+                    {
+                      "code": "material",
+                      "value": "polyethylene"
+                    }
+                  ]
+              },
+            ],
+          },
+          {
+            id: "I4",
+            rating:"4",
+            descriptor: {
+              name: "Pigeon by Stovekraft Mini Fruit & Vegetable Chopper With 3 Blades",
+              code: "3:4012789543165",
+              symbol: "https://sellerNP.com/images/i1.png",
+              short_desc:
+                "This compact kitchen appliance is designed to help cut down your kitchen chores. A simple pull of the rope in this Pigeon Handy vegetable and fruit chopper cuts food items down into small pieces. ",
+              long_desc:
+                "The chopper’s tough body can withstand being put into the dishwasher. Durable design, a convenient usage made of ABS plastic, this chopper is sturdy and durable. It does not require electricity to be in use. Chop fruits and vegetables. This chopper uses its three stainless steel blades and relies on a unique string function to chop fruits and vegetables with ease. It is easy to use. Get things started by putting the blade in the Centre of the bowl. Cut vegetables or fruits to medium size before putting them into this bowl to avoid jamming the blades. Put the contents in, close the lid, and sting the rope quickly to cut food items into small pieces. Then, take the blade system out before you remove the chopped food. ",
+              images: ["https://sellerNP.com/images/i1.png"],
+            },
+            price: {
+              currency: "INR",
+              value: "599.00",
+              maximum_value: "1199.00",
+            },
+            category_id: "Kitchen Tools",
+            fulfillment_id: "F1",
+            location_id: "L1",
+            time: {
+              label: "enable",
+              timestamp: "2024-08-12T10:27:48.913Z",
+            },
+            quantity: {
+              available: {
+                count: "99",
+              },
+              maximum: {
+                count: "99",
+              },
+              unitized: {
+                measure: {
+                  value: "1",
+                  unit: "unit",
+                },
+              },
+            },
+            "@ondc/org/returnable": true,
+            "@ondc/org/seller_pickup_return": false,
+            "@ondc/org/return_window": "P3D",
+            "@ondc/org/cancellable": true,
+            "@ondc/org/time_to_ship": "P1D",
+            "@ondc/org/available_on_cod": false,
+            "@ondc/org/contact_details_consumer_care":
+              "Dailywear Fashion,support@gmail.com,2343453434",
+            "@ondc/org/statutory_reqs_packaged_commodities": {
+              manufacturer_or_packer_name: "Seller Business",
+              manufacturer_or_packer_address:
+                "Seller Building Address, Jayanagar, Bengaluru, Karnataka, India - 560011",
+              common_or_generic_name_of_commodity: "Vegetable Chopper",
+              month_year_of_manufacture_packing_import: "NA",
+            },
+            tags: [
+              {
+                "code": "origin",
+                "list": [
+                  {
+                    "code": "country",
+                    "value": "IND"
+                  }
+                ]
+              },
+              {
+                "code": "attribute",
+                "list": [
+                  {
+                    "code": "brand",
+                    "value": "Pigeon by Stovekraft Mini Fruit & Vegetable Chopper With 3 Blades "
+                  },
+                  {
+                    "code": "colour",
+                    "value": "#00FF00"
+                  },
+                  {
+                    "code": "colour_name",
+                    "value": "green"
+                  },
+                  {
+                    "code": "material",
+                    "value": "polypropylene"
+                  }
+                ]
+              }
+            ],
+          },
+        ],
+        fulfillments: [
+          {
+            id: "F1",
+            type: "Delivery",
+            contact: {
+              phone: "9876543210",
+              email: "test@gmail.com",
+            },
+          },
+          {
+            contact: {
+              email: "home@example.com",
+              phone: "7980271122"
+            },
+            id: "F2",
+            type: "Self-Pickup"
+          }
+        ],
+        tags: [
+          {
+            code: "serviceability",
+            list: [
+              {
+                code: "location",
+                value: "L1",
+              },
+              {
+                code: "category",
+                value: "Cleaning Supplies",
+              },
+              {
+                code: "type",
+                value: "10",
+              },
+              {
+                code: "unit",
+                value: "km",
+              },
+              {
+                code: "val",
+                value: "15",
+              },
+            ],
+          },
+          {
+            code: "serviceability",
+            list: [
+              {
+                code: "location",
+                value: "L1",
+              },
+              {
+                code: "category",
+                value: "Closet/Laundry/Shoe Organization",
+              },
+              {
+                code: "type",
+                value: "12",
+              },
+              {
+                code: "unit",
+                value: "country",
+              },
+              {
+                code: "val",
+                value: "IND",
+              },
+            ],
+          },
+          {
+            code: "serviceability",
+            list: [
+              {
+                code: "location",
+                value: "L1",
+              },
+              {
+                code: "category",
+                value: "Kitchen Tools",
+              },
+              {
+                code: "type",
+                value: "12",
+              },
+              {
+                code: "unit",
+                value: "country",
+              },
+              {
+                code: "val",
+                value: "IND",
+              },
+            ],
+          },
+          {
+            code: "timing",
+            list: [
+              {
+                code: "type",
+                value: "All",
+              },
+              {
+                code: "location",
+                value: "L1",
+              },
+              {
+                code: "day_from",
+                value: "1",
+              },
+              {
+                code: "day_to",
+                value: "5",
+              },
+              {
+                code: "time_from",
+                value: "0000",
+              },
+              {
+                code: "time_to",
+                value: "2359",
+              },
+            ],
+          },
+          {
+            "code": "order_value",
+            "list": [
+              {
+                "code": "min_value",
+                "value": "1"
+              }
+            ]
+          }
+        ],
+      },
+    ],
+  },
+};
