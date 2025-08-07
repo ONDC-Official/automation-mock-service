@@ -11,7 +11,7 @@ function updateStops(onUpdatePayload: any, updateStop: any) {
           console.log(updateStop)
           if (stopToUpdate) {
               // Update stop properties
-              stopToUpdate.location = updateStop.location;
+              // stopToUpdate.location = updateStop.location;
               stopToUpdate.id = updateStop.id;
               stopToUpdate.parent_stop_id = updateStop.parent_stop_id;
           }
@@ -42,7 +42,6 @@ export async function onUpdateRideSoftUpdateGenerator(existingPayload: any,sessi
     existingPayload = updateStops(existingPayload,sessionData.update_stop[0])
     for (const fulfillment of existingPayload.message.order.fulfillments) {
       for (const stop of fulfillment.stops) {
-        delete stop.id;
         delete stop.parent_stop_id;
       }
     }

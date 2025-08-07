@@ -100,7 +100,8 @@ export async function onUpdateGenerator(
 
   // Ensure all fulfillments have the required 'type' property
   if (existingPayload.message.order.fulfillments?.length > 0) {
-    existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
+    existingPayload.message.order.fulfillments.forEach((fulfillment: any, index: number) => {
+      const selectedFulfillment = sessionData.selected_fulfillments[index];
       // Set default type to "DELIVERY" if not present
       if (!fulfillment.type) {
         fulfillment.type = "DELIVERY";
@@ -117,6 +118,11 @@ export async function onUpdateGenerator(
         };
       } else if (!fulfillment.vehicle.registration) {
         fulfillment.vehicle.registration = "DL01AB1234";
+      }
+
+      if(selectedFulfillment.vehicle.make && selectedFulfillment.vehicle.model){
+        fulfillment.vehicle.make = selectedFulfillment.vehicle.make;
+        fulfillment.vehicle.model = selectedFulfillment.vehicle.model;
       }
 
       // Valid ride states
@@ -148,6 +154,17 @@ export async function onUpdateGenerator(
         fulfillment.state.descriptor.code = "RIDE_ASSIGNED";
       }
 
+        fulfillment.stops = sessionData.selected_fulfillments[index].stops
+        fulfillment.id = sessionData.selected_fulfillments[index].id
+        if (fulfillment.stops?.[0]) {
+          fulfillment.stops[0].authorization = {
+            type: "OTP",
+            token: generateOTP(),
+            valid_to: new Date(Date.now() + 30 * 60000).toISOString(), // 30 minutes validity
+            status: "UNCLAIMED",
+          };
+        }
+
       // Ensure agent.person.name is present
       if (!fulfillment.agent) {
         fulfillment.agent = {
@@ -162,14 +179,6 @@ export async function onUpdateGenerator(
         //Assign ride & authorization if agent is being added
         fulfillment.state.descriptor.code = "RIDE_ASSIGNED";
         // Add OTP authorization to the first stop
-        if (fulfillment.stops?.[0]) {
-          fulfillment.stops[0].authorization = {
-            type: "OTP",
-            token: generateOTP(),
-            valid_to: new Date(Date.now() + 30 * 60000).toISOString(), // 30 minutes validity
-            status: "UNCLAIMED",
-          };
-        }
       } else {
         if (!fulfillment.agent.person) {
           fulfillment.agent.person = {
@@ -206,11 +215,14 @@ export async function onUpdateGenerator(
         fulfillmentState
       );
     }
+  } else if (sessionData.quote != null) {
+    existingPayload.message.order.quote = sessionData.quote;
   }
+
 
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.id = sessionData.order_id;
-  existingPayload.message.order.payments[0].id = sessionData.payment_id;
+  existingPayload.message.order.payments[0].id = sessionData.payments[0].id;
   
   // Update timestamps
   existingPayload.message.order.updated_at = new Date().toISOString();
