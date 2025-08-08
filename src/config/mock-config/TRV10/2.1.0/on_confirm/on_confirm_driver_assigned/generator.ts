@@ -43,6 +43,7 @@ function updateFulfillmentWithDriverInfo(fulfillment: any, sessionData: SessionD
         }
     };
     fulfillment.type = sessionData.selected_fulfillments[0].type
+    fulfillment.tags = sessionData.selected_fulfillments[0].tags
     // Add OTP authorization to the first stop
     if (fulfillment.stops[0]) {
         fulfillment.stops[0].authorization = {

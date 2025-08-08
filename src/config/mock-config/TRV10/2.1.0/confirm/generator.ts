@@ -11,5 +11,6 @@ export async function confirmGenerator(existingPayload: any,sessionData: Session
     if(sessionData.provider_id){
         existingPayload.message.order.provider.id = sessionData.provider_id
       }
+    delete existingPayload.message.order.fulfillments[0].type;
     return existingPayload;
 }

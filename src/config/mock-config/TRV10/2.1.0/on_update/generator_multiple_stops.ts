@@ -25,10 +25,7 @@ export async function onUpdateMultipleStopsGenerator(
           sessionData?.selected_fulfillments[index]?.id || index + 1;
           fulfillment.vehicle={
              ...fulfillment.vehicle,
-             make: 'Bajaj',
-             model: 'Compact RE',
-             registration: 'KA-01-AD-9876' 
-          }
+               }
         return fulfillment;
       }
     );
