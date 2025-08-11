@@ -27,7 +27,7 @@ export const breakupItem = {
   "@ondc/org/item_quantity": {
     count: 1,
   },
-  title: "Scotch brite Floor Mop",
+  title: "MINISO Two-Layer Drawer Organizer",
   "@ondc/org/title_type": "item",
   price: {
     currency: "INR",
