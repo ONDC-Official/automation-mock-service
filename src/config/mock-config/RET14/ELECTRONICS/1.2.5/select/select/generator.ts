@@ -3,7 +3,7 @@ import { stateCodes } from "../state-codes";
 
 type SelectInputType = {
 	provider?: string;
-	provider_location?: string[];
+	provider_location?: any;
 	location_gps?: string;
 	location_pin_code?: string;
 	items?: {
@@ -26,12 +26,12 @@ export async function select_generator(
 		existingPayload.message.order.provider.id = inputs.provider;
 	}
 	if (inputs.provider_location) {
-		existingPayload.message.order.provider.locations =
-			inputs.provider_location.map((location) => {
-				return {
-					id: location,
-				};
-			});
+		const providerLocations = (inputs.provider_location || "")
+			.split(",")
+			.map((location: string) => location.trim())
+			.filter(Boolean)
+			.map((location: string) => ({ id: location }));
+		existingPayload.message.order.provider.locations = providerLocations
 	}
 	if (inputs.location_gps) {
 		existingPayload.message.order.fulfillments[0].end.location.gps =
