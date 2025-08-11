@@ -23,14 +23,24 @@ import { confirmQCGenerator } from "./confirm/confirm_qc/generator";
 import { onConfirmQCGenerator } from "./on_confirm/on_confirm_qc/generator";
 import { updateQCGenerator } from "./update/update_qc/generator";
 import { onUpdateQCGenerator } from "./on_update/on_update_qc/generator";
-
+import { confirmExchangeGenerator } from "./confirm/confirm_exchange/generator";
+import { onConfirmExchangeGenerator } from "./on_confirm/on_confirm_exchange/generator";
+import { onSearchCodifiedGenerator } from "./on_search/on_search_codified/generator";
+import { onConfirmCodifiedGenerator } from "./on_confirm/on_confirm_codified/generator";
+import { onSearchRcmGenerator } from "./on_search/on_search_rcm/generator";
+import { onConfirmRcmGenerator } from "./on_confirm/on_confirm_rcm/generator";
+import { onSearchPublicSpecialGenerator } from "./on_search/on_search_public_special/generator";
+import { searchSlaGenerator } from "./search/search_sla/generator";
+import { confirmSlaGenerator } from "./confirm/confirm_sla/generator";
+import { onConfirmSlaGenerator } from "./on_confirm/on_confirm_sla/generator";
+import { confirmSellerCredsGenerator } from "./confirm/confirm_seller_creds/generator";
 export async function Generator(
   action_id: string,
   existingPayload: any,
   sessionData: any,
   inputs?: Record<string, string>
 ) {
-  console.log("inside generator");
+  console.log("inside generator", action_id);
 
   switch (action_id) {
     case "search_LOGISTICS":
@@ -208,7 +218,44 @@ export async function Generator(
       });
     case "on_update_IGM":
       return await onUpdate1Generator(existingPayload, sessionData);
-
+    case "confirm_LOGISTICS_EXCHANGE":
+      return await confirmExchangeGenerator(
+        existingPayload,
+        sessionData,
+        inputs
+      );
+    case "on_confirm_LOGISTICS_EXCHANGE":
+      return await onConfirmExchangeGenerator(existingPayload, sessionData);
+    case "on_search_LOGISTICS_CODIFIED":
+      return await onSearchCodifiedGenerator(
+        existingPayload,
+        sessionData,
+        inputs
+      );
+    case "on_confirm_LOGISTICS_CODIFIED":
+      return await onConfirmCodifiedGenerator(existingPayload, sessionData);
+    case "on_search_LOGISTICS_RCM":
+      return await onSearchRcmGenerator(existingPayload, sessionData, inputs);
+    case "on_confirm_LOGISTICS_RCM":
+      return await onConfirmRcmGenerator(existingPayload, sessionData);
+    case "on_search_LOGISTICS_PUBLIC_SPECIAL":
+      return await onSearchPublicSpecialGenerator(
+        existingPayload,
+        sessionData,
+        inputs
+      );
+    case "search_LOGISTICS_SLA":
+      return await searchSlaGenerator(existingPayload, sessionData, inputs);
+    case "confirm_LOGISTICS_SLA":
+      return await confirmSlaGenerator(existingPayload, sessionData, inputs);
+    case "on_confirm_LOGISTICS_SLA":
+      return await onConfirmSlaGenerator(existingPayload, sessionData);
+    case "confirm_LOGISTICS_SELLER_CREDS":
+      return await confirmSellerCredsGenerator(
+        existingPayload,
+        sessionData,
+        inputs
+      );
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }

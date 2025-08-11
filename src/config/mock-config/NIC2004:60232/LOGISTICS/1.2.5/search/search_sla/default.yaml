@@ -1,0 +1,76 @@
+message:
+  intent:
+    category:
+      id: Immediate Delivery
+    provider:
+      time:
+        days: "1,2,3,4,5,6,7"
+        schedule:
+          holidays:
+            - "2023-06-29"
+            - "2023-08-15"
+        duration: PT15M
+        range:
+          start: "1100"
+          end: "2100"
+    fulfillment:
+      type: Delivery
+      start:
+        location:
+          id: S1
+          gps: 12.4535,77.9283
+          address:
+            area_code: "560041"
+      end:
+        location:
+          gps: 12.4535,77.9283
+          address:
+            area_code: "560001"
+      tags:
+        - code: linked_provider
+          list:
+            - code: id
+              value: P1
+            - code: name
+              value: Seller1
+        - code: linked_order
+          list:
+            - code: currency
+              value: INR
+            - code: declared_value
+              value: "300.0"
+            - code: category
+              value: Grocery
+            - code: weight_unit
+              value: kilogram
+            - code: weight_value
+              value: "3.0"
+            - code: dim_unit
+              value: centimeter
+            - code: length
+              value: "1.0"
+            - code: breadth
+              value: "1.0"
+            - code: height
+              value: "1.0"
+    payment:
+      type: POST-FULFILLMENT
+    "@ondc/org/payload_details":
+      weight:
+        unit: kilogram
+        value: 3
+      dimensions:
+        length:
+          unit: centimeter
+          value: 1
+        breadth:
+          unit: centimeter
+          value: 1
+        height:
+          unit: centimeter
+          value: 1
+      category: Grocery
+      value:
+        currency: INR
+        value: "300.00"
+      dangerous_goods: false
