@@ -21,7 +21,7 @@ order:
       - "@ondc/org/item_id": I3
         "@ondc/org/item_quantity":
           count: 0
-        title: Scotch brite Floor Mop
+        title: MINISO Two-Layer Drawer Organizer
         "@ondc/org/title_type": item
         price:
           currency: INR

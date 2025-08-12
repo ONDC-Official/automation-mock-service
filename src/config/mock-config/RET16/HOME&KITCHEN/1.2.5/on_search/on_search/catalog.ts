@@ -117,12 +117,12 @@ export const RET16HOMEKITCHEN125Catalog = {
               timestamp: "2024-08-12T05:30:48.998Z",
             },
             descriptor: {
-              name: "Scotch brite Floor Mop",
+              name: "MINISO Two-Layer Drawer Organizer",
               symbol: "https://sellerNP.com/images/i1.png",
               short_desc:
-                "Scotch brite Cotton Handle Mop is perfect for cleaning your house.",
+                "Hard, tough and durable cosmetic storage and organizer, Two-Layer Drawer Organizer Cosmetic Storage Box, White, Rectangular",
               long_desc:
-                "This is a super absorbent mop  it is Durable and long lasting. It is made of quality cotton which makes it easy for you to clean and maintain it. The telescopic handle to make cleaning easy without bending. It helps to clean easily and removes hard stains without any scratches.",
+                "Introducing the MINISO Two-Layer Drawer Organizer Cosmetic Storage Box in a sleek, modern White, Rectangular design. Crafted with toughness and durability in mind, this organizer is built to withstand daily use, ensuring your items stay secure and protected.Its compact design offers simplicity and perfection, allowing you to maximize space while maintaining an elegant aesthetic.",
               images: ["https://sellerNP.com/images/i1.png"],
               code: "3:9501101530007",
             },
@@ -145,7 +145,7 @@ export const RET16HOMEKITCHEN125Catalog = {
               value: "2260",
               maximum_value: "2260",
             },
-            category_id: "Cleaning Supplies",
+            category_id: "Kitchen Storage and Containers",
             location_id: "L1",
             fulfillment_id: "F1",
             "@ondc/org/returnable": true,
@@ -160,7 +160,7 @@ export const RET16HOMEKITCHEN125Catalog = {
               manufacturer_or_packer_name: "Seller Business",
               manufacturer_or_packer_address:
                 "Seller Building Address, Jayanagar, Bengaluru, Karnataka, India - 560011",
-              common_or_generic_name_of_commodity: "Cleaning Supplies",
+              common_or_generic_name_of_commodity: "Kitchen Storage and Containers",
               month_year_of_manufacture_packing_import: "NA",
             },
             tags: [
@@ -178,19 +178,19 @@ export const RET16HOMEKITCHEN125Catalog = {
                 "list": [
                   {
                     "code": "brand",
-                    "value": "Scotch brite Floor Mop - Cotton Cloth, With Rod, Multicolour, 1 pc"
+                    "value": "MINISO Two-Layer Drawer Organizer "
                   },
                   {
                     "code": "colour",
-                    "value": "#00FF00"
+                    "value": "#FFFFFF"
                   },
                   {
                     "code": "colour_name",
-                    "value": "green"
+                    "value": "brown"
                   },
                   {
                     "code": "material",
-                    "value": "polycarbonate"
+                    "value": "thermoplastic"
                   }
                 ]
               },
@@ -204,12 +204,12 @@ export const RET16HOMEKITCHEN125Catalog = {
               timestamp: "2024-08-12T10:27:48.913Z",
             },
             descriptor: {
-              name: "Polyset Heavy Unbreakable Bucket",
+              name: "Doms Art Apps Nxt Kit With Plastic Carry Case",
               symbol: "https://sellerNP.com/images/i1.png",
               short_desc:
-                "Polyset Heavy Unbreakable Bucket, Tulip Printed Bucket, Multicolour",
+                "Coloring & Art Smart Kit Use For Sketching, Writing, Shading, Colouring, Highlighting.Non-Toxic, Easy To Use & Safe For Childrens.",
               long_desc:
-                "This elegant looking bucket with made up of high-quality Virgin plastic serves as a perfect bucket for household application. The exquisite material quality provides a rugged product to users and also a longer life to the bucket which enhances the aesthetics and usability.",
+                "Introducing our comprehensive combination kit, designed to satisfy all your creative needs! Whether you're sketching, writing, shading, coloring, or highlighting, this kit has everything you need to unleash your imagination.You'll find 12 watercolor pens for vibrant and fluid artwork, 12 bi-color crayons for versatile coloring options, 12 jumbo oil pastels for smooth and blendable textures, 8 bi-color pencils for precise drawing and shading, and 12 plastic crayons for bold and durable lines.",
               images: ["https://sellerNP.com/images/i1.png"],
               code: "3:7845632198471",
             },
@@ -232,7 +232,7 @@ export const RET16HOMEKITCHEN125Catalog = {
               value: "2460",
               maximum_value: "2460",
             },
-            category_id: "Cleaning Supplies",
+            category_id: "Stationery",
             location_id: "L1",
             parent_item_id:"V1",
             fulfillment_id: "F1",
@@ -248,7 +248,7 @@ export const RET16HOMEKITCHEN125Catalog = {
               manufacturer_or_packer_name: "Seller Business",
               manufacturer_or_packer_address:
                 "Seller Building Address, Jayanagar, Bengaluru, Karnataka, India - 560011",
-              common_or_generic_name_of_commodity: "Bucket",
+              common_or_generic_name_of_commodity: "Plastic Crayons",
               month_year_of_manufacture_packing_import: "NA",
             },
             tags: [
@@ -266,7 +266,7 @@ export const RET16HOMEKITCHEN125Catalog = {
                 "list": [
                   {
                     "code": "brand",
-                    "value": "Polyset Heavy Unbreakable Bucket, Tulip Printed Bucket, Multicolour, 24 L"
+                    "value": "Doms Art Apps Nxt Kit With Plastic Carry Case "
                   },
                   {
                     "code": "colour",
@@ -274,11 +274,11 @@ export const RET16HOMEKITCHEN125Catalog = {
                   },
                   {
                     "code": "colour_name",
-                    "value": "green"
+                    "value": "white"
                   },
                   {
                     "code": "material",
-                    "value": "polyethylene"
+                    "value": "thermoplastic"
                   }
                 ]
               },
@@ -488,19 +488,44 @@ export const RET16HOMEKITCHEN125Catalog = {
               },
               {
                 code: "category",
-                value: "Cleaning Supplies",
+                value: "Kitchen Storage and Containers",
               },
               {
                 code: "type",
-                value: "10",
-              },
-              {
-                code: "unit",
-                value: "km",
+                value: "12",
               },
               {
                 code: "val",
-                value: "15",
+                value: "IND",
+              },
+              {
+                code: "unit",
+                value: "country.",
+              },
+            ],
+          },
+          {
+            code: "serviceability",
+            list: [
+              {
+                code: "location",
+                value: "L1",
+              },
+              {
+                code: "category",
+                value: "Stationery",
+              },
+              {
+                code: "type",
+                value: "12",
+              },
+              {
+                code: "val",
+                value: "IND",
+              },
+              {
+                code: "unit",
+                value: "country.",
               },
             ],
           },
