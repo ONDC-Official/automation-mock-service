@@ -25,3 +25,4 @@ session_data:
   on_select_items: []
   selected_offers: []
   last_updated_at: null
+  search_bap_terms: null
