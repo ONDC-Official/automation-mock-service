@@ -32,6 +32,13 @@ export class search_seller_pagination_class extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
+        if (!sessionData.user_inputs?.city_code) {
+            return {
+                valid: false,
+                message: "City code is required in user_inputs",
+                code: "MISSING_CITY_CODE"
+            };
+        }
         return { valid: true };
     }
 } 

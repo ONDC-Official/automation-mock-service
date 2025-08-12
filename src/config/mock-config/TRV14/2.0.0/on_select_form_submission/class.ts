@@ -32,6 +32,38 @@ export class MockOnSelect2Class extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
+        if (!sessionData.items || !Array.isArray(sessionData.items)) {
+            return {
+                valid: false,
+                message: "No items available in session data",
+                code: "MISSING_ITEMS"
+            };
+        }
+
+        if (!sessionData.fulfillments || !Array.isArray(sessionData.fulfillments)) {
+            return {
+                valid: false,
+                message: "No fulfillments available in session data",
+                code: "MISSING_FULFILLMENTS"
+            };
+        }
+
+        if (!sessionData.provider) {
+            return {
+                valid: false,
+                message: "No provider available in session data",
+                code: "MISSING_PROVIDER"
+            };
+        }
+
+        if (!sessionData.quote) {
+            return {
+                valid: false,
+                message: "No quote available in session data",
+                code: "MISSING_QUOTE"
+            };
+        }
+
         return { valid: true };
     }
 } 

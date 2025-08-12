@@ -32,6 +32,14 @@ export class MockCancelSoftTechnicalCancellationClass extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
+        if (!sessionData.order_id) {
+            return {
+                valid: false,
+                message: "No order_id available in session data",
+                code: "MISSING_ORDER_ID"
+            };
+        }
+
         return { valid: true };
     }
 } 

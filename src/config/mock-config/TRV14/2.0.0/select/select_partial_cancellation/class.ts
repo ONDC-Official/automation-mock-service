@@ -1,32 +1,30 @@
 import { readFileSync } from "fs";
 import yaml from "js-yaml";
 import path from "path";
-import { MockAction, MockOutput, saveType } from "../../classes/mock-action";
-import { SessionData } from "../../session-types";
-import { selectDefaultGenerator } from "./generator";
+import { MockAction, MockOutput, saveType } from "../../../classes/mock-action";
+import { SessionData } from "../../../session-types";
+import { selectPartialCancellationGenerator } from "./generator";
 
-export class MockSelectClass extends MockAction {
+export class MockSelectPartialCancellationClass extends MockAction {
     get saveData(): saveType {
         return yaml.load(
-            readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
+            readFileSync(path.resolve(__dirname, "../save-data.yaml"), "utf8")
         ) as saveType;
     }
     get defaultData(): any {
-        return yaml.load(
-            readFileSync(path.resolve(__dirname, "./default.yaml"), "utf8")
-        );
+        return {};
     }
     get inputs(): any {
         return {};
     }
     name(): string {
-        return "select_default";
+        return "select_partial_cancellation";
     }
     get description(): string {
-        return "Mock for select_default";
+        return "Mock for select_partial_cancellation with quantity=2";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-        return selectDefaultGenerator(existingPayload, sessionData);
+        return selectPartialCancellationGenerator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
         return { valid: true };
@@ -51,4 +49,4 @@ export class MockSelectClass extends MockAction {
         
         return { valid: true };
     }
-} 
+}

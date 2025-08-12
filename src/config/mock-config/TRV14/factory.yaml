@@ -190,3 +190,30 @@ codes:
     action: on_cancel
     default: TRV14/2.0.0/on_cancel/on_cancel_rejected/default.yaml
     message_id: false
+  - code: 138
+    action_id: select_partial_cancellation
+    action: select
+    default: TRV14/2.0.0/select/default.yaml
+    message_id: true
+  - code: 139
+    action_id: update_soft_partial_cancellation
+    action: update
+    default: TRV14/2.0.0/update/update_soft_partial_cancellation/default.yaml
+    message_id: true
+  - code: 140
+    action_id: on_update_soft_partial_cancellation
+    action: on_update
+    default: TRV14/2.0.0/on_update/on_update_soft_partial_cancellation/default.yaml
+    message_id: false
+  - code: 141
+    action_id: update_confirm_partial_cancellation
+    action: update
+    default: TRV14/2.0.0/update/update_confirm_partial_cancellation/default.yaml
+    message_id: true
+  - code: 142
+    action_id: on_update_confirm_partial_cancellation
+    action: on_update
+    default: TRV14/2.0.0/on_update/on_update_confirm_partial_cancellation/default.yaml
+    message_id: false
+
+
