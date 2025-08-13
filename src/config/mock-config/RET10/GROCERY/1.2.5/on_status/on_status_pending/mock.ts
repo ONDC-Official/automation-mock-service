@@ -33,29 +33,34 @@ export class MockOnStatusPending extends MockAction {
 		return on_status_pending_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+				const order = targetPayload?.message?.order;
 
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+				if (!order) return { valid: false, message: "Message.order is required" };
+				if (!order.id) return { valid: false, message: "Message.order.id is required" };
+				if (!order.state) return { valid: false, message: "Message.order.state is required" };
 
-		const { order } = targetPayload.message;
+				if (order.state !== "Accepted") {
+					return { valid: false, message: "Order.state must be 'Accepted'" };
+				}
 
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+				if (!Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+					return { valid: false, message: "At least one fulfillment is required" };
+				}
 
-		if (!order.state) {
-			return { valid: false, message: "Message.order.state is required" };
-		}
+				const fulfillment = order.fulfillments[0];
+				const stateCode = fulfillment?.state?.descriptor?.code;
 
-		return { valid: true };
+				if (!stateCode) {
+					return { valid: false, message: "Fulfillment.state.descriptor.code is required" };
+				}
+
+				if (stateCode !== "Pending") {
+					return { valid: false, message: "Fulfillment.state.descriptor.code must be 'Pending'" };
+				}
+
+				return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		if (!sessionData.transaction_id) {

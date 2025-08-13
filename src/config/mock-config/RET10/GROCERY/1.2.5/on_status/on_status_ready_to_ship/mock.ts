@@ -33,33 +33,38 @@ export class MockOnStatusReadyToShip extends MockAction {
 		return on_status_ready_to_ship_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_status action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			const order = targetPayload?.message?.order;
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+			if (!order) return { valid: false, message: "Message.order is required" };
+			if (!order.id) return { valid: false, message: "Message.order.id is required" };
+			if (!order.state) return { valid: false, message: "Message.order.state is required" };
+			if (order.state !== "In-progress") {
+				return { valid: false, message: "Order.state must be 'In-progress'" };
+			}
 
-		const { order } = targetPayload.message;
+			const fulfillments = order.fulfillments || [];
+			if (!Array.isArray(fulfillments) || fulfillments.length === 0) {
+				return { valid: false, message: "At least one fulfillment is required" };
+			}
 
-		// Check for required fields
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+			const packedFulfillment = fulfillments.find(f => f?.state?.descriptor?.code === "Pending");
+			if (!packedFulfillment) {
+				return { valid: false, message: "At least one fulfillment.state.descriptor.code must be 'Pending'" };
+			}
 
-		if (!order.state) {
-			return { valid: false, message: "Message.order.state is required" };
-		}
+			const tags = packedFulfillment.tags || [];
+			const stateTag = tags.find((tag: { code: string; }) => tag.code === "state");
+			const isReadyToShip = stateTag?.list?.some((item: { code: string; value: string; }) => item.code === "ready_to_ship" && item.value === "yes");
 
-		return { valid: true };
+			if (!isReadyToShip) {
+				
+				return { valid: false, message: "ready_to_ship should be yes" };
+				
+			}
+
+			return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// on_status requires transaction_id and order

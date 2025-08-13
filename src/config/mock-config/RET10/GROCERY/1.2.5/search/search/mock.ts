@@ -223,33 +223,60 @@ export class MockSearch extends MockAction {
     return search_generator(existingPayload, sessionData);
   }
   async validate(targetPayload: any): Promise<MockOutput> {
-    if (!targetPayload) {
-      return { valid: false, message: "Payload is required" };
-    }
-
-    if (!targetPayload.context) {
-      return { valid: false, message: "Context is required" };
-    }
-
-    const { context } = targetPayload;
-
-    if (!context.domain) {
-      return { valid: false, message: "Context domain is required" };
-    }
-
-    if (!context.action) {
-      return { valid: false, message: "Context action is required" };
-    }
-
-    if (!context.country) {
-      return { valid: false, message: "Context country is required" };
-    }
-
-    if (!context.city) {
-      return { valid: false, message: "Context city is required" };
-    }
-
-    return { valid: true };
+            if (!targetPayload) {
+              return { valid: false, message: "Payload is required", code: "ERR_PAYLOAD_MISSING" };
+            }
+          const {  message } = targetPayload;
+          
+            if (!message) {
+              return { valid: false, message: "Message is required", code: "ERR_MESSAGE_MISSING" };
+            }
+          
+            const intent = message.intent;
+            if (!intent) {
+              return { valid: false, message: "Message.intent is required", code: "ERR_INTENT_MISSING" };
+            }
+            if (intent.category && typeof intent.category.id !== "string") {
+              return {
+                valid: false,
+                message: "Intent.category.id must be a string",
+                code: "ERR_CATEGORY_ID"
+              };
+            }
+            if (intent.fulfillment && typeof intent.fulfillment.type !== "string") {
+              return {
+                valid: false,
+                message: "Intent.fulfillment.type must be a string",
+                code: "ERR_FULFILLMENT_TYPE"
+              };
+            }
+            
+            if (intent.tags && Array.isArray(intent.tags)) {
+              const bapFeaturesTag = intent.tags.find((tag: any) => tag.code === "bap_features");
+          
+              if (bapFeaturesTag) {
+                if (!Array.isArray(bapFeaturesTag.list)) {
+                  return {
+                    valid: false,
+                    message: "'bap_features' tag must contain a 'list' array",
+                    code: "ERR_BAP_FEATURES_LIST"
+                  };
+                }
+          
+                for (const item of bapFeaturesTag.list) {
+                  const val = item?.value?.toLowerCase();
+                  if (!["yes", "no"].includes(val)) {
+                    return {
+                      valid: false,
+                      message: `bap_features list item '${item.code}' must have value 'yes' or 'no'`,
+                      code: "ERR_BAP_FEATURES_ENUM"
+                    };
+                  }
+                }
+              }
+            }
+          
+            return { valid: true };
   }
   async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
     if (!sessionData.user_inputs) {

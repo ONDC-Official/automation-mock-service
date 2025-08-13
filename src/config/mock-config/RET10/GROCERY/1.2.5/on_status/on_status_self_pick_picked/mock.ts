@@ -33,33 +33,40 @@ export class MockOnStatusSelfPickPicked extends MockAction {
 		return on_status_self_pickup_picked_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_status action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+				const order = targetPayload?.message?.order;
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+				if (!order) return { valid: false, message: "Message.order is required" };
+				if (!order.id) return { valid: false, message: "Message.order.id is required" };
+				if (!order.state) return { valid: false, message: "Message.order.state is required" };
+				if (order.state !== "Completed") return { valid: false, message: "Order.state must be 'Completed'" };
 
-		const { order } = targetPayload.message;
+				const fulfillments = order.fulfillments || [];
+				const fulfillment = fulfillments.find(
+					(    f: { type: string; state: { descriptor: { code: string; }; }; }) =>
+					f?.type === "Self-Pickup" &&
+					f?.state?.descriptor?.code === "Order-picked-up"
+				);
 
-		// Check for required fields
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+				if (!fulfillment) return { valid: false, message: "Self-Pickup fulfillment with state 'Order-picked-up' is required" };
 
-		if (!order.state) {
-			return { valid: false, message: "Message.order.state is required" };
-		}
+				const startTime = fulfillment?.start?.time?.timestamp;
+				if (!startTime) return { valid: false, message: "fulfillment.start.time.timestamp is required" };
 
-		return { valid: true };
+				const instructions = fulfillment?.start?.instructions;
+				if (!instructions?.code || !instructions?.name || !instructions?.short_desc) {
+					return { valid: false, message: "Complete pickup instructions (code, name, short_desc) are required" };
+				}
+
+				if (fulfillment?.["@ondc/org/category"] === "Kerbside") {
+					if (!fulfillment?.vehicle?.registration) {
+					return { valid: false, message: "Vehicle registration is required for Kerbside category" };
+					}
+				}
+
+
+				return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// on_status requires transaction_id and order

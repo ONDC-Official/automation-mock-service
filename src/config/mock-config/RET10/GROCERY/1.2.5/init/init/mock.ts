@@ -33,29 +33,143 @@ export class MockInit extends MockAction {
 		return init_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required", code: "ERR_PAYLOAD_MISSING" }
+
+		const { message } = targetPayload
+	  
+		if (!message || !message.order) {
+		  return {
+			valid: false,
+			message: "message.order is required",
+			code: "ERR_ORDER_MISSING"
+		  }
 		}
-
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		const order = message.order
+	  
+		if (!order.provider?.id) {
+		  return {
+			valid: false,
+			message: "order.provider.id is required",
+			code: "ERR_PROVIDER_ID_MISSING"
+		  }
 		}
-
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+	  
+		if (!Array.isArray(order.provider.locations) || order.provider.locations.length === 0) {
+		  return {
+			valid: false,
+			message: "order.provider.locations must be a non-empty array",
+			code: "ERR_PROVIDER_LOCATIONS_MISSING"
+		  }
 		}
-
-		const { order } = targetPayload.message;
-
+	  
+		if (!Array.isArray(order.items) || order.items.length === 0) {
+		  return {
+			valid: false,
+			message: "order.items must be a non-empty array",
+			code: "ERR_ITEMS_MISSING"
+		  }
+		}
+	  
+		for (const item of order.items) {
+		  if (!item.id || !item.fulfillment_id || !item.quantity?.count) {
+			return {
+			  valid: false,
+			  message: "Each item must have id, fulfillment_id, and quantity.count",
+			  code: "ERR_ITEM_STRUCTURE"
+			}
+		  }
+		}
+	  
 		if (!order.billing) {
-			return { valid: false, message: "Message.order.billing is required" };
+		  return {
+			valid: false,
+			message: "order.billing is required",
+			code: "ERR_BILLING_MISSING"
+		  }
 		}
-
-		if (!order.fulfillment && !order.fulfillments) {
-			return { valid: false, message: "Message.order.fulfillment or fulfillments is required" };
+	  
+		const billing = order.billing
+	  
+		const requiredBillingFields = ["name", "phone", "created_at", "updated_at"]
+	  
+		for (const field of requiredBillingFields) {
+		  if (!billing[field]) {
+			return {
+			  valid: false,
+			  message: `billing.${field} is required`,
+			  code: `ERR_BILLING_${field.toUpperCase()}_MISSING`
+			}
+		  }
 		}
-
-		return { valid: true };
+	  
+		const addressFields = ["name", "building", "locality", "city", "state", "country", "area_code"]
+		const billingAddress = billing.address
+		if (!billingAddress) {
+		  return {
+			valid: false,
+			message: "billing.address is required",
+			code: "ERR_BILLING_ADDRESS_MISSING"
+		  }
+		}
+	  
+		for (const field of addressFields) {
+		  if (!billingAddress[field]) {
+			return {
+			  valid: false,
+			  message: `billing.address.${field} is required`,
+			  code: `ERR_BILLING_ADDRESS_${field.toUpperCase()}_MISSING`
+			}
+		  }
+		}
+	  
+		if (!Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+		  return {
+			valid: false,
+			message: "order.fulfillments must be a non-empty array",
+			code: "ERR_FULFILLMENTS_MISSING"
+		  }
+		}
+	  
+		for (const fulfillment of order.fulfillments) {
+		  if (!fulfillment.id || !fulfillment.type) {
+			return {
+			  valid: false,
+			  message: "Each fulfillment must have id and type",
+			  code: "ERR_FULFILLMENT_STRUCTURE"
+			}
+		  }
+	  
+		  const end = fulfillment.end
+		  if (!end?.location?.gps) {
+			return {
+			  valid: false,
+			  message: "fulfillment.end.location.gps is required",
+			  code: "ERR_FULFILLMENT_LOCATION_GPS_MISSING"
+			}
+		  }
+	  
+		  const endAddress = end.location.address
+		  for (const field of addressFields) {
+			if (!endAddress?.[field]) {
+			  return {
+				valid: false,
+				message: `fulfillment.end.location.address.${field} is required`,
+				code: `ERR_FULFILLMENT_ADDRESS_${field.toUpperCase()}_MISSING`
+			  }
+			}
+		  }
+	  
+		  if (!end.contact?.phone) {
+			return {
+			  valid: false,
+			  message: "fulfillment.end.contact.phone is required",
+			  code: "ERR_FULFILLMENT_CONTACT_PHONE_MISSING"
+			}
+		  }
+		}
+	  
+		return { valid: true }
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		if (!sessionData.transaction_id) {

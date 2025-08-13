@@ -33,35 +33,54 @@ export class MockOnInitSlottedDelivery extends MockAction {
 		return on_init_slotted_delivery_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_init action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+
+
+		const order = targetPayload.message?.order;
+		if (!order) return { valid: false, message: "Message.order is required" };
+
+		const items = order.items;
+		if (!Array.isArray(items) || items.length === 0) {
+			return { valid: false, message: "Order.items must be a non-empty array" };
 		}
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+		const fulfillments = order.fulfillments;
+		if (!Array.isArray(fulfillments) || fulfillments.length === 0) {
+			return { valid: false, message: "Order.fulfillments must be a non-empty array" };
 		}
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+		const quote = order.quote;
+		if (!quote) return { valid: false, message: "Order.quote is required" };
+
+		const breakup = quote.breakup;
+		if (!Array.isArray(breakup) || breakup.length === 0) {
+			return { valid: false, message: "Quote.breakup must be a non-empty array" };
 		}
 
-		const { order } = targetPayload.message;
+			
+		for (const f of fulfillments) {
+			if (!f.id) return { valid: false, message: "Each fulfillment must have an id" };
+			if (!f.type) return { valid: false, message: `Fulfillment ${f.id} must include type` };
 
-		// Check for billing object
-		if (!order.billing) {
-			return { valid: false, message: "Message.order.billing is required" };
-		}
+			if (f.type === "Delivery" && f.end.time) {
+			const range = f.end?.time?.range;
+			if (!range?.start || !range?.end) {
+				return { valid: false, message: `Delivery fulfillment '${f.id}' must have end.time.range.start and end.time.range.end` };
+			}
+			} else if (f.type === "Self-Pickup" && f.start.time) {
+			const range = f.start?.time?.range;
+			if (!range?.start || !range?.end) {
+				return { valid: false, message: `Self-Pickup fulfillment '${f.id}' must have start.time.range.start and start.time.range.end` };
+			}
+			}else{
+				return { valid: false, message: `Fulfillments are either be 'Self-Pickup' or be 'Delivery'` };
 
-		// Check for fulfillment object/array
-		if (!order.fulfillment && !order.fulfillments) {
-			return { valid: false, message: "Message.order.fulfillment or fulfillments is required" };
-		}
+			}
+  }
 
-		return { valid: true };
-	}
+return { valid: true };
+
+}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// on_init requires transaction_id, items, billing, provider, and quote
 		if (!sessionData.transaction_id) {

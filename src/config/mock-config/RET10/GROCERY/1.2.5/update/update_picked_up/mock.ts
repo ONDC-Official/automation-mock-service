@@ -33,34 +33,59 @@ export class MockUpdatePickedUp extends MockAction {
 		return update_picked_up_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// Update action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			if (targetPayload.message?.update_target !== "fulfillment") {
+				return { valid: false, message: "update_target must be 'fulfillment'" };
+			}
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+			const order = targetPayload.message?.order;
+			if (!order || !order.id) {
+				return { valid: false, message: "Order and order.id are required" };
+			}
 
-		const { order } = targetPayload.message;
+			const fulfillment = order.fulfillments?.[0];
+			if (!fulfillment || fulfillment.type !== "Buyer-Delivery") {
+				return { valid: false, message: "A Buyer-Delivery fulfillment is required" };
+			}
 
-		// Check for order ID
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+			if (!fulfillment.id) {
+				return { valid: false, message: "fulfillment.id is required" };
+			}
 
-		// Check for update_target
-		if (!targetPayload.message.update_target) {
-			return { valid: false, message: "Message.update_target is required" };
-		}
+			const tags = fulfillment.tags || [];
 
-		return { valid: true };
+			const updateStateTag = tags.find((tag: any) => tag.code === "update_state");
+			const stateValue = updateStateTag?.list?.find((entry: any) => entry.code === "state")?.value;
+			if (stateValue !== "Order-picked-up") {
+				return { valid: false, message: "update_state.state must be 'Order-picked-up'" };
+			}
+
+			const updateTimeTag = tags.find((tag: any) => tag.code === "update_fulfillment_time");
+			const timeState = updateTimeTag?.list?.find((entry: any) => entry.code === "state")?.value;
+			const timeStamp = updateTimeTag?.list?.find((entry: any) => entry.code === "timestamp")?.value;
+			if (timeState !== "Order-picked-up" || !timeStamp) {
+				return { valid: false, message: "update_fulfillment_time must contain 'state' = 'Order-picked-up' and a valid timestamp" };
+			}
+
+			const agentTag = tags.find((tag: any) => tag.code === "update_agent_details");
+			const agentName = agentTag?.list?.find((entry: any) => entry.code === "name")?.value;
+			const agentPhone = agentTag?.list?.find((entry: any) => entry.code === "phone")?.value;
+			if (!agentName || !agentPhone) {
+				return { valid: false, message: "update_agent_details must contain both 'name' and 'phone'" };
+			}
+
+			const requiredBnpTags = ["bnp_diff_weight", "bnp_diff_length", "bnp_diff_breadth", "bnp_diff_height"];
+			for (const tagCode of requiredBnpTags) {
+				const tag = tags.find((t: any) => t.code === tagCode);
+				const unit = tag?.list?.find((e: any) => e.code === "unit")?.value;
+				const value = tag?.list?.find((e: any) => e.code === "value")?.value;
+				if (!unit || isNaN(Number(value))) {
+				return { valid: false, message: `Tag '${tagCode}' must contain 'unit' and numeric 'value'` };
+				}
+			}
+
+			return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// Update requires transaction_id, order_id, and fulfillments

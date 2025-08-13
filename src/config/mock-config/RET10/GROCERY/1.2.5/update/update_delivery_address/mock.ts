@@ -33,33 +33,31 @@ export class MockUpdateDeliveryAddress extends MockAction {
 		return update_delivery_address(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// Update action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+	  
+		const order = targetPayload.message?.order;
+		if (!order?.id) return { valid: false, message: "order.id is required" };
+		const fulfillments = order.fulfillments;
+		if (!Array.isArray(fulfillments) || fulfillments.length === 0) {
+		  return { valid: false, message: "order.fulfillments must be a non-empty array" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		const deliveryFulfillment = fulfillments.find(f => f.type === "Delivery");
+		if (!deliveryFulfillment) return { valid: false, message: "A fulfillment of type 'Delivery' is required" };
+		if (!deliveryFulfillment.id) return { valid: false, message: "fulfillment.id is required" };
+	  
+		const end = deliveryFulfillment.end;
+		if (!end?.location?.gps) return { valid: false, message: "fulfillment.end.location.gps is required" };
+	  
+		const address = end.location.address;
+		const requiredAddressFields = ["name", "building", "locality", "city", "state", "country", "area_code"];
+		for (const field of requiredAddressFields) {
+		  if (!address?.[field]) return { valid: false, message: `fulfillment.end.location.address.${field} is required` };
 		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
-
-		const { order } = targetPayload.message;
-
-		// Check for order ID
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
-
-		// Check for update_target
-		if (!targetPayload.message.update_target) {
-			return { valid: false, message: "Message.update_target is required" };
-		}
-
+	  
+		if (!end.person?.name) return { valid: false, message: "fulfillment.end.person.name is required" };
+		if (!end.contact?.phone) return { valid: false, message: "fulfillment.end.contact.phone is required" };
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

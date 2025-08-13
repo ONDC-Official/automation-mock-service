@@ -33,33 +33,15 @@ export class MockInitSelfPickup extends MockAction {
 		return init_self_pickup_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// Init action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
-
-		const { order } = targetPayload.message;
-
-		// Check for billing object
-		if (!order.billing) {
-			return { valid: false, message: "Message.order.billing is required" };
-		}
-
-		// Check for fulfillment object/array
-		if (!order.fulfillment && !order.fulfillments) {
-			return { valid: false, message: "Message.order.fulfillment or fulfillments is required" };
-		}
-
+		const order = targetPayload.message?.order;
+		if (!order) return { valid: false, message: "Message.order is required" };
+	  
+		const fulfillments = order.fulfillments || [];
+		if (fulfillments.length === 0) return { valid: false, message: "At least one fulfillment is required" };
+	  
+		const selfPickup = fulfillments.find((f: { type: string; }) => f.type === "Self-Pickup");
+		if (!selfPickup) return { valid: false, message: "At least one fulfillment of type 'Self-Pickup' is required" };
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

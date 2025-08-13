@@ -87,7 +87,7 @@ export async function on_select_self_pickup_generator(
 	existingPayload.message.order.items = selectedItemsObj.map((item) => {
 		return {
 			id: item.id,
-			fulfillment_id: "F1",
+			fulfillment_id: "F2",
 		};
 	});
 	const catalogItems = catalog.catalog["bpp/providers"][0].items.filter(
@@ -104,7 +104,7 @@ export async function on_select_self_pickup_generator(
 			return {
 				id: item.id,
 				count: item.quantity.count,
-				fulfillment_id: "F1",
+				fulfillment_id: "F2",
 			};
 		}),
 		sessionData,

@@ -33,28 +33,36 @@ export class MockOnUpdateDeliveryAddress extends MockAction {
 		return on_update_delivery_address(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_update action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+	  
+		const order = targetPayload.message?.order;
+		if (!order?.id) return { valid: false, message: "order.id is required" };
+		if (!Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+		  return { valid: false, message: "order.fulfillments must be a non-empty array" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		const fulfillment = order.fulfillments.find((f: { type: string; }) => f.type === "Delivery");
+		if (!fulfillment) return { valid: false, message: "Delivery type fulfillment is required" };
+	  
+		if (!fulfillment.id) return { valid: false, message: "fulfillment.id is required" };
+		const end = fulfillment.end;
+		if (!end?.location?.gps) return { valid: false, message: "fulfillment.end.location.gps is required" };
+	  
+		const address = end.location.address;
+		const requiredAddressFields = ["name", "building", "locality", "city", "state", "country", "area_code"];
+		for (const field of requiredAddressFields) {
+		  if (!address?.[field]) return { valid: false, message: `fulfillment.end.location.address.${field} is required` };
 		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+	  
+		if (!end.contact?.phone) return { valid: false, message: "fulfillment.end.contact.phone is required" };
+		if (!end.person?.name) return { valid: false, message: "fulfillment.end.person.name is required" };
+	  
+		const instructions = end.instructions;
+		if (!instructions?.long_desc) return { valid: false, message: "fulfillment.end.instructions.long_desc is required" };
+		if (!instructions?.additional_desc?.content_type) {
+		  return { valid: false, message: "fulfillment.end.instructions.additional_desc.content_type is required" };
 		}
-
-		const { order } = targetPayload.message;
-
-		// Check for order ID
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
-
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

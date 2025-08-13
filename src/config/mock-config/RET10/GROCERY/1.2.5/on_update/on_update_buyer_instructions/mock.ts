@@ -33,29 +33,50 @@ export class MockOnUpdateBuyerInstructions extends MockAction {
 		return on_update_buyer_instructions(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_update action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			const order = targetPayload.message?.order;
+			if (!order) return { valid: false, message: "message.order is required" };
+			if (!order.id) return { valid: false, message: "order.id is required" };
+			if (!order.state) return { valid: false, message: "order.state is required" };
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+			if (!order.provider?.id) return { valid: false, message: "order.provider.id is required" };
+			if (!Array.isArray(order.provider.locations) || order.provider.locations.length === 0 || !order.provider.locations[0].id) {
+				return { valid: false, message: "At least one provider location with id is required" };
+			}
 
-		const { order } = targetPayload.message;
+			if (!Array.isArray(order.items) || order.items.length === 0) {
+				return { valid: false, message: "order.items must be a non-empty array" };
+			}
+			for (const item of order.items) {
+				if (!item.id || !item.fulfillment_id || !item.quantity?.count) {
+				return { valid: false, message: "Each item must have id, fulfillment_id, and quantity.count" };
+				}
+			}
 
-		// Check for order ID
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+			if (!order.billing || !order.billing.address || !order.billing.phone || !order.billing.name || !order.billing.email) {
+				return { valid: false, message: "Complete billing info with address, phone, name, and email is required" };
+			}
 
-		return { valid: true };
+			if (!order.quote?.price?.value || !order.quote?.price?.currency) {
+				return { valid: false, message: "order.quote.price with currency and value is required" };
+			}
+
+			const fulfillment = order.fulfillments?.find((f: { type: string; }) => f.type === "Delivery");
+			if (!fulfillment) return { valid: false, message: "A 'Delivery' type fulfillment is required" };
+
+			if (!fulfillment.id) return { valid: false, message: "fulfillment.id is required" };
+
+			const instructions = fulfillment?.end?.instructions;
+			if (!instructions?.long_desc) {
+				return { valid: false, message: "fulfillment.end.instructions.long_desc is required" };
+			}
+
+			if (!instructions.additional_desc?.content_type) {
+				return { valid: false, message: "instructions.additional_desc.content_type is required" };
+			}
+
+			return { valid: true };	
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		if (!sessionData.transaction_id) {

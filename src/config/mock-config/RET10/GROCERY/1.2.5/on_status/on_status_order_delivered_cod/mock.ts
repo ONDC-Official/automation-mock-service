@@ -33,33 +33,52 @@ export class MockOnStatusOrderDeliveredCod extends MockAction {
 		return on_status_order_delivered_cod_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_status action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+			const order = targetPayload?.message?.order;
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			if (order.state !== "Completed") {
+				return { valid: false, message: "order.state must be 'Completed'" };
+			}
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+			const payment = order.payment;
 
-		const { order } = targetPayload.message;
+			if (!payment) return { valid: false, message: "order.payment is required" };
 
-		// Check for required fields
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+			if (payment.type !== "ON-FULFILLMENT") {
+				return { valid: false, message: "payment.type must be 'ON-FULFILLMENT'" };
+			}
 
-		if (!order.state) {
-			return { valid: false, message: "Message.order.state is required" };
-		}
+			if (payment.collected_by !== "BPP") {
+				return { valid: false, message: "payment.collected_by must be 'BPP'" };
+			}
 
-		return { valid: true };
+			if (payment.status !== "PAID") {
+				return { valid: false, message: "payment.status must be 'PAID'" };
+			}
+
+			const settlementDetails = payment["@ondc/org/settlement_details"];
+			if (!Array.isArray(settlementDetails) || settlementDetails.length === 0) {
+				return { valid: false, message: "@ondc/org/settlement_details is required and must be a non-empty array" };
+			}
+
+			const fulfillments = order.fulfillments;
+			if (!Array.isArray(fulfillments) || fulfillments.length === 0) {
+				return { valid: false, message: "order.fulfillments must be a non-empty array" };
+			}
+
+			const deliveryFulfillment = fulfillments.find(f =>
+				["Delivery", "Buyer-Delivery"].includes(f.type) &&
+				f?.state?.descriptor?.code === "Order-delivered"
+			);
+
+			if (!deliveryFulfillment) {
+				return { valid: false, message: "No fulfillment with type Delivery/Buyer-Delivery and state 'Order-delivered'" };
+			}
+
+			if (!deliveryFulfillment?.end?.time?.timestamp) {
+				return { valid: false, message: "Delivery fulfillment must include end.time.timestamp" };
+			}
+
+			return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// on_status requires transaction_id and order

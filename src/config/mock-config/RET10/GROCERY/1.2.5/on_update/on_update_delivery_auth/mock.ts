@@ -33,28 +33,53 @@ export class MockOnUpdateDeliveryAuth extends MockAction {
 		return on_update_delivery_auth(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_update action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+	  
+		const order = targetPayload.message?.order;
+		if (!order?.id) return { valid: false, message: "order.id is required" };
+		if (!Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+		  return { valid: false, message: "order.fulfillments must be a non-empty array" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		const fulfillment = order.fulfillments.find((f: { type: string; }) => f.type === "Delivery");
+		if (!fulfillment) return { valid: false, message: "Delivery type fulfillment is required" };
+	  
+		if (!fulfillment.id) return { valid: false, message: "fulfillment.id is required" };
+		if (fulfillment.state?.descriptor?.code !== "Order-picked-up") {
+		  return { valid: false, message: "fulfillment.state.descriptor.code must be 'Order-picked-up'" };
 		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+	  
+		const start = fulfillment.start;
+		if (!start?.location?.gps) return { valid: false, message: "fulfillment.start.location.gps is required" };
+		if (!start?.contact?.phone) return { valid: false, message: "fulfillment.start.contact.phone is required" };
+		if (!start?.contact?.email) return { valid: false, message: "fulfillment.start.contact.email is required" };
+		if (!start?.time?.range?.start || !start?.time?.range?.end) {
+		  return { valid: false, message: "fulfillment.start.time.range.start and end are required" };
 		}
-
-		const { order } = targetPayload.message;
-
-		// Check for order ID
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
+		if (!start?.time?.timestamp) return { valid: false, message: "fulfillment.start.time.timestamp is required" };
+	  
+		const end = fulfillment.end;
+		if (!end?.location?.gps) return { valid: false, message: "fulfillment.end.location.gps is required" };
+		const address = end?.location?.address;
+		const requiredAddressFields = ["building", "city", "state", "country", "area_code", "locality", "name"];
+		for (const field of requiredAddressFields) {
+		  if (!address?.[field]) return { valid: false, message: `fulfillment.end.location.address.${field} is required` };
 		}
-
+		if (!end?.contact?.phone) return { valid: false, message: "fulfillment.end.contact.phone is required" };
+		if (!end?.contact?.email) return { valid: false, message: "fulfillment.end.contact.email is required" };
+		if (!end?.person?.name) return { valid: false, message: "fulfillment.end.person.name is required" };
+		if (!end?.time?.range?.start || !end?.time?.range?.end) {
+		  return { valid: false, message: "fulfillment.end.time.range.start and end are required" };
+		}
+	  
+		const instructions = end?.instructions;
+		if (!instructions?.code) return { valid: false, message: "fulfillment.end.instructions.code is required" };
+		if (!instructions?.short_desc) return { valid: false, message: "fulfillment.end.instructions.short_desc is required" };
+	  
+		const agent = fulfillment.agent;
+		if (!agent?.name) return { valid: false, message: "fulfillment.agent.name is required" };
+		if (!agent?.phone) return { valid: false, message: "fulfillment.agent.phone is required" };
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

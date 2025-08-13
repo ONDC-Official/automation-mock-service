@@ -33,28 +33,25 @@ export class MockOnCancel extends MockAction {
 		return on_cancel_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+
+		const order = targetPayload.message?.order;
+		if (!order || !order.id) {
+		  return { valid: false, message: "Order and Order.id are required" };
 		}
-
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		if (!order.cancellation?.reason?.id || !order.cancellation?.cancelled_by) {
+		  return { valid: false, message: "Cancellation.reason.id and cancelled_by are required" };
 		}
-
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+	  
+		const cancelFulfillments = order.fulfillments?.filter((f: any) => f.type === "Cancel") || [];
+		for (const f of cancelFulfillments) {
+		  const quoteTrail = f.tags?.find((tag: any) => tag.code === "quote_trail");
+		  if (!quoteTrail) {
+			return { valid: false, message: `Fulfillment ${f.id} must include a 'quote_trail' tag` };
+		  }
 		}
-
-		const { order } = targetPayload.message;
-
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
-
-		if (!order.cancellation && !targetPayload.message.cancellation) {
-			return { valid: false, message: "Cancellation object is required" };
-		}
-
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

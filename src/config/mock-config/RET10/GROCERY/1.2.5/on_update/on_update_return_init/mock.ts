@@ -33,30 +33,53 @@ export class MockOnUpdateReturnInit extends MockAction {
 		return on_update_interim_reverse_qc_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_update action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+			if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+				const order = targetPayload.message?.order;
+				if (!order || !order.id) {
+					return { valid: false, message: "Order and order.id are required" };
+				}
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+				const fulfillments = order.fulfillments;
+				if (!Array.isArray(fulfillments) || fulfillments.length === 0) {
+					return { valid: false, message: "At least one fulfillment is required" };
+				}
 
-		const { order } = targetPayload.message;
+				const returnFulfillment = fulfillments.find((f: any) => f.type === "Return");
+				if (!returnFulfillment) {
+					return { valid: false, message: "Return fulfillment type is required" };
+				}
 
-		// Check for order ID
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+				if (!returnFulfillment.id) {
+					return { valid: false, message: "Return fulfillment must have an id" };
+				}
 
-		return { valid: true };
+				const tags = returnFulfillment.tags || [];
+				const returnTag = tags.find((t: any) => t.code === "return_request");
+				if (!returnTag) {
+					return { valid: false, message: "Return fulfillment must contain tag with code 'return_request'" };
+				}
+
+				const requiredCodes = [
+					"id", "item_id", "item_quantity", "reason_id",
+					"reason_desc", "ttl_approval", "ttl_reverseqc"
+				];
+
+				for (const code of requiredCodes) {
+					const found = returnTag.list?.some((entry: any) => entry.code === code && entry.value?.toString().trim() !== "");
+					if (!found) {
+					return { valid: false, message: `Missing or empty '${code}' in return_request tag` };
+					}
+				}
+
+				const quantity = returnTag.list.find((e: any) => e.code === "item_quantity")?.value;
+				if (isNaN(Number(quantity)) || Number(quantity) <= 0) {
+					return { valid: false, message: "item_quantity in return_request must be a positive number" };
+				}
+
+				return { valid: true };
 	}
+	
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// on_update requires transaction_id and order
 		if (!sessionData.transaction_id) {

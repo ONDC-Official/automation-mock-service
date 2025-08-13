@@ -33,40 +33,26 @@ export class MockConfirmMultiFulfillment extends MockAction {
 		return confirm_multi_fulfillment_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// Confirm action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+	  
+		const order = targetPayload.message?.order;
+		if (!order) return { valid: false, message: "message.order is required" };
+	  
+		const items = order.items || [];
+		const fulfillments = order.fulfillments || [];
+	  
+		if (fulfillments.length < 2) {
+		  return { valid: false, message: "At least two fulfillments are required for multiple fulfillment validation" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		const fulfillmentIds = fulfillments.map((f: any) => f.id);
+	  
+		for (const item of items) {
+		  if (!item.fulfillment_id || !fulfillmentIds.includes(item.fulfillment_id)) {
+			return { valid: false, message: `Item with id '${item.id}' has invalid or missing fulfillment_id` };
+		  }
 		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
-
-		const { order } = targetPayload.message;
-
-		// Check for required fields
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
-
-		if (!order.state) {
-			return { valid: false, message: "Message.order.state is required" };
-		}
-
-		if (!order.payment) {
-			return { valid: false, message: "Message.order.payment is required" };
-		}
-
-		if (!order.quote) {
-			return { valid: false, message: "Message.order.quote is required" };
-		}
-
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

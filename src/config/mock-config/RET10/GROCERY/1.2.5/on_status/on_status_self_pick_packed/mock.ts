@@ -33,33 +33,23 @@ export class MockOnStatusSelfPickPacked extends MockAction {
 		return on_status_self_pickup_packed_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_status action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+				const order = targetPayload?.message?.order;
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+				if (!order) return { valid: false, message: "Message.order is required" };
+				if (!order.id) return { valid: false, message: "Message.order.id is required" };
+				if (!order.state) return { valid: false, message: "Message.order.state is required" };
 
-		const { order } = targetPayload.message;
+				if (order.state !== "In-progress") return { valid: false, message: "Order.state must be 'In-progress'" };
 
-		// Check for required fields
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+				const fulfillments = order.fulfillments || [];
+				const selfPickup = fulfillments.find(
+					(    f: { type: string; state: { descriptor: { code: string; }; }; }) => f?.type === "Self-Pickup" && f?.state?.descriptor?.code === "Packed"
+				);
+				if (!selfPickup) return { valid: false, message: "Self-Pickup fulfillment with state 'Packed' is required" };
 
-		if (!order.state) {
-			return { valid: false, message: "Message.order.state is required" };
-		}
-
-		return { valid: true };
+				return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// on_status requires transaction_id and order

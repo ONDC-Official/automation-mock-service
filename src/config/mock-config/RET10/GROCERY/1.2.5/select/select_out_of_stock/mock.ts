@@ -33,30 +33,28 @@ export class MockSelectOutOfStock extends MockAction {
 		return select_out_of_stock_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// Select action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+			if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			const order = targetPayload.message?.order;
+			if (!order) return { valid: false, message: "Message.order is required" };
+			if (!Array.isArray(order.items)) return { valid: false, message: "Order.items must be an array" };
+			if (!order.quote?.breakup || !Array.isArray(order.quote.breakup)) {
+				return { valid: false, message: "Order.quote.breakup is required and must be an array" };
+			}
 
-		// Check if order object exists with items array
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+			for (const item of order.quote.breakup) {
+				if (item["@ondc/org/title_type"] === "item") {
+				const quantityCount = item["@ondc/org/item_quantity"]?.count;
+				if (typeof quantityCount !== "number") {
+					return { valid: false, message: `Item ${item["@ondc/org/item_id"]}: @ondc/org/item_quantity.count must be a number` };
+				}
+				if (quantityCount !== 0) {
+					return { valid: false, message: `Item ${item["@ondc/org/item_id"]} must have count 0 for out-of-stock` };
+				}
+				}
+			}
 
-		if (!targetPayload.message.order.items || !Array.isArray(targetPayload.message.order.items)) {
-			return { valid: false, message: "Message.order.items array is required" };
-		}
-
-		if (targetPayload.message.order.items.length === 0) {
-			return { valid: false, message: "Message.order.items cannot be empty" };
-		}
-
-		return { valid: true };
+  			return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// Select requires transaction_id

@@ -33,14 +33,19 @@ export class MockCancel extends MockAction {
 		return cancel_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+		const message = targetPayload.message;
+		if (!message) return { valid: false, message: "message is required" };
+	  
+		if (!message.order_id) {
+		  return { valid: false, message: "message.order_id is required" };
 		}
-
+	  
+		if (!message.cancellation_reason_id) {
+		  return { valid: false, message: "message.cancellation_reason_id is required" };
+		}
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

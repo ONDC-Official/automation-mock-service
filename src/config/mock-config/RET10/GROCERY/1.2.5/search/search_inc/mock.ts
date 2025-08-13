@@ -33,33 +33,21 @@ export class MockSearchInc extends MockAction {
 		return search_inc_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+	 			const context = targetPayload?.context;
+		 		const message = targetPayload?.message;
 
-		if (!targetPayload.context) {
-			return { valid: false, message: "Context is required" };
-		}
+				if (!context || !message) return { valid: false, message: "context and message are required" };
 
-		const { context } = targetPayload;
-		
-		if (!context.domain) {
-			return { valid: false, message: "Context domain is required" };
-		}
-		
-		if (!context.action) {
-			return { valid: false, message: "Context action is required" };
-		}
-		
-		if (!context.country) {
-			return { valid: false, message: "Context country is required" };
-		}
-		
-		if (!context.city) {
-			return { valid: false, message: "Context city is required" };
-		}
+				if (context.city !== "*") {
+					return { valid: false, message: "context.city must be '*'" };
+				}
 
-		return { valid: true };
+				const intent = message.intent;
+				if (!intent || !intent.provider || !intent.provider.id) {
+					return { valid: false, message: "message.intent.provider.id is required for incremental catalog" };
+				}
+
+				return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		return { valid: true };

@@ -33,23 +33,34 @@ export class MockOnSelectMultiFulfillment extends MockAction {
 		return on_select_multi_fulfillment_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_select action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+
+		const message = targetPayload.message;
+	  
+		if (!message || !message.order) return { valid: false, message: "Message.order is required" };
+	  
+		const { order } = message;
+	  
+		if (!Array.isArray(order.items) || order.items.length === 0) {
+		  return { valid: false, message: "Order.items must be a non-empty array" };
+		}
+	  
+		if (!Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+		  return { valid: false, message: "Order.fulfillments must be a non-empty array" };
 		}
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
-
-		// Check if order object exists with items array
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
-
-		if (!targetPayload.message.order.items || !Array.isArray(targetPayload.message.order.items)) {
-			return { valid: false, message: "Message.order.items array is required" };
+		if (order.fulfillments.length<2) {
+			return { valid: false, message: "Order.fulfillments must be more then one" };
+		  }
+		  
+	  for (const f of order.fulfillments) {
+		  if (!f.id) return { valid: false, message: "Each fulfillment.id is required" };
+		  if (!f.type) return { valid: false, message: `Fulfillment ${f.id}: type is required` };
+		  if (!f["@ondc/org/TAT"]) return { valid: false, message: `Fulfillment ${f.id}: @ondc/org/TAT is required` };
+		 }
+	  
+		if (!order.quote?.breakup || !Array.isArray(order.quote.breakup)) {
+		  return { valid: false, message: "Order.quote.breakup must be a non-empty array" };
 		}
 
 		return { valid: true };

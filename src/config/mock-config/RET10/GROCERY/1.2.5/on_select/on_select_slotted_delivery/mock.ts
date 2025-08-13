@@ -33,25 +33,32 @@ export class MockOnSelectSlottedDelivery extends MockAction {
 		return on_select_slotted_delivery_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_select action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+		const order = targetPayload.message?.order;
+		if (!order) return { valid: false, message: "Message.order is required" };
+		if (!Array.isArray(order.fulfillments)) return { valid: false, message: "Order.fulfillments must be an array" };
+	  
+		for (const fulfillment of order.fulfillments) {
+		  if (!fulfillment.id) return { valid: false, message: "Fulfillment.id is required" };
+		  if (!fulfillment.type) return { valid: false, message: `Fulfillment ${fulfillment.id}: type is required` };
+	  
+		  const tat = fulfillment["@ondc/org/TAT"];
+		  if (!tat) return { valid: false, message: `Fulfillment ${fulfillment.id}: @ondc/org/TAT is required` };
+	  
+		  if (fulfillment.type === "Delivery" && fulfillment.end) {
+			if (!fulfillment.end?.time?.range?.start || !fulfillment.end?.time?.range?.end) {
+			  return { valid: false, message: `Fulfillment ${fulfillment.id}: end.time.range.start and end are required for Delivery` };
+			}
+		  } else if (fulfillment.type === "Self-Pickup") {
+			if (!fulfillment.start?.time?.range?.start || !fulfillment.start?.time?.range?.end) {
+			  return { valid: false, message: `Fulfillment ${fulfillment.id}: start.time.range.start and end are required for Self-Pickup` };
+			}
+		  } else {
+			return { valid: false, message: `Fulfillment ${fulfillment.id}: type must be Delivery or Self-Pickup` };
+		  }
 		}
-
-		// Check if order object exists with items array
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
-
-		if (!targetPayload.message.order.items || !Array.isArray(targetPayload.message.order.items)) {
-			return { valid: false, message: "Message.order.items array is required" };
-		}
-
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

@@ -33,29 +33,54 @@ export class MockOnUpdateReturnApproved extends MockAction {
 		return on_update_approved_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_update action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+	  
+		const order = targetPayload.message?.order;
+		if (!order || !order.id) {
+		  return { valid: false, message: "Order and order.id are required" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		const fulfillments = order.fulfillments || [];
+		const returnFulfillment = fulfillments.find((f: any) => f.type === "Return");
+		if (!returnFulfillment) {
+		  return { valid: false, message: "Return fulfillment is required" };
 		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+	  
+		const returnState = returnFulfillment.state?.descriptor?.code;
+		if (returnState !== "Return_Approved") {
+		  return { valid: false, message: "Return fulfillment must be in 'Return_Approved' state" };
 		}
-
-		const { order } = targetPayload.message;
-
-		// Check for order ID
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
+	  
+		if (!returnFulfillment.start?.location || !returnFulfillment.start?.time?.range) {
+		  return { valid: false, message: "Start location and time.range are required in return fulfillment" };
 		}
-
-
+	  
+		if (!returnFulfillment.end?.location || !returnFulfillment.end?.time?.range) {
+		  return { valid: false, message: "End location and time.range are required in return fulfillment" };
+		}
+	  
+		const tags = returnFulfillment.tags || [];
+		const returnTag = tags.find((t: any) => t.code === "return_request");
+		if (!returnTag) {
+		  return { valid: false, message: "return_request tag is required in return fulfillment" };
+		}
+	  
+		const requiredCodes = [
+		  "id", "item_id", "item_quantity", "reason_id",
+		  "reason_desc", "ttl_approval", "ttl_reverseqc"
+		];
+		for (const code of requiredCodes) {
+		  const found = returnTag.list?.some((entry: any) => entry.code === code && entry.value?.toString().trim() !== "");
+		  if (!found) {
+			return { valid: false, message: `Missing or empty '${code}' in return_request tag` };
+		  }
+		}
+	  
+		const quantity = returnTag.list.find((e: any) => e.code === "item_quantity")?.value;
+		if (isNaN(Number(quantity)) || Number(quantity) <= 0) {
+		  return { valid: false, message: "item_quantity in return_request must be a positive number" };
+		}
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

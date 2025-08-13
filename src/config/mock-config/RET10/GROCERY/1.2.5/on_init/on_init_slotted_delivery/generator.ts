@@ -16,6 +16,20 @@ export async function on_init_slotted_delivery_generator(
 	existingPayload.message.order.billing = getUpdatedBilling(
 		sessionData.billing
 	);
+	existingPayload.message.order.fulfillments =
+  existingPayload.message.order.fulfillments.map((fulfillment: { end?: any }) => ({
+    ...fulfillment,
+    end: {
+      ...fulfillment.end,
+      time: {
+        range: {
+          start: "2025-01-07T09:30:00.000Z",
+          end: "2025-01-07T10:00:00.000Z"
+        }
+      }
+    }
+  }));
+
 	existingPayload.message.order.provider = sessionData.provider;
 	existingPayload.message.order.quote = sessionData.quote;
 	const selectedIds = sessionData.on_select_fulfillments.map((f: any) => f.id);

@@ -33,40 +33,22 @@ export class MockOnConfirmCod extends MockAction {
 		return on_confirm_cod_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_confirm action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+
+		const order = targetPayload.message?.order;
+		if (!order) return { valid: false, message: "message.order is required" };
+	  
+		const payment = order.payment;
+		if (!payment || payment.type !== "ON-FULFILLMENT" || payment.collected_by !== "BPP") {
+		  return { valid: false, message: "This validation applies only to COD orders (type 'ON-FULFILLMENT' and collected_by 'BPP')" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
-
-		const { order } = targetPayload.message;
-
-		// Check for required fields
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
-
-		if (!order.state) {
-			return { valid: false, message: "Message.order.state is required" };
-		}
-
-		if (!order.payment) {
-			return { valid: false, message: "Message.order.payment is required" };
-		}
-
-		if (!order.quote) {
-			return { valid: false, message: "Message.order.quote is required" };
-		}
-
+	  
+		const tags = order.tags || [];
+		const bnpClaimTag = tags.find((tag: any) => tag.code === "bap_terms");
+	  
+		if (!bnpClaimTag) {
+		  return { valid: false, message: "'bap_terms' tag must be present for COD orders" };
+		}  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

@@ -79,11 +79,12 @@ export async function on_update_picked_generator(
 			};
 		})
 		.filter((x): x is NonNullable<typeof x> => x !== null);
-	existingPayload.message.order.fulfillments = sessionData.fulfillments.map(
+	existingPayload.message.order.fulfillments = sessionData.fulfillments.filter(
 		(f: Fulfillment) => {
 			if (f.type == "Return") {
-				const tags = f?.tags as any[];
-				return {
+				const tags = f?.tags?.filter((tag)=>tag.code) as any[];
+                 
+                  return {
 					...f,
 					state: {
 						descriptor: {
@@ -100,8 +101,7 @@ export async function on_update_picked_generator(
 					tags: [...tags, ...quoteTrails],
 				};
 			}
-			return f;
-		}
+			}
 	);
 	existingPayload.message.order.quote = sessionData.quote;
 	return existingPayload;

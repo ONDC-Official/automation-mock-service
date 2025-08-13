@@ -33,28 +33,68 @@ export class MockOnUpdatePartCancel extends MockAction {
 		return on_update_part_cancel_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_update action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		const message = targetPayload?.message;
+
+		if (!message) return { valid: false, message: "message is required" };
+
+		const order = message.order;
+		if (!order?.id) return { valid: false, message: "order.id is required" };
+	  
+		const items = order?.items || [];
+		const fulfillments = order?.fulfillments || [];
+	  
+		if (!items.length) return { valid: false, message: "order.items is empty" };
+		if (!fulfillments.length) return { valid: false, message: "order.fulfillments is empty" };
+	  
+		const cancelFulfillment = fulfillments.find((f: { type: string; }) => f.type === "Cancel");
+		if (!cancelFulfillment) return { valid: false, message: "Cancel fulfillment missing" };
+	  
+		const cancelTags = cancelFulfillment.tags?.find((t: { code: string; }) => t.code === "cancel_request");
+		if (!cancelTags) return { valid: false, message: "cancel_request tag missing in Cancel fulfillment" };
+	  
+		const quoteTrail = cancelFulfillment.tags?.find((t: { code: string; }) => t.code === "quote_trail");
+		if (!quoteTrail) return { valid: false, message: "quote_trail tag missing in Cancel fulfillment" };
+	  
+		const cancelledItemId = quoteTrail.list?.find((x: { code: string; }) => x.code === "id")?.value;
+		const cancelValue = quoteTrail.list?.find((x: { code: string; }) => x.code === "value")?.value;
+	  
+		if (!cancelledItemId || !cancelValue) {
+		  return { valid: false, message: "quote_trail must include item id and value" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		const itemCancelSplit = items.filter((x: { id: any; }) => x.id === cancelledItemId);
+		const hasZeroQty = itemCancelSplit.some((x: { quantity: { count: number; }; }) => x.quantity?.count === 0);
+		const hasCancelId = itemCancelSplit.some((x: { fulfillment_id: any; }) => x.fulfillment_id === cancelFulfillment.id);
+	  
+		if (!hasZeroQty || !hasCancelId) {
+		  return { valid: false, message: `Item '${cancelledItemId}' must show both 0 quantity and mapped to cancel fulfillment` };
 		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+	  
+		const quoteBreakup = order?.quote?.breakup;
+		const quoteBreakupItem = quoteBreakup?.find((x: { [x: string]: any; }) => x["@ondc/org/item_id"] === cancelledItemId);
+		if (!quoteBreakupItem || quoteBreakupItem?.price?.value !== "0.00") {
+		  return { valid: false, message: `Breakup for cancelled item '${cancelledItemId}' must have price 0.00` };
 		}
-
-		const { order } = targetPayload.message;
-
-		// Check for order ID
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
+	  
+		if (!order.quote?.price?.value) {
+		  return { valid: false, message: "order.quote.price.value is required" };
 		}
-
+	  
+		if (!order.billing?.address?.city || !order.billing?.phone) {
+		  return { valid: false, message: "order.billing must include address and phone" };
+		}
+	  
+		if (!order.payment?.params?.amount || !order.payment?.status) {
+		  return { valid: false, message: "order.payment must include amount and status" };
+		}
+	  
+		const hasSettlement = Array.isArray(order.payment?.["@ondc/org/settlement_details"]) &&
+		  order.payment["@ondc/org/settlement_details"].length > 0;
+	  
+		if (!hasSettlement) {
+		  return { valid: false, message: "@ondc/org/settlement_details is missing or invalid" };
+		}
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

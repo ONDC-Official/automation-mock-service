@@ -33,31 +33,26 @@ export class MockInitBuyerDelivery extends MockAction {
 		return init_buyer_delivery_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// Init action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		
+		const order = targetPayload.message?.order;
+		if (!order) return { valid: false, message: "Message.order is required" };
+	  
+		const items = order.items;
+		if (!Array.isArray(items) || items.length === 0) return { valid: false, message: "Order.items are required" };
+	  
+		const fulfillments = order.fulfillments;
+		if (!Array.isArray(fulfillments) || fulfillments.length === 0) return { valid: false, message: "Order.fulfillments are required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
-
-		const { order } = targetPayload.message;
-
-		// Check for billing object
-		if (!order.billing) {
-			return { valid: false, message: "Message.order.billing is required" };
-		}
-
-		// Check for fulfillment object/array
-		if (!order.fulfillment && !order.fulfillments) {
-			return { valid: false, message: "Message.order.fulfillment or fulfillments is required" };
+		for (const item of items) {
+		  if (!item.id) return { valid: false, message: "Item.id is required" };
+		  if (!item.fulfillment_id) return { valid: false, message: "Item.fulfillment_id is required" };
+	  
+		  const linkedFulfillment = fulfillments.find(f => f.id === item.fulfillment_id);
+		  if (!linkedFulfillment) return { valid: false, message: `Fulfillment with id ${item.fulfillment_id} not found` };
+	  
+		  if (linkedFulfillment.type !== "Buyer-Delivery") {
+			return { valid: false, message: `Fulfillment ${linkedFulfillment.id} must be of type 'Buyer-Delivery'` };
+		  }
 		}
 
 		return { valid: true };

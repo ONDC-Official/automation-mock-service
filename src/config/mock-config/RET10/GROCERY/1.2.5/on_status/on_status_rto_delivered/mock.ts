@@ -33,32 +33,37 @@ export class MockOnStatusRtoDelivered extends MockAction {
 		return on_status_rto_delivereddisposed_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_status action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+
+		const order = targetPayload?.message?.order;
+	  
+		if (!order) return { valid: false, message: "Message.order is required" };
+		if (!order.id) return { valid: false, message: "Message.order.id is required" };
+		if (!order.state) return { valid: false, message: "Message.order.state is required" };
+		if (order.state !== "Cancelled") {
+		  return { valid: false, message: "Order.state must be 'Cancelled'" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		const fulfillments = order.fulfillments || [];
+		if (!Array.isArray(fulfillments) || fulfillments.length === 0) {
+		  return { valid: false, message: "At least one fulfillment is required" };
 		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+	  
+		const rtoFulfillment = fulfillments.find(f => f?.state?.descriptor?.code === "RTO-Delivered");
+		if (!rtoFulfillment) {
+		  return { valid: false, message: "At least one fulfillment.state.descriptor.code must be 'RTO-Delivered'" };
 		}
-
-		const { order } = targetPayload.message;
-
-		// Check for required fields
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
+	  
+		const startTime = rtoFulfillment?.start?.time?.timestamp;
+		const endTime = rtoFulfillment?.end?.time?.timestamp;
+	  
+		if (!startTime) {
+		  return { valid: false, message: "fulfillment.start.time.timestamp is required for RTO-Delivered" };
 		}
-
-		if (!order.state) {
-			return { valid: false, message: "Message.order.state is required" };
+		if (!endTime) {
+		  return { valid: false, message: "fulfillment.end.time.timestamp is required for RTO-Delivered" };
 		}
-
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

@@ -33,32 +33,55 @@ export class MockOnStatusOutForDelivery extends MockAction {
 		return on_status_out_for_delivery_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_status action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+
+		const order = targetPayload?.message?.order;
+	  
+		if (!order) return { valid: false, message: "Message.order is required" };
+	  
+		if (order.state !== "In-progress") {
+		  return { valid: false, message: "Order.state must be 'In-progress'" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		if (!Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+		  return { valid: false, message: "At least one fulfillment is required" };
 		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+	  
+		const fulfillment = order.fulfillments[0];
+	  
+		const stateCode = fulfillment?.state?.descriptor?.code;
+		if (!stateCode) return { valid: false, message: "Fulfillment.state.descriptor.code is required" };
+	  
+		if (stateCode !== "Out-for-delivery") {
+		  return { valid: false, message: "Fulfillment.state.descriptor.code must be 'Out-for-delivery'" };
 		}
-
-		const { order } = targetPayload.message;
-
-		// Check for required fields
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
+	  
+		if (fulfillment.tracking !== true) {
+		  return { valid: false, message: "Fulfillment.tracking must be true for 'Out-for-delivery'" };
 		}
-
-		if (!order.state) {
-			return { valid: false, message: "Message.order.state is required" };
+	  
+		const startTimestamp = fulfillment?.start?.time?.timestamp;
+		if (!startTimestamp) {
+		  return { valid: false, message: "Fulfillment.start.time.timestamp is required for 'Out-for-delivery'" };
 		}
-
+	  
+		if (!fulfillment.agent) return { valid: false, message: "Fulfillment.agent is required" };
+		if (!fulfillment.agent.name || !fulfillment.agent.phone) {
+		  return { valid: false, message: "Fulfillment.agent.name and agent.phone are required" };
+		}
+	  
+		const tags = fulfillment.tags || [];
+	  
+		const routingTag = tags.find((t: any) => t.code === "routing");
+		if (!routingTag || !Array.isArray(routingTag.list) || routingTag.list.length === 0) {
+		  return { valid: false, message: "Fulfillment.tags.routing is required" };
+		}
+	  
+		const trackingTag = tags.find((t: any) => t.code === "tracking");
+		if (!trackingTag || !Array.isArray(trackingTag.list) || trackingTag.list.length === 0) {
+		  return { valid: false, message: "Fulfillment.tags.tracking is required" };
+		}
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

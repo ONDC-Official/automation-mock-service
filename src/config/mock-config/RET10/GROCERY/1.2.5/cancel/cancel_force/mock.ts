@@ -33,14 +33,33 @@ export class MockCancelForce extends MockAction {
 		return cancel_force_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// Cancel action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+	  
+		const message = targetPayload.message;
+		if (!message) return { valid: false, message: "message is required" };
+	  
+		if (!message.order_id) {
+		  return { valid: false, message: "message.order_id is required" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		if (!message.cancellation_reason_id) {
+		  return { valid: false, message: "message.cancellation_reason_id is required" };
+		}
+	  
+		if (!Array.isArray(message.tags)) {
+		  return { valid: false, message: "message.tags must be an array" };
+		}
+	  
+		const paramsTag = message.tags.find((tag: any) => tag.code === "params");
+	  
+		if (!paramsTag || !Array.isArray(paramsTag.list)) {
+		  return { valid: false, message: "params tag with list is required in message.tags" };
+		}
+	  
+		const forceEntry = paramsTag.list.find((p: any) => p.code === "force");
+		
+		if (!forceEntry || forceEntry.value !== "yes") {
+		  return { valid: false, message: "force must be set to 'yes' for force cancel" };
 		}
 
 		return { valid: true };

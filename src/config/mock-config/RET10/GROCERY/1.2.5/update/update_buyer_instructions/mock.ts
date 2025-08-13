@@ -33,28 +33,36 @@ export class MockUpdateBuyerInstructions extends MockAction {
 		return update_buyer_instructions(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+	
+		if (targetPayload.message?.update_target !== "fulfillment") {
+		  return { valid: false, message: "update_target must be 'fulfillment'" };
 		}
-
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		const order = targetPayload.message?.order;
+		if (!order || !order.id) {
+		  return { valid: false, message: "order and order.id are required" };
 		}
-
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+	  
+		const fulfillment = order.fulfillments?.[0];
+		if (!fulfillment || fulfillment.type !== "Delivery") {
+		  return { valid: false, message: "fulfillment.type must be 'Delivery'" };
 		}
-
-		const { order } = targetPayload.message;
-
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
+	  
+		if (!fulfillment.id) {
+		  return { valid: false, message: "fulfillment.id is required" };
 		}
-
-		if (!targetPayload.message.update_target) {
-			return { valid: false, message: "Message.update_target is required" };
+	  
+		const instructions = fulfillment.end?.instructions;
+		if (!instructions || !instructions.long_desc) {
+		  return { valid: false, message: "fulfillment.end.instructions.long_desc is required" };
 		}
-
+	  
+		const additional = instructions.additional_desc;
+		if (!additional || !additional.content_type || !additional.url) {
+		  return { valid: false, message: "instructions.additional_desc must have both 'content_type' and 'url'" };
+		}
+	  
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

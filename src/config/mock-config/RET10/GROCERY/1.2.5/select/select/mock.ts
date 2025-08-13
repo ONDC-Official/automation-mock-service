@@ -38,30 +38,42 @@ export class MockSelect extends MockAction {
     return select_generator(existingPayload, sessionData);
   }
   async validate(targetPayload: any): Promise<MockOutput> {
-    if (!targetPayload) {
-      return { valid: false, message: "Payload is required" };
-    }
-
-    if (!targetPayload.message) {
-      return { valid: false, message: "Message is required" };
-    }
-
-    if (!targetPayload.message.order) {
-      return { valid: false, message: "Message.order is required" };
-    }
-
-    if (
-      !targetPayload.message.order.items ||
-      !Array.isArray(targetPayload.message.order.items)
-    ) {
-      return { valid: false, message: "Message.order.items array is required" };
-    }
-
-    if (targetPayload.message.order.items.length === 0) {
-      return { valid: false, message: "Message.order.items cannot be empty" };
-    }
-
-    return { valid: true };
+                if (!targetPayload) {
+                  return { valid: false, message: "Payload is required", code: "ERR_PAYLOAD_MISSING" };
+                }
+              
+                const { message } = targetPayload;
+              
+                if (!message || !message.order) {
+                  return { valid: false, message: "Message.order is required", code: "ERR_ORDER_MISSING" };
+                }
+              
+                const order = message.order;
+              
+                if (!order.provider || !order.provider.id) {
+                  return { valid: false, message: "Order.provider.id is required", code: "ERR_PROVIDER_ID_MISSING" };
+                }
+              
+                if (!order.provider.locations || !Array.isArray(order.provider.locations) || order.provider.locations.length === 0) {
+                  return { valid: false, message: "Order.provider.locations must be a non-empty array", code: "ERR_PROVIDER_LOCATIONS_MISSING" };
+                }
+              
+                if (!order.items || !Array.isArray(order.items) || order.items.length === 0) {
+                  return { valid: false, message: "Order.items must be a non-empty array", code: "ERR_ITEMS_MISSING" };
+                }
+              
+                if (!order.fulfillments || !Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+                  return { valid: false, message: "Order.fulfillments must be a non-empty array", code: "ERR_FULFILLMENTS_MISSING" };
+                }
+              
+                for (const fulfillment of order.fulfillments) {
+                  const endLoc = fulfillment?.end?.location;
+                  if (!endLoc?.gps || !endLoc?.address?.area_code) {
+                    return { valid: false, message: "Fulfillment.end.location.gps and area_code are required", code: "ERR_FULFILLMENT_END_LOCATION" };
+                  }
+                }
+              
+                return { valid: true };
   }
   async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
     if (!sessionData.transaction_id) {

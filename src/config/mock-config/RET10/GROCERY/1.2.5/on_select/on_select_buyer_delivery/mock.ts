@@ -33,25 +33,31 @@ export class MockOnSelectBuyerDelivery extends MockAction {
 		return on_select_buyer_delivery_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_select action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+		const message = targetPayload.message;
+	  
+		if (!message || !message.order) return { valid: false, message: "Message.order is required" };
+	  
+		const { order } = message;
+	  
+		if (!Array.isArray(order.items) || order.items.length === 0) {
+		  return { valid: false, message: "Order.items must be a non-empty array" };
 		}
-
-		// Check if order object exists with items array
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+	  
+		if (!Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+		  return { valid: false, message: "Order.fulfillments must be a non-empty array" };
 		}
-
-		if (!targetPayload.message.order.items || !Array.isArray(targetPayload.message.order.items)) {
-			return { valid: false, message: "Message.order.items array is required" };
+	  
+		const fulfillment = order.fulfillments.find((f: any) => f.type === "Buyer-Delivery");
+		if (!fulfillment) return { valid: false, message: "Buyer-Delivery fulfillment is required" };
+	  
+		if (!fulfillment.id) return { valid: false, message: "Fulfillment.id is required" };
+		if (!fulfillment["@ondc/org/TAT"]) return { valid: false, message: "Fulfillment @ondc/org/TAT is required" };
+	  
+		if (!fulfillment.state?.descriptor?.code || fulfillment.state.descriptor.code !== "Serviceable") {
+		  return { valid: false, message: "Fulfillment.state.descriptor.code must be 'Serviceable'" };
 		}
-
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

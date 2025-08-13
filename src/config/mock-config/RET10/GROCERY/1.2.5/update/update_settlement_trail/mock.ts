@@ -33,34 +33,53 @@ export class MockUpdateSettlementTrail extends MockAction {
 		return update_partial_cancel_settlement_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// Update action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+            const message = targetPayload?.message;
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+            if ( !message) {
+              return { valid: false, message: "message is required" };
+            }
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+            if (message.update_target !== "payment") {
+              return { valid: false, message: "message.update_target must be 'payment'" };
+            }
 
-		const { order } = targetPayload.message;
+            const order = message.order;
+            if (!order || !order.id) {
+              return { valid: false, message: "message.order.id is required" };
+            }
 
-		// Check for order ID
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+            if (!order.fulfillments || !Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+              return { valid: false, message: "message.order.fulfillments must contain at least one fulfillment" };
+            }
 
-		// Check for update_target
-		if (!targetPayload.message.update_target) {
-			return { valid: false, message: "Message.update_target is required" };
-		}
+            for (const fulfillment of order.fulfillments) {
+              if (!fulfillment.id || !fulfillment.type) {
+                return { valid: false, message: "Each fulfillment must include id and type" };
+              }
+            }
 
-		return { valid: true };
+            const settlementDetails = order?.payment?.["@ondc/org/settlement_details"];
+            if (!settlementDetails || !Array.isArray(settlementDetails) || settlementDetails.length === 0) {
+              return { valid: false, message: "@ondc/org/settlement_details must be a non-empty array" };
+            }
+
+              const requiredFields = [
+                "settlement_counterparty",
+                "settlement_phase",
+                "settlement_type",
+                "settlement_amount",
+                "settlement_timestamp"
+              ];
+
+            for (const detail of settlementDetails) {
+              for (const field of requiredFields) {
+                if (!detail[field]) {
+                  return { valid: false, message: `Missing ${field} in settlement_details` };
+                }
+              }
+            } 
+
+            return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// Update requires transaction_id, order_id, and fulfillments

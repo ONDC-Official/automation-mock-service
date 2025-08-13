@@ -33,29 +33,42 @@ export class MockUpdateDelivered extends MockAction {
 		return update_delivered_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			if (targetPayload.message?.update_target !== "fulfillment") {
+				return { valid: false, message: "update_target must be 'fulfillment'" };
+			}
 
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+			const order = targetPayload.message?.order;
+			if (!order || !order.id) {
+				return { valid: false, message: "order and order.id are required" };
+			}
 
-		const { order } = targetPayload.message;
+			const fulfillment = order.fulfillments?.[0];
+			if (!fulfillment || fulfillment.type !== "Order-delivered") {
+				return { valid: false, message: "fulfillment.type must be 'Order-delivered'" };
+			}
 
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+			if (!fulfillment.id) {
+				return { valid: false, message: "fulfillment.id is required" };
+			}
 
-		if (!targetPayload.message.update_target) {
-			return { valid: false, message: "Message.update_target is required" };
-		}
+			const tags = fulfillment.tags || [];
 
-		return { valid: true };
+			const updateStateTag = tags.find((tag: any) => tag.code === "update_state");
+			const stateValue = updateStateTag?.list?.find((entry: any) => entry.code === "state")?.value;
+			if (stateValue !== "Order-delivered") {
+				return { valid: false, message: "update_state.state must be 'Order-delivered'" };
+			}
+
+			const updateTimeTag = tags.find((tag: any) => tag.code === "update_fulfillment_time");
+			const timeState = updateTimeTag?.list?.find((entry: any) => entry.code === "state")?.value;
+			const timeStamp = updateTimeTag?.list?.find((entry: any) => entry.code === "timestamp")?.value;
+			if (timeState !== "Order-delivered" || !timeStamp) {
+				return { valid: false, message: "update_fulfillment_time must contain 'state' = 'Order-delivered' and a valid timestamp" };
+			}
+
+			return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		if (!sessionData.transaction_id) {

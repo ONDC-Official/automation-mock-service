@@ -33,13 +33,11 @@ export class MockTrack extends MockAction {
 		return track_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+		const message = targetPayload.message;
+
+		if (!message?.order_id) return { valid: false, message: "Message.order_id is required" };
 
 		return { valid: true };
 	}

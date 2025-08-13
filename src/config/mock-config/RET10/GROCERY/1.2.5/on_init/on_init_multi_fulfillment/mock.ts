@@ -33,33 +33,38 @@ export class MockOnInitMultiFulfillment extends MockAction {
 		return on_init_multi_fulfillment_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_init action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+
+		const order = 	targetPayload.message?.order;
+		if (!order) return { valid: false, message: "Message.order is required" };
+		const fulfillments = order.fulfillments;
+		if (!Array.isArray(fulfillments) || fulfillments.length === 0) {
+			return { valid: false, message: "Order.fulfillments must be a non-empty array" };
 		}
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+		const items = order.items;
+		if (!Array.isArray(items) || items.length === 0) {
+			return { valid: false, message: "Order.items must be a non-empty array" };
 		}
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+		const selectedFulfillmentIds = new Set(items.map(i => i.fulfillment_id));
+		const allFulfillmentIds = new Set(fulfillments.map(f => f.id));
+		for (const fid of selectedFulfillmentIds) {
+			if (!allFulfillmentIds.has(fid)) {
+			return { valid: false, message: `Fulfillment id ${fid} referenced in items is missing in fulfillments` };
+			}
 		}
+        if (fulfillments.length < 2) {
+			return { valid: false, message: `Fulfillments must be array with greater than two length` };
+			}
 
-		const { order } = targetPayload.message;
+		const quote = order.quote;
+		if (!quote) return { valid: false, message: "Order.quote is required" };
 
-		// Check for billing object
-		if (!order.billing) {
-			return { valid: false, message: "Message.order.billing is required" };
+		const breakup = quote.breakup;
+		if (!Array.isArray(breakup) || breakup.length === 0) {
+			return { valid: false, message: "Quote.breakup must be a non-empty array" };
 		}
-
-		// Check for fulfillment object/array
-		if (!order.fulfillment && !order.fulfillments) {
-			return { valid: false, message: "Message.order.fulfillment or fulfillments is required" };
-		}
-
 		return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {

@@ -66,7 +66,29 @@ export async function init_multi_fulfillment_generator(
 			},
 		});
 	}
-	existingPayload.message.order.fulfillments = newFulfillments;
+	existingPayload.message.order.fulfillments = newFulfillments.length < 2 ? newFulfillments.push({
+		id: "F1",
+		type:  "Delivery",
+		end: {
+			contact: {
+				email: "nobody@nomail.com",
+				phone: "9898989898",
+			},
+			location: {
+				gps: selected[0].end?.location?.gps,
+				address: {
+					building: "mock-building",
+					city: "mock-city",
+					state: "mock-state",
+					country: "IND",
+					area_code:
+						selected[0].end?.location?.address?.area_code || "400053",
+					locality: "mock-locality",
+					name: "mock-house-name",
+				},
+			},
+		},
+	}):newFulfillments;
 	existingPayload.message.order.billing = getUpdatedBilling(
 		existingPayload.message.order.billing,
 		true

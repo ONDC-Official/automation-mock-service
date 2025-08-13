@@ -33,29 +33,35 @@ export class MockOnCancelForce extends MockAction {
 		return on_cancel_force_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			const order = targetPayload.message?.order;
+			if (!order || !order.id) {
+				return { valid: false, message: "Order and order.id are required" };
+			}
 
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+			const cancellation = order.cancellation;
+			if (!cancellation || !cancellation.reason?.id || !cancellation.cancelled_by) {
+				return { valid: false, message: "Order.cancellation.reason.id and cancelled_by are required" };
+			}
 
-		const { order } = targetPayload.message;
+			const quote = order.quote;
+			if (!quote || !quote.breakup || !Array.isArray(quote.breakup)) {
+				return { valid: false, message: "Updated quote.breakup is required in on_cancel" };
+			}
 
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+			const state = order.state;
+			if (state !== "Cancelled") {
+				return { valid: false, message: "Order.state must be 'Cancelled' in on_cancel" };
+			}
 
-		if (!order.cancellation && !targetPayload.message.cancellation) {
-			return { valid: false, message: "Cancellation object is required" };
-		}
+			const totalPrice = parseFloat(quote?.price?.value || "0");
+			if (isNaN(totalPrice)) {
+				return { valid: false, message: "Quote price must be a valid number" };
+			}
 
-		return { valid: true };
+
+			return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		if (!sessionData.transaction_id) {

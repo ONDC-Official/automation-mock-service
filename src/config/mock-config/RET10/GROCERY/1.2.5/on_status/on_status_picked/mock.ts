@@ -33,33 +33,44 @@ export class MockOnStatusPicked extends MockAction {
 		return on_status_picked_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_status action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			const order = targetPayload?.message?.order;
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
 
-		const { order } = targetPayload.message;
+			if (!order) return { valid: false, message: "Message.order is required" };
+			if (!order.id) return { valid: false, message: "Message.order.id is required" };
+			if (!order.state) return { valid: false, message: "Message.order.state is required" };
 
-		// Check for required fields
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+			if (order.state !== "In-progress") {
+				return { valid: false, message: "Order.state must be 'In-progress'" };
+			}
 
-		if (!order.state) {
-			return { valid: false, message: "Message.order.state is required" };
-		}
+			if (!Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+				return { valid: false, message: "At least one fulfillment is required" };
+			}
 
-		return { valid: true };
+			const fulfillment = order.fulfillments[0];
+			const stateCode = fulfillment?.state?.descriptor?.code;
+
+			if (!stateCode) {
+				return { valid: false, message: "Fulfillment.state.descriptor.code is required" };
+			}
+
+			if (stateCode !== "Order-picked-up") {
+				return { valid: false, message: "Fulfillment.state.descriptor.code must be 'Order-picked-up'" };
+			}
+
+			const startTimestamp = fulfillment?.start?.time?.timestamp;
+			if (!startTimestamp) {
+				return { valid: false, message: "Fulfillment.start.time.timestamp is required for Order-picked-up state" };
+			}
+
+			if (!Array.isArray(order.documents) || order.documents.length === 0) {
+				return { valid: false, message: "At least one document is required in order.documents for Order-picked-up state" };
+			}
+
+			return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// on_status requires transaction_id and order

@@ -33,35 +33,53 @@ export class MockOnInitBuyerDelivery extends MockAction {
 		return on_init_buyer_delivery_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_init action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+
+		const order = targetPayload.message?.order;
+		if (!order) return { valid: false, message: "Message.order is required" };
+	  
+		const items = order.items || [];
+		const fulfillments = order.fulfillments || [];
+	  
+		const fulfillmentMap: Record<string, any> = {};
+		for (const f of fulfillments) {
+		  fulfillmentMap[f.id] = f;
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		for (const item of items) {
+		  if (!item.id || !item.fulfillment_id) {
+			return { valid: false, message: "Each item must have id and fulfillment_id" };
+		  }
+	  
+		  if (item.tags) {
+			const rtoTag = item.tags.find((t: any) => t.code === "rto_action");
+			const rtoValue = rtoTag?.list?.find((l: any) => l.code === "return_to_origin")?.value;
+			if (rtoValue === "yes") {
+			  const fulfillment = fulfillmentMap[item.fulfillment_id];
+			  const fulfillmentRtoTag = fulfillment?.tags?.find((t: any) => t.code === "rto_action");
+			  const fulfillmentRtoValue = fulfillmentRtoTag?.list?.find((l: any) => l.code === "return_to_origin")?.value;
+			  if (fulfillmentRtoValue !== "yes") {
+				return {
+				  valid: false,
+				  message: `Fulfillment ${item.fulfillment_id} must contain rto_action.return_to_origin='yes'`
+				};
+			  }
+			}
+		  }
 		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+	  
+		for (const f of fulfillments) {
+		  if (f.type !== "Buyer-Delivery") {
+			return { valid: false, message: `Fulfillment ${f.id} must have type 'Buyer-Delivery'` };
+		  }
+	  
+		 
 		}
-
-		const { order } = targetPayload.message;
-
-		// Check for billing object
-		if (!order.billing) {
-			return { valid: false, message: "Message.order.billing is required" };
-		}
-
-		// Check for fulfillment object/array
-		if (!order.fulfillment && !order.fulfillments) {
-			return { valid: false, message: "Message.order.fulfillment or fulfillments is required" };
-		}
-
+	  
 		return { valid: true };
 	}
+
+	
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// on_init requires transaction_id, items, billing, provider, and quote
 		if (!sessionData.transaction_id) {

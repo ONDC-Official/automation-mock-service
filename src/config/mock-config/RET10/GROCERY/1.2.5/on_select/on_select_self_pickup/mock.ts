@@ -33,26 +33,64 @@ export class MockOnSelectSelfPickup extends MockAction {
 		return on_select_self_pickup_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_select action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			const message = targetPayload.message;
 
-		// Check if order object exists with items array
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+			if (!message?.order) return { valid: false, message: "Message.order is required" };
+			const { order } = message;
 
-		if (!targetPayload.message.order.items || !Array.isArray(targetPayload.message.order.items)) {
-			return { valid: false, message: "Message.order.items array is required" };
-		}
+			if (!Array.isArray(order.items) || order.items.length === 0) {
+				return { valid: false, message: "Order.items must be a non-empty array" };
+			}
 
-		return { valid: true };
+			if (!Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+				return { valid: false, message: "Order.fulfillments must be a non-empty array" };
+			}
+
+			const fulfillmentIds: string[] = [];
+
+			for (const item of order.items) {
+				if (!item.fulfillment_id) continue;
+			
+				const matchedFulfillment = order.fulfillments.find((f: {
+					[x: string]: string; id: any; 
+						}) => f.id === item.fulfillment_id && f.type == "Self-Pickup");
+		         if (matchedFulfillment){
+                   if (matchedFulfillment.type !== "Self-Pickup") {
+						 return { valid: false, message: `Fulfillment ${matchedFulfillment.id}: type must be 'Self-Pickup'` };
+					 }
+					 if (!["Takeaway", "Kerbside"].includes(matchedFulfillment["@ondc/org/category"])) {
+						 return { valid: false, message: `Fulfillment ${matchedFulfillment.id}: @ondc/org/category must be 'Takeaway' or 'Kerbside'` };
+					 }
+					 if (matchedFulfillment.state?.descriptor?.code !== "Serviceable") {
+						 return { valid: false, message: `Fulfillment ${matchedFulfillment.id}: state.descriptor.code must be 'Serviceable'` };
+					 }
+				 }
+			}
+			
+
+			const breakup = order.quote?.breakup;
+			if (!Array.isArray(breakup) || breakup.length === 0) {
+				return { valid: false, message: "Order.quote.breakup must be a non-empty array" };
+			}
+
+			const matchedFulfillmentIds = new Set<string>();
+			for (const entry of breakup) {
+				const id = entry["@ondc/org/item_id"];
+				const type = entry["@ondc/org/title_type"];
+				if (id && type && fulfillmentIds.includes(id)) {
+				matchedFulfillmentIds.add(id);
+				}
+			}
+
+			for (const id of fulfillmentIds) {
+				if (!matchedFulfillmentIds.has(id)) {
+				return { valid: false, message: `Breakup must include a pricing entry for fulfillment ${id}` };
+				}
+			}
+
+			return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// on_select requires transaction_id and selected_items

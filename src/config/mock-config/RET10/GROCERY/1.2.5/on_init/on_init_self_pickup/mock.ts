@@ -33,34 +33,63 @@ export class MockOnInitSelfPickup extends MockAction {
 		return on_init_self_pickup_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_init action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+
+		const order = targetPayload.message?.order;
+		if (!order) return { valid: false, message: "Message.order is required" };
+	  
+		const items = order.items;
+		if (!Array.isArray(items) || items.length === 0) {
+		  return { valid: false, message: "Order.items must be a non-empty array" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
+	  
+		const fulfillments = order.fulfillments;
+		if (!Array.isArray(fulfillments) || fulfillments.length === 0) {
+		  return { valid: false, message: "Order.fulfillments must be a non-empty array" };
 		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
+		const fulfillmentIds = new Set(fulfillments.map(f => f.id));
+		for (const item of items) {
+		  if (!fulfillmentIds.has(item.fulfillment_id)) {
+			return { valid: false, message: `Item.fulfillment_id '${item.fulfillment_id}' not found in fulfillments` };
+		  }
 		}
-
-		const { order } = targetPayload.message;
-
-		// Check for billing object
-		if (!order.billing) {
-			return { valid: false, message: "Message.order.billing is required" };
+	  
+		const quote = order.quote;
+		if (!quote) return { valid: false, message: "Order.quote is required" };
+	  
+		const breakup = quote.breakup;
+		if (!Array.isArray(breakup) || breakup.length === 0) {
+		  return { valid: false, message: "Quote.breakup must be a non-empty array" };
 		}
+	  
+		
+		const selfPickup = fulfillments.find(f => f.type === "Self-Pickup");
+		if (!selfPickup) return { valid: false, message: "At least one Self-Pickup fulfillment is required" };
+	  
+		const selectedFulfillmentIds = new Set(items.map(i => i.fulfillment_id));
+		for (const b of breakup) {
+		  const itemId = b["@ondc/org/item_id"];
+		  const titleType = b["@ondc/org/title_type"];
+		  const price = b.price?.value;
+	  
 
-		// Check for fulfillment object/array
-		if (!order.fulfillment && !order.fulfillments) {
-			return { valid: false, message: "Message.order.fulfillment or fulfillments is required" };
+	  
+		 if (
+			titleType === "delivery" &&
+			selectedFulfillmentIds.has(itemId) &&
+			fulfillments.find(f => f.id === itemId)?.type === "Self-Pickup"
+		  ) {
+			if (price !== "00.00") {
+			  return {
+				valid: false,
+				message: `Delivery charge for Self-Pickup fulfillment '${itemId}' must be 0.00`
+			  };
+			}
+		  }
 		}
-
+	  
 		return { valid: true };
+	  
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// on_init requires transaction_id, items, billing, provider, and quote

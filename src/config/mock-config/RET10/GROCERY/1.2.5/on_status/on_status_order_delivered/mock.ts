@@ -33,33 +33,58 @@ export class MockOnStatusOrderDelivered extends MockAction {
 		return on_status_order_delivered_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_status action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			const order = targetPayload?.message?.order;
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+			if (!order) return { valid: false, message: "Message.order is required" };
 
-		const { order } = targetPayload.message;
+			if (order.state !== "Completed") {
+				return { valid: false, message: "Order.state must be 'Completed'" };
+			}
 
-		// Check for required fields
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+			if (!Array.isArray(order.fulfillments) || order.fulfillments.length === 0) {
+				return { valid: false, message: "At least one fulfillment is required" };
+			}
 
-		if (!order.state) {
-			return { valid: false, message: "Message.order.state is required" };
-		}
+			const fulfillment = order.fulfillments[0];
 
-		return { valid: true };
+			const fstate = fulfillment?.state?.descriptor?.code;
+			if (!fstate) return { valid: false, message: "Fulfillment.state.descriptor.code is required" };
+
+			if (fstate !== "Order-delivered") {
+				return { valid: false, message: "Fulfillment.state.descriptor.code must be 'Order-delivered'" };
+			}
+
+			const tracking = fulfillment?.tracking;
+			if (tracking !== true) {
+				return { valid: false, message: "Fulfillment.tracking must be true for Order-delivered" };
+			}
+
+			const startTimestamp = fulfillment?.start?.time?.timestamp;
+			const endTimestamp = fulfillment?.end?.time?.timestamp;
+
+			if (!startTimestamp) return { valid: false, message: "Fulfillment.start.time.timestamp is required" };
+			if (!endTimestamp) return { valid: false, message: "Fulfillment.end.time.timestamp is required" };
+
+			if (!fulfillment.agent) return { valid: false, message: "Fulfillment.agent is required" };
+			if (!fulfillment.agent.name || !fulfillment.agent.phone) {
+				return { valid: false, message: "Fulfillment.agent.name and agent.phone are required" };
+			}
+
+			const tags = fulfillment.tags || [];
+
+			const routingTag = tags.find((t: any) => t.code === "routing");
+			if (!routingTag || !Array.isArray(routingTag.list) || routingTag.list.length === 0) {
+				return { valid: false, message: "Fulfillment.tags.routing is required" };
+			}
+
+			const trackingTag = tags.find((t: any) => t.code === "tracking");
+			if (!trackingTag || !Array.isArray(trackingTag.list) || trackingTag.list.length === 0) {
+				return { valid: false, message: "Fulfillment.tags.tracking is required" };
+			}
+
+			return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// on_status requires transaction_id and order

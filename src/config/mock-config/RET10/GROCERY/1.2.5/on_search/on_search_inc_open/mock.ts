@@ -33,32 +33,37 @@ export class MockOnSearchIncOpen extends MockAction {
 		return on_search_inc_open(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_search action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+	
+		const { message } = targetPayload;
+	
+		const providers = message?.catalog?.["bpp/providers"];
+		if (!Array.isArray(providers) || providers.length === 0) {
+			return { valid: false, message: "At least one provider is required" };
 		}
-
-		// Check if context exists and has required fields
-		if (!targetPayload.context) {
-			return { valid: false, message: "Context is required" };
-		}
-
-		const { context } = targetPayload;
-		
-		if (!context.domain) {
-			return { valid: false, message: "Context domain is required" };
-		}
-		
-		if (!context.action) {
-			return { valid: false, message: "Context action is required" };
-		}
-		
-		if (!context.country) {
-			return { valid: false, message: "Context country is required" };
-		}
-		
-		if (!context.city) {
-			return { valid: false, message: "Context city is required" };
+	
+		for (const provider of providers) {
+			const providerId = provider?.id || "";
+			if (!providerId) {
+				return { valid: false, message: "Provider id is required" };
+			}
+	
+			if (!provider.locations || !Array.isArray(provider.locations) || provider.locations.length === 0) {
+				return { valid: false, message: `Locations are required for provider ${providerId}` };
+			}
+	
+			for (const location of provider.locations) {
+				const locationId = location?.id || "";
+				if (!locationId) {
+					return { valid: false, message: `Location id is required for provider ${providerId}` };
+				}
+				if (!location.time) {
+					return { valid: false, message: `time object is required for location ${locationId}` };
+				}
+				if (location.time.label !== "open") {
+					return { valid: false, message: `time.label must be 'open' for location ${locationId}` };
+				}
+			}
 		}
 
 		return { valid: true };

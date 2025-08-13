@@ -33,34 +33,23 @@ export class MockInitSlottedDelivery extends MockAction {
 		return init_slotted_delivery_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// Init action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+			const order = targetPayload.message?.order;
+			if (!order) return { valid: false, message: "Message.order is required" };
 
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			const items = order.items || [];
+			const fulfillments = order.fulfillments || [];
 
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+			if (!items.length) return { valid: false, message: "Order.items is required" };
+			if (!fulfillments.length) return { valid: false, message: "Order.fulfillments is required" };
 
-		const { order } = targetPayload.message;
+			for (const item of items) {
+				if (!item.fulfillment_id) return { valid: false, message: `Item ${item.id} must have a fulfillment_id` };
 
-		// Check for billing object
-		if (!order.billing) {
-			return { valid: false, message: "Message.order.billing is required" };
-		}
+				const fulfillment = fulfillments.find((f: { id: any; type: string; }) => f.id === item.fulfillment_id && f.type === "Delivery");
+				if (!fulfillment) return { valid: false, message: `Delivery fulfillment ${item.fulfillment_id} not found` };
+			}
 
-		// Check for fulfillment object/array
-		if (!order.fulfillment && !order.fulfillments) {
-			return { valid: false, message: "Message.order.fulfillment or fulfillments is required" };
-		}
-
-		return { valid: true };
+			return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		// Init requires transaction_id, selected_items, on_select_fulfillments, provider

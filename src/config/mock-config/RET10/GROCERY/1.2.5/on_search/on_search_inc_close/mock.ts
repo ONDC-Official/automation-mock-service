@@ -33,32 +33,43 @@ export class MockOnSearchIncClose extends MockAction {
 		return on_search_inc_close(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_search action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+	
+		const { message } = targetPayload;
+	
+		const providers = message?.catalog?.["bpp/providers"];
+		if (!Array.isArray(providers) || providers.length === 0) {
+			return { valid: false, message: "At least one provider is required" };
 		}
-
-		// Check if context exists and has required fields
-		if (!targetPayload.context) {
-			return { valid: false, message: "Context is required" };
-		}
-
-		const { context } = targetPayload;
-		
-		if (!context.domain) {
-			return { valid: false, message: "Context domain is required" };
-		}
-		
-		if (!context.action) {
-			return { valid: false, message: "Context action is required" };
-		}
-		
-		if (!context.country) {
-			return { valid: false, message: "Context country is required" };
-		}
-		
-		if (!context.city) {
-			return { valid: false, message: "Context city is required" };
+	
+		for (const provider of providers) {
+			const providerId = provider?.id || "";
+			const locations = provider?.locations;
+			if (!Array.isArray(locations) || locations.length === 0) {
+				return { valid: false, message: `Locations are required for provider ${providerId}` };
+			}
+	
+			for (const location of locations) {
+				const locationId = location?.id || "";
+				const time = location?.time;
+	
+				if (!time) {
+					return { valid: false, message: `time object is required for location ${locationId}` };
+				}
+	
+				if (time.label !== "close") {
+					return { valid: false, message: `time.label must be 'close' for location ${locationId}` };
+				}
+	
+				const range = time.range;
+				if (!range) {
+					return { valid: false, message: `Range object is required for location ${locationId}` };
+				}
+	
+				if (!range.start) {
+					return { valid: false, message: `range.start is required for location ${locationId}` };
+				}
+			}
 		}
 
 		return { valid: true };

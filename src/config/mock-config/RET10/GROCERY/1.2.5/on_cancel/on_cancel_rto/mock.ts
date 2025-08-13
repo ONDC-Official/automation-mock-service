@@ -33,29 +33,61 @@ export class MockOnCancelRto extends MockAction {
 		return on_cancel_rto_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
-		}
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
 
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
+			const order = targetPayload.message?.order;
+			if (!order || !order.id) {
+				return { valid: false, message: "Order and Order.id are required" };
+			}
 
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
+			const rtoFulfillments = order.fulfillments?.filter((f: any) => f.type === "RTO") || [];
+			if (rtoFulfillments.length === 0) {
+				return { valid: false, message: "At least one RTO fulfillment is required" };
+			}
 
-		const { order } = targetPayload.message;
+			for (const rto of rtoFulfillments) {
+					const id=rto.id
 
-		if (!order.id) {
-			return { valid: false, message: "Message.order.id is required" };
-		}
+				const stateCode = rto.state?.descriptor?.code;
+				const isTerminal = ["RTO-Delivered", "RTO-Disposed", "Completed", "Cancelled"];
 
-		if (!order.cancellation && !targetPayload.message.cancellation) {
-			return { valid: false, message: "Cancellation object is required" };
-		}
+				if (isTerminal.includes(stateCode)) {
+					if (!rto.end?.time?.timestamp) {
+						return { valid: false, message: `End time.timestamp required for RTO fulfillment ${id} in state ${stateCode}` };
+					}
+					if (!rto.end?.location) {
+					return { valid: false, message: `End location required for RTO fulfillment ${id}` };
+					}
+				}
 
-		return { valid: true };
+
+				const quoteTags = rto.tags?.filter((t: any) => t.code === "quote_trail") || [];
+				if (quoteTags.length === 0) {
+				return { valid: false, message: `quote_trail is required in RTO fulfillment ${id}` };
+				}
+
+				for (const tag of quoteTags) {
+				for (const entry of tag.list || []) {
+					if (entry.code === "value") {
+					const numVal = parseFloat(entry.value);
+					if (isNaN(numVal)) {
+						return { valid: false, message: `Invalid numeric value '${entry.value}' in quote_trail of ${id}` };
+					}
+					}
+				}
+				}
+			}
+
+			const rtoItem = order.items?.find((i: any) => i.fulfillment_id?.includes("rto"));
+			if (!rtoItem) {
+				return { valid: false, message: "At least one item must refer to an RTO fulfillment" };
+			}
+
+			if (rtoItem.quantity?.count <= 0) {
+				return { valid: false, message: `Item ${rtoItem.id} in RTO must have quantity > 0` };
+			}
+
+			return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
 		if (!sessionData.transaction_id) {

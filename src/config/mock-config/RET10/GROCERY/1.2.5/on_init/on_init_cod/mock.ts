@@ -33,31 +33,20 @@ export class MockOnInitCod extends MockAction {
 		return on_init_cod_generator(existingPayload, sessionData);
 	}
 	async validate(targetPayload: any): Promise<MockOutput> {
-		// On_init action validation
-		if (!targetPayload) {
-			return { valid: false, message: "Payload is required" };
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+
+		const order = targetPayload.message?.order;
+		if (!order) return { valid: false, message: "Message.order is required" };
+	  
+		const payment = order.payment;
+		if (!payment) return { valid: false, message: "Order.payment is required" };
+	  
+		if (payment.type !== "ON-FULFILLMENT") {
+		  return { valid: false, message: "Payment.type must be 'ON-FULFILLMENT'" };
 		}
-
-		// Check if message exists
-		if (!targetPayload.message) {
-			return { valid: false, message: "Message is required" };
-		}
-
-		// Check if order exists
-		if (!targetPayload.message.order) {
-			return { valid: false, message: "Message.order is required" };
-		}
-
-		const { order } = targetPayload.message;
-
-		// Check for billing object
-		if (!order.billing) {
-			return { valid: false, message: "Message.order.billing is required" };
-		}
-
-		// Check for fulfillment object/array
-		if (!order.fulfillment && !order.fulfillments) {
-			return { valid: false, message: "Message.order.fulfillment or fulfillments is required" };
+	  
+		if (payment.collected_by !== "BPP") {
+		  return { valid: false, message: "Payment.collected_by must be 'BPP'" };
 		}
 
 		return { valid: true };
