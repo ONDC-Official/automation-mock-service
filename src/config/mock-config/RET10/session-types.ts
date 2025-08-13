@@ -39,6 +39,7 @@ export type SessionData = {
 	on_select_items: any | undefined;
 	selected_offers: any | undefined;
 	last_updated_at: string | undefined;
+	search_bap_terms: any
 };
 
 export type BecknContext = {
