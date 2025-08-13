@@ -30,3 +30,4 @@ session_data:
   offers: []
   tags: []
   on_select_items: []
+  search_bap_terms: null
