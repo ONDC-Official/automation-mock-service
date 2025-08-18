@@ -51,6 +51,7 @@ export interface SessionData {
   offers?: any[];
   tags?: any[];
   on_select_items?: any[];
+  search_bap_terms: any
 }
 
 export type BecknContext = {
