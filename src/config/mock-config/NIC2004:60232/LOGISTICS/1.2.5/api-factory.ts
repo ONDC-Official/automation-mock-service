@@ -23,32 +23,33 @@ import { confirmQCGenerator } from "./confirm/confirm_qc/generator";
 import { onConfirmQCGenerator } from "./on_confirm/on_confirm_qc/generator";
 import { updateQCGenerator } from "./update/update_qc/generator";
 import { onUpdateQCGenerator } from "./on_update/on_update_qc/generator";
-
+import { onSearchCodifiedGenerator } from "./on_search/on_search_codified/generator";
+import { onConfirmCodifiedGenerator } from "./on_confirm/on_confirm_codified/generator";
 export async function Generator(
   action_id: string,
   existingPayload: any,
   sessionData: any,
   inputs?: Record<string, string>
 ) {
-  console.log("inside generator");
+  console.log("inside generator", action_id);
 
   switch (action_id) {
     case "search_LOGISTICS":
-      return await searchGenerator(existingPayload, sessionData, inputs);
+      return await searchGenerator(existingPayload, sessionData, inputs,action_id);
     case "search_qc":
       return await searchQCGenerator(existingPayload, sessionData, inputs);
     case "search_1_LOGISITCS":
-      return await searchGenerator(existingPayload, sessionData, inputs);
+      return await searchGenerator(existingPayload, sessionData, inputs,action_id);
     case "search_2_LOGISTICS":
-      return await searchGenerator(existingPayload, sessionData, inputs);
+      return await searchGenerator(existingPayload, sessionData, inputs,action_id);
     case "search_3_LOGISTICS":
-      return await searchGenerator(existingPayload, sessionData, inputs);
+      return await searchGenerator(existingPayload, sessionData, inputs,action_id);
     case "init_LOGISTICS":
       return await initGenerator(existingPayload, sessionData);
     case "init_qc":
       return await initQCGenerator(existingPayload, sessionData);
     case "confirm_LOGISTICS":
-      return await confirmGenerator(existingPayload, sessionData, inputs);
+      return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
     case "update_LOGISTICS":
       return await updateGenerator(existingPayload, sessionData);
     case "track_LOGISTICS":
@@ -58,7 +59,7 @@ export async function Generator(
     case "on_search_qc":
       return await onSearchQCGenerator(existingPayload, sessionData, inputs);
     case "on_search_LOGISTICS":
-      return await onSearch1Generator(existingPayload, sessionData, inputs);
+      return await onSearch1Generator(existingPayload, sessionData,action_id,inputs);
     case "on_init_LOGISTICS":
       return await onInitGenerator(existingPayload, sessionData);
     case "on_init_qc":
@@ -68,7 +69,7 @@ export async function Generator(
     case "on_confirm_qc":
       return await onConfirmQCGenerator(existingPayload, sessionData);
     case "on_confirm_LOGISTICS":
-      return await onConfirmGenerator(existingPayload, sessionData);
+      return await onConfirmGenerator(existingPayload, sessionData,action_id);
     case "on_update_LOGISTICS":
       return await onUpdateGenerator(existingPayload, sessionData);
     case "update_qc":
@@ -208,7 +209,47 @@ export async function Generator(
       });
     case "on_update_IGM":
       return await onUpdate1Generator(existingPayload, sessionData);
-
+    case "confirm_LOGISTICS_EXCHANGE":
+      return await confirmGenerator(
+        existingPayload,
+        sessionData,
+        inputs,
+        action_id
+      );
+    case "on_confirm_LOGISTICS_EXCHANGE":
+      return await onConfirmGenerator(existingPayload, sessionData,action_id);
+    case "on_search_LOGISTICS_CODIFIED":
+      return await onSearchCodifiedGenerator(
+        existingPayload,
+        sessionData,
+        inputs
+      );
+    case "on_confirm_LOGISTICS_CODIFIED":
+      return await onConfirmCodifiedGenerator(existingPayload, sessionData);
+    case "on_search_LOGISTICS_RCM":
+      return await onSearch1Generator(existingPayload, sessionData,action_id,inputs);
+    case "on_confirm_LOGISTICS_RCM":
+      return await onConfirmGenerator(existingPayload, sessionData,action_id);
+    case "on_search_LOGISTICS_PUBLIC_SPECIAL":
+      return await onSearch1Generator(
+        existingPayload,
+        sessionData,
+        action_id,
+        inputs
+      );
+    case "search_LOGISTICS_SLA":
+      return await searchGenerator(existingPayload, sessionData, inputs,action_id);
+    case "confirm_LOGISTICS_SLA":
+      return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
+    case "on_confirm_LOGISTICS_SLA":
+      return await onConfirmGenerator(existingPayload, sessionData,action_id);
+    case "confirm_LOGISTICS_SELLER_CREDS":
+      return await confirmGenerator(
+        existingPayload,
+        sessionData,
+        inputs,
+        action_id
+      );
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }

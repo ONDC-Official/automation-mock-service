@@ -262,6 +262,58 @@ codes:
     action: on_update
     default: on_update/on_update_qc/default.yaml
     message_id: false
-
-
-
+  - code: 152
+    action_id: confirm_LOGISTICS_EXCHANGE
+    action: confirm
+    default: confirm/default.yaml
+    message_id: true
+  - code: 153
+    action_id: on_confirm_LOGISTICS_EXCHANGE
+    action: on_confirm
+    default: on_confirm/default.yaml
+    message_id: false
+  - code: 154
+    action_id: on_search_LOGISTICS_CODIFIED
+    action: on_search
+    default: on_search/on_search_codified/default.yaml
+    message_id: false
+  - code: 155
+    action_id: on_confirm_LOGISTICS_CODIFIED
+    action: on_confirm
+    default: on_confirm/on_confirm_codified/default.yaml
+    message_id: false
+  - code: 156
+    action_id: on_search_LOGISTICS_RCM
+    action: on_search
+    default: on_search/default.yaml
+    message_id: false
+  - code: 157
+    action_id: on_confirm_LOGISTICS_RCM
+    action: on_confirm
+    default: on_confirm/default.yaml
+    message_id: false
+  - code: 158
+    action_id: on_search_LOGISTICS_PUBLIC_SPECIAL
+    action: on_search
+    default: on_search/default.yaml
+    message_id: false
+  - code: 160
+    action_id: search_LOGISTICS_SLA
+    action: search
+    default: search/default.yaml
+    message_id: true
+  - code: 161
+    action_id: confirm_LOGISTICS_SLA
+    action: confirm
+    default: confirm/default.yaml
+    message_id: true
+  - code: 162
+    action_id: on_confirm_LOGISTICS_SLA
+    action: on_confirm
+    default: on_confirm/default.yaml
+    message_id: false
+  - code: 161
+    action_id: confirm_LOGISTICS_SELLER_CREDS
+    action: confirm
+    default: confirm/default.yaml
+    message_id: true
