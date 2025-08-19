@@ -6,7 +6,6 @@
  * 2. Merge selected quantities from selected_items into full item details
  * 3. Calculate quote breakup (BASE_FARE, ADD_ONS, TAX=0) - excluding parent items
  * 4. Handle fulfillments from session data
- * 
  * Note: Parent items (items without price/quantity) are included in response for 
  * demonstration purposes but excluded from price calculations
  */
@@ -221,7 +220,7 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
             "form": {
                 "id": "F01",
                 "mime_type": "text/html",
-                "url": "https://api.unreserved-entry-pass.com/xinput/additonal-details/F01",
+                "url": `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/additional-details-form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`,
                 "resubmit": false,
                 "multiple_sumbissions": false
             },
