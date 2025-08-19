@@ -415,7 +415,11 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				transaction_id: txId,
 			});
 
-			const sessionData = await loadMockSessionData(txId, subscriberUrl);
+			const sessionData : any = await loadMockSessionData(txId, subscriberUrl);
+			// Inject flow_id and session_id into sessionData
+			sessionData.flow_id = txData.flowId;
+			sessionData.session_id = txData.sessionId;
+			sessionData.domain = process.env.DOMAIN?.split(":")[1]
 			let mockResponse = await generateMockResponse(
 				txData.sessionId as string,
 				sessionData,
