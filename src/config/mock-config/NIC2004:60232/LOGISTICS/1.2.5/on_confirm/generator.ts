@@ -4,7 +4,8 @@ import { calculateQuotePrice } from "../../../../../../utils/generic-utils";
 
 export const onConfirmGenerator = (
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  action_id:string
 ) => {
   existingPayload.message.order.id = sessionData.order_id;
 
@@ -142,6 +143,112 @@ export const onConfirmGenerator = (
   if (sessionData.linked_order) {
     existingPayload.message.order["@ondc/org/linked_order"] =
       sessionData.linked_order;
+  }
+
+  if (action_id === "on_confirm_LOGISTICS_EXCHANGE") {
+    const orderTags: any = existingPayload.message.order.tags;
+    const newEntry = { code: "phone", value: "9886098860" };
+
+    let bppTerms = orderTags.find((tag: any) => tag.code === "bpp_terms");
+    if (!bppTerms) {
+      bppTerms = { code: "bpp_terms", list: [] };
+      orderTags.push(bppTerms);
+    }
+    bppTerms.list.push(newEntry);
+  }
+  if (action_id === "on_confirm_LOGISTICS_SLA") {
+    existingPayload.message.order.tags.push(
+      ...[
+        {
+          code: "lbnp_sla_terms",
+          list: [
+            {
+              code: "metric",
+              value: "Order_Accept",
+            },
+            {
+              code: "base_unit",
+              value: "mins",
+            },
+            {
+              code: "base_min",
+              value: "0",
+            },
+            {
+              code: "base_max",
+              value: "2",
+            },
+            {
+              code: "penalty_min",
+              value: "20",
+            },
+            {
+              code: "penalty_max",
+              value: "29.9",
+            },
+            {
+              code: "penalty_unit",
+              value: "percent",
+            },
+            {
+              code: "penalty_value",
+              value: "0.5",
+            },
+          ],
+        },
+        {
+          code: "lbnp_sla_terms",
+          list: [
+            {
+              code: "metric",
+              value: "Order_Accept",
+            },
+            {
+              code: "base_unit",
+              value: "mins",
+            },
+            {
+              code: "base_min",
+              value: "0",
+            },
+            {
+              code: "base_max",
+              value: "2",
+            },
+            {
+              code: "penalty_min",
+              value: "30",
+            },
+            {
+              code: "penalty_max",
+              value: "",
+            },
+            {
+              code: "penalty_unit",
+              value: "percent",
+            },
+            {
+              code: "penalty_value",
+              value: "1",
+            },
+          ],
+        },
+      ]
+    );
+  }
+
+  if (action_id === "on_confirm_LOGISTICS_RCM") {
+    const orderTags: any = existingPayload.message.order.tags;
+    const newEntry = {
+      code: "np_tax_type",
+      value: "RCM",
+    };
+    let bppTerms = orderTags.find((tag: any) => tag.code === "bpp_terms");
+    if (!bppTerms) {
+      bppTerms = { code: "bpp_terms", list: [] };
+      orderTags.push(bppTerms);
+    }
+    bppTerms.list.push(newEntry);
   }
 
   return existingPayload;

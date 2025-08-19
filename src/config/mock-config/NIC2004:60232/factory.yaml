@@ -265,12 +265,12 @@ codes:
   - code: 152
     action_id: confirm_LOGISTICS_EXCHANGE
     action: confirm
-    default: confirm/confirm_exchange/default.yaml
+    default: confirm/default.yaml
     message_id: true
   - code: 153
     action_id: on_confirm_LOGISTICS_EXCHANGE
     action: on_confirm
-    default: on_confirm/on_confirm_exchange/default.yaml
+    default: on_confirm/default.yaml
     message_id: false
   - code: 154
     action_id: on_search_LOGISTICS_CODIFIED
@@ -285,40 +285,35 @@ codes:
   - code: 156
     action_id: on_search_LOGISTICS_RCM
     action: on_search
-    default: on_search/on_search_rcm/default.yaml
+    default: on_search/default.yaml
     message_id: false
   - code: 157
     action_id: on_confirm_LOGISTICS_RCM
     action: on_confirm
-    default: on_confirm/on_confirm_rcm/default.yaml
+    default: on_confirm/default.yaml
     message_id: false
   - code: 158
     action_id: on_search_LOGISTICS_PUBLIC_SPECIAL
     action: on_search
-    default: on_search/on_search_public_special/default.yaml
+    default: on_search/default.yaml
     message_id: false
-  - code: 159
-    action_id: search_LOGISTICS_SLA
-    action: search
-    default: search/search_sla/default.yaml
-    message_id: true
   - code: 160
     action_id: search_LOGISTICS_SLA
     action: search
-    default: search/search_sla/default.yaml
+    default: search/default.yaml
     message_id: true
   - code: 161
     action_id: confirm_LOGISTICS_SLA
     action: confirm
-    default: confirm/confirm_sla/default.yaml
+    default: confirm/default.yaml
     message_id: true
   - code: 162
     action_id: on_confirm_LOGISTICS_SLA
     action: on_confirm
-    default: on_confirm/on_confirm_sla/default.yaml
+    default: on_confirm/default.yaml
     message_id: false
   - code: 161
     action_id: confirm_LOGISTICS_SELLER_CREDS
     action: confirm
-    default: confirm/confirm_seller_creds/default.yaml
+    default: confirm/default.yaml
     message_id: true

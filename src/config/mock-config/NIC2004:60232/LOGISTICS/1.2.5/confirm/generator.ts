@@ -8,7 +8,8 @@ import {
 export const confirmGenerator = (
   existingPayload: any,
   sessionData: SessionData,
-  inputs: Input | undefined
+  inputs: Input | undefined,
+  action_id:string
 ) => {
   existingPayload.message.order.id = uuidv4();
 
@@ -79,33 +80,33 @@ export const confirmGenerator = (
   };
 
   const tags = [
-    {
-      code: "linked_provider",
-      list: [
-        {
-          code: "id",
-          value: sessionData.provider_id,
-        },
-        {
-          code: "name",
-          value: "Seller1",
-        },
-        {
-          code: "address",
-          value: `My store name 1, My building name 1, My street name 1, my city 1, my state 1, ${
-            sessionData?.start_area_code || "560001"
-          }`,
-        },
-        ...(sessionData.domain === "ONDC:LOG11"
-          ? [
-              {
-                code: "tax_id",
-                value: "29GSTIN1234K2Z2",
-              },
-            ]
-          : []),
-      ],
-    },
+    // {
+    //   code: "linked_provider",
+    //   list: [
+    //     {
+    //       code: "id",
+    //       value: sessionData.provider_id,
+    //     },
+    //     {
+    //       code: "name",
+    //       value: "Seller1",
+    //     },
+    //     {
+    //       code: "address",
+    //       value: `My store name 1, My building name 1, My street name 1, my city 1, my state 1, ${
+    //         sessionData?.start_area_code || "560001"
+    //       }`,
+    //     },
+    //     ...(sessionData.domain === "ONDC:LOG11"
+    //       ? [
+    //           {
+    //             code: "tax_id",
+    //             value: "29GSTIN1234K2Z2",
+    //           },
+    //         ]
+    //       : []),
+    //   ],
+    // },
     {
       code: "linked_order",
       list: [
@@ -416,26 +417,76 @@ export const confirmGenerator = (
         console.log("endCode", endCode);
         console.log("Condition:", endCode === "5" && rtoAction === "yes");
         console.log(typeof endCode, endCode); // Should log: string 5
-        console.log(typeof rtoAction, rtoAction); // Should log: string yes
+        console.log(typeof rtoAction, rtoAction); // Should log: string yes 
 
         const additionaltags = [
           ...fulfillment.tags,
+
+          action_id === "confirm_LOGISTICS_SELLER_CREDS"
+            ? {
+              code: "linked_provider",
+              list: [
+                {
+                  code: "id",
+                  value: "P1",
+                },
+                {
+                  code: "name",
+                  value: "Seller1",
+                },
+                {
+                  code: "cred_code",
+                  value: "Social Sector",
+                },
+                {
+                  code: "cred_desc",
+                  value: "Women owned business",
+                },
+              ],
+            }
+            : {
+              code: "linked_provider",
+              list: [
+                {
+                  code: "id",
+                  value: sessionData.provider_id,
+                },
+                {
+                  code: "name",
+                  value: "Seller1",
+                },
+                {
+                  code: "address",
+                  value: `My store name 1, My building name 1, My street name 1, my city 1, my state 1, ${sessionData?.start_area_code || "560001"
+                    }`,
+                },
+                ...(sessionData.domain === "ONDC:LOG11"
+                  ? [
+                    {
+                      code: "tax_id",
+                      value: "29GSTIN1234K2Z2",
+                    },
+                  ]
+                  : []),
+              ],
+            },
+
           ...(endCode === "5" && rtoAction === "yes"
             ? [
-                {
-                  code: "rto_verification",
-                  list: [
-                    {
-                      code: "code",
-                      value: "5",
-                    },
-                    {
-                      code: "short_desc",
-                      value: "1841",
-                    },
-                  ],
-                },
-              ]
+              {
+                code: "rto_verification",
+                list: [
+                  {
+                    code: "code",
+                    value: "5",
+                  },
+                  {
+                    code: "short_desc",
+                    value: "1841",
+                  },
+                ],
+              },
+            ]
             : []),
         ];
         const updatedFulfillment = {
@@ -451,7 +502,7 @@ export const confirmGenerator = (
           tags: additionaltags,
         };
 
-        console.log("Updated fulfillment:", updatedFulfillment);
+        console.log("Updated fulfillment: in normal confirm", updatedFulfillment,sessionData,action_id);
 
         return updatedFulfillment;
       }
@@ -561,5 +612,95 @@ export const confirmGenerator = (
       },
     },
   };
+  if (action_id === "confirm_LOGISTICS_EXCHANGE") {
+    const orderTags: any = existingPayload.message.order?.tags || [];
+    const newEntry = { code: "phone", value: "9886098860" };
+    let bapTerms = orderTags.find((tag: any) => tag.code === "bap_terms");
+    if (!bapTerms) {
+      bapTerms = { code: "bap_terms", list: [] };
+      orderTags.push(bapTerms);
+    }
+    bapTerms.list.push(newEntry);
+  }
+  if (action_id === "confirm_LOGISTICS_SLA") {
+    existingPayload.message.order.tags.push(
+      ...[
+        {
+          code: "lbnp_sla_terms",
+          list: [
+            {
+              code: "metric",
+              value: "Order_Accept",
+            },
+            {
+              code: "base_unit",
+              value: "mins",
+            },
+            {
+              code: "base_min",
+              value: "0",
+            },
+            {
+              code: "base_max",
+              value: "2",
+            },
+            {
+              code: "penalty_min",
+              value: "20",
+            },
+            {
+              code: "penalty_max",
+              value: "29.9",
+            },
+            {
+              code: "penalty_unit",
+              value: "percent",
+            },
+            {
+              code: "penalty_value",
+              value: "0.5",
+            },
+          ],
+        },
+        {
+          code: "lbnp_sla_terms",
+          list: [
+            {
+              code: "metric",
+              value: "Order_Accept",
+            },
+            {
+              code: "base_unit",
+              value: "mins",
+            },
+            {
+              code: "base_min",
+              value: "0",
+            },
+            {
+              code: "base_max",
+              value: "2",
+            },
+            {
+              code: "penalty_min",
+              value: "30",
+            },
+            {
+              code: "penalty_max",
+              value: "",
+            },
+            {
+              code: "penalty_unit",
+              value: "percent",
+            },
+            {
+              code: "penalty_value",
+              value: "1",
+            },
+          ],
+        },
+      ]
+    );
+  }
   return existingPayload;
 };

@@ -8,7 +8,8 @@ import { SessionData, Input } from "../../../session-types";
 export async function searchGenerator(
   existingPayload: any,
   sessionData: SessionData,
-  inputs: Input | undefined
+  inputs: Input | undefined,
+  action_id:string
 ) {
   console.log("inside search generator");
 
@@ -150,5 +151,85 @@ export async function searchGenerator(
   existingPayload.message.intent["@ondc/org/payload_details"].category =
     inputs?.retailCategory || "Grocery";
 
+  if (action_id === "search_sla") {
+    existingPayload.message.intent.tags.push(
+      ...[
+        {
+          code: "lbnp_sla_terms",
+          list: [
+            {
+              code: "metric",
+              value: "Order_Accept",
+            },
+            {
+              code: "base_unit",
+              value: "mins",
+            },
+            {
+              code: "base_min",
+              value: "0",
+            },
+            {
+              code: "base_max",
+              value: "2",
+            },
+            {
+              code: "penalty_min",
+              value: "20",
+            },
+            {
+              code: "penalty_max",
+              value: "29.9",
+            },
+            {
+              code: "penalty_unit",
+              value: "percent",
+            },
+            {
+              code: "penalty_value",
+              value: "0.5",
+            },
+          ],
+        },
+        {
+          code: "lbnp_sla_terms",
+          list: [
+            {
+              code: "metric",
+              value: "Order_Accept",
+            },
+            {
+              code: "base_unit",
+              value: "mins",
+            },
+            {
+              code: "base_min",
+              value: "0",
+            },
+            {
+              code: "base_max",
+              value: "2",
+            },
+            {
+              code: "penalty_min",
+              value: "30",
+            },
+            {
+              code: "penalty_max",
+              value: "",
+            },
+            {
+              code: "penalty_unit",
+              value: "percent",
+            },
+            {
+              code: "penalty_value",
+              value: "1",
+            },
+          ],
+        },
+      ]
+    );
+  }
   return existingPayload;
 }
