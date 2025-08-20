@@ -5,8 +5,13 @@ import { on_search_inc_generator } from "./on_search/on_search_inc/generator";
 import { on_search_104_generator } from "./on_search/on_search_104/generator";
 import { select_generator } from "./select/select/generator";
 import { on_select_generator } from "./on_select/on_select/generator";
+import { on_select_commercial_model_generator } from "./on_select/on_select_commercial_model/generator";
 import { init_generator } from "./init/init/generator";
+import { init_commercial_model_generator } from "./init/init_commercial_model/generator";
 import { on_init_generator } from "./on_init/on_init/generator";
+import { on_init_commercial_model_generator } from "./on_init/on_init_commercial_model/generator";
+import { confirm_commercial_model_generator } from "./confirm/confirm_commercial_model/generator";
+import { on_confirm_commercial_model_generator } from "./on_confirm/on_confirm_commercial_model/generator";
 import { confirm_generator } from "./confirm/confirm/generator";
 import { on_confirm_generator } from "./on_confirm/on_confirm/generator";
 import { on_status_packed_generator } from "./on_status/on_status_packed/generator";
@@ -138,14 +143,24 @@ export async function Generator(
 			return select_generator(existingPayload, sessionData);
 		case "on_select":
 			return on_select_generator(existingPayload, sessionData);
+		case "on_select_commercial_model":
+			return on_select_commercial_model_generator(existingPayload, sessionData);
 		case "init":
 			return init_generator(existingPayload, sessionData);
+		case "init_commercial_model":
+			return init_commercial_model_generator(existingPayload, sessionData);
 		case "on_init":
 			return on_init_generator(existingPayload, sessionData);
+		case "on_init_commercial_model":
+			return on_init_commercial_model_generator(existingPayload, sessionData);
 		case "confirm":
 			return confirm_generator(existingPayload, sessionData);
 		case "on_confirm":
 			return on_confirm_generator(existingPayload, sessionData);
+		case "on_confirm_commercial_model":
+			return on_confirm_commercial_model_generator(existingPayload, sessionData);
+		case "confirm_commercial_model":
+			return confirm_commercial_model_generator(existingPayload, sessionData);
 		case "on_status_packed":
 			return on_status_packed_generator(existingPayload, sessionData);
 		case "on_status_agent_assigned":

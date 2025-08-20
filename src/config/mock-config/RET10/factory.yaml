@@ -589,3 +589,28 @@ codes:
     action: cancel
     default: GROCERY/1.2.5/cancel/cancel_breach/default.yaml
     message_id: true
+  - code: 216
+    default: GROCERY/1.2.5/on_select/on_select_commercial_model/default.yaml
+    action_id: on_select_commercial_model
+    action: on_select
+    message_id: false
+  - code: 217
+    default: GROCERY/1.2.5/init/init_commercial_model/default.yaml
+    action_id: init_commercial_model
+    action: init
+    message_id: true
+  - code: 218
+    default: GROCERY/1.2.5/on_init/on_init_commercial_model/default.yaml
+    action_id: on_init_commercial_model
+    action: on_init
+    message_id: false
+  - code: 219
+    default: GROCERY/1.2.5/confirm/confirm_commercial_model/default.yaml
+    action_id: confirm_commercial_model
+    action: confirm
+    message_id: true
+  - code: 220
+    default: GROCERY/1.2.5/on_confirm/on_confirm_commercial_model/default.yaml
+    action_id: on_confirm_commercial_model
+    action: on_confirm
+    message_id: false

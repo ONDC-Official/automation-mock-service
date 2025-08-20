@@ -39,7 +39,8 @@ export type SessionData = {
 	on_select_items: any | undefined;
 	selected_offers: any | undefined;
 	last_updated_at: string | undefined;
-	search_bap_terms: any
+	search_bap_terms: any;
+	selected_np_fees: any | undefined;
 };
 
 export type BecknContext = {
@@ -71,4 +72,5 @@ export interface Input {
     retailCategory?: string;
     returnToOrigin?: string;
     default_feature?: string[];
+	np_fees?: string[];
 }

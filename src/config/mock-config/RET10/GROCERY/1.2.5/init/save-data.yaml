@@ -4,3 +4,4 @@ save-data:
   provider: $.message.order.provider
   billing: $.message.order.billing
   fulfillments: $.message.order.fulfillments[*]
+  selected_np_fees: $.message.order.items[*].tags[?(@.code=="np_fees")].list[?(@.code=="id")].value
