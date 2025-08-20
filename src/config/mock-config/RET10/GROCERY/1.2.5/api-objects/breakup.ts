@@ -49,6 +49,116 @@ export const breakup = [
 		},
 	},
 ];
+
+const npFeesbreakup = [
+	{
+		"@ondc/org/item_id": "I1",
+		title: "Convenience Fee",
+		"@ondc/org/title_type": "misc",
+		"price": {
+			"currency": "INR",
+			"value": "0.50"
+		},
+		"item": {
+			"tags": [
+				{
+					"code": "quote",
+					"list": [
+						{ "code": "type", "value": "item" }
+					]
+				},
+				{
+					"code": "np_fees",
+					"list": [
+						{ "code": "id", "value": "1" },
+						{ "code": "channel_margin_type", "value": "percent" },
+						{ "code": "channel_margin_value", "value": "0.50" }
+					]
+				}
+			]
+		}
+	},
+	{
+		"@ondc/org/item_id": "I1",
+		title: "Convenience Fee",
+		"@ondc/org/title_type": "misc",
+		"price": {
+			"currency": "INR",
+			"value": "7.00"
+		},
+		"item": {
+			"tags": [
+				{
+					"code": "quote",
+					"list": [
+						{ "code": "type", "value": "item" }
+					]
+				},
+				{
+					"code": "np_fees",
+					"list": [
+						{ "code": "id", "value": "2" },
+						{ "code": "channel_margin_type", "value": "amount" },
+						{ "code": "channel_margin_value", "value": "7.00" }
+					]
+				}
+			]
+		}
+	},
+	{
+		"@ondc/org/item_id": "I1",
+		title: "Tax",
+		"@ondc/org/title_type": "tax",
+		"price": {
+			"currency": "INR",
+			"value": "0.09"
+		},
+		"item": {
+			"tags": [
+				{
+					"code": "quote",
+					"list": [
+						{ "code": "type", "value": "item" },
+						{ "code": "subtype", "value": "misc" }
+					]
+				},
+				{
+					"code": "np_fees",
+					"list": [
+						{ "code": "id", "value": "1" }
+					]
+				}
+			]
+		}
+	},
+	{
+		"@ondc/org/item_id": "I1",
+		title: "Tax",
+		"@ondc/org/title_type": "tax",
+		"price": {
+			"currency": "INR",
+			"value": "1.26"
+		},
+		"item": {
+			"tags": [
+				{
+					"code": "quote",
+					"list": [
+						{ "code": "type", "value": "item" },
+						{ "code": "subtype", "value": "misc" }
+					]
+				},
+				{
+					"code": "np_fees",
+					"list": [
+						{ "code": "id", "value": "2" }
+					]
+				}
+			]
+		}
+	}
+]
+
 export function createQuote(
 	selectedItems: { id: string; count: number; fulfillment_id: string }[],
 	sessionData: SessionData,
@@ -70,6 +180,16 @@ export function createQuote(
 		console.log("ID Map: ", idMap);
 		return idMap.includes(i.id);
 	});
+	const search_bap_terms = sessionData.search_bap_terms;
+	const codesToFind = ["00A"];
+	const bapCodes = new Set();
+	for (const item of search_bap_terms.list) {
+		if (codesToFind.includes(item)) {
+			bapCodes.add(item);
+		}
+	}
+	const uniqueBapCodes = Array.from(bapCodes);
+
 	for (const selectedItem of selectedItems ?? []) {
 		const fulfillment = fulfillments.find(
 			(f) => f.id === selectedItem.fulfillment_id
@@ -113,6 +233,17 @@ export function createQuote(
 			totalQuantity += selectedItem.count ?? 0;
 			if (quantity > 0) itemSet.add(catalogItem.id);
 		}
+		for (const code of uniqueBapCodes) {
+			if (code === "00A") {
+				for (const fee of npFeesbreakup) {
+					const feeClone = JSON.parse(JSON.stringify(fee));
+					feeClone["@ondc/org/item_id"] = catalogItem.id;
+					breakupObject.push(feeClone);
+					totalPrice += parseFloat(feeClone.price.value ?? "0");
+				}
+
+			}
+	}
 	}
 
 	breakupObject.push(breakup[0]);
