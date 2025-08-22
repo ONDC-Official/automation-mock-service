@@ -1,0 +1,64 @@
+/**
+ * On_Init Generator for TRV14
+ * 
+ * Logic:
+ * 1. Reuse data from session: items, fulfillments, provider, quote, cancellation_terms, replacement_terms, payments, billing, tags
+ * 2. Combine bpp_terms and bap_terms from session into tags array
+ * 3. No xinput injection needed for on_init
+ */
+
+export async function onInitGenerator(existingPayload: any, sessionData: any) {
+  let fulfillmentIds:string[] = [];
+  let paymentIds:string[] = [];
+
+    if (sessionData.fulfillments) {
+        sessionData.fulfillments.map((fulfillment: any) => {
+        fulfillmentIds.push(fulfillment.id);
+        fulfillment.customer = {
+          "person": {
+            "name": sessionData?.customer_name || "John Doe",
+          },
+          "contact": {
+            "phone": sessionData?.customer_phone || "1234567890",
+          }
+        };
+      });
+      existingPayload.message.order.fulfillments = sessionData.fulfillments.map((fulfillment: { tags: any; })=>{
+        delete fulfillment.tags;
+        return{
+          ...fulfillment
+        }
+      });   }
+
+    if (sessionData.payments) {
+      existingPayload.message.order.payments = sessionData.payments;
+      existingPayload.message.order.payments.forEach((payment: any, index: number) => {
+          payment.id =`P${index}`
+          payment.url = `https://fis.test.bpp.io/pg-gateway/payment?amount=1000&txn_id=${payment.id}`;
+          paymentIds.push(payment.id);
+      });
+    }
+    
+
+  // Reuse data from session (same as on_select_2)
+  if (sessionData.items) {
+    existingPayload.message.order.items = sessionData.items;
+    existingPayload.message.order.items.map((item: any) => {
+        item.fulfillment_ids = fulfillmentIds;
+        item.payment_ids = paymentIds;
+        return item;
+    });
+  }
+  
+  if (sessionData.provider) {
+    existingPayload.message.order.provider = sessionData.provider;
+  }
+  
+  if (sessionData.quote) {
+    existingPayload.message.order.quote = sessionData.quote;
+  }
+  
+  
+  
+  return existingPayload;
+} 
