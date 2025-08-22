@@ -32,7 +32,6 @@ export class MockOnInitTransitClass extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-        // Validate required session data for on_init generator
         if (!sessionData.items || !Array.isArray(sessionData.items) || sessionData.items.length === 0) {
             return { 
                 valid: false, 

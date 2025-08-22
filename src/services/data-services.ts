@@ -6,15 +6,15 @@ import jsonpath from "jsonpath";
 import { logger } from "../utils/logger";
 import { isArrayKey } from "../types/type-utils";
 import {
-	defaultSessionData,
+	defaultSessionDataFIS13,
 	getSaveDataContent,
-	MockSessionData,
+    MockSessionDataFIS13,
 } from "../config/mock-config";
 
 export function updateSessionData(
 	saveData: Record<string, string>,
 	payload: any,
-	sessionData: MockSessionData,
+	sessionData: MockSessionDataFIS13,
 	errorData?: {
 		code: number;
 		message: string;
@@ -27,7 +27,7 @@ export function updateSessionData(
 			const result = jsonpath.query(payload, jsonPath);
 			logger.debug(`updating ${key} for path $${jsonPath}`);
 			if (
-				isArrayKey<MockSessionData>(
+				isArrayKey<MockSessionDataFIS13>(
 					key as keyof typeof sessionData,
 					sessionData
 				)
@@ -107,9 +107,9 @@ export async function loadMockSessionData(
 	subscriber_url?: string
 ) {
 	const keyExists = await RedisService.keyExists(transactionID);
-	let sessionData: MockSessionData = {} as MockSessionData;
+	let sessionData: MockSessionDataFIS13 = {} as MockSessionDataFIS13;
 	if (!keyExists) {
-		const raw = defaultSessionData();
+		const raw = defaultSessionDataFIS13();
 		sessionData = raw.session_data;
 		sessionData.transaction_id = transactionID;
 		sessionData.bpp_id = sessionData.bap_id = "dev-automation.ondc.org";
@@ -121,7 +121,7 @@ export async function loadMockSessionData(
 	} else {
 		const rawData = await RedisService.getKey(transactionID);
 		logger.info(`loading session data for ${transactionID}`);
-		const sessionData = JSON.parse(rawData ?? "{}") as MockSessionData;
+		const sessionData = JSON.parse(rawData ?? "{}") as MockSessionDataFIS13;
 		return sessionData;
 	}
 }

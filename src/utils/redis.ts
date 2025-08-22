@@ -1,5 +1,5 @@
 import { RedisService } from "ondc-automation-cache-lib";
-import { logError, logger, logInfo } from "../utils/logger";
+import { logError, logInfo } from "./logger";
 
 
 export const getFromCache = async (key: string,db: number): Promise<any> => {

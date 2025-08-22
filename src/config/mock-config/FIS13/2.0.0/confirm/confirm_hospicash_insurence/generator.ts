@@ -1,7 +1,6 @@
 
 
 export async function confirmDefaultGenerator(existingPayload: any, sessionData: any) {
-  // Load items from session
   if (sessionData.selected_items) {
     existingPayload.message.order.items = sessionData.selected_items;
   }
@@ -12,8 +11,7 @@ export async function confirmDefaultGenerator(existingPayload: any, sessionData:
       return rest;
     });
   } 
-  // Load provider from session
-  if (sessionData.selected_provider) {
+ if (sessionData.selected_provider) {
     existingPayload.message.order.provider = sessionData.selected_provider;
   }
   if (sessionData.payments) {

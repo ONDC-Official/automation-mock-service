@@ -1,11 +1,4 @@
-/**
- * On_Init Generator for TRV14
- * 
- * Logic:
- * 1. Reuse data from session: items, fulfillments, provider, quote, cancellation_terms, replacement_terms, payments, billing, tags
- * 2. Combine bpp_terms and bap_terms from session into tags array
- * 3. No xinput injection needed for on_init
- */
+
 
 export async function onInitGenerator(existingPayload: any, sessionData: any) {
   let fulfillmentIds:string[] = [];
@@ -39,9 +32,7 @@ export async function onInitGenerator(existingPayload: any, sessionData: any) {
       });
     }
     
-
-  // Reuse data from session (same as on_select_2)
-  if (sessionData.items) {
+if (sessionData.items) {
     existingPayload.message.order.items = sessionData.items;
     existingPayload.message.order.items.map((item: any) => {
         item.fulfillment_ids = fulfillmentIds;
