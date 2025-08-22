@@ -51,6 +51,8 @@ export interface SessionData {
   offers?: any[];
   tags?: any[];
   on_select_items?: any[];
+  search_bap_terms: any
+  selected_np_fees: any;
 }
 
 export type BecknContext = {
@@ -90,4 +92,5 @@ export interface Input {
   isSlottedDelivery?: string;
   isForceCancel?: string;
   isRefund?: string;
+  np_fees?: string[];
 }

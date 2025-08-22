@@ -361,6 +361,94 @@ export const buildRetailQuote = (
 
     totalPrice += parseFloat(taxPrice);
 
+    if (options?.search_bap_terms?.list?.includes("00A")) {
+      const npFeesbreakup = [
+        {
+          "@ondc/org/item_id": item.id,
+          title: "Convenience Fee",
+          "@ondc/org/title_type": "misc",
+          price: { currency: "INR", value: "0.50" },
+          item: {
+            tags: [
+              { code: "quote", list: [{ code: "type", value: "item" }] },
+              {
+                code: "np_fees",
+                list: [
+                  { code: "id", value: "1" },
+                  { code: "channel_margin_type", value: "percent" },
+                  { code: "channel_margin_value", value: "0.50" },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          "@ondc/org/item_id": item.id,
+          title: "Convenience Fee",
+          "@ondc/org/title_type": "misc",
+          price: { currency: "INR", value: "7.00" },
+          item: {
+            tags: [
+              { code: "quote", list: [{ code: "type", value: "item" }] },
+              {
+                code: "np_fees",
+                list: [
+                  { code: "id", value: "2" },
+                  { code: "channel_margin_type", value: "amount" },
+                  { code: "channel_margin_value", value: "7.00" },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          "@ondc/org/item_id": item.id,
+          title: "Tax",
+          "@ondc/org/title_type": "tax",
+          price: { currency: "INR", value: "0.09" },
+          item: {
+            parent_item_id: item.parent_item_id,
+            tags: [
+              {
+                code: "quote",
+                list: [
+                  { code: "type", value: "item" },
+                  { code: "subtype", value: "misc" },
+                ],
+              },
+              { code: "np_fees", list: [{ code: "id", value: "1" }] },
+            ],
+          },
+        },
+        {
+          "@ondc/org/item_id": item.id,
+          title: "Tax",
+          "@ondc/org/title_type": "tax",
+          price: { currency: "INR", value: "1.26" },
+          item: {
+            parent_item_id: item.parent_item_id,
+            tags: [
+              {
+                code: "quote",
+                list: [
+                  { code: "type", value: "item" },
+                  { code: "subtype", value: "misc" },
+                ],
+              },
+              { code: "np_fees", list: [{ code: "id", value: "2" }] },
+            ],
+          },
+        },
+      ];
+
+      npFeesbreakup.forEach((fee) => {
+        breakup.push(fee);
+        totalPrice += parseFloat(fee.price.value);
+      });
+    }
+
+
+
     breakup.push({
       "@ondc/org/item_id": item.id,
       title: "Tax",
