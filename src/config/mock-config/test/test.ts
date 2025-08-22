@@ -1,11 +1,10 @@
-import { getMockAction } from "../TRV14/action-factory";
-import { testFlow, testUnitApi } from "./mock-testing";
+import { getFIS13MockAction } from "../FIS13/action-factory";
 
 // (async () => {
 // 	await testFlow();
 // })();
 
 (async () => {
-	const action = getMockAction("search");
+	const action = getFIS13MockAction("search");
 	console.log(action.mockActionConfig.generator);
 })();

@@ -38,10 +38,6 @@ export class MockOnSearchPurchaseJourneyTransitClass extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-        // Example: always valid, or add logic as needed
-        // if(!sessionData.collected_by){
-        //     return {valid:false,message: "Some Error message"}
-        // }
-        return { valid: true };
+         return { valid: true };
     }
 }

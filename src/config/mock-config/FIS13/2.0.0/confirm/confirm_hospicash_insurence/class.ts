@@ -32,7 +32,6 @@ export class MockConfirmHospicashClass extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-        // Validate required session data for confirm generator
         if (!sessionData.selected_items || !Array.isArray(sessionData.selected_items) || sessionData.selected_items.length === 0) {
             return { 
                 valid: false, 

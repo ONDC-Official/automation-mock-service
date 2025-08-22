@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import yaml from "js-yaml";
 import path from "path";
 import { Flow } from "../../../types/flow-types";
-import { defaultSessionData, getSaveDataContent, MockSessionData } from "..";
+import { defaultSessionDataFIS13, getSaveDataContent, MockSessionDataFIS13 } from "..";
 import { updateSessionData } from "../../../services/data-services";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
@@ -41,12 +41,12 @@ export async function saveDataForUnit(
 
 export function loadMockSessionDataUnit(action: string, flowId: string) {
 	const filePath = path.resolve(__dirname, `./session-data/${action}.json`);
-	let sessionData: MockSessionData = {} as MockSessionData;
+	let sessionData: MockSessionDataFIS13 = {} as MockSessionDataFIS13;
 	if (!existsSync(filePath)) {
 		customConsoleLog(
 			"### LAST ACTION NOT FOUND RETURNING DEFAULT SAVE-DATA ###"
 		);
-		const raw = defaultSessionData();
+		const raw = defaultSessionDataFIS13();
 		sessionData = raw.session_data;
 		sessionData.transaction_id = uuidv4();
 		sessionData.bpp_id = sessionData.bap_id = "dev-automation.ondc.org";

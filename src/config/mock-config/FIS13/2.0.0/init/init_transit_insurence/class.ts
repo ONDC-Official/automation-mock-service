@@ -32,8 +32,7 @@ export class MockInitTransitInsurenceClass extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-        // Validate required session data for init generator
-        if (!sessionData.selected_items || !Array.isArray(sessionData.selected_items) || sessionData.selected_items.length === 0) {
+       if (!sessionData.selected_items || !Array.isArray(sessionData.selected_items) || sessionData.selected_items.length === 0) {
             return { 
                 valid: false, 
                 message: "No selected_items available in session data" 

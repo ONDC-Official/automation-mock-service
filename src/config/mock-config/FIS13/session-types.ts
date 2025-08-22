@@ -48,7 +48,10 @@ export interface SessionData {
 	selected_item_ids: string[] | undefined;
 	selected_item_counts: number[] | undefined;
 	tags: any[] | undefined;
+	on_search_provider: any[] | undefined;
+	on_search_tags: any[] | undefined;
 	item: any | undefined;
+	providerData: any | undefined;
 	selected_provider: any | undefined;
 	cancellation_terms: any[] | undefined;
 	provider: any | undefined;
@@ -57,6 +60,8 @@ export interface SessionData {
 	bap_terms_tags: any[] | undefined;
 	updated_at: string | undefined;
 	order_status: string | undefined;
+	person_name: string | undefined;
+	
 }
 
 export type BecknContext = {

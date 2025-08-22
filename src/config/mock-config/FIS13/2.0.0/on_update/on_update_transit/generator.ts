@@ -1,26 +1,6 @@
-/**
- * Super Simplified Select Generator for TRV14
- * 
- * Logic:
- * 1. Select the 0th index item from sessionData.items
- * 2. Always use quantity count = 1 for both item and add-ons
- * 3. Include add-ons if they exist on the selected item
- * 4. Use 0th index fulfillment from item's fulfillment_ids
- * 5. Use provider_id from session data
- * 6. Update fulfillment timestamps to match context timestamp
- */
-
-/**
- * Creates item payload with quantity and add-ons
- * @param selectedItem - The item object from sessionData.items
- * @returns Formatted item payload for the select request
- */
-
-
 export async function selectDefaultGenerator(existingPayload: any, sessionData: any) {
 
-  // Update the payload with only the selected item
-  existingPayload.message.order.id = sessionData.order_id;
+   existingPayload.message.order.id = sessionData.order_id;
   existingPayload.message.order.status = sessionData.order_status;
   existingPayload.message.order.items = sessionData.items
   existingPayload.message.order.provider = sessionData.provider

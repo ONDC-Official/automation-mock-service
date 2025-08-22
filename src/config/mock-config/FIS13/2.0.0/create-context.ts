@@ -1,8 +1,7 @@
 import { BecknContext } from "../session-types";
 
 export function createContext(partialContext: Partial<BecknContext>) {
-    // const newContext
-    const newContext: BecknContext = {
+     const newContext: BecknContext = {
         action: "search",
         bap_id: "bap_id_not_set",
         bap_uri: "bap_uri_not_set",

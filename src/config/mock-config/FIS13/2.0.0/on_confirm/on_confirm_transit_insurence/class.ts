@@ -32,7 +32,6 @@ export class MockOnConfirmTransitClass extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-        // Validate required session data for on_confirm generator
         if (!sessionData.items || !Array.isArray(sessionData.items) || sessionData.items.length === 0) {
             return { 
                 valid: false, 
