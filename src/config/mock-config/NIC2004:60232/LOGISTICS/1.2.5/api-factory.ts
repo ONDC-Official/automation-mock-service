@@ -25,7 +25,6 @@ import { updateQCGenerator } from "./update/update_qc/generator";
 import { onUpdateQCGenerator } from "./on_update/on_update_qc/generator";
 import { onSearchCodifiedGenerator } from "./on_search/on_search_codified/generator";
 import { onConfirmCodifiedGenerator } from "./on_confirm/on_confirm_codified/generator";
-import { updateDeliveryAddressGenerator } from "./update/update_delivery_address/generator";
 export async function Generator(
   action_id: string,
   existingPayload: any,
@@ -52,9 +51,9 @@ export async function Generator(
     case "confirm_LOGISTICS":
       return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
     case "update_LOGISTICS":
-      return await updateGenerator(existingPayload, sessionData,action_id);
+      return await updateGenerator(existingPayload, sessionData,inputs,action_id);
     case "update_DELIVERY_ADDRESS":
-      return await updateDeliveryAddressGenerator(existingPayload, sessionData,action_id);
+      return await updateGenerator(existingPayload,sessionData,inputs,action_id);
     case "track_LOGISTICS":
       return await trackGenerator(existingPayload, sessionData);
     case "cancel_LOGISTICS":
@@ -81,6 +80,8 @@ export async function Generator(
       return await updateQCGenerator(existingPayload, sessionData);
     case "on_update_qc":
       return await onUpdateQCGenerator(existingPayload, sessionData);
+    case "static_otp_update_LOGISTICS":
+       return await updateGenerator(existingPayload,sessionData,inputs,action_id)
     case "on_status_LOGISTICS":
       return await onStatusGenerator(existingPayload, sessionData);
     case "on_status_1_LOGISTICS":

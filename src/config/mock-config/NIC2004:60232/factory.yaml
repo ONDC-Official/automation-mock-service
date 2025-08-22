@@ -323,8 +323,14 @@ codes:
     action: update
     default: update/default.yaml
     message_id: true
-  
+
   - code: 164
+    action_id: static_otp_update_LOGISTICS
+    action: update
+    default: update/default.yaml
+    message_id: true
+  
+  - code: 165
     action_id: on_update_DELIVERY_ADDRESS
     action: on_update
     default: on_update/default.yaml

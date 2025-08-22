@@ -4,6 +4,7 @@ import { removeTagsByCodes } from "../../../../../../utils/generic-utils";
 export async function updateGenerator(
   existingPayload: any,
   sessionData: SessionData,
+  inputs:any,
   action_id:string
 ) {
   console.log("session data after on_cofirm",sessionData.on_confirm_tags);
@@ -70,7 +71,7 @@ export async function updateGenerator(
 
         // Update end instructions only if code is NOT "5"
         const existingEndCode = fulfillment?.end?.instructions?.code;
-        if (existingEndCode !== "5") {
+        if (existingEndCode !== "5" && action_id === "static_otp_update_LOGISTICS" ) {
           fulfillment.end = {
             instructions: {
               code: "2",
@@ -83,6 +84,30 @@ export async function updateGenerator(
             },
           };
         }
+
+        if (action_id === "update_DELIVERY_ADDRESS") {
+                fulfillment.end = {
+                    location: {
+                        gps: inputs.delivery_location_gps,
+                        address: {
+                            name: inputs.delivery_address_name,
+                            building: inputs.delivery_address_building,
+                            locality: inputs.delivery_address_locality,
+                            city: inputs.delivery_address_city,
+                            state: inputs.delivery_address_state,
+                            country: inputs.delivery_address_country,
+                            area_code: String(inputs.delivery_address_area_code),
+                        },
+                    },
+                    contact: {
+                        phone: String(inputs.delivery_contact_phone),
+                        email: inputs.delivery_contact_email,
+                    },
+                    person: {
+                        name: inputs.delivery_person_name,
+                    },
+                };
+            }
 
         // Update tags
         let preTags = removeTagsByCodes(fulfillment.tags, [
