@@ -26,3 +26,4 @@ session_data:
   selected_offers: []
   last_updated_at: null
   search_bap_terms: null
+  selected_np_fees: []
