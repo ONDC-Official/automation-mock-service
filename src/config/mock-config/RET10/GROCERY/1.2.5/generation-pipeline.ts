@@ -2,7 +2,7 @@ import { SessionData } from "../../session-types";
 import fs from "fs";
 import yaml from "js-yaml";
 import path from "path";
-import { logger } from "../../../../../utils/logger";
+import logger from "@ondc/automation-logger";
 import { createContext } from "./create-context";
 import { getMockAction } from "../../action-factory";
 
@@ -82,12 +82,12 @@ export async function createMockResponseRET10_125(
 	if (!api_details.message_id) {
 		context.message_id = sessionData.message_id as string;
 	}
-	const default_message = yamlToJson(
-		path.resolve(__dirname, `../../${api_details.default}`)
-	);
+	// const default_message = yamlToJson(
+	// 	path.resolve(__dirname, `../../${api_details.default}`)
+	// );
 	const payload: any = {
 		context: context,
-		message: default_message,
+		// message: default_message,
 	};
 	if (sessionData.error_code && sessionData.error_message) {
 		const error_message = {

@@ -1,5 +1,4 @@
 import { Router, Request } from "express";
-import { saveDataMiddleware } from "../controllers/dataControllers";
 import { setAckResponse } from "../utils/ackUtils";
 import { Flow } from "../types/flow-types";
 import { TransactionCache } from "../types/transaction-cache";
@@ -8,7 +7,6 @@ import {
 	setFlowAndTransactionId,
 } from "../controllers/flowController";
 import { SessionCache } from "../types/api-session-cache";
-import { logInfo } from "../utils/logger";
 import otelTracing from "../middlewares/tracing";
 import { ValidateAndSaveIncoming } from "../services/state-action-service";
 
@@ -35,27 +33,11 @@ manualRouter.post(
 		"body.context.bap_id",
 		"body.context.bpp_id"
 	),
-	// l2Validation,
-	// saveDataMiddleware,
 	setFlowAndTransactionId,
 	ValidateAndSaveIncoming,
 	ActUponFlow,
 	(req, res) => {
-		logInfo({
-			message: "Entering Manual Route",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body.context.transaction_id,
-		});
 		res.status(200).send(setAckResponse(true));
-		logInfo({
-			message: "Exiting Manual Route",
-			meta: {
-				action: req.params.action,
-			},
-			transaction_id: req.body.context.transaction_id,
-		});
 	}
 );
 

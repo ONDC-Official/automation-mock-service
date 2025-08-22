@@ -2,8 +2,9 @@ import { SessionData } from "../../../../session-types";
 import { Fulfillments } from "../../api-objects/fulfillments";
 import { on_init_generator } from "../on_init/generator";
 import { SessionCacheService } from "../../../../../../../services/cache-services";
-import { logger } from "../../../../../../../utils/logger";
 import jsonpath from "jsonpath";
+import logger from "@ondc/automation-logger";
+
 export async function on_init_multi_fulfillment_generator(
 	existingPayload: any,
 	sessionData: SessionData

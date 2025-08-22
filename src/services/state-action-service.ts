@@ -1,12 +1,13 @@
 import { NextFunction, Response } from "express";
 import { ApiRequest } from "../routes/manual";
-import { logError, logger } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 import { getFlowCompleteStatus } from "./flow-mapping-service";
 import { getFlowStatusService } from "./mock-flow-status-service";
 import { getMockActionObject } from "../config/mock-config";
 import { saveDataForConfig } from "./data-services";
 import { setAckResponse } from "../utils/ackUtils";
 import { sendToApiService } from "../utils/request-utils";
+import { getLoggerData } from "../utils/loggerUtils";
 
 export async function ValidateAndSaveIncoming(
 	req: ApiRequest,
@@ -20,24 +21,25 @@ export async function ValidateAndSaveIncoming(
 		const flow = req.flow;
 		const body = req.body;
 		if (!txData || !subsUrl || !txId || !flow) {
-			logError({
-				message: "Missing required data in incoming request",
-				meta: {
-					transactionId: txId,
-					subscriberUrl: subsUrl,
-					flow: flow,
-				},
-			});
+			logger.error(
+				"[FATAL] REQUEST SHOULD NOT REACH THIS FUNCTION WITHOUT META DATA CHECK PREVIOUS MIDDLEWARES",
+				getLoggerData(req)
+			);
 			res
 				.status(500)
 				.send("<INTERNAL-ERROR> Flow or Transaction data not found");
 			return;
 		}
-		const flowStatus = await getFlowStatusService(txId, subsUrl);
+		const flowStatus = await getFlowStatusService(
+			txId,
+			subsUrl,
+			getLoggerData(req)
+		);
 		const flowCompleteStatus = getFlowCompleteStatus(
 			txData,
 			flow,
-			flowStatus.status
+			flowStatus.status,
+			getLoggerData(req)
 		);
 		let found = false;
 		for (const step of flowCompleteStatus.sequence) {
@@ -52,7 +54,8 @@ export async function ValidateAndSaveIncoming(
 						const valid = await mockActionOb.validate(body);
 						if (!valid.valid) {
 							logger.info(
-								`Validation failed for action: ${step.actionId}, Message: ${valid.message}`
+								`Validation failed for action: ${step.actionId}, Message: ${valid.message}`,
+								getLoggerData(req)
 							);
 							res.status(200).send(setAckResponse);
 
@@ -75,11 +78,16 @@ export async function ValidateAndSaveIncoming(
 							// Add a 1-second delay
 							await new Promise((resolve) => setTimeout(resolve, 1000));
 
-							await sendToApiService(action, errBody, {
-								subscriber_url: subsUrl,
-								flow_id: flow.id,
-								session_id: txData.sessionId,
-							});
+							await sendToApiService(
+								action,
+								errBody,
+								{
+									subscriber_url: subsUrl,
+									flow_id: flow.id,
+									session_id: txData.sessionId,
+								},
+								getLoggerData(req)
+							);
 							return;
 						}
 						const saveData = mockActionOb.saveData;
@@ -87,6 +95,7 @@ export async function ValidateAndSaveIncoming(
 					} catch (error) {
 						logger.error(
 							"Error while validating and saving " + step.actionId,
+							getLoggerData(req),
 							error
 						);
 						next();
@@ -97,19 +106,22 @@ export async function ValidateAndSaveIncoming(
 		}
 		if (found) {
 			logger.info(
-				"Validation and Save successfully performed for the request."
+				"Validation and Save successfully performed for the request.",
+				getLoggerData(req)
 			);
 		} else {
-			logger.info(
-				"Validation failed for the request. No matching payload found."
+			logger.warning(
+				"Validation failed for the request. No matching payload found.",
+				getLoggerData(req)
 			);
 		}
 		next();
 	} catch (error) {
-		logError({
-			message: "Error in StateAction",
-			error: error,
-		});
+		logger.error(
+			"Error in saving incoming Np request",
+			getLoggerData(req),
+			error
+		);
 		res.status(500).send({
 			error: "Internal Server Error",
 			message: "An error occurred while processing your request.",

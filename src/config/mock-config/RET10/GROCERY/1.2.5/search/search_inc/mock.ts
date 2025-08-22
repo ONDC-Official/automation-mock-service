@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import {
+	FormConfigType,
 	MockAction,
 	MockOutput,
 	saveType,
