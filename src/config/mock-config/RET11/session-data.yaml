@@ -31,3 +31,4 @@ session_data:
   tags: []
   on_select_items: []
   search_bap_terms: null
+  selected_np_fees: []

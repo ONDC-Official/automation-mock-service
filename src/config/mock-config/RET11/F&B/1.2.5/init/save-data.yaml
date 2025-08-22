@@ -3,3 +3,4 @@ save-data:
   message_id: "$.context.message_id"
   billing: "$.message.order.billing"
   items: "$.message.order.items[*]"
+  selected_np_fees: $.message.order.items[*].tags[?(@.code=="np_fees")].list[?(@.code=="id")].value
