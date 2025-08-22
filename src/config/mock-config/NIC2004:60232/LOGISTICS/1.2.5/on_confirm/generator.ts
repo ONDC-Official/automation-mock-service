@@ -250,6 +250,10 @@ export const onConfirmGenerator = (
     }
     bppTerms.list.push(newEntry);
   }
+  
+  sessionData.on_confirm_tags = existingPayload.message.order.tags;
+  console.log("sessionData.on_confirm_tags",sessionData.on_confirm_tags);
+  
 
   return existingPayload;
 };

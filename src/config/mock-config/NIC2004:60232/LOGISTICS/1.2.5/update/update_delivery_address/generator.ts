@@ -1,7 +1,7 @@
-import { SessionData } from "../../../session-types";
-import { removeTagsByCodes } from "../../../../../../utils/generic-utils";
+import { SessionData } from "../../../../session-types";
+import { removeTagsByCodes } from "../../../../../../../utils/generic-utils";
 
-export async function updateGenerator(
+export async function updateDeliveryAddressGenerator(
   existingPayload: any,
   sessionData: SessionData,
   action_id:string
@@ -52,7 +52,8 @@ export async function updateGenerator(
 
     existingPayload.message.order.fulfillments = sessionData?.fulfillments?.map(
       (fulfillment: any, index: number) => {
-        // Update start instructions only if code is NOT "5"
+        console.log("will come in this");
+
         const existingStartCode = fulfillment?.start?.instructions?.code;
         if (existingStartCode !== "5") {
           fulfillment.start = {
@@ -67,22 +68,20 @@ export async function updateGenerator(
             },
           };
         }
+        
 
         // Update end instructions only if code is NOT "5"
-        const existingEndCode = fulfillment?.end?.instructions?.code;
-        if (existingEndCode !== "5") {
-          fulfillment.end = {
-            instructions: {
-              code: "2",
-              short_desc: "987657",
-              long_desc: "additional instructions for delivery",
-              additional_desc: {
-                content_type: "text/html",
-                url: "http://description.com",
-              },
-            },
-          };
-        }
+            if (action_id === "update_DELIVERY_ADDRESS") {
+                fulfillment.end = {
+                    person: {
+                        name: "Buyer1"
+                    },
+                    contact: {
+                        phone: "9886098860",
+                        email: "buyer1@example.com" // <-- you can add more fields here
+                    },
+                };
+            }
 
         // Update tags
         let preTags = removeTagsByCodes(fulfillment.tags, [
