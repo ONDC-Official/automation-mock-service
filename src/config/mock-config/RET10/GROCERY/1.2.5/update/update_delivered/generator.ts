@@ -18,6 +18,7 @@ export async function update_delivered_generator(
 	existingPayload.message.order.fulfillments = [
 		{
 			id: targetFulfillment?.id,
+      		type: "Order-delivered",
 			tags: [
 				{
 					code: "update_state",

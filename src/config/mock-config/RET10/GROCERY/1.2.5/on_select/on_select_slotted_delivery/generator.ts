@@ -126,7 +126,31 @@ export async function on_select_slotted_delivery_generator(
 			fulfillment_id: "F1",
 		};
 	});
-	const catalogItems = catalog.catalog["bpp/providers"][0].items.filter(
+
+	existingPayload.message.order.fulfillments = existingPayload.message.order.fulfillments.map((fulfillment: { type: string; end: { time: { range: { start: string; end: string; }; }; }; start: { time: { range: { start: string; end: string; }; }; }; }) => {
+		if (fulfillment.type === "Delivery") {
+		  fulfillment.end = {
+			time: {
+			  range: {
+				start: "2025-01-07T10:30:00.000Z",
+				end: "2025-01-07T11:00:00.000Z"
+			  }
+			}
+		  };
+		} else if (fulfillment.type === "Self-Pickup") {
+		  fulfillment.start = {
+			time: {
+			  range: {
+				start: "2025-01-07T10:30:00.000Z",
+				end: "2025-01-07T10:45:00.000Z"
+			  }
+			}
+		  };
+		}
+		return fulfillment;
+	  });
+	  
+		  const catalogItems = catalog.catalog["bpp/providers"][0].items.filter(
 		(i: any) => {
 			console.log("Catalog Item: ", i.id);
 			const idMap = selectedItemsObj.map((item) => item.id);

@@ -16,6 +16,20 @@ export async function on_init_slotted_delivery_generator(
 	existingPayload.message.order.billing = getUpdatedBilling(
 		sessionData.billing
 	);
+	existingPayload.message.order.fulfillments =
+  existingPayload.message.order.fulfillments.map((fulfillment: { end?: any }) => ({
+    ...fulfillment,
+    end: {
+      ...fulfillment.end,
+      time: {
+        range: {
+          start: "2025-01-07T09:30:00.000Z",
+          end: "2025-01-07T10:00:00.000Z"
+        }
+      }
+    }
+  }));
+
 	existingPayload.message.order.provider = sessionData.provider;
 	existingPayload.message.order.quote = sessionData.quote;
 	const selectedIds = sessionData.on_select_fulfillments.map((f: any) => f.id);
@@ -26,5 +40,14 @@ export async function on_init_slotted_delivery_generator(
 		existingPayload.message.order.quote.breakup.filter(
 			(item: any) => !missingIds.includes(item["@ondc/org/item_id"])
 		);
+	existingPayload.message.order.quote.breakup =
+		existingPayload.message.order.quote.breakup.map((b: any) => {
+			if (b["@ondc/org/title_type"] === "item") {
+				if (b.item && b.item.quantity) delete b.item.quantity;
+			}
+			console.log("Quote Breakup: ", b);
+			return b;
+		});
+
 	return existingPayload;
 }

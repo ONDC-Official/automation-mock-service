@@ -1,6 +1,6 @@
 {
-  "transaction_id": "4db25d8c-a40c-4658-b4ee-be81457dbecb",
-  "message_id": "47917726-76d9-4d85-aba6-36da59638b45",
+  "transaction_id": "39a063e4-def3-4990-96c0-366042824037",
+  "message_id": "6fdeac2a-fd27-4e7d-984d-e4793223bc62",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -17,12 +17,6 @@
         "count": 1
       },
       "location": "L1"
-    },
-    {
-      "id": "I2",
-      "quantity": {
-        "count": 1
-      }
     }
   ],
   "selected_fulfillments": [
@@ -40,24 +34,17 @@
   "items": [
     {
       "id": "I1",
+      "fulfillment_id": "F1",
       "quantity": {
         "count": 1
-      },
-      "fulfillment_id": "F3"
+      }
     },
     {
       "id": "I3",
+      "fulfillment_id": "F1",
       "quantity": {
         "count": 1
-      },
-      "fulfillment_id": "F1"
-    },
-    {
-      "id": "I2",
-      "quantity": {
-        "count": 1
-      },
-      "fulfillment_id": "F3"
+      }
     }
   ],
   "provider": {
@@ -81,33 +68,10 @@
     "phone": "9898989898",
     "name": "ONDC buyer",
     "email": "nobody@nomail.com",
-    "created_at": "2025-06-11T07:15:12.574Z",
-    "updated_at": "2025-06-11T07:15:12.574Z"
+    "created_at": "2025-07-08T06:48:17.940Z",
+    "updated_at": "2025-07-08T06:48:17.940Z"
   },
   "fulfillments": [
-    {
-      "id": "F3",
-      "type": "Delivery",
-      "end": {
-        "contact": {
-          "email": "nobody@nomail.com",
-          "phone": "9898989898"
-        },
-        "location": {
-          "gps": "12.1233,12.9992",
-          "address": {
-            "building": "mock-building",
-            "city": "mock-city",
-            "state": "mock-state",
-            "country": "IND",
-            "area_code": "110092",
-            "locality": "mock-locality",
-            "name": "mock-house-name"
-          }
-        }
-      },
-      "tracking": true
-    },
     {
       "id": "F1",
       "type": "Delivery",
@@ -132,6 +96,124 @@
       "tracking": true
     }
   ],
+  "quote": {
+    "breakup": [
+      {
+        "@ondc/org/item_id": "I1",
+        "@ondc/org/item_quantity": {
+          "count": 1
+        },
+        "title": "Plain Atta",
+        "@ondc/org/title_type": "item",
+        "price": {
+          "currency": "INR",
+          "value": "200.00"
+        },
+        "item": {
+          "price": {
+            "currency": "INR",
+            "value": "200.00"
+          }
+        }
+      },
+      {
+        "@ondc/org/item_id": "I3",
+        "@ondc/org/item_quantity": {
+          "count": 1
+        },
+        "title": "Alphanso Mango",
+        "@ondc/org/title_type": "item",
+        "price": {
+          "currency": "INR",
+          "value": "250.00"
+        },
+        "item": {
+          "price": {
+            "currency": "INR",
+            "value": "250.00"
+          }
+        }
+      },
+      {
+        "@ondc/org/item_id": "F1",
+        "title": "Delivery charges",
+        "@ondc/org/title_type": "delivery",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "F1",
+        "title": "Convenience Fee",
+        "@ondc/org/title_type": "misc",
+        "price": {
+          "currency": "INR",
+          "value": "00.00"
+        }
+      },
+      {
+        "@ondc/org/item_id": "FLAT50",
+        "title": "Flat discount of ₹50 on minimum cart value of ₹200",
+        "@ondc/org/title_type": "offer",
+        "price": {
+          "currency": "INR",
+          "value": "-50.00"
+        },
+        "item": {
+          "tags": [
+            {
+              "code": "quote",
+              "list": [
+                {
+                  "code": "type",
+                  "value": "order"
+                }
+              ]
+            },
+            {
+              "code": "offer",
+              "list": [
+                {
+                  "code": "id",
+                  "value": "FLAT50"
+                },
+                {
+                  "code": "type",
+                  "value": "discount"
+                },
+                {
+                  "code": "auto",
+                  "value": "no"
+                },
+                {
+                  "code": "additive",
+                  "value": "no"
+                },
+                {
+                  "code": "item_id",
+                  "value": ""
+                },
+                {
+                  "code": "item_value",
+                  "value": ""
+                },
+                {
+                  "code": "item_count",
+                  "value": ""
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "price": {
+      "currency": "INR",
+      "value": "400.00"
+    },
+    "ttl": "P1D"
+  },
   "order_id": null,
   "payment": null,
   "order_state": null,
@@ -142,34 +224,8 @@
       "type": "Delivery",
       "@ondc/org/provider_name": "LSP or Provider Name",
       "tracking": true,
-      "@ondc/org/category": "Immediate Delivery",
-      "@ondc/org/TAT": "PT60M",
-      "state": {
-        "descriptor": {
-          "code": "Serviceable"
-        }
-      }
-    },
-    {
-      "id": "F2",
-      "type": "Delivery",
-      "@ondc/org/provider_name": "LSP or Provider Name",
-      "tracking": true,
-      "@ondc/org/category": "Immediate Delivery",
-      "@ondc/org/TAT": "PT2H",
-      "state": {
-        "descriptor": {
-          "code": "Serviceable"
-        }
-      }
-    },
-    {
-      "id": "F3",
-      "type": "Delivery",
-      "@ondc/org/provider_name": "LSP or Provider Name",
-      "tracking": true,
-      "@ondc/org/category": "Immediate Delivery",
-      "@ondc/org/TAT": "P1D",
+      "@ondc/org/category": "Standard Delivery",
+      "@ondc/org/TAT": "P2D",
       "state": {
         "descriptor": {
           "code": "Serviceable"
@@ -221,40 +277,16 @@
   "on_select_items": [
     {
       "id": "I1",
-      "fulfillment_ids": [
-        "F1",
-        "F3"
-      ]
-    },
-    {
-      "id": "I2",
-      "fulfillment_ids": [
-        "F2",
-        "F3"
-      ]
+      "fulfillment_id": "F1"
     },
     {
       "id": "I3",
-      "fulfillment_ids": [
-        "F1",
-        "F2"
-      ]
+      "fulfillment_id": "F1"
     }
   ],
   "selected_offers": [
     {
-      "id": "combo1",
-      "tags": [
-        {
-          "code": "selection",
-          "list": [
-            {
-              "code": "apply",
-              "value": "yes"
-            }
-          ]
-        }
-      ]
+      "id": "FLAT50"
     }
   ],
   "last_updated_at": null,

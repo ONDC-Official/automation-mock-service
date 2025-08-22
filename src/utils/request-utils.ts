@@ -22,10 +22,22 @@ export async function sendToApiService(
 				"X-Request-ID": loggingMeta.correlationId,
 			},
 		});
+		
+		// Add delay after axios call for cancel_breach action
+		if (action === "cancel_breach") {
+			await delay(5000);
+		}
 		logger.info("✅ Response sent to API service successfully", loggingMeta);
 	} catch (err: any) {
 		logger.error("Error in sending response to api service", loggingMeta, err);
 	}
+}
+
+/**
+ * Returns a Promise that resolves after a given delay in milliseconds.
+ */
+function delay(ms: number): Promise<void> {
+	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export function createSellerUrl(domain: string, version: string) {

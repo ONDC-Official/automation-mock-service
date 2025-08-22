@@ -13,8 +13,14 @@ export async function init_multi_fulfillment_generator(
 	const selectedItems = sessionData.selected_items as SelectedItems;
 
 	const selectedFids: Set<string> = new Set();
-	existingPayload.message.order.items = selectedItems.map((selectedItem) => {
-		const item = items.find((item: any) => selectedItem.id === item.id);
+		existingPayload.message.order.items = selectedItems.map((selectedItem, index) => {
+		let item = items.find((item: any) => selectedItem.id === item.id);
+		if(!item) {
+			item = {
+				fulfillment_ids: [...items[index].fulfillment_ids],
+				...selectedItem
+			}
+		}
 		const fId = getRandomItem(
 			item.fulfillment_ids || [item.fulfillment_id]
 		) as string;
@@ -60,14 +66,54 @@ export async function init_multi_fulfillment_generator(
 			},
 		});
 	}
-	existingPayload.message.order.fulfillments = newFulfillments;
+	existingPayload.message.order.fulfillments = newFulfillments.length < 2 ? newFulfillments.push({
+		id: "F1",
+		type:  "Delivery",
+		end: {
+			contact: {
+				email: "nobody@nomail.com",
+				phone: "9898989898",
+			},
+			location: {
+				gps: selected[0].end?.location?.gps,
+				address: {
+					building: "mock-building",
+					city: "mock-city",
+					state: "mock-state",
+					country: "IND",
+					area_code:
+						selected[0].end?.location?.address?.area_code || "400053",
+					locality: "mock-locality",
+					name: "mock-house-name",
+				},
+			},
+		},
+	}):newFulfillments;
 	existingPayload.message.order.billing = getUpdatedBilling(
 		existingPayload.message.order.billing,
 		true
 	);
 	existingPayload.message.order.provider = sessionData.provider;
 	if (sessionData.selected_offers) {
-		existingPayload.message.order.offers = sessionData.selected_offers;
+		existingPayload.message.order.offers = sessionData.selected_offers.map(
+			(offer: any) => {
+				return {
+					id: offer.id,
+					tags: [
+						{
+							code: "selection",
+							list: [
+								{
+									code: "apply",
+									value: "yes",
+								},
+							],
+						},
+					],
+				};
+			}
+		);
 	}
+
 	return existingPayload;
 }

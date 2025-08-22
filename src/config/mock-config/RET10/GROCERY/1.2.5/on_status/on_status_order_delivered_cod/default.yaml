@@ -53,7 +53,7 @@ order:
         "@ondc/org/title_type": delivery
     ttl: PT15M
   documents:
-    - url: https://sellerNP.com/order/invoice?id=LZGh58llAaPsLOFY3J2p3OJV6ixi6A1Z
+    - url: https://invoice_url
       label: Invoice
   billing:
     name: Abcde

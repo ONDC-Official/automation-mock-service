@@ -11,16 +11,20 @@ export async function on_status_self_pickup_picked_generator(
     generalPayload.message.order.fulfillments[0] = {
         ...sessionData.fulfillments[0],
         start: {
+			    ...sessionData.fulfillments[0].start,
           instructions: {
             code: "2",
             name: "ONDC order",
             short_desc: "value of PCC"
           },
-          timestamp: new Date().toISOString()
+          time: {
+            ...sessionData.fulfillments[0].start.time,
+            timestamp: new Date().toISOString()
+          }
         },
         state: {
           descriptor: {
-            code: "Picked-Up"
+            code: "Order-picked-up"
           }
         }
       }

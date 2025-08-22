@@ -57,6 +57,7 @@ order:
     params:
       currency: INR
       amount: "4797.00"
+      transaction_id: "cd7481e1-50e7-4de9-8c2e-8f3c38a26147"
     "@ondc/org/settlement_details":
       - settlement_counterparty: buyer-app
         settlement_phase: sale-amount

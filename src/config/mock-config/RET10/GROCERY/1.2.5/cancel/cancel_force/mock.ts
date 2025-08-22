@@ -1,0 +1,78 @@
+import { readFileSync } from "fs";
+import {
+	MockAction,
+	MockOutput,
+	saveType,
+} from "../../../../classes/mock-action";
+import { SessionData } from "../../../../session-types";
+import yaml from "js-yaml";
+import path from "path";
+import { cancel_force_generator } from "./generator";
+
+export class MockCancelForce extends MockAction {
+	get saveData(): saveType {
+		return yaml.load(
+			readFileSync(path.resolve(__dirname, "../save-data.yaml"), "utf8")
+		) as saveType;
+	}
+	get defaultData(): any {
+		return yaml.load(
+			readFileSync(path.resolve(__dirname, "./default.yaml"), "utf8")
+		);
+	}
+	get inputs(): any {
+		return {};
+	}
+	name(): string {
+		return "cancel";
+	}
+	get description(): string {
+		return "Mock action for force cancel scenario.";
+	}
+	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
+		return cancel_force_generator(existingPayload, sessionData);
+	}
+	async validate(targetPayload: any): Promise<MockOutput> {
+		if (!targetPayload) return { valid: false, message: "Payload is required" };
+	  
+		const message = targetPayload.message;
+		if (!message) return { valid: false, message: "message is required" };
+	  
+		if (!message.order_id) {
+		  return { valid: false, message: "message.order_id is required" };
+		}
+	  
+		if (!message.cancellation_reason_id) {
+		  return { valid: false, message: "message.cancellation_reason_id is required" };
+		}
+	  
+		if (!Array.isArray(message.tags)) {
+		  return { valid: false, message: "message.tags must be an array" };
+		}
+	  
+		const paramsTag = message.tags.find((tag: any) => tag.code === "params");
+	  
+		if (!paramsTag || !Array.isArray(paramsTag.list)) {
+		  return { valid: false, message: "params tag with list is required in message.tags" };
+		}
+	  
+		const forceEntry = paramsTag.list.find((p: any) => p.code === "force");
+		
+		if (!forceEntry || forceEntry.value !== "yes") {
+		  return { valid: false, message: "force must be set to 'yes' for force cancel" };
+		}
+
+		return { valid: true };
+	}
+	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
+		if (!sessionData.transaction_id) {
+			return { valid: false, message: "Transaction ID is required for cancel action" };
+		}
+
+		if (!sessionData.order_id) {
+			return { valid: false, message: "Order ID is required for cancel action" };
+		}
+
+		return { valid: true };
+	}
+}

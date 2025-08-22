@@ -300,6 +300,9 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			latestMeta.status === "INPUT-REQUIRED"
 		) {
 			res.status(200).send("Mock service is now responding");
+			await setFlowStatusService(txId, subscriberUrl, "WORKING");
+			// logger.info("Mock service is now responding");
+
 			logger.info(
 				`⏳ Mock service is now responding with ${latestMeta.actionId} as ${latestMeta.owner}`,
 				getLoggerData(req),
@@ -323,6 +326,12 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				);
 			}
 
+			// const action = latestMeta.actionType;
+			// await sendToApiService(action, mockResponse, {
+			// 	subscriber_url: subscriberUrl,
+			// 	flow_id: flow.id,
+			// 	session_id: txData.sessionId,
+			// })
 			logger.info("Mock response generated", getLoggerData(req), {
 				meta: latestMeta,
 			});

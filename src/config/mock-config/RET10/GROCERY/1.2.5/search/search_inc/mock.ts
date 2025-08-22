@@ -9,6 +9,7 @@ import { SessionData } from "../../../../session-types";
 import yaml from "js-yaml";
 import path from "path";
 import { search_inc_generator } from "./generator";
+
 export class MockSearchInc extends MockAction {
 	get saveData(): saveType {
 		return yaml.load(
@@ -24,7 +25,7 @@ export class MockSearchInc extends MockAction {
 		return {};
 	}
 	name(): string {
-		return "search_inc";
+		return "search";
 	}
 	get description(): string {
 		return "Mock mock action for searching items in a grocery with incremental data.";
@@ -32,14 +33,24 @@ export class MockSearchInc extends MockAction {
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
 		return search_inc_generator(existingPayload, sessionData);
 	}
-	async validate(targetPayload: any) {
-		return {
-			valid: true,
-		};
+	async validate(targetPayload: any): Promise<MockOutput> {
+	 			const context = targetPayload?.context;
+		 		const message = targetPayload?.message;
+
+				if (!context || !message) return { valid: false, message: "context and message are required" };
+
+				if (context.city !== "*") {
+					return { valid: false, message: "context.city must be '*'" };
+				}
+
+				const intent = message.intent;
+				if (!intent || !intent.provider || !intent.provider.id) {
+					return { valid: false, message: "message.intent.provider.id is required for incremental catalog" };
+				}
+
+				return { valid: true };
 	}
 	async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-		return {
-			valid: true,
-		};
+		return { valid: true };
 	}
 }

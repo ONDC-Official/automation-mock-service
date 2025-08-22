@@ -1,6 +1,40 @@
 catalog:
+  bpp/descriptor:
+    name: Seller NP
+    symbol: https://sellerNP.com/images/np.png
+    short_desc: Seller Marketplace
+    long_desc: Seller Marketplace
+    images:
+      - https://sellerNP.com/images/np.png
+    tags:
+      - code: bpp_terms
+        list: 
+          - code: np_type
+            value: MSN
+
+  rating: 4
+  # bpp/fulfillments:
+  #   - id: F1
+  #     type: Delivery
   bpp/providers:
     - id: P1
+      time:
+        label: enable
+        timestamp: "2024-12-23T06:46:02.015Z"
+      ttl: P1D
+      descriptor:
+        name: Store 1
+        symbol: https://sellerNP.com/images/store1.png
+        short_desc: Store 1
+        long_desc: Store 1
+        images:
+          - https://sellerNP.com/images/store1.png
+      fulfillments:
+        - id: F1
+          type: Delivery
+          contact:
+            phone: "9594663710"
+            email: nobody@nomail.com
       items:
         - descriptor:
             name: Plain Atta
@@ -12,8 +46,8 @@ catalog:
               - https://sellerNP.com/images/i1.png
           price:
             currency: INR
-            value: "100.00"
-            maximum_value: "100.00"
+            value: "200.00"
+            maximum_value: "200.00"
           quantity:
             unitized:
               measure:

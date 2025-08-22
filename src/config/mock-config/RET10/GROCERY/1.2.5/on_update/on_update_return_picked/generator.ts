@@ -20,8 +20,9 @@ export async function on_update_picked_generator(
 
 	const itemCodes = jsonpath.query(
 		sessionData.fulfillments,
-		`$..tags[*][?(@.code=="return_request")].list[?(@.code=="item_id")].value`
+		`$..tags[?(@.code=="return_request")].list[?(@.code=="item_id")].value`
 	);
+	console.log(JSON.stringify(sessionData.fulfillments), "fulfillment");
 	console.log("itemCodes", itemCodes);
 	const items: any[] = [];
 	const fulfillments = sessionData.fulfillments as Fulfillments;
@@ -45,11 +46,20 @@ export async function on_update_picked_generator(
 	existingPayload.message.order.items = items;
 	const quote = sessionData.quote as Quote;
 	const breakup = quote.breakup ?? [];
+	const itemPrice =
+		breakup.find((item) => item["@ondc/org/item_id"] === itemCodes[0])?.price
+			?.value ?? "0.00";
+	const itemPriceNum = parseFloat(itemPrice);
+
 	if (quote.price) {
-		quote.price.value = "0.00";
+		const existingPrice = parseFloat(quote.price.value || "0");
+		quote.price.value = `${(existingPrice - itemPriceNum).toFixed(2)}`;
 	}
 	const quoteTrails = breakup
 		.map((item) => {
+			if (item["@ondc/org/item_id"] !== itemCodes[0]) {
+				return item;
+			}
 			const price = parseFloat(item.price?.value || "0");
 			if (price === 0) return null;
 			if (item.price) {
@@ -69,11 +79,12 @@ export async function on_update_picked_generator(
 			};
 		})
 		.filter((x): x is NonNullable<typeof x> => x !== null);
-	existingPayload.message.order.fulfillments = sessionData.fulfillments.map(
+	existingPayload.message.order.fulfillments = sessionData.fulfillments.filter(
 		(f: Fulfillment) => {
 			if (f.type == "Return") {
-				const tags = f?.tags as any[];
-				return {
+				const tags = f?.tags?.filter((tag)=>tag.code) as any[];
+                 
+                  return {
 					...f,
 					state: {
 						descriptor: {
@@ -84,14 +95,13 @@ export async function on_update_picked_generator(
 						location: deliveryFulfillment.end?.location,
 						time: {
 							...f.start?.time,
-							timeStamp: new Date().toISOString(),
+							timestamp: new Date().toISOString(),
 						},
 					},
 					tags: [...tags, ...quoteTrails],
 				};
 			}
-			return f;
-		}
+			}
 	);
 	existingPayload.message.order.quote = sessionData.quote;
 	return existingPayload;

@@ -193,3 +193,7 @@ order:
   id: 2024-08-08-739546
   created_at: "2024-08-08T10:01:50.601Z"
   updated_at: "2024-08-08T10:11:24.790Z"
+  cancellation:
+    cancelled_by: sellerNP.com
+    reason:
+      id: "001"

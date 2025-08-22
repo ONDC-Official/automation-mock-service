@@ -13,10 +13,11 @@ export async function update_buyer_instructions(
         long_desc: "Leave package outside the door and do not ring the bell.",
         additional_desc: {
           content_type: "text/html",
-          url: "url for additional info"
+          url: "url for additional info",
         }
       }
-    }
+    },
+    type: "Delivery",
   }));
   return existingPayload;
 }
