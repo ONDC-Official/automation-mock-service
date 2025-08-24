@@ -30,7 +30,7 @@ export async function confirmDefaultGenerator(existingPayload: any, sessionData:
   
   // Load tags from session (BAP_TERMS and BPP_TERMS)
   if (sessionData.tags) {
-    existingPayload.message.order.tags = sessionData.tags;
+    existingPayload.message.order.tags = [sessionData.tags];
   }
   
   // Update payments with transaction_id and amount from session
