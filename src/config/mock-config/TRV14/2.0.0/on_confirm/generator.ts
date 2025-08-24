@@ -69,7 +69,7 @@ export async function onConfirmGenerator(existingPayload: any, sessionData: any)
   
   // Load tags from session
   if (sessionData.tags) {
-    existingPayload.message.order.tags = sessionData.tags;
+    existingPayload.message.order.tags = [sessionData.tags];
   }
   
   // Load cancellation_terms from session

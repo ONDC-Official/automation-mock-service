@@ -77,7 +77,7 @@ export async function onUpdateSoftPartialCancellationGenerator(existingPayload: 
   
   // Load tags from session
   if (sessionData.tags) {
-    existingPayload.message.order.tags = sessionData.tags;
+    existingPayload.message.order.tags = [sessionData.tags];
   }
   
   // Load cancellation_terms from session

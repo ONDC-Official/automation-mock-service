@@ -78,7 +78,7 @@ export async function onStatusDefaultGenerator(existingPayload: any, sessionData
   
   // Load tags from session
   if (sessionData.tags) {
-    existingPayload.message.order.tags = sessionData.tags;
+    existingPayload.message.order.tags = [sessionData.tags];
   }
   
   // Load timestamps from session
