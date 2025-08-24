@@ -1,5 +1,8 @@
 import { MockSelectClass } from "./2.0.0/select/class";
+import { MockSelectPartialCancellationClass } from "./2.0.0/select/select_partial_cancellation/class";
+import { MockSelectForPartialCancellationClass } from "./2.0.0/select_for_partial_cancellation/class";
 import { MockOnSelectClass } from "./2.0.0/on_select/class";
+import { MockOnSelectWithoutFormClass } from "./2.0.0/on_select_without_form/class";
 import { MockInitClass } from "./2.0.0/init/class";
 import { MockOnInitClass } from "./2.0.0/on_init/class";
 import { MockConfirmClass } from "./2.0.0/confirm/class";
@@ -41,6 +44,13 @@ import { search_seller_pagination_class } from "./2.0.0/search/search_pagination
 import { search_incremental_pull_class } from "./2.0.0/search/search_incremental_pull/class";
 import { MockSelect2Class } from "./2.0.0/select_form_submission/class";
 import { MockOnSelect2Class } from "./2.0.0/on_select_form_submission/class";
+import { MockOnCancelRejectedClass } from "./2.0.0/on_cancel/on_cancel_rejected/class";
+// update
+import { MockUpdateSoftPartialCancellationClass } from "./2.0.0/update/update_soft_partial_cancellation/class";
+import { MockUpdateConfirmPartialCancellationClass } from "./2.0.0/update/update_confirm_partial_cancellation/class";
+// on_update
+import { MockOnUpdateSoftPartialCancellationClass } from "./2.0.0/on_update/on_update_soft_partial_cancellation/class";
+import { MockOnUpdateConfirmPartialCancellationClass } from "./2.0.0/on_update/on_update_confirm_partial_cancellation/class";
 
 export function getMockAction(actionId: string) {
 	switch (actionId) {
@@ -62,8 +72,14 @@ export function getMockAction(actionId: string) {
 			return new MockOnSearchIncrementalPull3Class();
 		case "select":
 			return new MockSelectClass();
+		case "select_partial_cancellation":
+			return new MockSelectPartialCancellationClass();
+		case "select_for_partial_cancellation":
+			return new MockSelectForPartialCancellationClass();
 		case "on_select":
 			return new MockOnSelectClass();
+		case "on_select_without_form":
+			return new MockOnSelectWithoutFormClass();
 		case "select_form_submission":
 			return new MockSelect2Class();
 		case "on_select_form_submission":
@@ -122,6 +138,16 @@ export function getMockAction(actionId: string) {
 			return new MockSelect2Class();
 		case "on_select_2":
 			return new MockOnSelect2Class();
+		case "on_cancel_rejected":
+			return new MockOnCancelRejectedClass();
+		case "update_soft_partial_cancellation":
+			return new MockUpdateSoftPartialCancellationClass();
+		case "update_confirm_partial_cancellation":
+			return new MockUpdateConfirmPartialCancellationClass();
+		case "on_update_soft_partial_cancellation":
+			return new MockOnUpdateSoftPartialCancellationClass();
+		case "on_update_confirm_partial_cancellation":
+			return new MockOnUpdateConfirmPartialCancellationClass();
 		default:
 			throw new Error(`Action with ID ${actionId} not found`);
 	}

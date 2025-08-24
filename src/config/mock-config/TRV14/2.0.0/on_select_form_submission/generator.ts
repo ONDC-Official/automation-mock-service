@@ -8,6 +8,7 @@
 
 export async function onSelect2Generator(existingPayload: any, sessionData: any) {
   // Reuse data from session (stored from on_select_1)
+  const submission_id = sessionData.submission_id || "F01_SUBMISSION_ID"
   if (sessionData.items) {
     existingPayload.message.order.items = sessionData.items;
   }
@@ -43,7 +44,7 @@ export async function onSelect2Generator(existingPayload: any, sessionData: any)
             },
             form_response: {
               status: "SUCCESS",
-              submission_id: "F01_SUBMISSION_ID"
+              submission_id: submission_id
             }
           };
         }

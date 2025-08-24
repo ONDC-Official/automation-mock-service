@@ -56,10 +56,20 @@ export class MockOnSearchSellerPagination1Class extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-        // Example: always valid, or add logic as needed
-        // if(!sessionData.collected_by){
-        //     return {valid:false,message: "Some Error message"}
-        // }
+        if (!sessionData.collected_by) {
+            return {
+                valid: false,
+                message: "Payment collection method is required in session data",
+                code: "MISSING_COLLECTED_BY"
+            };
+        }
+        if (!sessionData.start_time || !sessionData.end_time) {
+            return {
+                valid: false,
+                message: "Start time and end time are required in session data",
+                code: "MISSING_TIME_RANGE"
+            };
+        }
         return { valid: true };
     }
 }
