@@ -1,26 +1,28 @@
 /**
- * Select Generator for TRV14 using user_inputs structure
+ * Select Generator for Partial Cancellation - TRV14 using user_inputs structure
  * 
  * Logic:
  * 1. Process items from sessionData.user_inputs.items
- * 2. Use count from each item or default to 1
- * 3. Include add-ons if they exist on the item
- * 4. Use fulfillment from user_inputs
- * 5. Use provider from user_inputs
- * 6. Update fulfillment timestamps to match context timestamp
+ * 2. Ensure first item has quantity from user_inputs (should be > 1 as validated)
+ * 3. Use count from each item or default to 1
+ * 4. Include add-ons if they exist on the item
+ * 5. Use fulfillment from user_inputs
+ * 6. Use provider from user_inputs
+ * 7. Update fulfillment timestamps to match context timestamp
  */
 
 /**
  * Creates item payload with quantity and add-ons from user_inputs structure
  * @param userInputItem - The item object from sessionData.user_inputs.items
+ * @param index - The index of the item in the array
  * @returns Formatted item payload for the select request
  */
-function createItemPayload(userInputItem: any): any {
+function createItemPayload(userInputItem: any, index: number): any {
   const itemPayload: any = {
     id: userInputItem.itemId,
     quantity: {
       selected: {
-        count: userInputItem.count || 1
+        count: userInputItem.quantity || userInputItem.count || 1
       }
     }
   };
@@ -45,11 +47,11 @@ function createItemPayload(userInputItem: any): any {
   return itemPayload;
 }
 
-export async function selectDefaultGenerator(existingPayload: any, sessionData: any) {
+export async function selectForPartialCancellationGenerator(existingPayload: any, sessionData: any) {
   const userInputs = sessionData.user_inputs;
 
-  // Process all items from user_inputs
-  const itemPayloads = userInputs.items.map((item: any) => createItemPayload(item));
+  // Process all items from user_inputs, passing index for tracking
+  const itemPayloads = userInputs.items.map((item: any, index: number) => createItemPayload(item, index));
 
   // Update the payload with all selected items
   existingPayload.message.order.items = itemPayloads;
@@ -75,5 +77,4 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   ];
 
   return existingPayload;
-} 
-
+}
