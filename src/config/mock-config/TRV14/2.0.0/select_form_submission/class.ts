@@ -32,6 +32,30 @@ export class MockSelect2Class extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
+        if (!sessionData.selected_items || !Array.isArray(sessionData.selected_items) || sessionData.selected_items.length === 0) {
+            return {
+                valid: false,
+                message: "Selected items are required in session data",
+                code: "MISSING_SELECTED_ITEMS"
+            };
+        }
+
+        if (!sessionData.selected_provider) {
+            return {
+                valid: false,
+                message: "Selected provider is required in session data",
+                code: "MISSING_SELECTED_PROVIDER"
+            };
+        }
+
+        if (!sessionData.selected_fulfillments || !Array.isArray(sessionData.selected_fulfillments) || sessionData.selected_fulfillments.length === 0) {
+            return {
+                valid: false,
+                message: "Selected fulfillments are required in session data",
+                code: "MISSING_SELECTED_FULFILLMENTS"
+            };
+        }
+
         return { valid: true };
     }
 } 

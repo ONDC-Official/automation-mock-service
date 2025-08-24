@@ -32,19 +32,54 @@ export class MockSelectClass extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-        // Validate required session data for select generator
-        if (!sessionData.items || !Array.isArray(sessionData.items) || sessionData.items.length === 0) {
+        // Validate user_inputs structure exists
+        if (!sessionData.user_inputs) {
             return { 
                 valid: false, 
-                message: "No items available in session data" 
+                message: "user_inputs not found in session data",
+                code: "MISSING_USER_INPUTS"
             };
         }
-        
-        if (!sessionData.provider_id) {
+
+        const userInputs : any = sessionData.user_inputs;
+
+        // Validate provider
+        if (!userInputs.provider) {
             return { 
                 valid: false, 
-                message: "No provider_id available in session data" 
+                message: "provider is required in user_inputs",
+                code: "MISSING_PROVIDER"
             };
+        }
+
+        // Validate fulfillment
+        if (!userInputs.fulfillment) {
+            return { 
+                valid: false, 
+                message: "fulfillment is required in user_inputs",
+                code: "MISSING_FULFILLMENT"
+            };
+        }
+
+        // Validate items array
+        if (!userInputs.items || !Array.isArray(userInputs.items) || userInputs.items.length === 0) {
+            return { 
+                valid: false, 
+                message: "items array is required and must not be empty in user_inputs",
+                code: "MISSING_OR_EMPTY_ITEMS"
+            };
+        }
+
+        // Validate each item has required fields
+        for (let i = 0; i < userInputs.items.length; i++) {
+            const item = userInputs.items[i];
+            if (!item.itemId) {
+                return { 
+                    valid: false, 
+                    message: `itemId is required for item at index ${i}`,
+                    code: "MISSING_ITEM_ID"
+                };
+            }
         }
         
         return { valid: true };

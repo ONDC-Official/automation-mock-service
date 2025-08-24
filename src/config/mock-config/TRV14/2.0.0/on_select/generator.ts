@@ -6,10 +6,10 @@
  * 2. Merge selected quantities from selected_items into full item details
  * 3. Calculate quote breakup (BASE_FARE, ADD_ONS, TAX=0) - excluding parent items
  * 4. Handle fulfillments from session data
- * 
  * Note: Parent items (items without price/quantity) are included in response for 
  * demonstration purposes but excluded from price calculations
  */
+import data from "./data.json"
 
 /**
  * Merges add-on selection data with full add-on details
@@ -154,7 +154,11 @@ function calculateQuote(items: any[]): any {
 
 export async function onSelectDefaultGenerator(existingPayload: any, sessionData: any) {
   // Note: Validation is handled in meetRequirements method of the class
-  
+  // inject default data 
+  sessionData.items = data.items
+  sessionData.fulfillments=data.fulfillments
+
+
   // Filter and merge items based on selected_items
   const responseItems: any[] = [];
   const addedParentIds: Set<string> = new Set(); // Track added parent items to avoid duplicates
@@ -221,7 +225,7 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
             "form": {
                 "id": "F01",
                 "mime_type": "text/html",
-                "url": "https://api.unreserved-entry-pass.com/xinput/additonal-details/F01",
+                "url": `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/additional-details-form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`,
                 "resubmit": false,
                 "multiple_sumbissions": false
             },

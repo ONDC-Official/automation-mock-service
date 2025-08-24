@@ -33,24 +33,43 @@ export class MockInitClass extends MockAction {
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
         // Validate required session data for init generator
-        if (!sessionData.selected_items || !Array.isArray(sessionData.selected_items) || sessionData.selected_items.length === 0) {
+        if (!sessionData.selected_items || !Array.isArray(sessionData.selected_items)) {
             return { 
                 valid: false, 
-                message: "No selected_items available in session data" 
+                message: "No selected_items available in session data",
+                code: "MISSING_SELECTED_ITEMS"
+            };
+        }
+
+        if (sessionData.selected_items.length === 0) {
+            return {
+                valid: false,
+                message: "selected_items array is empty",
+                code: "EMPTY_SELECTED_ITEMS"
             };
         }
         
         if (!sessionData.selected_fulfillments || !Array.isArray(sessionData.selected_fulfillments)) {
             return { 
                 valid: false, 
-                message: "No selected_fulfillments available in session data" 
+                message: "No selected_fulfillments available in session data",
+                code: "MISSING_SELECTED_FULFILLMENTS"
+            };
+        }
+
+        if (sessionData.selected_fulfillments.length === 0) {
+            return {
+                valid: false,
+                message: "selected_fulfillments array is empty",
+                code: "EMPTY_SELECTED_FULFILLMENTS"
             };
         }
         
         if (!sessionData.selected_provider) {
             return { 
                 valid: false, 
-                message: "No selected_provider available in session data" 
+                message: "No selected_provider available in session data",
+                code: "MISSING_SELECTED_PROVIDER"
             };
         }
         

@@ -32,6 +32,22 @@ export class MockOnCancelSoftUserCancellationClass extends MockAction {
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
+        if (!sessionData.order) {
+            return {
+                valid: false,
+                message: "No order information available in session data",
+                code: "MISSING_ORDER"
+            };
+        }
+
+        if (!sessionData.cancellation_reason_id) {
+            return {
+                valid: false,
+                message: "No cancellation reason ID available in session data",
+                code: "MISSING_CANCELLATION_REASON_ID"
+            };
+        }
+
         return { valid: true };
     }
 } 

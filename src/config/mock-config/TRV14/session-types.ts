@@ -23,6 +23,7 @@ export interface SessionData {
 	payments: any[] | undefined;
 	updated_payments: any[] | undefined;
 	order_id: string | undefined;
+	order: any | undefined;
 	quote: any | undefined;
 	status: string;
 	error_code: string | undefined;
