@@ -91,7 +91,7 @@ export async function onConfirmTechnicalCancellationGenerator(existingPayload: a
   
   // Load tags from session
   if (sessionData.tags) {
-    existingPayload.message.order.tags = sessionData.tags;
+    existingPayload.message.order.tags = [sessionData.tags];
   }
   
   // Load cancellation_terms from session
