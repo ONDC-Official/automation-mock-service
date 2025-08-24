@@ -14,7 +14,7 @@ export async function sendToApiService(
 		console.log(action, JSON.stringify(body.message, null, 2));
 		// await saveData(action, body);
 		logger.debug(`Sending response to api service ${url} ${action}`);
-		await axios.post(url, body, {
+		const result = await axios.post(url, body, {
 			params: {
 				...queryData,
 			},

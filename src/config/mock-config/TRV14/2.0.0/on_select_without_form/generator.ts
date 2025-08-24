@@ -152,7 +152,7 @@ function calculateQuote(items: any[]): any {
   };
 }
 
-export async function onSelectDefaultGenerator(existingPayload: any, sessionData: any) {
+export async function onSelectWithoutFormGenerator(existingPayload: any, sessionData: any) {
   // Note: Validation is handled in meetRequirements method of the class
   // inject default data 
   sessionData.items = data.items
@@ -203,37 +203,7 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
   if (sessionData.fulfillments) {
     existingPayload.message.order.fulfillments = sessionData.fulfillments?.filter((fulfillment: any) => fulfillment.id === sessionData.selected_fulfillments[0].id);
   }
-  // add xinput to child items (items with parent_item_id)
-  if (existingPayload.message.order.items && Array.isArray(existingPayload.message.order.items)) {
-    existingPayload.message.order.items.forEach((item: any) => {
-        // Only add xinput to child items (items with parent_item_id)
-        if (item.parent_item_id) {
-          item.xinput =  {
-            "head": {
-                "descriptor": {
-                    "name": "Additional Details"
-                },
-                "index": {
-                    "min": 0,
-                    "cur": 0,
-                    "max": 0
-                },
-                "headings": [
-                    "ADDITIONAL_DETAILS"
-                ]
-            },
-            "form": {
-                "id": "F01",
-                "mime_type": "text/html",
-                "url": `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/additional-details-form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`,
-                "resubmit": false,
-                "multiple_sumbissions": false
-            },
-            "required": true
-        }
-      }
-    });
-  }
+  // No xinput form for this on_select_without_form variant
   
   return existingPayload;
 } 
