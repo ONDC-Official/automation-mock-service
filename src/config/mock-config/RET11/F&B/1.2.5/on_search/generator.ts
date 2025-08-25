@@ -20,7 +20,7 @@ export const onSearchGenerator = (
   }
 
   const search_bap_terms = sessionData.search_bap_terms;
-  const codesToFind = ["001", "008"];
+  const codesToFind = ["001", "008","00A"];
   const bapCodes = new Set();
 
   for (const item of search_bap_terms.list) {
@@ -91,6 +91,69 @@ export const onSearchGenerator = (
             value: "300.00",
           },
         ],
+      });
+    }
+    if (code === "00A") {
+      const providerTags = existingPayload.message.catalog["bpp/providers"][0].tags;
+      const existingProviderNpFees = providerTags.find(
+        (tag: any) => tag.code === "np_fees"
+      );
+      if (!existingProviderNpFees) {
+        providerTags.push({
+          code: "np_fees",
+          list: [
+            {
+              code: "channel_margin_type",
+              value: "percent",
+            },
+            {
+              code: "channel_margin_value",
+              value: "0.50",
+            },
+          ],
+        });
+      }
+      const categories = existingPayload.message.catalog["bpp/providers"][0].categories;
+      categories.forEach((category: any) => {
+        const existingCategoryNpFees = category.tags.find(
+          (tag: any) => tag.code === "np_fees"
+        );
+        if (!existingCategoryNpFees) {
+          category.tags.push({
+            code: "np_fees",
+            list: [
+              {
+                code: "channel_margin_type",
+                value: "percent",
+              },
+              {
+                code: "channel_margin_value",
+                value: "0.50",
+              },
+            ],
+          });
+        }
+      });
+      const items = existingPayload.message.catalog["bpp/providers"][0].items;
+      items.forEach((item: any) => {
+        const existingItemNpFees = item.tags.find(
+          (tag: any) => tag.code === "np_fees"
+        );
+        if (!existingItemNpFees) {
+          item.tags.push({
+            code: "np_fees",
+            list: [
+              {
+                code: "channel_margin_type",
+                value: "percent",
+              },
+              {
+                code: "channel_margin_value",
+                value: "0.50",
+              },
+            ],
+          });
+        }
       });
     }
   }
