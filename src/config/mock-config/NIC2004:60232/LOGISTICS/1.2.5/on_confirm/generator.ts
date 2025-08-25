@@ -250,6 +250,6 @@ export const onConfirmGenerator = (
     }
     bppTerms.list.push(newEntry);
   }
-
+    
   return existingPayload;
 };

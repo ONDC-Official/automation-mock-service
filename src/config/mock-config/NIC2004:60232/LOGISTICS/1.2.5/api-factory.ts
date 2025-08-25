@@ -51,7 +51,9 @@ export async function Generator(
     case "confirm_LOGISTICS":
       return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
     case "update_LOGISTICS":
-      return await updateGenerator(existingPayload, sessionData);
+      return await updateGenerator(existingPayload, sessionData,inputs,action_id);
+    case "update_DELIVERY_ADDRESS":
+      return await updateGenerator(existingPayload,sessionData,inputs,action_id);
     case "track_LOGISTICS":
       return await trackGenerator(existingPayload, sessionData);
     case "cancel_LOGISTICS":
@@ -71,11 +73,15 @@ export async function Generator(
     case "on_confirm_LOGISTICS":
       return await onConfirmGenerator(existingPayload, sessionData,action_id);
     case "on_update_LOGISTICS":
-      return await onUpdateGenerator(existingPayload, sessionData);
+      return await onUpdateGenerator(existingPayload, sessionData,action_id);
+    case "on_update_DELIVERY_ADDRESS":
+      return await onUpdateGenerator(existingPayload, sessionData,action_id);
     case "update_qc":
       return await updateQCGenerator(existingPayload, sessionData);
     case "on_update_qc":
       return await onUpdateQCGenerator(existingPayload, sessionData);
+    case "static_otp_update_LOGISTICS":
+       return await updateGenerator(existingPayload,sessionData,inputs,action_id)
     case "on_status_LOGISTICS":
       return await onStatusGenerator(existingPayload, sessionData);
     case "on_status_1_LOGISTICS":

@@ -1,4 +1,4 @@
-import { populateFulfillmentUpdate } from "../common_generator";
+import { deepUpdate, populateFulfillmentUpdate } from "../common_generator";
 import { getTimestampFromDuration } from "../../../../../../utils/generic-utils";
 import { SessionData } from "../../../session-types";
 
@@ -13,8 +13,11 @@ function removeTagsByCodes(tags: Tag[], codesToRemove: string[]): Tag[] {
 
 export const onUpdateGenerator = (
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  action_id:string
 ) => {
+  console.log("update_fulfillments",JSON.stringify(sessionData.update_fulfillments));
+  
   existingPayload.message.order.id = sessionData.order_id;
 
   if (sessionData?.fulfillments) {
@@ -104,6 +107,24 @@ export const onUpdateGenerator = (
   if (sessionData.linked_order) {
     existingPayload.message.order["@ondc/org/linked_order"] =
       sessionData.linked_order;
+  }
+
+  if(sessionData.on_confirm_tags){
+    existingPayload.message.order.tags = sessionData.on_confirm_tags
+  }
+
+  if(action_id === "on_update_DELIVERY_ADDRESS"){
+    const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
+      (fulfillment: any) => {
+        return fulfillment.type === "Delivery";
+      }
+    );
+    const updatedFulfillmentEnd = sessionData.update_fulfillments
+      ?.find((fulfillment: any) => fulfillment.type === "Delivery")
+      ?.end;
+    const result = deepUpdate(deliveryFulfillment.end,updatedFulfillmentEnd)
+    console.log("result of the fulfillment",JSON.stringify(result));
+    
   }
 
   return existingPayload;

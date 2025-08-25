@@ -151,7 +151,7 @@ export async function searchGenerator(
   existingPayload.message.intent["@ondc/org/payload_details"].category =
     inputs?.retailCategory || "Grocery";
 
-  if (action_id === "search_sla") {
+  if (action_id === "search_LOGISTICS_SLA") {
     existingPayload.message.intent.tags.push(
       ...[
         {

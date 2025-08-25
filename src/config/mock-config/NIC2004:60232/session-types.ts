@@ -69,6 +69,7 @@ export interface SessionData {
   order_count: string;
   static_pickup_otp: string
   static_delivery_otp: string
+  on_confirm_tags: any[]
 };
 
 export type BecknContext = {

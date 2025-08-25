@@ -58,4 +58,5 @@ session_data:
   update_fulfillments: []
   static_pickup_otp: null
   static_delivery_otp: null
+  on_confirm_tags: []
 

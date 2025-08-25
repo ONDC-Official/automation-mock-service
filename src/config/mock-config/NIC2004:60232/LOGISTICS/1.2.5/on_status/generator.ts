@@ -381,5 +381,9 @@ export const onStatusGenerator = async (
       sessionData.linked_order;
   }
 
+  if(sessionData.on_confirm_tags){
+    existingPayload.message.order.tags = sessionData.on_confirm_tags
+  }
+
   return existingPayload;
 };
