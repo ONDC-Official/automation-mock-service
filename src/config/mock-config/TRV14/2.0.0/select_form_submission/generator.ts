@@ -1,6 +1,8 @@
 export async function select2Generator(existingPayload: any, sessionData: any) {
   // Replace the entire items array with sessionData.items if available, then inject xinput into each item
-  const submission_id = sessionData?.user_inputs?.form_submission_id || "F01_SUBMISSION_ID"
+  let submission_id = sessionData?.user_inputs?.form_submission_id || "F01_SUBMISSION_ID"
+  submission_id = submission_id?.split(",")
+
   if (
     existingPayload &&
     existingPayload.message &&
@@ -8,7 +10,7 @@ export async function select2Generator(existingPayload: any, sessionData: any) {
   ) {
     
     if (Array.isArray(sessionData.selected_items)) {
-      existingPayload.message.order.items = sessionData.selected_items.map((item: any) => ({
+      existingPayload.message.order.items = sessionData.selected_items.map((item: any, index: number) => ({
         ...item,
         xinput: {
           form: {
@@ -16,7 +18,7 @@ export async function select2Generator(existingPayload: any, sessionData: any) {
           },
           form_response: {
             status: "SUCCESS",
-            submission_id: submission_id
+            submission_id: submission_id[index]?submission_id[index]:submission_id[0]
           }
         }
       }));
