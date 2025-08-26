@@ -19,6 +19,7 @@ export async function sendToApiService(
 				...queryData,
 			},
 		});
+		console.log(result)
 	} catch (err) {
 		logger.error("Error in sending response to api service", err);
 	}

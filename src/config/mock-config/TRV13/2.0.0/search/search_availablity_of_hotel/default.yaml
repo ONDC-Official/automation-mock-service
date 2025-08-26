@@ -1,0 +1,34 @@
+intent:
+  category:
+    descriptor:
+      code: HOTEL
+    time:
+      label: AVAILABLE
+      range:
+        start: 2023-12-25T00:00:00.000Z
+        end: 2023-12-27T00:00:00.000Z
+  fulfillment:
+    stops:
+      - type: END
+        location:
+          gps: 12.82735998361846, 77.69157068978166
+          area_code: "560100"
+  tags:
+    - descriptor:
+        code: BAP_TERMS
+      list:
+        - descriptor:
+            code: STATIC_TERMS
+          value: "https://static_terms.com"
+        - descriptor:
+            code: STATIC_TERMS_NEW
+          value: https://github.com/ONDC-Official/static-terms//buyerNP_BNP/1.0/tc.pdf
+        - descriptor:
+            code: EFFECTIVE_DATE
+          value: 2024-01-01T00:00:00.000Z
+    - descriptor:
+        code: BUYER_FINDER_FEES
+      list:
+        - descriptor:
+            code: BUYER_FINDER_FEES_PERCENTAGE
+          value: "3"
