@@ -361,7 +361,7 @@ export const buildRetailQuote = (
 
     totalPrice += parseFloat(taxPrice);
 
-    if (options?.search_bap_terms?.list?.includes("00A")) {
+    if (options?.search_bap_terms?.list?.some((t: any) => t.code === "00A")) {
       const npFeesbreakup = [
         {
           "@ondc/org/item_id": item.id,
