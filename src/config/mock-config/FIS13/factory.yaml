@@ -126,3 +126,27 @@ codes:
     default: FIS13/2.0.0/on_update/on_update_hospicash/default.yaml
     message_id: false
 
+  - code: 121
+    action_id: search_discover_product_transit
+    action: search
+    default: FIS13/2.0.0/search/search_discover_products/search_discover_product_transit/default.yaml
+    message_id: true
+
+  - code: 122
+    action_id: search_discover_product_hospicash
+    action: search
+    default: FIS13/2.0.0/search/search_discover_products/search_discover_product_hospicash/default.yaml
+    message_id: true
+
+  - code: 123
+    action_id: on_search_discover_product_tranist
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_discover_product/on_search_discover_product_transit/default.yaml
+    message_id: false
+
+  - code: 124
+    action_id: on_search_discover_product_hospicash
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_discover_product/on_search_discover_product_hospicash/default.yaml
+    message_id: false
+
