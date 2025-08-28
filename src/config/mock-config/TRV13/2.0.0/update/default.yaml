@@ -1,0 +1,12 @@
+update_target: fulfillment
+order:
+  id: O1
+  fulfillments:
+    - id: customer-1
+      tags:
+        - descriptor:
+            code: UPDATE_REQUEST
+          list:
+            - descriptor:
+                code: contact.email
+              value: newemail@ondc.org

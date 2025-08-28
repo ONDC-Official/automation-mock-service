@@ -2,19 +2,19 @@ import { readFileSync } from "fs";
 import { logger } from "../../utils/logger";
 import path from "path";
 import yaml from "js-yaml";
-import { SessionData as MockSessionData } from "./TRV14/session-types";
-import { createMockResponse } from "./TRV14/version-factory";
-import { getMockAction } from "./TRV14/action-factory";
+import { SessionData as MockSessionData } from "./TRV13/session-types";
+import { createMockResponse } from "./TRV13/version-factory";
+import { getMockAction } from "./TRV13/action-factory";
 
 export { MockSessionData };
 
 const actionConfig = yaml.load(
-	readFileSync(path.join(__dirname, "./TRV14/factory.yaml"), "utf8")
+	readFileSync(path.join(__dirname, "./TRV13/factory.yaml"), "utf8")
 ) as any;
 
 export const defaultSessionData = () =>
 	yaml.load(
-		readFileSync(path.join(__dirname, "./TRV14/session-data.yaml"), "utf8")
+		readFileSync(path.join(__dirname, "./TRV13/session-data.yaml"), "utf8")
 	) as { session_data: MockSessionData };
 
 export async function generateMockResponse(
@@ -55,7 +55,7 @@ export function getActionData(code: number) {
 export function getSaveDataContent(version: string, action: string) {
 	let actionFolderPath = path.resolve(
 		__dirname,
-		`./TRV14/${version}/${action}`
+		`./TRV13/${version}/${action}`
 	);
 	const saveDataFilePath = path.join(actionFolderPath, "save-data.yaml");
 	const fileContent = readFileSync(saveDataFilePath, "utf8");
