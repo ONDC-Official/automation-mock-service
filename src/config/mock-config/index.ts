@@ -1,11 +1,10 @@
 import { readFileSync } from "fs";
-import { logger } from "../../utils/logger";
 import path from "path";
 import yaml from "js-yaml";
 import { SessionData as MockSessionData } from "./TRV14/session-types";
 import { createMockResponse } from "./TRV14/version-factory";
-import { getMockAction } from "./TRV14/action-factory";
-
+import { getMockAction, listMockActions } from "./TRV14/action-factory";
+import logger from "@ondc/automation-logger";
 export { MockSessionData };
 
 const actionConfig = yaml.load(
@@ -40,6 +39,10 @@ export async function generateMockResponse(
 
 export function getMockActionObject(actionId: string) {
 	return getMockAction(actionId);
+}
+
+export function getAllMockActionIds() {
+	return listMockActions();
 }
 
 export function getActionData(code: number) {

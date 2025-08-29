@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express";
 import { ApiRequest } from "../routes/manual";
-import { logError, logger } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 import { getFlowCompleteStatus } from "./flow-mapping-service";
 import { getFlowStatusService } from "./mock-flow-status-service";
 import { getMockActionObject } from "../config/mock-config";
@@ -14,6 +14,7 @@ import {
 	sendToApiService,
 	sendToApiServiceAboutForm,
 } from "../utils/request-utils";
+import { getLoggerData } from "../utils/logger";
 
 export async function ValidateAndSaveIncoming(
 	req: ApiRequest,
@@ -27,20 +28,20 @@ export async function ValidateAndSaveIncoming(
 		const flow = req.flow;
 		const body = req.body;
 		if (!txData || !subsUrl || !txId || !flow) {
-			logError({
-				message: "Missing required data in incoming request",
-				meta: {
-					transactionId: txId,
-					subscriberUrl: subsUrl,
-					flow: flow,
-				},
-			});
+			logger.error(
+				"Missing required data in incoming request",
+				getLoggerData(req)
+			);
 			res
 				.status(500)
 				.send("<INTERNAL-ERROR> Flow or Transaction data not found");
 			return;
 		}
-		const flowStatus = await getFlowStatusService(txId, subsUrl);
+		const flowStatus = await getFlowStatusService(
+			txId,
+			subsUrl,
+			getLoggerData(req)
+		);
 		const mockSessionData = await loadMockSessionData(txId, subsUrl);
 		const flowCompleteStatus = getFlowCompleteStatus(
 			txData,
@@ -139,6 +140,7 @@ export async function ValidateAndSaveIncoming(
 					} catch (error) {
 						logger.error(
 							"Error while validating and saving " + step.actionId,
+							{},
 							error
 						);
 						next();
@@ -158,10 +160,7 @@ export async function ValidateAndSaveIncoming(
 		}
 		next();
 	} catch (error) {
-		logError({
-			message: "Error in StateAction",
-			error: error,
-		});
+		logger.error("Error in ValidateAndSaveIncoming middleware", {}, error);
 		res.status(500).send({
 			error: "Internal Server Error",
 			message: "An error occurred while processing your request.",

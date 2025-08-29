@@ -2,7 +2,7 @@ import { SessionData } from "../session-types";
 import fs from "fs";
 import yaml from "js-yaml";
 import path from "path";
-import { logger } from "../../../../utils/logger";
+import logger from "@ondc/automation-logger";
 import { createContext } from "./create-context";
 import { getMockAction } from "../action-factory";
 

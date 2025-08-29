@@ -28,7 +28,7 @@ import {
 import { generateMockResponse } from "../config/mock-config";
 import { getMockActionObject } from "../config/mock-config";
 import { saveDataForConfig } from "../services/data-services";
-import { getLoggerData } from "../utils/logger-utils";
+import { getLoggerData } from "../utils/logger";
 
 export async function setFlowAndTransactionId(
 	req: ApiRequest,
@@ -176,7 +176,8 @@ export async function proceedWithFlow(
 		}
 		const { transactionData, sessionData, flow } = await getFlowInfo(
 			transactionId,
-			sessionId
+			sessionId,
+			getLoggerData(req)
 		);
 		req.transactionData = transactionData;
 		req.flow = flow;
@@ -204,7 +205,8 @@ export async function getFlowStatus(req: ApiRequest, res: Response) {
 		);
 		const { transactionData, sessionData, flow } = await getFlowInfo(
 			transactionId,
-			sessionId
+			sessionId,
+			getLoggerData(req)
 		);
 		const mockSessionData = await loadMockSessionData(
 			transactionId,
@@ -212,7 +214,8 @@ export async function getFlowStatus(req: ApiRequest, res: Response) {
 		);
 		const flowStatus = await getFlowStatusService(
 			transactionId,
-			sessionData.subscriberUrl
+			sessionData.subscriberUrl,
+			getLoggerData(req)
 		);
 		res
 			.status(200)
@@ -248,7 +251,11 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			return;
 		}
 
-		const flowStatus = await getFlowStatusService(txId, subscriberUrl);
+		const flowStatus = await getFlowStatusService(
+			txId,
+			subscriberUrl,
+			getLoggerData(req)
+		);
 		if (flowStatus.status === "SUSPENDED") {
 			logger.info("Flow is suspended, not proceeding", getLoggerData(req));
 			res.status(200).send({ message: "Flow is suspended, not proceeding" });
@@ -375,7 +382,8 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 					subscriberUrl,
 					flow.id,
 					txData.sessionId,
-					latestMeta.actionType
+					latestMeta.actionType,
+					getLoggerData(req)
 				);
 				expecAdded = true;
 			}

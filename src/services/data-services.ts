@@ -1,7 +1,6 @@
 import { RedisService } from "ondc-automation-cache-lib";
 import jsonpath from "jsonpath";
-
-import { logger } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 import { isArrayKey } from "../types/type-utils";
 import {
 	defaultSessionData,
@@ -45,7 +44,7 @@ export function updateSessionData(
 			sessionData.error_message = undefined;
 		}
 	} catch (e) {
-		logger.error("Error in updating session data", e);
+		logger.error("Error in updating session data", {}, e);
 	}
 }
 
@@ -72,7 +71,7 @@ export async function saveData(
 		);
 		logger.info("Data saved to session");
 	} catch (e) {
-		logger.error("Error in saving data to session", e);
+		logger.error("Error in saving data to session", {}, e);
 	}
 }
 
@@ -97,7 +96,7 @@ export async function saveDataForConfig(
 		);
 		logger.info("Data saved to session");
 	} catch (e) {
-		logger.error("Error in saving data to session", e);
+		logger.error("Error in saving data to session", {}, e);
 	}
 }
 
@@ -109,7 +108,7 @@ export async function saveCompleteData(data: string, transactionId: string) {
 		await RedisService.setKey(transactionId, data);
 		logger.info("Complete Data saved to session");
 	} catch (e) {
-		logger.error("Error in saving complete data to session", e);
+		logger.error("Error in saving complete data to session", {}, e);
 	}
 }
 
@@ -146,7 +145,7 @@ export function getReferenceData(sessionData: MockSessionData) {
 		if (data) {
 			referenceData[key] = data;
 		} else {
-			logger.warn(`No data found for key: ${key}`);
+			logger.warning(`No data found for key: ${key}`);
 		}
 	}
 	console.log("referenceData", referenceData);

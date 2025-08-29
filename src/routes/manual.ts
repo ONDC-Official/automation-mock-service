@@ -32,8 +32,6 @@ manualRouter.post(
 		"body.context.bap_id",
 		"body.context.bpp_id"
 	),
-	// l2Validation,
-	// saveDataMiddleware,
 	setFlowAndTransactionId,
 	ValidateAndSaveIncoming,
 	ActUponFlow

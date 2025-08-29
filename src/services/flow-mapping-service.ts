@@ -12,24 +12,15 @@ import {
 	HistoryType,
 	TransactionCache,
 } from "../types/transaction-cache";
-import { logInfo } from "../utils/logger";
 import { getReferenceData } from "./data-services";
 import { MockStatusCode } from "./mock-flow-status-service";
-
+import logger from "@ondc/automation-logger";
 export function getNextActionMetaData(
 	transactionData: TransactionCache,
 	flow: Flow,
 	flowStatus: MockStatusCode,
 	mockSessionData: MockSessionData
 ) {
-	logInfo({
-		message: "Entering getNextActionMetaData Function.",
-		meta: {
-			transactionData,
-			flowId: transactionData.flowId,
-			flowStatus,
-		},
-	});
 	const flowDetails = getFlowCompleteStatus(
 		transactionData,
 		flow,
@@ -44,12 +35,7 @@ export function getNextActionMetaData(
 			"WAITING-SUBMISSION",
 		].includes(s.status)
 	);
-	logInfo({
-		message: "Exiting getNextActionMetaData Function. Returning latestApi",
-		meta: {
-			latestApi,
-		},
-	});
+	logger.info("Latest Action Meta Data", { latestApi });
 	return latestApi;
 }
 
@@ -59,14 +45,6 @@ export function getFlowCompleteStatus(
 	flowStatus: MockStatusCode,
 	mockSessionData: MockSessionData
 ) {
-	logInfo({
-		message: "Entering getFlowCompleteStatus Function.",
-		meta: {
-			transactionData,
-			flowId: transactionData.flowId,
-			flowStatus: "flowStatus",
-		},
-	});
 	const apiList = reduceApiDataList(transactionData.apiList).sort(
 		(a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
 	);
@@ -169,12 +147,6 @@ export function getFlowCompleteStatus(
 			});
 		}
 	}
-	logInfo({
-		message: "Exiting getFlowCompleteStatus Function.",
-		meta: {
-			mappedFlow,
-		},
-	});
 	return mappedFlow;
 }
 
@@ -293,12 +265,6 @@ function handleFormSequence(
 }
 
 function reduceApiDataList(data: HistoryType[]): ApiHistory[] {
-	logInfo({
-		message: "Entering reduceApiDataList Function.",
-		meta: {
-			data,
-		},
-	});
 	const map = new Map<string, ApiHistory>();
 
 	for (const vagueItem of data) {
@@ -342,22 +308,10 @@ function reduceApiDataList(data: HistoryType[]): ApiHistory[] {
 			}
 		}
 	}
-	logInfo({
-		message: "Exiting reduceApiDataList Function.",
-		meta: {
-			reducedData: Array.from(map.values()),
-		},
-	});
 	return Array.from(map.values());
 }
 
 function checkPerfectAck(response: any): "SUCCESS" | "ERROR" {
-	logInfo({
-		message: "Inside checkPerfectAck Function. Checking for perfect ack",
-		meta: {
-			response,
-		},
-	});
 	if (response?.message?.ack?.status === "ACK") {
 		return "SUCCESS";
 	}

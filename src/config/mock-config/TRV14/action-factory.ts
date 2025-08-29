@@ -53,106 +53,97 @@ import { MockOnUpdateSoftPartialCancellationClass } from "./2.0.0/on_update/on_u
 import { MockOnUpdateConfirmPartialCancellationClass } from "./2.0.0/on_update/on_update_confirm_partial_cancellation/class";
 import { MockFirstFormTestingClass } from "./2.0.0/form/first_form_testing";
 import { MockAction } from "./classes/mock-action";
+// types/helpers
+type Ctor<T> = new () => T;
 
+// === keep your imports exactly as they are ===
+
+// Build a single source of truth registry
+const registry = {
+	// search
+	search_seller_pagination: search_seller_pagination_class,
+	search_incremental_pull: search_incremental_pull_class,
+
+	// on_search
+	on_search_seller_pagination_1: MockOnSearchSellerPagination1Class,
+	on_search_seller_pagination_2: MockOnSearchSellerPagination2Class,
+	on_search_seller_pagination_3: MockOnSearchSellerPagination3Class,
+	on_search_incremental_pull_1: MockOnSearchIncrementalPull1Class,
+	on_search_incremental_pull_2: MockOnSearchIncrementalPull2Class,
+	on_search_incremental_pull_3: MockOnSearchIncrementalPull3Class,
+
+	// select
+	select: MockSelectClass,
+	select_partial_cancellation: MockSelectPartialCancellationClass,
+	select_for_partial_cancellation: MockSelectForPartialCancellationClass,
+	on_select: MockOnSelectClass,
+	on_select_without_form: MockOnSelectWithoutFormClass,
+	select_form_submission: MockSelect2Class,
+	on_select_form_submission: MockOnSelect2Class,
+	select_2: MockSelect2Class,
+	on_select_2: MockOnSelect2Class,
+
+	// init / on_init
+	init: MockInitClass,
+	on_init: MockOnInitClass,
+
+	// confirm / on_confirm
+	confirm: MockConfirmClass,
+	on_confirm: MockOnConfirmDefaultClass,
+	on_confirm_technical_cancellation: MockOnConfirmTechnicalCancellationClass,
+	on_confirm_user_cancellation: MockOnConfirmUserCancellationClass,
+	on_confirm_partial_cancellation: MockOnConfirmPartialCancellationClass,
+
+	// status / on_status
+	status: MockStatusDefaultClass,
+	on_status: MockOnStatusDefaultClass,
+	status_technical_cancellation: MockStatusTechnicalCancellationClass,
+	on_status_technical_cancellation: MockOnStatusTechnicalCancellationClass,
+	status_user_cancellation: MockStatusUserCancellationClass,
+	on_status_user_cancellation: MockOnStatusUserCancellationClass,
+
+	// cancel / on_cancel
+	cancel: MockCancelClass,
+	on_cancel: MockOnCancelDefaultClass,
+	cancel_soft_user_cancellation: MockCancelSoftUserCancellationClass,
+	on_cancel_soft_user_cancellation: MockOnCancelSoftUserCancellationClass,
+	cancel_soft_partial_cancellation: MockCancelSoftPartialCancellationClass,
+	on_cancel_soft_partial_cancellation: MockOnCancelSoftPartialCancellationClass,
+	cancel_soft_technical_cancellation: MockCancelSoftTechnicalCancellationClass,
+	on_cancel_soft_technical_cancellation:
+		MockOnCancelSoftTechnicalCancellationClass,
+	cancel_confirm_user_cancellation: MockCancelConfirmUserCancellationClass,
+	on_cancel_confirm_user_cancellation: MockOnCancelConfirmUserCancellationClass,
+	cancel_confirm_technical_cancellation:
+		MockCancelConfirmTechnicalCancellationClass,
+	on_cancel_confirm_technical_cancellation:
+		MockOnCancelConfirmTechnicalCancellationClass,
+	on_cancel_rejected: MockOnCancelRejectedClass,
+
+	// update / on_update
+	update_soft_partial_cancellation: MockUpdateSoftPartialCancellationClass,
+	update_confirm_partial_cancellation:
+		MockUpdateConfirmPartialCancellationClass,
+	on_update_soft_partial_cancellation: MockOnUpdateSoftPartialCancellationClass,
+	on_update_confirm_partial_cancellation:
+		MockOnUpdateConfirmPartialCancellationClass,
+
+	// forms
+	first_form_testing: MockFirstFormTestingClass,
+} as const satisfies Record<string, Ctor<MockAction>>;
+
+type MockActionId = keyof typeof registry;
+
+// Construct by id
 export function getMockAction(actionId: string): MockAction {
-	switch (actionId) {
-		case "search_seller_pagination":
-			return new search_seller_pagination_class();
-		case "on_search_seller_pagination_1":
-			return new MockOnSearchSellerPagination1Class();
-		case "on_search_seller_pagination_2":
-			return new MockOnSearchSellerPagination2Class();
-		case "on_search_seller_pagination_3":
-			return new MockOnSearchSellerPagination3Class();
-		case "search_incremental_pull":
-			return new search_incremental_pull_class();
-		case "on_search_incremental_pull_1":
-			return new MockOnSearchIncrementalPull1Class();
-		case "on_search_incremental_pull_2":
-			return new MockOnSearchIncrementalPull2Class();
-		case "on_search_incremental_pull_3":
-			return new MockOnSearchIncrementalPull3Class();
-		case "select":
-			return new MockSelectClass();
-		case "select_partial_cancellation":
-			return new MockSelectPartialCancellationClass();
-		case "select_for_partial_cancellation":
-			return new MockSelectForPartialCancellationClass();
-		case "on_select":
-			return new MockOnSelectClass();
-		case "on_select_without_form":
-			return new MockOnSelectWithoutFormClass();
-		case "select_form_submission":
-			return new MockSelect2Class();
-		case "on_select_form_submission":
-			return new MockOnSelect2Class();
-		case "init":
-			return new MockInitClass();
-		case "on_init":
-			return new MockOnInitClass();
-		case "confirm":
-			return new MockConfirmClass();
-		case "on_confirm":
-			return new MockOnConfirmDefaultClass();
-		case "status":
-			return new MockStatusDefaultClass();
-		case "on_status":
-			return new MockOnStatusDefaultClass();
-		case "cancel":
-			return new MockCancelClass();
-		case "on_cancel":
-			return new MockOnCancelDefaultClass();
-		case "on_confirm_technical_cancellation":
-			return new MockOnConfirmTechnicalCancellationClass();
-		case "status_technical_cancellation":
-			return new MockStatusTechnicalCancellationClass();
-		case "on_status_technical_cancellation":
-			return new MockOnStatusTechnicalCancellationClass();
-		case "cancel_soft_technical_cancellation":
-			return new MockCancelSoftTechnicalCancellationClass();
-		case "on_cancel_soft_technical_cancellation":
-			return new MockOnCancelSoftTechnicalCancellationClass();
-		case "cancel_confirm_technical_cancellation":
-			return new MockCancelConfirmTechnicalCancellationClass();
-		case "on_cancel_confirm_technical_cancellation":
-			return new MockOnCancelConfirmTechnicalCancellationClass();
-		case "on_confirm_user_cancellation":
-			return new MockOnConfirmUserCancellationClass();
-		case "status_user_cancellation":
-			return new MockStatusUserCancellationClass();
-		case "on_status_user_cancellation":
-			return new MockOnStatusUserCancellationClass();
-		case "cancel_soft_user_cancellation":
-			return new MockCancelSoftUserCancellationClass();
-		case "on_cancel_soft_user_cancellation":
-			return new MockOnCancelSoftUserCancellationClass();
-		case "cancel_confirm_user_cancellation":
-			return new MockCancelConfirmUserCancellationClass();
-		case "on_cancel_confirm_user_cancellation":
-			return new MockOnCancelConfirmUserCancellationClass();
-		case "on_confirm_partial_cancellation":
-			return new MockOnConfirmPartialCancellationClass();
-		case "cancel_soft_partial_cancellation":
-			return new MockCancelSoftPartialCancellationClass();
-		case "on_cancel_soft_partial_cancellation":
-			return new MockOnCancelSoftPartialCancellationClass();
-		case "select_2":
-			return new MockSelect2Class();
-		case "on_select_2":
-			return new MockOnSelect2Class();
-		case "on_cancel_rejected":
-			return new MockOnCancelRejectedClass();
-		case "update_soft_partial_cancellation":
-			return new MockUpdateSoftPartialCancellationClass();
-		case "update_confirm_partial_cancellation":
-			return new MockUpdateConfirmPartialCancellationClass();
-		case "on_update_soft_partial_cancellation":
-			return new MockOnUpdateSoftPartialCancellationClass();
-		case "on_update_confirm_partial_cancellation":
-			return new MockOnUpdateConfirmPartialCancellationClass();
-		case "first_form_testing":
-			return new MockFirstFormTestingClass();
-		default:
-			throw new Error(`Action with ID ${actionId} not found`);
+	const Ctor = registry[actionId as MockActionId];
+	if (!Ctor) {
+		throw new Error(`Action with ID ${actionId as string} not found`);
 	}
+	return new Ctor();
+}
+
+// List all possible ids — stays in sync automatically
+export function listMockActions(): MockActionId[] {
+	return Object.keys(registry) as MockActionId[];
 }
