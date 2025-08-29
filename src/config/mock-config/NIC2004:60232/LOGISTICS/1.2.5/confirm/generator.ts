@@ -79,244 +79,358 @@ export const confirmGenerator = (
     name: "person_name_2",
   };
 
+  // const tags = [
+  //   {
+  //     code: "linked_order",
+  //     list: [
+  //       ...(sessionData?.is_cod === "yes"
+  //         ? [
+  //             { code: "cod_order", value: "yes" },
+  //             { code: "collection_amount", value: "300.00" },
+  //           ]
+  //         : []),
+  //       {
+  //         code: "id",
+  //         value: "RO1",
+  //       },
+  //       ...(sessionData?.category_id === "Immediate Delivery"
+  //         ? [
+  //             {
+  //               code: "prep_time",
+  //               value:
+  //                 TatMapping[sessionData?.category_id].orderPrepTime || "PT30M",
+  //             },
+  //           ]
+  //         : []),
+  //       {
+  //         code: "currency",
+  //         value: "INR",
+  //       },
+  //       {
+  //         code: "declared_value",
+  //         value: "300.0",
+  //       },
+  //       {
+  //         code: "weight_unit",
+  //         value: "kilogram",
+  //       },
+  //       {
+  //         code: "weight_value",
+  //         value: "3.0",
+  //       },
+  //       {
+  //         code: "dim_unit",
+  //         value: "centimeter",
+  //       },
+  //       {
+  //         code: "length",
+  //         value: "1.0",
+  //       },
+  //       {
+  //         code: "breadth",
+  //         value: "1.0",
+  //       },
+  //       {
+  //         code: "height",
+  //         value: "1.0",
+  //       },
+  //       ...(sessionData?.domain === "ONDC:LOG11"
+  //         ? [
+  //             {
+  //               code: "shipment_type",
+  //               value: "box",
+  //             },
+  //           ]
+  //         : []),
+  //     ],
+  //   },
+  //   {
+  //     code: "linked_order_item",
+  //     list: [
+  //       {
+  //         code: "category",
+  //         value: sessionData?.retail_category || "Grocery",
+  //       },
+  //       {
+  //         code: "name",
+  //         value: "Item1",
+  //       },
+  //       {
+  //         code: "currency",
+  //         value: "INR",
+  //       },
+  //       {
+  //         code: "value",
+  //         value: "70.0",
+  //       },
+  //       {
+  //         code: "quantity",
+  //         value: "2",
+  //       },
+  //       {
+  //         code: "weight_unit",
+  //         value: "kilogram",
+  //       },
+  //       {
+  //         code: "weight_value",
+  //         value: "1.0",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     code: "linked_order_item",
+  //     list: [
+  //       {
+  //         code: "category",
+  //         value: sessionData?.retail_category || "Grocery",
+  //       },
+  //       {
+  //         code: "name",
+  //         value: "Item2",
+  //       },
+  //       {
+  //         code: "currency",
+  //         value: "INR",
+  //       },
+  //       {
+  //         code: "value",
+  //         value: "160.0",
+  //       },
+  //       {
+  //         code: "quantity",
+  //         value: "1",
+  //       },
+  //       {
+  //         code: "weight_unit",
+  //         value: "kilogram",
+  //       },
+  //       {
+  //         code: "weight_value",
+  //         value: "1.0",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     code: "state",
+  //     list: [
+  //       {
+  //         code: "ready_to_ship",
+  //         value:
+  //           sessionData.category_id === "Immediate Delivery" ? "yes" : "no",
+  //       },
+  //     ],
+  //   },
+  //   ...(sessionData?.domain === "ONDC:LOG10"
+  //     ? [
+  //         {
+  //           code: "rto_action",
+  //           list: [
+  //             {
+  //               code: "return_to_origin",
+  //               value: inputs?.returnToOrigin || "no",
+  //             },
+  //           ],
+  //         },
+  //       ]
+  //     : []),
+  //   ...(sessionData?.domain === "ONDC:LOG11"
+  //     ? [
+  //         {
+  //           code: "rto_action",
+  //           list: [
+  //             {
+  //               code: "return_to_origin",
+  //               value: inputs?.returnToOrigin || "yes",
+  //             },
+  //           ],
+  //         },
+  //       ]
+  //     : []),
+  //   ...(sessionData?.is_cod === "yes"
+  //     ? [
+  //         {
+  //           code: "cod_settlement_detail",
+  //           list: [
+  //             {
+  //               code: "settlement_window",
+  //               value: "P0D",
+  //             },
+  //             {
+  //               code: "settlement_type",
+  //               value: "neft",
+  //             },
+  //             {
+  //               code: "beneficiary_name",
+  //               value: "XXXXXXXXXX",
+  //             },
+  //             {
+  //               code: "upi_address",
+  //               value: "",
+  //             },
+  //             {
+  //               code: "bank_account_no",
+  //               value: "XXXXXXXXXX",
+  //             },
+  //             {
+  //               code: "ifsc_code",
+  //               value: "XXXXXXXXX",
+  //             },
+  //             {
+  //               code: "bank_name",
+  //               value: "xxxx",
+  //             },
+  //             {
+  //               code: "branch_name",
+  //               value: "xxxx",
+  //             },
+  //           ],
+  //         },
+  //       ]
+  //     : []),
+  // ];
+
   const tags = [
-    // {
-    //   code: "linked_provider",
-    //   list: [
-    //     {
-    //       code: "id",
-    //       value: sessionData.provider_id,
-    //     },
-    //     {
-    //       code: "name",
-    //       value: "Seller1",
-    //     },
-    //     {
-    //       code: "address",
-    //       value: `My store name 1, My building name 1, My street name 1, my city 1, my state 1, ${
-    //         sessionData?.start_area_code || "560001"
-    //       }`,
-    //     },
-    //     ...(sessionData.domain === "ONDC:LOG11"
-    //       ? [
-    //           {
-    //             code: "tax_id",
-    //             value: "29GSTIN1234K2Z2",
-    //           },
-    //         ]
-    //       : []),
-    //   ],
-    // },
     {
       code: "linked_order",
       list: [
         ...(sessionData?.is_cod === "yes"
           ? [
-              { code: "cod_order", value: "yes" },
-              { code: "collection_amount", value: "300.00" },
-            ]
+            { code: "cod_order", value: "yes" },
+            { code: "collection_amount", value: "300.00" },
+          ]
           : []),
-        {
-          code: "id",
-          value: "RO1",
-        },
+        { code: "id", value: "RO1" },
         ...(sessionData?.category_id === "Immediate Delivery"
           ? [
-              {
-                code: "prep_time",
-                value:
-                  TatMapping[sessionData?.category_id].orderPrepTime || "PT30M",
-              },
-            ]
+            {
+              code: "prep_time",
+              value:
+                TatMapping[sessionData?.category_id].orderPrepTime || "PT30M",
+            },
+          ]
           : []),
-        {
-          code: "currency",
-          value: "INR",
-        },
-        {
-          code: "declared_value",
-          value: "300.0",
-        },
-        {
-          code: "weight_unit",
-          value: "kilogram",
-        },
-        {
-          code: "weight_value",
-          value: "3.0",
-        },
-        {
-          code: "dim_unit",
-          value: "centimeter",
-        },
-        {
-          code: "length",
-          value: "1.0",
-        },
-        {
-          code: "breadth",
-          value: "1.0",
-        },
-        {
-          code: "height",
-          value: "1.0",
-        },
+        { code: "currency", value: "INR" },
+        { code: "declared_value", value: "300.0" },
+        { code: "weight_unit", value: "kilogram" },
+        { code: "weight_value", value: "3.0" },
+        { code: "dim_unit", value: "centimeter" },
+        { code: "length", value: "1.0" },
+        { code: "breadth", value: "1.0" },
+        { code: "height", value: "1.0" },
         ...(sessionData?.domain === "ONDC:LOG11"
-          ? [
-              {
-                code: "shipment_type",
-                value: "box",
-              },
-            ]
+          ? [{ code: "shipment_type", value: "box" }]
           : []),
       ],
     },
-    {
-      code: "linked_order_item",
-      list: [
-        {
-          code: "category",
-          value: sessionData?.retail_category || "Grocery",
-        },
-        {
-          code: "name",
-          value: "Item1",
-        },
-        {
-          code: "currency",
-          value: "INR",
-        },
-        {
-          code: "value",
-          value: "70.0",
-        },
-        {
-          code: "quantity",
-          value: "2",
-        },
-        {
-          code: "weight_unit",
-          value: "kilogram",
-        },
-        {
-          code: "weight_value",
-          value: "1.0",
-        },
-      ],
-    },
-    {
-      code: "linked_order_item",
-      list: [
-        {
-          code: "category",
-          value: sessionData?.retail_category || "Grocery",
-        },
-        {
-          code: "name",
-          value: "Item2",
-        },
-        {
-          code: "currency",
-          value: "INR",
-        },
-        {
-          code: "value",
-          value: "160.0",
-        },
-        {
-          code: "quantity",
-          value: "1",
-        },
-        {
-          code: "weight_unit",
-          value: "kilogram",
-        },
-        {
-          code: "weight_value",
-          value: "1.0",
-        },
-      ],
-    },
+
+    // Dynamically create linked_order_item for each item
+    ...(sessionData?.on_search_items ?? []).map((item: any) => {      
+      const baseList = [
+        { code: "category", value: sessionData?.retail_category || "Grocery" },
+        { code: "name", value: "item1" },
+        { code: "currency", value: "INR" },
+        { code: "value", value: item.value?.toString() || "0.0" },
+        { code: "quantity", value: "2" },
+        { code: "weight_unit", value: "kilogram" },
+        { code: "weight_value", value: "1.0" },
+      ];
+
+      // Only add hsn_code if condition matches
+      if (
+        action_id === "confirm_E_WAY_BILL_LOGISTICS"
+      ) {
+        baseList.push( 
+          { code: "hsn_code", value: "1:2345" },
+          { code: "ebn_exempt", value: item.ebn_exempt || "no" }
+        );
+      }
+
+      return { code: "linked_order_item", list: baseList };
+    }),
+
     {
       code: "state",
       list: [
         {
           code: "ready_to_ship",
-          value:
-            sessionData.category_id === "Immediate Delivery" ? "yes" : "no",
+          value: sessionData.category_id === "Immediate Delivery" ? "yes" : "no",
         },
       ],
     },
+
     ...(sessionData?.domain === "ONDC:LOG10"
       ? [
-          {
-            code: "rto_action",
-            list: [
-              {
-                code: "return_to_origin",
-                value: inputs?.returnToOrigin || "no",
-              },
-            ],
-          },
-        ]
+        {
+          code: "rto_action",
+          list: [
+            { code: "return_to_origin", value: inputs?.returnToOrigin || "no" },
+          ],
+        },
+      ]
       : []),
+
     ...(sessionData?.domain === "ONDC:LOG11"
       ? [
-          {
-            code: "rto_action",
-            list: [
-              {
-                code: "return_to_origin",
-                value: inputs?.returnToOrigin || "yes",
-              },
-            ],
-          },
-        ]
+        {
+          code: "rto_action",
+          list: [
+            { code: "return_to_origin", value: inputs?.returnToOrigin || "yes" },
+          ],
+        },
+      ]
       : []),
+
     ...(sessionData?.is_cod === "yes"
       ? [
-          {
-            code: "cod_settlement_detail",
-            list: [
-              {
-                code: "settlement_window",
-                value: "P0D",
-              },
-              {
-                code: "settlement_type",
-                value: "neft",
-              },
-              {
-                code: "beneficiary_name",
-                value: "XXXXXXXXXX",
-              },
-              {
-                code: "upi_address",
-                value: "",
-              },
-              {
-                code: "bank_account_no",
-                value: "XXXXXXXXXX",
-              },
-              {
-                code: "ifsc_code",
-                value: "XXXXXXXXX",
-              },
-              {
-                code: "bank_name",
-                value: "xxxx",
-              },
-              {
-                code: "branch_name",
-                value: "xxxx",
-              },
-            ],
-          },
-        ]
+        {
+          code: "cod_settlement_detail",
+          list: [
+            { code: "settlement_window", value: "P0D" },
+            { code: "settlement_type", value: "neft" },
+            { code: "beneficiary_name", value: "XXXXXXXXXX" },
+            { code: "upi_address", value: "" },
+            { code: "bank_account_no", value: "XXXXXXXXXX" },
+            { code: "ifsc_code", value: "XXXXXXXXX" },
+            { code: "bank_name", value: "xxxx" },
+            { code: "branch_name", value: "xxxx" },
+          ],
+        },
+      ]
       : []),
   ];
 
-  let allTags = tags;
+  let allTags = [...tags];
+
+  // if (action_id === "confirm_E_WAY_BILL_LOGISTICS") {
+  //   allTags = allTags.map(tag => {
+  //     if (tag.code === "linked_order_item") {
+  //       // Always add ebn_exempt
+  //       const updatedList = [
+  //         ...tag.list,
+  //         {
+  //           code: "ebn_exempt",
+  //           value: inputs?.ebn_exempt || "no",
+  //         },
+  //       ];
+
+  //       // If not exempt, add hsn_code too
+  //       if ((inputs?.ebn_exempt || "no") === "no") {
+  //         const item = existingPayload.message.order.items.find((item:any)=>{
+  //           allTags.find((tag:any)=>{
+  //             return tag.code === "linked_order_item" && tag.list.ebn_exempt
+  //           })
+  //         })
+  //         updatedList.push({
+  //           code: "hsn_code",
+  //           value: inputs?.hsn_code || "1234",
+  //         });
+  //       }
+
+  //       return { ...tag, list: updatedList };
+  //     }
+  //     return tag;
+  //   });
+  // }
 
   if (sessionData.rate_basis) {
     const preTags = removeTagsByCodes(
@@ -347,19 +461,43 @@ export const confirmGenerator = (
   });
 
   existingPayload.message.order.fulfillments =
-    existingPayload.message.order.fulfillments.map(
-      (fulfillment: {
-        start: { instructions: { code: any } };
-        end: { instructions: { code: any } };
-        tags: any;
-      }) => {
-        const startCode = sessionData?.static_pickup_otp;
-        const endCode = sessionData?.static_delivery_otp;
+  existingPayload.message.order.fulfillments.map(
+    (fulfillment: {
+      start: { instructions: any };
+      end: { instructions: any };
+      tags: any[];
+    }) => {
+      const startCode = sessionData?.static_pickup_otp;
+      const endCode = sessionData?.static_delivery_otp;
 
-        console.log("Original start code:", startCode);
-        console.log("Original end code:", endCode);
+      let updatedStartInstructions;
+      let updatedEndInstructions;
 
-        const updatedStartInstructions =
+      // ✅ Case 1: Explicit seller & buyer instructions
+      if (action_id === "confirm_SELLER_BUYER_INSTRUCTIONS") {
+        updatedStartInstructions = {
+          code: "2",
+          short_desc: "Pickup Instructions",
+          long_desc: "additional instructions for pickup e.g. register or counter no",
+          additional_desc: {
+            content_type: "text/html",
+            url: "http://pickup-info.com",
+          },
+        };
+
+        updatedEndInstructions = {
+          code: "2",
+          short_desc: "Delivery Instructions",
+          long_desc: "additional instructions for delivery e.g. leave package outside door",
+          additional_desc: {
+            content_type: "text/html",
+            url: "http://delivery-info.com",
+          },
+        };
+      } 
+      // ✅ Case 2: OTP / RTO based logic
+      else {
+        updatedStartInstructions =
           startCode === "5"
             ? {
                 code: "5",
@@ -382,7 +520,7 @@ export const confirmGenerator = (
               }
             : undefined;
 
-        const updatedEndInstructions =
+        updatedEndInstructions =
           endCode === "5"
             ? {
                 code: "5",
@@ -404,109 +542,79 @@ export const confirmGenerator = (
                 },
               }
             : undefined;
+      }
 
-        console.log("Updated start instructions:", updatedStartInstructions);
-        console.log("Updated end instructions:", updatedEndInstructions);
-        const rtoTag = fulfillment.tags.find(
-          (tag: { code: string }) => tag.code === "rto_action"
-        );
-        const rtoAction = rtoTag?.list?.find(
-          (item: { code: string }) => item.code === "return_to_origin"
-        )?.value;
-        console.log("RTOaCTION", rtoAction);
-        console.log("endCode", endCode);
-        console.log("Condition:", endCode === "5" && rtoAction === "yes");
-        console.log(typeof endCode, endCode); // Should log: string 5
-        console.log(typeof rtoAction, rtoAction); // Should log: string yes 
+      // ✅ RTO tag extraction
+      const rtoTag = fulfillment.tags.find(
+        (tag: { code: string }) => tag.code === "rto_action"
+      );
+      const rtoAction = rtoTag?.list?.find(
+        (item: { code: string }) => item.code === "return_to_origin"
+      )?.value;
 
-        const additionaltags = [
-          ...fulfillment.tags,
+      // ✅ Final additional tags logic
+      const additionaltags = [
+        ...fulfillment.tags,
 
-          action_id === "confirm_LOGISTICS_SELLER_CREDS"
-            ? {
+        action_id === "confirm_LOGISTICS_SELLER_CREDS"
+          ? {
               code: "linked_provider",
               list: [
-                {
-                  code: "id",
-                  value: "P1",
-                },
-                {
-                  code: "name",
-                  value: "Seller1",
-                },
-                {
-                  code: "cred_code",
-                  value: "Social Sector",
-                },
-                {
-                  code: "cred_desc",
-                  value: "Women owned business",
-                },
+                { code: "id", value: "P1" },
+                { code: "name", value: "Seller1" },
+                { code: "cred_code", value: "Social Sector" },
+                { code: "cred_desc", value: "Women owned business" },
               ],
             }
-            : {
+          : {
               code: "linked_provider",
               list: [
-                {
-                  code: "id",
-                  value: sessionData.provider_id,
-                },
-                {
-                  code: "name",
-                  value: "Seller1",
-                },
+                { code: "id", value: sessionData.provider_id },
+                { code: "name", value: "Seller1" },
                 {
                   code: "address",
-                  value: `My store name 1, My building name 1, My street name 1, my city 1, my state 1, ${sessionData?.start_area_code || "560001"
-                    }`,
+                  value: `My store name 1, My building name 1, My street name 1, my city 1, my state 1, ${
+                    sessionData?.start_area_code || "560001"
+                  }`,
                 },
                 ...(sessionData.domain === "ONDC:LOG11"
-                  ? [
-                    {
-                      code: "tax_id",
-                      value: "29GSTIN1234K2Z2",
-                    },
-                  ]
+                  ? [{ code: "tax_id", value: "29GSTIN1234K2Z2" }]
                   : []),
               ],
             },
 
-          ...(endCode === "5" && rtoAction === "yes"
-            ? [
+        ...(endCode === "5" && rtoAction === "yes"
+          ? [
               {
                 code: "rto_verification",
                 list: [
-                  {
-                    code: "code",
-                    value: "5",
-                  },
-                  {
-                    code: "short_desc",
-                    value: "1841",
-                  },
+                  { code: "code", value: "5" },
+                  { code: "short_desc", value: "1841" },
                 ],
               },
             ]
-            : []),
-        ];
-        const updatedFulfillment = {
-          ...fulfillment,
-          start: {
-            ...fulfillment.start,
-            instructions: updatedStartInstructions,
-          },
-          end: {
-            ...fulfillment.end,
-            instructions: updatedEndInstructions,
-          },
-          tags: additionaltags,
-        };
+          : []),
+      ];
 
-        console.log("Updated fulfillment: in normal confirm", updatedFulfillment,sessionData,action_id);
+      // ✅ Final updated fulfillment
+      const updatedFulfillment = {
+        ...fulfillment,
+        start: {
+          ...fulfillment.start,
+          instructions: updatedStartInstructions,
+        },
+        end: {
+          ...fulfillment.end,
+          instructions: updatedEndInstructions,
+        },
+        tags: additionaltags,
+      };
 
-        return updatedFulfillment;
-      }
-    );
+      console.log("Updated fulfillment:", updatedFulfillment);
+      return updatedFulfillment;
+    }
+  );
+
 
   console.log("All fulfillments updated successfully.");
 
@@ -701,6 +809,10 @@ export const confirmGenerator = (
         },
       ]
     );
+  }
+
+  if(action_id === "confirm_SELLER_BUYER_INSTRUCTIONS"){
+
   }
   return existingPayload;
 };

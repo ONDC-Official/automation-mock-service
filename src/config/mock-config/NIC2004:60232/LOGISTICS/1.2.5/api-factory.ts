@@ -25,6 +25,8 @@ import { updateQCGenerator } from "./update/update_qc/generator";
 import { onUpdateQCGenerator } from "./on_update/on_update_qc/generator";
 import { onSearchCodifiedGenerator } from "./on_search/on_search_codified/generator";
 import { onConfirmCodifiedGenerator } from "./on_confirm/on_confirm_codified/generator";
+import { searchRateCardGenerator } from "./search/search_rate_card/generator";
+import { onSearchRateCardGenerator } from "./on_search/on_search_rate_card/generator"
 export async function Generator(
   action_id: string,
   existingPayload: any,
@@ -44,15 +46,25 @@ export async function Generator(
       return await searchGenerator(existingPayload, sessionData, inputs,action_id);
     case "search_3_LOGISTICS":
       return await searchGenerator(existingPayload, sessionData, inputs,action_id);
+    case "search_rate_card_LOGISTICS":
+      return await searchRateCardGenerator(existingPayload, sessionData, inputs,action_id);
     case "init_LOGISTICS":
-      return await initGenerator(existingPayload, sessionData);
+      return await initGenerator(existingPayload, sessionData,inputs,action_id);
     case "init_qc":
       return await initQCGenerator(existingPayload, sessionData);
     case "confirm_LOGISTICS":
       return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
+    case "confirm_SELLER_BUYER_INSTRUCTIONS":
+      return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
+    case "confirm_E_WAY_BILL_LOGISTICS":
+      return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
     case "update_LOGISTICS":
       return await updateGenerator(existingPayload, sessionData,inputs,action_id);
     case "update_DELIVERY_ADDRESS":
+      return await updateGenerator(existingPayload,sessionData,inputs,action_id);
+    case "update_E_WAY_BILL_LOGISTICS" :
+      return await updateGenerator(existingPayload,sessionData,inputs,action_id);
+    case "update_E_POD_LOGISTICS": 
       return await updateGenerator(existingPayload,sessionData,inputs,action_id);
     case "track_LOGISTICS":
       return await trackGenerator(existingPayload, sessionData);
@@ -62,6 +74,8 @@ export async function Generator(
       return await onSearchQCGenerator(existingPayload, sessionData, inputs);
     case "on_search_LOGISTICS":
       return await onSearch1Generator(existingPayload, sessionData,action_id,inputs);
+    case "on_search_rate_card_LOGISTICS":
+      return await onSearchRateCardGenerator(existingPayload,sessionData,action_id,inputs)
     case "on_init_LOGISTICS":
       return await onInitGenerator(existingPayload, sessionData);
     case "on_init_qc":
@@ -75,6 +89,12 @@ export async function Generator(
     case "on_update_LOGISTICS":
       return await onUpdateGenerator(existingPayload, sessionData,action_id);
     case "on_update_DELIVERY_ADDRESS":
+      return await onUpdateGenerator(existingPayload, sessionData,action_id);
+    case "on_update_E_WAY_BILL_LOGISTICS":
+      return await onUpdateGenerator(existingPayload, sessionData,action_id);
+    case "on_update_E_POD_AT_PICKUP_LOGISTICS":
+      return await onUpdateGenerator(existingPayload, sessionData,action_id);
+     case "on_update_E_POD_AT_DELIVERY_LOGISTICS":
       return await onUpdateGenerator(existingPayload, sessionData,action_id);
     case "update_qc":
       return await updateQCGenerator(existingPayload, sessionData);
