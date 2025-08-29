@@ -1,6 +1,7 @@
 import { deepUpdate, populateFulfillmentUpdate } from "../common_generator";
 import { getTimestampFromDuration } from "../../../../../../utils/generic-utils";
 import { SessionData } from "../../../session-types";
+import { at } from "lodash";
 
 interface Tag {
   code: string;
@@ -25,6 +26,9 @@ export const onUpdateGenerator = (
   }
 
   existingPayload = populateFulfillmentUpdate(existingPayload, sessionData);
+
+  console.log("existing payload-existingPayload",JSON.stringify(existingPayload));
+  
 
   if (sessionData.domain === "ONDC:LOG11") {
     existingPayload.message.order.fulfillments =
@@ -125,6 +129,67 @@ export const onUpdateGenerator = (
     const result = deepUpdate(deliveryFulfillment.end,updatedFulfillmentEnd)
     console.log("result of the fulfillment",JSON.stringify(result));
     
+  }
+
+  if(action_id === "on_update_E_WAY_BILL_LOGISTICS"){
+    let ebnObj = {
+    "code": "ebn",
+    "list": [
+      {
+        "code": "id",
+        "value": "EBN1"
+      },
+      {
+        "code": "expiry_date",
+        "value": "2025-06-30T12:00:00.000Z"
+      }
+    ]
+  }
+    existingPayload.message.order.tags.push(ebnObj);
+  }
+
+  if (action_id === "on_update_E_POD_AT_PICKUP_LOGISTICS") {
+    let at_pickup_obj = {
+      "code": "fulfillment_proof",
+      "list":
+        [
+          {
+            "code": "state",
+            "value": "Order-picked-up"
+          },
+          {
+            "code": "type",
+            "value": "webp"
+          },
+          {
+            "code": "url",
+            "value": "public link to webp"
+          }
+        ]
+    }
+    existingPayload.message.order.tags.push(at_pickup_obj);
+  }
+
+  if (action_id === "on_update_E_POD_AT_DELIVERY_LOGISTICS") {
+    let at_delivery_obj = {
+      "code": "fulfillment_proof",
+      "list":
+        [
+          {
+            "code": "state",
+            "value": "Order-delivered"
+          },
+          {
+            "code": "type",
+            "value": "webp"
+          },
+          {
+            "code": "url",
+            "value": "public link to webp"
+          }
+        ]
+    }
+    existingPayload.message.order.tags.push(at_delivery_obj);
   }
 
   return existingPayload;

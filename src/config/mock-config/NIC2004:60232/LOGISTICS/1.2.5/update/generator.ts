@@ -116,6 +116,7 @@ export async function updateGenerator(
           "cod_settlement_detail",
           "state",
         ]);
+          console.log("preTags",JSON.stringify(preTags));
         preTags = [
           ...preTags,
           {

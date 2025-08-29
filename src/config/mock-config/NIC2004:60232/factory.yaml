@@ -1,337 +1,390 @@
 codes:
-  - code: 100
-    action_id: search_LOGISTICS
-    action: search
-    default: search/default.yaml
-    message_id: true
-  - code: 101
-    action_id: init_LOGISTICS
-    action: init
-    default: init/default.yaml
-    message_id: true
-  - code: 102
-    action_id: confirm_LOGISTICS
-    action: confirm
-    default: confirm/default.yaml
-    message_id: true
-  - code: 103
-    action_id: update_LOGISTICS
-    action: update
-    default: update/default.yaml
-    message_id: true
-  - code: 104
-    action_id: track_LOGISTICS
-    action: track
-    default: track/default.yaml
-    message_id: true
-  - code: 105
-    action_id: on_search_LOGISTICS
-    action: on_search
-    default: on_search/default.yaml
-    message_id: false
-  - code: 106
-    action_id: on_init_LOGISTICS
-    action: on_init
-    default: on_init/default.yaml
-    message_id: false
-  - code: 107
-    action_id: on_confirm_LOGISTICS
-    action: on_confirm
-    default: on_confirm/default.yaml
-    message_id: false
-  - code: 108
-    action_id: cancel_LOGISTICS
-    action: cancel
-    default: cancel/default.yaml
-    message_id: true
-  - code: 109
-    action_id: on_update_LOGISTICS
-    action: on_update
-    default: on_update/default.yaml
-    message_id: false
-  - code: 110
-    action_id: on_status_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: false
-  - code: 111
-    action_id: on_track_LOGISTICS
-    action: on_track
-    default: on_track/default.yaml
-    message_id: false
-  - code: 112
-    action_id: on_status_1_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 113
-    action_id: on_status_2_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 114
-    action_id: on_track_LOGISTICS
-    action: on_track
-    default: on_track/default.yaml
-    message_id: false
-  - code: 115
-    action_id: on_status_3_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 116
-    action_id: on_cancel_LOGISTICS
-    action: on_cancel
-    default: on_cancel/default.yaml
-    message_id: false
-  - code: 117
-    action_id: status_LOGISTICS
-    action: status
-    default: status/default.yaml
-    message_id: false
-  - code: 118
-    action_id: on_status_4_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 119
-    action_id: on_status_5_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 120
-    action_id: search_1_LOGISITCS
-    action: search
-    default: search/search_1/default.yaml
-    message_id: true
-  - code: 121
-    action_id: on_status_6_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 122
-    action_id: on_status_7_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 123
-    action_id: on_update_1_LOGISTICS
-    action: on_update
-    default: on_update/on_update_1/default.yaml
-    message_id: true
-  - code: 124
-    action_id: on_status_8_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 125
-    action_id: on_status_9_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 126
-    action_id: on_status_10_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 127
-    action_id: on_status_11_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 128
-    action_id: on_status_12_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 129
-    action_id: on_status_13_LOGISTICS
-    action: on_status
-    default: on_status/default.yaml
-    message_id: true
-  - code: 130
-    action_id: search_2_LOGISTICS
-    action: search
-    default: search/search_2/default.yaml
-    message_id: true
-  - code: 131
-    action_id: search_3_LOGISTICS
-    action: search
-    default: search/search_3/default.yaml
-    message_id: true
+- code: 100
+  action_id: search_LOGISTICS
+  action: search
+  default: search/default.yaml
+  message_id: true
+- code: 101
+  action_id: init_LOGISTICS
+  action: init
+  default: init/default.yaml
+  message_id: true
+- code: 102
+  action_id: confirm_LOGISTICS
+  action: confirm
+  default: confirm/default.yaml
+  message_id: true
+- code: 103
+  action_id: update_LOGISTICS
+  action: update
+  default: update/default.yaml
+  message_id: true
+- code: 104
+  action_id: track_LOGISTICS
+  action: track
+  default: track/default.yaml
+  message_id: true
+- code: 105
+  action_id: on_search_LOGISTICS
+  action: on_search
+  default: on_search/default.yaml
+  message_id: false
+- code: 106
+  action_id: on_init_LOGISTICS
+  action: on_init
+  default: on_init/default.yaml
+  message_id: false
+- code: 107
+  action_id: on_confirm_LOGISTICS
+  action: on_confirm
+  default: on_confirm/default.yaml
+  message_id: false
+- code: 108
+  action_id: cancel_LOGISTICS
+  action: cancel
+  default: cancel/default.yaml
+  message_id: true
+- code: 109
+  action_id: on_update_LOGISTICS
+  action: on_update
+  default: on_update/default.yaml
+  message_id: false
+- code: 110
+  action_id: on_status_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: false
+- code: 111
+  action_id: on_track_LOGISTICS
+  action: on_track
+  default: on_track/default.yaml
+  message_id: false
+- code: 112
+  action_id: on_status_1_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 113
+  action_id: on_status_2_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 114
+  action_id: on_track_LOGISTICS
+  action: on_track
+  default: on_track/default.yaml
+  message_id: false
+- code: 115
+  action_id: on_status_3_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 116
+  action_id: on_cancel_LOGISTICS
+  action: on_cancel
+  default: on_cancel/default.yaml
+  message_id: false
+- code: 117
+  action_id: status_LOGISTICS
+  action: status
+  default: status/default.yaml
+  message_id: false
+- code: 118
+  action_id: on_status_4_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 119
+  action_id: on_status_5_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 120
+  action_id: search_1_LOGISITCS
+  action: search
+  default: search/search_1/default.yaml
+  message_id: true
+- code: 121
+  action_id: on_status_6_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 122
+  action_id: on_status_7_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 123
+  action_id: on_update_1_LOGISTICS
+  action: on_update
+  default: on_update/on_update_1/default.yaml
+  message_id: true
+- code: 124
+  action_id: on_status_8_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 125
+  action_id: on_status_9_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 126
+  action_id: on_status_10_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 127
+  action_id: on_status_11_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 128
+  action_id: on_status_12_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 129
+  action_id: on_status_13_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
+- code: 130
+  action_id: search_2_LOGISTICS
+  action: search
+  default: search/search_2/default.yaml
+  message_id: true
+- code: 131
+  action_id: search_3_LOGISTICS
+  action: search
+  default: search/search_3/default.yaml
+  message_id: true
 
+- code: 132
+  action_id: issue_close
+  action: issue
+  default: issue/issue_close/default.yaml
+  message_id: true
+- code: 133
+  action_id: issue_open
+  action: issue
+  default: issue/issue_open/default.yaml
+  message_id: true
+- code: 134
+  action_id: issue_info_provided
+  action: issue
+  default: issue/issue_info_provided/default.yaml
+  message_id: true
+- code: 135
+  action_id: issue_resolution_accept
+  action: issue
+  default: issue/issue_resolution_accept/default.yaml
+  message_id: true
+- code: 136
+  action_id: issue_resolution
+  action: issue
+  default: issue/issue_resolution/default.yaml
+  message_id: true
 
-  - code: 132
-    action_id: issue_close
-    action: issue
-    default: issue/issue_close/default.yaml
-    message_id: true
-  - code: 133
-    action_id: issue_open
-    action: issue
-    default: issue/issue_open/default.yaml
-    message_id: true 
-  - code: 134
-    action_id: issue_info_provided
-    action: issue
-    default: issue/issue_info_provided/default.yaml
-    message_id: true 
-  - code: 135
-    action_id: issue_resolution_accept
-    action: issue
-    default: issue/issue_resolution_accept/default.yaml
-    message_id: true  
-  - code: 136
-    action_id: issue_resolution
-    action: issue
-    default: issue/issue_resolution/default.yaml
-    message_id: true   
+- code: 137
+  action_id: on_issue_processing
+  action: on_issue
+  default: on_issue/on_issue_processing/default.yaml
+  message_id: false
+- code: 138
+  action_id: on_issue_need_more_info
+  action: on_issue
+  default: on_issue/on_issue_need_more_info/default.yaml
+  message_id: true
+- code: 139
+  action_id: on_issue_provided
+  action: on_issue
+  default: on_issue/on_issue_provided/default.yaml
+  message_id: false
+- code: 140
+  action_id: on_issue_resolution
+  action: on_issue
+  default: on_issue/on_issue_resolution/default.yaml
+  message_id: true
+- code: 141
+  action_id: on_issue_resolved
+  action: on_issue
+  default: on_issue/on_issue_resolved/default.yaml
+  message_id: true
+- code: 142
+  action_id: on_update_IGM
+  action: on_update
+  default: on_update/on_update_IGM/default.yaml
+  message_id: true
+- code: 143
+  action_id: search_qc
+  action: search
+  default: search/search_qc/default.yaml
+  message_id: true
+- code: 144
+  action_id: on_search_qc
+  action: on_search
+  default: on_search/on_search_qc/default.yaml
+  message_id: false
+- code: 145
+  action_id: init_qc
+  action: init
+  default: init/init_qc/default.yaml
+  message_id: true
+- code: 146
+  action_id: on_init_qc
+  action: on_init
+  default: on_init/on_init_qc/default.yaml
+  message_id: false
+- code: 147
+  action_id: confirm_qc
+  action: confirm
+  default: confirm/confirm_qc/default.yaml
+  message_id: true
+- code: 148
+  action_id: on_confirm_qc
+  action: on_confirm
+  default: on_confirm/on_confirm_qc/default.yaml
+  message_id: false
+- code: 149
+  action_id: on_status_qc
+  action: on_status
+  default: on_status/on_status_qc/default.yaml
+  message_id: false
+- code: 150
+  action_id: update_qc
+  action: update
+  default: update/update_qc/default.yaml
+  message_id: true
+- code: 151
+  action_id: on_update_qc
+  action: on_update
+  default: on_update/on_update_qc/default.yaml
+  message_id: false
+- code: 152
+  action_id: confirm_LOGISTICS_EXCHANGE
+  action: confirm
+  default: confirm/default.yaml
+  message_id: true
+- code: 153
+  action_id: on_confirm_LOGISTICS_EXCHANGE
+  action: on_confirm
+  default: on_confirm/default.yaml
+  message_id: false
+- code: 154
+  action_id: on_search_LOGISTICS_CODIFIED
+  action: on_search
+  default: on_search/on_search_codified/default.yaml
+  message_id: false
+- code: 155
+  action_id: on_confirm_LOGISTICS_CODIFIED
+  action: on_confirm
+  default: on_confirm/on_confirm_codified/default.yaml
+  message_id: false
+- code: 156
+  action_id: on_search_LOGISTICS_RCM
+  action: on_search
+  default: on_search/default.yaml
+  message_id: false
+- code: 157
+  action_id: on_confirm_LOGISTICS_RCM
+  action: on_confirm
+  default: on_confirm/default.yaml
+  message_id: false
+- code: 158
+  action_id: on_search_LOGISTICS_PUBLIC_SPECIAL
+  action: on_search
+  default: on_search/default.yaml
+  message_id: false
+- code: 160
+  action_id: search_LOGISTICS_SLA
+  action: search
+  default: search/default.yaml
+  message_id: true
+- code: 161
+  action_id: confirm_LOGISTICS_SLA
+  action: confirm
+  default: confirm/default.yaml
+  message_id: true
+- code: 162
+  action_id: on_confirm_LOGISTICS_SLA
+  action: on_confirm
+  default: on_confirm/default.yaml
+  message_id: false
+- code: 161
+  action_id: confirm_LOGISTICS_SELLER_CREDS
+  action: confirm
+  default: confirm/default.yaml
+  message_id: true
 
-  - code: 137
-    action_id: on_issue_processing
-    action: on_issue
-    default: on_issue/on_issue_processing/default.yaml
-    message_id: false
-  - code: 138
-    action_id: on_issue_need_more_info
-    action: on_issue
-    default: on_issue/on_issue_need_more_info/default.yaml  
-    message_id: true
-  - code: 139
-    action_id: on_issue_provided
-    action: on_issue
-    default: on_issue/on_issue_provided/default.yaml  
-    message_id: false  
-  - code: 140
-    action_id: on_issue_resolution
-    action: on_issue
-    default: on_issue/on_issue_resolution/default.yaml  
-    message_id: true
-  - code: 141
-    action_id: on_issue_resolved
-    action: on_issue
-    default: on_issue/on_issue_resolved/default.yaml  
-    message_id: true 
-  - code: 142
-    action_id: on_update_IGM
-    action: on_update 
-    default: on_update/on_update_IGM/default.yaml
-    message_id: true
-  - code: 143
-    action_id: search_qc
-    action: search
-    default: search/search_qc/default.yaml
-    message_id: true  
-  - code: 144
-    action_id: on_search_qc
-    action: on_search
-    default: on_search/on_search_qc/default.yaml
-    message_id: false
-  - code: 145
-    action_id: init_qc
-    action: init
-    default: init/init_qc/default.yaml
-    message_id: true
-  - code: 146
-    action_id: on_init_qc
-    action: on_init
-    default: on_init/on_init_qc/default.yaml
-    message_id: false
-  - code: 147
-    action_id: confirm_qc
-    action: confirm
-    default: confirm/confirm_qc/default.yaml
-    message_id: true
-  - code: 148
-    action_id: on_confirm_qc
-    action: on_confirm
-    default: on_confirm/on_confirm_qc/default.yaml
-    message_id: false
-  - code: 149
-    action_id: on_status_qc
-    action: on_status
-    default: on_status/on_status_qc/default.yaml
-    message_id: false
-  - code: 150
-    action_id: update_qc
-    action: update
-    default: update/update_qc/default.yaml
-    message_id: true
-  - code: 151
-    action_id: on_update_qc
-    action: on_update
-    default: on_update/on_update_qc/default.yaml
-    message_id: false
-  - code: 152
-    action_id: confirm_LOGISTICS_EXCHANGE
-    action: confirm
-    default: confirm/default.yaml
-    message_id: true
-  - code: 153
-    action_id: on_confirm_LOGISTICS_EXCHANGE
-    action: on_confirm
-    default: on_confirm/default.yaml
-    message_id: false
-  - code: 154
-    action_id: on_search_LOGISTICS_CODIFIED
-    action: on_search
-    default: on_search/on_search_codified/default.yaml
-    message_id: false
-  - code: 155
-    action_id: on_confirm_LOGISTICS_CODIFIED
-    action: on_confirm
-    default: on_confirm/on_confirm_codified/default.yaml
-    message_id: false
-  - code: 156
-    action_id: on_search_LOGISTICS_RCM
-    action: on_search
-    default: on_search/default.yaml
-    message_id: false
-  - code: 157
-    action_id: on_confirm_LOGISTICS_RCM
-    action: on_confirm
-    default: on_confirm/default.yaml
-    message_id: false
-  - code: 158
-    action_id: on_search_LOGISTICS_PUBLIC_SPECIAL
-    action: on_search
-    default: on_search/default.yaml
-    message_id: false
-  - code: 160
-    action_id: search_LOGISTICS_SLA
-    action: search
-    default: search/default.yaml
-    message_id: true
-  - code: 161
-    action_id: confirm_LOGISTICS_SLA
-    action: confirm
-    default: confirm/default.yaml
-    message_id: true
-  - code: 162
-    action_id: on_confirm_LOGISTICS_SLA
-    action: on_confirm
-    default: on_confirm/default.yaml
-    message_id: false
-  - code: 161
-    action_id: confirm_LOGISTICS_SELLER_CREDS
-    action: confirm
-    default: confirm/default.yaml
-    message_id: true
+- code: 163
+  action_id: update_DELIVERY_ADDRESS
+  action: update
+  default: update/default.yaml
+  message_id: true
 
-  - code: 163
-    action_id: update_DELIVERY_ADDRESS
-    action: update
-    default: update/default.yaml
-    message_id: true
+- code: 164
+  action_id: static_otp_update_LOGISTICS
+  action: update
+  default: update/default.yaml
+  message_id: true
 
-  - code: 164
-    action_id: static_otp_update_LOGISTICS
-    action: update
-    default: update/default.yaml
-    message_id: true
-  
-  - code: 165
-    action_id: on_update_DELIVERY_ADDRESS
-    action: on_update
-    default: on_update/default.yaml
-    message_id: true
+- code: 165
+  action_id: on_update_DELIVERY_ADDRESS
+  action: on_update
+  default: on_update/default.yaml
+  message_id: true
+
+- code: 166
+  action_id: confirm_SELLER_BUYER_INSTRUCTIONS
+  action: confirm
+  default: confirm/default.yaml
+  message_id: true
+
+- code: 107
+  action_id: confirm_E_WAY_BILL_LOGISTICS
+  action: confirm
+  default: confirm/default.yaml
+  message_id: true
+
+- code: 108
+  action_id: update_E_WAY_BILL_LOGISTICS
+  action: update
+  default: update/default.yaml
+  message_id: true
+
+- code: 109
+  action_id: on_update_E_WAY_BILL_LOGISTICS
+  action: on_update
+  default: on_update/default.yaml
+  message_id: true
+
+- code: 110
+  action_id: update_E_POD_LOGISTICS
+  action: update
+  default: update/default.yaml
+  message_id: true
+
+- code: 111
+  action_id: on_update_E_POD_AT_PICKUP_LOGISTICS
+  action: on_update
+  default: on_update/default.yaml
+  message_id: true
+
+- code: 111
+  action_id: on_update_E_POD_AT_DELIVERY_LOGISTICS
+  action: on_update
+  default: on_update/default.yaml
+  message_id: true
+
+- code: 112
+  action_id: search_rate_card_LOGISTICS
+  action: search
+  default: search/search_rate_card/default.yaml
+  message_id: true
+
+- code: 113
+  action_id: on_search_rate_card_LOGISTICS
+  action: on_search
+  default: on_search/on_search_rate_card/default.yaml
+  message_id: true

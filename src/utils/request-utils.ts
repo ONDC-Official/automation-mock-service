@@ -13,6 +13,10 @@ export async function sendToApiService(
 
 	try {
 		// const domain = process.env.DOMAIN;
+		if (!body || !body.context) {
+			logger.error("Error in sending response to api service: body or body.context is undefined");
+			return;
+		}
 		const domain = body.context.domain
 		const version = body.context.version ?? body.context.core_version;
 		const url = `${process.env.API_SERVICE_URL}/${domain}/${version}/mock/${action}`;

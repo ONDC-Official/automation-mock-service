@@ -385,5 +385,11 @@ export const onStatusGenerator = async (
     existingPayload.message.order.tags = sessionData.on_confirm_tags
   }
 
+  if(sessionData.on_update_tags.length>0){
+    console.log("sessionData.on_update_tags",JSON.stringify(sessionData.on_update_tags));
+    
+    existingPayload.message.order.tags = sessionData.on_update_tags
+  }
+
   return existingPayload;
 };
