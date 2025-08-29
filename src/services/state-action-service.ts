@@ -4,9 +4,16 @@ import { logError, logger } from "../utils/logger";
 import { getFlowCompleteStatus } from "./flow-mapping-service";
 import { getFlowStatusService } from "./mock-flow-status-service";
 import { getMockActionObject } from "../config/mock-config";
-import { saveDataForConfig } from "./data-services";
+import {
+	loadMockSessionData,
+	saveCompleteData,
+	saveDataForConfig,
+} from "./data-services";
 import { setAckResponse } from "../utils/ackUtils";
-import { sendToApiService } from "../utils/request-utils";
+import {
+	sendToApiService,
+	sendToApiServiceAboutForm,
+} from "../utils/request-utils";
 
 export async function ValidateAndSaveIncoming(
 	req: ApiRequest,
@@ -34,14 +41,19 @@ export async function ValidateAndSaveIncoming(
 			return;
 		}
 		const flowStatus = await getFlowStatusService(txId, subsUrl);
+		const mockSessionData = await loadMockSessionData(txId, subsUrl);
 		const flowCompleteStatus = getFlowCompleteStatus(
 			txData,
 			flow,
-			flowStatus.status
+			flowStatus.status,
+			mockSessionData
 		);
 		let found = false;
-		for (const step of flowCompleteStatus.sequence) {
+		for (let index = 0; index < flowCompleteStatus.sequence.length; index++) {
+			const step = flowCompleteStatus.sequence[index];
 			const data = step.payloads;
+			if (!data || data.entryType === "FORM" || step.actionType === "HTML_FORM")
+				continue;
 			if (data && data.payloads.length > 0) {
 				const uniqueKey = `${data.action}::${data.messageId}::${data.timestamp}`;
 				const requestKey = `${body.context.action}::${body.context.message_id}::${body.context.timestamp}`;
@@ -80,7 +92,47 @@ export async function ValidateAndSaveIncoming(
 								flow_id: flow.id,
 								session_id: txData.sessionId,
 							});
+							res.status(200).send(setAckResponse);
 							return;
+						}
+						if (index < flowCompleteStatus.sequence.length - 1) {
+							const nextStep = flowCompleteStatus.sequence[index + 1];
+							if (nextStep.actionType === "HTML_FORM") {
+								const fromAction = getMockActionObject(nextStep.actionId);
+								const validationResult = await fromAction.validate(
+									{},
+									mockSessionData
+								);
+								if (!validationResult.valid) {
+									await sendToApiServiceAboutForm(
+										subsUrl,
+										txId,
+										nextStep.actionId,
+										"HTML_FORM",
+										req.body.context.version ?? req.body.context.core_version,
+										undefined,
+										{
+											code: validationResult.code || "FORM_VALIDATION_ERROR",
+											message:
+												validationResult.message || "Form Validation failed",
+										}
+									);
+									res.status(200).send(setAckResponse);
+									return;
+								} else {
+									try {
+										const saveData = mockActionOb.saveData;
+										await saveDataForConfig(saveData, body);
+										const saveDataForm = await fromAction.__forceSaveData(
+											mockSessionData
+										);
+										await saveCompleteData(JSON.stringify(saveDataForm), txId);
+										break;
+									} catch (err) {
+										throw err;
+									}
+								}
+							}
 						}
 						const saveData = mockActionOb.saveData;
 						await saveDataForConfig(saveData, body);

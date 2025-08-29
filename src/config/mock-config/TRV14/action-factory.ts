@@ -49,8 +49,10 @@ import { MockUpdateConfirmPartialCancellationClass } from "./2.0.0/update/update
 // on_update
 import { MockOnUpdateSoftPartialCancellationClass } from "./2.0.0/on_update/on_update_soft_partial_cancellation/class";
 import { MockOnUpdateConfirmPartialCancellationClass } from "./2.0.0/on_update/on_update_confirm_partial_cancellation/class";
+import { MockFirstFormTestingClass } from "./2.0.0/form/first_form_testing";
+import { MockAction } from "./classes/mock-action";
 
-export function getMockAction(actionId: string) {
+export function getMockAction(actionId: string): MockAction {
 	switch (actionId) {
 		case "search_seller_pagination":
 			return new search_seller_pagination_class();
@@ -142,7 +144,9 @@ export function getMockAction(actionId: string) {
 			return new MockOnUpdateSoftPartialCancellationClass();
 		case "on_update_confirm_partial_cancellation":
 			return new MockOnUpdateConfirmPartialCancellationClass();
+		case "first_form_testing":
+			return new MockFirstFormTestingClass();
 		default:
 			throw new Error(`Action with ID ${actionId} not found`);
 	}
-} 
+}

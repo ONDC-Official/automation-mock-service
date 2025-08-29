@@ -30,7 +30,7 @@ export interface SessionData {
 	error_message: string | undefined;
 	ref_id: string | undefined;
 	ttl: string | undefined;
-	usecaseId : string | undefined;
+	usecaseId: string | undefined;
 	stops: any[] | undefined;
 	update_stop: any[] | undefined;
 	update_quote: any[] | undefined;
@@ -58,6 +58,7 @@ export interface SessionData {
 	bap_terms_tags: any[] | undefined;
 	updated_at: string | undefined;
 	order_status: string | undefined;
+	first_form_testing: string | undefined;
 }
 
 export type BecknContext = {

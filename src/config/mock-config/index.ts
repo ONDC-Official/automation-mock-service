@@ -63,3 +63,7 @@ export function getSaveDataContent(version: string, action: string) {
 	console.log(cont);
 	return cont;
 }
+
+export function getUiMetaKeys(): (keyof MockSessionData)[] {
+	return ["first_form_testing"];
+}

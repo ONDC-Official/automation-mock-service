@@ -83,6 +83,7 @@ import winston from "winston";
 import chalk from "chalk";
 import LokiTransport from "winston-loki";
 import { LogParams } from "../types/log-params";
+import { isAxiosError } from "axios";
 
 const { combine, timestamp, printf, errors } = winston.format;
 
@@ -106,21 +107,22 @@ const messageColors: Record<string, chalk.Chalk> = {
 // Custom log format
 const logFormat = printf(
 	({ level, message, timestamp, stack, transaction_id, ...meta }) => {
-		const levelColor = levelColors[level] || levelColors.default; // Colorize level
-		const messageColor = messageColors[level] || messageColors.default; // Colorize message
+		try {
+			const levelColor = levelColors[level] || levelColors.default; // Colorize level
+			const messageColor = messageColors[level] || messageColors.default; // Colorize message
 
-		const coloredLevel = levelColor(`[${level.toUpperCase()}]`); // Apply color to log level
-		const coloredTimestamp = chalk.dim(timestamp); // Dim timestamp
-		const coloredMessage = messageColor(message); // Apply message-specific color
-		const coloredStack = stack ? chalk.dim(stack) : ""; // Dim stack trace if present
-		const coloredtransaction_id = transaction_id
-			? chalk.yellow(`[${transaction_id}] `)
-			: ""; // Yellow for transaction ID
-		const coloredMeta =
-			meta && Object.keys(meta).length > 0
-				? chalk.gray(JSON.stringify(meta))
-				: "";
-		return `${coloredTimestamp} ${coloredtransaction_id}${coloredLevel}: ${coloredMessage} ${coloredStack} ${coloredMeta}`;
+			const coloredLevel = levelColor(`[${level.toUpperCase()}]`); // Apply color to log level
+			const coloredTimestamp = chalk.dim(timestamp); // Dim timestamp
+			const coloredMessage = messageColor(message); // Apply message-specific color
+			const coloredStack = stack ? chalk.dim(stack) : ""; // Dim stack trace if present
+			const coloredtransaction_id = transaction_id
+				? chalk.yellow(`[${transaction_id}] `)
+				: ""; // Yellow for transaction ID
+			return `${coloredTimestamp} ${coloredtransaction_id}${coloredLevel}: ${coloredMessage} ${coloredStack}`;
+		} catch (error) {
+			console.error("Error formatting log message:", error);
+			return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+		}
 	}
 );
 
@@ -167,6 +169,10 @@ const logError = ({
 	error,
 	meta,
 }: LogParams): void => {
+	if (isAxiosError(error)) {
+		console.error("Axios Error:", error.message);
+		return;
+	}
 	if (error instanceof Error) {
 		logger.error(message, { transaction_id, stack: error.stack }); //...meta }
 	} else {

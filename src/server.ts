@@ -2,7 +2,6 @@ import "./config/otel-config";
 import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { logError, logger } from "./utils/logger";
-import { config } from "./config/serverConfig";
 import manualRouter from "./routes/manual";
 import triggerRouter from "./routes/trigger";
 import swaggerUi from "swagger-ui-express";
