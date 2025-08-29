@@ -19,6 +19,10 @@ import { MockOnupdateTransitClass } from "./2.0.0/on_update/on_update_transit/cl
 import { MockOnupdateHospicashClass } from "./2.0.0/on_update/on_update_hospicash/class";
 import { MockSearchPurchaseJourneyHospicashClass } from "./2.0.0/search/search_purchase_journey_hospicash/class";
 import { MockOnSearchPurchaseJourneyHospicashClass } from "./2.0.0/on_search/on_search_purchase_journey_hospicash/class";
+import { MockSearchDiscoverProductHospicashClass } from "./2.0.0/search/search_discover_products/search_discover_product_hospicash/class";
+import { MockSearchDiscoverProductTransitClass } from "./2.0.0/search/search_discover_products/search_discover_product_transit/class";
+import { MockOnSearchDiscoverHospicashClass } from "./2.0.0/on_search/on_search_discover_product/on_search_discover_product_hospicash/class";
+import { MockOnSearchDiscoverTransitClass } from "./2.0.0/on_search/on_search_discover_product/on_search_discover_product_transit/class";
 
 export function getFIS13MockAction(actionId: string) {
 	console.log("actionIdactionIdactionIdactionId",actionId)
@@ -31,6 +35,10 @@ export function getFIS13MockAction(actionId: string) {
 			return new MockSearchPurchaseJourneyHospicashClass();
 		case "search_insurence_provider":
 			return new MockSearchInsurenceProviderClass();
+		case "search_discover_product_hospicash":
+			return new MockSearchDiscoverProductHospicashClass();
+		case "search_discover_product_transit":
+			return new MockSearchDiscoverProductTransitClass();
 		case "on_search_purchase_journey_hospicash":
 			return new MockOnSearchPurchaseJourneyHospicashClass();
 		case "on_search_purchase_journey_transit":
@@ -39,6 +47,10 @@ export function getFIS13MockAction(actionId: string) {
 			return new MockOnSearchClass();
 		case "on_search_insurence_provider":
 			return new MockOnSearchInsurenceProvidersClass();
+		case "on_search_discover_product_tranist":
+			return new MockOnSearchDiscoverTransitClass();
+		case "on_search_discover_product_hospicash":
+			return new MockOnSearchDiscoverHospicashClass();
 		case "select":
 			return new MockSelectClass();
 		case "on_select":

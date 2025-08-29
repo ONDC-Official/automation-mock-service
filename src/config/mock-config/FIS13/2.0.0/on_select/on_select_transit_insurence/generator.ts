@@ -55,6 +55,19 @@ existingPayload.message.order.items = [
       value: String(totalAmt),
     },
   };
+  
+  const nomineeTag = existingPayload.message.order.fulfillments
+			.flatMap((f: any) => f.tags || [])
+			.find((t: any) => t.descriptor?.code === "NOMINEE_DETAILS");
+
+		if (nomineeTag?.list) {
+			const nomineeField = nomineeTag.list.find(
+				(l: any) => l.descriptor?.code === "NOMINEE_NAME" 
+			);
+			if (nomineeField) {
+				nomineeField.value = "-";
+			}
+		}
   const provider =sessionData.on_search_provider
 
   existingPayload.message.order.provider={

@@ -1,7 +1,7 @@
 import { SessionData, Input } from "./session-types";
 import { RedisService } from "ondc-automation-cache-lib";
 import { SessionCache } from "../../../types/api-session-cache";
-import { createMockResponseFIS11_200 } from "./2.0.0/generaton-pipeline";
+import { createMockResponseFIS13_200 } from "./2.0.0/generaton-pipeline";
 import { createBuyerUrl, createSellerUrl } from "../../../utils/request-utils";
 
 export async function createMockResponse(
@@ -18,7 +18,7 @@ export async function createMockResponse(
 
 	let payload: any = {};
 	if (version === "2.0.0") {
-		payload = await createMockResponseFIS11_200(action_id, sessionData);
+		payload = await createMockResponseFIS13_200(action_id, sessionData);
 	}
 	if (data.npType === "BAP") {
 		payload.context.bap_uri = data.subscriberUrl;

@@ -7,7 +7,7 @@ export async function onInitGenerator(existingPayload: any, sessionData: any) {
         fulfillmentIds.push(fulfillment.id);
         fulfillment.customer = {
           "person": {
-            "name": sessionData?.customer_name || "John Doe",
+            "name": sessionData?.person_name || "John Doe",
           },
           "contact": {
             "phone": sessionData?.customer_phone || "1234567890",
