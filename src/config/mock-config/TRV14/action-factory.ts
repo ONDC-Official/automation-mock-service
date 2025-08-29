@@ -1,6 +1,8 @@
 import { MockSelectClass } from "./2.0.0/select/class";
 import { MockSelectPartialCancellationClass } from "./2.0.0/select/select_partial_cancellation/class";
+import { MockSelectForPartialCancellationClass } from "./2.0.0/select_for_partial_cancellation/class";
 import { MockOnSelectClass } from "./2.0.0/on_select/class";
+import { MockOnSelectWithoutFormClass } from "./2.0.0/on_select_without_form/class";
 import { MockInitClass } from "./2.0.0/init/class";
 import { MockOnInitClass } from "./2.0.0/on_init/class";
 import { MockConfirmClass } from "./2.0.0/confirm/class";
@@ -74,8 +76,12 @@ export function getMockAction(actionId: string): MockAction {
 			return new MockSelectClass();
 		case "select_partial_cancellation":
 			return new MockSelectPartialCancellationClass();
+		case "select_for_partial_cancellation":
+			return new MockSelectForPartialCancellationClass();
 		case "on_select":
 			return new MockOnSelectClass();
+		case "on_select_without_form":
+			return new MockOnSelectWithoutFormClass();
 		case "select_form_submission":
 			return new MockSelect2Class();
 		case "on_select_form_submission":

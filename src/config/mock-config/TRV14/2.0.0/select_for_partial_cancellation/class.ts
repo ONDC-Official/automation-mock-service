@@ -3,9 +3,9 @@ import yaml from "js-yaml";
 import path from "path";
 import { MockAction, MockOutput, saveType } from "../../classes/mock-action";
 import { SessionData } from "../../session-types";
-import { selectDefaultGenerator } from "./generator";
+import { selectForPartialCancellationGenerator } from "./generator";
 
-export class MockSelectClass extends MockAction {
+export class MockSelectForPartialCancellationClass extends MockAction {
     get saveData(): saveType {
         return yaml.load(
             readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
@@ -20,13 +20,13 @@ export class MockSelectClass extends MockAction {
         return {};
     }
     name(): string {
-        return "select_default";
+        return "select_for_partial_cancellation";
     }
     get description(): string {
-        return "Mock for select_default";
+        return "Mock for select_for_partial_cancellation - ensures first item has quantity > 1 for partial cancellation";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-        return selectDefaultGenerator(existingPayload, sessionData);
+        return selectForPartialCancellationGenerator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
         return { valid: true };
@@ -81,7 +81,17 @@ export class MockSelectClass extends MockAction {
                 };
             }
         }
+
+        // IMPORTANT: Validate first item has quantity > 1 for partial cancellation
+        const firstItem = userInputs.items[0];
+        if (!firstItem.count || typeof firstItem.count !== 'number' || firstItem.count <= 1) {
+            return { 
+                valid: false, 
+                message: "First item must have quantity > 1 for partial cancellation flow (found: " + (firstItem.count || 0) + ")",
+                code: "INSUFFICIENT_QUANTITY_FOR_PARTIAL_CANCELLATION"
+            };
+        }
         
         return { valid: true };
     }
-} 
+}

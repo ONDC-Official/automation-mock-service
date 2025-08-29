@@ -40,14 +40,6 @@ export class MockCancelConfirmTechnicalCancellationClass extends MockAction {
             };
         }
 
-        if (!sessionData.cancellation_reason_id) {
-            return {
-                valid: false,
-                message: "No cancellation reason ID available in session data",
-                code: "MISSING_CANCELLATION_REASON_ID"
-            };
-        }
-
         return { valid: true };
     }
 } 
