@@ -1,6 +1,6 @@
 import { ApiRequest } from "../routes/manual";
 import { NextFunction, Response } from "express";
-import { logError, logger, logInfo } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 import {
 	SessionCacheService,
 	TransactionCacheService,
@@ -11,7 +11,10 @@ import {
 	getNextActionMetaData,
 } from "../services/flow-mapping-service";
 import { loadMockSessionData } from "../services/data-services";
-import { sendToApiService } from "../utils/request-utils";
+import {
+	sendToApiService,
+	sendToApiServiceAboutForm,
+} from "../utils/request-utils";
 import { setAckResponse } from "../utils/ackUtils";
 import { updateAllJsonPaths } from "../utils/json-editor-utils/jsonPathEditor";
 import { createExpectationService } from "../services/api-expectation-service";
@@ -25,6 +28,7 @@ import {
 import { generateMockResponse } from "../config/mock-config";
 import { getMockActionObject } from "../config/mock-config";
 import { saveDataForConfig } from "../services/data-services";
+import { getLoggerData } from "../utils/logger";
 
 export async function setFlowAndTransactionId(
 	req: ApiRequest,
@@ -32,13 +36,10 @@ export async function setFlowAndTransactionId(
 	next: NextFunction
 ) {
 	try {
-		// logger.info("Setting flow and transaction ID for incomming mock request");
-		logInfo({
-			message:
-				"Entering setFlowAndTransactionId Middleware Function. Setting flow and transaction ID for incomming mock request",
-			meta: { action: req.params.action },
-			transaction_id: req.body.context.transaction_id,
-		});
+		logger.info(
+			"Setting flow and transaction ID for new mock request",
+			getLoggerData(req)
+		);
 		const context = req.body.context;
 		const transactionId = context.transaction_id;
 		const subscriberUrl = computeSubscriber(context);
@@ -50,30 +51,22 @@ export async function setFlowAndTransactionId(
 		);
 		const flowId = transactionData?.flowId;
 		if (!flowId) {
-			// logger.error(
-			// 	"Flow ID not found for " +
-			// 		transactionService.createTransactionKey(transactionId, subscriberUrl)
-			// );
-			logInfo({
-				message: `Exiting setFlowAndTransactionId Middleware Function. Flow ID not found for transactionId: ${transactionId} and subscriberUrl: ${subscriberUrl}`,
-				meta: { action: req.params.action },
-				transaction_id: req.body.context.transaction_id,
-			});
+			logger.error(
+				"Flow ID not found for " +
+					transactionService.createTransactionKey(transactionId, subscriberUrl),
+				getLoggerData(req)
+			);
 			throw new Error(
 				"Flow ID not found for " +
 					transactionService.createTransactionKey(transactionId, subscriberUrl)
 			);
 		}
 		if (!transactionData || !transactionData.sessionId) {
-			// logger.error(
-			// 	"Transaction data not found for " +
-			// 		transactionService.createTransactionKey(transactionId, subscriberUrl)
-			// );
-			logInfo({
-				message: `Exiting setFlowAndTransactionId Middleware Function. Transaction data not found for transactionId: ${transactionId} and subscriberUrl: ${subscriberUrl}`,
-				meta: { action: req.params.action },
-				transaction_id: req.body.context.transaction_id,
-			});
+			logger.error(
+				"Transaction data not found for " +
+					transactionService.createTransactionKey(transactionId, subscriberUrl),
+				getLoggerData(req)
+			);
 			throw new Error(
 				"Transaction data not found for " +
 					transactionService.createTransactionKey(transactionId, subscriberUrl)
@@ -90,29 +83,21 @@ export async function setFlowAndTransactionId(
 		req.subscriberUrl = subscriberUrl;
 		req.transactionId = req.body.context.transaction_id;
 		req.apiSessionCache = sessionData;
-		// logger.info(
-		// 	`✅ Flow fetched successfully for ${transactionService.createTransactionKey(
-		// 		transactionId,
-		// 		subscriberUrl
-		// 	)} ${flowId}`
-		// );
-		logInfo({
-			message: `Exiting setFlowAndTransactionId Middleware Function. Flow fetched successfully for transactionId: ${transactionId} and subscriberUrl: ${subscriberUrl}`,
-			meta: { action: req.params.action, flowId },
-			transaction_id: req.body.context.transaction_id,
-		});
+		logger.info(
+			`✅ Flow fetched successfully for ${transactionService.createTransactionKey(
+				transactionId,
+				subscriberUrl
+			)} ${flowId}`,
+			getLoggerData(req)
+		);
 		next();
 	} catch (err: any) {
-		// logger.error("Error in setFlowAndTransactionId", err);
-		logError({
-			message: `Error in setFlowAndTransactionId Middleware Function.`,
-			meta: { action: req.params.action },
-			transaction_id: req.body.context.transaction_id,
-			error: err,
-		});
-		res
-			.status(500)
-			.send("Error in " + err?.message || "setFlowAndTransactionId");
+		logger.error(
+			`Error in setting request meta data for ${req.body.context.transaction_id}`,
+			getLoggerData(req),
+			err
+		);
+		res.status(500).send("Internal Server Error");
 	}
 }
 
@@ -122,24 +107,15 @@ export async function startNewFLow(
 	next: NextFunction
 ) {
 	try {
-		// logger.info("New flow request received");
-		logInfo({
-			message:
-				"Entering startNewFLow Middleware Function. New flow request received",
-			meta: { action: req.params.action },
-		});
+		logger.info("New flow request received", getLoggerData(req));
 		const transactionId = uuidv4();
 		const sessionId = req.body.session_id;
 		const flowId = req.body.flow_id;
 		if (!transactionId || !sessionId || !flowId) {
-			// logger.error(
-			// 	"transaction_id, session_id or flow_id not found in request body"
-			// );
-			logInfo({
-				message:
-					"Exiting startNewFLow Middleware Function. transaction_id, session_id or flow_id not found in request body",
-				meta: { action: req.params.action },
-			});
+			logger.error(
+				"transaction_id, session_id or flow_id not found in request body",
+				getLoggerData(req)
+			);
 			res
 				.status(400)
 				.send(
@@ -166,20 +142,14 @@ export async function startNewFLow(
 			apiList: [],
 		};
 		req.apiSessionCache = sessionData;
-		// logger.info(`preparation for new flow completed for transactionId: ${transactionId} sessionId: ${sessionId}
-		// flowId: ${flowId}`);
-		logInfo({
-			message: `Exiting startNewFLow Middleware Function. Preparation for new flow completed for transactionId: ${transactionId} sessionId: ${sessionId} flowId: ${flowId}`,
-			meta: { action: req.params.action },
-		});
+		logger.info(
+			`✅ preparation for new flow completed for transactionId: ${transactionId} sessionId: ${sessionId}
+		flowId: ${flowId}`,
+			getLoggerData(req)
+		);
 		next();
 	} catch (err) {
-		// logger.error("Error in new flow request", err);
-		logError({
-			message: "Error in new flow request",
-			meta: { action: req.params.action },
-			error: err,
-		});
+		logger.error("Error in new flow request", getLoggerData(req), err);
 		res.status(500).send("Error in new flow request");
 	}
 }
@@ -190,101 +160,75 @@ export async function proceedWithFlow(
 	next: NextFunction
 ) {
 	try {
-		logInfo({
-			message: "Entering proceedWithFlow Middleware Function",
-			meta: { action: req.params.action },
-			transaction_id: req.body.transaction_id,
-		});
+		logger.info("Proceeding with flow", getLoggerData(req));
+
 		const transactionId = req.body.transaction_id;
 		const sessionId = req.body.session_id;
 		if (!transactionId || !sessionId) {
-			// logger.error("transaction_id or session_id not found in request body");
-			logInfo({
-				message:
-					"Exiting proceedWithFlow Middleware Function. transaction_id or session_id not found in request body",
-				meta: { action: req.params.action },
-			});
+			logger.error(
+				"transaction_id or session_id not found in request body",
+				getLoggerData(req)
+			);
 			res
 				.status(400)
 				.send("transaction_id or session_id not found in request body");
 			return;
 		}
-		// logger.info(
-		// 	`proceeding flow for transactionId: ${transactionId} sessionId: ${sessionId}`
-		// );
-		logInfo({
-			message: `Proceeding flow for transactionId: ${transactionId} sessionId: ${sessionId}`,
-			meta: { action: req.params.action },
-		});
 		const { transactionData, sessionData, flow } = await getFlowInfo(
 			transactionId,
-			sessionId
+			sessionId,
+			getLoggerData(req)
 		);
 		req.transactionData = transactionData;
 		req.flow = flow;
 		req.subscriberUrl = sessionData.subscriberUrl;
 		req.transactionId = transactionId;
 		req.apiSessionCache = sessionData;
-		logInfo({
-			message: "Exiting proceedWithFlow Middleware Function",
-			meta: { action: req.params.action },
-			transaction_id: req.body.transaction_id,
-		});
-
+		logger.info(
+			`✅ Flow and transaction data loaded for transactionId: ${transactionId} sessionId: ${sessionId}`,
+			getLoggerData(req)
+		);
 		next();
 	} catch (err) {
-		// logger.error("Error in proceeding flow", err);
-		logError({
-			message: "Error in proceeding flow",
-			meta: { action: req.params.action },
-			transaction_id: req.body.transaction_id,
-			error: err,
-		});
+		logger.error("Error in proceeding flow", getLoggerData(req), err);
 		res.status(500).send("Error in proceeding flow");
 	}
 }
 
 export async function getFlowStatus(req: ApiRequest, res: Response) {
-	logInfo({
-		message: "Entering getFlowStatus Middleware Function",
-		meta: { action: req.params.action },
-		transaction_id: req.query.transaction_id as string,
-	});
 	try {
 		const transactionId = req.query.transaction_id as string;
 		const sessionId = req.query.session_id as string;
-		// logger.info(
-		// 	`Fetching flow status for transactionId: ${transactionId} sessionId: ${sessionId}`
-		// );
-		logInfo({
-			message: `Fetching flow status for transactionId: ${transactionId} sessionId: ${sessionId}`,
-			meta: { action: req.params.action },
-		});
+		logger.info(
+			`Getting Current flow status for transactionId: ${transactionId} sessionId: ${sessionId}`,
+			getLoggerData(req)
+		);
 		const { transactionData, sessionData, flow } = await getFlowInfo(
 			transactionId,
-			sessionId
+			sessionId,
+			getLoggerData(req)
 		);
-		const flowStatus = await getFlowStatusService(
+		const mockSessionData = await loadMockSessionData(
 			transactionId,
 			sessionData.subscriberUrl
 		);
+		const flowStatus = await getFlowStatusService(
+			transactionId,
+			sessionData.subscriberUrl,
+			getLoggerData(req)
+		);
 		res
 			.status(200)
-			.send(getFlowCompleteStatus(transactionData, flow, flowStatus.status));
-		logInfo({
-			message: "Exiting getFlowStatus Middleware Function",
-			meta: { action: req.params.action, flow, flowStatus: flowStatus.status },
-			transaction_id: req.query.transaction_id as string,
-		});
+			.send(
+				getFlowCompleteStatus(
+					transactionData,
+					flow,
+					flowStatus.status,
+					mockSessionData
+				)
+			);
 	} catch (err) {
-		// logger.error("Error in fetching flow status", err);
-		logError({
-			message: "Error in fetching flow status",
-			meta: { action: req.params.action },
-			transaction_id: req.query.transaction_id as string,
-			error: err,
-		});
-
+		logger.error("Error in fetching flow status", getLoggerData(req), err);
 		res.status(500).send("Error in fetching flow status");
 	}
 }
@@ -294,102 +238,62 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 	const subscriberUrl = req.subscriberUrl;
 	const txId = req.transactionId;
 	try {
-		// logger.info("Acting upon flow");
-		logInfo({
-			message: "Entering ActUponFlow Function. Acting upon flow",
-			meta: {
-				action: req.params.action,
-				transactionId: txId,
-				subscriberUrl: subscriberUrl,
-				transactionData: txData,
-			},
-			transaction_id: txId,
-		});
+		logger.info("Acting upon flow", getLoggerData(req));
 		const flow = req.flow;
 		if (!flow || !txData || !subscriberUrl || !txId) {
-			// logger.error("Flow or Transaction data not found <INTERNAL-ERROR>");
-			logInfo({
-				message:
-					"Exiting ActUponFlow Function. Flow or Transaction data not found <INTERNAL-ERROR>",
-				meta: {
-					action: req.params.action,
-					transactionId: txId,
-					subscriberUrl: subscriberUrl,
-					transactionData: txData,
-				},
-				transaction_id: txId,
-			});
+			logger.error(
+				"[FATAL] Flow or Transaction data not found <INTERNAL-ERROR>",
+				getLoggerData(req)
+			);
 			res
 				.status(500)
 				.send("<INTERNAL-ERROR> Flow or Transaction data not found");
 			return;
 		}
 
-		const flowStatus = await getFlowStatusService(txId, subscriberUrl);
+		const flowStatus = await getFlowStatusService(
+			txId,
+			subscriberUrl,
+			getLoggerData(req)
+		);
 		if (flowStatus.status === "SUSPENDED") {
-			// logger.info("Flow is suspended, not proceeding");
-			logInfo({
-				message:
-					"Exiting ActUponFlow Function. Flow is suspended, not proceeding",
-				meta: {
-					action: req.params.action,
-					transactionId: txId,
-					subscriberUrl: subscriberUrl,
-					transactionData: txData,
-				},
-				transaction_id: txId,
-			});
+			logger.info("Flow is suspended, not proceeding", getLoggerData(req));
 			res.status(200).send({ message: "Flow is suspended, not proceeding" });
 			return;
 		}
 		if (flowStatus.status === "WORKING") {
-			// logger.info("Flow is already in progress, not proceeding");
-			logInfo({
-				message:
-					"Exiting ActUponFlow Function. Flow is already in progress, not proceeding",
-				meta: {
-					action: req.params.action,
-					transactionId: txId,
-					subscriberUrl: subscriberUrl,
-					transactionData: txData,
-				},
-				transaction_id: txId,
-			});
+			logger.info(
+				"Flow is already in progress, not proceeding",
+				getLoggerData(req)
+			);
 			res.status(200).send({
 				message: "a flow response is already in progress, wait and try again!",
 			});
 			return;
 		}
-		const latestMeta = getNextActionMetaData(txData, flow, flowStatus.status);
+		const mockSessionData = await loadMockSessionData(txId, subscriberUrl);
+		const latestMeta = getNextActionMetaData(
+			txData,
+			flow,
+			flowStatus.status,
+			mockSessionData
+		);
+		console.log("latestMeta", latestMeta);
 		if (!latestMeta) {
-			// logger.info("Mock response is not required");
-			logInfo({
-				message: "Exiting ActUponFlow Function. Mock response is not required",
-				meta: {
-					action: req.params.action,
-					transactionId: txId,
-					subscriberUrl: subscriberUrl,
-					transactionData: txData,
-				},
-				transaction_id: txId,
-			});
+			logger.info("Mock response is not required", getLoggerData(req));
 			res.status(200).send("Mock response is not required flow is complete");
 			return;
 		}
 
 		if (latestMeta.status === "INPUT-REQUIRED" && !req.body.json_path_changes) {
 			const input = latestMeta.input;
-			// logger.info("Input required");
-			logInfo({
-				message: "Exiting ActUponFlow Function. Input required",
-				meta: {
-					action: req.params.action,
-					transactionId: txId,
-					subscriberUrl: subscriberUrl,
-					transactionData: txData,
-				},
-				transaction_id: txId,
-			});
+			logger.info(
+				`User Input required for ${latestMeta.actionId}`,
+				getLoggerData(req),
+				{
+					meta: latestMeta,
+				}
+			);
 			res.status(200).send({
 				message:
 					"Input required, pass the inputs under key json_path_changes in body and send again",
@@ -400,26 +304,45 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 
 		if (
 			latestMeta.status === "RESPONDING" ||
-			latestMeta.status === "INPUT-REQUIRED"
+			latestMeta.status === "INPUT-REQUIRED" ||
+			latestMeta.status === "WAITING-SUBMISSION"
 		) {
 			res.status(200).send("Mock service is now responding");
-			// logger.info("Mock service is now responding");
-			logInfo({
-				message: "Mock service is now responding",
-				meta: {
-					action: req.params.action,
-					transactionId: txId,
-					subscriberUrl: subscriberUrl,
-					transactionData: txData,
-				},
-				transaction_id: txId,
-			});
+			logger.info(
+				`⏳ Mock service is now responding with ${latestMeta.actionId} as ${latestMeta.owner}`,
+				getLoggerData(req),
+				{
+					meta: latestMeta,
+				}
+			);
+			await setFlowStatusService(txId, subscriberUrl, "WORKING");
 
-			const sessionData : any = await loadMockSessionData(txId, subscriberUrl);
+			if (latestMeta.actionType === "HTML_FORM") {
+				console.log("HTML_FORM action detected", req.body);
+				const version = req.apiSessionCache?.version;
+
+				if (!version) {
+					throw new Error("Version not found in session data");
+				}
+				if (!req.body.inputs || !req.body.inputs.submission_id) {
+					throw new Error("submission_id not found in inputs");
+				}
+				await sendToApiServiceAboutForm(
+					subscriberUrl,
+					txId,
+					latestMeta.actionId,
+					"HTML_FORM",
+					version,
+					req.body.inputs.submission_id
+				);
+				return;
+			}
+
+			const sessionData: any = await loadMockSessionData(txId, subscriberUrl);
 			// Inject flow_id and session_id into sessionData
 			sessionData.flow_id = txData.flowId;
 			sessionData.session_id = txData.sessionId;
-			sessionData.domain = process.env.DOMAIN?.split(":")[1]
+			sessionData.domain = process.env.DOMAIN?.split(":")[1];
 			let mockResponse = await generateMockResponse(
 				txData.sessionId as string,
 				sessionData,
@@ -435,7 +358,6 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			}
 
 			const action = latestMeta.actionType;
-			await setFlowStatusService(txId, subscriberUrl, "WORKING");
 
 			const mockActionOb = getMockActionObject(latestMeta.actionId);
 			const saveData = mockActionOb.saveData;
@@ -447,16 +369,11 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				session_id: txData.sessionId,
 			});
 
-			logInfo({
-				message: "Exiting ActUponFlow Function.",
-				meta: {
-					action: req.params.action,
-					transactionId: txId,
-					subscriberUrl: subscriberUrl,
-					transactionData: txData,
-				},
-				transaction_id: txId,
-			});
+			logger.info(
+				`Mock response sent for ${latestMeta.actionId} as ${latestMeta.owner}`,
+				getLoggerData(req),
+				{ meta: latestMeta, mockResponse }
+			);
 			return;
 		} else if (latestMeta.status === "LISTENING") {
 			let expecAdded = false;
@@ -465,57 +382,30 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 					subscriberUrl,
 					flow.id,
 					txData.sessionId,
-					latestMeta.actionType
+					latestMeta.actionType,
+					getLoggerData(req)
 				);
 				expecAdded = true;
 			}
-			// logger.info("Mock service is now listening");
-			logInfo({
-				message: "Exiting ActUponFlow Function. Mock service is now listening",
-				meta: {
-					action: req.params.action,
-					transactionId: txId,
-					subscriberUrl: subscriberUrl,
-					transactionData: txData,
-				},
-				transaction_id: txId,
-			});
-			res.status(200).send({
-				message: "Mock service is now listening",
-				expectationAdded: expecAdded,
-				metaData: latestMeta,
-			});
+			logger.info(
+				`Mock service is now listening for ${latestMeta.actionId}`,
+				getLoggerData(req),
+				{
+					meta: latestMeta,
+				}
+			);
+			res.status(200).send("Listening for next action");
 			return;
 		}
-		// logger.info("No actionable state found in flow!");
-		logInfo({
-			message:
-				"Exiting ActUponFlow Function. No actionable state found in flow!",
-			meta: {
-				action: req.params.action,
-				transactionId: txId,
-				subscriberUrl: subscriberUrl,
-				transactionData: txData,
-			},
-			transaction_id: txId,
-		});
+		logger.info("No actionable state found in flow!", getLoggerData(req));
 		res.status(200).send(setAckResponse(true));
 		return;
 	} catch (e) {
-		// logger.error("Error in ActUponFlow", e);
-		logError({
-			message: "Error in ActUponFlow",
-			meta: {
-				action: req.params.action,
-				transactionId: req.body.transaction_id,
-				subscriberUrl: req.body.subscriber_url,
-				transactionData: req.transactionData,
-			},
-			transaction_id: req.body.transaction_id,
-			error: e,
-		});
+		logger.error("Error in Progressing flow", getLoggerData(req), e);
 		await deleteFlowStatusService(txId, subscriberUrl);
-		res.status(500).send("Error in ActUponFlow");
+		if (!res.headersSent) {
+			res.status(500).send("Error in ActUponFlow");
+		}
 		return;
 	}
 }

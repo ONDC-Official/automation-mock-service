@@ -1,23 +1,15 @@
 import { RedisService } from "ondc-automation-cache-lib";
 import { SubscriberCache } from "../types/api-session-cache";
-import { logger, logInfo, logError, logDebug } from "../utils/logger";
+import logger from "@ondc/automation-logger";
 const EXPECTATION_EXPIRY = 5 * 60 * 1000; // 5 minutes
 
 export const createExpectationService = async (
 	subscriberUrl: string,
 	flowId: string,
 	sessionId: string,
-	expectedAction: string
+	expectedAction: string,
+	loggerMeta: any
 ): Promise<string> => {
-	logInfo({
-		message: "Entering createExpectationService Function.",
-		meta: {
-			subscriberUrl,
-			flowId,
-			sessionId,
-			expectedAction,
-		},
-	});	
 	try {
 		// Fetch existing session data from Redis
 		const sessionData = await RedisService.getKey(subscriberUrl);
@@ -38,33 +30,17 @@ export const createExpectationService = async (
 			if (isExpired) return false; // Remove expired session
 
 			if (expectation.sessionId === sessionId) {
-				logInfo({
-					message: "Expectation already exists for this session and flow.",
-					meta: {
-						sessionId,
-						flowId,
-						expectedAction,
-					},
-				});
 				throw new Error(
 					`Expectation already exists for sessionId: ${sessionId} and flowId: ${flowId}`
 				);
 			}
 
 			if (expectation.expectedAction === expectedAction) {
-				logInfo({
-					message: "Expectation already exists for this action.",
-					meta: {
-						sessionId,
-						flowId,
-						expectedAction,
-					},
-				});
 				throw new Error(
 					`Expectation already exists for the action: ${expectedAction}`
 				);
 			}
-			
+
 			return true; // Keep valid expectations
 		});
 
@@ -81,27 +57,13 @@ export const createExpectationService = async (
 		parsed.activeSessions.push(expectation);
 		// Update Redis with the modified session data
 		await RedisService.setKey(subscriberUrl, JSON.stringify(parsed));
-		await RedisService.setKey(subscriberUrl, JSON.stringify(parsed));
-		logInfo({
-			message: "Exiting createExpectationService Function. Expectation created successfully.",
-			meta: {
-				sessionId,
-				flowId,
-				expectedAction,
-			},
-		});
+		logger.info(
+			`Expectation created for sessionId: ${sessionId}, flowId: ${flowId}, action: ${expectedAction}`,
+			loggerMeta
+		);
 		return "Expectation created successfully";
 	} catch (error: any) {
-		logError({
-			message: "Error in createExpectationService Function.",
-			meta: {
-				subscriberUrl,
-				flowId,
-				sessionId,
-				expectedAction,
-			},
-			error,
-		});
+		logger.error("Error in creating new action expectation", loggerMeta, error);
 		throw new Error(`Failed to create expectation: ${error.message}`);
 	}
 };
@@ -111,41 +73,14 @@ export const deleteExpectationService = async (
 	subscriberUrl: string
 ) => {
 	try {
-		logInfo({
-			message: "Entering deleteExpectationService Function.",
-			meta: {
-				sessionId,
-				subscriberUrl,
-			},
-		});
 		const subscriberData = await RedisService.getKey(subscriberUrl);
 		if (!subscriberData) {
-			logInfo({
-				message: "Exiting deleteExpectationService Function. Session not found.",
-				meta: {
-					sessionId,
-					subscriberUrl,
-				},
-			});
 			throw new Error("Session not found");
 		}
 
 		const parsed: SubscriberCache = JSON.parse(subscriberData);
-		// logger.debug("Parsed data" + JSON.stringify(parsed));
-		logDebug({
-			message: "Parsed data",
-			meta: {
-				parsed,
-			},
-		});
+		logger.info(`Deleting expectation for sessionId: ${sessionId}`);
 		if (parsed.activeSessions === undefined) {
-			logInfo({
-				message: "Exiting deleteExpectationService Function. No active sessions found.",
-				meta: {
-					sessionId,
-					subscriberUrl,
-				},
-			});
 			throw new Error("No active sessions found");
 		}
 		parsed.activeSessions = parsed.activeSessions.filter(
@@ -153,23 +88,15 @@ export const deleteExpectationService = async (
 		);
 
 		await RedisService.setKey(subscriberUrl, JSON.stringify(parsed));
-		logInfo({
-			message: "Exiting deleteExpectationService Function. Expectation deleted successfully.",
-			meta: {
-				sessionId,
-				subscriberUrl,
-			},
-		});
 	} catch (e) {
-		// logger.error(e);
-		logError({
-			message: "Error in deleteExpectationService Function.",
-			meta: {
+		logger.error(
+			"Error in deleting expectation",
+			{
 				sessionId,
 				subscriberUrl,
 			},
-			error: e,
-		});
+			e
+		);
 		throw new Error("Error deleting expectation");
 	}
 };
