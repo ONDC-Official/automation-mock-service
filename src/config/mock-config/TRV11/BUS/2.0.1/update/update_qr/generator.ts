@@ -1,4 +1,4 @@
-import { SessionData } from "../../../session-types";
+import { SessionData } from "../../../../session-types";
 
 function injectTicketFulfillments(payload: any, sessionData: SessionData) {
     const ticketFulfillments =
@@ -6,15 +6,19 @@ function injectTicketFulfillments(payload: any, sessionData: SessionData) {
   
     payload.message.order.fulfillments = ticketFulfillments.map((f: any, idx: number) => ({
       id: f.id,
-      vehicle: {
-        registration: "MOCK_REG", 
-      },
+      stops: [
+        {
+          authorization: {
+            status: "CLAIMED"
+          }
+        }
+      ]
     }));
   
     return payload;
   }
   
-export async function updateGenerator(existingPayload: any,sessionData: any){
+export async function updateQrGenerator(existingPayload: any,sessionData: any){
     if(sessionData.order_id){
         existingPayload.message.order.id = sessionData.order_id
     }

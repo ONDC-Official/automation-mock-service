@@ -22,9 +22,12 @@ import { search0Generator } from "./search/search0/generator";
 import { onSearchCatalogGenerator } from "./on_search/on_search_catalog/generator";
 import { onUpdateAcceptedGenerator } from "./on_update/on_update_accepted/generator";
 import { onConfirmVehConfGenerator } from "./on_confirm/on_confirm_vehicle/generator";
-import { updateGenerator } from "./update_/generator";
+import { updateGenerator } from "./update/update_/generator";
 import { onUpdateVehConGenerator } from "./on_update/on_update_vehicle/generator";
 import { confirmVehConGenerator } from "./confirm/confirm_veh_con/generator";
+import { onUpdateVehQrGenerator } from "./on_update/on_update_vehicle_qr/generator";
+import { updateQrGenerator } from "./update/update_qr/generator";
+import { onConfirmVehConfQrGenerator } from "./on_confirm/on_confirm_vehicle/generatorQr";
 
 export async function Generator(
   action_id: string,
@@ -48,6 +51,8 @@ export async function Generator(
       return await confirmGenerator(existingPayload, sessionData);
     case "on_confirm_BUS_201":
       return await onConfirmGenerator(existingPayload, sessionData);
+    case "on_confirm_BUS_QR_201":
+      return await onConfirmVehConfQrGenerator(existingPayload, sessionData);
     case "cancel_soft_BUS_201":
       return await cancelSoftGenerator(existingPayload, sessionData);
     case "on_cancel_soft_BUS_201":
@@ -80,14 +85,20 @@ export async function Generator(
       return await onSearchCatalogGenerator(existingPayload, sessionData);
     case "on_search_catalog4_BUS_201":
       return await onSearchCatalogGenerator(existingPayload, sessionData);
+    case "on_search_catalog5_BUS_201":
+      return await onSearchCatalogGenerator(existingPayload, sessionData);
     case "on_update_accepted_BUS_201":
       return await onUpdateAcceptedGenerator(existingPayload, sessionData);
     case "on_confirm_veh_con_BUS_201":
       return await onConfirmVehConfGenerator(existingPayload, sessionData);
     case "update_BUS_201":
       return await updateGenerator(existingPayload, sessionData);
+    case "update_BUS_QR_201":
+      return await updateQrGenerator(existingPayload, sessionData);
     case "on_update_veh_con_BUS_201":
       return await onUpdateVehConGenerator(existingPayload, sessionData);
+    case "on_update_veh_QR_BUS_201":
+      return await onUpdateVehQrGenerator(existingPayload, sessionData);
     case "confirm_veh_con_BUS_201":
       return await confirmVehConGenerator(existingPayload,sessionData)
     default:
