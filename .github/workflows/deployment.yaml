@@ -68,6 +68,8 @@ jobs:
           echo "CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL_DEV }}" >> \$REPO_DIR/.env
           echo "API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}" >> \$REPO_DIR/.env
           echo "FORM_SERVICE=${{ vars.FORM_SERVICE }}" >> \$REPO_DIR/.env
+          echo "NODE_ENV=${{ vars.NODE_ENV }}" >> \$REPO_DIR/.env
+
 
           EOF
 
@@ -187,6 +189,7 @@ jobs:
           echo "CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL_STAGING }}" >> \$REPO_DIR/.env
           echo "API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_STAGING }}" >> \$REPO_DIR/.env
           echo "FORM_SERVICE=${{ vars.FORM_SERVICE }}" >> \$REPO_DIR/.env
+          echo "NODE_ENV=${{ vars.NODE_ENV }}" >> \$REPO_DIR/.env
           EOF
 
       - name: Verify .env and docker-compose.yml files
