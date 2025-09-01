@@ -137,39 +137,39 @@ export async function onSelectGenerator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {
-	console.log(JSON.stringify(sessionData))
-	let items = filterItemsBySelectedIds(
-		sessionData.items,
-		sessionData.selected_item_ids
-	);
-	let fulfillments = getUniqueFulfillmentIdsAndFilterFulfillments(
-		sessionData.items,
-		sessionData.fulfillments
-	);
-	const ids_with_quantities = {
-		items: sessionData.selected_items.reduce((acc: any, item: any) => {
-			acc[item.id] = item.quantity.selected.count;
-			return acc;
-		}, {}),
-	};
-	const updatedItems = sessionData.items.map((item: any) => ({
-		...item,
-		quantity: {
-			selected: {
-				count: ids_with_quantities["items"][item.id] ?? 0, // Default to 0 if not in the mapping
-			},
-		},
-	})).filter((item) => item.quantity.selected.count > 0);
-	items = updatedItems;
-	createAndAppendFulfillments(updatedItems, fulfillments);
-	const quote = createQuoteFromItems(updatedItems);
-	existingPayload.message.order.items = items;
-	existingPayload.message.order.fulfillments = fulfillments; 
-	existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
-		if (fulfillment.type === "ROUTE") {
-			fulfillment.type = "TRIP";
-		  }
-	})
-	existingPayload.message.order.quote = quote;
+	// console.log(JSON.stringify(sessionData))
+	// let items = filterItemsBySelectedIds(
+	// 	sessionData.items,
+	// 	sessionData.selected_item_ids
+	// );
+	// let fulfillments = getUniqueFulfillmentIdsAndFilterFulfillments(
+	// 	sessionData.items,
+	// 	sessionData.fulfillments
+	// );
+	// const ids_with_quantities = {
+	// 	items: sessionData.selected_items.reduce((acc: any, item: any) => {
+	// 		acc[item.id] = item.quantity.selected.count;
+	// 		return acc;
+	// 	}, {}),
+	// };
+	// const updatedItems = sessionData.items.map((item: any) => ({
+	// 	...item,
+	// 	quantity: {
+	// 		selected: {
+	// 			count: ids_with_quantities["items"][item.id] ?? 0, // Default to 0 if not in the mapping
+	// 		},
+	// 	},
+	// })).filter((item) => item.quantity.selected.count > 0);
+	// items = updatedItems;
+	// createAndAppendFulfillments(updatedItems, fulfillments);
+	// const quote = createQuoteFromItems(updatedItems);
+	// existingPayload.message.order.items = items;
+	// existingPayload.message.order.fulfillments = fulfillments; 
+	// existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
+	// 	if (fulfillment.type === "ROUTE") {
+	// 		fulfillment.type = "TRIP";
+	// 	  }
+	// })
+	// existingPayload.message.order.quote = quote;
 	return existingPayload;
 }

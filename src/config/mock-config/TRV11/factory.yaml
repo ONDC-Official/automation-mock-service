@@ -389,7 +389,7 @@ codes:
   - code: 178
     action_id: confirm_BUS_201
     action: confirm
-    default: BUS/2.0.1/confirm/default.yaml
+    default: BUS/2.0.1/confirm/confirm/default.yaml
     message_id: true
   - code: 179
     action_id: on_confirm_BUS_201
@@ -489,7 +489,7 @@ codes:
   - code: 195
     action_id: update_BUS_201
     action: update
-    default: BUS/2.0.1/update_/default.yaml
+    default: BUS/2.0.1/update/update_/default.yaml
     message_id: true
   - code: 196
     action_id: on_update_veh_con_BUS_201
@@ -515,3 +515,28 @@ codes:
     action_id: on_cancel_tech_BUS_200
     action: on_cancel
     default: BUS/2.0.0/on_cancel/on_cancel_tech/default.yaml
+  - code: 201
+    action_id: confirm_veh_con_BUS_201
+    action: confirm
+    default: BUS/2.0.1/confirm/confirm/confirm_veh_con/default.yaml
+    message_id: true
+  - code: 202
+    action_id: update_BUS_QR_201
+    action: update
+    default: BUS/2.0.1/update/update_qr/default.yaml
+    message_id: true
+  - code: 203
+    action_id: on_update_veh_QR_BUS_201
+    action: on_update
+    default: BUS/2.0.1/on_update/on_update_vehicle_qr/default.yaml
+    message_id: false
+  - code: 204
+    action_id: on_confirm_BUS_QR_201
+    action: on_confirm
+    default: BUS/2.0.1/on_confirm/on_confirm_vehicle/default.yaml
+    message_id: false
+  - code: 189
+    action_id: on_search_catalog5_BUS_201
+    action: on_search
+    default: BUS/2.0.1/on_search/on_search_catalog/default5.yaml
+    message_id: false  

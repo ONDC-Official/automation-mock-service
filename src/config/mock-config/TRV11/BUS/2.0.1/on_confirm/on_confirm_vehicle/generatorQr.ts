@@ -49,22 +49,23 @@ function updateFulfillmentsWithParentInfo(fulfillments: any[], sessionData: Sess
     // Ensure stops array exists
     fulfillment.stops = fulfillment.stops || [];
 
-    // Check if this fulfillment exists in buyer-side list and has a vehicle
-    const buyerEntry = buyerFulfillmentMap.get(fulfillment.id);
-    const authStatus = buyerEntry?.vehicle ? "CLAIMED" : "UNCLAIMED";
-
+    
     // If a stop exists, modify the first stop; otherwise, create a new one
     if (fulfillment.stops.length > 0) {
       fulfillment.stops[0].authorization = {
-        type: "VEHICLE_NUMBER",
-        status: authStatus,
+        type: "USER_CONFIRMATION_AND_QR",
+        status: 'UNCLAIMED',
+        token: "aMOPw0KGgoAAAANSUhEUgAAAH0AAAB9AQAAAACn+1GINAAApklEQVR4Xu2UMQ4EMQgD/QP+/0vK6zjsvayUMmavWxQpMAUBkwS12wcveAAkgNSCD3rR5Lkgoai3GUCMgWqbAEYR3HxAkZlzU/0MyBisYRsgI1ERFfcpBpA+ze6k56Cj7KTdXNigFWZvSOpsgqLfd18i2aAukXh9TXBNmdWt5gzA/oqzWkkN8HtA7G8CNOwYAiZt3wZixUfkA32OHNQq7Bxs9oI/gC/9fV8AVCkPjQAAAABJRU5ErkJggg==",
+        valid_to: '2025-06-20T23:59:59.999Z'
       };
     } else {
       fulfillment.stops.push({
         type: "START",
         authorization: {
-          type: "VEHICLE_NUMBER",
-          status: authStatus,
+          type: "USER_CONFIRMATION_AND_QR",
+          status: 'UNCLAIMED',
+          token: "aMOPw0KGgoAAAANSUhEUgAAAH0AAAB9AQAAAACn+1GINAAApklEQVR4Xu2UMQ4EMQgD/QP+/0vK6zjsvayUMmavWxQpMAUBkwS12wcveAAkgNSCD3rR5Lkgoai3GUCMgWqbAEYR3HxAkZlzU/0MyBisYRsgI1ERFfcpBpA+ze6k56Cj7KTdXNigFWZvSOpsgqLfd18i2aAukXh9TXBNmdWt5gzA/oqzWkkN8HtA7G8CNOwYAiZt3wZixUfkA32OHNQq7Bxs9oI/gC/9fV8AVCkPjQAAAABJRU5ErkJggg==",
+          valid_to: '2025-06-20T23:59:59.999Z'
         },
       });
     }
@@ -72,7 +73,7 @@ function updateFulfillmentsWithParentInfo(fulfillments: any[], sessionData: Sess
 }
 
 
-export async function onConfirmVehConfGenerator(
+export async function onConfirmVehConfQrGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {

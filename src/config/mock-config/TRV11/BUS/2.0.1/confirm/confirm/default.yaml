@@ -11,6 +11,10 @@ message:
       name: John Doe
       email: john.doe@example.com
       phone: +91-9897867564
+    fulfillments:
+      - id: F1
+      - id: F5
+      - id: F6
     payments:
       - id: PA1
         collected_by: BAP

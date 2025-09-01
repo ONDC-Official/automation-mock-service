@@ -5,5 +5,7 @@ message:
         quantity:
           selected:
             count: 2
+    fulfillments:
+      - id: F1
     provider:
       id: P1

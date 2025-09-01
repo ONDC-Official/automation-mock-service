@@ -33,7 +33,7 @@ function transformFulfillments(fulfillments: any[], sessionData: any): any[] {
                 ...stop,
                 authorization: {
                   ...stop.authorization,
-                  status: authStatus
+                  status: "CLAIMED",
                 }
               };
             }
@@ -83,7 +83,7 @@ function transformFulfillments(fulfillments: any[], sessionData: any): any[] {
   
   
   
-export async function onUpdateVehConGenerator(existingPayload: any,sessionData: SessionData){
+export async function onUpdateVehQrGenerator(existingPayload: any,sessionData: SessionData){
   if (sessionData.updated_payments.length > 0) {
         existingPayload.message.order.payments = sessionData.updated_payments;
       }

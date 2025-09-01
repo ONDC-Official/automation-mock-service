@@ -1,3 +1,4 @@
 save-data:
   update_fulfillment: "$.message.order.fulfillments[*]"
   message_id: "$.context.message_id"
+  buyer_side_fulfillment_ids: "$.message.order.fulfillments[*]"

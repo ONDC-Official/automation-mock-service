@@ -56,12 +56,17 @@ message:
             type: TICKET
             stops:
               - authorization:
-                  type: QR_AND_VEHICLE_NUMBER
+                  type: QR
           - id: FT10
             type: TICKET
             stops:
               - authorization:
                   type: QR
+          - id: FT11
+            type: TICKET
+            stops:
+              - authorization:
+                  type: USER_CONFIRMATION_AND_QR   
         items:
           - id: I1
             descriptor:
