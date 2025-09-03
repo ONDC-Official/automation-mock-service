@@ -23,61 +23,64 @@ import { MockSearchDiscoverProductHospicashClass } from "./2.0.0/search/search_d
 import { MockSearchDiscoverProductTransitClass } from "./2.0.0/search/search_discover_products/search_discover_product_transit/class";
 import { MockOnSearchDiscoverHospicashClass } from "./2.0.0/on_search/on_search_discover_product/on_search_discover_product_hospicash/class";
 import { MockOnSearchDiscoverTransitClass } from "./2.0.0/on_search/on_search_discover_product/on_search_discover_product_transit/class";
+import { MockAction } from "./classes/mock-action";
 
-export function getFIS13MockAction(actionId: string) {
-	console.log("actionIdactionIdactionIdactionId",actionId)
-	switch (actionId) {
-		case "search":
-			return new MockSearchClass();
-		case "search_purchase_journey_transit":
-			return new MockSearchPurchaseJourneyTransitClass();
-		case "search_purchase_journey_hospicash":
-			return new MockSearchPurchaseJourneyHospicashClass();
-		case "search_insurence_provider":
-			return new MockSearchInsurenceProviderClass();
-		case "search_discover_product_hospicash":
-			return new MockSearchDiscoverProductHospicashClass();
-		case "search_discover_product_transit":
-			return new MockSearchDiscoverProductTransitClass();
-		case "on_search_purchase_journey_hospicash":
-			return new MockOnSearchPurchaseJourneyHospicashClass();
-		case "on_search_purchase_journey_transit":
-			return new MockOnSearchPurchaseJourneyTransitClass();
-		case "on_search":
-			return new MockOnSearchClass();
-		case "on_search_insurence_provider":
-			return new MockOnSearchInsurenceProvidersClass();
-		case "on_search_discover_product_tranist":
-			return new MockOnSearchDiscoverTransitClass();
-		case "on_search_discover_product_hospicash":
-			return new MockOnSearchDiscoverHospicashClass();
-		case "select":
-			return new MockSelectClass();
-		case "on_select":
-			return new MockOnSelectTransitInsurenceClass();
-		case "on_select_hospicash":
-			return new MockOnSelectHospicashInsurencClass();
-		case "init":
-			return new MockInitTransitInsurenceClass();
-		case "init_hospicash":
-			return new MockInitHospicashClass();
-		case "on_init":
-			return new MockOnInitTransitClass();
-		case "on_init_hospicash":
-			return new MockOnInitHospicashClass();
-		case "confirm":
-			return new MockConfirmTransitClass();
-		case "confirm_hospicash":
-			return new MockConfirmHospicashClass();
-		case "on_confirm":
-			return new MockOnConfirmTransitClass();
-		case "on_confirm_hospicash":
-			return new MockOnConfirmHospicashClass();
-		case "on_update":
-			return new MockOnupdateTransitClass();
-		case "on_update_hospicash":
-			return new MockOnupdateHospicashClass();
-		default:
-			throw new Error(`Action with ID ${actionId} not found`);
+// Type helper for constructor
+type Ctor<T> = new () => T;
+
+// Build a single source of truth registry
+const registry = {
+	// search
+	search: MockSearchClass,
+	search_purchase_journey_transit: MockSearchPurchaseJourneyTransitClass,
+	search_purchase_journey_hospicash: MockSearchPurchaseJourneyHospicashClass,
+	search_insurence_provider: MockSearchInsurenceProviderClass,
+	search_discover_product_hospicash: MockSearchDiscoverProductHospicashClass,
+	search_discover_product_transit: MockSearchDiscoverProductTransitClass,
+
+	// on_search
+	on_search_purchase_journey_hospicash: MockOnSearchPurchaseJourneyHospicashClass,
+	on_search_purchase_journey_transit: MockOnSearchPurchaseJourneyTransitClass,
+	on_search: MockOnSearchClass,
+	on_search_insurence_provider: MockOnSearchInsurenceProvidersClass,
+	on_search_discover_product_tranist: MockOnSearchDiscoverTransitClass,
+	on_search_discover_product_hospicash: MockOnSearchDiscoverHospicashClass,
+
+	// select / on_select
+	select: MockSelectClass,
+	on_select: MockOnSelectTransitInsurenceClass,
+	on_select_hospicash: MockOnSelectHospicashInsurencClass,
+
+	// init / on_init
+	init: MockInitTransitInsurenceClass,
+	init_hospicash: MockInitHospicashClass,
+	on_init: MockOnInitTransitClass,
+	on_init_hospicash: MockOnInitHospicashClass,
+
+	// confirm / on_confirm
+	confirm: MockConfirmTransitClass,
+	confirm_hospicash: MockConfirmHospicashClass,
+	on_confirm: MockOnConfirmTransitClass,
+	on_confirm_hospicash: MockOnConfirmHospicashClass,
+
+	// update / on_update
+	on_update: MockOnupdateTransitClass,
+	on_update_hospicash: MockOnupdateHospicashClass,
+} as const satisfies Record<string, Ctor<MockAction>>;
+
+type MockActionId = keyof typeof registry;
+
+// Construct by id
+export function getFIS13MockAction(actionId: string): MockAction {
+	console.log("actionIdactionIdactionIdactionId", actionId);
+	const Ctor = registry[actionId as MockActionId];
+	if (!Ctor) {
+		throw new Error(`Action with ID ${actionId} not found`);
 	}
-} 
+	return new Ctor();
+}
+
+// List all possible ids — stays in sync automatically
+export function listFIS13MockActions(): MockActionId[] {
+	return Object.keys(registry) as MockActionId[];
+}

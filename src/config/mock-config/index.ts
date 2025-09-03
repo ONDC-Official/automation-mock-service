@@ -1,23 +1,26 @@
 import { readFileSync } from "fs";
-import { logger } from "../../utils/logger";
+import logger from "@ondc/automation-logger";
 import path from "path";
 import yaml from "js-yaml";
 import { SessionData as MockSessionDataFIS13 } from "./FIS13/session-types";
 import { createFIS13MockResponse } from "./FIS13/version-factory";
-import { getFIS13MockAction } from "./FIS13/action-factory";
+import { getFIS13MockAction, listFIS13MockActions } from "./FIS13/action-factory";
 
-export {  MockSessionDataFIS13 };
-
+// Export with neutral names for external code
+export type MockSessionData = MockSessionDataFIS13;
+export { MockSessionDataFIS13 };
 
 const actionConfigFIS13 = yaml.load(
   readFileSync(path.join(__dirname, "./FIS13/factory.yaml"), "utf8")
 ) as any;
 
-export const defaultSessionDataFIS13 = () =>
+// Neutral name that maps to FIS13
+export const defaultSessionData = () =>
   yaml.load(
     readFileSync(path.join(__dirname, "./FIS13/session-data.yaml"), "utf8")
-  ) as { session_data: MockSessionDataFIS13 };
+  ) as { session_data: MockSessionData };
 
+export const defaultSessionDataFIS13 = defaultSessionData;
 
 export async function generateMockResponse(
   session_id: string,
@@ -45,12 +48,21 @@ export async function generateMockResponse(
   }
 }
 
+// Neutral function that routes to appropriate config
 export function getMockActionObject(actionId: string) {
   const domain = process.env.DOMAIN;
   // if (domain === "ONDC:FIS13") {
     return getFIS13MockAction(actionId);
   // }
-  
+}
+
+// For backward compatibility with TRV14 imports
+export function getMockAction(actionId: string) {
+  return getMockActionObject(actionId);
+}
+
+export function getAllMockActionIds() {
+  return listFIS13MockActions();
 }
 
 export function getActionData(code: number) {
@@ -70,12 +82,17 @@ export function getActionData(code: number) {
 export function getSaveDataContent(version: string, action: string) {
   const domain: any = process.env.DOMAIN;
   let actionFolderPath: any = "";
-  if (domain === "ONDC: FIS13") {
-    actionFolderPath = path.resolve(__dirname, `./ FIS13/${version}/${action}`);
+  if (domain === "ONDC:FIS13") {
+    actionFolderPath = path.resolve(__dirname, `./FIS13/${version}/${action}`);
   } 
   const saveDataFilePath = path.join(actionFolderPath, "save-data.yaml");
   const fileContent = readFileSync(saveDataFilePath, "utf8");
   const cont = yaml.load(fileContent) as any;
   console.log(cont);
   return cont;
+}
+
+export function getUiMetaKeys(): (keyof MockSessionData)[] {
+  // Return UI-relevant session data keys for FIS13
+  return [];
 }
