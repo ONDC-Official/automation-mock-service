@@ -89,6 +89,7 @@ message:
 
         items:
           - id: I1
+            parent_item_id: ""
             category_id: Immediate Delivery
             fulfillment_id: "1"
             descriptor:
@@ -107,6 +108,7 @@ message:
                 end: "1600"
 
           - id: I2
+            parent_item_id: I1
             category_id: Immediate Delivery
             fulfillment_id: "1"
             descriptor:
@@ -125,6 +127,7 @@ message:
                 end: "2000"
 
           - id: I3
+            parent_item_id: ""
             category_id: Immediate Delivery
             fulfillment_id: "1"
             descriptor:
@@ -143,6 +146,7 @@ message:
                 end: "0000"
 
           - id: I4
+            parent_item_id: ""
             category_id: Immediate Delivery
             fulfillment_id: "2"
             descriptor:
@@ -161,6 +165,7 @@ message:
                 end: "1600"
 
           - id: I5
+            parent_item_id: ""
             category_id: Immediate Delivery
             fulfillment_id: "2"
             descriptor:
@@ -179,6 +184,7 @@ message:
                 end: "0000"
 
           - id: I6
+            parent_item_id: ""
             category_id: Immediate Delivery
             fulfillment_id: "2"
             descriptor:

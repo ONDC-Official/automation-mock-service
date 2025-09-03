@@ -387,4 +387,4 @@ codes:
   action_id: on_search_rate_card_LOGISTICS
   action: on_search
   default: on_search/on_search_rate_card/default.yaml
-  message_id: true
+  message_id: false
