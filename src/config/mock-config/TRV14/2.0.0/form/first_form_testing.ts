@@ -56,12 +56,12 @@ export class MockFirstFormTestingClass extends MockAction {
 		return Promise.resolve({ valid: true });
 	}
 	get saveData(): saveType {
-		throw new Error("Method not implemented.");
+		return { "save-data": {} };
 	}
 	get defaultData(): any {
-		throw new Error("Method not implemented.");
+		return {};
 	}
 	get inputs(): any {
-		throw new Error("Method not implemented.");
+		return {};
 	}
 }
