@@ -7,7 +7,7 @@ import { getMockAction, listMockActions } from "./TRV14/action-factory";
 import logger from "@ondc/automation-logger";
 export { MockSessionData };
 
-const actionConfig = yaml.load(
+export const actionConfig = yaml.load(
 	readFileSync(path.join(__dirname, "./TRV14/factory.yaml"), "utf8")
 ) as any;
 
