@@ -59,6 +59,8 @@ export interface SessionData {
 	order_status: string | undefined;
 	search_1_intent_category: any;
 	search_1_tags: any[];
+	search_6_intent_category: any;
+	search_6_tags: any[];
 }
 
 export type BecknContext = {
