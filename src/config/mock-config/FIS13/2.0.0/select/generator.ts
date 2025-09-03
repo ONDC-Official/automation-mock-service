@@ -14,6 +14,8 @@ function createItemPayload(selectedItem: any): any {
 
 export async function selectDefaultGenerator(existingPayload: any, sessionData: any) {
   let selectedItem: any;
+  existingPayload.context.location.city.code= sessionData?.city_code
+
   if(sessionData.items.length > 0){
      selectedItem = sessionData.items[1];
   }

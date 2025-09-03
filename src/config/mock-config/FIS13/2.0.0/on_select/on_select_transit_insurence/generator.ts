@@ -2,6 +2,8 @@
 export async function onSelectDefaultGenerator(existingPayload: any, sessionData: any) {
   let breakup: any[]=[];
   let totalAmt: any;
+  existingPayload.context.location.city.code= sessionData?.city_code
+
   sessionData.selected_items.forEach((selectedItem: any) => {
     const fullItem = sessionData.items.find((item: any) => item.id === selectedItem.id);
     const generalInfo = fullItem.tags?.find(
@@ -56,18 +58,19 @@ existingPayload.message.order.items = [
     },
   };
   
-  const nomineeTag = existingPayload.message.order.fulfillments
+     const nomineeTag = existingPayload.message.order.fulfillments
 			.flatMap((f: any) => f.tags || [])
 			.find((t: any) => t.descriptor?.code === "NOMINEE_DETAILS");
 
 		if (nomineeTag?.list) {
 			const nomineeField = nomineeTag.list.find(
-				(l: any) => l.descriptor?.code === "NOMINEE_NAME" 
+				(l: any) => l.descriptor?.code === "NOMINEE_NAME"
 			);
 			if (nomineeField) {
 				nomineeField.value = "-";
 			}
 		}
+  
   const provider =sessionData.on_search_provider
 
   existingPayload.message.order.provider={

@@ -1,6 +1,8 @@
 
 
 export async function confirmDefaultGenerator(existingPayload: any, sessionData: any) {
+  existingPayload.context.location.city.code= sessionData?.city_code
+
   if (sessionData.selected_items) {
     existingPayload.message.order.items = sessionData.selected_items;
   }
@@ -15,8 +17,9 @@ export async function confirmDefaultGenerator(existingPayload: any, sessionData:
     existingPayload.message.order.provider = sessionData.selected_provider;
   }
   if (sessionData.payments) {
-    sessionData.payments = sessionData.payments.map((payment: any) => {
+    existingPayload.message.order.payments = sessionData.payments.map((payment: any) => {
       const { url, ...rest } = payment;
+      
       return rest;
     });
   }

@@ -4,4 +4,5 @@ save-data:
   collected_by: "$.message.intent.payment.collected_by" 
   descriptor_code: "$.message.intent.category.descriptor.code" 
   tags: "$.message.intent.provider[*].tags[*]" 
- 
+  policy_id: "$.message.intent.provider.tags[*].list[*].value" 
+  city_code: "$.context.location.city.code"

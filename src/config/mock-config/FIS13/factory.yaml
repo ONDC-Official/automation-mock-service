@@ -14,7 +14,7 @@ codes:
   - code: 102
     action_id: search_purchase_journey_hospicash
     action: search
-    default: FIS13/2.0.0/search/search_purchase_journey_transit/default.yaml
+    default: FIS13/2.0.0/search/search_purchase_journey_hospicash/default.yaml
     message_id: true
   
   - code: 103

@@ -23,7 +23,7 @@ export class MockSearchPurchaseJourneyTransitClass extends MockAction {
         return "search";
     }
     get description(): string {
-        return "Mock for search";
+        return "";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
         return search_seller_pagination_generator(existingPayload, sessionData);

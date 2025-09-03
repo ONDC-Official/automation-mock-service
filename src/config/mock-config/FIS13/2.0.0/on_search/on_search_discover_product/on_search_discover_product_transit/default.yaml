@@ -43,86 +43,86 @@ catalog:
               list:
                 - descriptor:
                     code: "BUYER_NAME"
-                  value: "-"
+                  value: "Mr|Rajesh|Kumar|Sharma"
                 - descriptor:
                     code: "BUYER_PHONE_NUMBER"
-                  value: "-"
+                  value: "91-9876543210"
                 - descriptor:
                     code: "BUYER_PAN_NUMBER"
-                  value: "-"
+                  value: "ABCDE1234F"
                 - descriptor:
                     code: "DERIVED_DATA"
                     short_desc: "Describes the derived data in the form of a URL pointing to a JSON file."
-                  value: "-"
+                  value: "https://example.com/data/derived.json"
                 - descriptor:
                     code: "PRODUCT_CATEGORY"
-                  value: "-"
+                  value: "Electronics"
                 - descriptor:
                     code: "ORDER_ID"
-                  value: "-"
+                  value: "ORD123456789"
                 - descriptor:
                     code: "ORDER_VALUE"
-                  value: "-"
+                  value: "50000"
                 - descriptor:
                     code: "ORDER_TYPE"
-                  value: "-"
+                  value: "Online Purchase"
                 - descriptor:
                     code: "ORDER_WEIGHT"
-                  value: "-"
+                  value: "25"
                 - descriptor:
                     code: "START_ADDRESS"
                     short_desc: "Describes the start address, including the pincode location."
-                  value: "-"
+                  value: "Warehouse A, Mumbai, 400001"
                 - descriptor:
                     code: "END_ADDRESS"
                     short_desc: "Describes the start address, including the pincode location."
-                  value: "-"
+                  value: "Customer Address, Delhi, 110001"
                 - descriptor:
                     code: "PAYMENT_MODE"
-                  value: "-"
+                  value: "Prepaid"
                 - descriptor:
                     code: "TRANSIT_START_DATE"
-                  value: "-"
+                  value: "2025-08-26"
                 - descriptor:
                     code: "TRANSIT_END_DATE"
-                  value: "-"
+                  value: "2025-09-02"
                 - descriptor:
                     code: "PACKAGING_TYPE"
-                  value: "-"
+                  value: "Wooden Crate"
                 - descriptor:
                     code: "PACKAGING_VIDEO"
                     short_desc: "Describes the packaging video tag value, including the URL, format type, and validity period."
-                  value: "-"
+                  value: "https://example.com/videos/packaging.mp4"
                 - descriptor:
                     code: "SEALING_TYPE"
-                  value: "-"
+                  value: "Tamper-proof Seal"
                 - descriptor:
                     code: "WATERPROOFING"
-                  value: "-"
+                  value: "Yes"
                 - descriptor:
                     code: "MODE_OF_TRANSPORT"
-                  value: "-"
+                  value: "Road"
                 - descriptor:
                     code: "LOGISTICS_COST"
-                  value: "-"
+                  value: "1500"
                 - descriptor:
                     code: "ORDERS_ONTIME_PCT"
                     short_desc: "Descriebs percentage of orders that were shipped on or before the scheduled time."
-                  value: "-"
+                  value: "98"
                 - descriptor:
                     code: "LOGISTICS_PARTNER_GSTIN"
-                  value: "-"
+                  value: "27ABCDE1234F1Z5"
                 - descriptor:
                     code: "DELIVERY_EXECUTIVE_NAME"
-                  value: "-"
+                  value: "Suresh Kumar"
                 - descriptor:
                     code: "DELIVERY_EXECUTIVE_PHONE_NO"
-                  value: "-"
+                  value: "91-9988776655"
                 - descriptor:
                     code: "DELIVERY_EXECUTIVE_UNIQUE_ID"
-                  value: "-"
+                  value: "DEL123456"
                 - descriptor:
                     code: "DELIVERY_EXECUTIVE_VEHICLE_NO"
-                  value: "-"
+                  value: "MH12AB1234"
       payments:
         - collected_by: "BPP"

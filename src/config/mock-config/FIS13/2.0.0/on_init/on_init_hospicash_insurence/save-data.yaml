@@ -7,4 +7,4 @@ save-data:
   billing: "$.message.order.billing"
   payments: "$.message.order.payments[*]"
   cancellation_terms: "$.message.order.cancellation_terms[*]"
-  tags: "$.message.order.tags[*]" 
+  tags: "$.message.order.tags[*]"

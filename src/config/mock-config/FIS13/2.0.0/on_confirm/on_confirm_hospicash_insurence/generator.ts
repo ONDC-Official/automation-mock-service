@@ -1,7 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export async function onConfirmGenerator(existingPayload: any, sessionData: any) {
- if (sessionData.items) {
+ 
+  existingPayload.context.location.city.code= sessionData?.city_code
+
+  if (sessionData.items) {
   existingPayload.message.order.items = sessionData.items;
 }
 
@@ -43,6 +46,7 @@ if (sessionData.payments) {
   const totalPrice = sessionData.quote?.price?.value ||  existingPayload.message.order.quote?.price?.value || 1000;
   existingPayload.message.order.payments = sessionData.payments;
   existingPayload.message.order.payments.forEach((payment: any) => {
+    payment.status="PAID"
     payment.params = {
       transaction_id: uuidv4().replace(/-/g, ''),
       amount: totalPrice,

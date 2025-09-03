@@ -3,7 +3,7 @@ import yaml from "js-yaml";
 import path from "path";
 import { MockAction, MockOutput, saveType } from "../../../classes/mock-action";
 import { SessionData } from "../../../session-types";
-import { search_seller_pagination_generator } from "./generator";
+import { search_purchase_journey_hospicash_generator } from "./generator";
 
 export class MockSearchPurchaseJourneyHospicashClass extends MockAction {
     get saveData(): saveType {
@@ -26,7 +26,7 @@ export class MockSearchPurchaseJourneyHospicashClass extends MockAction {
         return "Mock for search";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-        return search_seller_pagination_generator(existingPayload, sessionData);
+        return search_purchase_journey_hospicash_generator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
         return { valid: true };

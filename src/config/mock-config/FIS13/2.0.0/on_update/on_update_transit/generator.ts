@@ -1,4 +1,5 @@
 export async function selectDefaultGenerator(existingPayload: any, sessionData: any) {
+  existingPayload.context.location.city.code= sessionData?.city_code
 
    existingPayload.message.order.id = sessionData.order_id;
   existingPayload.message.order.status = sessionData.order_status;
