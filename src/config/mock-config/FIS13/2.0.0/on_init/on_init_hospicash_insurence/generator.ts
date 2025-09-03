@@ -3,6 +3,7 @@
 export async function onInitGenerator(existingPayload: any, sessionData: any) {
   let fulfillmentIds:string[] = [];
   let paymentIds:string[] = [];
+  existingPayload.context.location.city.code= sessionData?.city_code
 
     if (sessionData.fulfillments) {
         sessionData.fulfillments.map((fulfillment: any) => {

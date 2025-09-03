@@ -1,8 +1,9 @@
 export async function onInitGenerator(existingPayload: any, sessionData: any) {
   let fulfillmentIds:string[] = [];
   let paymentIds:string[] = [];
+  existingPayload.context.location.city.code= sessionData?.city_code
 
-    if (sessionData.fulfillments) {
+    if (sessionData.fulfillments) { 
         sessionData.fulfillments.map((fulfillment: any) => {
         fulfillmentIds.push(fulfillment.id);
         fulfillment.customer = {
@@ -14,8 +15,8 @@ export async function onInitGenerator(existingPayload: any, sessionData: any) {
           }
         };
       });
-      existingPayload.message.order.fulfillments = sessionData.fulfillments.map((fulfillment: { tag: any; })=>{
-        delete fulfillment.tag;
+      existingPayload.message.order.fulfillments = sessionData.fulfillments.map((fulfillment: { tags: any; })=>{
+        delete fulfillment.tags;
         return{
           ...fulfillment
         }

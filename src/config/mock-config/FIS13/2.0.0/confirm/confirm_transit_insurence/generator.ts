@@ -1,4 +1,6 @@
 export async function confirmDefaultGenerator(existingPayload: any, sessionData: any) {
+  existingPayload.context.location.city.code= sessionData?.city_code
+
   if (sessionData.selected_items) {
     existingPayload.message.order.items = sessionData.selected_items;
   }

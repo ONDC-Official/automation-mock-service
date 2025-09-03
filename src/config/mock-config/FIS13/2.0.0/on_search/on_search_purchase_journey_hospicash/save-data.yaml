@@ -4,5 +4,5 @@ save-data:
   items: "$.message.catalog.providers[*].items[*]"
   on_search_tags: "$.message.catalog.providers[*].tags[*]"
   on_search_provider: "$.message.catalog.providers[*]"
-  item: "$.message.catalog.providers[].items[0]"
+  item: "$.message.catalog.providers[*].items[*]"
   fulfillments: "$.message.catalog.providers[0].fulfillments[*]"

@@ -14,6 +14,7 @@ export interface SessionData {
 	vehicle_type: string | undefined;
 	fulfillments: any[] | undefined;
 	category_ids: string[];
+	descriptor_code: string[];
 	provider_id: string | undefined;
 	fullfillment_ids: string[];
 	item_ids: string[];
@@ -99,4 +100,14 @@ export interface Input {
 	retailCategory?: string;
 	returnToOrigin?: string;
 	default_feature?: string[];
+	buyer_name?: string;
+	phone_number?: string;
+	pan_number?: string;
+	start_address?: string;
+	dob?: string;
+	gender?: string;
+	end_address?: string;
+	email?: string;
+	sum_insured?: string;
+	policy_name?: string;
 }

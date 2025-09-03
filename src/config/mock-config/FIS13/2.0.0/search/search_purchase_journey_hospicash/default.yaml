@@ -1,104 +1,45 @@
 intent:
   category:
     descriptor:
-      code: "MICRO_TRANSIT_INSURANCE"
+      code: MICRO_HOSPICASH_INSURANCE
   provider:
-    id: "P1"
+    id: P1
     items:
-      - id: "I1"
+      - id: I1
         tags:
           - descriptor:
-              code: "BAP_INPUTS"
+              code: BAP_INPUTS
             list:
               - descriptor:
-                  code: "BUYER_NAME"
+                  code: BUYER_NAME
                 value: "Mr. | Joe | Wick | Adams"
               - descriptor:
-                  code: "BUYER_PHONE_NUMBER"
+                  code: BUYER_PHONE_NUMBER
                 value: "+91-9988776655"
               - descriptor:
-                  code: "BUYER_PAN_NUMBER"
+                  code: BUYER_PAN_NUMBER
                 value: "RLPIS315T"
               - descriptor:
-                  code: "DERIVED_DATA"
-                  short_desc: "Describes the derived data in the form of a URL pointing to a JSON file."
-                value: "https://fis.test.bap.io/uploads/derived-data"
+                  code: BUYER_DOB
+                value: "17/12/2001"
               - descriptor:
-                  code: "PRODUCT_CATEGORY"
-                value: "Electronics"
+                  code: BUYER_GENDER
+                value: "M"
               - descriptor:
-                  code: "ORDER_ID"
-                value: "O1"
+                  code: SUM_INSURED
+                value: "100000"
               - descriptor:
-                  code: "ORDER_VALUE"
-                value: "34124"
+                  code: BUYER_EMAIL
+                value: "john.doe@example.com"
               - descriptor:
-                  code: "ORDER_TYPE"
-                value: "Smartphone"
-              - descriptor:
-                  code: "ORDER_WEIGHT"
-                value: "500 GM"
-              - descriptor:
-                  code: "START_ADDRESS"
-                  short_desc: "Describes the start address, including the pincode location."
-                value: "Siri Fort Institutional Area, New Delhi | 110049"
-              - descriptor:
-                  code: "END_ADDRESS"
-                  short_desc: "Describes the start address, including the pincode location."
-                value: "Outer Ring Rd, Bengaluru, Karnataka | 560085"
-              - descriptor:
-                  code: "PAYMENT_MODE"
-                value: "COD"
-              - descriptor:
-                  code: "TRANSIT_START_DATE"
-                value: "2025-07-24"
-              - descriptor:
-                  code: "TRANSIT_END_DATE"
-                value: "2025-08-24"
-              - descriptor:
-                  code: "PACKAGING_TYPE"
-                value: "Paper Bags"
-              - descriptor:
-                  code: "PACKAGING_VIDEO"
-                  short_desc: "Describes the packaging video tag value, including the URL, format type, and validity period."
-                value: "https://fis.test.bap.io/uploads/videos | .mp4, .mov, .mkv | P5D"
-              - descriptor:
-                  code: "SEALING_TYPE"
-                value: "--"
-              - descriptor:
-                  code: "WATERPROOFING"
-                value: "--"
-              - descriptor:
-                  code: "MODE_OF_TRANSPORT"
-                value: "--"
-              - descriptor:
-                  code: "LOGISTICS_COST"
-                value: "1000"
-              - descriptor:
-                  code: "ORDERS_ONTIME_PCT"
-                  short_desc: "Descriebs percentage of orders that were shipped on or before the scheduled time."
-                value: "90 %"
-              - descriptor:
-                  code: "LOGISTICS_PARTNER_GSTIN"
-                value: "ABCDE1234F"
-              - descriptor:
-                  code: "DELIVERY_EXECUTIVE_NAME"
-                value: "--"
-              - descriptor:
-                  code: "DELIVERY_EXECUTIVE_PHONE_NO"
-                value: "1000"
-              - descriptor:
-                  code: "DELIVERY_EXECUTIVE_UNIQUE_ID"
-                value: "88141 1344 123"
-              - descriptor:
-                  code: "DELIVERY_EXECUTIVE_VEHICLE_NO"
-                value: "DL 12 1314"
+                  code: TENURE
+                value: "P1M"
     tags:
       - descriptor:
-          code: "MASTER_POLICY"
+          code: MASTER_POLICY
         list:
           - descriptor:
-              code: "POLICY_ID"
-            value: "f703b4a5-10f8-42c7-b888-dbf0e2edd123"
+              code: POLICY_ID
+            value: "e103b4a5-10f8-42c7-b888-dbf0e2edd696"
   payment:
-    collected_by: "BPP"
+    collected_by: BPP

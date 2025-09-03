@@ -1,14 +1,14 @@
 import { readFileSync } from "fs";
 import yaml from "js-yaml";
 import path from "path";
-import { MockAction, MockOutput, saveType } from "../../../classes/mock-action";
-import { SessionData } from "../../../session-types";
-import { search_seller_pagination_generator } from "./generator";
+import { search_seller_pagination_generator } from "../generator";
+import { MockAction, MockOutput, saveType } from "../../../../classes/mock-action";
+import { SessionData } from "../../../../session-types";
 
-export class MockSearchPurchaseJourneyTransitClass extends MockAction {
+export class MockSearchDiscoverProductHospicashClass extends MockAction {
     get saveData(): saveType {
         return yaml.load(
-            readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
+            readFileSync(path.resolve(__dirname, "../save-data.yaml"), "utf8")
         ) as saveType;
     }
     get defaultData(): any {
@@ -23,7 +23,7 @@ export class MockSearchPurchaseJourneyTransitClass extends MockAction {
         return "search";
     }
     get description(): string {
-        return "";
+        return "Mock for search";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
         return search_seller_pagination_generator(existingPayload, sessionData);
