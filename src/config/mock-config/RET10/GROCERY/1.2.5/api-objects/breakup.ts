@@ -180,16 +180,7 @@ export function createQuote(
 		console.log("ID Map: ", idMap);
 		return idMap.includes(i.id);
 	});
-	const search_bap_terms = sessionData.search_bap_terms;
-	const codesToFind = ["00A"];
-	const bapCodes = new Set();
-	for (const item of search_bap_terms.list) {
-		if (codesToFind.includes(item)) {
-			bapCodes.add(item);
-		}
-	}
-	const uniqueBapCodes = Array.from(bapCodes);
-
+	
 	for (const selectedItem of selectedItems ?? []) {
 		const fulfillment = fulfillments.find(
 			(f) => f.id === selectedItem.fulfillment_id
@@ -233,17 +224,15 @@ export function createQuote(
 			totalQuantity += selectedItem.count ?? 0;
 			if (quantity > 0) itemSet.add(catalogItem.id);
 		}
-		for (const code of uniqueBapCodes) {
-			if (code === "00A") {
-				for (const fee of npFeesbreakup) {
-					const feeClone = JSON.parse(JSON.stringify(fee));
-					feeClone["@ondc/org/item_id"] = catalogItem.id;
-					breakupObject.push(feeClone);
-					totalPrice += parseFloat(feeClone.price.value ?? "0");
-				}
 
+		if (sessionData.search_bap_terms?.list?.some((t: any) => t.code === "00A")) {
+			for (const fee of npFeesbreakup) {
+				const feeClone = JSON.parse(JSON.stringify(fee));
+				feeClone["@ondc/org/item_id"] = catalogItem.id;
+				breakupObject.push(feeClone);
+				totalPrice += parseFloat(feeClone.price.value ?? "0");
 			}
-	}
+		}
 	}
 
 	breakupObject.push(breakup[0]);
