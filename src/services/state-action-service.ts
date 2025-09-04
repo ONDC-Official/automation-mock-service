@@ -101,7 +101,6 @@ export async function ValidateAndSaveIncoming(
 							if (nextStep.actionType === "HTML_FORM") {
 								const fromAction = getMockActionObject(nextStep.actionId);
 								const validationResult = await fromAction.validate(
-									{},
 									mockSessionData
 								);
 								if (!validationResult.valid) {
@@ -124,10 +123,7 @@ export async function ValidateAndSaveIncoming(
 									try {
 										const saveData = mockActionOb.saveData;
 										await saveDataForConfig(saveData, body);
-										const saveDataForm = await fromAction.__forceSaveData(
-											mockSessionData
-										);
-										await saveCompleteData(JSON.stringify(saveDataForm), txId);
+										await saveCompleteData(JSON.stringify(mockSessionData), txId);
 										break;
 									} catch (err) {
 										throw err;

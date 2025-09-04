@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { actionConfig } from "../config/mock-config";
-import { getMockAction } from "../config/mock-config/TRV14/action-factory";
+import { getFIS11MockAction } from "../config/mock-config/FIS11/action-factory";
 import logger from "@ondc/automation-logger";
 export const getMockConfigController = (req: Request, res: Response) => {
 	try {
@@ -11,7 +11,7 @@ export const getMockConfigController = (req: Request, res: Response) => {
 			const actionId = actionObj.action_id;
 			const code = actionObj.code;
 			const action = actionObj.action;
-			const mockAction = getMockAction(actionId);
+			const mockAction = getFIS11MockAction(actionId);
 			completeConfig.push({
 				action_id: actionId,
 				actionCode: code,
