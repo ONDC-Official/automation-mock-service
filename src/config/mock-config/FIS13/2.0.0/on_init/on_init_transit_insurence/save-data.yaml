@@ -8,3 +8,4 @@ save-data:
   payments: "$.message.order.payments[*]"
   cancellation_terms: "$.message.order.cancellation_terms[*]"
   tags: "$.message.order.tags[*]" 
+  customer_info: "$.message.order.fulfillments[*].customer"

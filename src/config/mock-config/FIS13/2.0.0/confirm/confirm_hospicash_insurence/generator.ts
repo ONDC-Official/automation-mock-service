@@ -8,7 +8,7 @@ export async function confirmDefaultGenerator(existingPayload: any, sessionData:
   }
   
   if (sessionData.fulfillments) {
-    sessionData.fulfillments = sessionData.fulfillments.map((fulfillment: any) => {
+    existingPayload.message.order.fulfillments= sessionData.fulfillments.map((fulfillment: any) => {
       const { tags, ...rest } = fulfillment;
       return rest;
     });
