@@ -1,44 +1,45 @@
-import { MockSelectClass } from "./2.0.0/select/class";
-import { MockOnSelectClass } from "./2.0.0/on_select/class";
-import { MockInitClass } from "./2.0.0/init/class";
-import { MockOnInitClass } from "./2.0.0/on_init/class";
-import { MockConfirmClass } from "./2.0.0/confirm/class";
-import { MockOnConfirmDefaultClass } from "./2.0.0/on_confirm/class";
-import { MockStatusDefaultClass } from "./2.0.0/status/class";
-import { MockOnStatusDefaultClass } from "./2.0.0/on_status/class";
-import { MockCancelClass } from "./2.0.0/cancel/class";
-import { MockOnCancelDefaultClass } from "./2.0.0/on_cancel/class";
-import { MockUpdateClass } from "./2.0.0/update/class";
-import { MockOnUpdateClass } from "./2.0.0/on_update/class";
-import { searchCityBased } from "./2.0.0/search/search_city_based/class";
-import { searchIncremental } from "./2.0.0/search/search_incremental/class";
-import { searchAvailablityOfHotel } from "./2.0.0/search/search_availablity_of_hotel/class";
-import { searchSpecificHotel } from "./2.0.0/search/search_specific_hotel/class";
-import { MockOnSearchParticularCity } from "./2.0.0/on_search/on_search_particular_city/class";
-import { MockOnSearchDeltaChange } from "./2.0.0/on_search/on_search_delta_changes/class";
-import { MockOnSearchAvailableAccomodation } from "./2.0.0/on_search/on_search_available_accomodation/class";
-import { MockOnSearchSellerParticularProvider } from "./2.0.0/on_search/on_search_particular_provider/class";
-import { searchTTLBased } from "./2.0.0/search/search_5/class";
-import { MockOnSearchTTLBased } from "./2.0.0/on_search/on_search_5/class";
+import { MockSelectClass } from "./2.0.1/select/class";
+import { MockOnSelectClass } from "./2.0.1/on_select/class";
+import { MockInitClass } from "./2.0.1/init/class";
+import { MockOnInitClass } from "./2.0.1/on_init/class";
+import { MockConfirmClass } from "./2.0.1/confirm/class";
+import { MockOnConfirmDefaultClass } from "./2.0.1/on_confirm/class";
+import { MockStatusDefaultClass } from "./2.0.1/status/class";
+import { MockOnStatusDefaultClass } from "./2.0.1/on_status/class";
+import { MockCancelClass } from "./2.0.1/cancel/class";
+import { MockOnCancelDefaultClass } from "./2.0.1/on_cancel/class";
+import { MockUpdateClass } from "./2.0.1/update/class";
+import { MockOnUpdateClass } from "./2.0.1/on_update/class";
+import { search_5_Hotel } from "./2.0.1/search/search_5/class";
+import { MockOnSearch_5 } from "./2.0.1/on_search/on_search_5/class";
+import { search_1_Hotel } from "./2.0.1/search/search_1/class";
+import { search_6_Hotel } from "./2.0.1/search/search_6/class";
+import { search_7_Hotel } from "./2.0.1/search/search_7/class";
+import { MockOnSearch_1 } from "./2.0.1/on_search/on_search_1/class";
+import { MockOnSearch_2 } from "./2.0.1/on_search/on_search_2/class";
+import { MockOnSearch_3 } from "./2.0.1/on_search/on_search_3/class";
+import { MockOnSearch_4 } from "./2.0.1/on_search/on_search_4/class";
+import { MockOnSearch_6 } from "./2.0.1/on_search/on_search_6/class";
+import { MockOnSearch_7 } from "./2.0.1/on_search/on_search_7/class";
 
 export function getMockAction(actionId: string) {
   switch (actionId) {
     case "search_1":
-      return new searchCityBased();
+      return new search_1_Hotel();
     case "on_search_1":
-      return new MockOnSearchParticularCity();
-    case "search_2":
-      return new searchIncremental();
+      return new MockOnSearch_1();
+    // case "search_2":
+    //   return new searchIncremental();
     case "on_search_2":
-      return new MockOnSearchDeltaChange();
-    case "search_3":
-      return new searchAvailablityOfHotel();
+      return new MockOnSearch_2();
+    // case "search_3":
+    //   return new searchAvailablityOfHotel();
     case "on_search_3":
-      return new MockOnSearchAvailableAccomodation();
-    case "search_4":
-      return new searchSpecificHotel();
+      return new MockOnSearch_3();
+    // case "search_4":
+    //   return new searchSpecificHotel();
     case "on_search_4":
-      return new MockOnSearchSellerParticularProvider();
+      return new MockOnSearch_4();
     case "select":
       return new MockSelectClass();
     case "on_select":
@@ -64,9 +65,17 @@ export function getMockAction(actionId: string) {
     case "on_cancel":
       return new MockOnCancelDefaultClass();
     case "search_5":
-      return new searchTTLBased();
+      return new search_5_Hotel();
     case "on_search_5":
-      return new MockOnSearchTTLBased();    
+      return new MockOnSearch_5(); 
+    case "search_6":
+      return new search_6_Hotel();
+    case "on_search_6":
+      return new MockOnSearch_6();
+    case "search_7":
+      return new search_7_Hotel();
+    case "on_search_7":
+      return new MockOnSearch_7();       
     default:
       throw new Error(`Action with ID ${actionId} not found`);
   }
