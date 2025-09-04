@@ -10,7 +10,7 @@ import { getFIS13MockAction, listFIS13MockActions } from "./FIS13/action-factory
 export type MockSessionData = MockSessionDataFIS13;
 export { MockSessionDataFIS13 };
 
-const actionConfigFIS13 = yaml.load(
+export const actionConfigFIS13 = yaml.load(
   readFileSync(path.join(__dirname, "./FIS13/factory.yaml"), "utf8")
 ) as any;
 
