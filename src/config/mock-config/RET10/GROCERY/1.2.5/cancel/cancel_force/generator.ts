@@ -1,6 +1,6 @@
 import { SessionData } from "../../../../session-types";
 
-export async function cancel_force_generator(
+export  function cancel_force_generator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {

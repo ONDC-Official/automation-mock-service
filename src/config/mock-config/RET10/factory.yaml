@@ -614,3 +614,18 @@ codes:
     action_id: on_confirm_commercial_model
     action: on_confirm
     message_id: false
+  - code: 221
+    action_id: cancel_no
+    action: cancel
+    default: GROCERY/1.2.5/cancel/cancel_no/default.yaml
+    message_id: true
+  - code: 221
+    action_id: cancel_yes
+    action: cancel
+    default: GROCERY/1.2.5/cancel/cancel_yes/default.yaml
+    message_id: true
+  - code: 221
+    action_id: update_settlement_cancel
+    action: update
+    default: GROCERY/1.2.5/update/update_settlement_cancel/default.yaml
+    message_id: true
