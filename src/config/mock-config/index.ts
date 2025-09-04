@@ -6,11 +6,11 @@ import { SessionData as MockSessionData } from "./FIS11/session-types";
 import { createFIS11MockResponse } from "./FIS11/version-factory";
 import { getFIS11MockAction } from "./FIS11/action-factory";
 
-export { MockSessionData };
-
-const actionConfigFIS11 = yaml.load(
+const actionConfig = yaml.load(
   readFileSync(path.join(__dirname, "./FIS11/factory.yaml"), "utf8")
 ) as any;
+
+export { MockSessionData, actionConfig};
 
 export const defaultSessionData = () =>
   yaml.load(
@@ -44,7 +44,7 @@ export function getMockActionObject(actionId: string) {
 }
 
 export function getActionData(code: number) {
-  let actionData = actionConfigFIS11.codes.find((action: any) => action.code === code);
+  let actionData = actionConfig.codes.find((action: any) => action.code === code);
   if (actionData) {
     return actionData;
   }
