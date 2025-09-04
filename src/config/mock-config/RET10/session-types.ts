@@ -41,6 +41,7 @@ export type SessionData = {
 	last_updated_at: string | undefined;
 	search_bap_terms: any;
 	selected_np_fees: any | undefined;
+	tat: any;
 };
 
 export type BecknContext = {
