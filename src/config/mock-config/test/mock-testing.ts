@@ -1,7 +1,7 @@
 // iterate -> generate -> save -> log
 import { existsSync, mkdirSync, rmSync, writeFileSync } from "fs";
 import { updateAllJsonPaths } from "../../../utils/json-editor-utils/jsonPathEditor";
-import { createMockResponseTRV13_200 } from "../TRV13/2.0.0/generaton-pipeline";
+import { createMockResponseTRV13_200 } from "../TRV13/2.0.1/generaton-pipeline";
 import {
 	customConsoleLog,
 	loadFlowConfig,
