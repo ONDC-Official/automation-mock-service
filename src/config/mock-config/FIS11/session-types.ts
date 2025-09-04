@@ -10,41 +10,55 @@ export interface SessionData {
 	bpp_id: string | undefined;
 	bpp_uri: string | undefined;
 	start_location: string | undefined;
-	intermediate_location: string | undefined;
-	end_location: string | undefined;
 	buyer_app_fee: string | undefined;
 	vehicle_type: string | undefined;
-	fulfillments: any[]; // Replace `any` with a specific type if known
+	fulfillments: any[] | undefined;
 	category_ids: string[]; // Assuming these are strings; adjust if needed
 	provider_id: string | undefined;
 	fullfillment_ids: string[]; // Assuming these are strings; adjust if needed
 	item_ids: string[]; // Assuming these are strings; adjust if needed
-	items: any[]; // Replace `any` with a specific type if known
-	selected_items: any[];
-	selected_item_id: string; // Assuming these are strings; adjust if needed
-	billing: Record<string, any>; // Replace `any` with specific types if known
-	payments: any[]; // Replace `any` with a specific type if known
-	updated_payments: any[]; // Replace `any` with a specific type if known
+	items: any[] | undefined;
+	selected_items: any[] | undefined;
+	billing: any | undefined;
+	payments: any[] | undefined;
+	updated_payments: any[] | undefined;
 	order_id: string | undefined;
-	quote: any;
+	order: any | undefined;
+	quote: any | undefined;
 	status: string;
 	error_code: string | undefined;
 	error_message: string | undefined;
 	ref_id: string | undefined;
 	ttl: string | undefined;
-	usecaseId : string | undefined;
-	stops: any[];
-	update_stop: any[]
-	update_quote: any[]
-	selected_fulfillments: any[]
-	bap_items: any[]
-	collected_by: string | undefined
-	updated_price: string
-	selected_add_ons: any[]
-	created_at: string
-	cancellation_reason_id: string
-	cancellation_quote: any[]
-	selected_fulfillment_id: string
+	usecaseId: string | undefined;
+	stops: any[] | undefined;
+	update_stop: any[] | undefined;
+	update_quote: any[] | undefined;
+	selected_fulfillments: any[] | undefined;
+	bap_items: any[] | undefined;
+	collected_by: string | undefined;
+	updated_price: string | undefined;
+	selected_add_ons: any[] | undefined;
+	created_at: string | undefined;
+	cancellation_reason_id: string | undefined;
+	cancellation_quote: any[] | undefined;
+	selected_fulfillment_id: string | undefined;
+	user_inputs: Input | undefined;
+	start_time: string | undefined;
+	end_time: string | undefined;
+	selected_item_ids: string[] | undefined;
+	selected_item_counts: number[] | undefined;
+	tags: any[] | undefined;
+	item: any | undefined;
+	selected_provider: any | undefined;
+	cancellation_terms: any[] | undefined;
+	provider: any | undefined;
+	replacement_terms: any[] | undefined;
+	payment_collected_by: string | undefined;
+	bap_terms_tags: any[] | undefined;
+	updated_at: string | undefined;
+	order_status: string | undefined;
+	first_form_testing: string | undefined;
 }
 
 export type BecknContext = {

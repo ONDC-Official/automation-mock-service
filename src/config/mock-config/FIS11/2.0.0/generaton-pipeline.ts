@@ -4,7 +4,7 @@ import yaml from "js-yaml";
 import path from "path";
 import { logger } from "../../../../utils/logger";
 import { createContext } from "./create-context";
-import { getMockAction } from "../action-factory";
+import { getFIS11MockAction } from "../action-factory";
 
 function loadFactoryYaml(filePath: string): any {
 	try {
@@ -91,10 +91,17 @@ export async function createMockResponseFIS11_200(
 	const default_message = yamlToJson(
 		path.resolve(__dirname, `../../${api_details.default}`)
 	);
-	const payload: any = {
-		context: context,
-		message: default_message,
-	};
+	// Build payload ensuring error is at top-level, not under message
+	const payload: any = { context };
+	if (
+		default_message &&
+		typeof default_message === "object" &&
+		"error" in (default_message as any)
+	) {
+		payload.error = (default_message as any).error;
+	} else {
+		payload.message = default_message;
+	}
 	if (sessionData.error_code && sessionData.error_message) {
 		const error_message = {
 			code: `${sessionData.error_code}`,
@@ -105,7 +112,7 @@ export async function createMockResponseFIS11_200(
 		logger.info(`L2 error found: ${JSON.stringify(error_message)}`);
 		return payload;
 	}
-	const mockAction = getMockAction(actionID);
+	const mockAction = getFIS11MockAction(actionID);
 
 	const requirements = await mockAction.meetRequirements(sessionData);
 	if (!requirements.valid && requirements.message) {

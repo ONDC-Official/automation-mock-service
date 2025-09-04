@@ -116,6 +116,7 @@ const logFormat = printf(
 		const coloredtransaction_id = transaction_id
 			? chalk.yellow(`[${transaction_id}] `)
 			: ""; // Yellow for transaction ID
+		console.log("metaaaaaaaa",meta)	
 		const coloredMeta =
 			meta && Object.keys(meta).length > 0
 				? chalk.gray(JSON.stringify(meta))

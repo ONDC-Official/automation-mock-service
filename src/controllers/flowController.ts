@@ -180,7 +180,9 @@ export async function startNewFLow(
 			meta: { action: req.params.action },
 			error: err,
 		});
-		res.status(500).send("Error in new flow request");
+		if (!res.headersSent) {
+			res.status(500).send("Error in new flow request");
+		}
 	}
 }
 
@@ -240,7 +242,9 @@ export async function proceedWithFlow(
 			transaction_id: req.body.transaction_id,
 			error: err,
 		});
-		res.status(500).send("Error in proceeding flow");
+		if (!res.headersSent) {
+			res.status(500).send("Error in proceeding flow");
+		}
 	}
 }
 
@@ -285,7 +289,9 @@ export async function getFlowStatus(req: ApiRequest, res: Response) {
 			error: err,
 		});
 
-		res.status(500).send("Error in fetching flow status");
+		if (!res.headersSent) {
+			res.status(500).send("Error in fetching flow status");
+		}
 	}
 }
 
@@ -402,7 +408,6 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			latestMeta.status === "RESPONDING" ||
 			latestMeta.status === "INPUT-REQUIRED"
 		) {
-			res.status(200).send("Mock service is now responding");
 			// logger.info("Mock service is now responding");
 			logInfo({
 				message: "Mock service is now responding",
@@ -415,43 +420,64 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				transaction_id: txId,
 			});
 
-			const sessionData = await loadMockSessionData(txId, subscriberUrl);
-			let mockResponse = await generateMockResponse(
-				txData.sessionId as string,
-				sessionData,
-				latestMeta.actionId,
-				req.body.inputs
-			);
+			// Send response first, then process asynchronously
+			res.status(200).send("Mock service is now responding");
 
-			if (req.body.json_path_changes) {
-				mockResponse = updateAllJsonPaths(
-					mockResponse,
-					req.body.json_path_changes
-				);
-			}
+			// Process the response asynchronously to avoid blocking
+			setImmediate(async () => {
+				try {
+					const sessionData = await loadMockSessionData(txId, subscriberUrl);
+					let mockResponse = await generateMockResponse(
+						txData.sessionId as string,
+						sessionData,
+						latestMeta.actionId,
+						req.body.inputs
+					);
 
-			const action = latestMeta.actionType;
-			await setFlowStatusService(txId, subscriberUrl, "WORKING");
+					if (req.body.json_path_changes) {
+						mockResponse = updateAllJsonPaths(
+							mockResponse,
+							req.body.json_path_changes
+						);
+					}
 
-			const mockActionOb = getMockActionObject(latestMeta.actionId);
-			const saveData = mockActionOb.saveData;
-			await saveDataForConfig(saveData, mockResponse);
+					const action = latestMeta.actionType;
+					await setFlowStatusService(txId, subscriberUrl, "WORKING");
 
-			await sendToApiService(action, mockResponse, {
-				subscriber_url: subscriberUrl,
-				flow_id: flow.id,
-				session_id: txData.sessionId,
-			});
+					const mockActionOb = getMockActionObject(latestMeta.actionId);
+					const saveData = mockActionOb.saveData;
+					await saveDataForConfig(saveData, mockResponse);
 
-			logInfo({
-				message: "Exiting ActUponFlow Function.",
-				meta: {
-					action: req.params.action,
-					transactionId: txId,
-					subscriberUrl: subscriberUrl,
-					transactionData: txData,
-				},
-				transaction_id: txId,
+					await sendToApiService(action, mockResponse, {
+						subscriber_url: subscriberUrl,
+						flow_id: flow.id,
+						session_id: txData.sessionId,
+					});
+
+					logInfo({
+						message: "Exiting ActUponFlow Function.",
+						meta: {
+							action: req.params.action,
+							transactionId: txId,
+							subscriberUrl: subscriberUrl,
+							transactionData: txData,
+						},
+						transaction_id: txId,
+					});
+				} catch (error) {
+					logError({
+						message: "Error in async processing of ActUponFlow",
+						meta: {
+							action: req.params.action,
+							transactionId: txId,
+							subscriberUrl: subscriberUrl,
+							transactionData: txData,
+						},
+						transaction_id: txId,
+						error: error,
+					});
+					await deleteFlowStatusService(txId, subscriberUrl);
+				}
 			});
 			return;
 		} else if (latestMeta.status === "LISTENING") {
@@ -511,7 +537,11 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			error: e,
 		});
 		await deleteFlowStatusService(txId, subscriberUrl);
-		res.status(500).send("Error in ActUponFlow");
+		
+		// Check if headers have already been sent before sending error response
+		if (!res.headersSent) {
+			res.status(500).send("Error in ActUponFlow");
+		}
 		return;
 	}
 }
