@@ -5,7 +5,7 @@ import {
 } from "../../../../../../../utils/generic-utils";
 import { SessionData, Input } from "../../../../session-types";
 
-export async function searchRateCardGenerator(
+export async function searchRateCardP2PGenerator(
   existingPayload: any,
   sessionData: SessionData,
   inputs: Input | undefined,

@@ -16,7 +16,7 @@ function getDateFromToday(days: number) {
   return today.toISOString().split("T")[0];
 }
 
-export async function onSearchRateCardGenerator(
+export async function onSearchRateCardP2H2PGenerator(
   existingPayload: any,
   sessionData: SessionData,
   action_id:String,
@@ -53,53 +53,53 @@ export async function onSearchRateCardGenerator(
 
   let isFulfillRequest = false;
 
-  sessionData?.fulfillment?.tags?.map((tag: any) => {
-    if (tag.code === "fulfill_request") {
-      isFulfillRequest = true;
-    }
-  });
+  // sessionData?.fulfillment?.tags?.map((tag: any) => {
+  //   if (tag.code === "fulfill_request") {
+  //     isFulfillRequest = true;
+  //   }
+  // });
 
-  if (isFulfillRequest) {
-    existingPayload.message.catalog["bpp/providers"][0].items.push({
-      id: "I3",
-      parent_item_id: "",
-      category_id: "Instant Delivery",
-      fulfillment_id: "1",
-      descriptor: {
-        name: "Fast delivery",
-        short_desc: "Fast delivery services",
-        long_desc: "Fast delivery services",
-      },
-      price: {
-        currency: "INR",
-        value: "88.50",
-      },
-      time: {
-        label: "TAT",
-        duration: "PT10M",
-        timestamp: "2024-11-20",
-      },
-      tags: [
-        {
-          code: "type",
-          list: [
-            {
-              code: "type",
-              value: sessionData?.rate_basis,
-            },
-            ...(sessionData?.rate_basis === "rider"
-              ? [
-                  {
-                    code: "unit",
-                    value: "hour",
-                  },
-                ]
-              : []),
-          ],
-        },
-      ],
-    });
-  }
+  // if (isFulfillRequest) {
+  //   existingPayload.message.catalog["bpp/providers"][0].items.push({
+  //     id: "I3",
+  //     parent_item_id: "",
+  //     category_id: "Instant Delivery",
+  //     fulfillment_id: "1",
+  //     descriptor: {
+  //       name: "Fast delivery",
+  //       short_desc: "Fast delivery services",
+  //       long_desc: "Fast delivery services",
+  //     },
+  //     price: {
+  //       currency: "INR",
+  //       value: "88.50",
+  //     },
+  //     time: {
+  //       label: "TAT",
+  //       duration: "PT10M",
+  //       timestamp: "2024-11-20",
+  //     },
+  //     tags: [
+  //       {
+  //         code: "type",
+  //         list: [
+  //           {
+  //             code: "type",
+  //             value: sessionData?.rate_basis,
+  //           },
+  //           ...(sessionData?.rate_basis === "rider"
+  //             ? [
+  //                 {
+  //                   code: "unit",
+  //                   value: "hour",
+  //                 },
+  //               ]
+  //             : []),
+  //         ],
+  //       },
+  //     ],
+  //   });
+  // }
 
   existingPayload.message.catalog["bpp/providers"][0].items =
     existingPayload.message.catalog["bpp/providers"][0].items.map(
@@ -139,64 +139,64 @@ export async function onSearchRateCardGenerator(
       }
     );
 
-  existingPayload.message.catalog["bpp/providers"][0].fulfillments =
-    existingPayload.message.catalog["bpp/providers"][0].fulfillments.map(
-      (fulfillment: any) => {
-        if (fulfillment.type === "Delivery") {
-          if (sessionData?.domain === "ONDC:LOG11") {
-            removeTagsByCodes(fulfillment.tags, ["distance"]);
-            if (fulfillment.tags.length < 1) delete fulfillment.tags;
-          }
-          if (isFulfillRequest) {
-            fulfillment.tags = [
-              ...fulfillment.tags,
-              {
-                code: "fulfill_response",
-                list: [
-                  ...(sessionData?.rate_basis === "rider"
-                    ? [
-                        {
-                          code: "rider_count",
-                          value: "2",
-                        },
-                        {
-                          code: "rate_basis",
-                          value: "rider",
-                        },
-                      ]
-                    : [
-                        {
-                          code: "order_count",
-                          value: "10",
-                        },
-                        {
-                          code: "rate_basis",
-                          value: "order",
-                        },
-                      ]),
-                ],
-              },
-              ...sessionData?.fulfillment.tags
-                .map((tag: any) => {
-                  if (
-                    tag.code === "fulfill_request" ||
-                    tag.code === "linked_provider"
-                  ) {
-                    return tag;
-                  }
-                })
-                .filter((item: any) => item),
-            ];
-          }
-          if (fulfillment.start?.time) {
-            fulfillment.start.time.duration =
-              TatMapping[sessionData.category_id as string].pickupTime;
-          }
-        }
+  // existingPayload.message.catalog["bpp/providers"][0].fulfillments =
+  //   existingPayload.message.catalog["bpp/providers"][0].fulfillments.map(
+  //     (fulfillment: any) => {
+  //       if (fulfillment.type === "Delivery") {
+  //         if (sessionData?.domain === "ONDC:LOG11") {
+  //           removeTagsByCodes(fulfillment.tags, ["distance"]);
+  //           if (fulfillment.tags.length < 1) delete fulfillment.tags;
+  //         }
+  //         // if (isFulfillRequest) {
+  //         //   fulfillment.tags = [
+  //         //     ...fulfillment.tags,
+  //         //     {
+  //         //       code: "fulfill_response",
+  //         //       list: [
+  //         //         ...(sessionData?.rate_basis === "rider"
+  //         //           ? [
+  //         //               {
+  //         //                 code: "rider_count",
+  //         //                 value: "2",
+  //         //               },
+  //         //               {
+  //         //                 code: "rate_basis",
+  //         //                 value: "rider",
+  //         //               },
+  //         //             ]
+  //         //           : [
+  //         //               {
+  //         //                 code: "order_count",
+  //         //                 value: "10",
+  //         //               },
+  //         //               {
+  //         //                 code: "rate_basis",
+  //         //                 value: "order",
+  //         //               },
+  //         //             ]),
+  //         //       ],
+  //         //     },
+  //         //     ...sessionData?.fulfillment.tags
+  //         //       .map((tag: any) => {
+  //         //         if (
+  //         //           tag.code === "fulfill_request" ||
+  //         //           tag.code === "linked_provider"
+  //         //         ) {
+  //         //           return tag;
+  //         //         }
+  //         //       })
+  //         //       .filter((item: any) => item),
+  //         //   ];
+  //         // }
+  //         if (fulfillment.start?.time) {
+  //           fulfillment.start.time.duration =
+  //             TatMapping[sessionData.category_id as string].pickupTime;
+  //         }
+  //       }
 
-        return fulfillment;
-      }
-    );
+  //       return fulfillment;
+  //     }
+  //   );
   if (
     sessionData?.is_cod === "yes" ||
     (Array.isArray(inputs?.feature_discovery) &&

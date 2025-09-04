@@ -25,8 +25,10 @@ import { updateQCGenerator } from "./update/update_qc/generator";
 import { onUpdateQCGenerator } from "./on_update/on_update_qc/generator";
 import { onSearchCodifiedGenerator } from "./on_search/on_search_codified/generator";
 import { onConfirmCodifiedGenerator } from "./on_confirm/on_confirm_codified/generator";
-import { searchRateCardGenerator } from "./search/search_rate_card/generator";
-import { onSearchRateCardGenerator } from "./on_search/on_search_rate_card/generator"
+import { searchRateCardP2PGenerator } from "./search/search_rate_card_P2P/generator";
+import { onSearchRateCardP2PGenerator } from "./on_search/on_search_rate_card_P2P/generator"
+import { searchRateCardP2H2PGenerator } from "./search/search_rate_card_P2H2P/generator";
+import { onSearchRateCardP2H2PGenerator } from "./on_search/on_search_rate_card_P2H2P/generator";
 export async function Generator(
   action_id: string,
   existingPayload: any,
@@ -46,9 +48,13 @@ export async function Generator(
       return await searchGenerator(existingPayload, sessionData, inputs,action_id);
     case "search_3_LOGISTICS":
       return await searchGenerator(existingPayload, sessionData, inputs,action_id);
-    case "search_rate_card_LOGISTICS":
-      return await searchRateCardGenerator(existingPayload, sessionData, inputs,action_id);
+    case "search_rate_card_P2P_LOGISTICS":
+      return await searchRateCardP2PGenerator(existingPayload, sessionData, inputs,action_id);
+    case "search_rate_card_P2H2P_LOGISTICS":
+      return await searchRateCardP2H2PGenerator(existingPayload, sessionData, inputs,action_id);
     case "init_LOGISTICS":
+      return await initGenerator(existingPayload, sessionData,inputs,action_id);
+    case "call_masking_init_LOGISTICS":
       return await initGenerator(existingPayload, sessionData,inputs,action_id);
     case "init_qc":
       return await initQCGenerator(existingPayload, sessionData);
@@ -74,8 +80,10 @@ export async function Generator(
       return await onSearchQCGenerator(existingPayload, sessionData, inputs);
     case "on_search_LOGISTICS":
       return await onSearch1Generator(existingPayload, sessionData,action_id,inputs);
-    case "on_search_rate_card_LOGISTICS":
-      return await onSearchRateCardGenerator(existingPayload,sessionData,action_id,inputs)
+    case "on_search_rate_card_P2P_LOGISTICS":
+      return await onSearchRateCardP2PGenerator(existingPayload,sessionData,action_id,inputs)
+    case "on_search_rate_card_P2H2P_LOGISTICS":
+      return await onSearchRateCardP2H2PGenerator(existingPayload,sessionData,action_id,inputs)
     case "on_init_LOGISTICS":
       return await onInitGenerator(existingPayload, sessionData);
     case "on_init_qc":
