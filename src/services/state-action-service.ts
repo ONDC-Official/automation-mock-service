@@ -100,7 +100,7 @@ export async function ValidateAndSaveIncoming(
 							const nextStep = flowCompleteStatus.sequence[index + 1];
 							if (nextStep.actionType === "HTML_FORM") {
 								const fromAction = getMockActionObject(nextStep.actionId);
-								const validationResult = await fromAction.meetRequirements(
+								const validationResult = await fromAction.validate(
 									mockSessionData
 								);
 								if (!validationResult.valid) {
