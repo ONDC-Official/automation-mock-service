@@ -1,0 +1,15 @@
+save-data:
+  message_id: "$.context.message_id"
+  transaction_id: "$.context.transaction_id"
+  start_location: "$.message.intent.fulfillment.stops[?(@.type=='START')].location.gps"
+  end_location: "$.message.intent.fulfillment.stops[?(@.type=='END')].location.gps"
+  
+  collected_by: "$.message.intent.payment.collected_by" 
+  fulfillment: "$.message.intent.fulfillment"
+  stops: "$.message.intent.fulfillment.stops[*]"
+  vehicle_category: "$.message.intent.fulfillment.vehicle.category" 
+  search_5_tags: "$.message.intent.tags"
+  search_5_descriptor_code: "$.message.intent.category.descriptor.code"
+  search_5_intent_category: "$.message.intent.category"
+  search_5_provider_id: "$.message.intent.provider.id"
+  search_5_provider_time: "$.message.intent.provider.time"
