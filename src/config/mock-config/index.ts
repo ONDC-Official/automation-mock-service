@@ -10,7 +10,7 @@ import { getFIS13MockAction, listFIS13MockActions } from "./FIS13/action-factory
 export type MockSessionData = MockSessionDataFIS13;
 export { MockSessionDataFIS13 };
 
-export const actionConfigFIS13 = yaml.load(
+export const actionConfig = yaml.load(
   readFileSync(path.join(__dirname, "./FIS13/factory.yaml"), "utf8")
 ) as any;
 
@@ -70,7 +70,7 @@ export function getActionData(code: number) {
   let actionData:any = "";
 
   if (domain == "ONDC:FIS13") {
-	actionData = actionConfigFIS13.codes.find((action: any) => action.code === code);
+	actionData = actionConfig.codes.find((action: any) => action.code === code);
 
   } 
   if (actionData) {
