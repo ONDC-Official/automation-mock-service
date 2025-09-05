@@ -474,15 +474,15 @@ export const RET18HEALTH125Catalog = {
               },
               {
                 code: "type",
-                value: "12",
+                value: "11",
               },
               {
                 code: "unit",
-                value: "country",
+                value: "pincode",
               },
               {
                 code: "val",
-                value: "IND",
+                value: "560001-560076,560083",
               },
             ],
           },
