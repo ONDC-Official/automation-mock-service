@@ -67,6 +67,7 @@ import { update_liquidated_generator } from "./update/update_liquidated/generato
 import { on_update_interim_liquidated_generator } from "./on_update/on_update_interim_liquidated/generator";
 import { on_update_liquidated_generator } from "./on_update/on_update_liquidated/generator";
 import { update_liquidated_settlement_generator } from "./update/update_liquidated_settlement/generator";
+import { update_settlement_cancel_generator } from "./update/update_settlement_cancel/generator";
 import { update_reverse_qc_generator } from "./update/update_reverse_qc/generator";
 import { on_update_interim_reverseQc_generator } from "./on_update/on_update_interim_reverseQc/generator";
 import { on_update_approved_generator } from "./on_update/on_update_return_approved/generator";
@@ -116,7 +117,12 @@ import { on_status_self_pickup_picked_generator } from "./on_status/on_status_se
 import { cancel_force_generator } from "./cancel/cancel_force/generator";
 import { on_cancel_force_generator } from "./on_cancel/on_cancel_force/generator";
 import { cancel_breach_generator } from "./cancel/cancel_breach/generator";
+import { cancel_no_generator } from "./cancel/cancel_no/generator";
+import { cancel_yes_generator } from "./cancel/cancel_yes/generator";
+import { on_cancel_yes_generator } from "./on_cancel/on_cancel_yes/generator";
+
 import { delay } from "../../../../../utils/generic-utils";
+import { on_status_out_for_delivery_force_generator } from "./on_status/on_status_out_for_delivery_force/generator";
 
 export async function Generator(
 	action_id: string,
@@ -169,6 +175,8 @@ export async function Generator(
 			return on_status_picked_generator(existingPayload, sessionData);
 		case "on_status_out_for_delivery":
 			return on_status_out_for_delivery_generator(existingPayload, sessionData);
+		case "on_status_out_for_delivery_force":
+			return on_status_out_for_delivery_force_generator(existingPayload, sessionData);
 		case "on_status_order_delivered":
 			return on_status_order_delivered_generator(existingPayload, sessionData);
 		case "track":
@@ -416,6 +424,14 @@ export async function Generator(
 			);
 		case "search_inc_stop":
 			return search_inc_generator(existingPayload, sessionData);
+		case "cancel_no":
+			return cancel_no_generator(existingPayload, sessionData);
+		case "cancel_yes":
+			return cancel_yes_generator(existingPayload, sessionData);
+		case "on_cancel_yes":
+			return on_cancel_yes_generator(existingPayload, sessionData);
+		case "update_settlement_cancel":
+			return update_settlement_cancel_generator(existingPayload, sessionData);
 		case "cancel_force":
 			await delay(5000);
 			return cancel_force_generator(existingPayload, sessionData);

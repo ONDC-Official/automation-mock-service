@@ -1,6 +1,7 @@
 import { SessionData } from "../../../../session-types";
 import { Quote } from "../../api-objects/breakup-type";
 import { Fulfillments } from "../../api-objects/fulfillments";
+import { addDurationToTimestamp } from "../../on_status/on_status_out_for_delivery_force/generator";
 
 export async function on_cancel_force_generator(
 	existingPayload: any,
@@ -49,6 +50,14 @@ export async function on_cancel_force_generator(
 		},
 	};
 	existingPayload.message.order.quote = sessionData.quote;
+	const tat = sessionData.tat;
+	const updatedTime = addDurationToTimestamp(
+		existingPayload.context.timestamp,
+		tat
+	);
+
+	existingPayload.context.timestamp = updatedTime;
+	existingPayload.message.order.updated_at = updatedTime;
 	return existingPayload;
 }
 
