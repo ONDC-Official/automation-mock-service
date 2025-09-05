@@ -339,16 +339,16 @@ export const RET10GROCERY125Catalog = JSON.parse(
 									value: "Atta, Flours and Sooji",
 								},
 								{
-									code: "type",
-									value: "10",
-								},
-								{
-									code: "val",
-									value: "3",
+                					code: "type",
+									value: "11",
 								},
 								{
 									code: "unit",
-									value: "km",
+									value: "pincode",
+								},
+								{
+									code: "val",
+									value: "560001-560076,560083",
 								},
 							],
 						},
