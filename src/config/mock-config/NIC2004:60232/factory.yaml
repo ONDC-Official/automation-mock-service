@@ -378,13 +378,31 @@ codes:
   message_id: true
 
 - code: 112
-  action_id: search_rate_card_LOGISTICS
+  action_id: search_rate_card_P2P_LOGISTICS
   action: search
   default: search/search_rate_card/default.yaml
   message_id: true
 
 - code: 113
-  action_id: on_search_rate_card_LOGISTICS
+  action_id: on_search_rate_card_P2P_LOGISTICS
   action: on_search
-  default: on_search/on_search_rate_card/default.yaml
+  default: on_search/on_search_rate_card_P2P/default.yaml
   message_id: false
+
+- code: 114
+  action_id: search_rate_card_P2H2P_LOGISTICS
+  action: search
+  default: search/search_rate_card_P2H2P/default.yaml
+  message_id: true
+
+- code: 115
+  action_id: on_search_rate_card_P2H2P_LOGISTICS
+  action: on_search
+  default: on_search/on_search_rate_card_P2H2P/default.yaml
+  message_id: false
+
+- code: 116
+  action_id: call_masking_init_LOGISTICS
+  action: init
+  default: init/default.yaml
+  message_id: true

@@ -30,7 +30,7 @@ export const onUpdateGenerator = (
   console.log("existing payload-existingPayload",JSON.stringify(existingPayload));
   
 
-  if (sessionData.domain === "ONDC:LOG11") {
+  if (action_id === "on_update_E_WAY_BILL_LOGISTICS") {
     existingPayload.message.order.fulfillments =
       existingPayload.message.order.fulfillments.map((fulfillment: any) => {
         fulfillment["@ondc/org/awb_no"] = "1227262193237777";
@@ -131,22 +131,27 @@ export const onUpdateGenerator = (
     
   }
 
-  if(action_id === "on_update_E_WAY_BILL_LOGISTICS"){
-    let ebnObj = {
-    "code": "ebn",
-    "list": [
-      {
-        "code": "id",
-        "value": "EBN1"
-      },
-      {
-        "code": "expiry_date",
-        "value": "2025-06-30T12:00:00.000Z"
-      }
-    ]
-  }
-    existingPayload.message.order.tags.push(ebnObj);
-  }
+  // if (action_id === "on_update_E_WAY_BILL_LOGISTICS") {
+  //   let ebnObj = {
+  //     "code": "ebn",
+  //     "list": [
+  //       {
+  //         "code": "id",
+  //         "value": "EBN1"
+  //       },
+  //       {
+  //         "code": "expiry_date",
+  //         "value": "2025-06-30T12:00:00.000Z"
+  //       }
+  //     ]
+  //   }
+  //   existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
+  //     if (!Array.isArray(fulfillment.tags)) {
+  //       fulfillment.tags = [];
+  //     }
+  //     fulfillment.tags.push(ebnObj);
+  //   });
+  // }
 
   if (action_id === "on_update_E_POD_AT_PICKUP_LOGISTICS") {
     let at_pickup_obj = {

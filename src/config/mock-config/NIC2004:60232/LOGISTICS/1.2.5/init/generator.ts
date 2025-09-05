@@ -113,7 +113,7 @@ export const initGenerator = async (
 
   const startTags = [];
 
-if (action_id === "call_mask_INIT_LOGISTICS") {
+if (action_id === "call_masking_init_LOGISTICS") {
   let tag: any = {
     code: "masked_contact",
     list: [
@@ -163,11 +163,12 @@ if (action_id === "call_mask_INIT_LOGISTICS") {
       contact: {
         phone: "9886098860",
         email: "abcd.efgh@gmail.com",
+        ...(startTags.length > 0 && { tags: startTags }),
       },
       ...(sessionData?.fulfillment?.start?.instructions && {
         instructions: sessionData.fulfillment.start.instructions,
       }),
-      ...(startTags.length > 0 && { tags: startTags }),
+      
     },
     end: {
       location: {
@@ -185,6 +186,7 @@ if (action_id === "call_mask_INIT_LOGISTICS") {
       contact: {
         phone: "9123426789",
         email: "xyz.qweq@gmail.com",
+        ...(startTags.length > 0 && { tags: startTags }),
       },
       ...(sessionData?.fulfillment?.end?.instructions && {
         instructions: sessionData.fulfillment.end.instructions,
