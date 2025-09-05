@@ -125,11 +125,11 @@ catalog:
             - code: category
               value: Atta, Flours and Sooji
             - code: type
-              value: "10"
-            - code: val
-              value: "3"
+              value: "11"
             - code: unit
-              value: km
+              value: pincode
+            - code: val
+              value": "560001-560076,560083"
       categories:
         - id: V1
           tags:
