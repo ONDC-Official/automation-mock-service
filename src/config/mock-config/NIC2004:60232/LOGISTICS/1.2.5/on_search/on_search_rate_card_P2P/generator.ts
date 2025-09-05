@@ -1,5 +1,5 @@
-import { removeTagsByCodes } from "../../../../../../utils/generic-utils";
-import { SessionData, Input } from "../../../session-types";
+import { removeTagsByCodes } from "../../../../../../../utils/generic-utils";
+import { SessionData, Input } from "../../../../session-types";
 
 const TatMapping: any = {
   "Immediate Delivery": { code: "PT60M", day: 0, pickupTime: "PT15M" },
@@ -16,12 +16,14 @@ function getDateFromToday(days: number) {
   return today.toISOString().split("T")[0];
 }
 
-export async function onSearch1Generator(
+export async function onSearchRateCardP2PGenerator(
   existingPayload: any,
   sessionData: SessionData,
   action_id:String,
   inputs?: Input,
 ) {
+  console.log("existingPayload,sessionData",JSON.stringify(existingPayload),JSON.stringify(sessionData));
+  
   existingPayload.message.catalog["bpp/descriptor"].tags[0].list =
     existingPayload.message.catalog["bpp/descriptor"].tags[0].list.map(
       (item: any) => {
@@ -186,8 +188,10 @@ export async function onSearch1Generator(
                 .filter((item: any) => item),
             ];
           }
-          fulfillment.start.time.duration =
-            TatMapping[sessionData.category_id as string].pickupTime;
+          if (fulfillment.start?.time) {
+            fulfillment.start.time.duration =
+              TatMapping[sessionData.category_id as string].pickupTime;
+          }
         }
 
         return fulfillment;
@@ -256,144 +260,6 @@ export async function onSearch1Generator(
         ],
       },
     ];
-  }
-  if (
-    (inputs?.feature_discovery && inputs?.feature_discovery?.includes("017")) ||
-    (inputs?.default_feature && inputs?.default_feature?.includes("017"))
-  ) {
-    existingPayload.message.catalog["bpp/providers"][0].items.push({
-      id: "I3",
-      parent_item_id: "",
-      category_id: sessionData?.category_id,
-      fulfillment_id: "1",
-      descriptor: {
-        name: "Surge Fee",
-        short_desc: "Surge Fee",
-        long_desc: "Surge charges due to high demand",
-      },
-      price: {
-        currency: "INR",
-        value: "11.00",
-      },
-      tags: [
-        {
-          code: "type",
-          list: [
-            {
-              code: "type",
-              value: "surge",
-            },
-          ],
-        },
-      ],
-    });
-  }
-  console.log("inputs", inputs);
-
-  if (inputs?.feature_discovery || inputs?.default_feature) {
-    let codesArray = inputs.feature_discovery || [];
-    console.log(inputs?.default_feature);
-
-    if (inputs?.default_feature) {
-      const defaults = Array.isArray(inputs.default_feature)
-        ? inputs.default_feature
-        : [inputs.default_feature]; // just in case it's not an array
-
-      codesArray = Array.from(new Set([...codesArray, ...defaults]));
-    }
-
-    console.log(codesArray);
-    existingPayload.message.catalog.tags = [
-      {
-        code: "lsp_features",
-        list: [
-          { code: "005", value: "yes" },
-          { code: "009", value: "yes" },
-          { code: "00C", value: "yes" },
-        ],
-      },
-    ];
-
-    existingPayload.message.catalog.tags =
-      existingPayload.message.catalog.tags.map((tag: any) => {
-        if (tag.code === "lsp_features") {
-          const newTags = codesArray.map((code) => {
-            return {
-              code: code,
-              value: "yes",
-            };
-          });
-
-          tag.list = newTags;
-
-          if (sessionData.payment_type === "ON-ORDER") {
-            tag.list = [
-              ...tag.list,
-              {
-                code: "00D",
-                value: "yes",
-              },
-            ];
-          }
-        }
-
-        return tag;
-      });
-  }
-
-  if (action_id === "on_search_LOGISTICS_RCM") {
-    const descriptorTags: any =
-      existingPayload.message.catalog["bpp/descriptor"].tags;
-    const newEntry = {
-      code: "np_tax_type",
-      value: "RCM",
-    };
-
-    let bppTerms = descriptorTags.find((tag: any) => tag.code === "bpp_terms");
-    if (!bppTerms) {
-      bppTerms = { code: "bpp_terms", list: [] };
-      descriptorTags.push(bppTerms);
-    }
-    bppTerms.list.push(newEntry);
-  }
-
-  if(action_id === "on_search_LOGISTICS_PUBLIC_SPECIAL"){
-    if (!existingPayload.message.catalog["bpp/providers"][0]?.tags) {
-    existingPayload.message.catalog["bpp/providers"][0].tags = [];
-  }
-  const providerTags: any =
-    existingPayload.message.catalog["bpp/providers"][0].tags;
-  const newEntry = [
-    {
-      code: "dangerous_goods",
-      value: "no",
-    },
-    {
-      code: "cold_storage",
-      value: "no",
-    },
-    {
-      code: "open_box_delivery",
-      value: "no",
-    },
-    {
-      code: "fragile_handling",
-      value: "no",
-    },
-    {
-      code: "cod_order",
-      value: "yes",
-    },
-  ];
-
-  let specialReqTerms = providerTags.find(
-    (tag: any) => tag.code === "special_req"
-  );
-  if (!specialReqTerms) {
-    specialReqTerms = { code: "special_req", list: [] };
-    providerTags.push(specialReqTerms);
-  }
-  specialReqTerms.list.push(...newEntry);
   }
 
   return existingPayload;

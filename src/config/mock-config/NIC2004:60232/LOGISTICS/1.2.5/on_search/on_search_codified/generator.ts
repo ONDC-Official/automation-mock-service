@@ -1,5 +1,5 @@
-import { removeTagsByCodes } from "../../../../../../utils/generic-utils";
-import { SessionData, Input } from "../../../session-types";
+import { removeTagsByCodes } from "../../../../../../../utils/generic-utils";
+import { SessionData, Input } from "../../../../session-types";
 
 const TatMapping: any = {
   "Immediate Delivery": { code: "PT60M", day: 0, pickupTime: "PT15M" },
@@ -16,11 +16,10 @@ function getDateFromToday(days: number) {
   return today.toISOString().split("T")[0];
 }
 
-export async function onSearch1Generator(
+export async function onSearchCodifiedGenerator(
   existingPayload: any,
   sessionData: SessionData,
-  action_id:String,
-  inputs?: Input,
+  inputs?: Input
 ) {
   existingPayload.message.catalog["bpp/descriptor"].tags[0].list =
     existingPayload.message.catalog["bpp/descriptor"].tags[0].list.map(
@@ -341,60 +340,37 @@ export async function onSearch1Generator(
       });
   }
 
-  if (action_id === "on_search_LOGISTICS_RCM") {
-    const descriptorTags: any =
-      existingPayload.message.catalog["bpp/descriptor"].tags;
-    const newEntry = {
-      code: "np_tax_type",
-      value: "RCM",
-    };
-
-    let bppTerms = descriptorTags.find((tag: any) => tag.code === "bpp_terms");
-    if (!bppTerms) {
-      bppTerms = { code: "bpp_terms", list: [] };
-      descriptorTags.push(bppTerms);
-    }
-    bppTerms.list.push(newEntry);
-  }
-
-  if(action_id === "on_search_LOGISTICS_PUBLIC_SPECIAL"){
-    if (!existingPayload.message.catalog["bpp/providers"][0]?.tags) {
-    existingPayload.message.catalog["bpp/providers"][0].tags = [];
-  }
-  const providerTags: any =
-    existingPayload.message.catalog["bpp/providers"][0].tags;
+  const descriptorTags: any =
+    existingPayload.message.catalog["bpp/descriptor"].tags;
   const newEntry = [
     {
-      code: "dangerous_goods",
-      value: "no",
+      code: "max_liability",
+      value: "2",
     },
     {
-      code: "cold_storage",
-      value: "no",
+      code: "max_liability_cap",
+      value: "10000",
     },
     {
-      code: "open_box_delivery",
-      value: "no",
+      code: "mandatory_arbitration",
+      value: "false",
     },
     {
-      code: "fragile_handling",
-      value: "no",
+      code: "court_jurisdiction",
+      value: "Bengaluru",
     },
     {
-      code: "cod_order",
-      value: "yes",
+      code: "delay_interest",
+      value: "10.00",
     },
   ];
 
-  let specialReqTerms = providerTags.find(
-    (tag: any) => tag.code === "special_req"
-  );
-  if (!specialReqTerms) {
-    specialReqTerms = { code: "special_req", list: [] };
-    providerTags.push(specialReqTerms);
+  let bppTerms = descriptorTags.find((tag: any) => tag.code === "bpp_terms");
+  if (!bppTerms) {
+    bppTerms = { code: "bpp_terms", list: [] };
+    descriptorTags.push(bppTerms);
   }
-  specialReqTerms.list.push(...newEntry);
-  }
+  bppTerms.list.push(...newEntry);
 
   return existingPayload;
 }

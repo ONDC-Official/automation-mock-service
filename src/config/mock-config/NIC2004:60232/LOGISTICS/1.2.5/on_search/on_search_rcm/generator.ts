@@ -1,5 +1,5 @@
-import { removeTagsByCodes } from "../../../../../../utils/generic-utils";
-import { SessionData, Input } from "../../../session-types";
+import { removeTagsByCodes } from "../../../../../../../utils/generic-utils";
+import { SessionData, Input } from "../../../../session-types";
 
 const TatMapping: any = {
   "Immediate Delivery": { code: "PT60M", day: 0, pickupTime: "PT15M" },
@@ -16,11 +16,10 @@ function getDateFromToday(days: number) {
   return today.toISOString().split("T")[0];
 }
 
-export async function onSearch1Generator(
+export async function onSearchRcmGenerator(
   existingPayload: any,
   sessionData: SessionData,
-  action_id:String,
-  inputs?: Input,
+  inputs?: Input
 ) {
   existingPayload.message.catalog["bpp/descriptor"].tags[0].list =
     existingPayload.message.catalog["bpp/descriptor"].tags[0].list.map(
@@ -341,60 +340,19 @@ export async function onSearch1Generator(
       });
   }
 
-  if (action_id === "on_search_LOGISTICS_RCM") {
-    const descriptorTags: any =
-      existingPayload.message.catalog["bpp/descriptor"].tags;
-    const newEntry = {
-      code: "np_tax_type",
-      value: "RCM",
-    };
+  const descriptorTags: any =
+    existingPayload.message.catalog["bpp/descriptor"].tags;
+  const newEntry = {
+    code: "np_tax_type",
+    value: "RCM",
+  };
 
-    let bppTerms = descriptorTags.find((tag: any) => tag.code === "bpp_terms");
-    if (!bppTerms) {
-      bppTerms = { code: "bpp_terms", list: [] };
-      descriptorTags.push(bppTerms);
-    }
-    bppTerms.list.push(newEntry);
+  let bppTerms = descriptorTags.find((tag: any) => tag.code === "bpp_terms");
+  if (!bppTerms) {
+    bppTerms = { code: "bpp_terms", list: [] };
+    descriptorTags.push(bppTerms);
   }
-
-  if(action_id === "on_search_LOGISTICS_PUBLIC_SPECIAL"){
-    if (!existingPayload.message.catalog["bpp/providers"][0]?.tags) {
-    existingPayload.message.catalog["bpp/providers"][0].tags = [];
-  }
-  const providerTags: any =
-    existingPayload.message.catalog["bpp/providers"][0].tags;
-  const newEntry = [
-    {
-      code: "dangerous_goods",
-      value: "no",
-    },
-    {
-      code: "cold_storage",
-      value: "no",
-    },
-    {
-      code: "open_box_delivery",
-      value: "no",
-    },
-    {
-      code: "fragile_handling",
-      value: "no",
-    },
-    {
-      code: "cod_order",
-      value: "yes",
-    },
-  ];
-
-  let specialReqTerms = providerTags.find(
-    (tag: any) => tag.code === "special_req"
-  );
-  if (!specialReqTerms) {
-    specialReqTerms = { code: "special_req", list: [] };
-    providerTags.push(specialReqTerms);
-  }
-  specialReqTerms.list.push(...newEntry);
-  }
+  bppTerms.list.push(newEntry);
 
   return existingPayload;
 }

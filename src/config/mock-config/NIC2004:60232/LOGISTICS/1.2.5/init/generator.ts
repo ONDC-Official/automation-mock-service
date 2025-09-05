@@ -1,4 +1,4 @@
-import { SessionData } from "../../../session-types";
+import { Input, SessionData } from "../../../session-types";
 import { removeTagsByCodes } from "../../../../../../utils/generic-utils";
 
 const getPayemntFields = (paymentType: string) => {
@@ -17,7 +17,9 @@ const getPayemntFields = (paymentType: string) => {
 
 export const initGenerator = async (
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  inputs: any,
+  action_id:string,
 ) => {
   existingPayload.message.order.provider.id = sessionData.provider_id;
   // existingPayload.message.order.provider.locations[0].id =
@@ -109,6 +111,35 @@ export const initGenerator = async (
     }
   });
 
+  const startTags = [];
+
+if (action_id === "call_masking_init_LOGISTICS") {
+  let tag: any = {
+    code: "masked_contact",
+    list: [
+      {
+        code: "type",
+        value: inputs?.mask_type || "ivr_pin", // default ivr_pin
+      },
+      {
+        code: "setup",
+        value: inputs?.ivr_number || "1800180000", // default IVR number
+      },
+      {
+        code: "token",
+        value:
+          inputs?.mask_type === "ivr_pin"
+            ? inputs?.pin || "12345" // pin required
+            : inputs?.mask_type === "ivr_without_pin"
+            ? "" // empty string
+            : inputs?.contact_number || "9876543210", // 10-digit number for api_endpoint
+      },
+    ],
+  };
+
+  startTags.push(tag);
+}
+
   existingPayload.message.order.fulfillments[0] = {
     id:
       sessionData?.rate_basis === "rider" || sessionData?.rate_basis === "order"
@@ -132,10 +163,12 @@ export const initGenerator = async (
       contact: {
         phone: "9886098860",
         email: "abcd.efgh@gmail.com",
+        ...(startTags.length > 0 && { tags: startTags }),
       },
       ...(sessionData?.fulfillment?.start?.instructions && {
         instructions: sessionData.fulfillment.start.instructions,
       }),
+      
     },
     end: {
       location: {
@@ -153,6 +186,7 @@ export const initGenerator = async (
       contact: {
         phone: "9123426789",
         email: "xyz.qweq@gmail.com",
+        ...(startTags.length > 0 && { tags: startTags }),
       },
       ...(sessionData?.fulfillment?.end?.instructions && {
         instructions: sessionData.fulfillment.end.instructions,
