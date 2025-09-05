@@ -461,8 +461,8 @@ export const RET12FASHION125Catalog = {
                 value: "L1",
               },
               {
-                category: "Necklaces",
-                value: "",
+                code: "category",
+                value: "Necklaces",
               },
               {
                 code: "type",
@@ -470,11 +470,11 @@ export const RET12FASHION125Catalog = {
               },
               {
                 code: "unit",
-                value: "country",
+                value: "pincode",
               },
               {
                 code: "val",
-                value: "IND",
+                value: "560001-560076,560083",
               },
             ],
           },
