@@ -12,7 +12,6 @@ const tsData: TransactionCache = {
 	messageIds: [],
 	apiList: [
 		{
-			entryType: "API",
 			action: "search",
 			messageId: "4b91b409-3f29-410f-8292-138b9730b0aa",
 			payloadId: "1f27654f-7cc3-4a94-8e16-ce31527091e4",
@@ -26,7 +25,6 @@ const tsData: TransactionCache = {
 			timestamp: "2025-04-22T09:02:17.727Z",
 		},
 		{
-			entryType: "API",
 			action: "on_search",
 			messageId: "4b91b409-3f29-410f-8292-138b9730b0aa",
 			payloadId: "361c7c01-50ef-47d7-86f6-c5c95b9a04ff",
@@ -40,7 +38,6 @@ const tsData: TransactionCache = {
 			timestamp: "2025-04-22T09:02:20.847Z",
 		},
 		{
-			entryType: "API",
 			action: "select",
 			messageId: "84afc490-6110-4083-83dc-e861ba499777",
 			payloadId: "125f3fc5-969d-48be-8f58-d935ae21a508",
@@ -54,7 +51,6 @@ const tsData: TransactionCache = {
 			timestamp: "2025-04-22T09:02:23.455Z",
 		},
 		{
-			entryType: "API",
 			action: "on_select",
 			messageId: "84afc490-6110-4083-83dc-e861ba499777",
 			payloadId: "be5d20e2-092d-4a36-8fd0-128b191dd40c",
@@ -68,7 +64,6 @@ const tsData: TransactionCache = {
 			timestamp: "2025-04-22T09:02:37.251Z",
 		},
 		{
-			entryType: "API",
 			action: "init",
 			messageId: "08a8e73e-20de-45b2-8126-4dc98ec314f2",
 			payloadId: "fdc42eca-6215-4f37-adc4-7e5be3bf1d78",
@@ -82,7 +77,6 @@ const tsData: TransactionCache = {
 			timestamp: "2025-04-22T09:02:52.967Z",
 		},
 		{
-			entryType: "API",
 			action: "on_init",
 			messageId: "08a8e73e-20de-45b2-8126-4dc98ec314f2",
 			payloadId: "20573baf-b611-457f-aede-d584719b7c09",
@@ -96,7 +90,6 @@ const tsData: TransactionCache = {
 			timestamp: "2025-04-22T09:03:01.347Z",
 		},
 		{
-			entryType: "API",
 			action: "confirm",
 			messageId: "fb9ac339-4fd1-48a4-905e-f80685f9eecc",
 			payloadId: "863ba06d-811c-405e-8f57-bf7bc8c018d3",
@@ -110,7 +103,6 @@ const tsData: TransactionCache = {
 			timestamp: "2025-04-22T09:03:06.735Z",
 		},
 		{
-			entryType: "API",
 			action: "on_confirm",
 			messageId: "fb9ac339-4fd1-48a4-905e-f80685f9eecc",
 			payloadId: "21dc8cef-bd56-4c20-927e-4fe50f7f0d81",
@@ -124,7 +116,6 @@ const tsData: TransactionCache = {
 			timestamp: "2025-04-22T09:03:13.870Z",
 		},
 		{
-			entryType: "API",
 			action: "on_update",
 			messageId: "8fbf0556-4b85-48c9-8f78-680915db94db",
 			payloadId: "4302883d-2cc2-420e-bc2d-e74524ed7d36",
@@ -138,7 +129,6 @@ const tsData: TransactionCache = {
 			timestamp: "2025-04-22T09:03:20.238Z",
 		},
 		{
-			entryType: "API",
 			action: "on_update",
 			messageId: "7f0d8835-c48a-4d7b-82ee-17407845ea0f",
 			payloadId: "df125826-aa8c-438b-b064-8b8e0e183708",
@@ -156,7 +146,6 @@ const tsData: TransactionCache = {
 			timestamp: "2025-04-22T09:03:23.581Z",
 		},
 		{
-			entryType: "API",
 			action: "track",
 			messageId: "a5a79879-fefe-4a07-ba45-0c55e2d969ca",
 			payloadId: "1e09a237-0e1f-46f5-acad-5e6cabbb7821",

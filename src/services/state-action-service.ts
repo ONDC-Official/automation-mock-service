@@ -1,20 +1,12 @@
 import { NextFunction, Response } from "express";
 import { ApiRequest } from "../routes/manual";
-import logger from "@ondc/automation-logger";
+import { logError, logger } from "../utils/logger";
 import { getFlowCompleteStatus } from "./flow-mapping-service";
 import { getFlowStatusService } from "./mock-flow-status-service";
 import { getMockActionObject } from "../config/mock-config";
-import {
-	loadMockSessionData,
-	saveCompleteData,
-	saveDataForConfig,
-} from "./data-services";
+import { saveDataForConfig } from "./data-services";
 import { setAckResponse } from "../utils/ackUtils";
-import {
-	sendToApiService,
-	sendToApiServiceAboutForm,
-} from "../utils/request-utils";
-import { getLoggerData } from "../utils/logger";
+import { sendToApiService } from "../utils/request-utils";
 
 export async function ValidateAndSaveIncoming(
 	req: ApiRequest,
@@ -28,33 +20,28 @@ export async function ValidateAndSaveIncoming(
 		const flow = req.flow;
 		const body = req.body;
 		if (!txData || !subsUrl || !txId || !flow) {
-			logger.error(
-				"Missing required data in incoming request",
-				getLoggerData(req)
-			);
+			logError({
+				message: "Missing required data in incoming request",
+				meta: {
+					transactionId: txId,
+					subscriberUrl: subsUrl,
+					flow: flow,
+				},
+			});
 			res
 				.status(500)
 				.send("<INTERNAL-ERROR> Flow or Transaction data not found");
 			return;
 		}
-		const flowStatus = await getFlowStatusService(
-			txId,
-			subsUrl,
-			getLoggerData(req)
-		);
-		const mockSessionData = await loadMockSessionData(txId, subsUrl);
+		const flowStatus = await getFlowStatusService(txId, subsUrl);
 		const flowCompleteStatus = getFlowCompleteStatus(
 			txData,
 			flow,
-			flowStatus.status,
-			mockSessionData
+			flowStatus.status
 		);
 		let found = false;
-		for (let index = 0; index < flowCompleteStatus.sequence.length; index++) {
-			const step = flowCompleteStatus.sequence[index];
+		for (const step of flowCompleteStatus.sequence) {
 			const data = step.payloads;
-			if (!data || data.entryType === "FORM" || step.actionType === "HTML_FORM")
-				continue;
 			if (data && data.payloads.length > 0) {
 				const uniqueKey = `${data.action}::${data.messageId}::${data.timestamp}`;
 				const requestKey = `${body.context.action}::${body.context.message_id}::${body.context.timestamp}`;
@@ -93,50 +80,13 @@ export async function ValidateAndSaveIncoming(
 								flow_id: flow.id,
 								session_id: txData.sessionId,
 							});
-							res.status(200).send(setAckResponse);
 							return;
-						}
-						if (index < flowCompleteStatus.sequence.length - 1) {
-							const nextStep = flowCompleteStatus.sequence[index + 1];
-							if (nextStep.actionType === "HTML_FORM") {
-								const fromAction = getMockActionObject(nextStep.actionId);
-								const validationResult = await fromAction.validate(
-									mockSessionData
-								);
-								if (!validationResult.valid) {
-									await sendToApiServiceAboutForm(
-										subsUrl,
-										txId,
-										nextStep.actionId,
-										"HTML_FORM",
-										req.body.context.version ?? req.body.context.core_version,
-										undefined,
-										{
-											code: validationResult.code || "FORM_VALIDATION_ERROR",
-											message:
-												validationResult.message || "Form Validation failed",
-										}
-									);
-									res.status(200).send(setAckResponse);
-									return;
-								} else {
-									try {
-										const saveData = mockActionOb.saveData;
-										await saveDataForConfig(saveData, body);
-										await saveCompleteData(JSON.stringify(mockSessionData), txId);
-										break;
-									} catch (err) {
-										throw err;
-									}
-								}
-							}
 						}
 						const saveData = mockActionOb.saveData;
 						await saveDataForConfig(saveData, body);
 					} catch (error) {
 						logger.error(
 							"Error while validating and saving " + step.actionId,
-							{},
 							error
 						);
 						next();
@@ -156,7 +106,10 @@ export async function ValidateAndSaveIncoming(
 		}
 		next();
 	} catch (error) {
-		logger.error("Error in ValidateAndSaveIncoming middleware", {}, error);
+		logError({
+			message: "Error in StateAction",
+			error: error,
+		});
 		res.status(500).send({
 			error: "Internal Server Error",
 			message: "An error occurred while processing your request.",

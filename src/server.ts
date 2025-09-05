@@ -1,22 +1,30 @@
 import "./config/otel-config";
 import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
-import logger from "@ondc/automation-logger";
+import { logError, logger } from "./utils/logger";
+import { config } from "./config/serverConfig";
 import manualRouter from "./routes/manual";
+import triggerRouter from "./routes/trigger";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger/swagger.config";
 import { setAckResponse, setBadRequestNack } from "./utils/ackUtils";
 import flowRouter from "./routes/flow-routes";
 import requestLog from "./middlewares/requestLog";
 import responseLog from "./middlewares/responseLog";
-import configRouter from "./routes/configRoutes";
 const createServer = (): Application => {
 	const app = express();
 
 	// Middleware
 	app.use(express.json({ limit: "50mb" }));
 	app.use(cors());
-	app.use(logger.getCorrelationIdMiddleware());
+
+	// Log all requests in development
+	// if (config.port !== "production") {
+	// 	app.use((req: Request, res: Response, next: NextFunction) => {
+	// 		logger.debug(`${req.method} ${req.url}`);
+	// 		next();
+	// 	});
+	// }
 
 	app.use(requestLog);
 	app.use(responseLog);
@@ -38,10 +46,11 @@ const createServer = (): Application => {
 	});
 
 	app.use(`${base}/manual`, manualRouter);
+	//   app.use("/mock", defaultRouter);
+	app.use(`${base}/trigger`, triggerRouter);
 
 	app.use(`${base}/flows`, flowRouter);
 
-	app.use(`${base}/config`, configRouter);
 	// Health Check
 	app.get(`${base}/health`, (req: Request, res: Response) => {
 		res.status(200).send(setAckResponse(true));
@@ -49,7 +58,11 @@ const createServer = (): Application => {
 
 	// Error Handling Middleware
 	app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-		logger.error(err.message, {}, { stack: err.stack });
+		// logger.error(err.message, { stack: err.stack });
+		logError({
+			message: "Triggered By Error Handling Middleware",
+			error: err,
+		});
 		res.status(200).send(setBadRequestNack(err.message));
 	});
 

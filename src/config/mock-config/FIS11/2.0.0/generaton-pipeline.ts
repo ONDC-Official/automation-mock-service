@@ -4,7 +4,7 @@ import yaml from "js-yaml";
 import path from "path";
 import logger from "@ondc/automation-logger";
 import { createContext } from "./create-context";
-import { getFIS11MockAction } from "../action-factory";
+import { getMockAction } from "../action-factory";
 
 function loadFactoryYaml(filePath: string): any {
 	try {
@@ -112,7 +112,7 @@ export async function createMockResponseFIS11_200(
 		logger.info(`L2 error found: ${JSON.stringify(error_message)}`);
 		return payload;
 	}
-	const mockAction = getFIS11MockAction(actionID);
+	const mockAction = getMockAction(actionID);
 
 	const requirements = await mockAction.meetRequirements(sessionData);
 	if (!requirements.valid && requirements.message) {
