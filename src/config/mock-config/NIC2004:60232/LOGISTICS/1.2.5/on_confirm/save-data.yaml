@@ -6,3 +6,4 @@ save-data:
   payment: "$.message.order.payment"
   quote: "$.message.order.quote"
   items: "$.message.order.items[*]"
+  on_confirm_tags: "$.message.order.tags[*]"

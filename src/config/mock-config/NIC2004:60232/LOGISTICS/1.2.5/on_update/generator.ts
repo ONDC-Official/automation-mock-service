@@ -1,6 +1,7 @@
-import { populateFulfillmentUpdate } from "../common_generator";
+import { deepUpdate, populateFulfillmentUpdate } from "../common_generator";
 import { getTimestampFromDuration } from "../../../../../../utils/generic-utils";
 import { SessionData } from "../../../session-types";
+import { at } from "lodash";
 
 interface Tag {
   code: string;
@@ -13,8 +14,11 @@ function removeTagsByCodes(tags: Tag[], codesToRemove: string[]): Tag[] {
 
 export const onUpdateGenerator = (
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  action_id:string
 ) => {
+  console.log("update_fulfillments",JSON.stringify(sessionData.update_fulfillments));
+  
   existingPayload.message.order.id = sessionData.order_id;
 
   if (sessionData?.fulfillments) {
@@ -23,7 +27,10 @@ export const onUpdateGenerator = (
 
   existingPayload = populateFulfillmentUpdate(existingPayload, sessionData);
 
-  if (sessionData.domain === "ONDC:LOG11") {
+  console.log("existing payload-existingPayload",JSON.stringify(existingPayload));
+  
+
+  if (action_id === "on_update_E_WAY_BILL_LOGISTICS") {
     existingPayload.message.order.fulfillments =
       existingPayload.message.order.fulfillments.map((fulfillment: any) => {
         fulfillment["@ondc/org/awb_no"] = "1227262193237777";
@@ -104,6 +111,90 @@ export const onUpdateGenerator = (
   if (sessionData.linked_order) {
     existingPayload.message.order["@ondc/org/linked_order"] =
       sessionData.linked_order;
+  }
+
+  if(sessionData.on_confirm_tags){
+    existingPayload.message.order.tags = sessionData.on_confirm_tags
+  }
+
+  if(action_id === "on_update_DELIVERY_ADDRESS"){
+    const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
+      (fulfillment: any) => {
+        return fulfillment.type === "Delivery";
+      }
+    );
+    const updatedFulfillmentEnd = sessionData.update_fulfillments
+      ?.find((fulfillment: any) => fulfillment.type === "Delivery")
+      ?.end;
+    const result = deepUpdate(deliveryFulfillment.end,updatedFulfillmentEnd)
+    console.log("result of the fulfillment",JSON.stringify(result));
+    
+  }
+
+  // if (action_id === "on_update_E_WAY_BILL_LOGISTICS") {
+  //   let ebnObj = {
+  //     "code": "ebn",
+  //     "list": [
+  //       {
+  //         "code": "id",
+  //         "value": "EBN1"
+  //       },
+  //       {
+  //         "code": "expiry_date",
+  //         "value": "2025-06-30T12:00:00.000Z"
+  //       }
+  //     ]
+  //   }
+  //   existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
+  //     if (!Array.isArray(fulfillment.tags)) {
+  //       fulfillment.tags = [];
+  //     }
+  //     fulfillment.tags.push(ebnObj);
+  //   });
+  // }
+
+  if (action_id === "on_update_E_POD_AT_PICKUP_LOGISTICS") {
+    let at_pickup_obj = {
+      "code": "fulfillment_proof",
+      "list":
+        [
+          {
+            "code": "state",
+            "value": "Order-picked-up"
+          },
+          {
+            "code": "type",
+            "value": "webp"
+          },
+          {
+            "code": "url",
+            "value": "public link to webp"
+          }
+        ]
+    }
+    existingPayload.message.order.tags.push(at_pickup_obj);
+  }
+
+  if (action_id === "on_update_E_POD_AT_DELIVERY_LOGISTICS") {
+    let at_delivery_obj = {
+      "code": "fulfillment_proof",
+      "list":
+        [
+          {
+            "code": "state",
+            "value": "Order-delivered"
+          },
+          {
+            "code": "type",
+            "value": "webp"
+          },
+          {
+            "code": "url",
+            "value": "public link to webp"
+          }
+        ]
+    }
+    existingPayload.message.order.tags.push(at_delivery_obj);
   }
 
   return existingPayload;

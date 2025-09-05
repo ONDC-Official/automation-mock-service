@@ -128,3 +128,22 @@ export const populateFulfillmentConfim = (
 
   return existingPayload;
 };
+
+export const deepUpdate = (original: any, updates: any): any => {
+  for (const key in updates) {
+    if (
+      updates[key] !== null &&
+      typeof updates[key] === "object" &&
+      !Array.isArray(updates[key])
+    ) {
+      // If the value is an object, recurse
+      if (!original[key]) original[key] = {};
+      deepUpdate(original[key], updates[key]);
+    } else {
+      // Otherwise, directly update
+      original[key] = updates[key];
+    }
+  }
+  return original;
+};
+

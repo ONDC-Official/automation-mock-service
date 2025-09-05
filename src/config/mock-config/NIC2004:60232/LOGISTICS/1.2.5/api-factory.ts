@@ -23,34 +23,55 @@ import { confirmQCGenerator } from "./confirm/confirm_qc/generator";
 import { onConfirmQCGenerator } from "./on_confirm/on_confirm_qc/generator";
 import { updateQCGenerator } from "./update/update_qc/generator";
 import { onUpdateQCGenerator } from "./on_update/on_update_qc/generator";
-
+import { onSearchCodifiedGenerator } from "./on_search/on_search_codified/generator";
+import { onConfirmCodifiedGenerator } from "./on_confirm/on_confirm_codified/generator";
+import { searchRateCardP2PGenerator } from "./search/search_rate_card_P2P/generator";
+import { onSearchRateCardP2PGenerator } from "./on_search/on_search_rate_card_P2P/generator"
+import { searchRateCardP2H2PGenerator } from "./search/search_rate_card_P2H2P/generator";
+import { onSearchRateCardP2H2PGenerator } from "./on_search/on_search_rate_card_P2H2P/generator";
 export async function Generator(
   action_id: string,
   existingPayload: any,
   sessionData: any,
   inputs?: Record<string, string>
 ) {
-  console.log("inside generator");
+  console.log("inside generator", action_id);
 
   switch (action_id) {
     case "search_LOGISTICS":
-      return await searchGenerator(existingPayload, sessionData, inputs);
+      return await searchGenerator(existingPayload, sessionData, inputs,action_id);
     case "search_qc":
       return await searchQCGenerator(existingPayload, sessionData, inputs);
     case "search_1_LOGISITCS":
-      return await searchGenerator(existingPayload, sessionData, inputs);
+      return await searchGenerator(existingPayload, sessionData, inputs,action_id);
     case "search_2_LOGISTICS":
-      return await searchGenerator(existingPayload, sessionData, inputs);
+      return await searchGenerator(existingPayload, sessionData, inputs,action_id);
     case "search_3_LOGISTICS":
-      return await searchGenerator(existingPayload, sessionData, inputs);
+      return await searchGenerator(existingPayload, sessionData, inputs,action_id);
+    case "search_rate_card_P2P_LOGISTICS":
+      return await searchRateCardP2PGenerator(existingPayload, sessionData, inputs,action_id);
+    case "search_rate_card_P2H2P_LOGISTICS":
+      return await searchRateCardP2H2PGenerator(existingPayload, sessionData, inputs,action_id);
     case "init_LOGISTICS":
-      return await initGenerator(existingPayload, sessionData);
+      return await initGenerator(existingPayload, sessionData,inputs,action_id);
+    case "call_masking_init_LOGISTICS":
+      return await initGenerator(existingPayload, sessionData,inputs,action_id);
     case "init_qc":
       return await initQCGenerator(existingPayload, sessionData);
     case "confirm_LOGISTICS":
-      return await confirmGenerator(existingPayload, sessionData, inputs);
+      return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
+    case "confirm_SELLER_BUYER_INSTRUCTIONS":
+      return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
+    case "confirm_E_WAY_BILL_LOGISTICS":
+      return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
     case "update_LOGISTICS":
-      return await updateGenerator(existingPayload, sessionData);
+      return await updateGenerator(existingPayload, sessionData,inputs,action_id);
+    case "update_DELIVERY_ADDRESS":
+      return await updateGenerator(existingPayload,sessionData,inputs,action_id);
+    case "update_E_WAY_BILL_LOGISTICS" :
+      return await updateGenerator(existingPayload,sessionData,inputs,action_id);
+    case "update_E_POD_LOGISTICS": 
+      return await updateGenerator(existingPayload,sessionData,inputs,action_id);
     case "track_LOGISTICS":
       return await trackGenerator(existingPayload, sessionData);
     case "cancel_LOGISTICS":
@@ -58,7 +79,11 @@ export async function Generator(
     case "on_search_qc":
       return await onSearchQCGenerator(existingPayload, sessionData, inputs);
     case "on_search_LOGISTICS":
-      return await onSearch1Generator(existingPayload, sessionData, inputs);
+      return await onSearch1Generator(existingPayload, sessionData,action_id,inputs);
+    case "on_search_rate_card_P2P_LOGISTICS":
+      return await onSearchRateCardP2PGenerator(existingPayload,sessionData,action_id,inputs)
+    case "on_search_rate_card_P2H2P_LOGISTICS":
+      return await onSearchRateCardP2H2PGenerator(existingPayload,sessionData,action_id,inputs)
     case "on_init_LOGISTICS":
       return await onInitGenerator(existingPayload, sessionData);
     case "on_init_qc":
@@ -68,13 +93,23 @@ export async function Generator(
     case "on_confirm_qc":
       return await onConfirmQCGenerator(existingPayload, sessionData);
     case "on_confirm_LOGISTICS":
-      return await onConfirmGenerator(existingPayload, sessionData);
+      return await onConfirmGenerator(existingPayload, sessionData,action_id);
     case "on_update_LOGISTICS":
-      return await onUpdateGenerator(existingPayload, sessionData);
+      return await onUpdateGenerator(existingPayload, sessionData,action_id);
+    case "on_update_DELIVERY_ADDRESS":
+      return await onUpdateGenerator(existingPayload, sessionData,action_id);
+    case "on_update_E_WAY_BILL_LOGISTICS":
+      return await onUpdateGenerator(existingPayload, sessionData,action_id);
+    case "on_update_E_POD_AT_PICKUP_LOGISTICS":
+      return await onUpdateGenerator(existingPayload, sessionData,action_id);
+     case "on_update_E_POD_AT_DELIVERY_LOGISTICS":
+      return await onUpdateGenerator(existingPayload, sessionData,action_id);
     case "update_qc":
       return await updateQCGenerator(existingPayload, sessionData);
     case "on_update_qc":
       return await onUpdateQCGenerator(existingPayload, sessionData);
+    case "static_otp_update_LOGISTICS":
+       return await updateGenerator(existingPayload,sessionData,inputs,action_id)
     case "on_status_LOGISTICS":
       return await onStatusGenerator(existingPayload, sessionData);
     case "on_status_1_LOGISTICS":
@@ -208,7 +243,47 @@ export async function Generator(
       });
     case "on_update_IGM":
       return await onUpdate1Generator(existingPayload, sessionData);
-
+    case "confirm_LOGISTICS_EXCHANGE":
+      return await confirmGenerator(
+        existingPayload,
+        sessionData,
+        inputs,
+        action_id
+      );
+    case "on_confirm_LOGISTICS_EXCHANGE":
+      return await onConfirmGenerator(existingPayload, sessionData,action_id);
+    case "on_search_LOGISTICS_CODIFIED":
+      return await onSearchCodifiedGenerator(
+        existingPayload,
+        sessionData,
+        inputs
+      );
+    case "on_confirm_LOGISTICS_CODIFIED":
+      return await onConfirmCodifiedGenerator(existingPayload, sessionData);
+    case "on_search_LOGISTICS_RCM":
+      return await onSearch1Generator(existingPayload, sessionData,action_id,inputs);
+    case "on_confirm_LOGISTICS_RCM":
+      return await onConfirmGenerator(existingPayload, sessionData,action_id);
+    case "on_search_LOGISTICS_PUBLIC_SPECIAL":
+      return await onSearch1Generator(
+        existingPayload,
+        sessionData,
+        action_id,
+        inputs
+      );
+    case "search_LOGISTICS_SLA":
+      return await searchGenerator(existingPayload, sessionData, inputs,action_id);
+    case "confirm_LOGISTICS_SLA":
+      return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
+    case "on_confirm_LOGISTICS_SLA":
+      return await onConfirmGenerator(existingPayload, sessionData,action_id);
+    case "confirm_LOGISTICS_SELLER_CREDS":
+      return await confirmGenerator(
+        existingPayload,
+        sessionData,
+        inputs,
+        action_id
+      );
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }

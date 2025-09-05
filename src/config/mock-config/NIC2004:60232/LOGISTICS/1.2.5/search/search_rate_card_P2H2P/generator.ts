@@ -2,10 +2,10 @@ import {
   getFutureDate,
   TatMapping,
   getFutureDateInMinutes,
-} from "../../../../../../utils/generic-utils";
-import { SessionData, Input } from "../../../session-types";
+} from "../../../../../../../utils/generic-utils";
+import { SessionData, Input } from "../../../../session-types";
 
-export async function searchGenerator(
+export async function searchRateCardP2H2PGenerator(
   existingPayload: any,
   sessionData: SessionData,
   inputs: Input | undefined,
@@ -152,7 +152,7 @@ export async function searchGenerator(
     inputs?.retailCategory || "Grocery";
 
   if (action_id === "search_LOGISTICS_SLA") {
-    existingPayload.message.intent?.tags?.push(
+    existingPayload.message.intent.tags.push(
       ...[
         {
           code: "lbnp_sla_terms",
