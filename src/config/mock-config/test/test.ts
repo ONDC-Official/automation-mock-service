@@ -1,4 +1,4 @@
-import { getMockAction } from "../TRV13/action-factory";
+import { getMockAction } from "../FIS11/action-factory";
 import { testFlow, testUnitApi } from "./mock-testing";
 
 // (async () => {

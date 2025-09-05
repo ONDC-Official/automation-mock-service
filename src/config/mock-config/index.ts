@@ -2,19 +2,19 @@ import { readFileSync } from "fs";
 import { logger } from "../../utils/logger";
 import path from "path";
 import yaml from "js-yaml";
-import { SessionData as MockSessionData } from "./TRV13/session-types";
-import { createMockResponse } from "./TRV13/version-factory";
-import { getMockAction } from "./TRV13/action-factory";
+import { SessionData as MockSessionData } from "./FIS11/session-types";
+import { createMockResponse } from "./FIS11/version-factory";
+import { getMockAction } from "./FIS11/action-factory";
 
 export { MockSessionData };
 
 const actionConfig = yaml.load(
-	readFileSync(path.join(__dirname, "./TRV13/factory.yaml"), "utf8")
+	readFileSync(path.join(__dirname, "./FIS11/factory.yaml"), "utf8")
 ) as any;
 
 export const defaultSessionData = () =>
 	yaml.load(
-		readFileSync(path.join(__dirname, "./TRV13/session-data.yaml"), "utf8")
+		readFileSync(path.join(__dirname, "./FIS11/session-data.yaml"), "utf8")
 	) as { session_data: MockSessionData };
 
 export async function generateMockResponse(
