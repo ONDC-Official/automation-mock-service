@@ -490,17 +490,17 @@ export const RET16HOMEKITCHEN125Catalog = {
                 code: "category",
                 value: "Kitchen Storage and Containers",
               },
-              {
+               {
                 code: "type",
-                value: "12",
-              },
-              {
-                code: "val",
-                value: "IND",
+                value: "11",
               },
               {
                 code: "unit",
-                value: "country.",
+                value: "pincode",
+              },
+              {
+                code: "val",
+                value: "560001-560076,560083",
               },
             ],
           },
