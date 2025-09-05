@@ -882,17 +882,17 @@ export const RET15APPLIANCES125Catalog = {
                 "value": "Washing Machine"
               },
               {
-                "code": "type",
-                "value": "12"
+                code: "type",
+                value: "11",
               },
               {
-                "code": "val",
-                "value": "IND"
+                code: "unit",
+                value: "pincode",
               },
               {
-                "code": "unit",
-                "value": "country"
-              }
+                code: "val",
+                value: "560001-560076,560083",
+              },
             ]
           },
           {
