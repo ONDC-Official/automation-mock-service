@@ -380,7 +380,7 @@ codes:
 - code: 112
   action_id: search_rate_card_P2P_LOGISTICS
   action: search
-  default: search/search_rate_card/default.yaml
+  default: search/search_rate_card_P2P/default.yaml
   message_id: true
 
 - code: 113
