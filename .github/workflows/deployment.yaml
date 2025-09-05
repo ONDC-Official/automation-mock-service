@@ -3,8 +3,7 @@ name: ONDC Automation Mock Service Deployment
 on:
   workflow_dispatch:
   push:
-    branches: ["draft-FIS11"]
-
+    branches: ["draft-FIS11-2.0.0"]
 jobs:
   deployment-dev:
     runs-on: ubuntu-latest
