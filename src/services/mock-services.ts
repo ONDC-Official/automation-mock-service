@@ -1,6 +1,5 @@
 import { getActionData } from "../config/mock-config";
 import { actionSelectionCodeTests } from "../config/mock-config/generated/action-selector";
-import { defaultSelectionCodeTests } from "../config/mock-config/generated/default-selector";
 import { logger, logInfo } from "../utils/logger";
 import { loadMockSessionData } from "./data-services";
 
