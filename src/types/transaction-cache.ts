@@ -1,23 +1,10 @@
 export interface ApiData {
-	entryType: "API";
 	action: string;
 	payloadId: string;
 	messageId: string;
 	response: any;
 	timestamp: string;
 }
-
-export interface FormApiType {
-	entryType: "FORM";
-	formType: "HTML_FORM" | "RES_FROM";
-	formId: string;
-	submissionId?: string;
-	timestamp: string;
-	error?: any;
-}
-
-export type HistoryType = FormApiType | ApiData;
-
 export interface TransactionCache {
 	sessionId?: string;
 	flowId?: string;
@@ -26,5 +13,5 @@ export interface TransactionCache {
 	type: "default" | "manual";
 	subscriberType: "BAP" | "BPP";
 	messageIds: string[];
-	apiList: HistoryType[];
+	apiList: ApiData[];
 }

@@ -11,7 +11,7 @@ import { MockConfirmFaliureClass } from "./2.0.0/confirm/confirm_card_balance_fa
 import { MockOnConfirmSuccessDefaultClass } from "./2.0.0/on_confirm/on_confirm_card_balance_success/class";
 import { MockOnConfirmFaliureDefaultClass } from "./2.0.0/on_confirm/on_confirm_card_balance_faliure/class";
 
-export function getFIS11MockAction(actionId: string) {
+export function getMockAction(actionId: string) {
   switch (actionId) {
     case "search":
       return new MockSearchClass();

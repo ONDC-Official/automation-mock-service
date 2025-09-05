@@ -1,11 +1,13 @@
+import fs from "fs";
+import yaml from "js-yaml";
 import { RedisService } from "ondc-automation-cache-lib";
 import jsonpath from "jsonpath";
-import logger from "@ondc/automation-logger";
+
+import { logger } from "../utils/logger";
 import { isArrayKey } from "../types/type-utils";
 import {
 	defaultSessionData,
 	getSaveDataContent,
-	getUiMetaKeys,
 	MockSessionData,
 } from "../config/mock-config";
 
@@ -44,7 +46,7 @@ export function updateSessionData(
 			sessionData.error_message = undefined;
 		}
 	} catch (e) {
-		logger.error("Error in updating session data", {}, e);
+		logger.error("Error in updating session data", e);
 	}
 }
 
@@ -71,7 +73,7 @@ export async function saveData(
 		);
 		logger.info("Data saved to session");
 	} catch (e) {
-		logger.error("Error in saving data to session", {}, e);
+		logger.error("Error in saving data to session", e);
 	}
 }
 
@@ -90,25 +92,13 @@ export async function saveDataForConfig(
 			payload?.context.transaction_id
 		);
 		updateSessionData(saveData["save-data"], payload, sessionData, errorData);
-		await saveCompleteData(
-			JSON.stringify(sessionData),
-			payload?.context.transaction_id
+		await RedisService.setKey(
+			payload?.context.transaction_id,
+			JSON.stringify(sessionData)
 		);
 		logger.info("Data saved to session");
 	} catch (e) {
-		logger.error("Error in saving data to session", {}, e);
-	}
-}
-
-export async function saveCompleteData(data: string, transactionId: string) {
-	try {
-		if (!transactionId) {
-			throw new Error("Transaction ID is missing, cannot save complete data");
-		}
-		await RedisService.setKey(transactionId, data);
-		logger.info("Complete Data saved to session");
-	} catch (e) {
-		logger.error("Error in saving complete data to session", {}, e);
+		logger.error("Error in saving data to session", e);
 	}
 }
 
@@ -134,20 +124,4 @@ export async function loadMockSessionData(
 		const sessionData = JSON.parse(rawData ?? "{}") as MockSessionData;
 		return sessionData;
 	}
-}
-
-export function getReferenceData(sessionData: MockSessionData) {
-	const listOfKeys = getUiMetaKeys();
-	const referenceData: Record<string, any> = {};
-	for (const key of listOfKeys) {
-		logger.info(`Fetching data for key: ${key}`);
-		const data = sessionData[key];
-		if (data) {
-			referenceData[key] = data;
-		} else {
-			logger.warning(`No data found for key: ${key}`);
-		}
-	}
-	console.log("referenceData", referenceData);
-	return referenceData;
 }
