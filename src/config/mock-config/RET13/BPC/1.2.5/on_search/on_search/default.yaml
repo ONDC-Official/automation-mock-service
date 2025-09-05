@@ -255,9 +255,9 @@ catalog:
             - code: type
               value: "12"
             - code: unit
-              value: country
+              value: pincode
             - code: val
-              value: IND
+              value: "560001-560076,560083"
         - code: serviceability
           list:
             - code: location
