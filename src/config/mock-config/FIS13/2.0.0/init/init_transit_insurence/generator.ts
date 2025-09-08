@@ -21,7 +21,7 @@ export async function initGenerator(existingPayload: any, sessionData: any) {
 				(l: any) => l.descriptor?.code === "NOMINEE_NAME"
 			);
 			if (nomineeField) {
-				nomineeField.value = sessionData.user_inputs.nominee_name;
+				nomineeField.value = formatName(sessionData.user_inputs.nominee_name);
 			}
 		}
   }
@@ -33,7 +33,6 @@ export async function initGenerator(existingPayload: any, sessionData: any) {
   return existingPayload;
 } 
 
-
-
-
-
+function formatName(input: string): string {
+  return input.trim().split(/\s+/).join(" | ");
+}
