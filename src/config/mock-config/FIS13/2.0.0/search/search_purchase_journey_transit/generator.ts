@@ -31,16 +31,11 @@ export async function search_seller_pagination_generator(
 					switch (entry.descriptor?.code) {
 						case "BUYER_NAME":
 							if (buyerInputs.buyer_name)
-								entry.value = buyerInputs.buyer_name;
+								entry.value = formatName(buyerInputs.buyer_name)
 							break;
 						case "BUYER_PHONE_NUMBER":
-							if (buyerInputs.phone_number) {
-								let cleaned = buyerInputs.phone_number.replace(/\s+/g, "");
-								if (cleaned.startsWith("+91")) {
-								  cleaned = "+91-" + cleaned.slice(3);
-								}
-								entry.value = cleaned;
-							  }
+							if (buyerInputs.phone_number) 
+								entry.value = ensureCountryCode(buyerInputs.phone_number)
 							break;
 						case "BUYER_PAN_NUMBER":
 							if (buyerInputs.pan_number)
@@ -84,4 +79,13 @@ export async function search_seller_pagination_generator(
 	}
 
 	return existingPayload;
+}
+
+function formatName(input: string): string {
+  return input.trim().split(/\s+/).join(' | ');
+}
+
+function ensureCountryCode(phoneNumber: string): string {
+  const trimmed = phoneNumber.trim();
+  return trimmed.startsWith('+91') ? trimmed : '+91-' + trimmed;
 }
