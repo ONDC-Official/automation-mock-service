@@ -24,7 +24,7 @@ export async function onInitGenerator(existingPayload: any, sessionData: any) {
           gender: buyerGender || "M",
         },
         contact: {
-          phone: buyerPhone || "1234567890",
+          phone: buyerPhone || "9090909090",
           email: buyerEmail || "John.doe@example.com",
         },
       };
