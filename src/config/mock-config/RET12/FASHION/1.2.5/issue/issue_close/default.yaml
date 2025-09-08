@@ -150,6 +150,7 @@ issue:
       ref_type: RESOLUTIONS
       descriptor:
         code: RESOLUTION_PROPOSED
+        short_desc: Resolution is proposed
       updated_at: "2023-01-15T10:00:00.469Z"
       action_by: NP2
       actor_details:
@@ -159,6 +160,7 @@ issue:
       ref_type: RESOLUTIONS
       descriptor:
         code: RESOLUTION_ACCEPTED
+        short_desc: Resolution is accepted
       updated_at: "2023-01-15T10:00:00.469Z"
       action_by: NP1
       actor_details:

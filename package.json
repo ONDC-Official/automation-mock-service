@@ -49,7 +49,7 @@
     "jsonpath-plus": "^10.2.0",
     "lodash": "^4.17.21",
     "ondc-automation-cache-lib": "^2.1.0",
-    "require": "^2.4.20",
+    "require": "^0.4.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^11.0.3",
