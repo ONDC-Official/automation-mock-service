@@ -269,3 +269,48 @@ codes:
     action_id: update_settlement_cancel
     action: update
     message_id: true
+  - code: 401
+    action_id: issue_open
+    action: issue
+    default: FASHION/1.2.5/issue/issue_open/default.yaml
+    message_id: true 
+  - code: 402
+    action_id: on_issue_processing
+    action: on_issue
+    default: FASHION/1.2.5/on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 403
+    action_id: on_issue_need_more_info
+    action: on_issue
+    default: FASHION/1.2.5/on_issue/on_issue_need_more_info/default.yaml  
+    message_id: true
+  - code: 404
+    action_id: issue_info_provided
+    action: issue
+    default: FASHION/1.2.5/issue/issue_info_provided/default.yaml
+    message_id: true 
+  - code: 405
+    action_id: on_issue_provided
+    action: on_issue
+    default: FASHION/1.2.5/on_issue/on_issue_provided/default.yaml  
+    message_id: false
+  - code: 406
+    action_id: on_issue_resolution
+    action: on_issue
+    default: FASHION/1.2.5/on_issue/on_issue_resolution/default.yaml  
+    message_id: true
+  - code: 407
+    action_id: issue_resolution_accept
+    action: issue
+    default: FASHION/1.2.5/issue/issue_resolution_accept/default.yaml
+    message_id: true 
+  - code: 408
+    action_id: on_issue_resolved
+    action: on_issue
+    default: FASHION/1.2.5/on_issue/on_issue_resolved/default.yaml  
+    message_id: true 
+  - code: 409
+    action_id: issue_close
+    action: issue
+    default: FASHION/1.2.5/issue/issue_close/default.yaml
+    message_id: true
