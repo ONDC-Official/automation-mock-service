@@ -58,6 +58,12 @@ export type SessionData = {
   update_fulfillments?: any;
   np_type?: string;
   bap_features?: string[];
+  latest_issue_payload: any;
+  provider_id: any;
+  status: any;
+  igm_action: any;
+  issue_action: any[]
+  issue_resolution: any
 };
 
 export type BecknContext = {
