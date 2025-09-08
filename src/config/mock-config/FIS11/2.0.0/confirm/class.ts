@@ -26,6 +26,7 @@ export class MockConfirmClass extends MockAction {
         return "Mock for confirm_default";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
+        console.log("changes")
         return confirmDefaultGenerator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
