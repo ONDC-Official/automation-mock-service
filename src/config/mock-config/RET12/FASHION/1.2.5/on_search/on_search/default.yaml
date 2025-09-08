@@ -293,7 +293,7 @@ catalog:
             - code: unit
               value: pincode
             - code: val
-              value": "560001-560076,560083"
+              value: "560001-560076,560083"
         - code: serviceability
           list:
             - code: location
