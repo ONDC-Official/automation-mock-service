@@ -72,6 +72,5 @@ export async function onConfirmGenerator(existingPayload: any, sessionData: any)
     existingPayload.message.order.updated_at = existingPayload.context.timestamp;
   }
   
-  delete existingPayload.message.order.tags
   return existingPayload;
 } 

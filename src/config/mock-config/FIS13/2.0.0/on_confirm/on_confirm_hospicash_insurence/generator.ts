@@ -73,6 +73,5 @@ if (sessionData.updated_at) {
   existingPayload.message.order.updated_at = existingPayload.context.timestamp;
 }
 
-delete existingPayload.message.order.tags
 return existingPayload;
 } 

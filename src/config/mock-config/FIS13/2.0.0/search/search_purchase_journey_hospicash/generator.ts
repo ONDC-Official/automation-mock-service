@@ -48,7 +48,7 @@ export async function search_purchase_journey_hospicash_generator(
 							break;
 						case "BUYER_EMAIL":
 							if (buyerInputs.email)
-								entry.value = buyerInputs.end_address;
+								entry.value = buyerInputs.email;
 							break;
 					}
 				});
