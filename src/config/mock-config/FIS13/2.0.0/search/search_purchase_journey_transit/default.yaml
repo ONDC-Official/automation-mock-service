@@ -128,4 +128,4 @@ intent:
             value: 2.5 %    
           - descriptor: 
               code: OFFLINE_CONTRACT
-            value:
+            value: 'true'  
