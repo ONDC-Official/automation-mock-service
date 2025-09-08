@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "src/config/mock-config"
+      - "src/config/mock-config/**"
     branches-ignore:
       - main
       - dev
