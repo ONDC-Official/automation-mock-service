@@ -56,6 +56,7 @@ jobs:
           echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> \$REPO_DIR/.env
           echo "PORT=${{ vars.PORT }}" >> \$REPO_DIR/.env
           echo "API_SERVICE_URL=${{ vars.API_SERVICE_URL }}" >> \$REPO_DIR/.env
+          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> \$REPO_DIR/.env
           echo "CONTAINER_NAME=${{ vars.CONTAINER_NAME }}" >> \$REPO_DIR/.env
           echo "DOMAIN=${{ vars.DOMAIN }}" >> \$REPO_DIR/.env
           echo "CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL_DEV }}" >> \$REPO_DIR/.env
