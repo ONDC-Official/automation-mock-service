@@ -104,26 +104,17 @@ issue:
       action_by: NP2
       actor_details:
         name: mock-person
-    - id: A3_1
+    - id: A3
       descriptor:
         code: INFO_REQUESTED
-        name: INFO001
+        name: INFO01
         short_desc: Please provide product image
-      updated_at: "2023-01-15T10:00:00.469Z"
-      action_by: NP2
-      actor_details:
-        name: mock-person
-    - id: A3_2
-      descriptor:
-        code: INFO_REQUESTED
-        name: INFO002
-        short_desc: Please provide invoice
-      updated_at: "2023-01-15T10:00:00.469Z"
+      updated_at: 2023-01-15T10:00:00.489Z
       action_by: NP2
       actor_details:
         name: mock-person
     - id: A4
-      ref_id: A3_1
+      ref_id: A3
       descriptor:
         code: INFO_PROVIDED
         short_desc: Responded with images

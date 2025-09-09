@@ -5,7 +5,7 @@ export const issueStatusGenerator = async (
   sessionData: SessionData
 ) => {
   console.log("existingPayload", JSON.stringify(existingPayload));
-  const newDate = new Date().toISOString();
+  const newDate = existingPayload.context.timestamp
   existingPayload.message.issue.id =
     sessionData.latest_issue_payload?.id || "ISSUE-1";
   existingPayload.message.issue.created_at =
@@ -103,19 +103,28 @@ export const issueStatusGenerator = async (
       existingPayload.message.issue.descriptor.short_desc =
         "Issue with product quality";
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "AL1";
+        sessionData.last_action || "A1";
+      break;
+
+    case "issue_open_2":
+        existingPayload.message.issue.descriptor.code = "PMT002";
+      existingPayload.message.issue.status = "OPEN";
+      existingPayload.message.issue.descriptor.short_desc =
+        "The actual payout made is less than expected";
+      existingPayload.message.issue.last_action_id =
+        sessionData.last_action || "A1";
       break;
 
     case "issue_info_provided":
       existingPayload.message.issue.status = "INFO_PROVIDED";
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "AL4";
+        sessionData.last_action || "A4";
       break;
 
     case "issue_resolution_accept":
       existingPayload.message.issue.status = "PROCESSING";
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "AL7";
+        sessionData.last_action || "A7";
       existingPayload.message.issue.resolutions = sessionData.issue_resolution;
       console.log("issue_resolution_accept");
       let input: any = sessionData.user_inputs;
@@ -130,7 +139,7 @@ export const issueStatusGenerator = async (
     case "issue_close":
       existingPayload.message.issue.status = "CLOSED";
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "AL8";
+        sessionData.last_action || "A8";
       existingPayload.message.issue.resolutions = sessionData.issue_resolution;
       break;
 
