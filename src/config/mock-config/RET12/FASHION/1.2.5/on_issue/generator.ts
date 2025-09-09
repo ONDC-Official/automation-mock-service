@@ -4,7 +4,7 @@ export const onIssueStatusGenerator = async (
   existingPayload: any,
   sessionData: SessionData
 ) => {
-  const newDate = new Date().toISOString();
+  const newDate = existingPayload.context.timestamp
   existingPayload.message.issue.id =
     sessionData.latest_issue_payload?.id || "ISSUE-1";
   existingPayload.message.issue.created_at =
@@ -44,11 +44,11 @@ export const onIssueStatusGenerator = async (
   //   existingPayload.message.issue.descriptor.images.url = sessionData.latest_issue_payload?.images.url || "https://example.com/s.jpg";
   existingPayload.message.issue.descriptor.images = sessionData
     .latest_issue_payload?.descriptor?.images || [
-    {
-      url: "https://example.com/image.jpg",
-      size_type: "2MB",
-    },
-  ];
+      {
+        url: "https://example.com/image.jpg",
+        size_type: "2MB",
+      },
+    ];
   // existingPayload.message.issue.descriptor.media.url = sessionData.latest_issue_payload?.descriptor?.media?.url || "https://example.com/media.mp4";
 
   // Update status and descriptors
@@ -61,25 +61,43 @@ export const onIssueStatusGenerator = async (
       existingPayload.message.issue.descriptor.short_desc =
         "Issue with product quality";
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "AL2";
+        sessionData.last_action || "A2";
+      existingPayload.message.issue.actors = [...existingPayload.message.issue.actors, {
+        "id": "NP2",
+        "type": "COUNTERPARTY_NP",
+        "info": {
+          "org": {
+            "name": "sellerapp.com::ONDC:RET12"
+          },
+          "contact": {
+            "phone": "9450394140",
+            "email": "respondentapp@respond.com"
+          },
+          "person": {
+            "name": "Jane Doe"
+          }
+        }
+      }]
       break;
 
     case "on_issue_need_more_info":
       existingPayload.message.issue.status = "NEED_MORE_INFO";
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "AL3";
+        sessionData.last_action || "A3";
       break;
 
     case "on_issue_info_provided":
       existingPayload.message.issue.status = "INFO_PROVIDED";
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "AL5";
+        sessionData.last_action || "A5";
+
+      console.log("🚀 ~ onIssueStatusGenerator ~ on_issue_info_provided:", JSON.stringify(existingPayload))
       break;
 
     case "on_issue_resolution":
       existingPayload.message.issue.status = "RESOLVED";
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "AL6";
+        sessionData.last_action || "A6";
 
       const resolutions = existingPayload.message.issue.resolutions;
       resolutions.forEach((r: any) => {

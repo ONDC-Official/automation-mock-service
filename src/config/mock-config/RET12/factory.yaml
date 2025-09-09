@@ -274,6 +274,11 @@ codes:
     action: issue
     default: FASHION/1.2.5/issue/issue_open/default.yaml
     message_id: true 
+  - code: 501
+    action_id: issue_open_2
+    action: issue
+    default: FASHION/1.2.5/issue/issue_open_2/default.yaml
+    message_id: true 
   - code: 402
     action_id: on_issue_processing
     action: on_issue
