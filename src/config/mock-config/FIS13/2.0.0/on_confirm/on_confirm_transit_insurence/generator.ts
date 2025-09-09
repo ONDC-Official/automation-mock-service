@@ -59,9 +59,7 @@ export async function onConfirmGenerator(
       };
     });
   }
-  if (sessionData.tags) {
-    existingPayload.message.order.tags = [...sessionData.tags];
-  }
+
   if (sessionData.cancellation_terms) {
     existingPayload.message.order.cancellation_terms = [
       sessionData.cancellation_terms,
