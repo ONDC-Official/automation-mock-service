@@ -48,6 +48,8 @@ import { cancel_no_generator } from "./cancel/cancel_no/generator";
 import { cancel_yes_generator } from "./cancel/cancel_yes/generator";
 import { on_cancel_yes_generator } from "./on_cancel/on_cancel_yes/generator";
 import { update_settlement_cancel_generator } from "./update/update_settlement_cancel/generator";
+import { onIssueStatusGenerator } from "./on_issue/generator";
+import { issueStatusGenerator } from "./issue/generator";
 
 export async function Generator(
   action_id: string,
@@ -163,6 +165,56 @@ export async function Generator(
       return on_cancel_yes_generator(existingPayload, sessionData);
     case "update_settlement_cancel":
       return update_settlement_cancel_generator(existingPayload, sessionData);
+    case "issue_open":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_open",
+      });
+    case "issue_open_2":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_open_2",
+      });
+    case "on_issue_processing":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_processing",
+      });
+    case "on_issue_need_more_info":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_need_more_info",
+      });
+    case "issue_info_provided":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_info_provided",
+      });
+    case "on_issue_provided":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_provided",
+      });
+    case "on_issue_resolution":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_resolution",
+      });
+    case "issue_resolution_accept":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_resolution_accept",
+      });
+    case "on_issue_resolved":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_resolved",
+      });
+    case "issue_close":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_close",
+      });
     default:
       console.log(action_id);
       throw new Error("Invalid action id found! ");
