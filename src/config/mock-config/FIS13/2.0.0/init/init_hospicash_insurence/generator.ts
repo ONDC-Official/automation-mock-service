@@ -44,7 +44,6 @@ export async function initGenerator(existingPayload: any, sessionData: any) {
   }
 
   delete existingPayload.message.order.billing;
-  delete existingPayload.message.order.tags;
   return existingPayload;
 }
 
