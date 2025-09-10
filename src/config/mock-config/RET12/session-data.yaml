@@ -39,3 +39,9 @@ session_data:
   order_created_at: null
   last_updated_at: null
   bap_features: []
+  latest_issue_payload: any
+  provider_id: any
+  status: any
+  igm_action: any
+  issue_action: []
+  issue_resolution: []
