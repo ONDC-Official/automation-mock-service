@@ -22,22 +22,13 @@ export async function select_generator(
   const inputs = sessionData.user_inputs as SelectInputType;
 	if (!inputs) return existingPayload;
 
-  if (inputs.provider) {
-		existingPayload.message.order.provider.id = inputs.provider;
-	}
-	if (inputs.provider_location) {
-		const providerLocations = (inputs.provider_location || "")
-			.split(",")
-			.map((location: string) => location.trim())
-			.filter(Boolean)
-			.map((location: string) => ({ id: location }));
-		existingPayload.message.order.provider.locations = providerLocations
-			// inputs.provider_location.split(" ").map((location:any) => {
-			// 	return {
-			// 		id: location,
-			// 	};
-			// });
-		console.log("existingPayload",existingPayload.message.order.provider)	
+  if (inputs.provider_location) {
+		existingPayload.message.order.provider.locations =
+			inputs.provider_location.map((location:any) => {
+				return {
+					id: location,
+				};
+			});
 	}
 	console.log("final input",inputs);
 	
