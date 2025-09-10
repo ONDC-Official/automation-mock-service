@@ -74,3 +74,16 @@ catalog:
                   value: "H"
       payments:
         - collected_by: "BPP"
+  tags:
+    - descriptor:
+        code: BPP_TERMS
+        name: BPP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: STATIC_TERMS
+          value: 'https://api.example-bap.com/booking/terms'
+        - descriptor: 
+            code: OFFLINE_CONTRACT
+          value: 'true'  
+         

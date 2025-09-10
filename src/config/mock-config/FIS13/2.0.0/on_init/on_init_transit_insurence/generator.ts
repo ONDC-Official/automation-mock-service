@@ -11,7 +11,7 @@ export async function onInitGenerator(existingPayload: any, sessionData: any) {
             "name": sessionData?.person_name || "John Doe",
           },
           "contact": {
-            "phone": sessionData?.customer_phone || "1234567890",
+            "phone": sessionData?.customer_phone || "9090909090",
           }
         };
       });

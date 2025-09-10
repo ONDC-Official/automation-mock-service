@@ -96,7 +96,6 @@ order:
       time:
         duration: P1Y
         label: TENURE
-
   provider:
     descriptor:
       long_desc: ABC Insurance Ltd. Deals in multiple Insurance Services like Health, Motor, Marine etc
@@ -113,7 +112,6 @@ order:
           - descriptor:
               code: POLICY_ID
             value: e103b4a5-10f8-42c7-b888-dbf0e2edd696
-
   quote:
     id: OFFER_ID/PROPOSAL_ID
     breakup:
@@ -136,12 +134,10 @@ order:
     price:
       currency: INR
       value: "1000"
-
   cancellation_terms:
     - external_ref:
         mimetype: text/html,
         url: https://fis.test.bpp.io/cancellation-terms
-
   payments:
     - id: PA1
       collected_by: BPP
@@ -151,7 +147,6 @@ order:
         amount: "1000"
         currency: INR
         transaction_id: c24dda6f-20e5-4de2-8ca3-f5421a028bff
-
   fulfillments:
     - customer:
         person:
@@ -166,7 +161,6 @@ order:
           code: GRANTED
       id: F1
       type: POLICY
-
   documents:
     - descriptor:
         code: POLICY_DOC
@@ -182,3 +176,28 @@ order:
 
   created_at: 2025-07-24T05:39:40.104Z
   updated_at: 2025-07-24T05:39:40.104Z
+  tags:
+    - descriptor:
+        code: BAP_TERMS
+        name: BAP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: STATIC_TERMS
+          value: https://api.example-bap.com/booking/terms
+        - descriptor: 
+            code: OFFLINE_CONTRACT
+          value: 'true'
+    - descriptor:
+        code: BPP_TERMS
+        name: BPP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: STATIC_TERMS
+          value: https://api.example-bap.com/booking/terms
+        - descriptor: 
+            code: OFFLINE_CONTRACT
+          value: 'true'
+         
+  
