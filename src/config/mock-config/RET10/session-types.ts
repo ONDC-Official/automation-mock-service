@@ -42,6 +42,13 @@ export type SessionData = {
 	search_bap_terms: any;
 	selected_np_fees: any | undefined;
 	tat: any;
+	latest_issue_payload: any;
+	provider_id: any;
+	status: any;
+	igm_action: any;
+	issue_action: any[]
+	issue_resolution: any
+	last_action: string | undefined;
 };
 
 export type BecknContext = {
@@ -71,7 +78,7 @@ export interface Input {
     feature_discovery?: string[];
     fulfillRequest?: string;
     retailCategory?: string;
-    returnToOrigin?: string;
-    default_feature?: string[];
+	returnToOrigin?: string;
+	default_feature?: string[];
 	np_fees?: string[];
 }

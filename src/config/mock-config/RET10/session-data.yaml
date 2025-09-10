@@ -28,3 +28,10 @@ session_data:
   search_bap_terms: null
   selected_np_fees: []
   tat: null
+  latest_issue_payload: any
+  provider_id: any
+  status: any
+  igm_action: any
+  issue_action: []
+  issue_resolution: []
+  last_action: any
