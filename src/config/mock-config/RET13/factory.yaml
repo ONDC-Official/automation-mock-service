@@ -299,3 +299,53 @@ codes:
     action_id: on_status_order_delivered_ccc
     action: on_status
     message_id: true
+  - code: 317
+    action_id: issue_open
+    action: issue
+    default: BPC/1.2.5/issue/issue_open/default.yaml
+    message_id: true 
+  - code: 318
+    action_id: on_issue_processing
+    action: on_issue
+    default: BPC/1.2.5/on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 319
+    action_id: on_issue_need_more_info
+    action: on_issue
+    default: BPC/1.2.5/on_issue/on_issue_need_more_info/default.yaml  
+    message_id: true
+  - code: 320
+    action_id: issue_info_provided
+    action: issue
+    default: BPC/1.2.5/issue/issue_info_provided/default.yaml
+    message_id: true 
+  - code: 321
+    action_id: on_issue_provided
+    action: on_issue
+    default: BPC/1.2.5/on_issue/on_issue_provided/default.yaml  
+    message_id: false
+  - code: 322
+    action_id: on_issue_resolution
+    action: on_issue
+    default: BPC/1.2.5/on_issue/on_issue_resolution/default.yaml  
+    message_id: true
+  - code: 323
+    action_id: issue_resolution_accept
+    action: issue
+    default: BPC/1.2.5/issue/issue_resolution_accept/default.yaml
+    message_id: true 
+  - code: 324
+    action_id: on_issue_resolved
+    action: on_issue
+    default: BPC/1.2.5/on_issue/on_issue_resolved/default.yaml  
+    message_id: true 
+  - code: 325
+    action_id: issue_close
+    action: issue
+    default: BPC/1.2.5/issue/issue_close/default.yaml
+    message_id: true
+  - code: 326
+    action_id: issue_open_2
+    action: issue
+    default: BPC/1.2.5/issue/issue_open_2/default.yaml
+    message_id: true
