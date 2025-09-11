@@ -150,6 +150,7 @@ catalog:
         value: pincode
       - code: val
         value": "560001-560076,560083"
+        value: IND
     - code: timing
       list:
       - code: type
