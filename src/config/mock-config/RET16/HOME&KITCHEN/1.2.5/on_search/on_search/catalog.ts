@@ -7,7 +7,7 @@ export const RET16HOMEKITCHEN125Catalog = {
       },
       {
         id: "F2",
-        type: "Self-Pickup"
+        type: "Self-Pickup",
       },
     ],
     "bpp/descriptor": {
@@ -35,7 +35,7 @@ export const RET16HOMEKITCHEN125Catalog = {
           label: "enable",
           timestamp: "2024-08-13T06:46:19.736Z",
         },
-        rating:"4",
+        rating: "4",
         ttl: "PT24H",
         locations: [
           {
@@ -111,7 +111,7 @@ export const RET16HOMEKITCHEN125Catalog = {
         items: [
           {
             id: "I1",
-            rating:"4",
+            rating: "4",
             time: {
               label: "enable",
               timestamp: "2024-08-12T05:30:48.998Z",
@@ -160,7 +160,8 @@ export const RET16HOMEKITCHEN125Catalog = {
               manufacturer_or_packer_name: "Seller Business",
               manufacturer_or_packer_address:
                 "Seller Building Address, Jayanagar, Bengaluru, Karnataka, India - 560011",
-              common_or_generic_name_of_commodity: "Kitchen Storage and Containers",
+              common_or_generic_name_of_commodity:
+                "Kitchen Storage and Containers",
               month_year_of_manufacture_packing_import: "NA",
             },
             tags: [
@@ -175,30 +176,30 @@ export const RET16HOMEKITCHEN125Catalog = {
               },
               {
                 code: "attribute",
-                "list": [
+                list: [
                   {
-                    "code": "brand",
-                    "value": "MINISO Two-Layer Drawer Organizer "
+                    code: "brand",
+                    value: "MINISO Two-Layer Drawer Organizer ",
                   },
                   {
-                    "code": "colour",
-                    "value": "#FFFFFF"
+                    code: "colour",
+                    value: "#FFFFFF",
                   },
                   {
-                    "code": "colour_name",
-                    "value": "brown"
+                    code: "colour_name",
+                    value: "brown",
                   },
                   {
-                    "code": "material",
-                    "value": "thermoplastic"
-                  }
-                ]
+                    code: "material",
+                    value: "thermoplastic",
+                  },
+                ],
               },
             ],
           },
           {
             id: "I2",
-            rating:"3",
+            rating: "3",
             time: {
               label: "enable",
               timestamp: "2024-08-12T10:27:48.913Z",
@@ -234,7 +235,7 @@ export const RET16HOMEKITCHEN125Catalog = {
             },
             category_id: "Stationery",
             location_id: "L1",
-            parent_item_id:"V1",
+            parent_item_id: "V1",
             fulfillment_id: "F1",
             "@ondc/org/returnable": true,
             "@ondc/org/cancellable": true,
@@ -263,30 +264,30 @@ export const RET16HOMEKITCHEN125Catalog = {
               },
               {
                 code: "attribute",
-                "list": [
+                list: [
                   {
-                    "code": "brand",
-                    "value": "Doms Art Apps Nxt Kit With Plastic Carry Case "
+                    code: "brand",
+                    value: "Doms Art Apps Nxt Kit With Plastic Carry Case ",
                   },
                   {
-                    "code": "colour",
-                    "value": "#00FF00"
+                    code: "colour",
+                    value: "#00FF00",
                   },
                   {
-                    "code": "colour_name",
-                    "value": "white"
+                    code: "colour_name",
+                    value: "white",
                   },
                   {
-                    "code": "material",
-                    "value": "thermoplastic"
-                  }
-                ]
+                    code: "material",
+                    value: "thermoplastic",
+                  },
+                ],
               },
             ],
           },
           {
             id: "I3",
-            rating:"4",
+            rating: "4",
             descriptor: {
               name: "Polyset Elegance Plastic Laundry Basket - Assorted Colour, 53 L",
               code: "3:6213574890238",
@@ -351,30 +352,31 @@ export const RET16HOMEKITCHEN125Catalog = {
               },
               {
                 code: "attribute",
-                "list": [
-                    {
-                      "code": "brand",
-                      "value": "Polyset Elegance Plastic Laundry Basket - Assorted Colour, 53 L"
-                    },
-                    {
-                      "code": "colour",
-                      "value": "#964B00"
-                    },
-                    {
-                      "code": "colour_name",
-                      "value": "brown"
-                    },
-                    {
-                      "code": "material",
-                      "value": "polyethylene"
-                    }
-                  ]
+                list: [
+                  {
+                    code: "brand",
+                    value:
+                      "Polyset Elegance Plastic Laundry Basket - Assorted Colour, 53 L",
+                  },
+                  {
+                    code: "colour",
+                    value: "#964B00",
+                  },
+                  {
+                    code: "colour_name",
+                    value: "brown",
+                  },
+                  {
+                    code: "material",
+                    value: "polyethylene",
+                  },
+                ],
               },
             ],
           },
           {
             id: "I4",
-            rating:"4",
+            rating: "4",
             descriptor: {
               name: "Pigeon by Stovekraft Mini Fruit & Vegetable Chopper With 3 Blades",
               code: "3:4012789543165",
@@ -428,35 +430,36 @@ export const RET16HOMEKITCHEN125Catalog = {
             },
             tags: [
               {
-                "code": "origin",
-                "list": [
+                code: "origin",
+                list: [
                   {
-                    "code": "country",
-                    "value": "IND"
-                  }
-                ]
+                    code: "country",
+                    value: "IND",
+                  },
+                ],
               },
               {
-                "code": "attribute",
-                "list": [
+                code: "attribute",
+                list: [
                   {
-                    "code": "brand",
-                    "value": "Pigeon by Stovekraft Mini Fruit & Vegetable Chopper With 3 Blades "
+                    code: "brand",
+                    value:
+                      "Pigeon by Stovekraft Mini Fruit & Vegetable Chopper With 3 Blades ",
                   },
                   {
-                    "code": "colour",
-                    "value": "#00FF00"
+                    code: "colour",
+                    value: "#00FF00",
                   },
                   {
-                    "code": "colour_name",
-                    "value": "green"
+                    code: "colour_name",
+                    value: "green",
                   },
                   {
-                    "code": "material",
-                    "value": "polypropylene"
-                  }
-                ]
-              }
+                    code: "material",
+                    value: "polypropylene",
+                  },
+                ],
+              },
             ],
           },
         ],
@@ -472,11 +475,11 @@ export const RET16HOMEKITCHEN125Catalog = {
           {
             contact: {
               email: "home@example.com",
-              phone: "7980271122"
+              phone: "7980271122",
             },
             id: "F2",
-            type: "Self-Pickup"
-          }
+            type: "Self-Pickup",
+          },
         ],
         tags: [
           {
@@ -609,14 +612,14 @@ export const RET16HOMEKITCHEN125Catalog = {
             ],
           },
           {
-            "code": "order_value",
-            "list": [
+            code: "order_value",
+            list: [
               {
-                "code": "min_value",
-                "value": "1"
-              }
-            ]
-          }
+                code: "min_value",
+                value: "1",
+              },
+            ],
+          },
         ],
       },
     ],
