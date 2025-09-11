@@ -58,6 +58,14 @@ export type SessionData = {
   stateCode?: string;
   update_fulfillments?: any;
   np_type?: string;
+  bap_features?: string[];
+  selected_offers: any | undefined;
+  status: any;
+  igm_action: any;
+  issue_action: any[]
+  issue_resolution: any
+  latest_issue_payload: any;
+  provider_id: any;
 };
 
 export type BecknContext = {
