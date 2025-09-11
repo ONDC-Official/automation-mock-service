@@ -679,3 +679,8 @@ codes:
     action: issue
     default: GROCERY/1.2.5/issue/issue_close/default.yaml
     message_id: true
+  - code: 234
+    default: GROCERY/1.2.5/on_status/on_status_out_for_delivery_force/default.yaml
+    action_id: on_status_out_for_delivery_force
+    action: on_status
+    message_id: true
