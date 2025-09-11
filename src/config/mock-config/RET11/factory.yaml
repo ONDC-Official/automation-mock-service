@@ -259,3 +259,73 @@ codes:
     action: on_select
     default: on_select/on_select_slotted/default.yaml
     message_id: false
+  - code: 150
+    action_id: on_select_commercial_model
+    action: on_select
+    default: on_select/on_select_commercial_model/default.yaml
+    message_id: false
+  - code: 151
+    default: init/init_commercial_model/default.yaml
+    action_id: init_commercial_model
+    action: init
+    message_id: true
+  - code: 152
+    default: on_init/on_init_commercial_model/default.yaml
+    action_id: on_init_commercial_model
+    action: on_init
+    message_id: false
+  - code: 153
+    default: confirm/confirm_commercial_model/default.yaml
+    action_id: confirm_commercial_model
+    action: confirm
+    message_id: true
+  - code: 153
+    default: on_confirm/on_confirm_commercial_model/default.yaml
+    action_id: on_confirm_commercial_model
+    action: on_confirm
+    message_id: false
+  - code: 154
+    action_id: issue_open
+    action: issue
+    default: issue/issue_open/default.yaml
+    message_id: true 
+  - code: 155
+    action_id: on_issue_processing
+    action: on_issue
+    default: on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 156
+    action_id: on_issue_need_more_info
+    action: on_issue
+    default: on_issue/on_issue_need_more_info/default.yaml  
+    message_id: true
+  - code: 157
+    action_id: issue_info_provided
+    action: issue
+    default: issue/issue_info_provided/default.yaml
+    message_id: true 
+  - code: 158
+    action_id: on_issue_provided
+    action: on_issue
+    default: on_issue/on_issue_provided/default.yaml  
+    message_id: false
+  - code: 159
+    action_id: on_issue_resolution
+    action: on_issue
+    default: on_issue/on_issue_resolution/default.yaml  
+    message_id: true
+  - code: 160
+    action_id: issue_resolution_accept
+    action: issue
+    default: issue/issue_resolution_accept/default.yaml
+    message_id: true 
+  - code: 161
+    action_id: on_issue_resolved
+    action: on_issue
+    default: on_issue/on_issue_resolved/default.yaml  
+    message_id: true 
+  - code: 162
+    action_id: issue_close
+    action: issue
+    default: issue/issue_close/default.yaml
+    message_id: true

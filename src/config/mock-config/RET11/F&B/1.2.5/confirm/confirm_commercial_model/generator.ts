@@ -1,7 +1,8 @@
-import { SessionData } from "../../../session-types";
-import { v4 as uuidv4 } from "uuid";
 
-export const confirmGenerator = (
+import { v4 as uuidv4 } from "uuid";
+import { SessionData } from "../../../../session-types";
+
+export const confirmCommercialModelGenerator = (
 	existingPayload: any,
 	sessionData: SessionData
 ) => {
@@ -73,6 +74,23 @@ export const confirmGenerator = (
 					{
 						code: "tax_number",
 						value: "12ABCDE3456FGZJ",
+					},
+				],
+			},
+			{
+				code: "bnp_receivables_claim",
+				list: [
+					{
+						code: "type",
+						value: "misc",
+					},
+					{
+						code: "currency",
+						value: "INR",
+					},
+					{
+						code: "value",
+						value: "20.0",
 					},
 				],
 			},

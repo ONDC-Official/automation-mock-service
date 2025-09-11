@@ -34,6 +34,13 @@ import { onCancelRTOGenerator } from "./on_cancel/on_cancel_rto/generator";
 import { onSearch3Generator } from "./on_search/on_search_3/generator";
 import { updateDocumentGenerator } from "./update/update_document/generator";
 import { onSelectSlottedGenerator } from "./on_select/on_select_slotted/generator";
+import { initCommercialModelGenerator } from "./init/init_commercial_model/generator";
+import { onInitCommercialModelGenerator } from "./on_init/on_init_commercial_model/generator";
+import { onSelectCommercialModelGenerator } from "./on_select/on_select_commercial_model/generator";
+import { confirmCommercialModelGenerator } from "./confirm/confirm_commercial_model/generator";
+import { onConfirmCommercialModelGenerator } from "./on_confirm/on_confirm_commercial_model/generator";
+import { issueStatusGenerator } from "./issue/generator";
+import { onIssueStatusGenerator } from "./on_issue/generator";
 
 export async function Generator(
   action_id: string,
@@ -74,8 +81,12 @@ export async function Generator(
       );
     case "on_select_slotted":
       return await onSelectSlottedGenerator(existingPayload, sessionData);
+    case "on_select_commercial_model":
+      return await onSelectCommercialModelGenerator(existingPayload, sessionData);
     case "init":
       return await initGenerator(existingPayload, sessionData, inputs);
+    case "init_commercial_model":
+      return await initCommercialModelGenerator(existingPayload, sessionData, inputs);
     case "init_multiple_fulfillment":
       return await initMultipleFulfillmentGenerator(
         existingPayload,
@@ -86,6 +97,8 @@ export async function Generator(
       return await initFulfillmentArrayGenerator(existingPayload, sessionData);
     case "on_init":
       return await onInitGenerator(existingPayload, sessionData);
+    case "on_init_commercial_model":
+      return await onInitCommercialModelGenerator(existingPayload, sessionData);
     case "on_init_fulfillment_array":
       return await onInitFulfillmentArrayGenerator(
         existingPayload,
@@ -93,6 +106,10 @@ export async function Generator(
       );
     case "confirm":
       return await confirmGenerator(existingPayload, sessionData);
+    case "confirm_commercial_model":
+      return await confirmCommercialModelGenerator(existingPayload, sessionData);
+    case "on_confirm_commercial_model":
+      return await onConfirmCommercialModelGenerator(existingPayload, sessionData);
     case "on_confirm":
       return await onConfirmGenerator(existingPayload, sessionData);
     case "on_status_pending":
@@ -222,6 +239,51 @@ export async function Generator(
         sessionData,
         action_id
       );
+    case "issue_open":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_open",
+      }, inputs);
+		case "on_issue_processing":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_processing",
+			});
+		case "on_issue_need_more_info":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_need_more_info",
+			});
+    case "issue_info_provided":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_info_provided",
+      }, inputs);
+		case "on_issue_provided":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_provided",
+			});
+		case "on_issue_resolution":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolution",
+			});
+		case "issue_resolution_accept":
+			return await issueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "issue_resolution_accept",
+			}, inputs);
+		case "on_issue_resolved":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolved",
+			});
+		case "issue_close":
+			return await issueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "issue_close",
+			}, inputs);
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }

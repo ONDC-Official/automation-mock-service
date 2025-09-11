@@ -1,6 +1,11 @@
-import { SessionData, Input } from "../../../session-types";
+import { Input, SessionData } from "../../../../session-types";
 
-export async function initGenerator(
+export type SelectedNpFees = {
+  item_id: string;
+  id: string;
+}[];
+
+export async function initCommercialModelGenerator(
   existingPayload: any,
   sessionData: SessionData,
   inputs?: Input
@@ -26,6 +31,15 @@ export async function initGenerator(
   existingPayload.message.order.billing.updated_at =
     existingPayload.context.timestamp;
 
+  const npFeesRaw = inputs?.np_fees || [];
+  
+  const npFeesInput: SelectedNpFees = npFeesRaw?.map((code: string) => {
+    const [item_id, npfId] = code.split("_npf_");
+    return { item_id, id: `${npfId}` };
+  });
+  sessionData.selected_np_fees = npFeesInput as SelectedNpFees;
+
+
   const selectedFulfillmentType = inputs?.fulfillmentType || "Delivery";
 
   const selectedFulfillment = sessionData?.fulfillments?.find(
@@ -34,8 +48,28 @@ export async function initGenerator(
 
   if (sessionData?.items) {
     existingPayload.message.order.items = sessionData.items.map((item) => {
+      const npFee =
+        npFeesInput?.find((fee) => fee.item_id === item.id) ?? {
+          item_id: item.id,
+          id: "1",
+        };
+        const existingTags = item.tags || [];
       item.fulfillment_id = selectedFulfillment.id;
-      return item;
+      return {
+        ...item,
+        fulfillment_id: selectedFulfillment?.id,
+        tags: [...existingTags,
+          {
+            code: "np_fees",
+            list: [
+              {
+                code: "id",
+                value: npFee.id,
+              },
+            ],
+          },
+        ],
+      };
     });
   }
 
