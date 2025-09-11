@@ -26,7 +26,7 @@ export const confirmCommercialModelGenerator = (
 
 	if (sessionData.fulfillments) {
 		existingPayload.message.order.fulfillments = sessionData.fulfillments.map(
-			(fulfillment) => {
+			(fulfillment:any) => {
 				fulfillment.end.person = {
 					name: "person_name_1",
 				};

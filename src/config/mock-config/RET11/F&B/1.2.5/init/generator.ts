@@ -29,7 +29,7 @@ export async function initGenerator(
   const selectedFulfillmentType = inputs?.fulfillmentType || "Delivery";
 
   const selectedFulfillment = sessionData?.fulfillments?.find(
-    (fulfillment) => fulfillment.type === selectedFulfillmentType
+    (fulfillment:any) => fulfillment?.type === selectedFulfillmentType
   );
 
   if (sessionData?.items) {

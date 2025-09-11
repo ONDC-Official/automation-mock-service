@@ -16,6 +16,7 @@ export const issueStatusGenerator = async (
     .latest_issue_payload?.expected_response_time || { duration: "PT2H" };
   existingPayload.message.issue.expected_resolution_time = sessionData
     .latest_issue_payload?.expected_resolution_time || { duration: "P1D" };
+  // (existingPayload.message.issue.actors.info.contact ??= {}).email ??= "sim@yahoo.com";
 
   const provider = sessionData.provider_id;
   let fulfillment = "F1";
@@ -182,11 +183,17 @@ export const issueStatusGenerator = async (
     switch (actor.type) {
       case "CONSUMER":
         actor.info.person = extractedFulfillmentData.end.person;
-        actor.info.contact = extractedFulfillmentData.end.contact;
+        actor.info.contact = {
+        ...actor.info.contact,
+        ...extractedFulfillmentData.end.contact,
+      };
         break;
       case "INTERFACING_NP":
         actor.info.person = extractedFulfillmentData.start.person;
-        actor.info.contact = extractedFulfillmentData.start.contact;
+        actor.info.contact = {
+        ...actor.info.contact,
+        ...extractedFulfillmentData.end.contact,
+      };
       default:
         break;
     }

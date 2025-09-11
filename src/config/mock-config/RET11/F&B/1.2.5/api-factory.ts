@@ -39,6 +39,8 @@ import { onInitCommercialModelGenerator } from "./on_init/on_init_commercial_mod
 import { onSelectCommercialModelGenerator } from "./on_select/on_select_commercial_model/generator";
 import { confirmCommercialModelGenerator } from "./confirm/confirm_commercial_model/generator";
 import { onConfirmCommercialModelGenerator } from "./on_confirm/on_confirm_commercial_model/generator";
+import { issueStatusGenerator } from "./issue/generator";
+import { onIssueStatusGenerator } from "./on_issue/generator";
 
 export async function Generator(
   action_id: string,
@@ -237,6 +239,51 @@ export async function Generator(
         sessionData,
         action_id
       );
+    case "issue_open":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_open",
+      }, inputs);
+		case "on_issue_processing":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_processing",
+			});
+		case "on_issue_need_more_info":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_need_more_info",
+			});
+    case "issue_info_provided":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_info_provided",
+      }, inputs);
+		case "on_issue_provided":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_provided",
+			});
+		case "on_issue_resolution":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolution",
+			});
+		case "issue_resolution_accept":
+			return await issueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "issue_resolution_accept",
+			}, inputs);
+		case "on_issue_resolved":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolved",
+			});
+		case "issue_close":
+			return await issueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "issue_close",
+			}, inputs);
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }

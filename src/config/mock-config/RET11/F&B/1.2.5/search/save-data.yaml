@@ -5,3 +5,4 @@ save-data:
   bap_id: "$.context.bap_id"
   bap_uri: "$.context.bap_uri"
   city_code: "$.context.city"
+  search_bap_terms: $.message.intent.tags[?(@.code=="bap_features")]
