@@ -63,6 +63,8 @@ import { on_status_agent_assigned_ccc_generator } from "./on_status/on_status_ag
 import { on_status_picked_ccc_generator } from "./on_status/on_status_picked_ccc/generator";
 import { on_status_out_for_delivery_ccc_generator } from "./on_status/on_status_out_for_delivery_ccc/generator";
 import { on_status_order_delivered_ccc_generator } from "./on_status/on_status_order_delivered_ccc/generator";
+import { issueStatusGenerator } from "./issue/generator";
+import { onIssueStatusGenerator } from "./on_issue/generator";
 export async function Generator(
   action_id: string,
   existingPayload: any,
@@ -207,8 +209,58 @@ export async function Generator(
         return on_status_out_for_delivery_ccc_generator(existingPayload, sessionData);
       case "on_status_order_delivered_ccc":
         return on_status_order_delivered_ccc_generator(existingPayload, sessionData);
-    default:
-      console.log(action_id);
-      throw new Error("Invalid action id found! ");
+      case "issue_open":
+        return await issueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "issue_open",
+        });
+      case "issue_open_2":
+        return await issueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "issue_open_2",
+        });
+      case "on_issue_processing":
+        return await onIssueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "on_issue_processing",
+        });
+      case "on_issue_need_more_info":
+        return await onIssueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "on_issue_need_more_info",
+        });
+      case "issue_info_provided":
+        return await issueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "issue_info_provided",
+        });
+      case "on_issue_provided":
+        return await onIssueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "on_issue_provided",
+        });
+      case "on_issue_resolution":
+        return await onIssueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "on_issue_resolution",
+        });
+      case "issue_resolution_accept":
+        return await issueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "issue_resolution_accept",
+        });
+      case "on_issue_resolved":
+        return await onIssueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "on_issue_resolved",
+        });
+      case "issue_close":
+        return await issueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "issue_close",
+        });
+      default:
+        console.log(action_id);
+        throw new Error("Invalid action id found! ");
   }
 }
