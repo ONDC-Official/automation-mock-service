@@ -63,6 +63,8 @@ import { on_status_agent_assigned_ccc_generator } from "./on_status/on_status_ag
 import { on_status_picked_ccc_generator } from "./on_status/on_status_picked_ccc/generator";
 import { on_status_out_for_delivery_ccc_generator } from "./on_status/on_status_out_for_delivery_ccc/generator";
 import { on_status_order_delivered_ccc_generator } from "./on_status/on_status_order_delivered_ccc/generator";
+import { issueStatusGenerator } from "./issue/generator";
+import { onIssueStatusGenerator } from "./on_issue/generator";
 import { select_offers_generator } from "./select/select_offers/generator";
 import { on_select_offers_generator } from "./on_select/on_select_offers/generator";
 import { init_offers_generator } from "./init/init_offers/generator";
@@ -197,54 +199,90 @@ export async function Generator(
       return update_reverse_qc_rep_generator(existingPayload, sessionData);
     case "on_update_return_picked_rep":
       return on_update_picked_rep_generator(existingPayload, sessionData);
-    case "select_ccc":
-      return select_ccc_generator(existingPayload, sessionData);
-    case "on_select_ccc":
-      return on_select_ccc_generator(existingPayload, sessionData);
-    case "init_ccc":
-      return init_ccc_generator(existingPayload, sessionData);
-    case "on_init_ccc":
-      return on_init_ccc_generator(existingPayload, sessionData);
-    case "confirm_ccc":
-      return confirm_ccc_generator(existingPayload, sessionData);
-    case "on_confirm_ccc":
-      return on_confirm_ccc_generator(existingPayload, sessionData);
-    case "on_status_accepted_ccc":
-      return on_status_accepted_ccc_generator(existingPayload, sessionData);
-    case "on_status_packed_ccc":
-      return on_status_packed_ccc_generator(existingPayload, sessionData);
-    case "on_status_agent_assigned_ccc":
-      return on_status_agent_assigned_ccc_generator(
-        existingPayload,
-        sessionData
-      );
-    case "on_status_picked_ccc":
-      return on_status_picked_ccc_generator(existingPayload, sessionData);
-    case "on_status_out_for_delivery_ccc":
-      return on_status_out_for_delivery_ccc_generator(
-        existingPayload,
-        sessionData
-      );
-    case "on_status_order_delivered_ccc":
-      return on_status_order_delivered_ccc_generator(
-        existingPayload,
-        sessionData
-      );
-    case "on_status_out_for_delivery_force":
-      return on_status_out_for_delivery_force_generator(
-        existingPayload,
-        sessionData
-      );
-    case "cancel_no":
-      return cancel_no_generator(existingPayload, sessionData);
-    case "cancel_yes":
-      return cancel_yes_generator(existingPayload, sessionData);
-    case "on_cancel_yes":
-      return on_cancel_yes_generator(existingPayload, sessionData);
-    case "update_settlement_cancel":
-      return update_settlement_cancel_generator(existingPayload, sessionData);
-    default:
-      console.log(action_id);
-      throw new Error("Invalid action id found! ");
+      case "select_ccc":
+        return select_ccc_generator(existingPayload, sessionData);
+      case "on_select_ccc":
+        return on_select_ccc_generator(existingPayload, sessionData);
+      case "init_ccc":
+        return init_ccc_generator(existingPayload, sessionData);
+      case "on_init_ccc":
+        return on_init_ccc_generator(existingPayload, sessionData);
+      case "confirm_ccc":
+        return confirm_ccc_generator(existingPayload, sessionData);
+      case "on_confirm_ccc":
+        return on_confirm_ccc_generator(existingPayload, sessionData);
+      case "on_status_accepted_ccc":
+        return on_status_accepted_ccc_generator(existingPayload, sessionData);
+      case "on_status_packed_ccc":
+        return on_status_packed_ccc_generator(existingPayload, sessionData);
+      case "on_status_agent_assigned_ccc":
+        return on_status_agent_assigned_ccc_generator(existingPayload, sessionData);
+      case "on_status_picked_ccc":
+        return on_status_picked_ccc_generator(existingPayload, sessionData);
+      case "on_status_out_for_delivery_ccc":
+        return on_status_out_for_delivery_ccc_generator(existingPayload, sessionData);
+      case "on_status_order_delivered_ccc":
+        return on_status_order_delivered_ccc_generator(existingPayload, sessionData);
+      case "issue_open":
+        return await issueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "issue_open",
+        });
+      case "issue_open_2":
+        return await issueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "issue_open_2",
+        });
+      case "on_issue_processing":
+        return await onIssueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "on_issue_processing",
+        });
+      case "on_issue_need_more_info":
+        return await onIssueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "on_issue_need_more_info",
+        });
+      case "issue_info_provided":
+        return await issueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "issue_info_provided",
+        });
+      case "on_issue_provided":
+        return await onIssueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "on_issue_provided",
+        });
+      case "on_issue_resolution":
+        return await onIssueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "on_issue_resolution",
+        });
+      case "issue_resolution_accept":
+        return await issueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "issue_resolution_accept",
+        });
+      case "on_issue_resolved":
+        return await onIssueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "on_issue_resolved",
+        });
+      case "issue_close":
+        return await issueStatusGenerator(existingPayload, {
+          ...sessionData,
+          igm_action: "issue_close",
+        });
+      case "cancel_no":
+        return cancel_no_generator(existingPayload, sessionData);
+      case "cancel_yes":
+        return cancel_yes_generator(existingPayload, sessionData);
+      case "on_cancel_yes":
+        return on_cancel_yes_generator(existingPayload, sessionData);
+      case "update_settlement_cancel":
+        return update_settlement_cancel_generator(existingPayload, sessionData);
+      default:
+        console.log(action_id);
+        throw new Error("Invalid action id found! ");
   }
 }
