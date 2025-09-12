@@ -121,6 +121,8 @@ export async function Generator(
       return on_status_picked_rep_generator(existingPayload, sessionData);
     case "on_status_out_for_delivery":
       return on_status_out_for_delivery_generator(existingPayload, sessionData);
+    case "on_status_out_for_delivery_force":
+      return on_status_out_for_delivery_force_generator(existingPayload, sessionData);
     case "on_status_out_for_delivery_rep":
       return on_status_out_for_delivery_rep_generator(
         existingPayload,
