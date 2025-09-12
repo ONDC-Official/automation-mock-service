@@ -32,3 +32,9 @@ session_data:
   on_select_items: []
   search_bap_terms: null
   selected_np_fees: []
+  latest_issue_payload: any
+  provider_id: any
+  status: any
+  igm_action: any
+  issue_action: []
+  issue_resolution: []

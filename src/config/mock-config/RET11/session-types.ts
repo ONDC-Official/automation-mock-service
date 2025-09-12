@@ -16,7 +16,7 @@ export interface SessionData {
   domain?: string;
 
   // order phase
-  fulfillments?: any[];
+  fulfillments?: any | undefined;
   selected_items: any[];
   selected_item_id: string;
   quote: any;
@@ -53,6 +53,12 @@ export interface SessionData {
   on_select_items?: any[];
   search_bap_terms: any
   selected_np_fees: any;
+  latest_issue_payload: any;
+	provider_id: any;
+	status: any;
+	igm_action: any;
+	issue_action: any[];
+	issue_resolution: any;
 }
 
 export type BecknContext = {
@@ -93,4 +99,5 @@ export interface Input {
   isForceCancel?: string;
   isRefund?: string;
   np_fees?: string[];
+  resolution_accept?: string;
 }
