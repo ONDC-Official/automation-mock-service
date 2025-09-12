@@ -22,7 +22,7 @@ export const updateSettlelmentGenerator = (
       refundAmount = sessionData.on_confirm_quote.price.value;
     }
   } else if (action_id === "update_settelment_return") {
-    sessionData.fulfillments?.forEach((fulfillment) => {
+    sessionData.fulfillments?.forEach((fulfillment:any) => {
       if (fulfillment.type === "Return") {
         existingPayload.message.order.fulfillments = [
           {

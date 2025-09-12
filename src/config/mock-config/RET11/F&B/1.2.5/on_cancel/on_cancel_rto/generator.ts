@@ -31,7 +31,7 @@ export const onCancelRTOGenerator = (
 
   if (sessionData.items) {
     const fulfillmentId = sessionData.fulfillments?.find(
-      (fulfillment) => fulfillment.type === "Delivery"
+      (fulfillment:any) => fulfillment?.type === "Delivery"
     ).id;
 
     sessionData.items.forEach((item: any) => {
