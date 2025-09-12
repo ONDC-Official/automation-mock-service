@@ -329,3 +329,8 @@ codes:
     action: issue
     default: issue/issue_close/default.yaml
     message_id: true
+  - code: 163
+    action_id: issue_open_2
+    action: issue
+    default: issue/issue_open_2/default.yaml
+    message_id: true
