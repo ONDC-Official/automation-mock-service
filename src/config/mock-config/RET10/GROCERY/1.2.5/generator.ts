@@ -445,6 +445,11 @@ export async function Generator(
 				...sessionData,
 				igm_action: "issue_open",
 			});
+		case "issue_open_2":
+			return await issueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "issue_open_2",
+			});
 		case "on_issue_processing":
 			return await onIssueStatusGenerator(existingPayload, {
 				...sessionData,
