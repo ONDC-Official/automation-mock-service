@@ -197,30 +197,30 @@ export async function onSearchRateCardP2H2PGenerator(
   //       return fulfillment;
   //     }
   //   );
-  if (
-    sessionData?.is_cod === "yes" ||
-    (Array.isArray(inputs?.feature_discovery) &&
-      inputs?.feature_discovery.includes("017"))
-  ) {
-    const items = existingPayload.message.catalog["bpp/providers"][0].items;
-    items.forEach(
-      (item: {
-        tags: { code: string; list: { code: string; value: string }[] }[];
-      }) => {
-        item.tags = [
-          {
-            code: "type",
-            list: [
-              {
-                code: "type",
-                value: "base",
-              },
-            ],
-          },
-        ];
-      }
-    );
-  }
+  // if (
+  //   sessionData?.is_cod === "yes" ||
+  //   (Array.isArray(inputs?.feature_discovery) &&
+  //     inputs?.feature_discovery.includes("017"))
+  // ) {
+  //   const items = existingPayload.message.catalog["bpp/providers"][0].items;
+  //   items.forEach(
+  //     (item: {
+  //       tags: { code: string; list: { code: string; value: string }[] }[];
+  //     }) => {
+  //       item.tags = [
+  //         {
+  //           code: "type",
+  //           list: [
+  //             {
+  //               code: "type",
+  //               value: "base",
+  //             },
+  //           ],
+  //         },
+  //       ];
+  //     }
+  //   );
+  // }
   if (sessionData?.is_cod === "yes") {
     existingPayload.message.catalog["bpp/providers"][0].items.push({
       id: "C1",

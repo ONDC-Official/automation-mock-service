@@ -406,3 +406,20 @@ codes:
   action: init
   default: init/default.yaml
   message_id: true
+
+- code: 117
+  action_id: search_REVERSE_QC_LOGISTICS
+  action: search
+  default: search/search_reverseQc/default.yaml
+  message_id: true
+
+- code: 118
+  action_id: on_search_REVERSE_QC_LOGISTICS
+  action: on_search
+  default: on_search/on_search_reverseQc/default.yaml
+  message_id: false
+
+- code: 119
+  action_id: init_REVERSE_QC_LOGISTICS
+  action: init
+  default: init/init_reverseQc/default.yaml
