@@ -10,7 +10,10 @@ import {
 	getFlowCompleteStatus,
 	getNextActionMetaData,
 } from "../services/flow-mapping-service";
-import { loadMockSessionData } from "../services/data-services";
+import {
+	loadMockSessionData,
+	saveCompleteData,
+} from "../services/data-services";
 import {
 	sendToApiService,
 	sendToApiServiceAboutForm,
@@ -320,13 +323,32 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			if (latestMeta.actionType === "HTML_FORM") {
 				console.log("HTML_FORM action detected", req.body);
 				const version = req.apiSessionCache?.version;
-
 				if (!version) {
 					throw new Error("Version not found in session data");
 				}
 				if (!req.body.inputs || !req.body.inputs.submission_id) {
 					throw new Error("submission_id not found in inputs");
 				}
+				const mockHtmlAction = getMockActionObject(latestMeta.actionId);
+				const saveData = mockHtmlAction.saveData;
+				const sessionData = await loadMockSessionData(txId, subscriberUrl);
+				const saveDataObj = saveData?.["save-data"];
+				if (!saveDataObj || typeof saveDataObj !== "object") {
+					throw new Error(
+						"[FATAL] Invalid or missing save-data for HTML_FORM action " +
+							latestMeta.actionId
+					);
+				}
+				const firstKey = Object.keys(saveDataObj)[0];
+				if (!firstKey) {
+					throw new Error(
+						"[FATAL] No save data key found for HTML_FORM action: " +
+							latestMeta.actionId
+					);
+				}
+				sessionData[firstKey as keyof typeof sessionData] =
+					req.body.inputs.submission_id;
+				await saveCompleteData(JSON.stringify(sessionData), txId);
 				await sendToApiServiceAboutForm(
 					subscriberUrl,
 					txId,
