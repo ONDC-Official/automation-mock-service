@@ -29,15 +29,6 @@ message:
               label: TAT
               duration: P7D
 
-          - id: Express Delivery
-            descriptor:
-              name: Express Delivery
-              short_desc: Delivery within 2 days
-              long_desc: Express logistics service with up to 2-day TAT
-            time:
-              label: TAT
-              duration: P2D
-
         fulfillments:
           - id: "1"
             type: Delivery
