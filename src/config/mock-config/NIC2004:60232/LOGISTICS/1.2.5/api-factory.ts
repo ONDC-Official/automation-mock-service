@@ -52,12 +52,16 @@ export async function Generator(
       return await searchRateCardP2PGenerator(existingPayload, sessionData, inputs,action_id);
     case "search_rate_card_P2H2P_LOGISTICS":
       return await searchRateCardP2H2PGenerator(existingPayload, sessionData, inputs,action_id);
+    case "search_REVERSE_QC_LOGISTICS":
+      return await searchGenerator(existingPayload, sessionData, inputs,action_id);
     case "init_LOGISTICS":
       return await initGenerator(existingPayload, sessionData,inputs,action_id);
     case "call_masking_init_LOGISTICS":
       return await initGenerator(existingPayload, sessionData,inputs,action_id);
     case "init_qc":
       return await initQCGenerator(existingPayload, sessionData);
+    case "init_REVERSE_QC_LOGISTICS":
+      return await initGenerator(existingPayload, sessionData,inputs,action_id);
     case "confirm_LOGISTICS":
       return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
     case "confirm_SELLER_BUYER_INSTRUCTIONS":
@@ -84,6 +88,8 @@ export async function Generator(
       return await onSearchRateCardP2PGenerator(existingPayload,sessionData,action_id,inputs)
     case "on_search_rate_card_P2H2P_LOGISTICS":
       return await onSearchRateCardP2H2PGenerator(existingPayload,sessionData,action_id,inputs)
+    case "on_search_REVERSE_QC_LOGISTICS":
+      return await onSearch1Generator(existingPayload,sessionData,action_id,inputs)
     case "on_init_LOGISTICS":
       return await onInitGenerator(existingPayload, sessionData);
     case "on_init_qc":
