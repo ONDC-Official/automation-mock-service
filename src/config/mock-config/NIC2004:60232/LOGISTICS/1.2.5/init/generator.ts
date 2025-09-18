@@ -1,5 +1,6 @@
 import { Input, SessionData } from "../../../session-types";
 import { removeTagsByCodes } from "../../../../../../utils/generic-utils";
+import { log } from "util";
 
 const getPayemntFields = (paymentType: string) => {
   if (paymentType === "ON-ORDER" || paymentType === "ON-FULFILLMENT") {
@@ -26,6 +27,8 @@ export const initGenerator = async (
   //   sessionData.location_id;
 
   sessionData?.on_search_items?.forEach((item: any) => {
+     console.log("on_search_items",sessionData.on_search_items);
+     
     if (item.fulfillment_id === sessionData.on_search_fulfillment.id) {
       let isBaseItem = false;
       let isCodTagPresent = false;

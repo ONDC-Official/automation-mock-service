@@ -5,7 +5,7 @@ const TatMapping: any = {
   "Immediate Delivery": { code: "PT60M", day: 0, pickupTime: "PT15M" },
   "Same Day Delivery": { code: "PT4H", day: 0, pickupTime: "PT1H" },
   "Next Day Delivery": { code: "P1D", day: 1, pickupTime: "PT4H" },
-  "Standard Delivery": { code: "P2D", day: 2, pickupTime: "PT12H" },
+  "Standard Delivery": { code: "P7D", day: 7, pickupTime: "PT12H" },
   "Express Delivery": { code: "P3D", day: 3, pickupTime: "P1D" },
   "Instant Delivery": { code: "PT10M", day: 0, pickupTime: "PT2M" },
 };
@@ -197,30 +197,30 @@ export async function onSearchRateCardP2H2PGenerator(
   //       return fulfillment;
   //     }
   //   );
-  if (
-    sessionData?.is_cod === "yes" ||
-    (Array.isArray(inputs?.feature_discovery) &&
-      inputs?.feature_discovery.includes("017"))
-  ) {
-    const items = existingPayload.message.catalog["bpp/providers"][0].items;
-    items.forEach(
-      (item: {
-        tags: { code: string; list: { code: string; value: string }[] }[];
-      }) => {
-        item.tags = [
-          {
-            code: "type",
-            list: [
-              {
-                code: "type",
-                value: "base",
-              },
-            ],
-          },
-        ];
-      }
-    );
-  }
+  // if (
+  //   sessionData?.is_cod === "yes" ||
+  //   (Array.isArray(inputs?.feature_discovery) &&
+  //     inputs?.feature_discovery.includes("017"))
+  // ) {
+  //   const items = existingPayload.message.catalog["bpp/providers"][0].items;
+  //   items.forEach(
+  //     (item: {
+  //       tags: { code: string; list: { code: string; value: string }[] }[];
+  //     }) => {
+  //       item.tags = [
+  //         {
+  //           code: "type",
+  //           list: [
+  //             {
+  //               code: "type",
+  //               value: "base",
+  //             },
+  //           ],
+  //         },
+  //       ];
+  //     }
+  //   );
+  // }
   if (sessionData?.is_cod === "yes") {
     existingPayload.message.catalog["bpp/providers"][0].items.push({
       id: "C1",

@@ -140,7 +140,7 @@ export async function onSearch1Generator(
   existingPayload.message.catalog["bpp/providers"][0].fulfillments =
     existingPayload.message.catalog["bpp/providers"][0].fulfillments.map(
       (fulfillment: any) => {
-        if (fulfillment.type === "Delivery") {
+        if (fulfillment.type === "Delivery" || fulfillment.type === "Return") {
           if (sessionData?.domain === "ONDC:LOG11") {
             removeTagsByCodes(fulfillment.tags, ["distance"]);
             if (fulfillment.tags.length < 1) delete fulfillment.tags;
