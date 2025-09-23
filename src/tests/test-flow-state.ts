@@ -1,6 +1,7 @@
 import { getFlowCompleteStatus } from "../services/flow-mapping-service";
 import { Flow } from "../types/flow-types";
 import { TransactionCache } from "../types/transaction-cache";
+import { writeFileSync } from "fs";
 
 const tsData: TransactionCache = {
 	sessionId: "DYeL9CoMFP3D4M-RO0YGRxZGHJ6Ra-EY",
@@ -157,7 +158,7 @@ const tsData: TransactionCache = {
 		},
 		{
 			entryType: "API",
-			action: "track",
+			action: "on_status",
 			messageId: "a5a79879-fefe-4a07-ba45-0c55e2d969ca",
 			payloadId: "1e09a237-0e1f-46f5-acad-5e6cabbb7821",
 			response: {
@@ -331,5 +332,10 @@ const flow: Flow = {
 		},
 	],
 };
+// const status = getFlowCompleteStatus(tsData, flow, "AVAILABLE", {} as any);
 
-// console.log(JSON.stringify(getFlowCompleteStatus(tsData, flow)));
+// writeFileSync("flow-output.json", JSON.stringify(status, null, 4), {
+// 	encoding: "utf-8",
+// });
+// console.log(JSON.stringify(status, null, 4));
+// visualizeRideFlow(status as any);

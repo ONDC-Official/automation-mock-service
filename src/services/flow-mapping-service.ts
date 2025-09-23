@@ -15,6 +15,7 @@ import {
 import { getReferenceData } from "./data-services";
 import { MockStatusCode } from "./mock-flow-status-service";
 import logger from "@ondc/automation-logger";
+
 export function getNextActionMetaData(
 	transactionData: TransactionCache,
 	flow: Flow,
@@ -55,212 +56,306 @@ export function getFlowCompleteStatus(
 		reference_data: getReferenceData(mockSessionData),
 	};
 	const flowSequence = flow.sequence;
-	let i = 0;
-	for (i = 0; i < apiList.length; i++) {
-		const data = apiList[i];
-		if (data.entryType === "API") {
-			handleApiSequence(i, flowSequence, data, mappedFlow, apiList);
+
+	// Track the next expected step index in the flow
+	let nextExpectedStepIndex = 0;
+
+	// Process each API in chronological order
+	for (const apiData of apiList) {
+		if (apiData.entryType === "API") {
+			nextExpectedStepIndex = handleApiSequenceStrict(
+				apiData,
+				flowSequence,
+				mappedFlow,
+				nextExpectedStepIndex
+			);
 		} else {
-			handleFormSequence(i, flowSequence, data, mappedFlow, apiList);
+			nextExpectedStepIndex = handleFormSequenceStrict(
+				apiData,
+				flowSequence,
+				mappedFlow,
+				nextExpectedStepIndex
+			);
 		}
 	}
 
-	i = mappedFlow.sequence.length;
-	for (i; i < flowSequence.length; i++) {
-		if (
-			i === 0 ||
-			(i !== 0 &&
-				i === apiList.length &&
-				mappedFlow.sequence[i - 1].payloads &&
-				mappedFlow.sequence[i - 1].payloads?.subStatus === "SUCCESS")
-		) {
-			const item = flowSequence[i];
-
-			const base: MappedStep = {
-				status: "LISTENING",
-				actionId: item.key,
-				owner: item.owner,
-				actionType: item.type,
-				input: item.input,
-				index: i,
-				unsolicited: item.unsolicited,
-				pairActionId: item.pair,
-				description: item.description,
-				expect: item.expect,
-				label: item.label,
-				force_proceed: item.force_proceed,
-			};
-			if (item.type === "HTML_FORM") {
-				if (subscriberType === item.owner) {
-					mappedFlow.sequence.push({
-						...base,
-						status:
-							flowStatus === "AVAILABLE" ? "INPUT-REQUIRED" : "PROCESSING",
-					});
-				} else {
-					mappedFlow.sequence.push({
-						...base,
-						status:
-							flowStatus === "AVAILABLE" ? "WAITING-SUBMISSION" : "RESPONDING",
-					});
-				}
-				continue;
-			}
-			if (subscriberType === item.owner) {
-				mappedFlow.sequence.push(base);
-			} else {
-				if (item.input) {
-					mappedFlow.sequence.push({
-						...base,
-						status:
-							flowStatus === "AVAILABLE" ? "INPUT-REQUIRED" : "RESPONDING",
-					});
-				} else {
-					if (item.unsolicited) {
-						mappedFlow.sequence.push({
-							...base,
-							status:
-								flowStatus === "AVAILABLE" ? "INPUT-REQUIRED" : "RESPONDING",
-							input: [],
-						});
-					}
-					mappedFlow.sequence.push({
-						...base,
-						status: "RESPONDING",
-					});
-				}
-			}
-		} else {
-			const item = flowSequence[i];
-			mappedFlow.sequence.push({
-				status: "WAITING",
-				actionId: item.key,
-				owner: item.owner,
-				actionType: item.type,
-				input: item.input,
-				index: i,
-				unsolicited: item.unsolicited,
-				pairActionId: item.pair,
-				description: item.description,
-				expect: item.expect,
-				label: item.label,
-			});
-		}
+	// Add remaining pending steps that haven't been completed
+	for (let i = nextExpectedStepIndex; i < flowSequence.length; i++) {
+		addPendingStep(
+			i,
+			flowSequence[i],
+			mappedFlow,
+			subscriberType,
+			flowStatus,
+			nextExpectedStepIndex
+		);
 	}
+
 	return mappedFlow;
 }
 
-function handleApiSequence(
-	i: number,
-	flowSequence: SequenceStep[],
+function handleApiSequenceStrict(
 	data: ReducedApiData,
+	flowSequence: SequenceStep[],
 	mappedFlow: FlowMap,
-	apiList: ApiHistory[]
-) {
-	if (i < flowSequence.length) {
-		const targetApiData = data;
-		const flowStep = flowSequence[i];
-		if (flowStep.type === targetApiData.action) {
-			mappedFlow.sequence.push({
-				status: "COMPLETE",
-				actionId: flowStep.key,
-				owner: flowStep.owner,
-				actionType: flowStep.type,
-				input: flowStep.input,
-				payloads: targetApiData,
-				index: i,
-				unsolicited: flowStep.unsolicited,
-				pairActionId: flowStep.pair,
-				description: flowStep.description,
-				label: flowStep.label,
-			});
-		} else {
-			mappedFlow.missedSteps.push({
-				status: "COMPLETE",
-				actionId: targetApiData.action,
-				owner: targetApiData.action.startsWith("on_") ? "BPP" : "BAP",
-				actionType: targetApiData.action,
-				input: undefined,
-				index: -1,
-				unsolicited: false,
-				pairActionId: null,
-				description: "action miss match from flow",
-				missedStep: true,
-				payloads: targetApiData,
-			});
-		}
-	} else {
-		const targetApiData = data;
+	nextExpectedStepIndex: number
+): number {
+	// Check if we have more steps to process in the flow
+	if (nextExpectedStepIndex >= flowSequence.length) {
+		// API is beyond the flow sequence
 		mappedFlow.missedSteps.push({
 			status: "COMPLETE",
-			actionId: targetApiData.action,
-			owner: targetApiData.action.startsWith("on_") ? "BPP" : "BAP",
-			actionType: targetApiData.action,
+			actionId: data.action,
+			owner: data.action.startsWith("on_") ? "BPP" : "BAP",
+			actionType: data.action,
 			input: undefined,
 			index: -1,
 			unsolicited: false,
 			pairActionId: null,
-			payloads: apiList[i],
-			description: "action beyond flow",
+			description: "action beyond flow sequence",
 			missedStep: true,
+			payloads: data,
+		});
+		return nextExpectedStepIndex;
+	}
+
+	const expectedStep = flowSequence[nextExpectedStepIndex];
+
+	// Check if the API matches the next expected step
+	if (expectedStep.type === data.action) {
+		// Perfect match - add to sequence
+		mappedFlow.sequence.push({
+			status: "COMPLETE",
+			actionId: expectedStep.key,
+			owner: expectedStep.owner,
+			actionType: expectedStep.type,
+			input: expectedStep.input,
+			payloads: data,
+			index: nextExpectedStepIndex,
+			unsolicited: expectedStep.unsolicited,
+			pairActionId: expectedStep.pair,
+			description: expectedStep.description,
+			label: expectedStep.label,
+		});
+		return nextExpectedStepIndex + 1;
+	}
+
+	// Check if this API exists later in the flow sequence
+	const futureStepIndex = findStepInFlow(
+		data.action,
+		flowSequence,
+		nextExpectedStepIndex
+	);
+
+	if (futureStepIndex !== -1) {
+		// API exists in flow but is out of order - mark as missed step
+		mappedFlow.missedSteps.push({
+			status: "COMPLETE",
+			actionId: data.action,
+			owner: data.action.startsWith("on_") ? "BPP" : "BAP",
+			actionType: data.action,
+			input: undefined,
+			index: futureStepIndex,
+			unsolicited: false,
+			pairActionId: null,
+			description: `action executed out of order - expected at step ${futureStepIndex}, but step ${nextExpectedStepIndex} not completed`,
+			missedStep: true,
+			payloads: data,
+		});
+	} else {
+		// API doesn't exist in the remaining flow - completely unexpected
+		mappedFlow.missedSteps.push({
+			status: "COMPLETE",
+			actionId: data.action,
+			owner: data.action.startsWith("on_") ? "BPP" : "BAP",
+			actionType: data.action,
+			input: undefined,
+			index: -1,
+			unsolicited: false,
+			pairActionId: null,
+			description: "action not found in flow sequence",
+			missedStep: true,
+			payloads: data,
 		});
 	}
+
+	// Return the same index since we didn't advance the flow
+	return nextExpectedStepIndex;
 }
 
-function handleFormSequence(
-	i: number,
-	flowSequence: SequenceStep[],
+function handleFormSequenceStrict(
 	data: ReduceFormData,
+	flowSequence: SequenceStep[],
 	mappedFlow: FlowMap,
-	apiList: ApiHistory[]
-) {
-	if (i < flowSequence.length) {
-		const targetFormData = data;
-		const flowStep = flowSequence[i];
-		if (flowStep.type === targetFormData.formType) {
-			mappedFlow.sequence.push({
-				status: "COMPLETE",
-				actionId: flowStep.key,
-				owner: flowStep.owner,
-				actionType: flowStep.type,
-				input: flowStep.input,
-				index: i,
-				unsolicited: flowStep.unsolicited,
-				pairActionId: flowStep.pair,
-				description: flowStep.description,
-				label: flowStep.label,
-				payloads: targetFormData,
-			});
-		} else {
-			mappedFlow.missedSteps.push({
-				status: "COMPLETE",
-				actionId: targetFormData.formId,
-				owner: "BAP",
-				actionType: targetFormData.formType,
-				input: undefined,
-				index: -1,
-				unsolicited: false,
-				pairActionId: null,
-				description: "form miss match from flow",
-				missedStep: true,
-				payloads: targetFormData,
-			});
-		}
-	} else {
-		const targetFormData = data;
+	nextExpectedStepIndex: number
+): number {
+	// Check if we have more steps to process in the flow
+	if (nextExpectedStepIndex >= flowSequence.length) {
+		// Form is beyond the flow sequence
 		mappedFlow.missedSteps.push({
 			status: "COMPLETE",
-			actionId: targetFormData.formId,
+			actionId: data.formId,
 			owner: "BAP",
-			actionType: targetFormData.formType,
+			actionType: data.formType,
 			input: undefined,
 			index: -1,
 			unsolicited: false,
 			pairActionId: null,
-			payloads: apiList[i],
-			description: "form beyond flow",
+			description: "form beyond flow sequence",
 			missedStep: true,
+			payloads: data,
 		});
+		return nextExpectedStepIndex;
+	}
+
+	const expectedStep = flowSequence[nextExpectedStepIndex];
+
+	// Check if the form matches the next expected step
+	if (expectedStep.type === data.formType) {
+		// Perfect match - add to sequence
+		mappedFlow.sequence.push({
+			status: "COMPLETE",
+			actionId: expectedStep.key,
+			owner: expectedStep.owner,
+			actionType: expectedStep.type,
+			input: expectedStep.input,
+			index: nextExpectedStepIndex,
+			unsolicited: expectedStep.unsolicited,
+			pairActionId: expectedStep.pair,
+			description: expectedStep.description,
+			label: expectedStep.label,
+			payloads: data,
+		});
+		return nextExpectedStepIndex + 1;
+	}
+
+	// Check if this form exists later in the flow sequence
+	const futureStepIndex = findStepInFlow(
+		data.formType,
+		flowSequence,
+		nextExpectedStepIndex
+	);
+
+	if (futureStepIndex !== -1) {
+		// Form exists in flow but is out of order - mark as missed step
+		mappedFlow.missedSteps.push({
+			status: "COMPLETE",
+			actionId: data.formId,
+			owner: "BAP",
+			actionType: data.formType,
+			input: undefined,
+			index: futureStepIndex,
+			unsolicited: false,
+			pairActionId: null,
+			description: `form executed out of order - expected at step ${futureStepIndex}, but step ${nextExpectedStepIndex} not completed`,
+			missedStep: true,
+			payloads: data,
+		});
+	} else {
+		// Form doesn't exist in the remaining flow - completely unexpected
+		mappedFlow.missedSteps.push({
+			status: "COMPLETE",
+			actionId: data.formId,
+			owner: "BAP",
+			actionType: data.formType,
+			input: undefined,
+			index: -1,
+			unsolicited: false,
+			pairActionId: null,
+			description: "form not found in flow sequence",
+			missedStep: true,
+			payloads: data,
+		});
+	}
+
+	// Return the same index since we didn't advance the flow
+	return nextExpectedStepIndex;
+}
+
+function findStepInFlow(
+	actionType: string,
+	flowSequence: SequenceStep[],
+	startIndex: number
+): number {
+	for (let i = startIndex; i < flowSequence.length; i++) {
+		if (flowSequence[i].type === actionType) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+function addPendingStep(
+	index: number,
+	step: SequenceStep,
+	mappedFlow: FlowMap,
+	subscriberType: string,
+	flowStatus: MockStatusCode,
+	nextExpectedStepIndex: number
+) {
+	// Only add the very next expected step and mark others as waiting
+	const base: MappedStep = {
+		status: index === nextExpectedStepIndex ? "LISTENING" : "WAITING",
+		actionId: step.key,
+		owner: step.owner,
+		actionType: step.type,
+		input: step.input,
+		index: index,
+		unsolicited: step.unsolicited,
+		pairActionId: step.pair,
+		description: step.description,
+		expect: step.expect,
+		label: step.label,
+		force_proceed: step.force_proceed,
+	};
+
+	if (index !== nextExpectedStepIndex) {
+		// Steps that are not the immediate next step should be in WAITING status
+		mappedFlow.sequence.push({
+			...base,
+			status: "WAITING",
+		});
+		return;
+	}
+
+	// Handle the next expected step based on type and ownership
+	if (step.type === "HTML_FORM") {
+		if (subscriberType === step.owner) {
+			mappedFlow.sequence.push({
+				...base,
+				status: flowStatus === "AVAILABLE" ? "INPUT-REQUIRED" : "PROCESSING",
+			});
+		} else {
+			mappedFlow.sequence.push({
+				...base,
+				status:
+					flowStatus === "AVAILABLE" ? "WAITING-SUBMISSION" : "RESPONDING",
+			});
+		}
+		return;
+	}
+
+	if (subscriberType === step.owner) {
+		mappedFlow.sequence.push(base);
+	} else {
+		if (step.input) {
+			mappedFlow.sequence.push({
+				...base,
+				status: flowStatus === "AVAILABLE" ? "INPUT-REQUIRED" : "RESPONDING",
+			});
+		} else {
+			if (step.unsolicited) {
+				mappedFlow.sequence.push({
+					...base,
+					status: flowStatus === "AVAILABLE" ? "INPUT-REQUIRED" : "RESPONDING",
+					input: [],
+				});
+			}
+			mappedFlow.sequence.push({
+				...base,
+				status: "RESPONDING",
+			});
+		}
 	}
 }
 
