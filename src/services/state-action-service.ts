@@ -67,7 +67,7 @@ export async function ValidateAndSaveIncoming(
 							logger.info(
 								`Validation failed for action: ${step.actionId}, Message: ${valid.message}`
 							);
-							res.status(200).send(setAckResponse);
+							res.status(200).send(setAckResponse());
 
 							const action = step.actionType.startsWith("on_")
 								? step.actionType.slice(3)
@@ -118,7 +118,7 @@ export async function ValidateAndSaveIncoming(
 												validationResult.message || "Form Validation failed",
 										}
 									);
-									res.status(200).send(setAckResponse);
+									res.status(200).send(setAckResponse());
 									return;
 								} else {
 									try {
