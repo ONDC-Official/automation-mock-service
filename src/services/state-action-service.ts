@@ -62,7 +62,7 @@ export async function ValidateAndSaveIncoming(
 					try {
 						const mockActionOb = getMockActionObject(step.actionId);
 						found = true;
-						const valid = await mockActionOb.validate(body);
+						const valid = await mockActionOb.validate(body, mockSessionData);
 						if (!valid.valid) {
 							logger.info(
 								`Validation failed for action: ${step.actionId}, Message: ${valid.message}`
