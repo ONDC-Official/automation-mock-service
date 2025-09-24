@@ -93,7 +93,7 @@ export async function ValidateAndSaveIncoming(
 								flow_id: flow.id,
 								session_id: txData.sessionId,
 							});
-							res.status(200).send(setAckResponse);
+							res.status(200).send(setAckResponse());
 							return;
 						}
 						if (index < flowCompleteStatus.sequence.length - 1) {
