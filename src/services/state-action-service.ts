@@ -36,9 +36,10 @@ export async function ValidateAndSaveIncoming(
 				"Missing required data in incoming request",
 				getLoggerData(req)
 			);
-			return res
+			res
 				.status(500)
 				.send("<INTERNAL-ERROR> Flow or Transaction data not found");
+			return;
 		}
 
 		// Load initial data
@@ -65,7 +66,8 @@ export async function ValidateAndSaveIncoming(
 			logger.info(
 				"Validation failed for the request. No matching payload found."
 			);
-			return next();
+			next();
+			return;
 		}
 
 		// Process the matching step
@@ -84,11 +86,13 @@ export async function ValidateAndSaveIncoming(
 			logger.info(
 				"Validation and Save successfully performed for the request."
 			);
-			return res.status(200).send(setAckResponse());
+			res.status(200).send(setAckResponse());
+			return;
 		}
 
 		logger.info("Validation and Save successfully performed for the request.");
-		return next();
+		next();
+		return;
 	} catch (error) {
 		logger.error("Error in ValidateAndSaveIncoming middleware", {}, error);
 
@@ -96,10 +100,11 @@ export async function ValidateAndSaveIncoming(
 			return;
 		}
 
-		return res.status(500).send({
+		res.status(500).send({
 			error: "Internal Server Error",
 			message: "An error occurred while processing your request.",
 		});
+		return;
 	}
 }
 
