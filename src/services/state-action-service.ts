@@ -147,6 +147,10 @@ async function processMatchingStep(
 		const validationResult = await mockActionOb.validate(body, mockSessionData);
 
 		if (!validationResult.valid) {
+			logger.warning(
+				`Validation failed for action: ${step.actionId}, Message: ${validationResult.message}`,
+				getLoggerData(req)
+			);
 			await handleValidationFailure(validationResult, step, body, subsUrl);
 			return { shouldRespond: true };
 		}
@@ -232,6 +236,9 @@ async function processFormStep(
 	mockActionOb: any,
 	body: any
 ) {
+	logger.info("Processing HTML_FORM step", getLoggerData(req), {
+		nextStep: nextStep,
+	});
 	const fromAction = getMockActionObject(nextStep.actionId);
 	const formValidationResult = await fromAction.validate({}, mockSessionData);
 
@@ -257,6 +264,10 @@ async function processFormStep(
 	await saveDataForConfig(saveData, body);
 
 	const saveDataForm = await fromAction.__forceSaveData(mockSessionData);
+	logger.info("Saving form data", getLoggerData(req), {
+		html: saveDataForm,
+		txId: txId,
+	});
 	await saveCompleteData(JSON.stringify(saveDataForm), txId);
 
 	return { shouldReturn: false };
