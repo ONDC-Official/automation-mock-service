@@ -94,7 +94,10 @@ export async function saveDataForConfig(
 			JSON.stringify(sessionData),
 			payload?.context.transaction_id
 		);
-		logger.info("Data saved to session");
+		logger.info("Data saved to session", {
+			txId: payload?.context.transaction_id,
+			data: sessionData,
+		});
 	} catch (e) {
 		logger.error("Error in saving data to session", {}, e);
 	}
@@ -106,7 +109,10 @@ export async function saveCompleteData(data: string, transactionId: string) {
 			throw new Error("Transaction ID is missing, cannot save complete data");
 		}
 		await RedisService.setKey(transactionId, data);
-		logger.info("Complete Data saved to session");
+		logger.info("Complete Data saved to session", {
+			txId: transactionId,
+			data: data,
+		});
 	} catch (e) {
 		logger.error("Error in saving complete data to session", {}, e);
 	}
