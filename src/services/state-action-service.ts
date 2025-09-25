@@ -155,6 +155,10 @@ async function processMatchingStep(
 			return { shouldRespond: true };
 		}
 
+		// Save data for current step
+		const saveData = mockActionOb.saveData;
+		await saveDataForConfig(saveData, body);
+
 		// Check for next step (HTML_FORM)
 		if (index < sequence.length - 1) {
 			const nextStep = sequence[index + 1];
@@ -175,10 +179,6 @@ async function processMatchingStep(
 				}
 			}
 		}
-
-		// Save data for current step
-		const saveData = mockActionOb.saveData;
-		await saveDataForConfig(saveData, body);
 
 		return { shouldRespond: false };
 	} catch (error) {
