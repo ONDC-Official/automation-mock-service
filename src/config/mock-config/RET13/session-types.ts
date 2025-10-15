@@ -41,7 +41,6 @@ export type SessionData = {
   replacementId?: string;
   selected_item_id: string;
   end: any[];
-  bnp_features: any[];
   item_availability_enabled?: boolean;
   item_timing?: any;
   customizations?: any;
