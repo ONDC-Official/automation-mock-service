@@ -42,6 +42,11 @@ const createServer = (): Application => {
 	app.use(`${base}/flows`, flowRouter);
 
 	app.use(`${base}/config`, configRouter);
+
+	// duplicates for playground mock
+	app.use(`/playground/manual`, manualRouter);
+	app.use(`/playground/flows`, flowRouter);
+
 	// Health Check
 	app.get(`${base}/health`, (req: Request, res: Response) => {
 		res.status(200).send(setAckResponse(true));

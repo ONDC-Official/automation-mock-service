@@ -141,14 +141,29 @@ async function processMatchingStep(
 	const { step, index } = matchingStep;
 
 	try {
-		const mockActionOb = getMockActionObject(step.actionId);
+		const mockActionOb = await getMockActionObject(
+			step.actionId,
+			req.transactionData?.sessionId
+		);
 
 		// Validate current step
-		const validationResult = await mockActionOb.validate(body, mockSessionData);
+		const validationResult = (await mockActionOb.validate(
+			body,
+			mockSessionData
+		)) as {
+			valid: boolean;
+			message?: string;
+			code?: string;
+			description?: string;
+		};
 
 		if (!validationResult.valid) {
 			logger.warning(
-				`Validation failed for action: ${step.actionId}, Message: ${validationResult.message}`,
+				`Validation failed for action: ${step.actionId}, Message: ${
+					validationResult.message ??
+					validationResult.description ??
+					"No details"
+				} `,
 				getLoggerData(req)
 			);
 			await handleValidationFailure(validationResult, step, body, subsUrl);
@@ -239,7 +254,10 @@ async function processFormStep(
 	logger.info("Processing HTML_FORM step", getLoggerData(req), {
 		nextStep: nextStep,
 	});
-	const fromAction = getMockActionObject(nextStep.actionId);
+	const fromAction = await getMockActionObject(
+		nextStep.actionId,
+		req.transactionData?.sessionId
+	);
 	const formValidationResult = await fromAction.validate({}, mockSessionData);
 
 	if (!formValidationResult.valid) {

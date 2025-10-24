@@ -4,7 +4,6 @@ import logger from "@ondc/automation-logger";
 import { isArrayKey } from "../types/type-utils";
 import {
 	defaultSessionData,
-	getSaveDataContent,
 	getUiMetaKeys,
 	MockSessionData,
 } from "../config/mock-config";
@@ -48,32 +47,32 @@ export function updateSessionData(
 	}
 }
 
-export async function saveData(
-	action: string,
-	payload: any,
-	errorData?: {
-		code: number;
-		message: string;
-	}
-) {
-	try {
-		const sessionData = await loadMockSessionData(
-			payload?.context.transaction_id
-		);
-		const saveData = getSaveDataContent(
-			payload?.context?.version || payload?.context?.core_version,
-			action
-		);
-		updateSessionData(saveData["save-data"], payload, sessionData, errorData);
-		await RedisService.setKey(
-			payload?.context.transaction_id,
-			JSON.stringify(sessionData)
-		);
-		logger.info("Data saved to session");
-	} catch (e) {
-		logger.error("Error in saving data to session", {}, e);
-	}
-}
+// export async function saveData(
+// 	action: string,
+// 	payload: any,
+// 	errorData?: {
+// 		code: number;
+// 		message: string;
+// 	}
+// ) {
+// 	try {
+// 		const sessionData = await loadMockSessionData(
+// 			payload?.context.transaction_id
+// 		);
+// 		const saveData = getSaveDataContent(
+// 			payload?.context?.version || payload?.context?.core_version,
+// 			action
+// 		);
+// 		updateSessionData(saveData["save-data"], payload, sessionData, errorData);
+// 		await RedisService.setKey(
+// 			payload?.context.transaction_id,
+// 			JSON.stringify(sessionData)
+// 		);
+// 		logger.info("Data saved to session");
+// 	} catch (e) {
+// 		logger.error("Error in saving data to session", {}, e);
+// 	}
+// }
 
 export async function saveDataForConfig(
 	saveData: {
@@ -126,9 +125,13 @@ export async function loadMockSessionData(
 	let sessionData: MockSessionData = {} as MockSessionData;
 	if (!keyExists) {
 		const raw = defaultSessionData();
+		const apiServiceUrl =
+			process.env.API_SERVICE_URL ||
+			"https://dev-automation.ondc.org/api-service";
+		const ownerId = apiServiceUrl.split("//")[1].split("/")[0];
 		sessionData = raw.session_data;
 		sessionData.transaction_id = transactionID;
-		sessionData.bpp_id = sessionData.bap_id = "dev-automation.ondc.org";
+		sessionData.bpp_id = sessionData.bap_id = ownerId;
 		sessionData.bap_uri = "https://dev-automation.ondc.org/buyer";
 		sessionData.bpp_uri = "https://dev-automation.ondc.org/seller";
 		sessionData.subscriber_url = subscriber_url;

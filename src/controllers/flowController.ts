@@ -28,8 +28,11 @@ import {
 	getFlowStatusService,
 	setFlowStatusService,
 } from "../services/mock-flow-status-service";
-import { generateMockResponse } from "../config/mock-config";
-import { getMockActionObject } from "../config/mock-config";
+
+import {
+	generateMockResponse,
+	getMockActionObject,
+} from "../config/mock-config";
 import { saveDataForConfig } from "../services/data-services";
 import { getLoggerData } from "../utils/logger";
 
@@ -329,7 +332,10 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				if (!req.body.inputs || !req.body.inputs.submission_id) {
 					throw new Error("submission_id not found in inputs");
 				}
-				const mockHtmlAction = getMockActionObject(latestMeta.actionId);
+				const mockHtmlAction = await getMockActionObject(
+					latestMeta.actionId,
+					txData.sessionId
+				);
 				const saveData = mockHtmlAction.saveData;
 				const sessionData = await loadMockSessionData(txId, subscriberUrl);
 				const saveDataObj = saveData?.["save-data"];
@@ -365,6 +371,7 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			sessionData.flow_id = txData.flowId;
 			sessionData.session_id = txData.sessionId;
 			sessionData.domain = process.env.DOMAIN?.split(":")[1];
+			sessionData.transaction_id = txId;
 			let mockResponse = await generateMockResponse(
 				txData.sessionId as string,
 				sessionData,
@@ -381,7 +388,10 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 
 			const action = latestMeta.actionType;
 
-			const mockActionOb = getMockActionObject(latestMeta.actionId);
+			const mockActionOb = await getMockActionObject(
+				latestMeta.actionId,
+				txData.sessionId
+			);
 			const saveData = mockActionOb.saveData;
 			await saveDataForConfig(saveData, mockResponse);
 

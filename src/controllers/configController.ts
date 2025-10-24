@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { actionConfig, getMockActionObject } from "../config/mock-config";
 import logger from "@ondc/automation-logger";
-export const getMockConfigController = (req: Request, res: Response) => {
+
+export const getMockConfigController = async (req: Request, res: Response) => {
 	try {
 		logger.info("Fetching mock configs");
 		const completeConfig: any[] = [];
@@ -10,7 +11,7 @@ export const getMockConfigController = (req: Request, res: Response) => {
 			const actionId = actionObj.action_id;
 			const code = actionObj.code;
 			const action = actionObj.action;
-			const mockAction = getMockActionObject(actionId);
+			const mockAction = await getMockActionObject(actionId);
 			completeConfig.push({
 				action_id: actionId,
 				actionCode: code,
