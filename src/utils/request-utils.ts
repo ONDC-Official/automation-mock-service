@@ -8,7 +8,8 @@ export async function sendToApiService(
 ) {
 	try {
 		const version = body.context.version ?? body.context.core_version;
-		const url = createApiServiceUrl(version, `mock/${action}`);
+		const domain = body.context.domain;
+		const url = createApiServiceUrl(version, `mock/${action}`, domain);
 		logger.info(`Sending response to api service ${url} ${action}`);
 		const result = await axios.post(url, body, {
 			params: {
@@ -30,7 +31,11 @@ export async function sendToApiServiceAboutForm(
 	submissionId?: string,
 	error?: any
 ) {
-	const url = createApiServiceUrl(version, `form/html-form`);
+	const domain = process.env.DOMAIN;
+	if (!domain) {
+		throw new Error("Domain is required in env");
+	}
+	const url = createApiServiceUrl(version, `form/html-form`, domain);
 	const body = {
 		subscriber_url: subscriberUrl,
 		transaction_id: transactionId,
@@ -49,7 +54,11 @@ export function createBuyerUrl(domain: string, version: string) {
 	return `${process.env.API_SERVICE_URL}/${domain}/${version}/buyer`;
 }
 
-export function createApiServiceUrl(version: string, path: string) {
-	const domain = process.env.DOMAIN;
+export function createApiServiceUrl(
+	version: string,
+	path: string,
+	domain: string
+) {
+	// const domain = process.env.DOMAIN;
 	return `${process.env.API_SERVICE_URL}/${domain}/${version}/${path}`;
 }
