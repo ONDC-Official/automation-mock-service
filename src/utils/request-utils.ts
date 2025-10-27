@@ -7,22 +7,17 @@ export async function sendToApiService(
 	queryData = {}
 ) {
 	try {
-		const domain = process.env.DOMAIN;
 		const version = body.context.version ?? body.context.core_version;
 		const url = createApiServiceUrl(version, `mock/${action}`);
-		console.log(action, JSON.stringify(body.message, null, 2));
-		// await saveData(action, body);
-		logger.debug(`Sending response to api service ${url} ${action}`);
+		logger.info(`Sending response to api service ${url} ${action}`);
 		const result = await axios.post(url, body, {
 			params: {
 				...queryData,
 			},
 		});
+		logger.info(`Response from api service: ${result.status}`, result.data);
 	} catch (err) {
 		logger.error("Error in sending response to api service", err);
-		// throw new Error(
-		// 	`Error in sending response to api service: ${err instanceof Error ? err.message : "Unknown error"}`
-		// );
 	}
 }
 
