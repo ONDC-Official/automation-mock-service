@@ -82,7 +82,10 @@ type Price = {
     if (sessionData.fulfillments?.length > 0) {
       existingPayload.message.order.fulfillments = sessionData.selected_fulfillments;
     }
-
+    
+    existingPayload.message.order.cancellation.reason.descriptor.code =
+    sessionData.cancellation_reason_id;
+    
     for (const fulfillment of existingPayload.message.order.fulfillments) {
       if (fulfillment.stops && Array.isArray(fulfillment.stops)) {
         fulfillment.stops = fulfillment.stops.map((stop: any) => {

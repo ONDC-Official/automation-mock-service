@@ -54,6 +54,8 @@ import { searchMultipleStopsScheduleTripGenerator } from "./search/generator-sch
 import { onSelectMultipleStopsPreOrderGenerator } from "./on_select/generator-pre-order-bid";
 import { onConfirmMultipleStopsRentalGenerator } from "./on_confirm/generator-rental";
 import { onConfirmMultipleAuthGenerator } from "./on_confirm/on_confirm_multiple_auth/generator_multiple_auth";
+import { cancelTechnicalCancellationGenerator } from "./cancel/generator-technical-cancellation";
+import { cancelTechnicalCancellationHardGenerator } from "./cancel/generator-technical-cancellation-hard";
 
 
 export async function Generator(
@@ -120,6 +122,10 @@ export async function Generator(
             return await onSearchMultipleStopsGenerator(existingPayload, sessionData);
         case "cancel":
             return await cancelMultipleStopsSoftGenerator(existingPayload, sessionData);
+        case "cancel_technical":
+            return await cancelTechnicalCancellationGenerator(existingPayload, sessionData);
+        case "cancel_technical_hard":
+            return await cancelTechnicalCancellationHardGenerator(existingPayload, sessionData);
         case "cancel_hard":
             return await cancelMultipleStopsHardGenerator(existingPayload, sessionData);
         case "on_cancel":

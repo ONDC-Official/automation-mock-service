@@ -293,3 +293,13 @@ codes:
     action: on_confirm
     default: TRV10/2.1.0/on_confirm/on_confirm_multiple_auth/default.yaml
     message_id: false
+  - code: 159
+    action_id: cancel_technical
+    action: cancel
+    default: TRV10/2.1.0/cancel/default.yaml
+    message_id: true  
+  - code: 159
+    action_id: cancel_technical_hard
+    action: cancel
+    default: TRV10/2.1.0/cancel/default.yaml
+    message_id: true  
