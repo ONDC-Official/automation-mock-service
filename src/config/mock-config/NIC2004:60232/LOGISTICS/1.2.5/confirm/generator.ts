@@ -596,7 +596,7 @@ export const confirmGenerator = (
           : []),
       ];
 
-      // ✅ Final updated fulfillment
+      // Final updated fulfillment
       const updatedFulfillment = {
         ...fulfillment,
         start: {
@@ -750,11 +750,11 @@ export const confirmGenerator = (
             },
             {
               code: "base_max",
-              value: "2",
+              value: "4",
             },
             {
               code: "penalty_min",
-              value: "20",
+              value: "2",
             },
             {
               code: "penalty_max",
