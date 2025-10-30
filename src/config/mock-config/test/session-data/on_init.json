@@ -1,6 +1,6 @@
 {
-  "transaction_id": "881b3c13-ab02-4572-aa13-6d6e2313695a",
-  "message_id": "db7644a8-d127-4f29-afbe-9d0f03f97b8c",
+  "transaction_id": "9e5b11bd-3498-4013-b1e8-7610e916d62c",
+  "message_id": "99ac4188-b40f-4a9e-bf67-48b46715ebfe",
   "city": "std:011",
   "inc_mode": null,
   "selected_items": [
@@ -68,8 +68,8 @@
     "phone": "9898989898",
     "name": "ONDC buyer",
     "email": "nobody@nomail.com",
-    "created_at": "2025-07-21T09:30:54.199Z",
-    "updated_at": "2025-07-21T09:30:54.199Z"
+    "created_at": "2025-10-30T10:51:53.716Z",
+    "updated_at": "2025-10-30T10:51:53.716Z"
   },
   "fulfillments": [
     {
@@ -231,6 +231,16 @@
   ],
   "selected_offers": [],
   "last_updated_at": null,
+  "search_bap_terms": null,
+  "selected_np_fees": [],
+  "tat": "P2D",
+  "latest_issue_payload": "any",
+  "provider_id": "any",
+  "status": "any",
+  "igm_action": "any",
+  "issue_action": [],
+  "issue_resolution": [],
+  "last_action": "any",
   "bap_id": "dev-automation.ondc.org",
   "bpp_id": "dev-automation.ondc.org",
   "bap_uri": "https://dev-automation.ondc.org/buyer",

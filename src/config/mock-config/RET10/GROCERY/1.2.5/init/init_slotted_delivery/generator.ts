@@ -25,7 +25,7 @@ export async function init_slotted_delivery_generator(
 					city: "mock-city",
 					state: "mock-state",
 					country: "IND",
-					area_code: "400053",
+					area_code: selected[0].end?.location?.address?.area_code,
 					locality: "mock-locality",
 					name: "mock-house-name",
 				},
