@@ -151,5 +151,23 @@ export async function on_select_slotted_delivery_generator(
 		quote.breakup.push(fulfillment_breakup[i]);
 	}
 	existingPayload.message.order.quote = quote;
+
+	// todays date +2 hours for index 0 then add 2 hours for each subsequent index
+	const curr = new Date();
+	const baseTime = new Date(curr.getTime() + 2 * 60 * 60 * 1000);
+	for (let i = 0; i < existingPayload.message.order.fulfillments.length; i++) {
+		const start = new Date(baseTime.getTime() + i * 2 * 60 * 60 * 1000);
+		const end = new Date(start.getTime() + 1 * 60 * 60 * 1000);
+		existingPayload.message.order.fulfillments[i].end = {
+			time: {
+				range: {
+					start: start.toISOString(),
+					end: end.toISOString(),
+				},
+			},
+		};
+		delete existingPayload.message.order.fulfillments[i]["@ondc/org/TAT"];
+	}
+
 	return existingPayload;
 }
