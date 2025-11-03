@@ -750,11 +750,11 @@ export const confirmGenerator = (
             },
             {
               code: "base_max",
-              value: "4",
+              value: "2",
             },
             {
               code: "penalty_min",
-              value: "2",
+              value: "20",
             },
             {
               code: "penalty_max",
