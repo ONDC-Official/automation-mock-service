@@ -596,7 +596,7 @@ export const confirmGenerator = (
           : []),
       ];
 
-      // ✅ Final updated fulfillment
+      // Final updated fulfillment
       const updatedFulfillment = {
         ...fulfillment,
         start: {
