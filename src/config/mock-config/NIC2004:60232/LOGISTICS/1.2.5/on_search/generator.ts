@@ -196,7 +196,8 @@ export async function onSearch1Generator(
   if (
     sessionData?.is_cod === "yes" ||
     (Array.isArray(inputs?.feature_discovery) &&
-      inputs?.feature_discovery.includes("017"))
+      inputs?.feature_discovery.includes("017")) ||
+    (inputs?.default_feature && inputs?.default_feature?.includes("017"))
   ) {
     const items = existingPayload.message.catalog["bpp/providers"][0].items;
     items.forEach(
