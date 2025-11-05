@@ -1,10 +1,12 @@
-import { SessionData } from "../../../session-types";
+import { Input, SessionData } from "../../../session-types";
+import { action, getActionsList } from "../default";
 
 export const onIssueStatusGenerator = async (
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  inputs?: Input
 ) => {
-  const newDate = existingPayload.context.timestamp
+  const newDate = existingPayload.context.timestamp;
   existingPayload.message.issue.id =
     sessionData.latest_issue_payload?.id || "ISSUE-1";
   existingPayload.message.issue.created_at =
@@ -44,11 +46,11 @@ export const onIssueStatusGenerator = async (
   //   existingPayload.message.issue.descriptor.images.url = sessionData.latest_issue_payload?.images.url || "https://example.com/s.jpg";
   existingPayload.message.issue.descriptor.images = sessionData
     .latest_issue_payload?.descriptor?.images || [
-      {
-        url: "https://example.com/image.jpg",
-        size_type: "2MB",
-      },
-    ];
+    {
+      url: "https://example.com/image.jpg",
+      size_type: "2MB",
+    },
+  ];
   // existingPayload.message.issue.descriptor.media.url = sessionData.latest_issue_payload?.descriptor?.media?.url || "https://example.com/media.mp4";
 
   // Update status and descriptors
@@ -58,46 +60,171 @@ export const onIssueStatusGenerator = async (
   switch (sessionData.igm_action) {
     case "on_issue_processing":
       existingPayload.message.issue.status = "PROCESSING";
+      existingPayload.message.issue.actors = [
+        ...sessionData.latest_issue_payload?.actors,
+        {
+          id: "NP2",
+          type: "COUNTERPARTY_NP",
+          info: {
+            org: {
+              name: `${existingPayload?.context?.bpp_id}::${existingPayload?.context?.domain}`,
+            },
+            contact: {
+              phone: "9999994039",
+              email: "sellerapp@interface.com",
+            },
+            person: {
+              name: "Jane Doe",
+            },
+          },
+        },
+      ];
       existingPayload.message.issue.descriptor.short_desc =
         "Issue with product quality";
+      existingPayload.message.issue.actions = getActionsList(
+        {
+          id: "A2",
+          descriptor: {
+            code: "PROCESSING",
+            short_desc: "Complaint created",
+          },
+          updated_at: "2025-11-04T11:37:59.928Z",
+          action_by: "NP2",
+          actor_details: {
+            name: "mock-person",
+          },
+        },
+        newDate,
+        "on_issue_processing"
+      );
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "A2";
-      existingPayload.message.issue.actors = [...existingPayload.message.issue.actors, {
-        "id": "NP2",
-        "type": "COUNTERPARTY_NP",
-        "info": {
-          "org": {
-            "name": "sellerapp.com::ONDC:RET12"
-          },
-          "contact": {
-            "phone": "9450394140",
-            "email": "respondentapp@respond.com"
-          },
-          "person": {
-            "name": "Jane Doe"
-          }
-        }
-      }]
+        action[action.length - 1]?.id ?? "A22";
+      // existingPayload.message.issue.last_action_id =
+      //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
+      //   "A2";
+      // existingPayload.message.issue.actors = [
+      //   ...existingPayload.message.issue.actors,
+      //   {
+      //     id: "NP2",
+      //     type: "COUNTERPARTY_NP",
+      //     info: {
+      //       org: {
+      //         name: `${existingPayload?.context?.bpp_id ?? ""}::${
+      //           existingPayload?.context?.domain ?? ""
+      //         }`,
+      //       },
+      //       contact: {
+      //         phone: "9450394140",
+      //         email: "respondentapp@respond.com",
+      //       },
+      //       person: {
+      //         name: "Jane Doe",
+      //       },
+      //     },
+      //   },
+      // ];
       break;
 
     case "on_issue_need_more_info":
-      existingPayload.message.issue.status = "NEED_MORE_INFO";
+      existingPayload.message.issue.status = "PROCESSING";
+      existingPayload.message.issue.actions = getActionsList(
+        {
+          id: "A3",
+          descriptor: {
+            code: "INFO_REQUESTED",
+            name: "INFO01",
+            short_desc: "Please provide product image",
+          },
+          updated_at: "2025-11-04T11:38:02.643Z",
+          action_by: "NP2",
+          actor_details: {
+            name: "mock-person",
+          },
+        },
+        newDate,
+        "on_issue_need_more_info"
+      );
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "A3";
+        action[action.length - 1]?.id ?? "A22";
+      // existingPayload.message.issue.last_action_id =
+      //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
+      //   "A3";
       break;
 
-    case "on_issue_info_provided":
-      existingPayload.message.issue.status = "INFO_PROVIDED";
+    case "on_issue_provided":
+      existingPayload.message.issue.status = "PROCESSING";
+      // existingPayload.message.issue.last_action_id =
+      //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
+      //   "A5";
+      existingPayload.message.issue.actions = getActionsList(
+        {
+          id: "A5",
+          descriptor: {
+            code: "PROCESSING",
+            short_desc: "Complaint created",
+          },
+          updated_at: "2025-11-04T11:38:06.745Z",
+          action_by: "NP2",
+          actor_details: {
+            name: "mock-person",
+          },
+        },
+        newDate,
+        "on_issue_provided"
+      );
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "A5";
+        action[action.length - 1]?.id ?? "A22";
 
-      console.log("🚀 ~ onIssueStatusGenerator ~ on_issue_info_provided:", JSON.stringify(existingPayload))
+      console.log(
+        "🚀 ~ onIssueStatusGenerator ~ on_issue_info_provided:",
+        JSON.stringify(existingPayload)
+      );
       break;
 
     case "on_issue_resolution":
-      existingPayload.message.issue.status = "RESOLVED";
+      existingPayload.message.issue.status = "PROCESSING";
+      existingPayload.message.issue.actors = [
+        ...sessionData.latest_issue_payload?.actors,
+        {
+          id: "NP2-GRO",
+          type: "COUNTERPARTY_NP_GRO",
+          info: {
+            org: {
+              name: `${existingPayload?.context?.bpp_id}::${existingPayload?.context?.domain}`,
+            },
+            contact: {
+              phone: "9999994039",
+              email: "sellerapp@interface.com",
+            },
+            person: {
+              name: "Grievance Officer BNP",
+            },
+          },
+        },
+      ];
+      // existingPayload.message.issue.last_action_id =
+      //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
+      //   "A6";
+      existingPayload.message.issue.actions = getActionsList(
+        {
+          id: "A6",
+          ref_id: "R_PARENT",
+          ref_type: "RESOLUTIONS",
+          descriptor: {
+            code: "RESOLUTION_PROPOSED",
+            short_desc: "Resolution is proposed",
+          },
+          updated_at: "2025-11-04T11:49:25.358Z",
+          action_by: "NP2",
+          actor_details: {
+            name: "mock-person",
+          },
+        },
+        newDate,
+        "on_issue_resolution"
+      );
       existingPayload.message.issue.last_action_id =
-        sessionData.last_action || "A6";
+        action[action.length - 1]?.id ?? "A22";
 
       const resolutions = existingPayload.message.issue.resolutions;
       resolutions.forEach((r: any) => {
@@ -119,44 +246,112 @@ export const onIssueStatusGenerator = async (
       break;
 
     case "on_issue_resolved":
+      existingPayload.message.issue.status = "RESOLVED";
+      // existingPayload.message.issue.last_action_id =
+      //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
+      //   "A8";
+      // existingPayload.message.issue.actions = getActionsList(
+      //   {
+      //     id: "A8",
+      //     ref_id: "R2",
+      //     ref_type: "RESOLUTIONS",
+      //     descriptor: {
+      //       code: "RESOLVED",
+      //       name: "REPLACEMENT",
+      //       short_desc: "Providing replacement",
+      //     },
+      //     updated_at: "2025-11-04T11:52:53.935Z",
+      //     action_by: "NP2",
+      //     actor_details: {
+      //       name: "mock-person",
+      //     },
+      //   },
+      //   newDate,
+      //   "on_issue_resolved"
+      // );
       existingPayload.message.issue.resolutions = sessionData.issue_resolution;
       let sessionActions = sessionData.issue_action;
       const issueActionAccept: any = sessionActions[sessionActions.length - 1];
       const refId = issueActionAccept?.ref_id;
-      let updatedAction = {
-        id: "A8",
-        ref_id: "R2",
-        ref_type: "RESOLUTIONS",
-        descriptor: {
-          code: "RESOLVED",
-          name: "REPLACEMENT",
-          short_desc: "Providing replacement",
-        },
-        updated_at: newDate,
-        action_by: "NP2",
-        actor_details: {
-          name: "mock-person",
-        },
-      };
-      if (refId == "R1") {
-        updatedAction = {
-          id: "A8",
-          ref_id: "R1",
-          ref_type: "RESOLUTIONS",
-          descriptor: {
-            code: "RESOLVED",
-            name: "REFUND",
-            short_desc: "Providing refund",
-          },
-          updated_at: newDate,
-          action_by: "NP2",
-          actor_details: {
-            name: "mock-person",
-          },
-        };
-      }
-      const actions = existingPayload.message.issue.actions;
-      actions[actions.length - 1] = updatedAction;
+      existingPayload.message.issue.actions = getActionsList(
+        refId === "R1"
+          ? {
+              id: "A8-9",
+              ref_id: "R1",
+              ref_type: "RESOLUTIONS",
+              descriptor: {
+                code: "RESOLVED",
+                name: "REFUND",
+                short_desc: "Providing refund",
+              },
+              updated_at: newDate,
+              action_by: "NP2",
+              actor_details: {
+                name: "mock-person",
+              },
+            }
+          : {
+              id: "A8-8",
+              ref_id: "R2",
+              ref_type: "RESOLUTIONS",
+              descriptor: {
+                code: "RESOLVED",
+                name: "REPLACEMENT",
+                short_desc: "Providing replacement",
+              },
+              updated_at: newDate,
+              action_by: "NP2",
+              actor_details: {
+                name: "mock-person",
+              },
+            },
+        newDate,
+        "on_issue_resolved"
+      );
+      existingPayload.message.issue.last_action_id =
+        action[action.length - 1]?.id ?? "A22";
+      // let updatedAction = getActionsList(
+      //   {
+      //     id: "A8-8",
+      //     ref_id: "R2",
+      //     ref_type: "RESOLUTIONS",
+      //     descriptor: {
+      //       code: "RESOLVED",
+      //       name: "REPLACEMENT",
+      //       short_desc: "Providing replacement",
+      //     },
+      //     updated_at: newDate,
+      //     action_by: "NP2",
+      //     actor_details: {
+      //       name: "mock-person",
+      //     },
+      //   },
+      //   newDate,
+      //   "on_issue_resolved"
+      // );
+      // if (refId == "R1") {
+      //   updatedAction = getActionsList(
+      //     {
+      //       id: "A8-9",
+      //       ref_id: "R1",
+      //       ref_type: "RESOLUTIONS",
+      //       descriptor: {
+      //         code: "RESOLVED",
+      //         name: "REFUND",
+      //         short_desc: "Providing refund",
+      //       },
+      //       updated_at: newDate,
+      //       action_by: "NP2",
+      //       actor_details: {
+      //         name: "mock-person",
+      //       },
+      //     },
+      //     newDate,
+      //     "on_issue_resolved"
+      //   );
+      // }
+      // const actions = existingPayload.message.issue.actions;
+      // actions[actions.length - 1] = updatedAction;
       break;
 
     default:

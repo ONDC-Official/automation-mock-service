@@ -41,6 +41,7 @@ import { confirmCommercialModelGenerator } from "./confirm/confirm_commercial_mo
 import { onConfirmCommercialModelGenerator } from "./on_confirm/on_confirm_commercial_model/generator";
 import { issueStatusGenerator } from "./issue/generator";
 import { onIssueStatusGenerator } from "./on_issue/generator";
+import { onUpdateIgmGenerator } from "./on_update/on_update_igm/generator";
 
 export async function Generator(
   action_id: string,
@@ -283,12 +284,18 @@ export async function Generator(
 			return await onIssueStatusGenerator(existingPayload, {
 				...sessionData,
 				igm_action: "on_issue_resolved",
-			});
+			}, inputs);
 		case "issue_close":
 			return await issueStatusGenerator(existingPayload, {
 				...sessionData,
 				igm_action: "issue_close",
 			}, inputs);
+    case "on_update_igm":
+			return await onUpdateIgmGenerator(
+        existingPayload,
+        sessionData,
+        inputs
+      );  
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }
