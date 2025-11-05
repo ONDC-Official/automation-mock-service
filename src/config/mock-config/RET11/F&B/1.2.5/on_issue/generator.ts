@@ -247,28 +247,6 @@ export const onIssueStatusGenerator = async (
 
     case "on_issue_resolved":
       existingPayload.message.issue.status = "RESOLVED";
-      // existingPayload.message.issue.last_action_id =
-      //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
-      //   "A8";
-      // existingPayload.message.issue.actions = getActionsList(
-      //   {
-      //     id: "A8",
-      //     ref_id: "R2",
-      //     ref_type: "RESOLUTIONS",
-      //     descriptor: {
-      //       code: "RESOLVED",
-      //       name: "REPLACEMENT",
-      //       short_desc: "Providing replacement",
-      //     },
-      //     updated_at: "2025-11-04T11:52:53.935Z",
-      //     action_by: "NP2",
-      //     actor_details: {
-      //       name: "mock-person",
-      //     },
-      //   },
-      //   newDate,
-      //   "on_issue_resolved"
-      // );
       existingPayload.message.issue.resolutions = sessionData.issue_resolution;
       let sessionActions = sessionData.issue_action;
       const issueActionAccept: any = sessionActions[sessionActions.length - 1];
@@ -310,48 +288,6 @@ export const onIssueStatusGenerator = async (
       );
       existingPayload.message.issue.last_action_id =
         action[action.length - 1]?.id ?? "A22";
-      // let updatedAction = getActionsList(
-      //   {
-      //     id: "A8-8",
-      //     ref_id: "R2",
-      //     ref_type: "RESOLUTIONS",
-      //     descriptor: {
-      //       code: "RESOLVED",
-      //       name: "REPLACEMENT",
-      //       short_desc: "Providing replacement",
-      //     },
-      //     updated_at: newDate,
-      //     action_by: "NP2",
-      //     actor_details: {
-      //       name: "mock-person",
-      //     },
-      //   },
-      //   newDate,
-      //   "on_issue_resolved"
-      // );
-      // if (refId == "R1") {
-      //   updatedAction = getActionsList(
-      //     {
-      //       id: "A8-9",
-      //       ref_id: "R1",
-      //       ref_type: "RESOLUTIONS",
-      //       descriptor: {
-      //         code: "RESOLVED",
-      //         name: "REFUND",
-      //         short_desc: "Providing refund",
-      //       },
-      //       updated_at: newDate,
-      //       action_by: "NP2",
-      //       actor_details: {
-      //         name: "mock-person",
-      //       },
-      //     },
-      //     newDate,
-      //     "on_issue_resolved"
-      //   );
-      // }
-      // const actions = existingPayload.message.issue.actions;
-      // actions[actions.length - 1] = updatedAction;
       break;
 
     default:

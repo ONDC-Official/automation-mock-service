@@ -189,9 +189,6 @@ export const issueStatusGenerator = async (
 
     case "issue_resolution_accept":
       existingPayload.message.issue.status = "PROCESSING";
-      // existingPayload.message.issue.last_action_id =
-      //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
-      //   "A7";
       existingPayload.message.issue.actions = getActionsList(
         {
           id: "A7",
@@ -224,9 +221,6 @@ export const issueStatusGenerator = async (
 
     case "issue_close":
       existingPayload.message.issue.status = "CLOSED";
-      // existingPayload.message.issue.last_action_id =
-      //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
-      //   "A9";
       existingPayload.message.issue.actions = getActionsList(
         {
           id: "A9",
