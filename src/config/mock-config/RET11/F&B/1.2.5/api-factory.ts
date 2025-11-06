@@ -41,7 +41,7 @@ import { confirmCommercialModelGenerator } from "./confirm/confirm_commercial_mo
 import { onConfirmCommercialModelGenerator } from "./on_confirm/on_confirm_commercial_model/generator";
 import { issueStatusGenerator } from "./issue/generator";
 import { onIssueStatusGenerator } from "./on_issue/generator";
-import { onUpdateIgmReturnGenerator } from "./on_update/on_update_retrun_igm/generator";
+import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/generator";
 import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
 
 export async function Generator(
