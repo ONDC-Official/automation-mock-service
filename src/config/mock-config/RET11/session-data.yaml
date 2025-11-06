@@ -39,3 +39,4 @@ session_data:
   search_bap_terms: null
   selected_np_fees: []
   last_actions_id: any
+  issue_id: any

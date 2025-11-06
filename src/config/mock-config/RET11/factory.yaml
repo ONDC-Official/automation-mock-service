@@ -373,6 +373,21 @@ codes:
     action_id: on_issue_resolution_2
     action: on_issue
     default: on_issue/on_issue_resolution/default.yaml  
+    message_id: true 
+  - code: 171
+    action_id: on_update_igm_return
+    action: on_update
+    default: on_update/on_update_return_igm/default.yaml
     message_id: true   
+  - code: 171
+    action_id: on_update_igm_replacement
+    action: on_update
+    default: on_update/on_update_replacement_igm/default.yaml
+    message_id: true 
+  - code: 172
+    action_id: on_status_igm_3
+    action: on_status
+    default: on_status/default.yaml
+    message_id: true     
 
     

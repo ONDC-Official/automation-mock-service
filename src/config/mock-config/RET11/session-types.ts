@@ -60,6 +60,7 @@ export interface SessionData {
 	issue_action: any[];
 	issue_resolution: any;
   last_actions_id: any
+  issue_id: any
 }
 
 export type BecknContext = {

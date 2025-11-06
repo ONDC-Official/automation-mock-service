@@ -41,7 +41,8 @@ import { confirmCommercialModelGenerator } from "./confirm/confirm_commercial_mo
 import { onConfirmCommercialModelGenerator } from "./on_confirm/on_confirm_commercial_model/generator";
 import { issueStatusGenerator } from "./issue/generator";
 import { onIssueStatusGenerator } from "./on_issue/generator";
-import { onUpdateIgmGenerator } from "./on_update/on_update_igm/generator";
+import { onUpdateIgmReturnGenerator } from "./on_update/on_update_retrun_igm/generator";
+import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
 
 export async function Generator(
   action_id: string,
@@ -320,12 +321,23 @@ export async function Generator(
 				...sessionData,
 				igm_action: "issue_close",
 			}, inputs)
-    case "on_update_igm":
-			return await onUpdateIgmGenerator(
+    case "on_update_igm_return": 
+			return await onUpdateIgmReturnGenerator(
         existingPayload,
         sessionData,
-        inputs
+        action_id,
       ); 
+    case "on_update_igm_replacement":
+			return await onUpdateIgmReplacementGenerator(
+        existingPayload,
+        sessionData,
+        action_id,
+      ); 
+    case "on_status_igm_3":
+			return await onStatusGenerator(existingPayload, {
+        ...sessionData,
+        stateCode: "Order-delivered",
+      }); 
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }
