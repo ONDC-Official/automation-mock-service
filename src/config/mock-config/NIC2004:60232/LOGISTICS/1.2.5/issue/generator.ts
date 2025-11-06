@@ -86,7 +86,7 @@ export const issueStatusGenerator = async (
 
   }
   if(sessionData.igm_action === "issue_info_provided" ) {
-    existingPayload.message.issue.status = "INFO_PROVIDED";
+    existingPayload.message.issue.status = "PROCESSING";
     existingPayload.message.issue.last_action_id = sessionData.last_action || "AL4";
   }
   if(sessionData.igm_action === "issue_resolution_accept" ) {
