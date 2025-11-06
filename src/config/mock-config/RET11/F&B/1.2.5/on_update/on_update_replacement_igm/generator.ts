@@ -46,6 +46,10 @@ export const onUpdateIgmReplacementGenerator = (
   }
 
   if (sessionData.fulfillments) {
+    const forwardFulfillment = sessionData.fulfillments.find(
+      (f: any) => f.type === "Delivery"
+    );
+    let relacementFulfillment = { ...forwardFulfillment, id: "FR1" };
     existingPayload.message.order.fulfillments = [
       ...sessionData.fulfillments,
       {
@@ -97,6 +101,10 @@ export const onUpdateIgmReplacementGenerator = (
                 code: "initiated_by",
                 value: "bnp.com",
               },
+              {
+                code: "replace",
+                value: "yes",
+              },
             ],
           },
           {
@@ -105,6 +113,15 @@ export const onUpdateIgmReplacementGenerator = (
               {
                 code: "id",
                 value: sessionData.issue_id || "Issue1",
+              },
+            ],
+          },
+          {
+            code: "replace_request",
+            list: [
+              {
+                code: "id",
+                value: "FR1",
               },
             ],
           },
@@ -150,13 +167,14 @@ export const onUpdateIgmReplacementGenerator = (
           //     },
           //   ],
           // },
-          ...generateQuoteTrail(
-            sessionData.quote.breakup,
-            existingPayload.message.order.items,
-            { partCancel: true }
-          ),
+          // ...generateQuoteTrail(
+          //   sessionData.quote.breakup,
+          //   existingPayload.message.order.items,
+          //   { partCancel: true }
+          // ),
         ],
       },
+      relacementFulfillment,
     ];
   }
 
