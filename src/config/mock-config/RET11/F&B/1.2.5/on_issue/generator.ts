@@ -1,5 +1,5 @@
 import { Input, SessionData } from "../../../session-types";
-import { action, getActionsList } from "../default";
+import { action, getActionsList, isGrievance } from "../default";
 
 export const onIssueStatusGenerator = async (
   existingPayload: any,
@@ -102,9 +102,12 @@ export const onIssueStatusGenerator = async (
       break;
 
     case "on_issue_processing_1":
-    case "on_issue_processing_2":  
+    case "on_issue_processing_2":
       existingPayload.message.issue.status = "PROCESSING";
-      existingPayload.message.issue.actors = sessionData.latest_issue_payload?.actors;
+      if (sessionData.igm_action === "on_issue_processing_2" && isGrievance)
+        existingPayload.message.issue.level = "GREVIENCE";
+      existingPayload.message.issue.actors =
+        sessionData.latest_issue_payload?.actors;
       existingPayload.message.issue.descriptor.short_desc =
         "Issue with product quality";
       existingPayload.message.issue.actions = getActionsList(
@@ -126,7 +129,7 @@ export const onIssueStatusGenerator = async (
       existingPayload.message.issue.last_action_id =
         action[action.length - 1]?.id ?? "A22";
       break;
-  
+
     case "on_issue_need_more_info":
       existingPayload.message.issue.status = "PROCESSING";
       existingPayload.message.issue.actions = getActionsList(
@@ -248,9 +251,12 @@ export const onIssueStatusGenerator = async (
       break;
 
     case "on_issue_resolution_1":
-    case "on_issue_resolution_2": 
+    case "on_issue_resolution_2":
       existingPayload.message.issue.status = "PROCESSING";
-      existingPayload.message.issue.actors = sessionData.latest_issue_payload?.actors
+      if (sessionData.igm_action === "on_issue_resolution_2" && isGrievance)
+        existingPayload.message.issue.level = "GREVIENCE";
+      existingPayload.message.issue.actors =
+        sessionData.latest_issue_payload?.actors;
       // existingPayload.message.issue.last_action_id =
       //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
       //   "A6";
@@ -293,9 +299,10 @@ export const onIssueStatusGenerator = async (
         return r;
       });
       break;
-  
+
     case "on_issue_resolved":
       const actions = sessionData?.issue_action;
+      if (isGrievance) existingPayload.message.issue.level = "GREVIENCE";
       console.log(JSON.stringify(actions));
       const getRefIdData: any = actions.find(
         (i: any) => i.descriptor.code === "RESOLUTION_ACCEPTED"

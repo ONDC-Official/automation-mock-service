@@ -1,5 +1,5 @@
 import { Input, SessionData } from "../../../session-types";
-import { action, getActionsList } from "../default";
+import { action, getActionsList, getGrievance, isGrievance } from "../default";
 
 export const issueStatusGenerator = async (
   existingPayload: any,
@@ -127,15 +127,15 @@ export const issueStatusGenerator = async (
 
     case "issue_escalate":
       existingPayload.message.issue.status = "PROCESSING";
-      existingPayload.message.issue.level = "GRIEVANCE";
+      existingPayload.message.issue.level = "GREVIENCE";
       existingPayload.message.issue.descriptor.short_desc =
         "Issue with product quality";
       existingPayload.message.issue.actions = getActionsList(
         {
           id: "A11",
           descriptor: {
-            code: "OPEN",
-            short_desc: "Complaint created",
+            code: "ESCALATED",
+            short_desc: "Complaint Escalated",
           },
           updated_at: "nill",
           action_by: "NP1",
@@ -147,9 +147,10 @@ export const issueStatusGenerator = async (
         "issue_open"
       );
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22"; 
+        action[action.length - 1]?.id ?? "A22";
+      getGrievance(true);
       break;
-  
+
     case "issue_open_2":
       existingPayload.message.issue.descriptor.code = "PMT002";
       existingPayload.message.issue.status = "OPEN";
@@ -214,6 +215,7 @@ export const issueStatusGenerator = async (
 
     case "issue_resolution_accept":
       existingPayload.message.issue.status = "PROCESSING";
+      if (isGrievance) existingPayload.message.issue.level = "GREVIENCE";
       existingPayload.message.issue.actions = getActionsList(
         {
           id: "A7",
@@ -252,8 +254,8 @@ export const issueStatusGenerator = async (
           ref_id: "R2",
           ref_type: "RESOLUTIONS",
           descriptor: {
-            code: "RESOLUTION_ACCEPTED",
-            short_desc: "Resolution is accepted",
+            code: "RESOLUTION_REJECTED",
+            short_desc: "Resolution is rejected",
           },
           updated_at: "2025-11-04T11:52:49.989Z",
           action_by: "NP1",
@@ -275,9 +277,10 @@ export const issueStatusGenerator = async (
       let actionss = existingPayload.message.issue.actions;
       actionss[actionss.length - 1].ref_id = refIds[0];
       break;
-  
+
     case "issue_close":
       existingPayload.message.issue.status = "CLOSED";
+      if (isGrievance) existingPayload.message.issue.level = "GREVIENCE";
       existingPayload.message.issue.actions = getActionsList(
         {
           id: "A9",
@@ -299,41 +302,42 @@ export const issueStatusGenerator = async (
           existingPayload?.message?.issue?.actions?.length - 1
         ]?.id ?? "A22";
       existingPayload.message.issue.resolutions = sessionData.issue_resolution;
+      getGrievance(false);
       break;
 
-    // case "issue_close_thumbs_Down":
-    //   existingPayload.message.issue.status = "CLOSED";
-    //   existingPayload.message.issue.actions = getActionsList(
-    //     {
-    //       id: "A9",
-    //       descriptor: {
-    //         code: "CLOSED",
-    //         short_desc: "Closing the complaint",
-    //       },
-    //       updated_at: "2025-11-04T11:52:58.092Z",
-    //       action_by: "NP1",
-    //       actor_details: {
-    //         name: "mock-person",
-    //       },
-    //       tags: [
-    //         {
-    //           descriptor: {
-    //             code: "CLOSURE_DETAILS",
-    //           },
-    //           list: [
-    //             {
-    //               descriptor: {
-    //                 code: "RATING",
-    //               },
-    //               value: "THUMBS_DOWN",
-    //             },
-    //           ],
-    //         },
-    //       ],
-    //     },
-    //     newDate,
-    //     "issue_close"
-    //   );
+      // case "issue_close_thumbs_Down":
+      //   existingPayload.message.issue.status = "CLOSED";
+      //   existingPayload.message.issue.actions = getActionsList(
+      //     {
+      //       id: "A9",
+      //       descriptor: {
+      //         code: "CLOSED",
+      //         short_desc: "Closing the complaint",
+      //       },
+      //       updated_at: "2025-11-04T11:52:58.092Z",
+      //       action_by: "NP1",
+      //       actor_details: {
+      //         name: "mock-person",
+      //       },
+      //       tags: [
+      //         {
+      //           descriptor: {
+      //             code: "CLOSURE_DETAILS",
+      //           },
+      //           list: [
+      //             {
+      //               descriptor: {
+      //                 code: "RATING",
+      //               },
+      //               value: "THUMBS_DOWN",
+      //             },
+      //           ],
+      //         },
+      //       ],
+      //     },
+      //     newDate,
+      //     "issue_close"
+      //   );
       existingPayload.message.issue.last_action_id =
         existingPayload?.message?.issue?.actions[
           existingPayload?.message?.issue?.actions?.length - 1

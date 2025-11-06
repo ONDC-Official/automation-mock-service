@@ -5,6 +5,7 @@ interface ActionData {
 }
 
 let id = 0;
+export let isGrievance: boolean = false;
 export let action: ActionData[] = [];
 
 export function getLastActionId(actionType: "issue_close" | string): string {
@@ -27,4 +28,8 @@ export function getActionsList(
 
   action = actionType === "issue_close" ? [] : updatedList;
   return updatedList;
+}
+
+export function getGrievance(data: boolean) {
+  isGrievance = data;
 }
