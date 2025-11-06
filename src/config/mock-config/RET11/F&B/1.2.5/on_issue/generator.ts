@@ -99,32 +99,34 @@ export const onIssueStatusGenerator = async (
       );
       existingPayload.message.issue.last_action_id =
         action[action.length - 1]?.id ?? "A22";
-      // existingPayload.message.issue.last_action_id =
-      //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
-      //   "A2";
-      // existingPayload.message.issue.actors = [
-      //   ...existingPayload.message.issue.actors,
-      //   {
-      //     id: "NP2",
-      //     type: "COUNTERPARTY_NP",
-      //     info: {
-      //       org: {
-      //         name: `${existingPayload?.context?.bpp_id ?? ""}::${
-      //           existingPayload?.context?.domain ?? ""
-      //         }`,
-      //       },
-      //       contact: {
-      //         phone: "9450394140",
-      //         email: "respondentapp@respond.com",
-      //       },
-      //       person: {
-      //         name: "Jane Doe",
-      //       },
-      //     },
-      //   },
-      // ];
       break;
 
+    case "on_issue_processing_1":
+    case "on_issue_processing_2":  
+      existingPayload.message.issue.status = "PROCESSING";
+      existingPayload.message.issue.actors = sessionData.latest_issue_payload?.actors;
+      existingPayload.message.issue.descriptor.short_desc =
+        "Issue with product quality";
+      existingPayload.message.issue.actions = getActionsList(
+        {
+          id: "A2",
+          descriptor: {
+            code: "PROCESSING",
+            short_desc: "Complaint created",
+          },
+          updated_at: "2025-11-04T11:37:59.928Z",
+          action_by: "NP2",
+          actor_details: {
+            name: "mock-person",
+          },
+        },
+        newDate,
+        "on_issue_processing"
+      );
+      existingPayload.message.issue.last_action_id =
+        action[action.length - 1]?.id ?? "A22";
+      break;
+  
     case "on_issue_need_more_info":
       existingPayload.message.issue.status = "PROCESSING";
       existingPayload.message.issue.actions = getActionsList(
@@ -245,44 +247,80 @@ export const onIssueStatusGenerator = async (
       });
       break;
 
+    case "on_issue_resolution_1":
+    case "on_issue_resolution_2": 
+      existingPayload.message.issue.status = "PROCESSING";
+      existingPayload.message.issue.actors = sessionData.latest_issue_payload?.actors
+      // existingPayload.message.issue.last_action_id =
+      //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
+      //   "A6";
+      existingPayload.message.issue.actions = getActionsList(
+        {
+          id: "A6",
+          ref_id: "R_PARENT",
+          ref_type: "RESOLUTIONS",
+          descriptor: {
+            code: "RESOLUTION_PROPOSED",
+            short_desc: "Resolution is proposed",
+          },
+          updated_at: "2025-11-04T11:49:25.358Z",
+          action_by: "NP2",
+          actor_details: {
+            name: "mock-person",
+          },
+        },
+        newDate,
+        "on_issue_resolution"
+      );
+      existingPayload.message.issue.last_action_id =
+        action[action.length - 1]?.id ?? "A22";
+
+      const resolutionss = existingPayload.message.issue.resolutions;
+      resolutionss.forEach((r: any) => {
+        r.updated_at = newDate;
+        if (r.tags) {
+          r.tags.forEach((tag: any) => {
+            tag.list.forEach((entry: any) => {
+              if (entry.descriptor.code === "ITEM") {
+                entry.value = sessionData.items[0].id;
+              }
+              if (entry.descriptor.code === "REFUND_AMOUNT") {
+                entry.value = "2260";
+              }
+            });
+          });
+        }
+        return r;
+      });
+      break;
+  
     case "on_issue_resolved":
+      const actions = sessionData?.issue_action;
+      console.log(JSON.stringify(actions));
+      const getRefIdData: any = actions.find(
+        (i: any) => i.descriptor.code === "RESOLUTION_ACCEPTED"
+      );
+      console.log(JSON.stringify(getRefIdData));
       existingPayload.message.issue.status = "RESOLVED";
       existingPayload.message.issue.resolutions = sessionData.issue_resolution;
       let sessionActions = sessionData.issue_action;
       const issueActionAccept: any = sessionActions[sessionActions.length - 1];
       const refId = issueActionAccept?.ref_id;
       existingPayload.message.issue.actions = getActionsList(
-        refId === "R1"
-          ? {
-              id: "A8-9",
-              ref_id: "R1",
-              ref_type: "RESOLUTIONS",
-              descriptor: {
-                code: "RESOLVED",
-                name: "REFUND",
-                short_desc: "Providing refund",
-              },
-              updated_at: newDate,
-              action_by: "NP2",
-              actor_details: {
-                name: "mock-person",
-              },
-            }
-          : {
-              id: "A8-8",
-              ref_id: "R2",
-              ref_type: "RESOLUTIONS",
-              descriptor: {
-                code: "RESOLVED",
-                name: "REPLACEMENT",
-                short_desc: "Providing replacement",
-              },
-              updated_at: newDate,
-              action_by: "NP2",
-              actor_details: {
-                name: "mock-person",
-              },
-            },
+        {
+          id: "A8-9",
+          ref_id: getRefIdData?.ref_id ?? "A1",
+          ref_type: "RESOLUTIONS",
+          descriptor: {
+            code: "RESOLVED",
+            short_desc: "Complaint is Resolved",
+          },
+          updated_at: newDate,
+          action_by: "NP2",
+          actor_details: {
+            name: "mock-person",
+          },
+        },
         newDate,
         "on_issue_resolved"
       );

@@ -1,5 +1,3 @@
-// 
-
 interface ActionData {
   id: string;
   updated_at: string;
@@ -20,7 +18,11 @@ export function getActionsList(
   date: string,
   actionType: "issue_close" | string
 ): ActionData[] {
-  const newAction: ActionData = { ...data, id: getLastActionId(actionType), updated_at: date };
+  const newAction: ActionData = {
+    ...data,
+    id: getLastActionId(actionType),
+    updated_at: date,
+  };
   const updatedList = [...action, newAction];
 
   action = actionType === "issue_close" ? [] : updatedList;

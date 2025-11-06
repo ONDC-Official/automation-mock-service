@@ -329,6 +329,11 @@ codes:
     action: issue
     default: issue/issue_close/default.yaml
     message_id: true
+  # - code: 163
+  #   action_id: issue_close_thumbs_Down
+  #   action: issue
+  #   default: issue/issue_close/default.yaml
+  #   message_id: true  
   - code: 163
     action_id: issue_open_2
     action: issue
@@ -339,3 +344,35 @@ codes:
     action: on_update
     default: on_update/on_update_igm/default.yaml
     message_id: true  
+  - code: 165
+    action_id: issue_resolution_reject
+    action: issue
+    default: issue/issue_resolution_accept/default.yaml
+    message_id: true  
+  - code: 166
+    action_id: on_issue_processing_1
+    action: on_issue
+    default: on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 167
+    action_id: on_issue_processing_2
+    action: on_issue
+    default: on_issue/on_issue_processing/default.yaml  
+    message_id: false  
+  - code: 168
+    action_id: issue_escalate
+    action: issue
+    default: issue/issue_open/default.yaml
+    message_id: true 
+  - code: 169
+    action_id: on_issue_resolution_1
+    action: on_issue
+    default: on_issue/on_issue_resolution/default.yaml  
+    message_id: true
+  - code: 170
+    action_id: on_issue_resolution_2
+    action: on_issue
+    default: on_issue/on_issue_resolution/default.yaml  
+    message_id: true   
+
+    

@@ -245,6 +245,11 @@ export async function Generator(
         ...sessionData,
         igm_action: "issue_open",
       }, inputs);
+    case "issue_escalate":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_escalate",
+      }, inputs);  
     case "issue_open_2":
       return await issueStatusGenerator(existingPayload, {
         ...sessionData,
@@ -255,6 +260,16 @@ export async function Generator(
 				...sessionData,
 				igm_action: "on_issue_processing",
 			});
+    case "on_issue_processing_1":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_processing_1",
+			});
+    case "on_issue_processing_2":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_processing_2",
+			});    
 		case "on_issue_need_more_info":
 			return await onIssueStatusGenerator(existingPayload, {
 				...sessionData,
@@ -275,11 +290,26 @@ export async function Generator(
 				...sessionData,
 				igm_action: "on_issue_resolution",
 			});
+    case "on_issue_resolution_1":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolution_1",
+			});
+    case "on_issue_resolution_2":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolution_2",
+			});    
 		case "issue_resolution_accept":
 			return await issueStatusGenerator(existingPayload, {
 				...sessionData,
 				igm_action: "issue_resolution_accept",
 			}, inputs);
+    case "issue_resolution_reject":
+			return await issueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "issue_resolution_reject",
+			}, inputs);  
 		case "on_issue_resolved":
 			return await onIssueStatusGenerator(existingPayload, {
 				...sessionData,
@@ -289,13 +319,13 @@ export async function Generator(
 			return await issueStatusGenerator(existingPayload, {
 				...sessionData,
 				igm_action: "issue_close",
-			}, inputs);
+			}, inputs)
     case "on_update_igm":
 			return await onUpdateIgmGenerator(
         existingPayload,
         sessionData,
         inputs
-      );  
+      ); 
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }

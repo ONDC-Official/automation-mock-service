@@ -125,6 +125,31 @@ export const issueStatusGenerator = async (
         action[action.length - 1]?.id ?? "A22";
       break;
 
+    case "issue_escalate":
+      existingPayload.message.issue.status = "PROCESSING";
+      existingPayload.message.issue.level = "GRIEVANCE";
+      existingPayload.message.issue.descriptor.short_desc =
+        "Issue with product quality";
+      existingPayload.message.issue.actions = getActionsList(
+        {
+          id: "A11",
+          descriptor: {
+            code: "OPEN",
+            short_desc: "Complaint created",
+          },
+          updated_at: "nill",
+          action_by: "NP1",
+          actor_details: {
+            name: "mock-person",
+          },
+        },
+        newDate,
+        "issue_open"
+      );
+      existingPayload.message.issue.last_action_id =
+        action[action.length - 1]?.id ?? "A22"; 
+      break;
+  
     case "issue_open_2":
       existingPayload.message.issue.descriptor.code = "PMT002";
       existingPayload.message.issue.status = "OPEN";
@@ -219,6 +244,38 @@ export const issueStatusGenerator = async (
       actions[actions.length - 1].ref_id = refId[0];
       break;
 
+    case "issue_resolution_reject":
+      existingPayload.message.issue.status = "PROCESSING";
+      existingPayload.message.issue.actions = getActionsList(
+        {
+          id: "A7",
+          ref_id: "R2",
+          ref_type: "RESOLUTIONS",
+          descriptor: {
+            code: "RESOLUTION_ACCEPTED",
+            short_desc: "Resolution is accepted",
+          },
+          updated_at: "2025-11-04T11:52:49.989Z",
+          action_by: "NP1",
+          actor_details: {
+            name: "mock-person",
+          },
+        },
+        newDate,
+        "issue_resolution_accept"
+      );
+      existingPayload.message.issue.last_action_id =
+        action[action.length - 1]?.id ?? "A22";
+      existingPayload.message.issue.resolutions = sessionData.issue_resolution;
+      console.log("issue_resolution_accept");
+      const resolution_accepts = inputs?.resolution_accept || "R2-Replacement";
+      console.log("input", inputs);
+      const refIds = resolution_accepts.split("-");
+      console.log("refId", refIds);
+      let actionss = existingPayload.message.issue.actions;
+      actionss[actionss.length - 1].ref_id = refIds[0];
+      break;
+  
     case "issue_close":
       existingPayload.message.issue.status = "CLOSED";
       existingPayload.message.issue.actions = getActionsList(
@@ -237,6 +294,46 @@ export const issueStatusGenerator = async (
         newDate,
         "issue_close"
       );
+      existingPayload.message.issue.last_action_id =
+        existingPayload?.message?.issue?.actions[
+          existingPayload?.message?.issue?.actions?.length - 1
+        ]?.id ?? "A22";
+      existingPayload.message.issue.resolutions = sessionData.issue_resolution;
+      break;
+
+    // case "issue_close_thumbs_Down":
+    //   existingPayload.message.issue.status = "CLOSED";
+    //   existingPayload.message.issue.actions = getActionsList(
+    //     {
+    //       id: "A9",
+    //       descriptor: {
+    //         code: "CLOSED",
+    //         short_desc: "Closing the complaint",
+    //       },
+    //       updated_at: "2025-11-04T11:52:58.092Z",
+    //       action_by: "NP1",
+    //       actor_details: {
+    //         name: "mock-person",
+    //       },
+    //       tags: [
+    //         {
+    //           descriptor: {
+    //             code: "CLOSURE_DETAILS",
+    //           },
+    //           list: [
+    //             {
+    //               descriptor: {
+    //                 code: "RATING",
+    //               },
+    //               value: "THUMBS_DOWN",
+    //             },
+    //           ],
+    //         },
+    //       ],
+    //     },
+    //     newDate,
+    //     "issue_close"
+    //   );
       existingPayload.message.issue.last_action_id =
         existingPayload?.message?.issue?.actions[
           existingPayload?.message?.issue?.actions?.length - 1
