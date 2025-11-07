@@ -300,12 +300,22 @@ export async function Generator(
 			return await onIssueStatusGenerator(existingPayload, {
 				...sessionData,
 				igm_action: "on_issue_resolution_2",
-			});    
+			});  
+    case "on_issue_resolution_igm_3":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolution_igm_3",
+			});     
 		case "issue_resolution_accept":
 			return await issueStatusGenerator(existingPayload, {
 				...sessionData,
 				igm_action: "issue_resolution_accept",
 			}, inputs);
+    case "issue_resolution_accept_igm_3":
+			return await issueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "issue_resolution_accept_igm_3",
+			}, inputs);  
     case "issue_resolution_reject":
 			return await issueStatusGenerator(existingPayload, {
 				...sessionData,
@@ -316,11 +326,21 @@ export async function Generator(
 				...sessionData,
 				igm_action: "on_issue_resolved",
 			}, inputs);
+    case "on_issue_resolved_igm_3":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolved_igm_3",
+			}, inputs);  
 		case "issue_close":
 			return await issueStatusGenerator(existingPayload, {
 				...sessionData,
 				igm_action: "issue_close",
 			}, inputs)
+    case "issue_close_igm_3":
+			return await issueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "issue_close_igm_3",
+			}, inputs)  
     case "on_update_igm_return": 
 			return await onUpdateIgmReturnGenerator(
         existingPayload,

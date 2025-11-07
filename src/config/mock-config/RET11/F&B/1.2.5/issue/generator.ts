@@ -214,6 +214,7 @@ export const issueStatusGenerator = async (
       break;
 
     case "issue_resolution_accept":
+    case "issue_resolution_accept_igm_3":
       existingPayload.message.issue.status = "PROCESSING";
       if (isGrievance) existingPayload.message.issue.level = "GREVIENCE";
       existingPayload.message.issue.actions = getActionsList(
@@ -244,6 +245,12 @@ export const issueStatusGenerator = async (
       console.log("refId", refId);
       let actions = existingPayload.message.issue.actions;
       actions[actions.length - 1].ref_id = refId[0];
+
+      if (sessionData.igm_action === "issue_resolution_accept_igm_3") {
+        existingPayload.message.issue.resolutions =
+          sessionData?.issue_resolution ?? "";
+      }
+
       break;
 
     case "issue_resolution_reject":
@@ -279,6 +286,7 @@ export const issueStatusGenerator = async (
       break;
 
     case "issue_close":
+    case "issue_close_igm_3":
       existingPayload.message.issue.status = "CLOSED";
       if (isGrievance) existingPayload.message.issue.level = "GREVIENCE";
       existingPayload.message.issue.actions = getActionsList(
@@ -303,6 +311,12 @@ export const issueStatusGenerator = async (
         ]?.id ?? "A22";
       existingPayload.message.issue.resolutions = sessionData.issue_resolution;
       getGrievance(false);
+
+      if (sessionData.igm_action === "issue_close_igm_3") {
+        existingPayload.message.issue.resolutions =
+          sessionData?.issue_resolution ?? "";
+      }
+
       break;
 
       // case "issue_close_thumbs_Down":

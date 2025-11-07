@@ -187,6 +187,7 @@ export const onIssueStatusGenerator = async (
       break;
 
     case "on_issue_resolution":
+    case "on_issue_resolution_igm_3":
       existingPayload.message.issue.status = "PROCESSING";
       existingPayload.message.issue.actors = [
         ...sessionData.latest_issue_payload?.actors,
@@ -248,6 +249,39 @@ export const onIssueStatusGenerator = async (
         }
         return r;
       });
+
+      if (sessionData.igm_action === "on_issue_resolution_igm_3") {
+        existingPayload.message.issue.resolutions = [
+          {
+            id: "R5",
+            descriptor: {
+              code: "NO_ACTION",
+              short_desc:
+                "No further action required for resolving this complaint. ",
+            },
+            updated_at: existingPayload?.context?.timestamp ?? newDate,
+            proposed_by: "NP2",
+          },
+        ];
+      }
+
+      const lastActionsItem = existingPayload.message.issue.resolutions.find(
+        (i: any) => i?.descriptor?.code === "NO_ACTION"
+      );
+
+      const actionss = existingPayload.message.issue.actions;
+      const lastIndex = actionss.length - 1;
+
+      if (lastIndex >= 0) {
+        const updatedActorItem = {
+          ...actionss[lastIndex],
+          ref_id: lastActionsItem?.id ?? "R5",
+        };
+        actionss[lastIndex] = updatedActorItem;
+      }
+
+      existingPayload.message.issue.actions = actionss;
+
       break;
 
     case "on_issue_resolution_1":
@@ -301,6 +335,7 @@ export const onIssueStatusGenerator = async (
       break;
 
     case "on_issue_resolved":
+    case "on_issue_resolved_igm_3":
       const actions = sessionData?.issue_action;
       if (isGrievance) existingPayload.message.issue.level = "GREVIENCE";
       console.log(JSON.stringify(actions));
@@ -333,6 +368,11 @@ export const onIssueStatusGenerator = async (
       );
       existingPayload.message.issue.last_action_id =
         action[action.length - 1]?.id ?? "A22";
+      if (sessionData.igm_action === "on_issue_resolved_igm_3") {
+        existingPayload.message.issue.resolutions =
+          sessionData?.issue_resolution ?? "";
+      }
+
       break;
 
     default:

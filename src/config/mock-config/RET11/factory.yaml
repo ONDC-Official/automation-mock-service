@@ -388,6 +388,26 @@ codes:
     action_id: on_status_igm_3
     action: on_status
     default: on_status/default.yaml
-    message_id: true     
+    message_id: true 
+  - code: 173
+    action_id: on_issue_resolution_igm_3
+    action: on_issue
+    default: on_issue/on_issue_resolution/default.yaml  
+    message_id: true 
+  - code: 174
+    action_id: issue_resolution_accept_igm_3
+    action: issue
+    default: issue/issue_resolution_accept/default.yaml
+    message_id: true   
+  - code: 175
+    action_id: on_issue_resolved_igm_3
+    action: on_issue
+    default: on_issue/on_issue_resolved/default.yaml  
+    message_id: true  
+  - code: 176
+    action_id: issue_close_igm_3
+    action: issue
+    default: issue/issue_close/default.yaml
+    message_id: true 
 
     
