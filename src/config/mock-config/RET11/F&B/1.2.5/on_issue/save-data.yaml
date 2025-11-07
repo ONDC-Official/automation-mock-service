@@ -3,3 +3,4 @@ save-data:
   last_action: $.context.action
   issue_action : $.message.issue.actions[*]
   issue_resolution: $.message.issue.resolutions[*]
+  last_actions_id: $.message.issue.actions[*]
