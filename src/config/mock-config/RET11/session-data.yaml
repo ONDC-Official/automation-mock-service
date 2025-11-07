@@ -30,11 +30,13 @@ session_data:
   offers: []
   tags: []
   on_select_items: []
-  search_bap_terms: null
-  selected_np_fees: []
   latest_issue_payload: any
   provider_id: any
   status: any
   igm_action: any
   issue_action: []
   issue_resolution: []
+  search_bap_terms: null
+  selected_np_fees: []
+  last_actions_id: any
+  issue_id: any

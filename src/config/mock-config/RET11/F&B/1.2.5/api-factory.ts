@@ -41,6 +41,8 @@ import { confirmCommercialModelGenerator } from "./confirm/confirm_commercial_mo
 import { onConfirmCommercialModelGenerator } from "./on_confirm/on_confirm_commercial_model/generator";
 import { issueStatusGenerator } from "./issue/generator";
 import { onIssueStatusGenerator } from "./on_issue/generator";
+import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/generator";
+import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
 
 export async function Generator(
   action_id: string,
@@ -244,6 +246,11 @@ export async function Generator(
         ...sessionData,
         igm_action: "issue_open",
       }, inputs);
+    case "issue_escalate":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_escalate",
+      }, inputs);  
     case "issue_open_2":
       return await issueStatusGenerator(existingPayload, {
         ...sessionData,
@@ -254,6 +261,16 @@ export async function Generator(
 				...sessionData,
 				igm_action: "on_issue_processing",
 			});
+    case "on_issue_processing_1":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_processing_1",
+			});
+    case "on_issue_processing_2":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_processing_2",
+			});    
 		case "on_issue_need_more_info":
 			return await onIssueStatusGenerator(existingPayload, {
 				...sessionData,
@@ -274,21 +291,73 @@ export async function Generator(
 				...sessionData,
 				igm_action: "on_issue_resolution",
 			});
+    case "on_issue_resolution_1":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolution_1",
+			});
+    case "on_issue_resolution_2":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolution_2",
+			});  
+    case "on_issue_resolution_igm_3":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolution_igm_3",
+			});     
 		case "issue_resolution_accept":
 			return await issueStatusGenerator(existingPayload, {
 				...sessionData,
 				igm_action: "issue_resolution_accept",
 			}, inputs);
+    case "issue_resolution_accept_igm_3":
+			return await issueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "issue_resolution_accept_igm_3",
+			}, inputs);  
+    case "issue_resolution_reject":
+			return await issueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "issue_resolution_reject",
+			}, inputs);  
 		case "on_issue_resolved":
 			return await onIssueStatusGenerator(existingPayload, {
 				...sessionData,
 				igm_action: "on_issue_resolved",
-			});
+			}, inputs);
+    case "on_issue_resolved_igm_3":
+			return await onIssueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "on_issue_resolved_igm_3",
+			}, inputs);  
 		case "issue_close":
 			return await issueStatusGenerator(existingPayload, {
 				...sessionData,
 				igm_action: "issue_close",
-			}, inputs);
+			}, inputs)
+    case "issue_close_igm_3":
+			return await issueStatusGenerator(existingPayload, {
+				...sessionData,
+				igm_action: "issue_close_igm_3",
+			}, inputs)  
+    case "on_update_igm_return": 
+			return await onUpdateIgmReturnGenerator(
+        existingPayload,
+        sessionData,
+        action_id,
+      ); 
+    case "on_update_igm_replacement":
+			return await onUpdateIgmReplacementGenerator(
+        existingPayload,
+        sessionData,
+        action_id,
+      ); 
+    case "on_status_igm_3":
+			return await onStatusGenerator(existingPayload, {
+        ...sessionData,
+        stateCode: "Order-delivered",
+      }); 
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }
