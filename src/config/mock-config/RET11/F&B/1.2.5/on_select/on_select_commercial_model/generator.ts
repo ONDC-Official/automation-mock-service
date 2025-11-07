@@ -39,7 +39,6 @@ export const onSelectCommercialModelGenerator = (
 		});
 	}
 
-	console.log("onSelectCommercialModelGenerator ~ sessionData.search_bap_terms:", sessionData.search_bap_terms)
 	existingPayload.message.order.quote = buildRetailQuote(
 		sessionData.items,
 		on_search_items,

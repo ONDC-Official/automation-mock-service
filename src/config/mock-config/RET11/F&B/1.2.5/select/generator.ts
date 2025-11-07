@@ -67,7 +67,7 @@ export const selectGenerator = (
         ],
       });
 
-      item?.customisations.forEach((customisation: any) => {
+      item?.customisations?.forEach((customisation: any) => {
         newItems.push({
           id: customisation,
           parent_item_id: parentItemId,
