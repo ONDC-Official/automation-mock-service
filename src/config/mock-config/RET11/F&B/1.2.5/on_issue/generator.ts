@@ -263,25 +263,24 @@ export const onIssueStatusGenerator = async (
             proposed_by: "NP2",
           },
         ];
+
+        const lastActionsItem = existingPayload.message.issue.resolutions.find(
+          (i: any) => i?.descriptor?.code === "NO_ACTION"
+        );
+
+        const actionss = existingPayload.message.issue.actions;
+        const lastIndex = actionss.length - 1;
+
+        if (lastIndex >= 0) {
+          const updatedActorItem = {
+            ...actionss[lastIndex],
+            ref_id: lastActionsItem?.id ?? "R5",
+          };
+          actionss[lastIndex] = updatedActorItem;
+        }
+
+        existingPayload.message.issue.actions = actionss;
       }
-
-      const lastActionsItem = existingPayload.message.issue.resolutions.find(
-        (i: any) => i?.descriptor?.code === "NO_ACTION"
-      );
-
-      const actionss = existingPayload.message.issue.actions;
-      const lastIndex = actionss.length - 1;
-
-      if (lastIndex >= 0) {
-        const updatedActorItem = {
-          ...actionss[lastIndex],
-          ref_id: lastActionsItem?.id ?? "R5",
-        };
-        actionss[lastIndex] = updatedActorItem;
-      }
-
-      existingPayload.message.issue.actions = actionss;
-
       break;
 
     case "on_issue_resolution_1":
