@@ -25,14 +25,14 @@ export async function select_generator(
   if (inputs.provider) {
 		existingPayload.message.order.provider.id = inputs.provider;
 	}
-	if (inputs.provider_location) {
-		existingPayload.message.order.provider.locations =
-			inputs.provider_location.map((location) => {
-				return {
-					id: location,
-				};
-			});
-	}
+	// if (inputs.provider_location) {
+	// 	existingPayload.message.order.provider.locations =
+	// 		inputs.provider_location.map((location) => {
+	// 			return {
+	// 				id: location,
+	// 			};
+	// 		});
+	// }
 	if (inputs.location_gps) {
 		existingPayload.message.order.fulfillments[0].end.location.gps =
 			inputs.location_gps;
