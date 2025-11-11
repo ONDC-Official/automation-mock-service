@@ -68,6 +68,8 @@ export async function Generator(
             return await searchMultipleStopsGenerator(existingPayload, sessionData);
         case "on_search":
             return await onSearchMultipleStopsGenerator(existingPayload, sessionData);
+        case "on_search_purple":
+            return await onSearchMultipleStopsGenerator(existingPayload, sessionData);
         case "select":
             return await selectMultipleStopsGenerator(existingPayload, sessionData);
         case "on_select":

@@ -236,5 +236,8 @@ export async function onSelectMultipleStopsRentalGenerator(
   existingPayload.message.order.quote.price.value = String(new_price);
   existingPayload.message.order.quote.breakup.push(addon);
   existingPayload.message.order.fulfillments = filteredFulfillments;
+  if(sessionData.cancellation_terms){
+    existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms[0];
+  }
   return existingPayload;
 }
