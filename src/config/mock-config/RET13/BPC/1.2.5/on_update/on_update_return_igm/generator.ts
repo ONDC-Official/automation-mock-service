@@ -20,14 +20,17 @@ export const onUpdateIgmReturnGenerator = (
   }
 
   if (sessionData.items) {
+    item[0].quantity =
+      typeof item[0]?.quantity === "object"
+        ? { count: (item[0]?.quantity?.count || 1) - 1 }
+        : (item[0]?.quantity || 1) - 1;
+
     existingPayload.message.order.items = [
       ...item,
       {
         id: item[0]?.id || "I1",
         fulfillment_id: "R1",
-        quantity: item[0]?.quantity || {
-          count: 1,
-        },
+        quantity: { count: 1 },
       },
     ];
   }
