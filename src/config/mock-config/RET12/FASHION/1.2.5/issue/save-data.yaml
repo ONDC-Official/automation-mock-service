@@ -4,6 +4,8 @@ save-data:
   last_action: $.context.action
   issue_action : $.message.issue.actions[*]
   issue_resolution: $.message.issue.resolutions[*]
+  issue_level: $.message.issue.level
+  issue_id: $.message.issue.id
   # issue_id : "$.message.issue.id"
   # issue_created_at : "$.message.issue.created_at"
   # issue_refs : "$.message.issue.refs[*]"
