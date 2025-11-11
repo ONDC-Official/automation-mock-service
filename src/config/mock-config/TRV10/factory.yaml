@@ -303,3 +303,8 @@ codes:
     action: cancel
     default: TRV10/2.1.0/cancel/default.yaml
     message_id: true  
+  - code: 160
+    action_id: on_search_purple
+    action: on_search
+    default: TRV10/2.1.0/on_search/default_purple_tags.yaml
+    message_id: false  

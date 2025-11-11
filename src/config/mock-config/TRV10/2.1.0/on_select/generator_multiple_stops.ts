@@ -206,6 +206,9 @@ export async function onSelectMultipleStopsGenerator(
   filteredFulfillments[0]["tags"] = fulfillment_tags;
   existingPayload.message.order.quote = generateQuoteFromItems(item);
   existingPayload.message.order.fulfillments = filteredFulfillments;
+  if(sessionData.cancellation_terms){
+     existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms[0];
+  }
   existingPayload.message.order.quote.breakup =
     existingPayload.message.order.quote.breakup.filter(
       (breakup: any) => breakup.title !== "ADD_ONS"
