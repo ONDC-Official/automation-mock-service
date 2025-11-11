@@ -315,6 +315,8 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			latestMeta.status === "WAITING-SUBMISSION"
 		) {
 			res.status(200).send("Mock service is now responding");
+			await setFlowStatusService(txId, subscriberUrl, "WORKING");
+
 			logger.info(
 				`⏳ Mock service is now responding with ${latestMeta.actionId} as ${latestMeta.owner}`,
 				getLoggerData(req),
@@ -325,7 +327,6 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 
 			if (latestMeta.actionType === "HTML_FORM") {
 				console.log("HTML_FORM action detected", req.body);
-				await setFlowStatusService(txId, subscriberUrl, "WORKING");
 				const version = req.apiSessionCache?.version;
 				if (!version) {
 					throw new Error("Version not found in session data");
@@ -366,7 +367,6 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				);
 				return;
 			}
-			await setFlowStatusService(txId, subscriberUrl, "WORKING");
 			let sessionData: any = await GetMockSessionDataForGeneration(
 				{},
 				txId,
