@@ -55,7 +55,7 @@ export function getFlowCompleteStatus(
 		missedSteps: [],
 		reference_data: getReferenceData(mockSessionData),
 	};
-	const addedSequence = mockSessionData.MORE_SEQUENCE || [];
+	const addedSequence = (mockSessionData as any).MORE_SEQUENCE || [];
 	const flowSequence = [...flow.sequence, ...addedSequence];
 
 	// Track the next expected step index in the flow
