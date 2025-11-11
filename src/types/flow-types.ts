@@ -39,4 +39,5 @@ export interface SequenceStep {
 	expect?: boolean;
 	label?: string;
 	force_proceed?: boolean;
+	repeat?: number;
 }

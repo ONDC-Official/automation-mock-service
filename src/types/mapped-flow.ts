@@ -53,4 +53,5 @@ export interface MappedStep {
 	missedStep?: boolean;
 	label?: string;
 	force_proceed?: boolean;
+	repeat?: number;
 }

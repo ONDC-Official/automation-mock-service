@@ -35,6 +35,7 @@ import {
 } from "../config/mock-config";
 import { saveDataForConfig } from "../services/data-services";
 import { getLoggerData } from "../utils/logger";
+import { TransactionCache } from "../types/transaction-cache";
 
 export async function setFlowAndTransactionId(
 	req: ApiRequest,
@@ -321,10 +322,10 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 					meta: latestMeta,
 				}
 			);
-			await setFlowStatusService(txId, subscriberUrl, "WORKING");
 
 			if (latestMeta.actionType === "HTML_FORM") {
 				console.log("HTML_FORM action detected", req.body);
+				await setFlowStatusService(txId, subscriberUrl, "WORKING");
 				const version = req.apiSessionCache?.version;
 				if (!version) {
 					throw new Error("Version not found in session data");
@@ -365,50 +366,58 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				);
 				return;
 			}
-
-			const sessionData: any = await loadMockSessionData(txId, subscriberUrl);
-			// Inject flow_id and session_id into sessionData
-			sessionData.flow_id = txData.flowId;
-			sessionData.session_id = txData.sessionId;
-			sessionData.domain = process.env.DOMAIN?.split(":")[1];
-			sessionData.transaction_id = txId;
-			let mockResponse = await generateMockResponse(
-				txData.sessionId as string,
-				sessionData,
-				latestMeta.actionId,
-				req.body.inputs
+			await setFlowStatusService(txId, subscriberUrl, "WORKING");
+			let sessionData: any = await GetMockSessionDataForGeneration(
+				{},
+				txId,
+				subscriberUrl,
+				txData
 			);
+			// const repeatTimes = sessionData.REPEAT_NEXT_API ?? latestMeta.repeat ?? 1;
+			for (let i = 0; i < 1; i++) {
+				// sessionData = await GetMockSessionDataForGeneration(
+				// 	sessionData,
+				// 	txId,
+				// 	subscriberUrl,
+				// 	txData
+				// );
+				let mockResponse = await generateMockResponse(
+					txData.sessionId as string,
+					sessionData,
+					latestMeta.actionId,
+					req.body.inputs
+				);
 
-			if (req.body.json_path_changes) {
-				mockResponse = updateAllJsonPaths(
-					mockResponse,
-					req.body.json_path_changes
+				if (req.body.json_path_changes) {
+					mockResponse = updateAllJsonPaths(
+						mockResponse,
+						req.body.json_path_changes
+					);
+				}
+
+				const action = latestMeta.actionType;
+
+				const mockActionOb = await getMockActionObject(
+					latestMeta.actionId,
+					txData.sessionId
+				);
+				const saveData = mockActionOb.saveData;
+				const playground = req.apiSessionCache?.usecaseId === "PLAYGROUND-FLOW";
+				await saveDataForConfig(saveData, mockResponse, undefined, playground);
+
+				await sendToApiService(action, mockResponse, {
+					subscriber_url: subscriberUrl,
+					flow_id: flow.id,
+					session_id: txData.sessionId,
+				});
+				logger.info(
+					`Mock response sent for ${latestMeta.actionId} as ${latestMeta.owner}`,
+					getLoggerData(req),
+					{ meta: latestMeta, mockResponse }
 				);
 			}
-
-			const action = latestMeta.actionType;
-
-			const mockActionOb = await getMockActionObject(
-				latestMeta.actionId,
-				txData.sessionId
-			);
-			const saveData = mockActionOb.saveData;
-			await saveDataForConfig(saveData, mockResponse);
-
-			await sendToApiService(action, mockResponse, {
-				subscriber_url: subscriberUrl,
-				flow_id: flow.id,
-				session_id: txData.sessionId,
-			});
-
-			logger.info(
-				`Mock response sent for ${latestMeta.actionId} as ${latestMeta.owner}`,
-				getLoggerData(req),
-				{ meta: latestMeta, mockResponse }
-			);
 			return;
 		} else if (latestMeta.status === "LISTENING") {
-			let expecAdded = false;
 			if (latestMeta.expect && txData.sessionId) {
 				await createExpectationService(
 					subscriberUrl,
@@ -417,7 +426,6 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 					latestMeta.actionType,
 					getLoggerData(req)
 				);
-				expecAdded = true;
 			}
 			logger.info(
 				`Mock service is now listening for ${latestMeta.actionId}`,
@@ -440,4 +448,18 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 		}
 		return;
 	}
+}
+async function GetMockSessionDataForGeneration(
+	sessionData: any,
+	txId: string,
+	subscriberUrl: string,
+	txData: TransactionCache
+) {
+	sessionData = await loadMockSessionData(txId, subscriberUrl);
+	// Inject flow_id and session_id into sessionData
+	sessionData.flow_id = txData.flowId;
+	sessionData.session_id = txData.sessionId;
+	sessionData.domain = process.env.DOMAIN?.split(":")[1];
+	sessionData.transaction_id = txId;
+	return sessionData;
 }

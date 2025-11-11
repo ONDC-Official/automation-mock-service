@@ -7,31 +7,54 @@ import {
 	getUiMetaKeys,
 	MockSessionData,
 } from "../config/mock-config";
+import MockRunner from "@ondc/automation-mock-runner";
 
-export function updateSessionData(
+export async function updateSessionData(
 	saveData: Record<string, string>,
 	payload: any,
 	sessionData: MockSessionData,
 	errorData?: {
 		code: number;
 		message: string;
-	}
+	},
+	playgroundCompatibilityMode: boolean = false
 ) {
 	logger.info(`updating session`);
 	try {
 		for (const key in saveData) {
-			const jsonPath = saveData[key as keyof typeof saveData];
-			const result = jsonpath.query(payload, jsonPath);
-			logger.debug(`updating ${key} for path $${jsonPath}`);
-			if (
-				isArrayKey<MockSessionData>(
-					key as keyof typeof sessionData,
-					sessionData
-				)
-			) {
-				sessionData[key as keyof typeof sessionData] = result;
+			if (playgroundCompatibilityMode) {
+				const path = saveData[key as keyof typeof saveData];
+				const appendMode = key.startsWith("APPEND#");
+				const evalMode = path.startsWith("EVAL#");
+				const actualKey = key.split("#").pop() as string;
+				const actualPath = evalMode ? path.split("#")[1] : path;
+				const result = evalMode
+					? (await MockRunner.runGetSave(payload, actualPath)).result
+					: jsonpath.query(payload, actualPath);
+				if (appendMode) {
+					const existingData =
+						(sessionData[actualKey as keyof typeof sessionData] as any[]) || [];
+					sessionData[actualKey as keyof typeof sessionData] = [
+						...existingData,
+						...result,
+					];
+				} else {
+					sessionData[actualKey as keyof typeof sessionData] = result;
+				}
 			} else {
-				sessionData[key as keyof typeof sessionData] = result[0];
+				const jsonPath = saveData[key as keyof typeof saveData];
+				const result = jsonpath.query(payload, jsonPath);
+				logger.debug(`updating ${key} for path $${jsonPath}`);
+				if (
+					isArrayKey<MockSessionData>(
+						key as keyof typeof sessionData,
+						sessionData
+					)
+				) {
+					sessionData[key as keyof typeof sessionData] = result;
+				} else {
+					sessionData[key as keyof typeof sessionData] = result[0];
+				}
 			}
 		}
 		if (errorData) {
@@ -47,33 +70,6 @@ export function updateSessionData(
 	}
 }
 
-// export async function saveData(
-// 	action: string,
-// 	payload: any,
-// 	errorData?: {
-// 		code: number;
-// 		message: string;
-// 	}
-// ) {
-// 	try {
-// 		const sessionData = await loadMockSessionData(
-// 			payload?.context.transaction_id
-// 		);
-// 		const saveData = getSaveDataContent(
-// 			payload?.context?.version || payload?.context?.core_version,
-// 			action
-// 		);
-// 		updateSessionData(saveData["save-data"], payload, sessionData, errorData);
-// 		await RedisService.setKey(
-// 			payload?.context.transaction_id,
-// 			JSON.stringify(sessionData)
-// 		);
-// 		logger.info("Data saved to session");
-// 	} catch (e) {
-// 		logger.error("Error in saving data to session", {}, e);
-// 	}
-// }
-
 export async function saveDataForConfig(
 	saveData: {
 		"save-data": Record<string, string>;
@@ -82,13 +78,20 @@ export async function saveDataForConfig(
 	errorData?: {
 		code: number;
 		message: string;
-	}
+	},
+	playgroundCompatibilityMode: boolean = false
 ) {
 	try {
 		const sessionData = await loadMockSessionData(
 			payload?.context.transaction_id
 		);
-		updateSessionData(saveData["save-data"], payload, sessionData, errorData);
+		await updateSessionData(
+			saveData["save-data"],
+			payload,
+			sessionData,
+			errorData,
+			playgroundCompatibilityMode
+		);
 		await saveCompleteData(
 			JSON.stringify(sessionData),
 			payload?.context.transaction_id

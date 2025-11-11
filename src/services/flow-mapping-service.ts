@@ -55,7 +55,8 @@ export function getFlowCompleteStatus(
 		missedSteps: [],
 		reference_data: getReferenceData(mockSessionData),
 	};
-	const flowSequence = flow.sequence;
+	const addedSequence = mockSessionData.MORE_SEQUENCE || [];
+	const flowSequence = [...flow.sequence, ...addedSequence];
 
 	// Track the next expected step index in the flow
 	let nextExpectedStepIndex = 0;
@@ -307,6 +308,7 @@ function addPendingStep(
 		expect: step.expect,
 		label: step.label,
 		force_proceed: step.force_proceed,
+		repeat: (step as any).repeat ?? 1,
 	};
 
 	if (index !== nextExpectedStepIndex) {
