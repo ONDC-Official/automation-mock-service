@@ -27,7 +27,7 @@
 	},
 	"dependencies": {
 		"@ondc/automation-logger": "^1.1.0",
-		"@ondc/automation-mock-runner": "^1.0.4",
+		"@ondc/automation-mock-runner": "^1.0.7",
 		"@opentelemetry/api": "1.9.0",
 		"@opentelemetry/auto-instrumentations-node": "^0.58.1",
 		"@opentelemetry/exporter-jaeger": "^2.0.0",
