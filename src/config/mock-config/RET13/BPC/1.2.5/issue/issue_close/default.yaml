@@ -1,5 +1,5 @@
 update_target:
-  - path: "issue.actions[?(@.id=='A12')]"
+  - path: "issue.actions"
     action: APPENDED
 
 issue:

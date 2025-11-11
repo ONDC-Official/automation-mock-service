@@ -253,7 +253,7 @@ catalog:
             - code: category
               value: Skin Care - Lotions, Moisturisers, and Creams
             - code: type
-              value: "11"
+              value: "12"
             - code: unit
               value: pincode
             - code: val
