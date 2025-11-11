@@ -34,7 +34,7 @@ issue:
           name: mock-person
         contact:
           phone: "9879879870"
-          email: sam@yahoo.com
+          email: "sam@yahoo.com"
     - id: NP1
       type: INTERFACING_NP
       info:
@@ -42,7 +42,7 @@ issue:
           name: "buyerapp.com::ONDC:RET10"
         contact:
           phone: "9450394039"
-          email: buyerapp@interface.com
+          email: "buyerapp@interface.com"
         person:
           name: John Doe
   source_id: CUST1

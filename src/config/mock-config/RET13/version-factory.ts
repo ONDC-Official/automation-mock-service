@@ -7,20 +7,20 @@ export async function createMockResponse(
   session_id: string,
   sessionData: SessionData,
   action_id: string,
-  input?: Input
+  input?: Record<any, any>
 ) {
   const api_session = (await RedisService.getKey(session_id)) ?? null;
   if (!api_session) {
     throw new Error("Session not found");
   }
-  sessionData.user_inputs = input;
+  sessionData.user_inputs = input as any;
   const data = JSON.parse(api_session);
   const { version, usecaseId } = data;
   let payload: any = {};
   console.log("version", version, "usecaseId", usecaseId);
   if (usecaseId === "BPC") {
     if (version === "1.2.5") {
-      payload = await createMockResponseRET13_125(action_id, sessionData);
+      payload = await createMockResponseRET13_125(action_id, sessionData, input);
     } else {
       throw new Error("version not found");
     }

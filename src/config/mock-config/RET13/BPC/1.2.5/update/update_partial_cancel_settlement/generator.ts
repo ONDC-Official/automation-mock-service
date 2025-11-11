@@ -56,7 +56,7 @@ export async function update_partial_cancel_settlement_generator(
 				settlement_phase: "refund",
 				settlement_type: "netbanking",
 				settlement_amount: `${-1 * totalAmount}`,
-				settlement_timestamp: new Date().toISOString(),
+				settlement_timestamp: existingPayload.context.timestamp
 			},
 		],
 	};

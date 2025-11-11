@@ -29,6 +29,7 @@ export type SessionData = {
   city_code: string | undefined;
   shipment_method?: any;
   domain?: string;
+  tat: any;
   out_of_stock_item_ids?: any;
   on_status_fulfillments?: any;
   on_select_fulfillments?: any;
@@ -36,7 +37,7 @@ export type SessionData = {
   order_created_at?: any;
   last_updated_at?: string;
   bap_terms?: any;
-  // order 
+  // order
   replacementId?: string;
   selected_item_id: string;
   end: any[];
@@ -61,6 +62,7 @@ export type SessionData = {
 	igm_action: any;
 	issue_action: any[]
 	issue_resolution: any
+  issue_id: any
 };
 
 export type BecknContext = {
@@ -106,4 +108,5 @@ export interface Input {
   CancelInputType: {
     cancellation_reason_id?: string;
   };
+  resolution_accept: any
 }
