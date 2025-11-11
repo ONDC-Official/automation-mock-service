@@ -2,7 +2,7 @@ import { SessionData } from "../../session-types";
 import fs from "fs";
 import yaml from "js-yaml";
 import path from "path";
-import {logger} from "../../../../../utils/logger";
+import { logger } from "../../../../../utils/logger";
 import { createContext } from "./create-context";
 import { Generator } from "./api-factory";
 
@@ -51,7 +51,8 @@ function yamlToJson(filePath: string): object {
 
 export async function createMockResponseRET12_125(
   actionID: string,
-  sessionData: SessionData
+  sessionData: SessionData,
+  inputs?: Record<string, string>
 ) {
   const factoryData = loadFactoryYaml(
     path.resolve(__dirname, "../../factory.yaml")
@@ -61,7 +62,7 @@ export async function createMockResponseRET12_125(
     api_details = getDetailsByActionId("dyn_on_status", factoryData);
   }
   api_details = getDetailsByActionId(actionID, factoryData);
-  console.log('Apirjr Details:', api_details);
+  console.log("Apirjr Details:", api_details);
   const context_object = {
     action: api_details?.action,
     transaction_id: sessionData?.transaction_id,
@@ -73,7 +74,7 @@ export async function createMockResponseRET12_125(
     country: "IND",
   };
   let context = createContext(context_object);
-  console.log('ContextCreate  kfk:', context);
+  console.log("ContextCreate  kfk:", context);
   if (!api_details.message_id) {
     context.message_id = sessionData.message_id as string;
   }
@@ -94,5 +95,5 @@ export async function createMockResponseRET12_125(
     logger.info(`L2 error found: ${JSON.stringify(error_message)}`);
     return payload;
   }
-  return await Generator(actionID, payload, sessionData);
+  return await Generator(actionID, payload, sessionData, inputs);
 }

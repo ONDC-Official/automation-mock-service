@@ -466,7 +466,7 @@ export const RET12FASHION125Catalog = {
               },
               {
                 code: "type",
-                value: "11",
+                value: "12",
               },
               {
                 code: "unit",
