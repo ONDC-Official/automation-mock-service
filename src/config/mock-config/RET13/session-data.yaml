@@ -44,3 +44,4 @@ session_data:
   igm_action: any
   issue_action: []
   issue_resolution: []
+  issue_id: any

@@ -62,6 +62,7 @@ export type SessionData = {
 	igm_action: any;
 	issue_action: any[]
 	issue_resolution: any
+  issue_id: any
 };
 
 export type BecknContext = {
@@ -107,4 +108,5 @@ export interface Input {
   CancelInputType: {
     cancellation_reason_id?: string;
   };
+  resolution_accept: any
 }
