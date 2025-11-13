@@ -110,6 +110,12 @@ export async function onSearchRateCardP2PGenerator(
           timestamp: getDateFromToday(
             TatMapping[sessionData.category_id as string].day
           ),
+          days: "1,2,3,4,5,6,7",
+          range:
+          {
+            "start": "0600",
+            "end": "1600"
+          }
         };
 
         return item;
