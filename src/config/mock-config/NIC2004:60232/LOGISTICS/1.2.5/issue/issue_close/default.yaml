@@ -1,6 +1,6 @@
 message:
   update_target:
-    - path: "issue.actions[?(@.id=='A12')]"
+    - path: issue.actions
       action: APPENDED
 
   issue:
@@ -36,7 +36,7 @@ message:
           org:
             name: buyerapp.com::ONDC:RET10
           person:
-            name: Sam Manuel
+            name: mock-person
           contact:
             phone: "9879879870"
             email: sam@yahoo.com
@@ -97,7 +97,7 @@ message:
         updated_at: "2023-01-15T10:00:00.469Z"
         action_by: NP1
         actor_details:
-          name: Sam Manuel
+          name: mock-person
       - id: A2
         descriptor:
           code: PROCESSING
@@ -105,27 +105,18 @@ message:
         updated_at: "2023-01-15T10:00:00.469Z"
         action_by: NP2
         actor_details:
-          name: Sam Manuel
-      - id: A3_1
+          name: mock-person
+      - id: A3
         descriptor:
           code: INFO_REQUESTED
-          name: INFO001
+          name: INFO01
           short_desc: Please provide product image
-        updated_at: "2023-01-15T10:00:00.469Z"
-        action_by: NP1
+        updated_at: 2023-01-15T10:00:00.489Z
+        action_by: NP2
         actor_details:
-          name: Sam Manuel
-      - id: A3_2
-        descriptor:
-          code: INFO_REQUESTED
-          name: INFO002
-          short_desc: Please provide invoice
-        updated_at: "2023-01-15T10:00:00.469Z"
-        action_by: NP1
-        actor_details:
-          name: Sam Manuel
+          name: mock-person
       - id: A4
-        ref_id: A3_1
+        ref_id: A3
         descriptor:
           code: INFO_PROVIDED
           short_desc: Responded with images
@@ -137,7 +128,7 @@ message:
         updated_at: "2023-01-15T10:00:00.469Z"
         action_by: NP1
         actor_details:
-          name: Sam Manuel
+          name: mock-person
       - id: A5
         descriptor:
           code: PROCESSING
@@ -145,55 +136,28 @@ message:
         updated_at: "2023-01-15T10:00:00.469Z"
         action_by: NP1
         actor_details:
-          name: Sam Manuel
+          name: mock-person
       - id: A6
-        ref_id: A3_2
-        descriptor:
-          code: INFO_REQUESTED
-          name: INFO002
-          short_desc: Please provide invoice
-        updated_at: "2023-01-15T10:00:00.469Z"
-        action_by: NP2
-        actor_details:
-          name: Sam Manuel
-      - id: A7
-        ref_id: A6
-        descriptor:
-          code: INFO_PROVIDED
-          short_desc: Provided invoice
-          media:
-            - url: https://buyerapp.com/resources/invoiceord1.pdf
-        updated_at: "2023-01-15T10:00:00.469Z"
-        action_by: NP1
-        actor_details:
-          name: Sam Manuel
-      - id: A8
-        descriptor:
-          code: PROCESSING
-          short_desc: Processing the complaint information
-        updated_at: "2023-01-15T10:00:00.469Z"
-        action_by: NP2
-        actor_details:
-          name: Sam Manuel
-      - id: A9
         ref_id: R_PARENT
         ref_type: RESOLUTIONS
         descriptor:
           code: RESOLUTION_PROPOSED
+          short_desc: Resolution is proposed
         updated_at: "2023-01-15T10:00:00.469Z"
         action_by: NP2
         actor_details:
-          name: Sam Manuel
-      - id: A10
+          name: mock-person
+      - id: A7
         ref_id: R2
         ref_type: RESOLUTIONS
         descriptor:
           code: RESOLUTION_ACCEPTED
+          short_desc: Resolution is accepted
         updated_at: "2023-01-15T10:00:00.469Z"
         action_by: NP1
         actor_details:
-          name: Sam Manuel
-      - id: A11
+          name: mock-person
+      - id: A8
         ref_id: R2
         ref_type: RESOLUTIONS
         descriptor:
@@ -203,15 +167,15 @@ message:
         updated_at: "2023-01-15T10:00:00.469Z"
         action_by: NP2
         actor_details:
-          name: Sam Manuel
-      - id: A12
+          name: mock-person
+      - id: A9
         descriptor:
           code: CLOSED
           short_desc: Closing the complaint
         updated_at: "2023-01-15T10:00:00.469Z"
         action_by: NP1
         actor_details:
-          name: Sam Manuel
+          name: mock-person
         # tags:
         #   - descriptor:
         #       code: CLOSURE_DETAILS

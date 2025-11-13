@@ -423,3 +423,69 @@ codes:
   action_id: init_REVERSE_QC_LOGISTICS
   action: init
   default: init/init_reverseQc/default.yaml
+
+- code: 120
+  action_id: on_update_refund_igm
+  action: on_update
+  default: on_update/default.yaml
+  message_id: true
+
+- code: 121
+  action_id: issue_resolution_reject
+  action: issue
+  default: issue/issue_resolution_accept/default.yaml
+  message_id: true 
+
+- code: 122
+  action_id: on_issue_processing_1
+  action: on_issue
+  default: on_issue/on_issue_processing/default.yaml
+  message_id: false
+
+- code: 123
+  action_id: on_issue_processing_2
+  action: on_issue
+  default: on_issue/on_issue_processing/default.yaml  
+  message_id: false  
+
+- code: 168
+  action_id: issue_escalate
+  action: issue
+  default: issue/issue_open/default.yaml
+  message_id: true 
+- code: 169
+  action_id: on_issue_resolution_1
+  action: on_issue
+  default: on_issue/on_issue_resolution/default.yaml  
+  message_id: true
+- code: 163
+  action_id: issue_open_2
+  action: issue
+  default: issue/issue_open_2/default.yaml
+  message_id: true
+- code: 170
+  action_id: on_issue_resolution_2
+  action: on_issue
+  default: on_issue/on_issue_resolution/default.yaml  
+  message_id: true 
+- code: 173
+  action_id: on_issue_resolution_igm_3
+  action: on_issue
+  default: on_issue/on_issue_resolution/default.yaml  
+  message_id: true 
+- code: 174
+  action_id: issue_resolution_accept_igm_3
+  action: issue
+  default: issue/issue_resolution_accept/default.yaml
+  message_id: true   
+- code: 175
+  action_id: on_issue_resolved_igm_3
+  action: on_issue
+  default: on_issue/on_issue_resolved/default.yaml  
+  message_id: true  
+- code: 176
+  action_id: issue_close_igm_3
+  action: issue
+  default: issue/issue_close/default.yaml
+  message_id: true
+

@@ -78,6 +78,13 @@ export async function onSearchRateCardP2PGenerator(
         label: "TAT",
         duration: "PT10M",
         timestamp: "2024-11-20",
+        days: "1,2,3,4,5,6,7",
+        range:
+        {
+          "start": "0600",
+          "end": "1600"
+        }
+
       },
       tags: [
         {

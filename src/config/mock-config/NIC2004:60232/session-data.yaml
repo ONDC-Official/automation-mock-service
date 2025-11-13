@@ -60,4 +60,8 @@ session_data:
   static_delivery_otp: null
   on_confirm_tags: []
   on_update_tags: []
+  issue_action: []
+  issue_resolution: []
+  last_actions_id: any
+  issue_id: any
 

@@ -35,7 +35,7 @@ message:
           org:
             name: buyerapp.com::ONDC:RET10
           person:
-            name: Sam Manuel
+            name: mock-person
           contact:
             phone: "9879879870"
             email: sam@yahoo.com
@@ -84,7 +84,7 @@ message:
         updated_at: 2023-01-15T10:00:00.489Z
         action_by: NP1
         actor_details:
-          name: Sam Manuel
+          name: mock-person
       - id: A2
         descriptor:
           code: PROCESSING
@@ -92,8 +92,8 @@ message:
         updated_at: 2023-01-15T10:00:00.489Z
         action_by: NP2
         actor_details:
-          name: Sam Manuel
-      - id: A3_1
+          name: mock-person
+      - id: A3
         descriptor:
           code: INFO_REQUESTED
           name: INFO01
@@ -101,18 +101,9 @@ message:
         updated_at: 2023-01-15T10:00:00.489Z
         action_by: NP2
         actor_details:
-          name: Sam Manuel
-      - id: A3_2
-        descriptor:
-          code: INFO_REQUESTED
-          name: INFO002
-          short_desc: Please provide invoice
-        updated_at: 2023-01-15T10:00:00.489Z
-        action_by: NP2
-        actor_details:
-          name: Sam Manuel
+          name: mock-person
       - id: A4
-        ref_id: A3_1
+        ref_id: A3
         descriptor:
           code: INFO_PROVIDED
           short_desc: Info provided from buyer app
@@ -124,4 +115,4 @@ message:
         updated_at: 2023-01-15T10:00:00.489Z
         action_by: NP1
         actor_details:
-          name: Sam Manuel
+          name: mock-person
