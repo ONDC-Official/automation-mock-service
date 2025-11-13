@@ -101,3 +101,150 @@ export const calculateQuotePrice = (breakup: any) => {
 
   return totalPrice.toFixed(2); // returns a string with 2 decimal places
 };
+
+export const generateQuoteTrail = (
+  breakup: any,
+  items: any,
+  options: any,
+  parentItemId?: string
+) => {
+  const {
+    fulfillmentState = "PRE",
+    isRTO = false,
+    partCancel = false,
+  } = options;
+  const quoteTrailTags: any[] = [];
+
+  function extractType(tags: any) {
+    const typeTag = tags.find((tag: any) => tag.code === "type");
+    if (!typeTag || !typeTag.list) return null;
+
+    const typeItem = typeTag.list.find((item: any) => item.code === "type");
+    return typeItem ? typeItem.value : null;
+  }
+
+  breakup.forEach((item: any) => {
+    if (
+      item["@ondc/org/title_type"] === "delivery" ||
+      item["@ondc/org/title_type"] === "packing"
+    ) {
+      if (fulfillmentState === "PRE" && !partCancel) {
+        quoteTrailTags.push({
+          code: "quote_trail",
+          list: [
+            {
+              code: "type",
+              value: item["@ondc/org/title_type"],
+            },
+            {
+              code: "id",
+              value: item["@ondc/org/item_id"],
+            },
+            {
+              code: "currency",
+              value: "INR",
+            },
+            {
+              code: "value",
+              value: `-${item.price.value}`,
+            },
+          ],
+        });
+      }
+    } else if (item["@ondc/org/title_type"] === "offer") {
+      quoteTrailTags.push({
+        code: "quote_trail",
+        list: [
+          {
+            code: "type",
+            value: item["@ondc/org/title_type"],
+          },
+          {
+            code: "id",
+            value: item["@ondc/org/item_id"],
+          },
+          {
+            code: "currency",
+            value: "INR",
+          },
+          {
+            code: "value",
+            value: `${Math.abs(parseInt(item.price.value))}`,
+          },
+        ],
+      });
+    } else if (
+      parseInt(item.price.value) !== 0 &&
+      (!parentItemId || item?.item?.parent_item_id === parentItemId)
+    ) {
+      console.log("items:", items);
+      console.log("item{asdas", item["@ondc/org/item_id"]);
+
+      const tags = items.find(
+        (allItem: any) => allItem.id === item["@ondc/org/item_id"]
+      ).tags;
+      const subType = extractType(tags);
+
+      quoteTrailTags.push({
+        code: "quote_trail",
+        list: [
+          {
+            code: "type",
+            value: item["@ondc/org/title_type"],
+          },
+          ...(subType
+            ? [
+                {
+                  code: "subtype",
+                  value: subType,
+                },
+              ]
+            : []),
+
+          {
+            code: "parent_item_id",
+            value: item.item.parent_item_id,
+          },
+          {
+            code: "id",
+            value: item["@ondc/org/item_id"],
+          },
+          {
+            code: "currency",
+            value: "INR",
+          },
+          {
+            code: "value",
+            value: `-${item.price.value}`,
+          },
+        ],
+      });
+    }
+  });
+
+  // if (isRTO) {
+  //   quoteTrailTags.push({
+  //     code: "quote_trail",
+  //     list: [
+  //       {
+  //         code: "type",
+  //         value: "delivery",
+  //       },
+  //       {
+  //         code: "id",
+  //         value: "F1-RTO",
+  //       },
+  //       {
+  //         code: "currency",
+  //         value: "INR",
+  //       },
+  //       {
+  //         code: "value",
+  //         value: `50`,
+  //       },
+  //     ],
+  //   });
+  // }
+
+  return quoteTrailTags;
+};
