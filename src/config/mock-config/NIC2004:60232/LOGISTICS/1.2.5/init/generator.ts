@@ -177,7 +177,7 @@ if (action_id === "call_masking_init_LOGISTICS") {
       location: {
         gps: sessionData.end_location,
         address: {
-          name: "My store name 2",
+          name: "My house or building #",
           building: "My building name 2",
           locality: "My street name 2",
           city: "my city name 2",

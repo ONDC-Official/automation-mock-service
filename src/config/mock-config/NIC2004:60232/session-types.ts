@@ -70,7 +70,9 @@ export interface SessionData {
   static_pickup_otp: string
   static_delivery_otp: string
   on_confirm_tags: any[],
-  on_update_tags: any[]
+  on_update_tags: any[],
+  issue_resolution: any;
+  issue_action: any[];
 };
 
 export type BecknContext = {
@@ -112,6 +114,7 @@ export interface Input {
   default_feature?: string[];
   fulfillReqCount?: string;
   ebn_exempt?:boolean;
+  resolution_accept?: string;
   // mask_type:string,
   // pin:string,
   // api_endpoint:string,

@@ -197,5 +197,19 @@ export const onUpdateGenerator = (
     existingPayload.message.order.tags.push(at_delivery_obj);
   }
 
+  if (action_id === "on_update_refund_igm") {
+    let igm_obj = {
+      "code": "igm_request",
+      "list":
+        [
+          {
+            "code": "id",
+            "value": `${sessionData.issue_id}`
+          }
+        ]
+    }
+    existingPayload.message.order.tags.push(igm_obj);
+  }
+
   return existingPayload;
 };
