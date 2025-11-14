@@ -58,7 +58,8 @@ function yamlToJson(filePath: string): object {
 
 export async function createMockResponseRET10_125(
 	actionID: string,
-	sessionData: SessionData
+	sessionData: SessionData,
+	inputs?: Record<string, string>
 ) {
 	const factoryData = loadFactoryYaml(
 		path.resolve(__dirname, "../../factory.yaml")
@@ -99,5 +100,5 @@ export async function createMockResponseRET10_125(
 		logger.info(`L2 error found: ${JSON.stringify(error_message)}`);
 		return payload;
 	}
-	return await Generator(actionID, payload, sessionData);
+	return await Generator(actionID, payload, sessionData, inputs);
 }
