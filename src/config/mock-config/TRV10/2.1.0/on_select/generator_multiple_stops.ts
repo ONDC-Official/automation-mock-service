@@ -197,17 +197,19 @@ export async function onSelectMultipleStopsGenerator(
     item[0],
     sessionData.fulfillments
   );
-  if(sessionData.selected_add_ons?.length<1){
-      existingPayload.message.order.items=existingPayload.message.order.items.map((item: { add_ons: any; })=> {
-        delete item.add_ons
-         return item
-      } )
+  if (sessionData.selected_add_ons?.length < 1) {
+    existingPayload.message.order.items =
+      existingPayload.message.order.items.map((item: { add_ons: any }) => {
+        delete item.add_ons;
+        return item;
+      });
   }
   filteredFulfillments[0]["tags"] = fulfillment_tags;
   existingPayload.message.order.quote = generateQuoteFromItems(item);
   existingPayload.message.order.fulfillments = filteredFulfillments;
-  if(sessionData.cancellation_terms){
-     existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms[0];
+  if (sessionData.cancellation_terms) {
+    existingPayload.message.order.cancellation_terms =
+      sessionData.cancellation_terms[0];
   }
   existingPayload.message.order.quote.breakup =
     existingPayload.message.order.quote.breakup.filter(

@@ -308,3 +308,31 @@ codes:
     action: on_search
     default: TRV10/2.1.0/on_search/default_purple_tags.yaml
     message_id: false  
+  - code: 161
+    action_id: on_confirm_technical
+    action: on_confirm
+    default: TRV10/2.1.0/on_confirm/on_confirm_driver_assigned/default.yaml
+    message_id: false  
+  - code: 162
+    action_id: on_search_with_multiple_stops
+    action: on_search
+    default: TRV10/2.1.0/on_search/default.yaml
+    message_id: false
+  - code: 163
+    action_id: on_search_self_pickup
+    action: on_search
+    default: TRV10/2.1.0/on_search/default.yaml
+    message_id: false
+  - code: 164
+    action_id: on_confirm_self_pickup
+    action: on_confirm
+    default: TRV10/2.1.0/on_confirm/on_confirm_driver_not_assigned/default.yaml
+  - code: 165
+    action_id: init_with_self_pickup
+    action: init
+    default: TRV10/2.1.0/init/default.yaml
+  - code: 166
+    action_id: on_update_ride_self_pickup
+    action: on_update
+    default: TRV10/2.1.0/on_update/default.yaml
+    

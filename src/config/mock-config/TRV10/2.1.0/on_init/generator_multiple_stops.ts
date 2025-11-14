@@ -22,7 +22,7 @@ export async function onInitMultipleStopsGenerator(
     if (sessionData.selected_fulfillments.length > 0) {
     existingPayload.message.order.fulfillments = sessionData.selected_fulfillments;
     existingPayload.message.order.fulfillments[0]["customer"] = customer
-    existingPayload.message.order.fulfillments[0]["type"] = "DELIVERY"
+    // existingPayload.message.order.fulfillments[0]["type"] = "DELIVERY"
     }
     if(sessionData.payments.length > 0){
         existingPayload.message.order.payments[0]["collected_by"] = sessionData.collected_by

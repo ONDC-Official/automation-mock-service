@@ -113,7 +113,7 @@ export async function onCancelRiderNotFoundGenerator(
   if (sessionData.quote != null) {
     existingPayload.message.order.quote = applyCancellation(
       sessionData.quote,
-      10
+      0
     );
   }
 
