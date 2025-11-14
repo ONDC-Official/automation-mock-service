@@ -214,7 +214,7 @@ export function createQuote(
 		if (sessionData.out_of_stock_item_ids?.includes(catalogItem.id)) {
 			breakupClone.item.quantity.available.count = "0";
 			breakupClone.item.quantity.maximum.count = "0";
-			breakupClone["@ondc/org/title_type"] = "0";
+			breakupClone["@ondc/org/title_type"] = "item";
 			existingPayload.error = {
 				type: "DOMAIN-ERROR",
 				code: "40002",
