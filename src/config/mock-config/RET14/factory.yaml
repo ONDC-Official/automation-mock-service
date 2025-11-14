@@ -374,3 +374,28 @@ codes:
     action: on_status
     default: ELECTRONICS/1.2.5/on_status/on_status_order_delivered/default.yaml
     message_id: true
+  - code: 338
+    default: ELECTRONICS/1.2.5/on_status/on_status_out_for_delivery_force/default.yaml
+    action_id: on_status_out_for_delivery_force
+    action: on_status
+    message_id: true
+  - code: 339
+    default: ELECTRONICS/1.2.5/cancel/cancel_no/default.yaml
+    action_id: cancel_no
+    action: cancel
+    message_id: true
+  - code: 340
+    default: ELECTRONICS/1.2.5/cancel/cancel_yes/default.yaml
+    action_id: cancel_yes
+    action: cancel
+    message_id: true
+  - code: 341
+    default: ELECTRONICS/1.2.5/on_cancel/on_cancel_yes/default.yaml
+    action_id: on_cancel_yes
+    action: on_cancel
+    message_id: false
+  - code: 149
+    default: ELECTRONICS/1.2.5/update/update_settlement_cancel/default.yaml
+    action_id: update_settlement_cancel
+    action: update
+    message_id: true
