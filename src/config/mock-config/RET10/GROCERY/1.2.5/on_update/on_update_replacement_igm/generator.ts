@@ -105,6 +105,7 @@ export const onUpdateIgmReplacementGenerator = (
             list: [
               { code: "id", value: "R1" },
               { code: "item_id", value: item[0]?.id || "I1" },
+              { code: "parent_item_id", value: item[0]?.id || "I1" },
               {
                 code: "item_quantity",
                 value: String(item[0]?.quantity?.count) || "1",
@@ -153,56 +154,6 @@ export const onUpdateIgmReplacementGenerator = (
         },
       },
       replacementFulfillment,
-      // {
-      //   id: "C1",
-      //   type: "Cancel",
-      //   state: {
-      //     descriptor: {
-      //       code: "Cancelled",
-      //     },
-      //   },
-      //   tags: [
-      //     {
-      //       code: "quote_trail",
-      //       list: [
-      //         {
-      //           code: "type",
-      //           value: "item",
-      //         },
-      //         {
-      //           code: "reason_id",
-      //           value: "002",
-      //         },
-      //         {
-      //           code: "reason_desc",
-      //           value: "Buyer requested cancellation",
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       code: "cancel_request",
-      //       list: [
-      //         {
-      //           code: "id",
-      //           value: "C1",
-      //         },
-      //         {
-      //           code: "item_id",
-      //           value: item[0]?.id ?? "I1",
-      //         },
-      //         {
-      //           code: "reason_code",
-      //           value: "002",
-      //         },
-      //         {
-      //           code: "reason_desc",
-      //           value: "Order cancelled before dispatch",
-      //         },
-      //         { code: "initiated_by", value: existingPayload?.context?.bap_id },
-      //       ],
-      //     },
-      //   ],
-      // },
     ];
   }
 
