@@ -105,7 +105,6 @@ export const onUpdateIgmReplacementGenerator = (
             list: [
               { code: "id", value: "R1" },
               { code: "item_id", value: item[0]?.id || "I1" },
-              { code: "parent_item_id", value: item[0]?.id || "I1" },
               {
                 code: "item_quantity",
                 value: String(item[0]?.quantity?.count) || "1",
