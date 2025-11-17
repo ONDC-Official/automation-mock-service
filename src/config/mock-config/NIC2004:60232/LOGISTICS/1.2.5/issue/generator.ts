@@ -303,6 +303,21 @@ export const issueStatusGenerator = async (
           actor_details: {
             name: "mock-person",
           },
+          tags: [
+              {
+                descriptor: {
+                  code: "CLOSURE_DETAILS",
+                },
+                list: [
+                  {
+                    descriptor: {
+                      code: "RATING",
+                    },
+                    value: inputs?.rating || "THUMBS_UP",
+                  },
+                ],
+              },
+            ],
         },
         newDate,
         "issue_close"

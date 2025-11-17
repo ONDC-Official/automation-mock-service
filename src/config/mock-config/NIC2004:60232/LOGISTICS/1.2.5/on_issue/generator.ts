@@ -137,7 +137,7 @@ export const onIssueStatusGenerator = async (
           id: "A3",
           descriptor: {
             code: "INFO_REQUESTED",
-            name: "INFO01",
+            name: "INFO001",
             short_desc: "Please provide product image",
           },
           updated_at: "2025-11-04T11:38:02.643Z",
