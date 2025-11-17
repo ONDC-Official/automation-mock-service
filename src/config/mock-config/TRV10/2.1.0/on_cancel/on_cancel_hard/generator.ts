@@ -93,6 +93,8 @@ type Price = {
           return rest;
         });
       }
+
+      fulfillment.state = 'RIDE_CANCELLED';
       
     }
   

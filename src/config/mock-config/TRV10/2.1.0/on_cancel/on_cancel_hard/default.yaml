@@ -212,7 +212,7 @@ message:
             value: 'https://example-test-bap.com/static-terms.txt'
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: '1.46'
+            value: '0'
           - descriptor:
               code: SETTLEMENT_BANK_CODE
             value: XXXXXXXX
@@ -253,4 +253,4 @@ message:
             value: 'https://example-test-bpp.com/static-terms.txt'
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: '1.46'
+            value: '0'

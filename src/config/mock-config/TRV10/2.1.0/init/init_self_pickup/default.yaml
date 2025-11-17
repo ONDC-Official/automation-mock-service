@@ -1,0 +1,75 @@
+message:
+  order:
+    billing:
+      name: Joe Adams # Customer's full name
+    fulfillments:
+      - customer:
+          contact:
+            phone: "9876556789" # Customer's contact number
+          person:
+            name: Joe Adams # Customer's name for the ride
+        id: F1 # Unique fulfillment ID
+        stops:
+          - location:
+              gps: "13.008935, 77.644408" # Koramangala, Bangalore
+            type: START
+            instructions:
+              short_desc: "short description of the location"
+              long_desc: "long description of the location"            
+          - location:
+              gps: "12.971186, 77.586812" # Basavanagudi, Bangalore
+            type: END
+        type: "SELF_PICKUP"
+        vehicle:
+          category: AUTO_RICKSHAW # Vehicle type requested
+          variant: AUTO_RICKSHAW # Specific variant of the vehicle
+    items:
+      - id: I1 # Reference to the selected item
+    tags:
+      - descriptor:
+          name: BAP Terms of Engagement # Business terms between BAP and BPP
+          code: BAP_TERMS
+        display: false
+        list:
+          - descriptor:
+              code: BUYER_FINDER_FEES_PERCENTAGE
+            value: "1" # Standard marketplace fee percentage
+          - descriptor:
+              code: SETTLEMENT_WINDOW
+            value: PT60M # 60 minutes settlement window
+          - descriptor:
+              code: SETTLEMENT_BASIS
+            value: DELIVERY # Settlement after successful delivery/trip completion
+          - descriptor:
+              code: SETTLEMENT_TYPE
+            value: UPI # Payment settlement method
+          - descriptor:
+              code: SETTLEMENT_AMOUNT
+            value: "1.46" # Payment settlement method
+          - descriptor:
+              code: MANDATORY_ARBITRATION
+            value: "true" # Mandatory arbitration for disputes
+          - descriptor:
+              code: COURT_JURISDICTION
+            value: New Delhi # Legal jurisdiction for disputes
+          - descriptor:
+              code: DELAY_INTEREST
+            value: "5" # Annual interest rate for delayed settlements
+          - descriptor:
+              code: STATIC_TERMS
+            value: https://example-test-bap.com/static-terms.txt # Terms and conditions URL
+          - descriptor:
+              code: SETTLEMENT_BANK_CODE
+            value: XXXXXXXXX # Bank IFSC code
+          - descriptor:
+              code: SETTLEMENT_BANK_ACCOUNT_NUMBER
+            value: xxxxxxxxxxxxxx # Settlement bank account number
+          - descriptor:
+              code: SETTLEMENT_VIRTUAL_PAYMENT_ADDRESS
+            value: 9988199772@okicic # UPI VPA for settlements
+    payments:
+      - collected_by: BPP # Payment collected by mobility service provider
+        status: NOT-PAID # Current payment status
+        type: ON-FULFILLMENT # Payment collected after trip completion
+    provider:
+      id: P1 # Mobility service provider ID

@@ -1,7 +1,7 @@
 import { cancelMultipleStopsSoftGenerator } from "./cancel/generator-soft-cancel";
 import { confirmMultipleStopsGenerator } from "./confirm/generator_multiple_stops";
 import { initMultipleStopsGenerator } from "./init/generator_multiple_stops";
-import { initSelfPickupGenerator } from "./init/generator_self_pickup";
+import { initSelfPickupGenerator } from "./init/init_self_pickup/generator_self_pickup";
 import { onCancelSoftGenerator } from "./on_cancel/on_cancel_soft/generator_soft_cancel";
 import { onConfirmMultipleStopsGenerator } from "./on_confirm/on_confirm_driver_assigned/generator_multiple_stops";
 import { onInitMultipleStopsGenerator } from "./on_init/generator_multiple_stops";

@@ -330,7 +330,8 @@ codes:
   - code: 165
     action_id: init_with_self_pickup
     action: init
-    default: TRV10/2.1.0/init/default.yaml
+    default: TRV10/2.1.0/init/init_self_pickup/default.yaml
+    message_id: true
   - code: 166
     action_id: on_update_ride_self_pickup
     action: on_update

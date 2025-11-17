@@ -1,4 +1,4 @@
-import { SessionData } from "../../session-types";
+import { SessionData } from "../../../session-types";
 
 const customer = {
   contact: {
@@ -22,7 +22,7 @@ export async function initSelfPickupGenerator(
       name: "Joe Adams",
     },
   };
-  existingPayload.message.order.fulfillments[0].type = "S";
+  existingPayload.message.order.fulfillments[0].type = "SELF_PICKUP";
   delete existingPayload.message.order.fulfillments[0].tags;
   existingPayload.message.order.items[0] = {
     id: sessionData.selected_item_id,
