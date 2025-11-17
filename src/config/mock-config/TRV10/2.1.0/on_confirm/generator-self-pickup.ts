@@ -3,8 +3,8 @@ import { SessionData } from "../../session-types";
 
 // Add at the top with other types
 const vehicle = {
-    category: "AUTO_RICKSHAW",
-    variant: "AUTO_RICKSHAW",
+    category: "CAB",
+    variant: "SEDAN",
     // make: "Bajaj",
     // model: "Compact RE",
     // registration: "KA-01-AD-9876"
@@ -32,14 +32,14 @@ function updateFulfillmentWithDriverInfo(fulfillment: any, sessionData: SessionD
     fulfillment.type = 'SELF_PICKUP'
     fulfillment.tags = sessionData.selected_fulfillments[0].tags
     // Add OTP authorization to the first stop
-    // if (fulfillment.stops[0]) {
-    //     fulfillment.stops[0].authorization = {
-    //         type: "OTP",
-    //         token: generateOTP(),
-    //         valid_to: new Date(Date.now() + 30 * 60000).toISOString(), // 30 minutes validity
-    //         status: "UNCLAIMED"
-    //     };
-    // }
+    if (fulfillment.stops[0]) {
+        fulfillment.stops[0].authorization = {
+            type: "OTP",
+            token: generateOTP(),
+            valid_to: new Date(Date.now() + 30 * 60000).toISOString(), // 30 minutes validity
+            status: "UNCLAIMED"
+        };
+    }
 }
 
 export async function onConfirmSelfPickupGenerator(
@@ -67,7 +67,7 @@ export async function onConfirmSelfPickupGenerator(
         });
         existingPayload.message.order.fulfillments = sessionData.fulfillments;
         existingPayload.message.order.fulfillments[0]["state"] = {"descriptor": {"code": "RIDE_CONFIRMED"}}
-        existingPayload.message.order.fulfillments[0]["vehicle"] = vehicle
+        // existingPayload.message.order.fulfillments[0]["vehicle"] = vehicle
     }
 
     // Update items if present

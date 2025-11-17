@@ -8,6 +8,7 @@ const customer = {
     name: "Joe Adams",
   },
 };
+
 export async function initMultipleStopsGenerator(
   existingPayload: any,
   sessionData: SessionData
@@ -27,7 +28,8 @@ export async function initMultipleStopsGenerator(
   existingPayload.message.order.items[0] = {
     id: sessionData.selected_item_id,
   };
-  existingPayload.message.order.payments[0].collected_by = sessionData.collected_by
-  existingPayload.message.order.provider.id = sessionData.provider_id
+  existingPayload.message.order.payments[0].collected_by =
+    sessionData.collected_by;
+  existingPayload.message.order.provider.id = sessionData.provider_id;
   return existingPayload;
 }
