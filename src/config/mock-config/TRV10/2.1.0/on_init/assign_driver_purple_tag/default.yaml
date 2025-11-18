@@ -56,7 +56,7 @@ message:
               - descriptor:
                   code: "ENCODED_POLYLINE"
                   name: "Path"
-                value: "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
+                value: "qZ|nL~Hr`E_tuAxfKpmC~oBvUd@s"
               - descriptor:
                   code: "WAYPOINTS"
                   name: "Waypoints"
@@ -210,4 +210,4 @@ message:
             value: "https://example-test-bpp.com/static-terms.txt"
           - descriptor:
               code: "SETTLEMENT_AMOUNT"
-            value: "1.46"
+            value: "1.96"

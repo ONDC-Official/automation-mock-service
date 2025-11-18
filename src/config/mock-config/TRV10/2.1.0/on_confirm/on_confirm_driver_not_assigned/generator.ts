@@ -8,10 +8,33 @@ const agent = {
     name: "Jason Roy",
   },
 };
-const vehicle = {
-  category: "AUTO_RICKSHAW",
-  variant: "AUTO_RICKSHAW",
-};
+// const vehicle = {
+//   category: "AUTO_RICKSHAW",
+//   variant: "AUTO_RICKSHAW",
+// };
+
+function updateSettlementAmount(terms: any[], quote: any) {
+  const total = Number(quote?.price?.value || 0);
+
+  terms.forEach((termBlock) => {
+    if (!termBlock.list) return;
+
+    const buyerFeeItem = termBlock.list.find(
+      (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+    ) || 1;
+    const settlementItem = termBlock.list.find(
+      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
+    );
+
+    if (buyerFeeItem && settlementItem) {
+      const percentage = Number(buyerFeeItem.value || 0);
+      const settlementAmount = ((total * percentage) / 100).toFixed(2);
+      settlementItem.value = settlementAmount;
+    }
+  });
+
+  return terms;
+}
 
 function updateOrderTimestamps(payload: any) {
   const now = new Date().toISOString();
@@ -52,7 +75,7 @@ export async function onConfirmDriverNotAssignedGenerator(
       descriptor: { code: "RIDE_CONFIRMED" },
     };
     // existingPayload.message.order.fulfillments[0]["agent"] = agent;
-    existingPayload.message.order.fulfillments[0]["vehicle"] = vehicle;
+    // existingPayload.message.order.fulfillments[0]["vehicle"] = vehicle;
   }
 
   // Update items if present
@@ -73,6 +96,12 @@ export async function onConfirmDriverNotAssignedGenerator(
   // Update payments.id
   if (existingPayload.message.order.payments?.length > 0) {
     existingPayload.message.order.payments[0].id = sessionData.payment_id;
+  }
+
+  // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
+  if (existingPayload.message.order.tags) {
+    existingPayload.message.order.tags =
+      updateSettlementAmount(existingPayload.message.order.tags, sessionData.quote);
   }
 
   // Add cancellation terms

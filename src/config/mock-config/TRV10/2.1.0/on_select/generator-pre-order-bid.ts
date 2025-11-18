@@ -12,7 +12,7 @@ const fulfillment_tags = [
             "code": "ENCODED_POLYLINE",
             "name": "Path"
           },
-          "value": "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
+          "value": "qZ|nL~Hr`E_tuAxfKpmC~oBvUd@s"
         },
         {
           "descriptor": {
