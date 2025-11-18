@@ -488,4 +488,15 @@ codes:
   action: issue
   default: issue/issue_close/default.yaml
   message_id: true
+- code: 176
+  action_id: buyer_side_cancel_LOGISTICS
+  action: cancel
+  default: cancel/default.yaml
+  message_id: true
+- code: 177
+  action_id: seller_side_on_cancel_LOGISTICS
+  action: on_cancel
+  default: on_cancel/default.yaml
+  message_id: true
+
 

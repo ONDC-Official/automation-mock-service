@@ -248,3 +248,26 @@ export const generateQuoteTrail = (
 
   return quoteTrailTags;
 };
+
+export function resetQuotePrices(quote: any) {
+  // A helper to convert any price value into zero with same decimal format
+  const toZeroFormatted = (value: string) => {
+    const decimals = value.includes(".") ? value.split(".")[1].length : 0;
+    return (0).toFixed(decimals);
+  };
+
+  return {
+    ...quote,
+    breakup: quote.breakup.map((item: any) => ({
+      ...item,
+      price: {
+        ...item.price,
+        value: toZeroFormatted(item.price.value)
+      }
+    })),
+    price: {
+      ...quote.price,
+      value: toZeroFormatted(quote.price.value)
+    }
+  };
+}

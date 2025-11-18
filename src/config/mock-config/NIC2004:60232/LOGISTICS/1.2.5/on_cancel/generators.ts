@@ -1,12 +1,16 @@
 import {
   calculateQuotePrice,
   removeTagsByCodes,
+  resetQuotePrices,
 } from "../../../../../../utils/generic-utils";
-import { SessionData } from "../../../session-types";
+import { Input, SessionData } from "../../../session-types";
+import { action } from "../default";
 
 export const onCancelGenerator = (
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  inputs: Input | undefined
+  ,action_id:string
 ) => {
   existingPayload.message.order.id = sessionData.order_id;
 
@@ -18,17 +22,26 @@ export const onCancelGenerator = (
     existingPayload.message.order.billing = sessionData.billing;
   }
 
-  if (sessionData?.is_cancel_called === "cancel") {
+  if (sessionData?.is_cancel_called === "cancel" ||  action_id === "seller_side_on_cancel_LOGISTICS") {   
     existingPayload.message.order.state = "Cancelled";
 
     existingPayload.message.order.quote = sessionData.quote;
 
-    existingPayload.cancellation = {
+    existingPayload.message.order.cancellation = {
       cancelled_by: existingPayload.context.bap_id,
       reason: {
-        id: sessionData?.cancellation_reason_id,
+        id: sessionData?.is_cancel_called === "cancel" ? sessionData?.cancellation_reason_id : sessionData?.domain === "ONDC:LOG10" ? "102" : "200",
       },
     };
+    const deliveryFulfillment = existingPayload.message.order.fulfillments.filter((fulfillment:any)=> fulfillment.type === "Delivery")
+    
+
+    for (const fulfillment of deliveryFulfillment) {
+      if (fulfillment.state.descriptor.code === "Pending" || fulfillment.state.descriptor.code === "Searching-for-Agent") {
+        const updatedQuote = resetQuotePrices(existingPayload.message.order.quote);
+        existingPayload.message.order.quote = updatedQuote
+      }
+    }
 
     existingPayload.message.order.fulfillments =
       existingPayload.message.order.fulfillments.map((fulfillment: any) => {
@@ -49,7 +62,18 @@ export const onCancelGenerator = (
 
         return fulfillment;
       });
-  } else {
+  }
+  // else if(action_id === "seller_side_on_cancel_LOGISTICS"){
+  //   existingPayload.message.order.state = "Cancelled"
+
+  //   existingPayload.message.order.cancellation = {
+  //     cancelled_by: existingPayload.context.bpp_id,
+  //     reason: {
+  //       id: inputs?.cancellation_reason_id,
+  //     },
+  //   };
+  // }
+   else {
     existingPayload.message.order.state = "In-progress";
 
     existingPayload.message.order.cancellation = {
@@ -213,6 +237,7 @@ export const onCancelGenerator = (
   }
 
   existingPayload.message.order.updated_at = existingPayload.context.timestamp;
-
+  console.log("existing payload in on_cancel",JSON.stringify(existingPayload));
+  
   return existingPayload;
 };
