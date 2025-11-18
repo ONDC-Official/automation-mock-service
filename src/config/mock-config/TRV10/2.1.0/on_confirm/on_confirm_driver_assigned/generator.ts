@@ -26,6 +26,59 @@ function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+function updateFulfillmentRouteTags(tags: any[]) {
+  return tags.map((tag) => {
+    if (tag.descriptor?.code === "ROUTE_INFO" && Array.isArray(tag.list)) {
+      return {
+        ...tag,
+        list: tag.list.map((t: any) => {
+          if (t.descriptor.code === "ENCODED_POLYLINE") {
+            return { ...t, value: t.value + "B" };
+          }
+          if (t.descriptor.code === "WAYPOINTS") {
+            const waypoints = JSON.parse(t.value);
+            const updatedWaypoints = waypoints.map((wp: any) => {
+              const [lat, lng] = wp.gps.split(",").map(Number);
+              return {
+                gps: `${(lat + 0.00001).toFixed(6)},${(lng + 0.00001).toFixed(
+                  6
+                )}`,
+              };
+            });
+            return { ...t, value: JSON.stringify(updatedWaypoints) };
+          }
+          return t;
+        }),
+      };
+    }
+    return tag;
+  });
+}
+
+function updateItemInfoTags(tags: any[]) {
+  return tags.map((tag) => {
+    if (tag.descriptor?.code === "INFO" && Array.isArray(tag.list)) {
+      return {
+        ...tag,
+        list: tag.list.map((t: any) => {
+          if (t.descriptor.code === "DISTANCE_TO_NEAREST_DRIVER_METER") {
+            // Slightly adjust distance, e.g., add 5 meters
+            const distance = Number(t.value || 0);
+            return { ...t, value: (distance - 5).toString() };
+          }
+          if (t.descriptor.code === "ETA_TO_NEAREST_DRIVER_MIN") {
+            // Slightly adjust ETA, e.g., add 1 minute
+            const eta = Number(t.value || 0);
+            return { ...t, value: (eta - 0.1).toString() };
+          }
+          return t;
+        }),
+      };
+    }
+    return tag;
+  });
+}
+
 function updateOrderTimestamps(payload: any) {
   const now = new Date().toISOString();
   if (payload.message.order) {
@@ -167,6 +220,23 @@ export async function onConfirmGenerator(
   existingPayload.message.order.payments = sessionData.payments;
   if (existingPayload.message.order.payments[0]["_EXTERNAL"]) {
     delete existingPayload.message.order.payments[0]["_EXTERNAL"];
+  }
+
+  if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
+    existingPayload.message.order.fulfillments[0].tags =
+      updateFulfillmentRouteTags(
+        existingPayload.message.order.fulfillments[0].tags
+      );
+  }
+
+  if (existingPayload.message.order.items?.length > 0) {
+    existingPayload.message.order.items =
+      existingPayload.message.order.items.map((item: any) => {
+        if (Array.isArray(item.tags)) {
+          item.tags = updateItemInfoTags(item.tags);
+        }
+        return item;
+      });
   }
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE

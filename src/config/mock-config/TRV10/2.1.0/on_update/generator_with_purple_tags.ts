@@ -27,10 +27,6 @@ type Quote = {
   ttl?: string;
 };
 
-function generateOTP(): string {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-}
-
 function updateFulfillmentRouteTags(tags: any[]) {
   return tags.map((tag) => {
     if (tag.descriptor?.code === "ROUTE_INFO" && Array.isArray(tag.list)) {
@@ -160,7 +156,7 @@ function applyCancellationCharges(quote: Quote, state: string): Quote {
   };
 }
 
-export async function onUpdateGenerator(
+export async function onUpdatePurpleTagsGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
@@ -216,34 +212,9 @@ export async function onUpdateGenerator(
           "RIDE_CONFIRMED",
         ];
 
-        // Ensure state.descriptor.code is present and valid
-        if (!fulfillment.state) {
-          fulfillment.state = {
-            descriptor: {
-              code: "RIDE_ENDED",
-            },
-          };
-        } else if (!fulfillment.state.descriptor) {
-          fulfillment.state.descriptor = {
-            code: "RIDE_ASSIGNED",
-          };
-        } else if (
-          !fulfillment.state.descriptor.code ||
-          !validRideStates.includes(fulfillment.state.descriptor.code)
-        ) {
-          fulfillment.state.descriptor.code = "RIDE_ASSIGNED";
-        }
-
         fulfillment.stops = sessionData.selected_fulfillments[index].stops;
         fulfillment.id = sessionData.selected_fulfillments[index].id;
-        if (fulfillment.stops?.[0]) {
-          fulfillment.stops[0].authorization = {
-            type: "OTP",
-            token: generateOTP(),
-            valid_to: new Date(Date.now() + 30 * 60000).toISOString(), // 30 minutes validity
-            status: "UNCLAIMED",
-          };
-        }
+        fulfillment.state.descriptor.code = "RIDE_ENDED";
 
         // Ensure agent.person.name is present
         if (!fulfillment.agent) {

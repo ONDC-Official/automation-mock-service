@@ -19,9 +19,10 @@ function updateSettlementAmount(terms: any[], quote: any) {
   terms.forEach((termBlock) => {
     if (!termBlock.list) return;
 
-    const buyerFeeItem = termBlock.list.find(
-      (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
-    ) || 1;
+    const buyerFeeItem =
+      termBlock.list.find(
+        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+      ) || 1;
     const settlementItem = termBlock.list.find(
       (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
     );
@@ -34,6 +35,31 @@ function updateSettlementAmount(terms: any[], quote: any) {
   });
 
   return terms;
+}
+
+// Helper function to slightly modify distance and ETA
+function updateItemInfoTags(tags: any[]) {
+  return tags.map((tag) => {
+    if (tag.descriptor?.code === "INFO" && Array.isArray(tag.list)) {
+      return {
+        ...tag,
+        list: tag.list.map((t: any) => {
+          if (t.descriptor.code === "DISTANCE_TO_NEAREST_DRIVER_METER") {
+            // Slightly adjust distance, e.g., add 5 meters
+            const distance = Number(t.value || 0);
+            return { ...t, value: (distance - 5).toString() };
+          }
+          if (t.descriptor.code === "ETA_TO_NEAREST_DRIVER_MIN") {
+            // Slightly adjust ETA, e.g., add 1 minute
+            const eta = Number(t.value || 0);
+            return { ...t, value: (eta - 0.2).toString() };
+          }
+          return t;
+        }),
+      };
+    }
+    return tag;
+  });
 }
 
 function updateOrderTimestamps(payload: any) {
@@ -100,8 +126,10 @@ export async function onConfirmDriverNotAssignedGenerator(
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
   if (existingPayload.message.order.tags) {
-    existingPayload.message.order.tags =
-      updateSettlementAmount(existingPayload.message.order.tags, sessionData.quote);
+    existingPayload.message.order.tags = updateSettlementAmount(
+      existingPayload.message.order.tags,
+      sessionData.quote
+    );
   }
 
   // Add cancellation terms
@@ -127,6 +155,16 @@ export async function onConfirmDriverNotAssignedGenerator(
       reason_required: true,
     },
   ];
+
+  if (existingPayload.message.order.items?.length > 0) {
+    existingPayload.message.order.items =
+      existingPayload.message.order.items.map((item: any) => {
+        if (Array.isArray(item.tags)) {
+          item.tags = updateItemInfoTags(item.tags);
+        }
+        return item;
+      });
+  }
   // Update timestamps
   existingPayload = updateOrderTimestamps(existingPayload);
   return existingPayload;

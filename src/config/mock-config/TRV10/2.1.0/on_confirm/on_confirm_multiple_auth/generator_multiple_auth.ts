@@ -33,6 +33,30 @@ function updateSettlementAmount(terms: any[], quote: any) {
 
   return terms;
 }
+// Helper function to slightly modify distance and ETA
+function updateItemInfoTags(tags: any[]) {
+  return tags.map((tag) => {
+    if (tag.descriptor?.code === "INFO" && Array.isArray(tag.list)) {
+      return {
+        ...tag,
+        list: tag.list.map((t: any) => {
+          if (t.descriptor.code === "DISTANCE_TO_NEAREST_DRIVER_METER") {
+            // Slightly adjust distance, e.g., add 5 meters
+            const distance = Number(t.value || 0);
+            return { ...t, value: (distance - 5).toString() };
+          }
+          if (t.descriptor.code === "ETA_TO_NEAREST_DRIVER_MIN") {
+            // Slightly adjust ETA, e.g., add 1 minute
+            const eta = Number(t.value || 0);
+            return { ...t, value: (eta - 0.2).toString() };
+          }
+          return t;
+        }),
+      };
+    }
+    return tag;
+  });
+}
 function updateFulfillments(fulfillments: any[]) {
   return fulfillments.map((fulfillment) => {
     // Add the vehicle object to each fulfillment
@@ -168,6 +192,16 @@ export async function onConfirmMultipleAuthGenerator(
       existingPayload.message.order.tags,
       sessionData.quote
     );
+  }
+
+  if (existingPayload.message.order.items?.length > 0) {
+    existingPayload.message.order.items =
+      existingPayload.message.order.items.map((item: any) => {
+        if (Array.isArray(item.tags)) {
+          item.tags = updateItemInfoTags(item.tags);
+        }
+        return item;
+      });
   }
   return existingPayload;
 }

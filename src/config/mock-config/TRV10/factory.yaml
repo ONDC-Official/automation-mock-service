@@ -336,4 +336,18 @@ codes:
     action_id: on_update_ride_self_pickup
     action: on_update
     default: TRV10/2.1.0/on_update/default.yaml
-    
+  - code: 167
+    action_id: select_with_purple_tags
+    action: select
+    default: TRV10/2.1.0/select/default.yaml
+    message_id: true
+  - code: 168
+    action_id: on_select_with_purple_tags
+    action: on_select
+    default: TRV10/2.1.0/on_select/default.yaml
+    message_id: false
+  - code: 169
+    action_id: on_update_ride_with_purple
+    action: on_update
+    default: TRV10/2.1.0/on_update/default.yaml
+    message_id: true

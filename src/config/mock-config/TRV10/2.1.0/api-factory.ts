@@ -10,6 +10,7 @@ import { onSearchWithMultipleStopsGenerator } from "./on_search/generator_with_m
 import { onSearchWithSelfPickupGenerator } from "./on_search/generator_with_self_pickup";
 import { onSearchMultipleStopsRentalGenerator } from "./on_search/generator_rental";
 import { onSelectMultipleStopsGenerator } from "./on_select/generator_multiple_stops";
+import { onSelectPurpleTagsGenerator } from "./on_select/generator_purple_tags";
 import { onStatusRideArrivedGenerator } from "./on_status/generator_ride_arrived";
 import { onStatusRidePaidGenerator } from "./on_status/generator_ride_paid";
 import { onStatusRideEnrouteGenerator } from "./on_status/generator_ride_pickup";
@@ -25,6 +26,7 @@ import { searchMultipleStopsGenerator } from "./search/generator_multiple_stops"
 import { searchMultipleStopsRentalGenerator } from "./search/generator_rental";
 import { searchMultipleStopsRentalEndGenerator } from "./search/generator_rental_end";
 import { selectMultipleStopsGenerator } from "./select/generator";
+import { selectPurpleTagsGenerator } from "./select/generator-purple-tags";
 import { statusMultipleStopsGenerator } from "./status/generator_multiple_stops";
 import { trackMultipleStopsGenerator } from "./track/generator_multiple_stops";
 import { updateFulfillmentSoftGenerator } from "./update_/generator_fulfillment";
@@ -39,6 +41,7 @@ import { onConfirmGeneratorTechnical } from "./on_confirm/on_confirm_driver_assi
 import { trackGenerator } from "./track/generator";
 import { onUpdateGenerator } from "./on_update/generator";
 import { onUpdateGeneratorWithSelfPickup } from "./on_update/generator_self_pickup";
+import { onUpdatePurpleTagsGenerator } from "./on_update/generator_with_purple_tags";
 import { statusGenerator } from "./status/generator";
 import { onConfirmDriverNotFound } from "./on_confirm/on_confirm_driver_not_found/generator";
 import { onConfirmDriverNotAssignedGenerator } from "./on_confirm/on_confirm_driver_not_assigned/generator";
@@ -82,6 +85,10 @@ export async function Generator(
             return await onSearchMultipleStopsGenerator(existingPayload, sessionData);
         case "select":
             return await selectMultipleStopsGenerator(existingPayload, sessionData);
+        case "select_with_purple_tags":
+            return await selectPurpleTagsGenerator(existingPayload, sessionData);
+        case "on_select_with_purple_tags":
+            return await onSelectPurpleTagsGenerator(existingPayload, sessionData);
         case "on_select":
             return await onSelectMultipleStopsGenerator(existingPayload, sessionData);
         case "init":
@@ -170,6 +177,8 @@ export async function Generator(
                 return await onTrackMultipleStopsGenerator(existingPayload, sessionData); 
         case "on_update_ride":
                 return await onUpdateGenerator(existingPayload, sessionData); 
+        case "on_update_ride_with_purple":
+                return await onUpdatePurpleTagsGenerator(existingPayload, sessionData); 
         case "on_update_ride_self_pickup":
                 return await onUpdateGeneratorWithSelfPickup(existingPayload, sessionData); 
         case "status_ride":
