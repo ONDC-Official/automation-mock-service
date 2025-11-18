@@ -27,6 +27,35 @@ type Quote = {
   ttl?: string;
 };
 
+function updateFulfillmentRouteTags(tags: any[]) {
+  return tags.map((tag) => {
+    if (tag.descriptor?.code === "ROUTE_INFO" && Array.isArray(tag.list)) {
+      return {
+        ...tag,
+        list: tag.list.map((t: any) => {
+          if (t.descriptor.code === "ENCODED_POLYLINE") {
+            return { ...t, value: t.value + "O" };
+          }
+          if (t.descriptor.code === "WAYPOINTS") {
+            const waypoints = JSON.parse(t.value);
+            const updatedWaypoints = waypoints.map((wp: any) => {
+              const [lat, lng] = wp.gps.split(",").map(Number);
+              return {
+                gps: `${(lat + 0.00001).toFixed(6)},${(lng + 0.00001).toFixed(
+                  6
+                )}`,
+              };
+            });
+            return { ...t, value: JSON.stringify(updatedWaypoints) };
+          }
+          return t;
+        }),
+      };
+    }
+    return tag;
+  });
+}
+
 function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
@@ -251,6 +280,13 @@ export async function onUpdateGeneratorWithSelfPickup(
       existingPayload.message.order.tags,
       sessionData.quote
     );
+  }
+
+  if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
+    existingPayload.message.order.fulfillments[0].tags =
+      updateFulfillmentRouteTags(
+        existingPayload.message.order.fulfillments[0].tags
+      );
   }
   // Update timestamps
   existingPayload.message.order.updated_at = new Date().toISOString();
