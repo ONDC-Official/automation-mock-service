@@ -81,7 +81,9 @@ export async function Generator(
     case "track_LOGISTICS":
       return await trackGenerator(existingPayload, sessionData);
     case "cancel_LOGISTICS":
-      return await cancelGenerator(existingPayload, sessionData);
+      return await cancelGenerator(existingPayload, sessionData,inputs,action_id);
+    case "buyer_side_cancel_LOGISTICS":
+      return await cancelGenerator(existingPayload, sessionData,inputs,action_id);
     case "on_search_qc":
       return await onSearchQCGenerator(existingPayload, sessionData, inputs);
     case "on_search_LOGISTICS":
@@ -188,7 +190,9 @@ export async function Generator(
     case "on_track_LOGISTICS":
       return await onTrackGenerator(existingPayload, sessionData);
     case "on_cancel_LOGISTICS":
-      return await onCancelGenerator(existingPayload, sessionData);
+      return await onCancelGenerator(existingPayload, sessionData,inputs,action_id);
+    case "seller_side_on_cancel_LOGISTICS":
+      return await onCancelGenerator(existingPayload, sessionData,inputs,action_id);
     case "status_LOGISTICS":
       return await statusGenerator(existingPayload, sessionData);
     case "on_update_1_LOGISTICS":

@@ -115,6 +115,8 @@ export interface Input {
   fulfillReqCount?: string;
   ebn_exempt?:boolean;
   resolution_accept?: string;
+  rating?:string
+  cancellation_reason_id?:string
   // mask_type:string,
   // pin:string,
   // api_endpoint:string,
