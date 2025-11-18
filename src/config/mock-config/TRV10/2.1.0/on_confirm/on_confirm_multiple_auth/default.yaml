@@ -68,14 +68,12 @@ message:
               - descriptor:
                   code: ENCODED_POLYLINE
                   name: Path
-                value: _p~iF~ps|U_ulLnnqC_mqNvxq`@
+                value: qZ|nL~Hr`E_tuAxfKpmC~oBvUd@s
               - descriptor:
                   code: WAYPOINTS
                   name: Waypoints
                 value: >-
-                  [{"gps":"12.909982,
-                  77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,
-                  77.611822"}]
+                  [{ "gps": "12.910142,77.611764" },{ "gps": "12.909899,77.611944" },{ "gps": "12.909781,77.611663" },{ "gps": "12.910054,77.611895" }]
         type: DELIVERY
         vehicle:
           category: AUTO_RICKSHAW
@@ -140,10 +138,10 @@ message:
             list:
               - descriptor:
                   code: DISTANCE_TO_NEAREST_DRIVER_METER
-                value: '661'
+                value: '542'
               - descriptor:
                   code: ETA_TO_NEAREST_DRIVER_MIN
-                value: '3'
+                value: '2.5'
           - descriptor:
               code: FEATURE_LIST
               name: Feature list
@@ -225,7 +223,7 @@ message:
             value: 'https://example-test-bap.com/static-terms.txt'
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: '1.46'
+            value: '1.96'
           - descriptor:
               code: SETTLEMENT_BANK_CODE
             value: XXXXXXXX
@@ -266,4 +264,4 @@ message:
             value: 'https://example-test-bpp.com/static-terms.txt'
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: '1.46'
+            value: '1.96'

@@ -45,7 +45,7 @@ message:
             value: UPI # Payment settlement method
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: "1.46" # Payment settlement method
+            value: "1.96" # Payment settlement method
           - descriptor:
               code: MANDATORY_ARBITRATION
             value: "true" # Mandatory arbitration for disputes

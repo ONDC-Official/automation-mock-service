@@ -12,7 +12,7 @@ const fulfillment_tags = [
           code: "ENCODED_POLYLINE",
           name: "Path",
         },
-        value: "_p~iF~ps|U_ulLnnqC_mqNvxq`@",
+        value: "qZ|nL~Hr`E_tuAxfKpmC~oBvUd@s",
       },
       {
         descriptor: {
@@ -20,7 +20,7 @@ const fulfillment_tags = [
           name: "Waypoints",
         },
         value:
-          '[{"gps":"12.909982, 77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982, 77.611822"}]',
+          '[{ "gps": "12.910111,77.611877" },{ "gps": "12.909820,77.611702" },{ "gps": "12.910020,77.611614" },{ "gps": "12.909864,77.611923" }]',
       },
     ],
   },

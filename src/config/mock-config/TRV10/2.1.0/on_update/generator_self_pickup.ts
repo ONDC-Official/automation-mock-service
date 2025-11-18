@@ -31,6 +31,30 @@ function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+function updateSettlementAmount(terms: any[], quote: any) {
+  const total = Number(quote?.price?.value || 0);
+
+  terms.forEach((termBlock) => {
+    if (!termBlock.list) return;
+
+    const buyerFeeItem =
+      termBlock.list.find(
+        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+      ) || 1;
+    const settlementItem = termBlock.list.find(
+      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
+    );
+
+    if (buyerFeeItem && settlementItem) {
+      const percentage = Number(buyerFeeItem.value || 0);
+      const settlementAmount = ((total * percentage) / 100).toFixed(2);
+      settlementItem.value = settlementAmount;
+    }
+  });
+
+  return terms;
+}
+
 function applyCancellationCharges(quote: Quote, state: string): Quote {
   // Get cancellation fee based on ride state
   const getCancellationFee = (state: string): number => {
@@ -96,62 +120,64 @@ export async function onUpdateGeneratorWithSelfPickup(
     existingPayload.message.order.items = sessionData.items;
   }
 
-  
-
   // Ensure all fulfillments have the required 'type' property
   if (existingPayload.message.order.fulfillments?.length > 0) {
-    existingPayload.message.order.fulfillments.forEach((fulfillment: any, index: number) => {
-      const selectedFulfillment = sessionData.selected_fulfillments[index];
-      // Set default type to "DELIVERY" if not present
-      // if (!fulfillment.type) {
+    existingPayload.message.order.fulfillments.forEach(
+      (fulfillment: any, index: number) => {
+        const selectedFulfillment = sessionData.selected_fulfillments[index];
+        // Set default type to "DELIVERY" if not present
+        // if (!fulfillment.type) {
         fulfillment.type = "SELF_PICKUP";
-      // }
+        // }
 
-      // Ensure vehicle registration is present
-      if (!fulfillment.vehicle) {
-        fulfillment.vehicle = {
-          registration: "DL01AB1234",
-        };
-      } else if (!fulfillment.vehicle.registration) {
-        fulfillment.vehicle.registration = "DL01AB1234";
-      }
+        // Ensure vehicle registration is present
+        if (!fulfillment.vehicle) {
+          fulfillment.vehicle = {
+            registration: "DL01AB1234",
+          };
+        } else if (!fulfillment.vehicle.registration) {
+          fulfillment.vehicle.registration = "DL01AB1234";
+        }
 
-      if(selectedFulfillment.vehicle.make && selectedFulfillment.vehicle.model){
-        fulfillment.vehicle.make = selectedFulfillment.vehicle.make;
-        fulfillment.vehicle.model = selectedFulfillment.vehicle.model;
-      }
+        if (
+          selectedFulfillment.vehicle.make &&
+          selectedFulfillment.vehicle.model
+        ) {
+          fulfillment.vehicle.make = selectedFulfillment.vehicle.make;
+          fulfillment.vehicle.model = selectedFulfillment.vehicle.model;
+        }
 
-      // Valid ride states
-      const validRideStates = [
-        "RIDE_CANCELLED",
-        "RIDE_ENDED",
-        "RIDE_STARTED",
-        "RIDE_ASSIGNED",
-        "RIDE_ENROUTE_PICKUP",
-        "RIDE_ARRIVED_PICKUP",
-        "RIDE_CONFIRMED",
-      ];
+        // Valid ride states
+        const validRideStates = [
+          "RIDE_CANCELLED",
+          "RIDE_ENDED",
+          "RIDE_STARTED",
+          "RIDE_ASSIGNED",
+          "RIDE_ENROUTE_PICKUP",
+          "RIDE_ARRIVED_PICKUP",
+          "RIDE_CONFIRMED",
+        ];
 
-      // Ensure state.descriptor.code is present and valid
-      if (!fulfillment.state) {
-        fulfillment.state = {
-          descriptor: {
-            code: "RIDE_ENDED",
-          },
-        };
-      } else if (!fulfillment.state.descriptor) {
-        fulfillment.state.descriptor = {
-          code: "RIDE_ASSIGNED",
-        };
-      } else if (
-        !fulfillment.state.descriptor.code ||
-        !validRideStates.includes(fulfillment.state.descriptor.code)
-      ) {
-        fulfillment.state.descriptor.code = "RIDE_ASSIGNED";
-      }
+        // Ensure state.descriptor.code is present and valid
+        if (!fulfillment.state) {
+          fulfillment.state = {
+            descriptor: {
+              code: "RIDE_ENDED",
+            },
+          };
+        } else if (!fulfillment.state.descriptor) {
+          fulfillment.state.descriptor = {
+            code: "RIDE_ASSIGNED",
+          };
+        } else if (
+          !fulfillment.state.descriptor.code ||
+          !validRideStates.includes(fulfillment.state.descriptor.code)
+        ) {
+          fulfillment.state.descriptor.code = "RIDE_ASSIGNED";
+        }
 
-        fulfillment.stops = sessionData.selected_fulfillments[index].stops
-        fulfillment.id = sessionData.selected_fulfillments[index].id
+        fulfillment.stops = sessionData.selected_fulfillments[index].stops;
+        fulfillment.id = sessionData.selected_fulfillments[index].id;
         if (fulfillment.stops?.[0]) {
           fulfillment.stops[0].authorization = {
             type: "OTP",
@@ -161,39 +187,40 @@ export async function onUpdateGeneratorWithSelfPickup(
           };
         }
 
-      // Ensure agent.person.name is present
-      if (!fulfillment.agent) {
-        fulfillment.agent = {
-          person: {
-            name: "Driver Name",
-          },
-          contact: {
-            phone: "9876543210",
-          },
-        };
-
-        //Assign ride & authorization if agent is being added
-        fulfillment.state.descriptor.code = "RIDE_ASSIGNED";
-        // Add OTP authorization to the first stop
-      } else {
-        if (!fulfillment.agent.person) {
-          fulfillment.agent.person = {
-            name: "Driver Name",
+        // Ensure agent.person.name is present
+        if (!fulfillment.agent) {
+          fulfillment.agent = {
+            person: {
+              name: "Driver Name",
+            },
+            contact: {
+              phone: "9876543210",
+            },
           };
-        } else if (!fulfillment.agent.person.name) {
-          fulfillment.agent.person.name = "Driver Name";
-        }
 
-        // Ensure agent.contact.phone is present
-        if (!fulfillment.agent.contact) {
-          fulfillment.agent.contact = {
-            phone: "9876543210",
-          };
-        } else if (!fulfillment.agent.contact.phone) {
-          fulfillment.agent.contact.phone = "9876543210";
+          //Assign ride & authorization if agent is being added
+          fulfillment.state.descriptor.code = "RIDE_ASSIGNED";
+          // Add OTP authorization to the first stop
+        } else {
+          if (!fulfillment.agent.person) {
+            fulfillment.agent.person = {
+              name: "Driver Name",
+            };
+          } else if (!fulfillment.agent.person.name) {
+            fulfillment.agent.person.name = "Driver Name";
+          }
+
+          // Ensure agent.contact.phone is present
+          if (!fulfillment.agent.contact) {
+            fulfillment.agent.contact = {
+              phone: "9876543210",
+            };
+          } else if (!fulfillment.agent.contact.phone) {
+            fulfillment.agent.contact.phone = "9876543210";
+          }
         }
       }
-    });
+    );
   }
 
   // Update order status if present
@@ -215,11 +242,16 @@ export async function onUpdateGeneratorWithSelfPickup(
     existingPayload.message.order.quote = sessionData.quote;
   }
 
-
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.id = sessionData.order_id;
   existingPayload.message.order.payments[0].id = sessionData.payments[0].id;
-  
+  // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
+  if (existingPayload.message.order.tags) {
+    existingPayload.message.order.tags = updateSettlementAmount(
+      existingPayload.message.order.tags,
+      sessionData.quote
+    );
+  }
   // Update timestamps
   existingPayload.message.order.updated_at = new Date().toISOString();
   return existingPayload;

@@ -32,7 +32,7 @@ message:
             value: 'https://example-test-bap.com/static-terms.txt'
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: '1.46'
+            value: '1.96'
           - descriptor:
               code: SETTLEMENT_BANK_CODE
             value: XXXXXXXX
@@ -73,7 +73,7 @@ message:
             value: 'https://example-test-bpp.com/static-terms.txt'
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: '1.46'
+            value: '1.96'
     cancellation_terms:
       - cancellation_fee:
           percentage: '0'
@@ -142,14 +142,12 @@ message:
               - descriptor:
                   code: ENCODED_POLYLINE
                   name: Path
-                value: _p~iF~ps|U_ulLnnqC_mqNvxq`@
+                value: qZ|nL~Hr`E_tuAxfKpmC~oBvUd@s
               - descriptor:
                   code: WAYPOINTS
                   name: Waypoints
                 value: >-
-                  [{"gps":"12.909982,
-                  77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,
-                  77.611822"}]
+                 [{ "gps": "12.910128,77.611665" },{ "gps": "12.909776,77.611857" },{ "gps": "12.910005,77.611953" },{ "gps": "12.909858,77.611712" }]
         type: DELIVERY
         vehicle:
           category: AUTO_RICKSHAW
@@ -216,12 +214,12 @@ message:
                   code: DISTANCE_TO_NEAREST_DRIVER_METER
                   name: "Level of Disability"
                   short_desc: "Disability of Blind and low vision"
-                value: '661'
+                value: '430'
               - descriptor:
                   code: ETA_TO_NEAREST_DRIVER_MIN
                   name: "Screen Reader Usage"
                   short_desc: "Screen Reader Usage"
-                value: '3'
+                value: '1.5'
               - descriptor:
                   code: DOORSTEP_PICK_UP
                   name: "Cane Usage"

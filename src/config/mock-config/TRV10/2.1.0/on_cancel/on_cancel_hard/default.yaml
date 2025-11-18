@@ -67,14 +67,13 @@ message:
               - descriptor:
                   code: ENCODED_POLYLINE
                   name: Path
-                value: _p~iF~ps|U_ulLnnqC_mqNvxq`@
+                value: qZ|nL~Hr`E_tuAxfKpmC~oBvUd@s
               - descriptor:
                   code: WAYPOINTS
                   name: Waypoints
                 value: >-
-                  [{"gps":"12.909982,
-                  77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,
-                  77.611822"}]
+                 [{ "gps": "12.910102,77.611754" },{ "gps": "12.909876,77.611905" },{ "gps": "12.910028,77.611822" },{ "gps": "12.909941,77.611682" }]
+
         type: DELIVERY
         vehicle:
           category: AUTO_RICKSHAW
@@ -139,10 +138,10 @@ message:
             list:
               - descriptor:
                   code: DISTANCE_TO_NEAREST_DRIVER_METER
-                value: '661'
+                value: '230'
               - descriptor:
                   code: ETA_TO_NEAREST_DRIVER_MIN
-                value: '3'
+                value: '1'
     payments:
       - collected_by: BAP
         id: PA1
