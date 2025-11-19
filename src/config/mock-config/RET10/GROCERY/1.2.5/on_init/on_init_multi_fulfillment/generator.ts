@@ -9,10 +9,10 @@ export async function on_init_multi_fulfillment_generator(
 	sessionData: SessionData
 ) {
 	const payload = await on_init_generator(existingPayload, sessionData);
-	await updateFlowConfigWithDynOnStatuses(
-		payload.message.order.fulfillments,
-		sessionData
-	);
+	// await updateFlowConfigWithDynOnStatuses(
+	// 	payload.message.order.fulfillments,
+	// 	sessionData
+	// );
 	const selectedFids = jsonpath.query(
 		payload,
 		"$.message.order.items[*].fulfillment_id"
