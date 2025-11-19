@@ -111,4 +111,5 @@ export interface Input {
     cancellation_reason_id?: string;
   };
   resolution_accept: any
+  rating: string
 }
