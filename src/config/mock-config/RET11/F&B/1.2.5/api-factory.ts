@@ -48,7 +48,7 @@ export async function Generator(
   action_id: string,
   existingPayload: any,
   sessionData: any,
-  inputs?: Record<string, string>
+  inputs?: any
 ) {
   switch (action_id) {
     case "search":
