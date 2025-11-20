@@ -24,8 +24,28 @@ type Quote = {
   breakup: Breakup[];
 };
 
-function generateOTP(): string {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+function updateSettlementAmount(terms: any[], quote: any) {
+  const total = Number(quote?.price?.value || 0);
+
+  terms.forEach((termBlock) => {
+    if (!termBlock.list) return;
+
+    const buyerFeeItem =
+      termBlock.list.find(
+        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+      ) || 1;
+    const settlementItem = termBlock.list.find(
+      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
+    );
+
+    if (buyerFeeItem && settlementItem) {
+      const percentage = Number(buyerFeeItem.value || 0);
+      const settlementAmount = ((total * percentage) / 100).toFixed(2);
+      settlementItem.value = settlementAmount;
+    }
+  });
+
+  return terms;
 }
 
 function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
@@ -102,15 +122,32 @@ export async function onCancelHardGenerator(
     existingPayload.message.order.id = sessionData.order_id;
   }
 
-  if (sessionData.quote != null) {
-    existingPayload.message.order.quote = applyCancellation(
-      sessionData.quote,
-      10
-    );
-  }
   const now = new Date().toISOString();
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = existingPayload.context.timestamp;
+
+  if (sessionData.cancellation_reason_id !== "000") {
+    if (existingPayload.message.order.tags) {
+      existingPayload.message.order.tags = updateSettlementAmount(
+        existingPayload.message.order.tags,
+        sessionData.quote
+      );
+    }
+
+    if (sessionData.quote != null) {
+      existingPayload.message.order.quote = applyCancellation(
+        sessionData.quote,
+        10
+      );
+    }
+  } else {
+    if (sessionData.quote != null) {
+      existingPayload.message.order.quote = applyCancellation(
+        sessionData.quote,
+        0
+      );
+    }
+  }
 
   return existingPayload;
 }
