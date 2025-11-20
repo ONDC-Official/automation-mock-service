@@ -20,7 +20,10 @@ export async function on_search_generator(
   const uniqueBapCodes = Array.from(bapCodes);
 
   existingPayload.message = RET10GROCERY125Catalog;
-  const cityCode = existingPayload.context.city; // std:001
+  if (existingPayload.context.city === "*") {
+    existingPayload.context.city = "std:0172";
+  }
+  const cityCode = existingPayload.context.city;
   const cityCodeNum = cityCode.split(":")[1];
   const areas = stateCodeToPin[cityCodeNum as keyof typeof stateCodeToPin] ?? [
     "144203",
