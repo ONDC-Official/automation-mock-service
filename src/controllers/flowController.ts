@@ -370,14 +370,6 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				);
 				return;
 			}
-<<<<<<< Updated upstream
-			let sessionData: any = await GetMockSessionDataForGeneration(
-				{},
-				txId,
-				subscriberUrl,
-				txData
-=======
-
 			if (latestMeta.actionType === "DYNAMIC_FORM") {
 				console.log("DYNAMIC_FORM action detected", req.body);
 				const version = req.apiSessionCache?.version;
@@ -431,7 +423,6 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				sessionData,
 				latestMeta.actionId,
 				req.body.inputs
->>>>>>> Stashed changes
 			);
 			// const repeatTimes = sessionData.REPEAT_NEXT_API ?? latestMeta.repeat ?? 1;
 			for (let i = 0; i < 1; i++) {

@@ -61,7 +61,6 @@ export function getFlowCompleteStatus(
 	// Track the next expected step index in the flow
 	let nextExpectedStepIndex = 0;
 
-<<<<<<< Updated upstream
 	// Process each API in chronological order
 	for (const apiData of apiList) {
 		if (apiData.entryType === "API") {
@@ -71,71 +70,6 @@ export function getFlowCompleteStatus(
 				mappedFlow,
 				nextExpectedStepIndex
 			);
-=======
-			const base: MappedStep = {
-				status: "LISTENING",
-				actionId: item.key,
-				owner: item.owner,
-				actionType: item.type,
-				input: item.input,
-				index: i,
-				unsolicited: item.unsolicited,
-				pairActionId: item.pair,
-				description: item.description,
-				expect: item.expect,
-				label: item.label,
-				force_proceed: item.force_proceed,
-		};
-		// Handle both HTML_FORM and DYNAMIC_FORM with same ownership semantics
-		// "owner: BPP" means BPP fills the form on their UI
-		// "owner: BAP" means BAP fills the form on their UI
-		if (item.type === "HTML_FORM" || item.type === "DYNAMIC_FORM") {
-			if (subscriberType === item.owner) {
-				// We are the owner - form should show on OUR UI (INPUT-REQUIRED)
-				mappedFlow.sequence.push({
-					...base,
-					status:
-						flowStatus === "AVAILABLE" ? "INPUT-REQUIRED" : "PROCESSING",
-				});
-			} else {
-				// Other party is the owner - they fill it, we wait (WAITING-SUBMISSION)
-				mappedFlow.sequence.push({
-					...base,
-					status:
-						flowStatus === "AVAILABLE" ? "WAITING-SUBMISSION" : "RESPONDING",
-				});
-			}
-			continue;
-		}
-		if (subscriberType === item.owner) {
-			// We are the owner - we're listening for trigger to send
-			mappedFlow.sequence.push(base);
-		} else {
-			// For actions owned by the OTHER party (not this subscriber)
-			if (item.input) {
-				// Action requires input from the other party
-				mappedFlow.sequence.push({
-					...base,
-					status:
-						flowStatus === "AVAILABLE" ? "INPUT-REQUIRED" : "RESPONDING",
-				});
-			} else {
-				if (item.unsolicited) {
-					mappedFlow.sequence.push({
-						...base,
-						status:
-							flowStatus === "AVAILABLE" ? "INPUT-REQUIRED" : "RESPONDING",
-						input: [],
-					});
-				}
-				mappedFlow.sequence.push({
-					...base,
-					status: "RESPONDING",
-				});
-			}
-			
-		}
->>>>>>> Stashed changes
 		} else {
 			nextExpectedStepIndex = handleFormSequenceStrict(
 				apiData,
@@ -387,7 +321,7 @@ function addPendingStep(
 	}
 
 	// Handle the next expected step based on type and ownership
-	if (step.type === "HTML_FORM") {
+	if (step.type === "HTML_FORM" || step.type === "DYNAMIC_FORM") {
 		if (subscriberType === step.owner) {
 			mappedFlow.sequence.push({
 				...base,
