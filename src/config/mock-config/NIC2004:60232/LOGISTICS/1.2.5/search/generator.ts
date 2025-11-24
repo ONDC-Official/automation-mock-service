@@ -18,6 +18,8 @@ export async function searchGenerator(
     getFutureDate(15),
   ];
 
+  existingPayload.message.intent.tags=[]
+
   if (inputs?.feature_discovery || inputs?.default_feature) {
     let codesArray = inputs.feature_discovery || [];
     console.log(inputs?.default_feature);
@@ -31,16 +33,15 @@ export async function searchGenerator(
     }
 
     console.log(codesArray);
-    existingPayload.message.intent.tags = [
-      {
+    existingPayload.message.intent.tags.push({
         code: "lbnp_features",
         list: [
           { code: "005", value: "yes" },
           { code: "006", value: "yes" },
           { code: "007", value: "yes" },
         ],
-      },
-    ];
+      },)
+      
 
     existingPayload.message.intent.tags =
       existingPayload.message.intent.tags.map((tag: any) => {
@@ -57,9 +58,10 @@ export async function searchGenerator(
 
         return tag;
       });
-  } else {
-    delete existingPayload.message.intent.tags;
   }
+  //  else {
+  //   delete existingPayload.message.intent.tags;
+  // }
 
   if (inputs?.category) {
     console.log("inside prep time");
