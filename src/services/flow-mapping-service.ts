@@ -321,7 +321,7 @@ function addPendingStep(
 	}
 
 	// Handle the next expected step based on type and ownership
-	if (step.type === "HTML_FORM") {
+	if (step.type === "HTML_FORM" || step.type === "DYNAMIC_FORM") {
 		if (subscriberType === step.owner) {
 			mappedFlow.sequence.push({
 				...base,

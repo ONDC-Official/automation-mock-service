@@ -263,6 +263,8 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			subscriberUrl,
 			getLoggerData(req)
 		);
+
+		console.log("flowStatus", flowStatus);
 		if (flowStatus.status === "SUSPENDED") {
 			logger.info("Flow is suspended, not proceeding", getLoggerData(req));
 			res.status(200).send({ message: "Flow is suspended, not proceeding" });
@@ -278,6 +280,7 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			});
 			return;
 		}
+		console.log("flowStatus---------", flowStatus);
 		const mockSessionData = await loadMockSessionData(txId, subscriberUrl);
 		const latestMeta = getNextActionMetaData(
 			txData,
@@ -367,11 +370,59 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				);
 				return;
 			}
-			let sessionData: any = await GetMockSessionDataForGeneration(
-				{},
-				txId,
-				subscriberUrl,
-				txData
+			if (latestMeta.actionType === "DYNAMIC_FORM") {
+				console.log("DYNAMIC_FORM action detected", req.body);
+				const version = req.apiSessionCache?.version;
+				if (!version) {
+					throw new Error("Version not found in session data");
+				}
+				if (!req.body.inputs || !req.body.inputs.submission_id) {
+					throw new Error("submission_id not found in inputs");
+				}
+				const mockDynamicFormAction = getMockActionObject(latestMeta.actionId);
+				const saveData = mockDynamicFormAction.saveData;
+				const sessionData = await loadMockSessionData(txId, subscriberUrl);
+				const saveDataObj = saveData?.["save-data"];
+				if (!saveDataObj || typeof saveDataObj !== "object") {
+					throw new Error(
+						"[FATAL] Invalid or missing save-data for DYNAMIC_FORM action " +
+							latestMeta.actionId
+					);
+				}
+				const firstKey = Object.keys(saveDataObj)[0];
+				if (!firstKey) {
+					throw new Error(
+						"[FATAL] No save data key found for DYNAMIC_FORM action: " +
+							latestMeta.actionId
+					);
+				}
+				sessionData[firstKey as keyof typeof sessionData] =
+					req.body.inputs.submission_id;
+				await saveCompleteData(JSON.stringify(sessionData), txId);
+				
+				console.log("check+++++", subscriberUrl, txId);
+				console.log("check+++++", latestMeta.actionId, version, req.body.inputs.submission_id);
+				await sendToApiServiceAboutForm(
+					subscriberUrl,
+					txId,
+					latestMeta.actionId,
+					"DYNAMIC_FORM",
+					version,
+					req.body.inputs.submission_id
+				);
+				return;
+			}
+
+			const sessionData: any = await loadMockSessionData(txId, subscriberUrl);
+			// Inject flow_id and session_id into sessionData
+			sessionData.flow_id = txData.flowId;
+			sessionData.session_id = txData.sessionId;
+			sessionData.domain = process.env.DOMAIN?.split(":")[1];
+			let mockResponse = await generateMockResponse(
+				txData.sessionId as string,
+				sessionData,
+				latestMeta.actionId,
+				req.body.inputs
 			);
 			// const repeatTimes = sessionData.REPEAT_NEXT_API ?? latestMeta.repeat ?? 1;
 			for (let i = 0; i < 1; i++) {

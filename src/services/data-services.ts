@@ -157,7 +157,7 @@ export function getReferenceData(sessionData: MockSessionData) {
 		if (data) {
 			referenceData[key] = data;
 		} else {
-			logger.warning(`No data found for key: ${key}`);
+			// logger.warning(`No data found for key: ${key}`);
 		}
 	}
 	console.log("referenceData", referenceData);

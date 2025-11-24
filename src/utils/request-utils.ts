@@ -40,10 +40,19 @@ export async function sendToApiServiceAboutForm(
 		subscriber_url: subscriberUrl,
 		transaction_id: transactionId,
 		form_action_id: formActionId,
+		form_type: formType, // Include form type in request body
 		submissionId: submissionId,
 		error: error,
 	};
-	await axios.post(url, body);
+	logger.warning("Sending response to api service", {
+		url,
+		body,
+	});
+
+	console.log("sendToApiServiceAboutForm body", body);
+	const result = await axios.post(url, body);
+	console.log("sendToApiServiceAboutForm result", result);
+	
 }
 
 export function createSellerUrl(domain: string, version: string) {
