@@ -477,7 +477,7 @@ export const confirmGenerator = (
       if (action_id === "confirm_SELLER_BUYER_INSTRUCTIONS") {
         updatedStartInstructions = {
           code: "2",
-          short_desc: "Pickup Instructions",
+          short_desc: "123123",
           long_desc: "additional instructions for pickup e.g. register or counter no",
           additional_desc: {
             content_type: "text/html",
@@ -487,7 +487,7 @@ export const confirmGenerator = (
 
         updatedEndInstructions = {
           code: "2",
-          short_desc: "Delivery Instructions",
+          short_desc: "987657",
           long_desc: "additional instructions for delivery e.g. leave package outside door",
           additional_desc: {
             content_type: "text/html",
@@ -811,8 +811,8 @@ export const confirmGenerator = (
     );
   }
 
-  if(action_id === "confirm_SELLER_BUYER_INSTRUCTIONS"){
+  // if(action_id === "confirm_SELLER_BUYER_INSTRUCTIONS"){
 
-  }
+  // }
   return existingPayload;
 };
