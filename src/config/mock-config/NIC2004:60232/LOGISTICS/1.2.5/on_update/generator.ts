@@ -173,6 +173,12 @@ export const onUpdateGenerator = (
         ]
     }
     existingPayload.message.order.tags.push(at_pickup_obj);
+    const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
+      (fulfillment: any) => {
+        return fulfillment.type === "Delivery";
+      }
+    );
+    deliveryFulfillment.state.descriptor.code = "At-pickup"
   }
 
   if (action_id === "on_update_E_POD_AT_DELIVERY_LOGISTICS") {
@@ -195,6 +201,12 @@ export const onUpdateGenerator = (
         ]
     }
     existingPayload.message.order.tags.push(at_delivery_obj);
+    const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
+      (fulfillment: any) => {
+        return fulfillment.type === "Delivery";
+      }
+    );
+    deliveryFulfillment.state.descriptor.code = "At-delivery"
   }
 
   if (action_id === "on_update_refund_igm") {
