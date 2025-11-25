@@ -1,3 +1,5 @@
+import { SessionData } from "../../../session-types";
+
 type Price = {
   value: string;
   currency: string;
@@ -89,7 +91,7 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
 
 export async function onCancelHardGenerator(
   existingPayload: any,
-  sessionData: any
+  sessionData: SessionData
 ) {
   if (sessionData.payments?.length > 0) {
     existingPayload.message.order.payments = sessionData.payments;
@@ -128,10 +130,7 @@ export async function onCancelHardGenerator(
 
   if (sessionData.cancellation_reason_id !== "000") {
     if (existingPayload.message.order.tags) {
-      existingPayload.message.order.tags = updateSettlementAmount(
-        existingPayload.message.order.tags,
-        sessionData.quote
-      );
+      existingPayload.message.order.tags = sessionData.tags[0]
     }
 
     if (sessionData.quote != null) {
