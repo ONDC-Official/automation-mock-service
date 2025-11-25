@@ -15,6 +15,7 @@ export interface SessionData {
 	buyer_app_fee: string | undefined;
 	vehicle_type: string | undefined;
 	fulfillments: any[]; // Replace `any` with a specific type if known
+	tags: any[]; // Replace `any` with a specific type if known
 	category_ids: string[]; // Assuming these are strings; adjust if needed
 	provider_id: string | undefined;
 	fullfillment_ids: string[]; // Assuming these are strings; adjust if needed

@@ -252,4 +252,4 @@ message:
             value: 'https://example-test-bpp.com/static-terms.txt'
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: '0'
+            value: '0.10'
