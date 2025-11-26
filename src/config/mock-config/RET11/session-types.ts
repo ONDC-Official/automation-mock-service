@@ -83,6 +83,7 @@ export interface Input {
   search_mode?: string;
   items?: any;
   // npType?: string;
+  cityCode?: string;
   outOfStockitem?: any;
   fulfillmentType?: string;
   gps?: string;

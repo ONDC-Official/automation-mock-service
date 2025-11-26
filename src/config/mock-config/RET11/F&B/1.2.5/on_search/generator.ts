@@ -19,6 +19,8 @@ export const onSearchGenerator = (
     }
   }
 
+  existingPayload.context.city = inputs?.cityCode || "std:080";
+
   const search_bap_terms = sessionData.search_bap_terms;
   const codesToFind = ["001", "008","00A"];
   const bapCodes = new Set();
