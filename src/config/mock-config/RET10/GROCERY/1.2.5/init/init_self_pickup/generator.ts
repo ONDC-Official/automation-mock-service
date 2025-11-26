@@ -19,6 +19,18 @@ export async function init_self_pickup_generator(
 				email: "nobody@nomail.com",
 				phone: "9898989898",
 			},
+			location:{
+				gps: "19.131140,72.834091",
+				address: {
+					building: "mock-building",
+					city: "mock-city",
+					state: "mock-state",
+					country: "IND",
+					area_code: "400053",
+					locality: "mock-locality",
+					name: "mock-house-name"
+				}
+			},
 		},
 	};
 	const initFulfillments = selfPickupFulfillment.map((f: any) => {
