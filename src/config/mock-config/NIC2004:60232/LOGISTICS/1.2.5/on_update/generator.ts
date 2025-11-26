@@ -154,60 +154,56 @@ export const onUpdateGenerator = (
   // }
 
   if (action_id === "on_update_E_POD_AT_PICKUP_LOGISTICS") {
-    let at_pickup_obj = {
-      "code": "fulfillment_proof",
-      "list":
-        [
-          {
-            "code": "state",
-            "value": "Order-picked-up"
-          },
-          {
-            "code": "type",
-            "value": "webp"
-          },
-          {
-            "code": "url",
-            "value": "public link to webp"
-          }
-        ]
-    }
-    existingPayload.message.order.tags.push(at_pickup_obj);
-    const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
-      (fulfillment: any) => {
-        return fulfillment.type === "Delivery";
-      }
-    );
-    deliveryFulfillment.state.descriptor.code = "At-pickup"
-  }
+  let at_pickup_obj = {
+    code: "fulfillment_proof",
+    list: [
+      { code: "state", value: "Order-picked-up" },
+      { code: "type", value: "webp" },
+      { code: "url", value: "public link to webp" }
+    ]
+  };
 
-  if (action_id === "on_update_E_POD_AT_DELIVERY_LOGISTICS") {
-    let at_delivery_obj = {
-      "code": "fulfillment_proof",
-      "list":
-        [
-          {
-            "code": "state",
-            "value": "Order-delivered"
-          },
-          {
-            "code": "type",
-            "value": "webp"
-          },
-          {
-            "code": "url",
-            "value": "public link to webp"
-          }
-        ]
-    }
-    existingPayload.message.order.tags.push(at_delivery_obj);
-    const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
-      (fulfillment: any) => {
-        return fulfillment.type === "Delivery";
-      }
-    );
-    deliveryFulfillment.state.descriptor.code = "At-delivery"
-  }
+  existingPayload.message.order.tags.push(
+    JSON.parse(JSON.stringify(at_pickup_obj))
+  );
+
+  const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
+    (fulfillment: any) => fulfillment.type === "Delivery"
+  );
+
+  deliveryFulfillment.state.descriptor.code = "At-pickup";
+}
+
+
+
+if (action_id === "on_update_E_POD_AT_DELIVERY_LOGISTICS") {
+  let at_delivery_obj_1 = {
+  code: "fulfillment_proof",
+  list: [
+    { code: "state", value: "Order-picked-up" },
+    { code: "type", value: "webp" },
+    { code: "url", value: "public link to webp" }
+  ]
+};
+
+let at_delivery_obj_2 = {
+  code: "fulfillment_proof",
+  list: [
+    { code: "state", value: "Order-delivered" },
+    { code: "type", value: "webp" },
+    { code: "url", value: "public link to webp" }
+  ]
+};
+
+existingPayload.message.order.tags.push(at_delivery_obj_1, at_delivery_obj_2);
+
+  const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
+    (fulfillment: any) => fulfillment.type === "Delivery"
+  );
+
+  deliveryFulfillment.state.descriptor.code = "At-delivery";
+}
+
 
   if (action_id === "on_update_refund_igm") {
     let igm_obj = {
