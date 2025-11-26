@@ -31,7 +31,7 @@ export async function on_search_generator(
     const toTimestamp = newTimestamp.toISOString();
 		const creds = [
         {
-          "id": randomUUID().toString(),
+          "id": "9f3c2e32-6d1f-4a42-9e9e-88b4e9bbaa10",
           "descriptor": {
             "code": "Social Sector",
             "short_desc": "GI"
