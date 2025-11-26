@@ -24,7 +24,9 @@ export async function on_status_self_pickup_packed_generator(
 				name: "ONDC order",
 				short_desc: num[0] || "1234567890",
 			},
-			timestamp: new Date().toISOString(),
+			time: {
+				timestamp: new Date().toISOString(),
+			},
 		},
 		state: {
 			descriptor: {
