@@ -33,7 +33,7 @@ export async function on_confirm_seller_cred_generator(
     }
     existingPayload.message.order.provider.creds = existingPayload.message.order.provider.creds || [];
     existingPayload.message.order.provider.creds.push({
-        id: randomUUID().toString(),
+        id: "9f3c2e32-6d1f-4a42-9e9e-88b4e9bbaa10",
         descriptor: {
             code : "Seller_Credential",
             type: "GI"
