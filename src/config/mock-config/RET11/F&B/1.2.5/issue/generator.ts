@@ -1,5 +1,4 @@
 import { Input, SessionData } from "../../../session-types";
-import { action, getActionsList, getGrievance, isGrievance } from "../default";
 
 export const issueStatusGenerator = async (
   existingPayload: any,
@@ -28,7 +27,7 @@ export const issueStatusGenerator = async (
   const order = sessionData.order_id;
   const refs = [
     {
-      ref_id: order,
+      ref_id: order ?? "O1",
       ref_type: "ORDER",
     },
     {
@@ -36,11 +35,11 @@ export const issueStatusGenerator = async (
       ref_type: "PROVIDER",
     },
     {
-      ref_id: fulfillment,
+      ref_id: fulfillment ?? "F1",
       ref_type: "FULFILLMENT",
     },
     {
-      ref_id: item,
+      ref_id: item ?? "I1",
       ref_type: "ITEM",
       tags: [
         {
@@ -102,27 +101,25 @@ export const issueStatusGenerator = async (
   existingPayload.message.issue.status = sessionData.status || "OPEN";
   switch (sessionData.igm_action) {
     case "issue_open":
+      const lastActionId = crypto.randomUUID();
       existingPayload.message.issue.status = "OPEN";
       existingPayload.message.issue.descriptor.short_desc =
         "Issue with product quality";
-      existingPayload.message.issue.actions = getActionsList(
+      (existingPayload.message.issue.actions = [
         {
-          id: "A11",
+          id: lastActionId,
           descriptor: {
             code: "OPEN",
             short_desc: "Complaint created",
           },
-          updated_at: "nill",
+          updated_at: newDate,
           action_by: "NP1",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "issue_open"
-      );
-      existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
+      ]),
+        (existingPayload.message.issue.last_action_id = lastActionId ?? "A1");
       break;
 
     case "issue_escalate":
@@ -130,28 +127,29 @@ export const issueStatusGenerator = async (
       existingPayload.message.issue.level = "GREVIENCE";
       existingPayload.message.issue.descriptor.short_desc =
         "Issue with product quality";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A11",
+          id: crypto.randomUUID(),
           descriptor: {
             code: "ESCALATED",
             short_desc: "Complaint Escalated",
           },
-          updated_at: "nill",
+          updated_at: newDate,
           action_by: "NP1",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "issue_open"
-      );
+      ];
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
-      getGrievance(true);
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
       break;
 
     case "issue_open_2":
+      const lastActionId2 = crypto.randomUUID();
       existingPayload.message.issue.descriptor.code = "PMT002";
       existingPayload.message.issue.status = "OPEN";
       existingPayload.message.issue.descriptor.short_desc =
@@ -159,33 +157,37 @@ export const issueStatusGenerator = async (
       // existingPayload.message.issue.last_action_id =
       //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
       //   "A1";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.actions = [
         {
-          id: "A11",
+          id: lastActionId2,
           descriptor: {
             code: "OPEN",
             short_desc: "Complaint created",
           },
-          updated_at: "nill",
+          updated_at: newDate,
           action_by: "NP1",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "issue_open"
-      );
+      ];
+
+      existingPayload.message.issue.last_action_id = lastActionId2 ?? "A1";
       break;
 
     case "issue_info_provided":
       existingPayload.message.issue.status = "PROCESSING";
+      existingPayload.message.issue.level = sessionData?.issue_level ?? "OPEN";
       // existingPayload.message.issue.last_action_id =
       //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
       //   "A4";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A4",
-          ref_id: "A3",
+          id: crypto.randomUUID(),
+          ref_id:
+            sessionData?.issue_action[sessionData?.issue_action.length - 1]
+              ?.id || "A3",
           descriptor: {
             code: "INFO_PROVIDED",
             short_desc: "Info provided from buyer app",
@@ -200,49 +202,47 @@ export const issueStatusGenerator = async (
               },
             ],
           },
-          updated_at: "2025-11-04T11:38:04.698Z",
+          updated_at: newDate,
           action_by: "NP1",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "issue_info_provided"
-      );
+      ];
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
       break;
 
     case "issue_resolution_accept":
     case "issue_resolution_accept_igm_3":
       existingPayload.message.issue.status = "PROCESSING";
-      if (isGrievance) existingPayload.message.issue.level = "GREVIENCE";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.level = sessionData?.issue_level ?? "OPEN";
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A7",
+          id: crypto.randomUUID(),
           ref_id: "R2",
           ref_type: "RESOLUTIONS",
           descriptor: {
             code: "RESOLUTION_ACCEPTED",
             short_desc: "Resolution is accepted",
           },
-          updated_at: "2025-11-04T11:52:49.989Z",
+          updated_at: newDate,
           action_by: "NP1",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "issue_resolution_accept"
-      );
+      ];
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
       existingPayload.message.issue.resolutions = sessionData.issue_resolution;
-      console.log("issue_resolution_accept");
       const resolution_accept = inputs?.resolution_accept || "R2-Replacement";
-      console.log("input", inputs);
       const refId = resolution_accept.split("-");
-      console.log("refId", refId);
       let actions = existingPayload.message.issue.actions;
       actions[actions.length - 1].ref_id = refId[0];
 
@@ -255,32 +255,31 @@ export const issueStatusGenerator = async (
 
     case "issue_resolution_reject":
       existingPayload.message.issue.status = "PROCESSING";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A7",
+          id: crypto.randomUUID(),
           ref_id: "R2",
           ref_type: "RESOLUTIONS",
           descriptor: {
             code: "RESOLUTION_REJECTED",
             short_desc: "Resolution is rejected",
           },
-          updated_at: "2025-11-04T11:52:49.989Z",
+          updated_at: newDate,
           action_by: "NP1",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "issue_resolution_accept"
-      );
+      ];
+      existingPayload.message.issue.level = sessionData?.issue_level ?? "OPEN";
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
       existingPayload.message.issue.resolutions = sessionData.issue_resolution;
-      console.log("issue_resolution_accept");
       const resolution_accepts = inputs?.resolution_accept || "R2-Replacement";
-      console.log("input", inputs);
       const refIds = resolution_accepts.split("-");
-      console.log("refId", refIds);
       let actionss = existingPayload.message.issue.actions;
       actionss[actionss.length - 1].ref_id = refIds[0];
       break;
@@ -288,15 +287,16 @@ export const issueStatusGenerator = async (
     case "issue_close":
     case "issue_close_igm_3":
       existingPayload.message.issue.status = "CLOSED";
-      if (isGrievance) existingPayload.message.issue.level = "GREVIENCE";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.level = sessionData?.issue_level ?? "OPEN";
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A9",
+          id: crypto.randomUUID(),
           descriptor: {
             code: "CLOSED",
             short_desc: "Closing the complaint",
           },
-          updated_at: "2025-11-04T11:52:58.092Z",
+          updated_at: newDate,
           action_by: "NP1",
           actor_details: {
             name: "mock-person",
@@ -317,15 +317,12 @@ export const issueStatusGenerator = async (
             },
           ],
         },
-        newDate,
-        "issue_close"
-      );
+      ];
       existingPayload.message.issue.last_action_id =
-        existingPayload?.message?.issue?.actions[
-          existingPayload?.message?.issue?.actions?.length - 1
-        ]?.id ?? "A22";
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
       existingPayload.message.issue.resolutions = sessionData.issue_resolution;
-      getGrievance(false);
 
       if (sessionData.igm_action === "issue_close_igm_3") {
         existingPayload.message.issue.resolutions =
@@ -377,17 +374,17 @@ export const issueStatusGenerator = async (
     default:
       break;
   }
-  let actions = existingPayload.message.issue.actions;
-  actions[actions.length - 1].updated_at = newDate;
+  // let actions = existingPayload.message.issue.actions;
+  // actions[actions.length - 1].updated_at = newDate;
 
-  const updatedAction = actions[actions.length - 1];
-  console.log("sessionData.issue_action", sessionData.issue_action);
-  if (sessionData.issue_action.length > 0) {
-    console.log("sessionData.issue_action", sessionData.issue_action);
-    let sessionDataActions = sessionData.issue_action;
-    sessionDataActions.push(updatedAction);
-    existingPayload.message.issue.actions = sessionDataActions;
-  }
+  // const updatedAction = actions[actions.length - 1];
+  // console.log("sessionData.issue_action", sessionData.issue_action);
+  // if (sessionData.issue_action.length > 0) {
+  //   console.log("sessionData.issue_action", sessionData.issue_action);
+  //   let sessionDataActions = sessionData.issue_action;
+  //   sessionDataActions.push(updatedAction);
+  //   existingPayload.message.issue.actions = sessionDataActions;
+  // }
 
   const { start, end } = sessionData.fulfillments[0];
 
