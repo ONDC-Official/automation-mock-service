@@ -15,10 +15,10 @@ function removeTagsByCodes(tags: Tag[], codesToRemove: string[]): Tag[] {
 export const onUpdateGenerator = (
   existingPayload: any,
   sessionData: SessionData,
-  action_id:string
+  action_id: string
 ) => {
-  console.log("update_fulfillments",JSON.stringify(sessionData.update_fulfillments));
-  
+  console.log("update_fulfillments", JSON.stringify(sessionData.update_fulfillments));
+
   existingPayload.message.order.id = sessionData.order_id;
 
   if (sessionData?.fulfillments) {
@@ -27,8 +27,8 @@ export const onUpdateGenerator = (
 
   existingPayload = populateFulfillmentUpdate(existingPayload, sessionData);
 
-  console.log("existing payload-existingPayload",JSON.stringify(existingPayload));
-  
+  console.log("existing payload-existingPayload", JSON.stringify(existingPayload));
+
 
   if (action_id === "on_update_E_WAY_BILL_LOGISTICS") {
     existingPayload.message.order.fulfillments =
@@ -87,7 +87,7 @@ export const onUpdateGenerator = (
 
   existingPayload.message.order.quote = sessionData.quote;
   if (Array.isArray(sessionData.cancellation_terms) &&
-  sessionData.cancellation_terms.length > 0) {
+    sessionData.cancellation_terms.length > 0) {
     existingPayload.message.order.cancellation_terms =
       sessionData.cancellation_terms;
   }
@@ -113,11 +113,11 @@ export const onUpdateGenerator = (
       sessionData.linked_order;
   }
 
-  if(sessionData.on_confirm_tags){
+  if (sessionData.on_confirm_tags) {
     existingPayload.message.order.tags = sessionData.on_confirm_tags
   }
 
-  if(action_id === "on_update_DELIVERY_ADDRESS"){
+  if (action_id === "on_update_DELIVERY_ADDRESS") {
     const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
       (fulfillment: any) => {
         return fulfillment.type === "Delivery";
@@ -126,9 +126,9 @@ export const onUpdateGenerator = (
     const updatedFulfillmentEnd = sessionData.update_fulfillments
       ?.find((fulfillment: any) => fulfillment.type === "Delivery")
       ?.end;
-    const result = deepUpdate(deliveryFulfillment.end,updatedFulfillmentEnd)
-    console.log("result of the fulfillment",JSON.stringify(result));
-    
+    const result = deepUpdate(deliveryFulfillment.end, updatedFulfillmentEnd)
+    console.log("result of the fulfillment", JSON.stringify(result));
+
   }
 
   // if (action_id === "on_update_E_WAY_BILL_LOGISTICS") {
@@ -154,55 +154,55 @@ export const onUpdateGenerator = (
   // }
 
   if (action_id === "on_update_E_POD_AT_PICKUP_LOGISTICS") {
-  let at_pickup_obj = {
-    code: "fulfillment_proof",
-    list: [
-      { code: "state", value: "Order-picked-up" },
-      { code: "type", value: "webp" },
-      { code: "url", value: "public link to webp" }
-    ]
-  };
+    let at_pickup_obj = {
+      code: "fulfillment_proof",
+      list: [
+        { code: "state", value: "Order-picked-up" },
+        { code: "type", value: "webp" },
+        { code: "url", value: "public link to webp" }
+      ]
+    };
 
-  existingPayload.message.order.tags.push(
-    JSON.parse(JSON.stringify(at_pickup_obj))
-  );
-
-  const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
-    (fulfillment: any) => fulfillment.type === "Delivery"
-  );
-
-  deliveryFulfillment.state.descriptor.code = "At-pickup";
-}
+    const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
+      (fulfillment: any) => fulfillment.type === "Delivery"
+    );
+    deliveryFulfillment.tags.push(at_pickup_obj)
 
 
 
-if (action_id === "on_update_E_POD_AT_DELIVERY_LOGISTICS") {
-  let at_delivery_obj_1 = {
-  code: "fulfillment_proof",
-  list: [
-    { code: "state", value: "Order-picked-up" },
-    { code: "type", value: "webp" },
-    { code: "url", value: "public link to webp" }
-  ]
-};
+    deliveryFulfillment.state.descriptor.code = "At-pickup";
+  }
 
-let at_delivery_obj_2 = {
-  code: "fulfillment_proof",
-  list: [
-    { code: "state", value: "Order-delivered" },
-    { code: "type", value: "webp" },
-    { code: "url", value: "public link to webp" }
-  ]
-};
 
-existingPayload.message.order.tags.push(at_delivery_obj_1, at_delivery_obj_2);
 
-  const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
-    (fulfillment: any) => fulfillment.type === "Delivery"
-  );
+  if (action_id === "on_update_E_POD_AT_DELIVERY_LOGISTICS") {
+    // let at_delivery_obj = {
+    //   code: "fulfillment_proof",
+    //   list: [
+    //     { code: "state", value: "Order-picked-up" },
+    //     { code: "type", value: "webp" },
+    //     { code: "url", value: "public link to webp" }
+    //   ]
+    // };
 
-  deliveryFulfillment.state.descriptor.code = "At-delivery";
-}
+    let at_delivery_obj = {
+      code: "fulfillment_proof",
+      list: [
+        { code: "state", value: "Order-delivered" },
+        { code: "type", value: "webp" },
+        { code: "url", value: "public link to webp" }
+      ]
+    };
+
+    const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
+      (fulfillment: any) => fulfillment.type === "Delivery"
+    );
+
+    deliveryFulfillment.tags.push(at_delivery_obj)
+
+
+    deliveryFulfillment.state.descriptor.code = "At-delivery";
+  }
 
 
   if (action_id === "on_update_refund_igm") {
