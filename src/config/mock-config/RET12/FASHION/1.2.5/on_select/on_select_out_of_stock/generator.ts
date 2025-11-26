@@ -39,7 +39,7 @@ export async function on_select_out_of_stock_generator(
     // Set quantity and price to 0
     item["@ondc/org/item_quantity"] = { count: 0 };
     item.price = { currency: "INR", value: "0.00" };
-    item.item.price = { currency: "INR", value: "0.00" };
+    // item.item.price = { currency: "INR", value: "0.00" };
 
     if (item.item?.quantity?.available) {
         item.item.quantity.available.count = "0";
