@@ -44,16 +44,27 @@ export async function updateSessionData(
 			} else {
 				const jsonPath = saveData[key as keyof typeof saveData];
 				const result = jsonpath.query(payload, jsonPath);
+				const appendMode = key.startsWith("APPEND#");
+				const actualKey = key.split("#").pop() as string;
 				logger.debug(`updating ${key} for path $${jsonPath}`);
+				if (appendMode) {
+					const existingData =
+						(sessionData[actualKey as keyof typeof sessionData] as any[]) || [];
+					sessionData[actualKey as keyof typeof sessionData] = [
+						...existingData,
+						...result,
+					];
+					continue;
+				}
 				if (
 					isArrayKey<MockSessionData>(
-						key as keyof typeof sessionData,
+						actualKey as keyof typeof sessionData,
 						sessionData
 					)
 				) {
-					sessionData[key as keyof typeof sessionData] = result;
+					sessionData[actualKey as keyof typeof sessionData] = result;
 				} else {
-					sessionData[key as keyof typeof sessionData] = result[0];
+					sessionData[actualKey as keyof typeof sessionData] = result[0];
 				}
 			}
 		}
