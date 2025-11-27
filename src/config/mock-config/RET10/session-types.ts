@@ -72,6 +72,7 @@ export type SessionData = {
   replacementId?: string;
   np_type?: string;
   stateCode?: string;
+  issue_level: any
 };
 
 export type BecknContext = {
