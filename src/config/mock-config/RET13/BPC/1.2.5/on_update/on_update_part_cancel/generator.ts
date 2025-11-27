@@ -80,7 +80,7 @@ export async function on_update_part_cancel_generator(
   existingPayload.message.order.items = sessionData.items;
 
   // Update cancelFulfillment tags
-  cancelFulfillment.tags[0].list[1].value = existingPayload.context.bpp_id; // initiated_by
+  cancelFulfillment.tags[0].list[1].value = "staging-automation.ondc.org"; // initiated_by
   cancelFulfillment.tags[1].list[1].value = cancelId; // item ID
 
   // Update quote_trail value for one canceled item
