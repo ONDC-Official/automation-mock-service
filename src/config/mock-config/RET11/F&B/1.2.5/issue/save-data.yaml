@@ -6,6 +6,7 @@ save-data:
   issue_resolution: $.message.issue.resolutions[*]
   issue_level: $.message.issue.level
   issue_id: $.message.issue.id
+  issue_status: $.message.issue.status
   # issue_id : "$.message.issue.id"
   # issue_created_at : "$.message.issue.created_at"
   # issue_refs : "$.message.issue.refs[*]"
