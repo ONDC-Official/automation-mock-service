@@ -67,6 +67,7 @@ export type SessionData = {
   latest_issue_payload: any;
   provider_id: any;
   issue_id: any;
+  issue_level: any
 };
 
 export type BecknContext = {
