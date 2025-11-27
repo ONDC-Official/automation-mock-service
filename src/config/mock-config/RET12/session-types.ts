@@ -65,6 +65,7 @@ export type SessionData = {
   issue_action: any[]
   issue_resolution: any
   issue_id: any
+  issue_level: any
 };
 
 export type BecknContext = {
