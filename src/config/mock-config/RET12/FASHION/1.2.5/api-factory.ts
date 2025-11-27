@@ -37,7 +37,11 @@ import { on_update_interim_reverseQc_generator } from "./on_update/on_update_int
 import { on_update_approved_generator } from "./on_update/on_update_return_approved/generator";
 import { on_update_picked_generator } from "./on_update/on_update_return_picked/generator";
 import { on_update_return_delivered_generator } from "./on_update/on_update_return_delivered/generator";
-
+import { on_update_buyer_instructions_generator } from "./on_update/on_update_buyer_instructions/generator";
+import { update_buyer_instructions_generator } from "./update/update_buyer_instructions/generator";
+import { update_delivery_address_generator } from "./update/update_delivery_address/generator";
+import { on_update_delivery_address_generator } from "./on_update/on_update_delivery_address/generator";
+import { on_update_delivery_auth_generator } from "./on_update/on_update_delivery_auth/generator";
 import { update_partial_cancel_settlement_generator } from "./update/update_partial_cancel_settlement/generator";
 import { update_reverse_qc_generator } from "./update/update_reverse_qc/generator";
 import { update_reverse_qc_settlement_generator } from "./update/update_reverse_qc_settlement/generator";
@@ -140,6 +144,14 @@ export async function Generator(
       );
     case "update_reverse_qc":
       return update_reverse_qc_generator(existingPayload, sessionData);
+    case "update_buyer_instructions":
+      return update_buyer_instructions_generator(existingPayload, sessionData);
+    case "update_delivery_address":
+      return update_delivery_address_generator(existingPayload, sessionData);
+    case "on_update_delivery_address":
+      return on_update_delivery_address_generator(existingPayload, sessionData);
+    case "on_update_delivery_auth":
+      return on_update_delivery_auth_generator(existingPayload, sessionData);
     case "on_update_interim_reverseQc":
       return on_update_interim_reverseQc_generator(
         existingPayload,
@@ -157,6 +169,8 @@ export async function Generator(
     case "on_update_return_delivered":
     case "on_update_return_delivered_rep":
       return on_update_return_delivered_generator(existingPayload, sessionData);
+    case "on_update_buyer_instructions":
+      return on_update_buyer_instructions_generator(existingPayload, sessionData);
     case "cancel_return_request":
       return cancel_return_request_generator(existingPayload, sessionData);
     case "on_cancel_return_request":
