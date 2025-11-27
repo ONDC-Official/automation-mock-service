@@ -1,5 +1,4 @@
 import { Input, SessionData } from "../../../session-types";
-import { action, getActionsList, isGrievance } from "../default";
 
 export const onIssueStatusGenerator = async (
   existingPayload: any,
@@ -81,79 +80,80 @@ export const onIssueStatusGenerator = async (
       ];
       existingPayload.message.issue.descriptor.short_desc =
         "Issue with product quality";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A2",
+          id: crypto.randomUUID(),
           descriptor: {
             code: "PROCESSING",
             short_desc: "Complaint created",
           },
-          updated_at: "2025-11-04T11:37:59.928Z",
+          updated_at: newDate,
           action_by: "NP2",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "on_issue_processing"
-      );
+      ];
+      existingPayload.message.issue.level = sessionData?.issue_level ?? "OPEN";
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
       break;
 
     case "on_issue_processing_1":
     case "on_issue_processing_2":
       existingPayload.message.issue.status = "PROCESSING";
-      if (sessionData.igm_action === "on_issue_processing_2" && isGrievance)
-        existingPayload.message.issue.level = "GREVIENCE";
       existingPayload.message.issue.actors =
         sessionData.latest_issue_payload?.actors;
       existingPayload.message.issue.descriptor.short_desc =
         "Issue with product quality";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A2",
+          id: crypto.randomUUID(),
           descriptor: {
             code: "PROCESSING",
             short_desc: "Complaint created",
           },
-          updated_at: "2025-11-04T11:37:59.928Z",
+          updated_at: newDate,
           action_by: "NP2",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "on_issue_processing"
-      );
+      ];
+      existingPayload.message.issue.level = sessionData?.issue_level ?? "OPEN";
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
       break;
 
     case "on_issue_need_more_info":
       existingPayload.message.issue.status = "PROCESSING";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A3",
+          id: crypto.randomUUID(),
           descriptor: {
             code: "INFO_REQUESTED",
-            name: "INFO01",
+            name: "INFO001",
             short_desc: "Please provide product image",
           },
-          updated_at: "2025-11-04T11:38:02.643Z",
+          updated_at: newDate,
           action_by: "NP2",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "on_issue_need_more_info"
-      );
+      ];
+      existingPayload.message.issue.level = sessionData?.issue_level ?? "OPEN";
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
-      // existingPayload.message.issue.last_action_id =
-      //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
-      //   "A3";
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
       break;
 
     case "on_issue_provided":
@@ -161,29 +161,26 @@ export const onIssueStatusGenerator = async (
       // existingPayload.message.issue.last_action_id =
       //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
       //   "A5";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A5",
+          id: crypto.randomUUID(),
           descriptor: {
             code: "PROCESSING",
             short_desc: "Complaint created",
           },
-          updated_at: "2025-11-04T11:38:06.745Z",
+          updated_at: newDate,
           action_by: "NP2",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "on_issue_provided"
-      );
+      ];
+      existingPayload.message.issue.level = sessionData?.issue_level ?? "OPEN";
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
-
-      console.log(
-        "🚀 ~ onIssueStatusGenerator ~ on_issue_info_provided:",
-        JSON.stringify(existingPayload)
-      );
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
       break;
 
     case "on_issue_resolution":
@@ -211,26 +208,28 @@ export const onIssueStatusGenerator = async (
       // existingPayload.message.issue.last_action_id =
       //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
       //   "A6";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A6",
+          id: crypto.randomUUID(),
           ref_id: "R_PARENT",
           ref_type: "RESOLUTIONS",
           descriptor: {
             code: "RESOLUTION_PROPOSED",
             short_desc: "Resolution is proposed",
           },
-          updated_at: "2025-11-04T11:49:25.358Z",
+          updated_at: newDate,
           action_by: "NP2",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "on_issue_resolution"
-      );
+      ];
+      existingPayload.message.issue.level = sessionData?.issue_level ?? "OPEN";
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
 
       const resolutions = existingPayload.message.issue.resolutions;
       resolutions.forEach((r: any) => {
@@ -239,7 +238,7 @@ export const onIssueStatusGenerator = async (
           r.tags.forEach((tag: any) => {
             tag.list.forEach((entry: any) => {
               if (entry.descriptor.code === "ITEM") {
-                entry.value = sessionData.items[0].id;
+                entry.value = sessionData?.items?.[0]?.id;
               }
               if (entry.descriptor.code === "REFUND_AMOUNT") {
                 entry.value = "2260";
@@ -286,33 +285,33 @@ export const onIssueStatusGenerator = async (
     case "on_issue_resolution_1":
     case "on_issue_resolution_2":
       existingPayload.message.issue.status = "PROCESSING";
-      if (sessionData.igm_action === "on_issue_resolution_2" && isGrievance)
-        existingPayload.message.issue.level = "GREVIENCE";
       existingPayload.message.issue.actors =
         sessionData.latest_issue_payload?.actors;
       // existingPayload.message.issue.last_action_id =
       //   sessionData.last_actions_id[sessionData.last_actions_id - 1]?.id ||
       //   "A6";
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A6",
+          id: crypto.randomUUID(),
           ref_id: "R_PARENT",
           ref_type: "RESOLUTIONS",
           descriptor: {
             code: "RESOLUTION_PROPOSED",
             short_desc: "Resolution is proposed",
           },
-          updated_at: "2025-11-04T11:49:25.358Z",
+          updated_at: newDate,
           action_by: "NP2",
           actor_details: {
             name: "mock-person",
           },
         },
-        newDate,
-        "on_issue_resolution"
-      );
+      ];
+      existingPayload.message.issue.level = sessionData?.issue_level ?? "OPEN";
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
 
       const resolutionss = existingPayload.message.issue.resolutions;
       resolutionss.forEach((r: any) => {
@@ -321,7 +320,7 @@ export const onIssueStatusGenerator = async (
           r.tags.forEach((tag: any) => {
             tag.list.forEach((entry: any) => {
               if (entry.descriptor.code === "ITEM") {
-                entry.value = sessionData.items[0].id;
+                entry.value = sessionData?.items?.[0]?.id;
               }
               if (entry.descriptor.code === "REFUND_AMOUNT") {
                 entry.value = "2260";
@@ -336,20 +335,18 @@ export const onIssueStatusGenerator = async (
     case "on_issue_resolved":
     case "on_issue_resolved_igm_3":
       const actions = sessionData?.issue_action;
-      if (isGrievance) existingPayload.message.issue.level = "GREVIENCE";
-      console.log(JSON.stringify(actions));
       const getRefIdData: any = actions.find(
         (i: any) => i.descriptor.code === "RESOLUTION_ACCEPTED"
       );
-      console.log(JSON.stringify(getRefIdData));
       existingPayload.message.issue.status = "RESOLVED";
       existingPayload.message.issue.resolutions = sessionData.issue_resolution;
       let sessionActions = sessionData.issue_action;
       const issueActionAccept: any = sessionActions[sessionActions.length - 1];
       const refId = issueActionAccept?.ref_id;
-      existingPayload.message.issue.actions = getActionsList(
+      existingPayload.message.issue.actions = [
+        ...sessionData?.issue_action,
         {
-          id: "A8-9",
+          id: crypto.randomUUID(),
           ref_id: getRefIdData?.ref_id ?? "A1",
           ref_type: "RESOLUTIONS",
           descriptor: {
@@ -362,11 +359,12 @@ export const onIssueStatusGenerator = async (
             name: "mock-person",
           },
         },
-        newDate,
-        "on_issue_resolved"
-      );
+      ];
+      existingPayload.message.issue.level = sessionData?.issue_level ?? "OPEN";
       existingPayload.message.issue.last_action_id =
-        action[action.length - 1]?.id ?? "A22";
+        existingPayload.message.issue.actions[
+          existingPayload.message.issue.actions.length - 1
+        ]?.id ?? "A1";
       if (sessionData.igm_action === "on_issue_resolved_igm_3") {
         existingPayload.message.issue.resolutions =
           sessionData?.issue_resolution ?? "";
@@ -379,17 +377,17 @@ export const onIssueStatusGenerator = async (
       break;
   }
 
-  let actions = existingPayload.message.issue.actions;
-  actions[actions.length - 1].updated_at = newDate;
+  // let actions = existingPayload.message.issue.actions;
+  // actions[actions.length - 1].updated_at = newDate;
 
-  const updatedAction = actions[actions.length - 1];
-  console.log("sessionData.issue_action", sessionData.issue_action);
-  if (sessionData.issue_action.length > 0) {
-    console.log("sessionData.issue_action", sessionData.issue_action);
-    let sessionDataActions = sessionData.issue_action;
-    sessionDataActions.push(updatedAction);
-    existingPayload.message.issue.actions = sessionDataActions;
-  }
+  // const updatedAction = actions[actions.length - 1];
+  // console.log("sessionData.issue_action", sessionData.issue_action);
+  // if (sessionData.issue_action.length > 0) {
+  //   console.log("sessionData.issue_action", sessionData.issue_action);
+  //   let sessionDataActions = sessionData.issue_action;
+  //   sessionDataActions.push(updatedAction);
+  //   existingPayload.message.issue.actions = sessionDataActions;
+  // }
 
   return existingPayload;
 };
