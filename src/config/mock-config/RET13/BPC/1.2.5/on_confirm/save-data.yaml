@@ -3,3 +3,4 @@ save-data:
   on_confirm_updated_at_timestamp: $.message.order.updated_at
   payment: $.message.order.payment
   fulfillments: $.message.order.fulfillments[*]
+  bpp_id: $.context.bpp_id

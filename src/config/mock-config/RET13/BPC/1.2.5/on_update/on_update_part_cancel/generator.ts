@@ -79,8 +79,18 @@ export async function on_update_part_cancel_generator(
   cancelItem.quantity.count = Math.max(cancelItem.quantity.count - 1, 0) ;
   existingPayload.message.order.items = sessionData.items;
 
+  const bppId = existingPayload?.context?.bpp_id;
+
+  if (bppId?.includes("dev-automation")) {
+    cancelFulfillment.tags[0].list[1].value = "dev-automation.ondc.org";
+  } else if (bppId?.includes("staging-automation")) {
+    cancelFulfillment.tags[0].list[1].value = "staging-automation.ondc.org";
+  } else {
+    cancelFulfillment.tags[0].list[1].value = bppId;
+  }
+
   // Update cancelFulfillment tags
-  cancelFulfillment.tags[0].list[1].value = "staging-automation.ondc.org"; // initiated_by
+  // cancelFulfillment.tags[0].list[1].value = existingPayload.context.bpp_id; // initiated_by
   cancelFulfillment.tags[1].list[1].value = cancelId; // item ID
 
   // Update quote_trail value for one canceled item
