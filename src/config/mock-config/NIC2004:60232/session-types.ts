@@ -73,6 +73,7 @@ export interface SessionData {
   on_update_tags: any[],
   issue_resolution: any;
   issue_action: any[];
+  issue_level: any
 };
 
 export type BecknContext = {
