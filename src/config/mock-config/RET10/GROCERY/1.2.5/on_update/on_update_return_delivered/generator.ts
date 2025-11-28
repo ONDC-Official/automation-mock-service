@@ -10,6 +10,12 @@ export async function on_update_return_delivered_generator(
 	existingPayload.message.order.items = sessionData.items;
 	existingPayload.message.order.billing = sessionData.billing;
 	existingPayload.message.order.payment = sessionData.payment;
+	if (sessionData.update_payment) {
+		existingPayload.message.order.payment["@ondc/org/settlement_details"].push(
+		sessionData.update_payment[0][0]
+		);
+		sessionData.update_payment = null
+	}
 	existingPayload.message.order.created_at = sessionData.order_created_at;
 	existingPayload.message.order.updated_at = new Date().toISOString();
 	existingPayload.message.order.quote = sessionData.quote;
@@ -20,7 +26,7 @@ export async function on_update_return_delivered_generator(
 					...f,
 					state: {
 						descriptor: {
-							code: "Order-delivered",
+							code: "Return_Delivered",
 						},
 					},
 					end: {

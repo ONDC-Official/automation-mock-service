@@ -36,3 +36,4 @@ session_data:
   issue_resolution: []
   last_action: any
   issue_id: any
+  update_payment: null
