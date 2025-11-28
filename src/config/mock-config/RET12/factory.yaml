@@ -390,3 +390,28 @@ codes:
     action: on_status
     default: FASHION/1.2.5/on_status/on_status_order_delivered/default.yaml
     message_id: true
+  - code: 329
+    action_id: update_buyer_instructions
+    action: update
+    default: FASHION/1.2.5/update/update_buyer_instructions/default.yaml
+    message_id: true
+  - code: 330
+    action_id: on_update_buyer_instructions
+    action: on_update
+    default: FASHION/1.2.5/on_update/on_update_buyer_instructions/default.yaml
+    message_id: false
+  - code: 331
+    action_id: update_delivery_address
+    action: update
+    default: FASHION/1.2.5/update/update_delivery_address/default.yaml
+    message_id: true
+  - code: 332
+    default: FASHION/1.2.5/on_update/on_update_delivery_address/default.yaml
+    action_id: on_update_delivery_address
+    action: on_update
+    message_id: false
+  - code: 333
+    action_id: on_update_delivery_auth
+    action: on_update
+    default: FASHION/1.2.5/on_update/on_update_delivery_auth/default.yaml
+    message_id: true
