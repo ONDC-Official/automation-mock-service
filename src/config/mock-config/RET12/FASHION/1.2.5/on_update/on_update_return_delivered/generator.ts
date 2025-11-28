@@ -29,14 +29,14 @@ export async function on_update_return_delivered_generator(
           ...f,
           state: {
             descriptor: {
-              code: "Order-delivered",
+              code: "Return_Delivered",
             },
           },
           end: {
             ...f.end,
             time: {
               ...f.end?.time,
-              timeStamp: new Date().toISOString(),
+              timestamp: existingPayload.context.timestamp,
             },
           },
         };
