@@ -1,8 +1,7 @@
 import axios from "axios";
 import logger from "./logger";
 import { saveData } from "../services/data-services";
-import { error } from "console";
- 
+
 export async function sendToApiService(
 	action: string,
 	body: any,
@@ -13,11 +12,11 @@ export async function sendToApiService(
 		const version = body.context.version ?? body.context.core_version;
 		const url = `${process.env.API_SERVICE_URL}/${domain}/${version}/mock/${action}`;
 		const subscriber_url = queryData.subscriber_url;
-    	if (!subscriber_url) {
-      logger.error("subscriber url not provided");
-      throw new Error("subscriber url not provided ");
-    }
-		await saveData(action, body,subscriber_url);
+		if (!subscriber_url) {
+			logger.error("subscriber url not provided");
+			throw new Error("subscriber url not provided ");
+		}
+		await saveData(action, body, subscriber_url);
 		logger.debug(`Sending response to api service ${url} ${action}`);
 		await axios.post(url, body, {
 			params: {
