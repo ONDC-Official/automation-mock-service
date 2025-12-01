@@ -15,6 +15,7 @@ session_data:
   tat: null
   payment: null
   update_payment: null
+  on_init_payment: null
   replacementId: null
   order_state: null
   last_action: null
