@@ -26,6 +26,7 @@ export type SessionData = {
   order_id: string | undefined;
   payment: any | undefined;
   update_payment: any;
+  on_init_payment: any;
   order_state: string | undefined;
   last_action: string | undefined;
   city_code: string | undefined;
