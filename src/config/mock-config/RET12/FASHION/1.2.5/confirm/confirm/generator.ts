@@ -24,12 +24,14 @@ export async function confirm_generator(
 	existingPayload.message.order.payment.params.transaction_id =
 		"mock_payment_id_123";
 
-	if(sessionData.on_init_payment){
-		existingPayload.message.order.payment["@ondc/org/settlement_details"].push(
-			sessionData.on_init_payment[0][0]
-		);
-		sessionData.on_init_payment = null
+	if (sessionData.on_init_payment) {
+	existingPayload.message.order.payment["@ondc/org/settlement_details"] =
+		sessionData.on_init_payment.flat();
+
+		sessionData.on_init_payment = null;
 	}
+
+
 	existingPayload.message.order.fulfillments = createFulfillments(
 		"confirm",
 		"confirm",
