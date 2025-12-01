@@ -12,7 +12,7 @@ order:
       name: my house or door or floor
     phone: "9898989898"
     name: ONDC buyer
-    email: nobody@nomail.com
+    email: example@gmail.com
     created_at: "2024-08-14T09:10:34.369Z"
     updated_at: "2024-08-14T09:10:34.369Z"
   items:
@@ -30,7 +30,7 @@ order:
       tracking: true
       end:
         contact:
-          email: nobody@nomail.com
+          email: example@gmail.com
           phone: "9898989898"
         person:
           name: ONDC Buyer

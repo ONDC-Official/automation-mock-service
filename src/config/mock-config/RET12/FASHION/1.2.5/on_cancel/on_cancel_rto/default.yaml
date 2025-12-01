@@ -24,7 +24,7 @@ order:
       name: my house or door or floor
     phone: "9898989898"
     name: ONDC buyer
-    email: nobody@nomail.com
+    email: example@gmail.com
     created_at: '2024-08-08T10:01:24.650Z'
     updated_at: '2024-08-08T10:01:24.650Z'
   fulfillments:
@@ -52,7 +52,7 @@ order:
             name: my house or door or floor
         contact:
           phone: "9594663710"
-          email: nobody@nomail.com
+          email: example@gmail.com
         time:
           range:
             start: '2024-08-08T10:09:58.799Z'
@@ -62,7 +62,7 @@ order:
         person:
           name: John Doe
         contact:
-          email: nobody@nomail.com
+          email: example@gmail.com
           phone: "9898989898"
         location:
           gps: 12.966545,77.592074
@@ -103,7 +103,7 @@ order:
           code: RTO-Initiated
       start:
         contact:
-          email: nobody@nomail.com
+          email: example@gmail.com
           phone: "9898989898"
         location:
           gps: 12.966545,77.592074
@@ -133,7 +133,7 @@ order:
             name: my house or door or floor
         contact:
           phone: "9594663710"
-          email: nobody@nomail.com
+          email: example@gmail.com
       tags:
         - code: quote_trail
           list:
