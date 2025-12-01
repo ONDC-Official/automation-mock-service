@@ -19,7 +19,7 @@ order:
       name: my house or door or floor
     phone: "9898989898"
     name: ONDC Buyer
-    email: nobody@nomail.com
+    email: example@gmail.com
     created_at: "2024-08-14T09:10:34.369Z"
     updated_at: "2024-08-14T09:10:34.369Z"
   fulfillments:
@@ -27,7 +27,7 @@ order:
       type: Delivery
       end:
         contact:
-          email: nobody@nomail.com
+          email: example@gmail.com
           phone: "9898989898"
         location:
           gps: 12.966545,77.592074

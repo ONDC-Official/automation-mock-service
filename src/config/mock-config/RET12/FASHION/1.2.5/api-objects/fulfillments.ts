@@ -775,7 +775,7 @@ export function createFulfillments(
     const defaultEnd = {
       end: {
         contact: {
-          email: "nobody@nomail.com",
+          email: "example@gmail.com",
           phone: "9898989898",
         },
         location: {
@@ -876,7 +876,7 @@ export function createFulfillments(
             },
             contact: {
               phone: "9594663710",
-              email: "nobody@nomail.com",
+              email: "example@gmail.com",
             },
           },
           end: f.end,

@@ -24,7 +24,7 @@ order:
       state: Karnataka
       country: IND
       area_code: '560027'
-    email: nobody@nomail.com
+    email: example@gmail.com
     phone: '9898989898'
     created_at: '2025-02-10T07:27:02.436Z'
     updated_at: '2025-02-10T07:27:02.436Z'
