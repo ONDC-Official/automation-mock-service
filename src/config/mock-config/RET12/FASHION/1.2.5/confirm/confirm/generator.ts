@@ -23,6 +23,13 @@ export async function confirm_generator(
 		sessionData.quote?.price?.value;
 	existingPayload.message.order.payment.params.transaction_id =
 		"mock_payment_id_123";
+
+	if(sessionData.payment){
+		existingPayload.message.order.payment["@ondc/org/settlement_details"].push(
+			sessionData.payment[0][0]
+		);
+		sessionData.payment = null
+	}
 	existingPayload.message.order.fulfillments = createFulfillments(
 		"confirm",
 		"confirm",
