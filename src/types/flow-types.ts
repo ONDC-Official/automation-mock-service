@@ -37,4 +37,6 @@ export interface SequenceStep {
 	stackable?: boolean;
 	input?: FormConfigType;
 	expect?: boolean;
+	force_proceed?: boolean;
+	label?: string;
 }
