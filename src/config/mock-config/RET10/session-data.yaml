@@ -37,3 +37,5 @@ session_data:
   last_action: any
   issue_id: any
   update_payment: null
+  on_issue_actions: null
+  issue_actions: null

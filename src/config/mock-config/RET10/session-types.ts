@@ -73,6 +73,9 @@ export type SessionData = {
   np_type?: string;
   stateCode?: string;
   issue_level: any
+  issue_created_at: any
+  on_issue_actions: any
+  issue_actions: any
 };
 
 export type BecknContext = {
