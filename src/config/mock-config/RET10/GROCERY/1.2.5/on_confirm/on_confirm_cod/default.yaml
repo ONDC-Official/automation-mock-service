@@ -142,5 +142,7 @@ order:
           value: ABCDE1234F
     - code: bap_terms
       list:
+        - code: static_terms
+          value: https://github.com/ONDC-Official/protocol-network-extension/discussions/79
         - code: tax_number
           value: 33AAAAA0000A1Z5
