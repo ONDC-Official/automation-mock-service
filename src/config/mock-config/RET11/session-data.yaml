@@ -40,3 +40,5 @@ session_data:
   selected_np_fees: []
   last_actions_id: any
   issue_id: any
+  on_issue_actions: null
+  issue_actions: null
