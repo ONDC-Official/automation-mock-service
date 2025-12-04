@@ -146,6 +146,10 @@ order:
           value: PAN_number_of_provider
     - code: bap_terms
       list:
+        - code: accept_bpp_terms
+          value: Y
+        - code: static_terms
+          value: https://github.com/ONDC-Official/NP-Static-Terms/buyerNP_BNP/1.0/tc.pdf
         - code: tax_number
           value: 00ABCCH7409R1ZZ
     - code: bnp_receivables_claim

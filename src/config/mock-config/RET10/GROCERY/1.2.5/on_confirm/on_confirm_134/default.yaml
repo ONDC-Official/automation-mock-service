@@ -118,6 +118,8 @@ order:
   tags:
     - code: bap_terms
       list:
+        - code: static_terms
+          value: https://github.com/ONDC-Official/protocol-network-extension/discussions/79
         - code: tax_number
           value: GSTIN1234567890
     - code: bpp_terms
