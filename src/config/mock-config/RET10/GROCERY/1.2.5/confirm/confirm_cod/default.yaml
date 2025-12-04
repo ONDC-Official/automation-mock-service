@@ -118,6 +118,10 @@ order:
           value: AAAAA0000A
     - code: bap_terms
       list:
+        - code: accept_bpp_terms
+          value: Y
+        - code: static_terms
+          value: https://github.com/ONDC-Official/NP-Static-Terms/buyerNP_BNP/1.0/tc.pdf
         - code: tax_number
           value: 33AAAAA0000A1Z5
   state: Created
