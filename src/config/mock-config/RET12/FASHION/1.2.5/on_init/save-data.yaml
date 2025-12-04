@@ -4,3 +4,4 @@ save-data:
   bpp_terms: $.message.order.tags[?(@.code == 'bpp_terms')]
   quote: $.message.order.quote
   payment: $.message.order.payment
+  on_init_payment: $.message.order.payment["@ondc/org/settlement_details"]

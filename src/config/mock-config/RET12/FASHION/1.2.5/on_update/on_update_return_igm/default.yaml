@@ -24,7 +24,7 @@ order:
       state: "Karnataka"
       country: "IND"
       area_code: "560037"
-    email: "nobody@nomail.com"
+    email: "example@gmail.com"
     phone: "9886098860"
     created_at: "2025-01-08T09:00:00.000Z"
     updated_at: "2025-01-08T09:00:00.000Z"
@@ -52,7 +52,7 @@ order:
           timestamp: "2025-01-08T10:25:00.000Z"
         contact:
           phone: "9886098860"
-          email: "nobody@nomail.com"
+          email: "example@gmail.com"
       end:
         location:
           gps: "12.4535,77.9283"
@@ -70,7 +70,7 @@ order:
           name: "name_of_person"
         contact:
           phone: "9886098860"
-          email: "nobody@nomail.com"
+          email: "example@gmail.com"
       agent:
         name: "agent_name"
         phone: "9886098860"
