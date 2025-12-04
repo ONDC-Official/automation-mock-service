@@ -25,10 +25,17 @@ export async function on_confirm_commercial_model_generator(
 	existingPayload.message.order.quote = sessionData.quote;
 	existingPayload.message.order.payment = sessionData.payment;
 	const existingTags = existingPayload.message.order.tags as TagsType;
-	const bapTerms = existingTags.find((f) => f.code === "bap_terms") || {
-		code: "bap_terms",
-		list: sessionData.bap_terms?.list || [{ code: "tax_number", value: "00ABCCH7409R1ZZ" }],
-	};
+
+	const bapTerms = existingTags.find((f: any) => f.code === "bap_terms");
+	if (bapTerms) {
+		bapTerms.list = sessionData.bap_terms.list
+            .filter((i: any) => i.code !== "accept_bpp_terms")
+            .map((i: any) =>
+            i.code === "static_terms"
+                ? { ...i, value: "https://github.com/ONDC-Official/protocol-network-extension/discussions/79" }
+                : i
+        );
+	}
 	existingPayload.message.order.tags = [
 		bapTerms,
 		{
