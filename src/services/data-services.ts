@@ -20,6 +20,8 @@ export function updateSessionData(
 		message: string;
 	}
 ) {
+	saveData["bap_id"] = "$.context.bap_id"
+	saveData["bpp_id"] = "$.context.bpp_id"
 	logger.info(`updating session`);
 	try {
 		for (const key in saveData) {
@@ -85,9 +87,13 @@ export async function loadMockSessionData(
 	let sessionData: MockSessionData = {} as MockSessionData;
 	if (!keyExists) {
 		const raw = defaultSessionData();
+		const apiServiceUrl =
+			process.env.API_SERVICE_URL ||
+			"https://dev-automation.ondc.org/api-service";
+		const ownerId = apiServiceUrl.split("//")[1].split("/")[0];
 		sessionData = raw.session_data;
 		sessionData.transaction_id = transactionID;
-		sessionData.bpp_id = sessionData.bap_id = "staging-automation.ondc.org";
+		sessionData.bpp_id = sessionData.bap_id = ownerId;
 		sessionData.bap_uri = "https://dev-automation.ondc.org/buyer";
 		sessionData.bpp_uri = "https://dev-automation.ondc.org/seller";
 		sessionData.subscriber_url = subscriber_url;
