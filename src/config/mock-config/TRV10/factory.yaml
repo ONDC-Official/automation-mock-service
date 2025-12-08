@@ -351,3 +351,8 @@ codes:
     action: on_update
     default: TRV10/2.1.0/on_update/default.yaml
     message_id: true
+  - code: 170
+    action_id: on_status_ride_started_soft_update
+    action: on_status
+    default: TRV10/2.1.0/on_status/default.yaml
+    message_id: true

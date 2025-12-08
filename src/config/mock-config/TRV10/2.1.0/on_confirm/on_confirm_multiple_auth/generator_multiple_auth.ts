@@ -100,7 +100,7 @@ function updateFulfillments(fulfillments: any[]) {
       const newTime = new Date(now.getTime() + 15 * 60000).toISOString();
       fulfillment.stops[1] = {
         authorization: {
-          token: "234234",
+          token: "234235",
           type: "OTP",
           valid_to: newTime,
           status: "UNCLAIMED",
@@ -112,7 +112,7 @@ function updateFulfillments(fulfillments: any[]) {
         delete endStop.location;
       }
       endStop.authorization = {
-        token: "234234",
+        token: "234235",
         type: "OTP",
         valid_to: newTime,
         status: "UNCLAIMED",

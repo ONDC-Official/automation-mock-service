@@ -110,6 +110,38 @@ function updateItemInfoTags(tags: any[]) {
   });
 }
 
+function updateDistanceFare(quote: any) {
+  if (!quote || !Array.isArray(quote.breakup)) return quote;
+
+  let total = 0;
+
+  quote.breakup = quote.breakup.map((item: any) => {
+    const value = Number(item?.price?.value || 0);
+
+    if (item.title === "DISTANCE_FARE") {
+      const updatedValue = value + 10;
+      total += updatedValue;
+
+      return {
+        ...item,
+        price: {
+          ...item.price,
+          value: updatedValue.toString(),
+        },
+      };
+    }
+
+    total += value;
+    return item;
+  });
+
+  if (quote.price) {
+    quote.price.value = total.toString();
+  }
+
+  return quote;
+}
+
 export async function onUpdateRideSoftUpdateGenerator(
   existingPayload: any,
   sessionData: SessionData
@@ -133,6 +165,12 @@ export async function onUpdateRideSoftUpdateGenerator(
     }
   }
 
+  if (existingPayload.message.order.quote) {
+    existingPayload.message.order.quote = updateDistanceFare(
+      existingPayload.message.order.quote
+    );
+  }
+
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
   if (existingPayload.message.order.tags) {
     existingPayload.message.order.tags = updateSettlementAmount(
@@ -146,6 +184,24 @@ export async function onUpdateRideSoftUpdateGenerator(
       updateFulfillmentRouteTags(
         existingPayload.message.order.fulfillments[0].tags
       );
+
+    console.log(
+      "sessionData?.update_stop",
+      JSON.stringify(sessionData?.update_stop)
+    );
+    if (sessionData?.update_stop) {
+      console.log('item.stops', JSON.stringify(existingPayload.message.order.fulfillments[0].stops))
+      existingPayload.message.order.fulfillments[0].stops?.map((stop: any) => {
+        console.log("stop.type", JSON.stringify(stop.type));
+        if (stop.type === "END") {
+          console.log(
+            "sessionData.update_stop[0].location.gps;",
+            JSON.stringify(sessionData.update_stop[0].location.gps)
+          );
+          stop.location.gps = sessionData.update_stop[0].location.gps;
+        }
+      });
+    }
   }
 
   if (existingPayload.message.order.items?.length > 0) {
@@ -154,6 +210,7 @@ export async function onUpdateRideSoftUpdateGenerator(
         if (Array.isArray(item.tags)) {
           item.tags = updateItemInfoTags(item.tags);
         }
+        item.price.value = (Number(item.price.value) + 10).toString();
         return item;
       });
   }
