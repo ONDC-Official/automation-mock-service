@@ -52,6 +52,8 @@ import { onIssueStatusGenerator } from "./on_issue/generator";
 import { issueStatusGenerator } from "./issue/generator";
 import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/generator";
 import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
+import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
+import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 
 export async function Generator(
   action_id: string,
@@ -326,6 +328,40 @@ export async function Generator(
       );
     case "on_status_igm_3":
       return on_status_order_delivered_generator(existingPayload, sessionData);
+
+      // _____________IGM_1.0.0______________
+    case "issue_open_100":
+      return await issueStatusGenerator_100(
+        existingPayload,
+        {
+          ...sessionData,
+          igm_action: "issue_open",
+        },
+        inputs
+      );
+    case "on_issue_processing_100":
+      return await onIssueStatusGenerator_100(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_processing",
+      });
+    case "on_issue_resolved_100":
+      return await onIssueStatusGenerator_100(
+        existingPayload,
+        {
+          ...sessionData,
+          igm_action: "on_issue_resolved",
+        },
+        inputs
+      );
+    case "issue_close_100":
+      return await issueStatusGenerator_100(
+        existingPayload,
+        {
+          ...sessionData,
+          igm_action: "issue_close",
+        },
+        inputs
+      );
     default:
       console.log(action_id);
       throw new Error("Invalid action id found! ");
