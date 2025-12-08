@@ -25,31 +25,26 @@ function updateSettlementAmount(terms: any[], quote: any) {
   return terms;
 }
 
-function updateFulfillmentStatus(order: any) {
-  // Check if fulfillments exist
+function updateFulfillmentAndAuthorization(order: any) {
+  // Update fulfillment state to RIDE_STARTED
   if (order.fulfillments) {
     order.fulfillments.forEach((fulfillment: any) => {
-      fulfillment.state.descriptor.code = "RIDE_ENDED";
-    });
-  }
-  return order;
-}
+      if (fulfillment.state?.descriptor?.code) {
+        fulfillment.state.descriptor.code = "RIDE_STARTED";
+      }
 
-function updatePaymentFromQuote(order: any, transaction_id: any) {
-  const amount = order.quote.price.value; // Extract amount from quote
-  const randomPaymentId = Math.random().toString(36).substring(2, 15);
-  if (order.payments) {
-    order.payments.forEach((payment: any) => {
-      payment.params = {
-        amount: amount,
-        transaction_id: randomPaymentId,
-      }; // Set amount from quote
-      payment.status = "PAID"; // Change status to PAID
+      // Find stop with type START and update authorization status
+      fulfillment.stops?.forEach((stop: any) => {
+        if (stop.authorization && stop.type === "START") {
+          stop.authorization.status = "CLAIMED";
+        }
+      });
     });
   }
 
   return order;
 }
+
 // Helper function to slightly modify distance and ETA
 function updateItemInfoTags(tags: any[]) {
   return tags.map((tag) => {
@@ -74,6 +69,7 @@ function updateItemInfoTags(tags: any[]) {
     return tag;
   });
 }
+
 function updateFulfillmentRouteTags(tags: any[]) {
   return tags.map((tag) => {
     if (tag.descriptor?.code === "ROUTE_INFO" && Array.isArray(tag.list)) {
@@ -81,7 +77,7 @@ function updateFulfillmentRouteTags(tags: any[]) {
         ...tag,
         list: tag.list.map((t: any) => {
           if (t.descriptor.code === "ENCODED_POLYLINE") {
-            return { ...t, value: t.value + "G" };
+            return { ...t, value: t.value + "I" };
           }
           if (t.descriptor.code === "WAYPOINTS") {
             const waypoints = JSON.parse(t.value);
@@ -102,7 +98,8 @@ function updateFulfillmentRouteTags(tags: any[]) {
     return tag;
   });
 }
-export async function onStatusRidePaidGenerator(
+
+export async function onStatusRideStartedSoftUpdateGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
@@ -110,11 +107,7 @@ export async function onStatusRidePaidGenerator(
     existingPayload,
     sessionData
   );
-  existingPayload.message.order = updatePaymentFromQuote(
-    existingPayload.message.order,
-    sessionData.transaction_id
-  );
-  existingPayload.message.order = updateFulfillmentStatus(
+  existingPayload.message.order = updateFulfillmentAndAuthorization(
     existingPayload.message.order
   );
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
@@ -141,6 +134,6 @@ export async function onStatusRidePaidGenerator(
         return item;
       });
   }
-  existingPayload.message.order.status = "COMPLETED";
+  await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
   return existingPayload;
 }

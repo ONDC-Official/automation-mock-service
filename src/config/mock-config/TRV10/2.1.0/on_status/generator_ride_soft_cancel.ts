@@ -100,12 +100,20 @@ export async function onStatusRideCancelGenerator(
   existingPayload.message.order = updateFulfillmentStatus(
     existingPayload.message.order
   );
+
+  if (sessionData?.tags) {
+    existingPayload.message.order.tags = sessionData.tags[0];
+  }
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
   if (existingPayload.message.order.tags) {
     existingPayload.message.order.tags = updateSettlementAmount(
       existingPayload.message.order.tags,
       sessionData.quote
     );
+  }
+
+  if(sessionData.quote){
+    existingPayload.message.order.quote = sessionData.quote
   }
 
   if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
@@ -124,6 +132,7 @@ export async function onStatusRideCancelGenerator(
         return item;
       });
   }
-  existingPayload.message.order.status = "SOFT_CANCEL";
+  existingPayload.message.order.status = "ACTIVE";
+  await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
   return existingPayload;
 }

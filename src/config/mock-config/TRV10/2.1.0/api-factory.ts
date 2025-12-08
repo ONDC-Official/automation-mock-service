@@ -65,6 +65,7 @@ import { onConfirmMultipleStopsRentalGenerator } from "./on_confirm/generator-re
 import { onConfirmMultipleAuthGenerator } from "./on_confirm/on_confirm_multiple_auth/generator_multiple_auth";
 import { cancelTechnicalCancellationGenerator } from "./cancel/generator-technical-cancellation";
 import { cancelTechnicalCancellationHardGenerator } from "./cancel/generator-technical-cancellation-hard";
+import { onStatusRideStartedSoftUpdateGenerator } from "./on_status/generator_ride_started_soft_update";
 
 
 export async function Generator(
@@ -115,6 +116,8 @@ export async function Generator(
             return await onStatusRideCancelGenerator(existingPayload, sessionData);
         case "on_status_ride_started":
             return await onStatusRideStartedGenerator(existingPayload, sessionData);
+        case "on_status_ride_started_soft_update":
+            return await onStatusRideStartedSoftUpdateGenerator(existingPayload, sessionData);
         case "on_update":
             return await onUpdateRideEndedGenerator(existingPayload, sessionData);
         case "status":
