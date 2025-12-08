@@ -46,3 +46,5 @@ session_data:
   issue_action: []
   issue_resolution: []
   issue_id: any
+  on_issue_actions: null
+  issue_actions: null
