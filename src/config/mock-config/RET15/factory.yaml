@@ -399,3 +399,26 @@ codes:
     action: on_status
     default: APPLIANCES/1.2.5/on_status/on_status_order_delivered/default.yaml
     message_id: true
+
+    # _________________________IMG_1.0.0_________________________
+
+  - code: 340
+    action_id: issue_open_100
+    action: issue
+    default: APPLIANCES/1.2.5/issue/issue_100/issue_open/default.yaml
+    message_id: true
+  - code: 341
+    action_id: on_issue_processing_100
+    action: on_issue
+    default: APPLIANCES/1.2.5/on_issue/on_issue_100/on_issue_processing/default.yaml
+    message_id: false  
+  - code: 342
+    action_id: on_issue_resolved_100
+    action: on_issue_status
+    default: APPLIANCES/1.2.5/on_issue/on_issue_100/on_issue_resolved/default.yaml
+    message_id: true  
+  - code: 343
+    action_id: issue_close_100
+    action: issue
+    default: APPLIANCES/1.2.5/issue/issue_100/issue_close/default.yaml
+    message_id: true
