@@ -22,6 +22,10 @@ export async function select_generator(
   const inputs = sessionData.user_inputs as SelectInputType;
 	if (!inputs) return existingPayload;
 
+	if(inputs.provider){
+		existingPayload.message.order.provider.id = inputs.provider
+	}
+
   if (inputs.provider_location) {
 		existingPayload.message.order.provider.locations =
 			inputs.provider_location.map((location:any) => {
