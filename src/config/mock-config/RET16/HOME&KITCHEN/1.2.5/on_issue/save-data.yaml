@@ -4,3 +4,5 @@ save-data:
   issue_action : $.message.issue.actions[*]
   issue_resolution: $.message.issue.resolutions[*]
   last_actions_id: $.message.issue.actions[*]
+  # _____________________IGM1.0.0______________________________
+  on_issue_actions: $.message.issue.issue_actions
