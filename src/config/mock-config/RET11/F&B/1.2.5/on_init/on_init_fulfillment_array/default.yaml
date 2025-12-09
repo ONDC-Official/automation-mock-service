@@ -147,7 +147,7 @@ message:
         state: Karnataka
         country: IND
         area_code: "560037"
-      tax_number: XXXXXXXXXXXXXXX
+      tax_number: 29AAACU1901H1ZK
       email: nobody@nomail.com
       phone: "9886098860"
       created_at: "2025-01-08T09:00:00.000Z"
@@ -300,6 +300,6 @@ message:
       - code: bpp_terms
         list:
           - code: tax_number
-            value: gst_number_of_sellerNP
+            value: 00ABCCH7409R1ZZ
           - code: provider_tax_number
-            value: PAN_number_of_provider
+            value: ABCDE1234F

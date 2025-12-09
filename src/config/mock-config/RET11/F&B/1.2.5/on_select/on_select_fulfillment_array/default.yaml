@@ -27,7 +27,7 @@ message:
           descriptor:
             code: "Serviceable"
       - id: F2
-        type: "Delivery"
+        type: "Self-Pickup"
         "@ondc/org/provider_name": "LSP 2 Provider"
         tracking: false
         "@ondc/org/category": Takeaway
