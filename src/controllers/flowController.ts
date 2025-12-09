@@ -379,7 +379,9 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				if (!req.body.inputs || !req.body.inputs.submission_id) {
 					throw new Error("submission_id not found in inputs");
 				}
-				const mockDynamicFormAction = getMockActionObject(latestMeta.actionId);
+				const mockDynamicFormAction = await getMockActionObject(
+					latestMeta.actionId
+				);
 				const saveData = mockDynamicFormAction.saveData;
 				const sessionData = await loadMockSessionData(txId, subscriberUrl);
 				const saveDataObj = saveData?.["save-data"];
@@ -399,9 +401,14 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				sessionData[firstKey as keyof typeof sessionData] =
 					req.body.inputs.submission_id;
 				await saveCompleteData(JSON.stringify(sessionData), txId);
-				
+
 				console.log("check+++++", subscriberUrl, txId);
-				console.log("check+++++", latestMeta.actionId, version, req.body.inputs.submission_id);
+				console.log(
+					"check+++++",
+					latestMeta.actionId,
+					version,
+					req.body.inputs.submission_id
+				);
 				await sendToApiServiceAboutForm(
 					subscriberUrl,
 					txId,
@@ -418,12 +425,6 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			sessionData.flow_id = txData.flowId;
 			sessionData.session_id = txData.sessionId;
 			sessionData.domain = process.env.DOMAIN?.split(":")[1];
-			let mockResponse = await generateMockResponse(
-				txData.sessionId as string,
-				sessionData,
-				latestMeta.actionId,
-				req.body.inputs
-			);
 			// const repeatTimes = sessionData.REPEAT_NEXT_API ?? latestMeta.repeat ?? 1;
 			for (let i = 0; i < 1; i++) {
 				// sessionData = await GetMockSessionDataForGeneration(
