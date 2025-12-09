@@ -163,6 +163,16 @@ export async function onUpdateRideAssignedGenerator(
     );
   }
 
+  existingPayload.message.order.fulfillments[0].stops.push({
+    type: "END",
+    authorization: {
+      type: "OTP",
+      token: generateToken(),
+      valid_to: new Date(Date.now() + 300 * 60000).toISOString(),
+      status: "UNCLAIMED",
+    },
+  });
+
   if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
     existingPayload.message.order.fulfillments[0].tags =
       updateFulfillmentRouteTags(
