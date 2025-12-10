@@ -14,6 +14,7 @@ import { onSelectOOSGenerator } from "./on_select/on_select_oos/generator";
 import { cancelGenerator } from "./cancel/generator";
 import { onCancelGenerator } from "./on_cancel/generator";
 import { cancelForceGenerator } from "./cancel/cancel_force/generator";
+import { cancelNoGenerator } from "./cancel/cancel_no/generator";
 import { onSelectMultipleFulfillmentGenerator } from "./on_select/on_select_multiple_fulfillment/generator";
 import { trackGenerator } from "./track/generator";
 import { onTrackGenerator } from "./on_track/generator";
@@ -165,6 +166,8 @@ export async function Generator(
       return await cancelGenerator(existingPayload, sessionData);
     case "cancel_force":
       return await cancelForceGenerator(existingPayload, sessionData);
+    case "cancel_no":
+      return await cancelNoGenerator(existingPayload, sessionData, inputs);
     case "on_cancel":
       return await onCancelGenerator(existingPayload, sessionData, inputs);
     case "on_cancel_rto":
