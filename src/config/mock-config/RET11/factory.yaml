@@ -432,5 +432,9 @@ codes:
     action: issue
     default: issue/issue_100/issue_close/default.yaml
     message_id: true    
-
+  - code: 344
+    action_id: cancel_no
+    action: cancel
+    default: cancel/cancel_no/default.yaml
+    message_id: true
     
