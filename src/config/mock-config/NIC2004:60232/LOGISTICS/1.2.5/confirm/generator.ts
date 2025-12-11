@@ -9,7 +9,7 @@ export const confirmGenerator = (
   existingPayload: any,
   sessionData: SessionData,
   inputs: Input | undefined,
-  action_id:string
+  action_id: string
 ) => {
   existingPayload.message.order.id = uuidv4();
 
@@ -68,7 +68,7 @@ export const confirmGenerator = (
       sessionData.cancellation_terms;
   }
   existingPayload.message.order.fulfillments[0].start.time = {
-    duration: sessionData.on_search_fulfillment.start.time.duration,
+    duration: action_id === "confirm_REVERSE_QC_LOGISTICS" ? sessionData.on_search_return_fulfillment.start.time.duration : sessionData.on_search_fulfillment.start.time.duration,
   };
 
   existingPayload.message.order.fulfillments[0].start.person = {
@@ -324,7 +324,7 @@ export const confirmGenerator = (
     },
 
     // Dynamically create linked_order_item for each item
-    ...(sessionData?.on_search_items ?? []).map((item: any) => {      
+    ...(sessionData?.on_search_items ?? []).map((item: any) => {
       const baseList = [
         { code: "category", value: sessionData?.retail_category || "Grocery" },
         { code: "name", value: "item1" },
@@ -339,7 +339,7 @@ export const confirmGenerator = (
       if (
         action_id === "confirm_E_WAY_BILL_LOGISTICS"
       ) {
-        baseList.push( 
+        baseList.push(
           { code: "hsn_code", value: "1:2345" },
           { code: "ebn_exempt", value: item.ebn_exempt || "no" }
         );
@@ -461,45 +461,45 @@ export const confirmGenerator = (
   });
 
   existingPayload.message.order.fulfillments =
-  existingPayload.message.order.fulfillments.map(
-    (fulfillment: {
-      start: { instructions: any };
-      end: { instructions: any };
-      tags: any[];
-    }) => {
-      const startCode = sessionData?.static_pickup_otp;
-      const endCode = sessionData?.static_delivery_otp;
+    existingPayload.message.order.fulfillments.map(
+      (fulfillment: {
+        start: { instructions: any };
+        end: { instructions: any };
+        tags: any[];
+      }) => {
+        const startCode = sessionData?.static_pickup_otp;
+        const endCode = sessionData?.static_delivery_otp;
 
-      let updatedStartInstructions;
-      let updatedEndInstructions;
+        let updatedStartInstructions;
+        let updatedEndInstructions;
 
-      // ✅ Case 1: Explicit seller & buyer instructions
-      if (action_id === "confirm_SELLER_BUYER_INSTRUCTIONS") {
-        updatedStartInstructions = {
-          code: "2",
-          short_desc: "123123",
-          long_desc: "additional instructions for pickup e.g. register or counter no",
-          additional_desc: {
-            content_type: "text/html",
-            url: "http://pickup-info.com",
-          },
-        };
+        // ✅ Case 1: Explicit seller & buyer instructions
+        if (action_id === "confirm_SELLER_BUYER_INSTRUCTIONS") {
+          updatedStartInstructions = {
+            code: "2",
+            short_desc: "123123",
+            long_desc: "additional instructions for pickup e.g. register or counter no",
+            additional_desc: {
+              content_type: "text/html",
+              url: "http://pickup-info.com",
+            },
+          };
 
-        updatedEndInstructions = {
-          code: "2",
-          short_desc: "987657",
-          long_desc: "additional instructions for delivery e.g. leave package outside door",
-          additional_desc: {
-            content_type: "text/html",
-            url: "http://delivery-info.com",
-          },
-        };
-      } 
-      // ✅ Case 2: OTP / RTO based logic
-      else {
-        updatedStartInstructions =
-          startCode === "5"
-            ? {
+          updatedEndInstructions = {
+            code: "2",
+            short_desc: "987657",
+            long_desc: "additional instructions for delivery e.g. leave package outside door",
+            additional_desc: {
+              content_type: "text/html",
+              url: "http://delivery-info.com",
+            },
+          };
+        }
+        // ✅ Case 2: OTP / RTO based logic
+        else {
+          updatedStartInstructions =
+            startCode === "5"
+              ? {
                 code: "5",
                 short_desc: "9870", // static OTP for pickup
                 long_desc: "additional instructions for pickup",
@@ -508,21 +508,21 @@ export const confirmGenerator = (
                   url: "http://description.com",
                 },
               }
-            : isReadyToShip
-            ? {
-                code: "2",
-                short_desc: "123123",
-                long_desc: "additional instructions for pickup",
-                additional_desc: {
-                  content_type: "text/html",
-                  url: "http://description.com",
-                },
-              }
-            : undefined;
+              : isReadyToShip
+                ? {
+                  code: "2",
+                  short_desc: "123123",
+                  long_desc: "additional instructions for pickup",
+                  additional_desc: {
+                    content_type: "text/html",
+                    url: "http://description.com",
+                  },
+                }
+                : undefined;
 
-        updatedEndInstructions =
-          endCode === "5"
-            ? {
+          updatedEndInstructions =
+            endCode === "5"
+              ? {
                 code: "5",
                 short_desc: "6871", // static OTP for delivery
                 long_desc: "additional instructions for delivery",
@@ -531,33 +531,54 @@ export const confirmGenerator = (
                   url: "http://description.com",
                 },
               }
-            : isReadyToShip
-            ? {
-                code: "2",
-                short_desc: "987657",
-                long_desc: "additional instructions for delivery",
-                additional_desc: {
-                  content_type: "text/html",
-                  url: "http://description.com",
-                },
+              : isReadyToShip
+                ? {
+                  code: "2",
+                  short_desc: "987657",
+                  long_desc: "additional instructions for delivery",
+                  additional_desc: {
+                    content_type: "text/html",
+                    url: "http://description.com",
+                  },
+                }
+                : undefined;
+        }
+
+        // ✅ RTO tag extraction
+        const rtoTag = fulfillment.tags.find(
+          (tag: { code: string }) => tag.code === "rto_action"
+        );
+        const rtoAction = rtoTag?.list?.find(
+          (item: { code: string }) => item.code === "return_to_origin"
+        )?.value;
+        console.log("inputs",inputs);
+        
+        const reverseQCTagsObj = {
+          "code": "reverseqc_input",
+          "list":
+            [
+              {
+                "code": "P001",
+                "value": `${inputs?.item}`
+              },
+              {
+                "code": "P003",
+                "value": "1"
+              },
+              {
+                "code": "Q001",
+                "value": ""
               }
-            : undefined;
-      }
+            ]
+        }
 
-      // ✅ RTO tag extraction
-      const rtoTag = fulfillment.tags.find(
-        (tag: { code: string }) => tag.code === "rto_action"
-      );
-      const rtoAction = rtoTag?.list?.find(
-        (item: { code: string }) => item.code === "return_to_origin"
-      )?.value;
 
-      // ✅ Final additional tags logic
-      const additionaltags = [
-        ...fulfillment.tags,
+        // ✅ Final additional tags logic
+        const additionaltags = [
+          ...fulfillment.tags,
 
-        action_id === "confirm_LOGISTICS_SELLER_CREDS"
-          ? {
+          action_id === "confirm_LOGISTICS_SELLER_CREDS"
+            ? {
               code: "linked_provider",
               list: [
                 { code: "id", value: "P1" },
@@ -566,16 +587,15 @@ export const confirmGenerator = (
                 { code: "cred_desc", value: "Women owned business" },
               ],
             }
-          : {
+            : {
               code: "linked_provider",
               list: [
                 { code: "id", value: sessionData.provider_id },
                 { code: "name", value: "Seller1" },
                 {
                   code: "address",
-                  value: `My store name 1, My building name 1, My street name 1, my city 1, my state 1, ${
-                    sessionData?.start_area_code || "560001"
-                  }`,
+                  value: `My store name 1, My building name 1, My street name 1, my city 1, my state 1, ${sessionData?.start_area_code || "560001"
+                    }`,
                 },
                 ...(sessionData.domain === "ONDC:LOG11"
                   ? [{ code: "tax_id", value: "29GSTIN1234K2Z2" }]
@@ -583,8 +603,8 @@ export const confirmGenerator = (
               ],
             },
 
-        ...(endCode === "5" && rtoAction === "yes"
-          ? [
+          ...(endCode === "5" && rtoAction === "yes"
+            ? [
               {
                 code: "rto_verification",
                 list: [
@@ -593,27 +613,29 @@ export const confirmGenerator = (
                 ],
               },
             ]
-          : []),
-      ];
+            : []),
+        ];
 
-      // ✅ Final updated fulfillment
-      const updatedFulfillment = {
-        ...fulfillment,
-        start: {
-          ...fulfillment.start,
-          instructions: updatedStartInstructions,
-        },
-        end: {
-          ...fulfillment.end,
-          instructions: updatedEndInstructions,
-        },
-        tags: additionaltags,
-      };
+        if(action_id === "confirm_REVERSE_QC_LOGISTICS") additionaltags.push(reverseQCTagsObj) 
 
-      console.log("Updated fulfillment:", updatedFulfillment);
-      return updatedFulfillment;
-    }
-  );
+        // ✅ Final updated fulfillment
+        const updatedFulfillment = {
+          ...fulfillment,
+          start: {
+            ...fulfillment.start,
+            instructions: updatedStartInstructions,
+          },
+          end: {
+            ...fulfillment.end,
+            instructions: updatedEndInstructions,
+          },
+          tags: additionaltags,
+        };
+
+        console.log("Updated fulfillment:", updatedFulfillment);
+        return updatedFulfillment;
+      }
+    );
 
 
   console.log("All fulfillments updated successfully.");
@@ -722,7 +744,7 @@ export const confirmGenerator = (
   };
   if (action_id === "confirm_LOGISTICS_EXCHANGE") {
     const orderTags: any = existingPayload.message.order?.tags || [];
-    const newEntry = { code: "phone", value: "9886098860" };
+    const newEntry = { code: "phone", value: "9886098861" };
     let bapTerms = orderTags.find((tag: any) => tag.code === "bap_terms");
     if (!bapTerms) {
       bapTerms = { code: "bap_terms", list: [] };

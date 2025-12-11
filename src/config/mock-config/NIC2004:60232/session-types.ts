@@ -38,6 +38,7 @@ export interface SessionData {
   update_fulfillments?: any[];
   items?: any;
   on_search_fulfillment?: any;
+  on_search_return_fulfillment?:any
   on_search_items?: any[];
   quote?: any;
   usecaseId?: string;
@@ -73,6 +74,7 @@ export interface SessionData {
   on_update_tags: any[],
   issue_resolution: any;
   issue_action: any[];
+  confirm_tags:any[];
 };
 
 export type BecknContext = {
@@ -116,10 +118,11 @@ export interface Input {
   ebn_exempt?:boolean;
   resolution_accept?: string;
   rating?:string
-  cancellation_reason_id?:string
+  cancellation_reason_id?:string,
   // mask_type:string,
   // pin:string,
   // api_endpoint:string,
   // ivr_number:string,
   // contact_number:string
+  item?:string
 }

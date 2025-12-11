@@ -20,7 +20,7 @@ message:
           id: S1
           gps: 12.4535,77.9283
           address:
-            area_code: "560001"
+            area_code: "560076"
       end:
         location:
           gps: 12.4535,77.9283

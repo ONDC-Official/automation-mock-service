@@ -146,7 +146,9 @@ export const onConfirmGenerator = (
   }
 
   if (action_id === "on_confirm_LOGISTICS_EXCHANGE") {
-    const orderTags: any = existingPayload.message.order.tags;
+    console.log("sessionData.confirm_tags",JSON.stringify(sessionData.confirm_tags));
+    
+    const orderTags: any = sessionData.confirm_tags;
     const newEntry = { code: "phone", value: "9886098860" };
 
     let bppTerms = orderTags.find((tag: any) => tag.code === "bpp_terms");
