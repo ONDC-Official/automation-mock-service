@@ -107,6 +107,10 @@ order:
           value: USYDS6482D
     - code: bap_terms
       list:
+        - code: accept_bpp_terms
+          value: Y
+        - code: static_terms
+          value: https://github.com/ONDC-Official/NP-Static-Terms/buyerNP_BNP/1.0/tc.pdf
         - code: tax_number
           value: 37BABCA6712B1Z6
   created_at: "2024-08-14T09:11:00.810Z"
