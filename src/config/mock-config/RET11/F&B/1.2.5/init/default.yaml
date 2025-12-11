@@ -164,6 +164,6 @@ message:
               city: "Bengaluru"
               state: "Karnataka"
               country: "IND"
-              area_code: "560037"
+              area_code: "560001"
           contact:
             phone: "9886098860"
