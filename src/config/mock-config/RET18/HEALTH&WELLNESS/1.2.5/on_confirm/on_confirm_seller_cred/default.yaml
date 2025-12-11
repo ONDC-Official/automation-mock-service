@@ -131,6 +131,8 @@ order:
           value: USYDS6482D
     - code: bap_terms
       list:
+        - code: static_terms
+          value: https://github.com/ONDC-Official/protocol-network-extension/discussions/79
         - code: tax_number
           value: 37ABACA6712B1Z6
   created_at: "2024-08-14T09:11:00.810Z"
