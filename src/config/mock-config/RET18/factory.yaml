@@ -512,3 +512,8 @@ codes:
     action: issue
     default: HEALTH&WELLNESS/1.2.5/issue/issue_100/issue_close/default.yaml
     message_id: true
+  - code: 344
+    action_id: catalog_rejection
+    action: catalog_rejection
+    default: HEALTH&WELLNESS/1.2.5/on_search/catalog_rejection/default.yaml
+    message_id: true
