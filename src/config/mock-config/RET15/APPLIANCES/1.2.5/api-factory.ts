@@ -54,6 +54,7 @@ import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/gen
 import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
 import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
 import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
+import { catalog_rejection_generator } from "./on_search/catalog_rejection/generator";
 
 export async function Generator(
   action_id: string,
@@ -362,6 +363,8 @@ export async function Generator(
         },
         inputs
       );
+    case "catalog_rejection":
+      return await catalog_rejection_generator(existingPayload, sessionData)
     default:
       console.log(action_id);
       throw new Error("Invalid action id found! ");
