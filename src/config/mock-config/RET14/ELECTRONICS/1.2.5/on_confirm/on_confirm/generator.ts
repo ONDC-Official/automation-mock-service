@@ -27,7 +27,13 @@ export async function on_confirm_generator(
     const existingTags = existingPayload.message.order.tags as TagsType;
     const bapTerms = existingTags.find((f: any) => f.code === "bap_terms");
     if (bapTerms) {
-        bapTerms.list = sessionData.bap_terms.list;
+        bapTerms.list = sessionData.bap_terms.list
+            .filter((i: any) => i.code !== "accept_bpp_terms") // remove
+            .map((i: any) =>
+            i.code === "static_terms"
+                ? { ...i, value: "https://github.com/ONDC-Official/protocol-network-extension/discussions/79" }
+                : i
+        );
     }
     existingPayload.message.order.updated_at = existingPayload.context.timestamp;
     return existingPayload;
