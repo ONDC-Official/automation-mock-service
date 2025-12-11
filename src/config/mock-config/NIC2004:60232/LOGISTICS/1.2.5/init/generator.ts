@@ -20,16 +20,17 @@ export const initGenerator = async (
   existingPayload: any,
   sessionData: SessionData,
   inputs: any,
-  action_id:string,
+  action_id: string,
 ) => {
   existingPayload.message.order.provider.id = sessionData.provider_id;
   // existingPayload.message.order.provider.locations[0].id =
   //   sessionData.location_id;
 
   sessionData?.on_search_items?.forEach((item: any) => {
-     console.log("on_search_items",sessionData.on_search_items);
-     
-    if (item.fulfillment_id === sessionData.on_search_fulfillment.id) {
+    console.log("on_search_items", sessionData.on_search_items);
+    const fulfillment_id = action_id === "init_REVERSE_QC_LOGISTICS" ? sessionData?.on_search_return_fulfillment.id : sessionData.on_search_fulfillment.id
+
+    if (item.fulfillment_id === fulfillment_id) {
       let isBaseItem = false;
       let isCodTagPresent = false;
       let isRiderTagPresent = false;
@@ -61,7 +62,7 @@ export const initGenerator = async (
           id: item.id,
           fulfillment_id: sessionData?.rate_basis
             ? ""
-            : sessionData.on_search_fulfillment.id,
+            : fulfillment_id,
           category_id: item.category_id,
           tags:
             sessionData?.is_cod === "yes" || sessionData?.rate_basis
@@ -104,9 +105,9 @@ export const initGenerator = async (
           id: item.id,
           fulfillment_id:
             sessionData?.rate_basis === "rider" ||
-            sessionData?.rate_basis === "order"
+              sessionData?.rate_basis === "order"
               ? ""
-              : sessionData.on_search_fulfillment.id,
+              : fulfillment_id,
           category_id: item.category_id,
           tags: item?.tags,
         };
@@ -116,89 +117,110 @@ export const initGenerator = async (
 
   const startTags = [];
 
-if (action_id === "call_masking_init_LOGISTICS") {
-  let tag: any = {
-    code: "masked_contact",
-    list: [
-      {
-        code: "type",
-        value: inputs?.mask_type || "ivr_pin", // default ivr_pin
+  if (action_id === "call_masking_init_LOGISTICS") {
+    let tag: any = {
+      code: "masked_contact",
+      list: [
+        {
+          code: "type",
+          value: inputs?.mask_type || "ivr_pin", // default ivr_pin
+        },
+        {
+          code: "setup",
+          value: inputs?.ivr_number || "1800180000", // default IVR number
+        },
+        {
+          code: "token",
+          value:
+            inputs?.mask_type === "ivr_pin"
+              ? inputs?.pin || "12345" // pin required
+              : inputs?.mask_type === "ivr_without_pin"
+                ? "" // empty string
+                : inputs?.contact_number || "9876543210", // 10-digit number for api_endpoint
+        },
+      ],
+    };
+
+    startTags.push(tag);
+  }
+
+  // Build START object
+  let startObj = {
+    location: {
+      id: "S1",
+      gps: sessionData.start_location,
+      address: {
+        name: "My store name 1",
+        building: "My building name 1",
+        locality: "My street name 1",
+        city: "my city 1",
+        state: "my state 1",
+        country: "India",
+        area_code: sessionData.start_area_code,
       },
-      {
-        code: "setup",
-        value: inputs?.ivr_number || "1800180000", // default IVR number
-      },
-      {
-        code: "token",
-        value:
-          inputs?.mask_type === "ivr_pin"
-            ? inputs?.pin || "12345" // pin required
-            : inputs?.mask_type === "ivr_without_pin"
-            ? "" // empty string
-            : inputs?.contact_number || "9876543210", // 10-digit number for api_endpoint
-      },
-    ],
+    },
+    contact: {
+      phone: "9886098860",
+      email: "abcd.efgh@gmail.com",
+      ...(startTags.length > 0 && { tags: startTags }),
+    },
+    ...(sessionData?.fulfillment?.start?.instructions && {
+      instructions: sessionData.fulfillment.start.instructions,
+    }),
   };
 
-  startTags.push(tag);
-}
+  // Build END object
+  let endObj = {
+    location: {
+      gps: sessionData.end_location,
+      address: {
+        name: "My house or building #",
+        building: "My building name 2",
+        locality: "My street name 2",
+        city: "my city name 2",
+        state: "my state 2",
+        country: "India",
+        area_code: sessionData.end_area_code,
+      },
+    },
+    contact: {
+      phone: "9123426789",
+      email: "xyz.qweq@gmail.com",
+      ...(startTags.length > 0 && { tags: startTags }),
+    },
+    ...(sessionData?.fulfillment?.end?.instructions && {
+      instructions: sessionData.fulfillment.end.instructions,
+    }),
+  };
+
+  // 🔄 Swap when REVERSE QC
+  if (action_id === "init_REVERSE_QC_LOGISTICS") {
+    [startObj, endObj] = [endObj, startObj];
+  }
 
   existingPayload.message.order.fulfillments[0] = {
     id:
       sessionData?.rate_basis === "rider" || sessionData?.rate_basis === "order"
         ? ""
-        : sessionData.on_search_fulfillment.id,
-    type: sessionData.on_search_fulfillment.type,
-    start: {
-      location: {
-        id: "S1",
-        gps: sessionData.start_location,
-        address: {
-          name: "My store name 1",
-          building: "My building name 1",
-          locality: "My street name 1",
-          city: "my city 1",
-          state: "my state 1",
-          country: "India",
-          area_code: sessionData.start_area_code,
-        },
-      },
-      contact: {
-        phone: "9886098860",
-        email: "abcd.efgh@gmail.com",
-        ...(startTags.length > 0 && { tags: startTags }),
-      },
-      ...(sessionData?.fulfillment?.start?.instructions && {
-        instructions: sessionData.fulfillment.start.instructions,
-      }),
-      
-    },
-    end: {
-      location: {
-        gps: sessionData.end_location,
-        address: {
-          name: "My house or building #",
-          building: "My building name 2",
-          locality: "My street name 2",
-          city: "my city name 2",
-          state: "my state 2",
-          country: "India",
-          area_code: sessionData.end_area_code,
-        },
-      },
-      contact: {
-        phone: "9123426789",
-        email: "xyz.qweq@gmail.com",
-        ...(startTags.length > 0 && { tags: startTags }),
-      },
-      ...(sessionData?.fulfillment?.end?.instructions && {
-        instructions: sessionData.fulfillment.end.instructions,
-      }),
-    },
-    tags: removeTagsByCodes(sessionData?.on_search_fulfillment.tags, [
-      "distance",
-    ]),
+        : action_id === "init_REVERSE_QC_LOGISTICS"
+          ? sessionData.on_search_return_fulfillment.id
+          : sessionData.on_search_fulfillment.id,
+    type:
+      action_id === "init_REVERSE_QC_LOGISTICS"
+        ? sessionData.on_search_return_fulfillment.type
+        : sessionData.on_search_fulfillment.type,
+
+    start: startObj,
+    end: endObj,
+
+    tags: removeTagsByCodes(
+      action_id === "init_REVERSE_QC_LOGISTICS"
+        ? sessionData.on_search_return_fulfillment.tags
+        : sessionData.on_search_fulfillment.tags,
+      ["distance"]
+    ),
   };
+
 
   let isLinkedOrderPresent = false;
 

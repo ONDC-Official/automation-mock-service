@@ -68,6 +68,8 @@ export async function Generator(
       return await initGenerator(existingPayload, sessionData,inputs,action_id);
     case "confirm_LOGISTICS":
       return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
+    case "confirm_REVERSE_QC_LOGISTICS":
+      return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
     case "confirm_SELLER_BUYER_INSTRUCTIONS":
       return await confirmGenerator(existingPayload, sessionData, inputs,action_id);
     case "confirm_E_WAY_BILL_LOGISTICS":
@@ -100,11 +102,15 @@ export async function Generator(
       return await onInitGenerator(existingPayload, sessionData);
     case "on_init_qc":
       return await onInitQCGenerator(existingPayload, sessionData);
+    case "on_init_REVERSE_QC_LOGISTICS":
+      return await onInitGenerator(existingPayload,sessionData)
     case "confirm_qc":
       return await confirmQCGenerator(existingPayload, sessionData, inputs);
     case "on_confirm_qc":
       return await onConfirmQCGenerator(existingPayload, sessionData);
     case "on_confirm_LOGISTICS":
+      return await onConfirmGenerator(existingPayload, sessionData,action_id);
+      case "on_confirm_REVERSE_QC_LOGISTICS":
       return await onConfirmGenerator(existingPayload, sessionData,action_id);
     case "on_update_LOGISTICS":
       return await onUpdateGenerator(existingPayload, sessionData,action_id);
@@ -123,72 +129,105 @@ export async function Generator(
     case "static_otp_update_LOGISTICS":
        return await updateGenerator(existingPayload,sessionData,inputs,action_id)
     case "on_status_LOGISTICS":
-      return await onStatusGenerator(existingPayload, sessionData);
+      return await onStatusGenerator(existingPayload,sessionData,action_id);
     case "on_status_1_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "Order-picked-up",
-      });
+      },
+      action_id
+      );
+    case "on_status_REVERSE_QC_LOGISTICS":
+      return await onStatusGenerator(existingPayload, {
+        ...sessionData,
+        stateCode: "Order-picked-up",
+      },
+      action_id
+      );
     case "on_status_2_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "Out-for-delivery",
-      });
+      },
+      action_id
+    );
     case "on_status_3_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "Order-delivered",
-      });
+      },
+      action_id
+    );
     case "on_status_4_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "RTO-Delivered",
-      });
+      },
+      action_id
+    );
     case "on_status_5_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "At-pickup",
-      });
+      },
+      action_id
+    );
     case "on_status_6_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "At-destination-hub",
-      });
+      },
+      action_id
+    );
     case "on_status_7_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "In-transit",
-      });
+      },
+      action_id
+    );
     case "on_status_8_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "Pickup-rescheduled",
-      });
+      },
+      action_id
+    );
     case "on_status_9_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "Out-for-pickup",
-      });
+      },
+      action_id
+    );
     case "on_status_10_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "Delivery-rescheduled",
-      });
+      },
+      action_id
+    );
     case "on_status_11_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "Agent-assigned",
-      });
+      },
+      action_id
+    );
     case "on_status_12_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "At-delivery",
-      });
+      },
+      action_id
+    );
     case "on_status_13_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "Agent-assigned",
-      });
+      },
+      action_id
+    );
     case "on_track_LOGISTICS":
       return await onTrackGenerator(existingPayload, sessionData);
     case "on_cancel_LOGISTICS":
@@ -368,7 +407,9 @@ export async function Generator(
 			return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "Order-delivered",
-      }); 
+      },
+      action_id
+    ); 
     case "confirm_LOGISTICS_EXCHANGE":
       return await confirmGenerator(
         existingPayload,
