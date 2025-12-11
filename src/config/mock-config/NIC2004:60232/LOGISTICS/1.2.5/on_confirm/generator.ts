@@ -5,7 +5,7 @@ import { calculateQuotePrice } from "../../../../../../utils/generic-utils";
 export const onConfirmGenerator = (
   existingPayload: any,
   sessionData: SessionData,
-  action_id:string
+  action_id: string
 ) => {
   existingPayload.message.order.id = sessionData.order_id;
 
@@ -25,8 +25,8 @@ export const onConfirmGenerator = (
     existingPayload.message.order.fulfillments = sessionData.fulfillments;
   }
 
-  if ( Array.isArray(sessionData.cancellation_terms) &&
-  sessionData.cancellation_terms.length > 0) {
+  if (Array.isArray(sessionData.cancellation_terms) &&
+    sessionData.cancellation_terms.length > 0) {
     existingPayload.message.order.cancellation_terms =
       sessionData.cancellation_terms;
   }
@@ -146,17 +146,28 @@ export const onConfirmGenerator = (
   }
 
   if (action_id === "on_confirm_LOGISTICS_EXCHANGE") {
-    console.log("sessionData.confirm_tags",JSON.stringify(sessionData.confirm_tags));
-    
-    const orderTags: any = sessionData.confirm_tags;
+    console.log("sessionData.confirm_tags", JSON.stringify(sessionData.confirm_tags));
+
+    let orderTags = sessionData.confirm_tags || [];
+
+    orderTags = orderTags.flat(Infinity);
+
+    console.log("orderTags after flatten:", orderTags);
+
     const newEntry = { code: "phone", value: "9886098860" };
 
     let bppTerms = orderTags.find((tag: any) => tag.code === "bpp_terms");
+
     if (!bppTerms) {
       bppTerms = { code: "bpp_terms", list: [] };
       orderTags.push(bppTerms);
     }
+
+    bppTerms.list = bppTerms.list || [];
+
     bppTerms.list.push(newEntry);
+
+    existingPayload.message.order.tags = orderTags;
   }
   if (action_id === "on_confirm_LOGISTICS_SLA") {
     existingPayload.message.order.tags.push(
@@ -252,6 +263,6 @@ export const onConfirmGenerator = (
     }
     bppTerms.list.push(newEntry);
   }
-    
+
   return existingPayload;
 };
