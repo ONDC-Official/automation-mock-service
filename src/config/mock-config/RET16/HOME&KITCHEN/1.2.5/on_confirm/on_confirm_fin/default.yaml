@@ -126,6 +126,8 @@ order:
           value: PAN_number_of_provider
     - code: bap_terms
       list:
+        - code: static_terms
+          value: https://github.com/ONDC-Official/protocol-network-extension/discussions/79
         - code: tax_number
           value: gst_number_of_buyerNP
   created_at: "2024-08-14T09:11:00.810Z"
