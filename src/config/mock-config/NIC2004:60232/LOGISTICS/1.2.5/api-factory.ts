@@ -29,6 +29,8 @@ import { searchRateCardP2PGenerator } from "./search/search_rate_card_P2P/genera
 import { onSearchRateCardP2PGenerator } from "./on_search/on_search_rate_card_P2P/generator"
 import { searchRateCardP2H2PGenerator } from "./search/search_rate_card_P2H2P/generator";
 import { onSearchRateCardP2H2PGenerator } from "./on_search/on_search_rate_card_P2H2P/generator";
+import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
+import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
 // import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
 // import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/generator";
 export async function Generator(
@@ -448,6 +450,40 @@ export async function Generator(
         sessionData,
         inputs,
         action_id
+      );
+
+      // _____________IGM_1.0.0______________
+    case "issue_open_100":
+      return await issueStatusGenerator_100(
+        existingPayload,
+        {
+          ...sessionData,
+          igm_action: "issue_open",
+        },
+        inputs
+      );
+    case "on_issue_processing_100":
+      return await onIssueStatusGenerator_100(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_processing",
+      });
+    case "on_issue_resolved_100":
+      return await onIssueStatusGenerator_100(
+        existingPayload,
+        {
+          ...sessionData,
+          igm_action: "on_issue_resolved",
+        },
+        inputs
+      );
+    case "issue_close_100":
+      return await issueStatusGenerator_100(
+        existingPayload,
+        {
+          ...sessionData,
+          igm_action: "issue_close",
+        },
+        inputs
       );
     default:
       throw new Error(`Invalid request type ${action_id}`);
