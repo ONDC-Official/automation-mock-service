@@ -10,7 +10,7 @@ export const onCancelGenerator = (
   existingPayload: any,
   sessionData: SessionData,
   inputs: Input | undefined
-  ,action_id:string
+  , action_id: string
 ) => {
   existingPayload.message.order.id = sessionData.order_id;
 
@@ -22,7 +22,7 @@ export const onCancelGenerator = (
     existingPayload.message.order.billing = sessionData.billing;
   }
 
-  if (sessionData?.is_cancel_called === "cancel" ||  action_id === "seller_side_on_cancel_LOGISTICS") {   
+  if (sessionData?.is_cancel_called === "cancel" || action_id === "seller_side_on_cancel_LOGISTICS") {
     existingPayload.message.order.state = "Cancelled";
 
     existingPayload.message.order.quote = sessionData.quote;
@@ -33,8 +33,8 @@ export const onCancelGenerator = (
         id: sessionData?.is_cancel_called === "cancel" ? sessionData?.cancellation_reason_id : sessionData?.domain === "ONDC:LOG10" ? "102" : "200",
       },
     };
-    const deliveryFulfillment = existingPayload.message.order.fulfillments.filter((fulfillment:any)=> fulfillment.type === "Delivery")
-    
+    const deliveryFulfillment = existingPayload.message.order.fulfillments.filter((fulfillment: any) => fulfillment.type === "Delivery")
+
 
     for (const fulfillment of deliveryFulfillment) {
       if (fulfillment.state.descriptor.code === "Pending" || fulfillment.state.descriptor.code === "Searching-for-Agent") {
@@ -62,6 +62,8 @@ export const onCancelGenerator = (
 
         return fulfillment;
       });
+    console.log("existing payload", JSON.stringify(existingPayload.message.order.items));
+
   }
   // else if(action_id === "seller_side_on_cancel_LOGISTICS"){
   //   existingPayload.message.order.state = "Cancelled"
@@ -73,7 +75,7 @@ export const onCancelGenerator = (
   //     },
   //   };
   // }
-   else {
+  else {
     existingPayload.message.order.state = "In-progress";
 
     existingPayload.message.order.cancellation = {
@@ -187,23 +189,23 @@ export const onCancelGenerator = (
       },
       ...(areDiffTagsPresent
         ? [
-            {
-              "@ondc/org/item_id": rtoItem.id,
-              "@ondc/org/title_type": "diff",
-              price: {
-                currency: "INR",
-                value: "2.0",
-              },
+          {
+            "@ondc/org/item_id": rtoItem.id,
+            "@ondc/org/title_type": "diff",
+            price: {
+              currency: "INR",
+              value: "2.0",
             },
-            {
-              "@ondc/org/item_id": rtoItem.id,
-              "@ondc/org/title_type": "tax_diff",
-              price: {
-                currency: "INR",
-                value: "1.00",
-              },
+          },
+          {
+            "@ondc/org/item_id": rtoItem.id,
+            "@ondc/org/title_type": "tax_diff",
+            price: {
+              currency: "INR",
+              value: "1.00",
             },
-          ]
+          },
+        ]
         : []),
     ];
 
@@ -222,7 +224,7 @@ export const onCancelGenerator = (
     existingPayload.message.order.payment = sessionData.payment;
   }
   if (Array.isArray(sessionData.cancellation_terms) &&
-  sessionData.cancellation_terms.length > 0) {
+    sessionData.cancellation_terms.length > 0) {
     existingPayload.message.order.cancellation_terms =
       sessionData.cancellation_terms;
   }
@@ -237,7 +239,7 @@ export const onCancelGenerator = (
   }
 
   existingPayload.message.order.updated_at = existingPayload.context.timestamp;
-  console.log("existing payload in on_cancel",JSON.stringify(existingPayload));
-  
+  console.log("existing payload in on_cancel", JSON.stringify(existingPayload));
+
   return existingPayload;
 };

@@ -230,6 +230,8 @@ export async function Generator(
       return await onTrackGenerator(existingPayload, sessionData);
     case "on_cancel_LOGISTICS":
       return await onCancelGenerator(existingPayload, sessionData,inputs,action_id);
+    case "buyer_side_on_cancel_LOGISTICS":
+      return await onCancelGenerator(existingPayload, sessionData,inputs,action_id);
     case "seller_side_on_cancel_LOGISTICS":
       return await onCancelGenerator(existingPayload, sessionData,inputs,action_id);
     case "status_LOGISTICS":
