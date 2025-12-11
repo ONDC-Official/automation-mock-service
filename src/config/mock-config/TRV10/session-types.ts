@@ -50,6 +50,7 @@ export interface SessionData {
 	payment_id: string
 	cancellation_fulfillments: any[];
 	cancellation_reason: any
+	fulfillments_copy: any;
 }
 
 export type BecknContext = {
