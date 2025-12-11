@@ -7,6 +7,7 @@ save-data:
   on_search_items: $.message.catalog["bpp/providers"][*].items[*]
   on_search_fulfillment: $.message.catalog["bpp/providers"][*].fulfillments[?(@.type=="Delivery")]
   on_search_batch_fulfillment: $.message.catalog["bpp/providers"][*].fulfillments[?(@.type=="Batch")]
+  on_search_return_fulfillment: $.message.catalog["bpp/providers"][*].fulfillments[?(@.type=="Return")]
   feature_surge_fee: $.message.catalog.tags[?(@.code=="lsp_features")].list[?(@.code=="017")].value
   feature_cancellation_terms: $.message.catalog.tags[?(@.code=="lsp_features")].list[?(@.code=="01A")].value
   rider_count: $.message.catalog["bpp/providers"][*].fulfillments[?(@.type=="Batch")].tags[?(@.code=="fulfill_response")].list[?(@.code=="rider_count")].value

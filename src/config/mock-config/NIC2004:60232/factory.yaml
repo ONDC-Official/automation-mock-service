@@ -114,6 +114,11 @@ codes:
   action: on_status
   default: on_status/default.yaml
   message_id: true
+- code: 180
+  action_id: on_status_REVERSE_QC_LOGISTICS
+  action: on_status
+  default: on_status/default.yaml
+  message_id: true
 - code: 123
   action_id: on_update_1_LOGISTICS
   action: on_update
@@ -419,10 +424,29 @@ codes:
   default: on_search/on_search_reverseQc/default.yaml
   message_id: false
 
-- code: 119
+- code: 180
   action_id: init_REVERSE_QC_LOGISTICS
   action: init
   default: init/init_reverseQc/default.yaml
+  message_id: true
+
+- code: 178
+  action_id: on_init_REVERSE_QC_LOGISTICS
+  action: on_init
+  default: on_init/on_init_reverseQc/default.yaml
+  message_id: false
+
+- code: 119
+  action_id: confirm_REVERSE_QC_LOGISTICS
+  action: confirm
+  default: confirm/confirm_reverseQc/default.yaml
+  message_id: true
+
+- code: 178
+  action_id: on_confirm_REVERSE_QC_LOGISTICS
+  action: on_confirm
+  default: on_confirm/on_confirm_reverseQc/default.yaml
+  message_id: false
 
 - code: 120
   action_id: on_update_refund_igm

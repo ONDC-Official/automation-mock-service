@@ -24,7 +24,8 @@ const getPaymentStatus = (paymentType: string, orderState: string) => {
 
 export const onStatusGenerator = async (
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  action_id:string
 ) => {
   existingPayload.message.order.id = sessionData.order_id;
   if (sessionData?.fulfillments) {
@@ -74,6 +75,22 @@ export const onStatusGenerator = async (
               code: "tracking",
               list: sessionData?.domain === "ONDC:LOG10" ? p2pList : p2h2pList,
             });
+          }
+          else if (fulfillment.type === "Return") {
+            const reverseqc_input = fulfillment.tags.find((tag:any)=>tag.code === "reverseqc_input")
+            const reverseQCOutput = {
+              ...reverseqc_input,
+              code: "reverseqc_output",
+              list: reverseqc_input.list.map((item:any) =>
+                item.code === "Q001"
+                  ? { ...item, value: "yes" }
+                  : item
+              )
+            };
+
+            if (action_id === "on_status_REVERSE_QC_LOGISTICS") fulfillment.tags.push(reverseQCOutput)
+            console.log("reverseQCTagsObj", JSON.stringify(fulfillment));
+
           }
           return fulfillment;
         });

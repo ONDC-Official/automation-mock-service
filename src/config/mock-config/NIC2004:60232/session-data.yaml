@@ -64,4 +64,5 @@ session_data:
   issue_resolution: []
   last_actions_id: any
   issue_id: any
+  confirm_tags: any
 
