@@ -437,4 +437,9 @@ codes:
     action: cancel
     default: cancel/cancel_no/default.yaml
     message_id: true
+  - code: 345
+    action_id: catalog_rejection
+    action: catalog_rejection
+    default: on_search/catalog_rejection/default.yaml
+    message_id: true
     
