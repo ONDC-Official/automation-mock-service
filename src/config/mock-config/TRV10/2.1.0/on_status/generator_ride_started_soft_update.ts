@@ -134,6 +134,26 @@ export async function onStatusRideStartedSoftUpdateGenerator(
         return item;
       });
   }
+
+    const fulfillmentCopy = sessionData?.fulfillments_copy;
+    const originalFulfillment =
+      existingPayload?.message?.order?.fulfillments?.[0];
+
+    if (fulfillmentCopy && originalFulfillment) {
+      const endStopSource = fulfillmentCopy.stops?.find(
+        (s: any) => s.type === "END"
+      );
+      const endStopTarget = originalFulfillment.stops?.find(
+        (s: any) => s.type === "END"
+      );
+
+      if (endStopSource && endStopTarget) {
+        if (endStopSource.location?.gps) {
+          endStopTarget.location.gps = endStopSource.location.gps;
+        }
+      }
+    }
+
   await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
   return existingPayload;
 }

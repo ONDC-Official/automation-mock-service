@@ -5,3 +5,5 @@ save-data:
   quote: "$.message.order.quote"
   items: "$.message.order.items[*]"
   payments: "$.message.order.payments[*]"
+  fulfillments_copy: "$.message.order.fulfillments[*]"
+
