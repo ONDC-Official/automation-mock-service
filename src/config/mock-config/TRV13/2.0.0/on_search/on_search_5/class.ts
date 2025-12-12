@@ -9,7 +9,7 @@ import {
 import { SessionData } from "../../../session-types";
 import { onSearchTTLBased_generator } from "./generator";
 
-export class MockOnSearchTTLBased extends MockAction {
+export class OnSearchTTLBased extends MockAction {
   get saveData(): saveType {
     return yaml.load(
       readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
@@ -17,17 +17,17 @@ export class MockOnSearchTTLBased extends MockAction {
   }
   get defaultData(): any {
     return yaml.load(
-      readFileSync(path.resolve(__dirname, "./on_search_available_accomodation.yaml"), "utf8")
+      readFileSync(path.resolve(__dirname, "./default.yaml"), "utf8")
     );
   }
   get inputs(): any {
     return {};
   }
   name(): string {
-    return "on_search_available_accomodation";
+    return "on_search_ttl_based";
   }
   get description(): string {
-    return "Mock for on_search_available_accomodation";
+    return "Mock for on_search TTL based";
   }
   generator(existingPayload: any, sessionData: SessionData): Promise<any> {
     return onSearchTTLBased_generator(existingPayload, sessionData);

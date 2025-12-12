@@ -6,6 +6,6 @@ import { testFlow, testUnitApi } from "./mock-testing";
 // })();
 
 (async () => {
-	const action = getMockAction("search");
-	console.log(action.mockActionConfig.generator);
+const action = getMockAction("search_1");
+console.log(action.name());
 })();
