@@ -1,0 +1,28 @@
+order:
+  provider:
+    id: P1
+    time:
+      label: AVAILABLE
+      range:
+        start: "2023-12-25T00:00:00.000Z"
+        end: "2023-12-27T00:00:00.000Z"
+  items:
+    - id: Accommodation-1
+      location_ids:
+        - L1
+      quantity:
+        selected:
+          count: 1
+      add_ons:
+        - id: full-board
+  fulfillments:
+    - tags:
+        - descriptor:
+            code: GUESTS
+          list:
+            - descriptor:
+                code: ADULTS
+              value: "1"
+            - descriptor:
+                code: CHILDREN
+              value: "0"
