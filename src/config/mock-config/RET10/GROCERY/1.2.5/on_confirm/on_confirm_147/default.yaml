@@ -101,6 +101,8 @@ order:
           value: ASIPC2406N
         - code: np_type
           value: MSN
+        - code: accept_bap_terms
+          value: Y
     - code: bap_terms
       list:
         - code: static_terms
