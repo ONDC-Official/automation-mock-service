@@ -132,6 +132,8 @@ order:
           value: 00ABCCH7409R1ZZ
         - code: provider_tax_number
           value: ABCDE1234F
+        - code: accept_bap_terms
+          value: Y
     - code: bap_terms
       list:
         - code: static_terms
