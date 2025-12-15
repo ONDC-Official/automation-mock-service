@@ -124,6 +124,8 @@ order:
           value: gst_number_of_sellerNP
         - code: provider_tax_number
           value: PAN_number_of_provider
+        - code: accept_bap_terms
+          value: Y
     - code: bap_terms
       list:
         - code: static_terms
