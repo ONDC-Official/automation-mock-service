@@ -442,4 +442,9 @@ codes:
     action: catalog_rejection
     default: on_search/catalog_rejection/default.yaml
     message_id: true
+  - code: 346
+    action_id: search_inc_pull
+    action: search
+    default: search/search_inc_pull/default.yaml
+    message_id: true
     
