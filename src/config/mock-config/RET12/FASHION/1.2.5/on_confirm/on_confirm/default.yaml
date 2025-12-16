@@ -124,6 +124,8 @@ order:
           value: 37ABACA6712B1Z6
         - code: provider_tax_number
           value: USYDS6482D
+        - code: accept_bap_terms
+          value: Y
     - code: bap_terms
       list:
         - code: tax_number
