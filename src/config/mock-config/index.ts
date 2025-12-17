@@ -18,10 +18,11 @@ export const defaultSessionData = yaml.load(
 export async function generateMockResponse(
 	session_id: string,
 	sessionData: any,
-	action_id: string
+	action_id: string,
+	input?: any
 ) {
 	try {
-		return await createMockResponse(session_id, sessionData, action_id);
+		return await createMockResponse(session_id, sessionData, action_id, input);
 	} catch (e) {
 		logger.error("Error in generating mock response", e);
 		throw e;

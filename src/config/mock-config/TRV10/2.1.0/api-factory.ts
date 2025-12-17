@@ -66,6 +66,8 @@ import { onConfirmMultipleAuthGenerator } from "./on_confirm/on_confirm_multiple
 import { cancelTechnicalCancellationGenerator } from "./cancel/generator-technical-cancellation";
 import { cancelTechnicalCancellationHardGenerator } from "./cancel/generator-technical-cancellation-hard";
 import { onStatusRideStartedSoftUpdateGenerator } from "./on_status/generator_ride_started_soft_update";
+import { onInitRentalGenerator } from "./on_init/generator_rental";
+import { initRentalGenerator } from "./init/generator_rental";
 
 
 export async function Generator(
@@ -96,8 +98,12 @@ export async function Generator(
             return await initMultipleStopsGenerator(existingPayload, sessionData);
         case "init_with_self_pickup":
             return await initSelfPickupGenerator(existingPayload, sessionData);
+        case "init_rental":
+            return await initRentalGenerator(existingPayload, sessionData);
         case "on_init":
             return await onInitMultipleStopsGenerator(existingPayload, sessionData);
+        case "on_init_rental":
+            return await onInitRentalGenerator(existingPayload, sessionData);
         case "confirm":
             return await confirmMultipleStopsGenerator(existingPayload, sessionData);
         case "on_confirm":

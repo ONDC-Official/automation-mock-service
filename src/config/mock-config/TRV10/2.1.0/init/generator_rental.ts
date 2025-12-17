@@ -33,27 +33,29 @@ function updateSettlementAmount(terms: any[], quote: any) {
   return terms;
 }
 
-export async function confirmMultipleStopsGenerator(
+export async function initRentalGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
   existingPayload.message.order.fulfillments =
     sessionData.selected_fulfillments;
-  existingPayload.message.order.fulfillments[0]["customer"] = customer;
+  existingPayload.message.order.fulfillments[0]["customer"] = {
+    contact: {
+      phone: "9876556789",
+    },
+    person: {
+      name: "Joe Adams",
+    },
+  };
+
+  delete existingPayload.message.order.fulfillments[0].type;
+  delete existingPayload.message.order.fulfillments[0].tags;
   existingPayload.message.order.items[0] = {
     id: sessionData.selected_item_id,
   };
-  
-  const flattenedItems = sessionData.init_items.flat();
-  if (flattenedItems && flattenedItems.length > 0) {
-    existingPayload.message.order.items = flattenedItems;
-  }
-  existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
-    delete fulfillment.tags;
-  });
-  existingPayload.message.order.payments = sessionData.payments;
+  existingPayload.message.order.payments[0].collected_by =
+    sessionData.collected_by;
   existingPayload.message.order.provider.id = sessionData.provider_id;
-
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
   if (existingPayload.message.order.tags) {
     existingPayload.message.order.tags = updateSettlementAmount(
@@ -61,5 +63,20 @@ export async function confirmMultipleStopsGenerator(
       sessionData.quote
     );
   }
+
+  if (sessionData.user_inputs?.items?.length > 0) {
+    const addOns = sessionData.user_inputs?.items?.map((item: any) => {
+      return {
+        id: item.addOns,
+        quantity: {
+          selected: {
+            count: item.count,
+          },
+        },
+      };
+    });
+    existingPayload.message.order.items[0].add_ons = addOns;
+  }
+
   return existingPayload;
 }
