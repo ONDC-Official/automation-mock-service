@@ -87,9 +87,9 @@ export async function loadMockSessionData(
 		const raw = defaultSessionData();
 		sessionData = raw.session_data;
 		sessionData.transaction_id = transactionID;
-		sessionData.bpp_id = sessionData.bap_id = process.env.BAP_ID || "dev-automation.ondc.org";
-		sessionData.bap_uri = process.env.BAP_URI || "https://dev-automation.ondc.org/buyer";
-		sessionData.bpp_uri = process.env.BPP_URI || "https://dev-automation.ondc.org/seller";
+		sessionData.bpp_id = sessionData.bap_id = process.env.BAP_ID || "staging-automation.ondc.org";
+		sessionData.bap_uri = process.env.BAP_URI || "https://staging-automation.ondc.org/buyer";
+		sessionData.bpp_uri = process.env.BPP_URI || "https://staging-automation.ondc.org/seller";
 		sessionData.subscriber_url = subscriber_url;
 		logger.info(`new session data is ${JSON.stringify(sessionData)}`);
 		return sessionData;
