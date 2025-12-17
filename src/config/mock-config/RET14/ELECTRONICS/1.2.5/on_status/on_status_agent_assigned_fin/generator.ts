@@ -15,6 +15,28 @@ export async function on_status_agent_assigned_fin_generator(
   );
   generalPayload.message.order.quote = sessionData.quote;
   generalPayload.message.order.payment = sessionData.payment;
-  generalPayload.message.order.tags = sessionData.order_tags;
+  generalPayload.message.order.tags = (sessionData.order_tags || []).map(
+    (tag: any) => {
+      if (tag.code === "bpp_terms") {
+        return {
+          ...tag,
+          list: tag.list.filter(
+            (item: any) => item.code !== "accept_bap_terms"
+          ),
+        };
+      }
+
+      if (tag.code === "bap_terms") {
+        return {
+          ...tag,
+          list: tag.list.filter(
+            (item: any) => item.code !== "static_terms"
+          ),
+        };
+      }
+
+      return tag;
+    }
+  );
   return generalPayload;
 }
