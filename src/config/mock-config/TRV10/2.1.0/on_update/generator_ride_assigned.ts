@@ -37,7 +37,7 @@ function updateSettlementAmount(terms: any[], quote: any) {
   return terms;
 }
 
-function updateFulfillmentStatus(order: any) {
+function updateFulfillmentStatus(order: any, sessionData: SessionData) {
   // Check if fulfillments exist
   if (order.fulfillments) {
     order.fulfillments.forEach((fulfillment: any) => {
@@ -48,11 +48,16 @@ function updateFulfillmentStatus(order: any) {
       const endStop = fulfillment.stops.find(
         (stop: any) => stop.type === "END"
       );
+
+      const scheduledTime =
+        sessionData?.selected_fulfillments[0]?.stops[0]?.time?.timestamp ||
+        new Date();
       if (startStop) {
-        const now = new Date();
-        const newTime = new Date(now.getTime() + 15 * 60000).toISOString();
+        const newTime = new Date(
+          new Date(scheduledTime).getTime() + 2 * 60000
+        ).toISOString();
         startStop.time = {
-          timestamp: now.toISOString(),
+          timestamp: scheduledTime,
         };
         startStop.authorization = {
           token: generateToken(),
@@ -62,9 +67,8 @@ function updateFulfillmentStatus(order: any) {
         };
       }
       if (endStop) {
-        const now = new Date();
         const newTime = new Date(
-          now.getTime() + 3 * 24 * 60 * 60 * 1000
+          new Date(scheduledTime).getTime() + 15 * 60 * 1000
         ).toISOString();
         endStop.authorization = {
           token: generateToken(),
@@ -151,7 +155,8 @@ export async function onUpdateRideAssignedGenerator(
     sessionData
   );
   existingPayload.message.order = updateFulfillmentStatus(
-    existingPayload.message.order
+    existingPayload.message.order,
+    sessionData
   );
   existingPayload.message.order.fulfillments[0]["agent"] = agent;
 
@@ -163,15 +168,30 @@ export async function onUpdateRideAssignedGenerator(
     );
   }
 
-  existingPayload.message.order.fulfillments[0].stops.push({
-    type: "END",
-    authorization: {
-      type: "OTP",
-      token: generateToken(),
-      valid_to: new Date(Date.now() + 300 * 60000).toISOString(),
-      status: "UNCLAIMED",
-    },
-  });
+  const fulfillmentStops = existingPayload.message.order.fulfillments[0].stops;
+  const existingEndStop = fulfillmentStops.find(
+    (stop: any) => stop.type === "END"
+  );
+  const scheduledTime =
+    sessionData?.selected_fulfillments[0]?.stops[0]?.time?.timestamp ||
+    new Date();
+  const newAuthorization = {
+    type: "OTP",
+    token: generateToken(),
+    valid_to: new Date(
+      new Date(scheduledTime).getTime() + 15 * 60 * 1000
+    ).toISOString(),
+    status: "UNCLAIMED",
+  };
+
+  if (existingEndStop) {
+    existingEndStop.authorization = newAuthorization;
+  } else {
+    fulfillmentStops.push({
+      type: "END",
+      authorization: newAuthorization,
+    });
+  }
 
   if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
     existingPayload.message.order.fulfillments[0].tags =

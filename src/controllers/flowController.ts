@@ -246,7 +246,8 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			let mockResponse = await generateMockResponse(
 				txData.sessionId as string,
 				sessionData,
-				latestMeta.actionId
+				latestMeta.actionId,
+				req.body.inputs
 			);
 
 			if (req.body.json_path_changes) {

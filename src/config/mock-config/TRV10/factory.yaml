@@ -356,3 +356,13 @@ codes:
     action: on_status
     default: TRV10/2.1.0/on_status/default.yaml
     message_id: true
+  - code: 171
+    action_id: init_rental
+    action: init
+    default: TRV10/2.1.0/init/default.yaml
+    message_id: true
+  - code: 172
+    action_id: on_init_rental
+    action: on_init
+    default: TRV10/2.1.0/on_init/default.yaml
+    message_id: false

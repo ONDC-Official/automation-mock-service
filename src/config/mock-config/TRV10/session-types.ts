@@ -51,6 +51,8 @@ export interface SessionData {
 	cancellation_fulfillments: any[];
 	cancellation_reason: any
 	fulfillments_copy: any;
+	user_inputs: any;
+	init_items: any[];
 }
 
 export type BecknContext = {
