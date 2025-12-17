@@ -198,7 +198,7 @@ codes:
     default: ELECTRONICS/1.2.5/init/init_fin/default.yaml
     action_id: init_fin
     action: init
-    message_id: false
+    message_id: true
   - code: 181
     default: ELECTRONICS/1.2.5/on_init/on_init_fin/default.yaml
     action_id: on_init_fin
