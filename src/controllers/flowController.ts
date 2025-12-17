@@ -426,12 +426,6 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			sessionData.flow_id = txData.flowId;
 			sessionData.session_id = txData.sessionId;
 			sessionData.domain = process.env.DOMAIN?.split(":")[1];
-			let mockResponse = await generateMockResponse(
-				txData.sessionId as string,
-				sessionData,
-				latestMeta.actionId,
-				req.body.inputs
-			);
 			// const repeatTimes = sessionData.REPEAT_NEXT_API ?? latestMeta.repeat ?? 1;
 			for (let i = 0; i < 1; i++) {
 				// sessionData = await GetMockSessionDataForGeneration(
