@@ -32,7 +32,6 @@ export async function on_select_out_of_stock_generator(
 			selectedItemsObj?.find((item) => item.id === i.id)?.quantity.count ?? 1;
 		const price = parseFloat(i.price.value) * quantity;
 		console.log("Price: ", price, i.price.value, i.id);
-		totalPrice += price;
 		const item = JSON.parse(JSON.stringify(breakupItem));
 		item["@ondc/org/item_id"] = i.id;
 		item.title = i.descriptor.name;
@@ -47,12 +46,15 @@ export async function on_select_out_of_stock_generator(
 			item.item.quantity.available.count = "0";
 			item.item.quantity.maximum.count = "0";
 			item["@ondc/org/item_quantity"].count = 0;
+			item.price = { currency: "INR", value: "0.00" };
 			existingPayload.error = {
 				type: "DOMAIN-ERROR",
 				code: "40002",
 				// message: `Item with id: ${i.id} is out of stock`,
 				message: `{"item_id":"${i.id}","error":"40002"}`,
 			};
+		}else{
+			totalPrice += price;
 		}
 	}
 	console.log("Breakup Object: ", breakupObject);
