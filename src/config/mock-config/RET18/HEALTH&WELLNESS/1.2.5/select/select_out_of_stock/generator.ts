@@ -26,12 +26,12 @@ export async function select_out_of_stock_generator(
     existingPayload.message.order.provider.id = inputs.provider;
   }
   if (inputs.provider_location) {
-    const providerLocations = (inputs.provider_location || "")
-			.split(",")
-			.map((location: string) => location.trim())
-			.filter(Boolean)
-			.map((location: string) => ({ id: location }));
-		existingPayload.message.order.provider.locations = providerLocations
+    existingPayload.message.order.provider.locations =
+      inputs.provider_location.map((location: any) => {
+        return {
+          id: location,
+        };
+      });
   }
   if (inputs.location_gps) {
     existingPayload.message.order.fulfillments[0].end.location.gps =
