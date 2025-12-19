@@ -79,13 +79,61 @@ const item_tags = [
     ],
   },
 ];
+
+function updateQuoteWithAddOns(quote: any, items: any[]) {
+  if (!quote || !items?.length) return quote;
+
+  let addOnTotal = 0;
+  const addOnBreakups: any[] = [];
+
+  items.forEach((item) => {
+    const addOns = item.add_ons
+      ?.map((a: any) => {
+        const count = a.quantity?.selected?.count || 0;
+        if (!count) return null;
+
+        addOnTotal += Number(a.price.value) * count;
+
+        return {
+          id: a.id,
+          price: a.price,
+          quantity: { selected: { count } },
+        };
+      })
+      .filter(Boolean);
+
+    if (addOns?.length) {
+      addOnBreakups.push({
+        title: "ADD_ONS",
+        item: { id: item.id, add_ons: addOns },
+        price: { currency: "INR", value: String(addOnTotal) },
+      });
+    }
+  });
+
+  const breakup = quote.breakup.filter((b: any) => b.title !== "ADD_ONS");
+  const baseTotal = breakup.reduce(
+    (sum: any, b: any) => sum + Number(b.price?.value || 0),
+    0
+  );
+
+  return {
+    ...quote,
+    breakup: [...breakup, ...addOnBreakups],
+    price: { currency: "INR", value: String(baseTotal + addOnTotal) },
+    ttl: "PT30S",
+  };
+}
+
 function transformTags(tags: any, quantity: any) {
   const updatedTags = JSON.parse(JSON.stringify(tags)); // deep clone
 
   for (const tag of updatedTags) {
     if (tag.descriptor.code === "INFO" && Array.isArray(tag.list)) {
       for (const item of tag.list) {
-        if (["TOTAL_HOURS", "TOTAL_DISTANCE"].indexOf(item.descriptor.code) !== -1) {
+        if (
+          ["TOTAL_HOURS", "TOTAL_DISTANCE"].indexOf(item.descriptor.code) !== -1
+        ) {
           const originalValue = parseFloat(item.value);
           if (!isNaN(originalValue)) {
             item.value = (originalValue * quantity).toString();
@@ -129,7 +177,8 @@ function generateQuoteFromItems(items: any[]) {
             title: "DISTANCE_FARE",
           },
         ];
-      }).reduce((acc, val) => acc.concat(val), []),
+      })
+      .reduce((acc, val) => acc.concat(val), []),
 
     price: {
       currency: items[0].price.currency,
@@ -183,9 +232,8 @@ function generateAddOnQuote(addOn: any, items: any[]) {
                 selected: {
                   count: quantity,
                 },
-               
-              }
               },
+            },
           ],
         },
         price: {
@@ -198,6 +246,46 @@ function generateAddOnQuote(addOn: any, items: any[]) {
 
   return null; // Return null if no matching add-on is found
 }
+
+function appendAddOns(item: any, sessionData: SessionData) {
+  const updatedSessionItems = sessionData.selected_items?.flat();
+  const currentItem = updatedSessionItems?.find((i: any) => i.id === item.id);
+
+  if (!currentItem?.add_ons?.length) {
+    return [];
+  }
+
+  const fullItem = sessionData.items?.find((it: any) => it.id === item.id);
+  if (!fullItem?.add_ons?.length) {
+    return [];
+  }
+
+  const resolvedAddOns = currentItem.add_ons
+    .map((selectedAddOn: any) => {
+      const fullAddOn = fullItem.add_ons.find(
+        (ao: any) => ao.id === selectedAddOn.id
+      );
+
+      if (!fullAddOn) return null;
+
+      const addOn = {
+        ...fullAddOn,
+        quantity: {
+          selected: {
+            count: selectedAddOn.quantity.selected.count,
+          },
+          unitized: fullAddOn?.quantity?.unitized,
+        },
+      };
+
+      delete addOn?.descriptor;
+      return addOn;
+    })
+    .filter(Boolean);
+
+  return resolvedAddOns;
+}
+
 export async function onSelectMultipleStopsRentalGenerator(
   existingPayload: any,
   sessionData: SessionData
@@ -209,35 +297,29 @@ export async function onSelectMultipleStopsRentalGenerator(
     existingPayload.message.order.items[0].price.value =
       sessionData.updated_price;
   }
-  existingPayload.message.order.items[0].add_ons[0].quantity = {
-    selected: {
-      count: sessionData.selected_add_ons[0].quantity.selected.count,
-    },
-    unitized: {
-      measure: {
-        value: "10",
-        unit: "KILOMETERS",
-      },
+
+  existingPayload.message.order.items.map((item: any) => {
+    if (Array.isArray(item.tags)) {
+      item.tags = item_tags;
     }
-  };
-  const updated_tags = transformTags(
-    item_tags,
-    sessionData.selected_add_ons[0].quantity.selected.count
-  );
-  item[0]["tags"] = updated_tags;
+
+    const addOn = appendAddOns(item, sessionData);
+    item.add_ons = addOn;
+    return item;
+  });
   const filteredFulfillments = filterFulfillmentsByItem(
     item[0],
     sessionData.fulfillments
   );
   existingPayload.message.order.quote = generateQuoteFromItems(item);
-  const old_price = existingPayload.message.order.quote.price.value;
-  const addon = generateAddOnQuote(sessionData.selected_add_ons[0], item);
-  const new_price = Number(old_price) + Number(addon?.price.value);
-  existingPayload.message.order.quote.price.value = String(new_price);
-  existingPayload.message.order.quote.breakup.push(addon);
+      existingPayload.message.order.quote = updateQuoteWithAddOns(
+      existingPayload.message.order.quote,
+      existingPayload.message.order.items
+    );
   existingPayload.message.order.fulfillments = filteredFulfillments;
-  if(sessionData.cancellation_terms){
-    existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms[0];
+  if (sessionData.cancellation_terms) {
+    existingPayload.message.order.cancellation_terms =
+      sessionData.cancellation_terms[0];
   }
   return existingPayload;
 }

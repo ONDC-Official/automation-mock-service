@@ -44,7 +44,7 @@ export async function confirmMultipleStopsGenerator(
     id: sessionData.selected_item_id,
   };
   
-  const flattenedItems = sessionData.init_items.flat();
+  const flattenedItems = sessionData.selected_items.flat();
   if (flattenedItems && flattenedItems.length > 0) {
     existingPayload.message.order.items = flattenedItems;
   }

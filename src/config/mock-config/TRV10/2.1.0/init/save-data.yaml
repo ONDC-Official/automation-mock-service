@@ -4,4 +4,3 @@ save-data:
   payments: "$.message.order.payments[*]"
   fulfillments: "$.message.order.fulfillments[*]"
   provider_id: "$.message.order.provider.id"
-  init_items: "$.message.order.items"

@@ -10,50 +10,6 @@ const customer = {
   },
 };
 
-function updateQuoteWithAddOns(quote: any, items: any[]) {
-  if (!quote || !items?.length) return quote;
-
-  let addOnTotal = 0;
-  const addOnBreakups: any[] = [];
-
-  items.forEach((item) => {
-    const addOns = item.add_ons
-      ?.map((a: any) => {
-        const count = a.quantity?.selected?.count || 0;
-        if (!count) return null;
-
-        addOnTotal += Number(a.price.value) * count;
-
-        return {
-          id: a.id,
-          price: a.price,
-          quantity: { selected: { count } },
-        };
-      })
-      .filter(Boolean);
-
-    if (addOns?.length) {
-      addOnBreakups.push({
-        title: "ADD_ONS",
-        item: { id: item.id, add_ons: addOns },
-        price: { currency: "INR", value: String(addOnTotal) },
-      });
-    }
-  });
-
-  const breakup = quote.breakup.filter((b: any) => b.title !== "ADD_ONS");
-  const baseTotal = breakup.reduce(
-    (sum: any, b: any) => sum + Number(b.price?.value || 0),
-    0
-  );
-
-  return {
-    ...quote,
-    breakup: [...breakup, ...addOnBreakups],
-    price: { currency: "INR", value: String(baseTotal + addOnTotal) },
-    ttl: "PT30S",
-  };
-}
 
 function updateFulfillmentRouteTags(tags: any[]) {
   return tags.map((tag) => {
@@ -136,12 +92,12 @@ function appendAddOns(item: any, sessionData: SessionData) {
           ...fullAddOn?.quantity,
           selected: {
             count: selectedAddOn.quantity.selected.count,
-          }
-        }
+          },
+        },
       };
 
-      delete addOn?.descriptor
-      return addOn
+      delete addOn?.descriptor;
+      return addOn;
     })
     .filter(Boolean);
 
@@ -210,17 +166,14 @@ export async function onInitRentalGenerator(
           item.tags = updateItemInfoTags(item.tags);
         }
 
-        const addOn = appendAddOns(item, sessionData);
-        item.add_ons = addOn
+        // const addOn = appendAddOns(item, sessionData);
+        // item.add_ons = addOn;
         return item;
       });
   }
 
   if (sessionData.quote != null) {
-    existingPayload.message.order.quote = updateQuoteWithAddOns(
-      sessionData.quote,
-      existingPayload.message.order.items
-    );
+    existingPayload.message.order.quote = sessionData.quote;
   }
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
