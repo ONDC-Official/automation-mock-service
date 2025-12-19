@@ -64,19 +64,5 @@ export async function initRentalGenerator(
     );
   }
 
-  if (sessionData.user_inputs?.items?.length > 0) {
-    const addOns = sessionData.user_inputs?.items?.map((item: any) => {
-      return {
-        id: item.addOns,
-        quantity: {
-          selected: {
-            count: item.count,
-          },
-        },
-      };
-    });
-    existingPayload.message.order.items[0].add_ons = addOns;
-  }
-
   return existingPayload;
 }
