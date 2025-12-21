@@ -1,0 +1,784 @@
+codes:
+  - code: 100
+    default: AGRI_INPUT/1.2.5/search/search/default.yaml
+    action_id: search
+    action: search
+    message_id: true
+  - code: 101
+    default: AGRI_INPUT/1.2.5/on_search/on_search/default.yaml
+    action_id: on_search
+    action: on_search
+    message_id: false
+  - code: 102
+    default: AGRI_INPUT/1.2.5/search/search_inc/default.yaml
+    action_id: search_inc
+    action: search
+    message_id: true
+  - code: 902
+    default: AGRI_INPUT/1.2.5/on_search/on_search_inc_disable/default.yaml
+    action_id: on_search_inc_disable
+    action: on_search
+    message_id: true
+  - code: 103
+    default: AGRI_INPUT/1.2.5/on_search/on_search_inc/default.yaml
+    action_id: on_search_inc
+    action: on_search
+    message_id: true
+  - code: 104
+    default: AGRI_INPUT/1.2.5/on_search/on_search_104/default.yaml
+    action_id: on_search_104
+    action: on_search
+    message_id: false
+  - code: 105
+    default: AGRI_INPUT/1.2.5/select/select/default.yaml
+    action_id: select
+    action: select
+    message_id: true
+  - code: 106
+    default: AGRI_INPUT/1.2.5/on_select/on_select/default.yaml
+    action_id: on_select
+    action: on_select
+    message_id: false
+  - code: 107
+    default: AGRI_INPUT/1.2.5/init/init/default.yaml
+    action_id: init
+    action: init
+    message_id: true
+  - code: 108
+    default: AGRI_INPUT/1.2.5/on_init/on_init/default.yaml
+    action_id: on_init
+    action: on_init
+    message_id: false
+  - code: 109
+    default: AGRI_INPUT/1.2.5/confirm/confirm/default.yaml
+    action_id: confirm
+    action: confirm
+    message_id: true
+  - code: 110
+    default: AGRI_INPUT/1.2.5/on_confirm/on_confirm/default.yaml
+    action_id: on_confirm
+    action: on_confirm
+    message_id: false
+  - code: 1101
+    default: AGRI_INPUT/1.2.5/on_status/on_status_accepted/default.yaml
+    action_id: on_status_accepted
+    action: on_status
+    message_id: true
+  - code: 111
+    default: AGRI_INPUT/1.2.5/on_status/on_status_packed/default.yaml
+    action_id: on_status_packed
+    action: on_status
+    message_id: true
+  - code: 112
+    default: AGRI_INPUT/1.2.5/on_status/on_status_agent_assigned/default.yaml
+    action_id: on_status_agent_assigned
+    action: on_status
+    message_id: true
+  - code: 113
+    default: AGRI_INPUT/1.2.5/on_status/on_status_picked/default.yaml
+    action_id: on_status_picked
+    action: on_status
+    message_id: true
+  - code: 114
+    default: AGRI_INPUT/1.2.5/on_status/on_status_out_for_delivery/default.yaml
+    action_id: on_status_out_for_delivery
+    action: on_status
+    message_id: true
+  - code: 115
+    default: AGRI_INPUT/1.2.5/on_status/on_status_order_delivered/default.yaml
+    action_id: on_status_order_delivered
+    action: on_status
+    message_id: true
+  - code: 116
+    default: AGRI_INPUT/1.2.5/track/track/default.yaml
+    action_id: track
+    action: track
+    message_id: true
+  - code: 117
+    default: AGRI_INPUT/1.2.5/on_track/on_track/default.yaml
+    action_id: on_track
+    action: on_track
+    message_id: false
+  - code: 118
+    default: AGRI_INPUT/1.2.5/on_search/on_search_118/default.yaml
+    action_id: on_search_118
+    action: on_search
+    message_id: false
+  - code: 119
+    default: AGRI_INPUT/1.2.5/select/select_out_of_stock/default.yaml
+    action_id: select_out_of_stock
+    action: select
+    message_id: true
+  - code: 120
+    default: AGRI_INPUT/1.2.5/on_select/on_select_out_of_stock/default.yaml
+    action_id: on_select_out_of_stock
+    action: on_select
+    message_id: false
+  - code: 121
+    default: AGRI_INPUT/1.2.5/on_search/on_search_121/default.yaml
+    action_id: on_search_121
+    action: on_search
+    message_id: false
+  - code: 122
+    default: AGRI_INPUT/1.2.5/select/select_122/default.yaml
+    action_id: select_122
+    action: select
+    message_id: true
+  - code: 123
+    default: AGRI_INPUT/1.2.5/on_select/on_select_123/default.yaml
+    action_id: on_select_123
+    action: on_select
+    message_id: false
+  - code: 124
+    default: AGRI_INPUT/1.2.5/init/init_124/default.yaml
+    action_id: init_124
+    action: init
+    message_id: true
+  - code: 125
+    default: AGRI_INPUT/1.2.5/on_init/on_init_125/default.yaml
+    action_id: on_init_125
+    action: on_init
+    message_id: false
+  - code: 126
+    default: AGRI_INPUT/1.2.5/confirm/confirm_126/default.yaml
+    action_id: confirm_126
+    action: confirm
+    message_id: true
+  - code: 127
+    default: AGRI_INPUT/1.2.5/on_confirm/on_confirm_127/default.yaml
+    action_id: on_confirm_127
+    action: on_confirm
+    message_id: false
+  - code: 128
+    default: AGRI_INPUT/1.2.5/cancel/cancel/default.yaml
+    action_id: cancel
+    action: cancel
+    message_id: true
+  - code: 129
+    default: AGRI_INPUT/1.2.5/on_cancel/on_cancel/default.yaml
+    action_id: on_cancel
+    action: on_cancel
+    message_id: false
+  - code: 130
+    default: AGRI_INPUT/1.2.5/on_select/on_select_130/default.yaml
+    action_id: on_select_130
+    action: on_select
+    message_id: false
+  - code: 131
+    default: AGRI_INPUT/1.2.5/init/init_131/default.yaml
+    action_id: init_131
+    action: init
+    message_id: true
+  - code: 132
+    default: AGRI_INPUT/1.2.5/on_init/on_init_132/default.yaml
+    action_id: on_init_132
+    action: on_init
+    message_id: false
+  - code: 133
+    default: AGRI_INPUT/1.2.5/confirm/confirm_133/default.yaml
+    action_id: confirm_133
+    action: confirm
+    message_id: true
+  - code: 134
+    default: AGRI_INPUT/1.2.5/on_confirm/on_confirm_134/default.yaml
+    action_id: on_confirm_134
+    action: on_confirm
+    message_id: false
+  - code: 135
+    default: AGRI_INPUT/1.2.5/on_status/on_status_pending/default.yaml
+    action_id: on_status_pending
+    action: on_status
+    message_id: true
+  - code: 136
+    default: AGRI_INPUT/1.2.5/on_status/on_status_packed_136/default.yaml
+    action_id: on_status_packed_136
+    action: on_status
+    message_id: true
+  - code: 137
+    default: AGRI_INPUT/1.2.5/on_status/on_status_picked_137/default.yaml
+    action_id: on_status_picked_137
+    action: on_status
+    message_id: true
+  - code: 138
+    default: AGRI_INPUT/1.2.5/on_status/on_status_out_for_delivery_138/default.yaml
+    action_id: on_status_out_for_delivery_138
+    action: on_status
+    message_id: true
+  - code: 139
+    default: AGRI_INPUT/1.2.5/on_cancel/on_cancel_rto/default.yaml
+    action_id: on_cancel_rto
+    action: on_cancel
+    message_id: false
+  - code: 140
+    default: AGRI_INPUT/1.2.5/on_status/on_status_rto_delivered/default.yaml
+    action_id: on_status_rto_delivered
+    action: on_status
+    message_id: true
+  - code: 141
+    default: AGRI_INPUT/1.2.5/on_search/on_search_141/default.yaml
+    action_id: on_search_141
+    action: on_search
+    message_id: false
+  - code: 142
+    default: AGRI_INPUT/1.2.5/select/select_142/default.yaml
+    action_id: select_142
+    action: select
+    message_id: true
+  - code: 143
+    default: AGRI_INPUT/1.2.5/on_select/on_select_143/default.yaml
+    action_id: on_select_143
+    action: on_select
+    message_id: false
+  - code: 144
+    default: AGRI_INPUT/1.2.5/init/init_144/default.yaml
+    action_id: init_144
+    action: init
+    message_id: true
+  - code: 145
+    default: AGRI_INPUT/1.2.5/on_init/on_init_145/default.yaml
+    action_id: on_init_145
+    action: on_init
+    message_id: false
+  - code: 146
+    default: AGRI_INPUT/1.2.5/confirm/confirm_146/default.yaml
+    action_id: confirm_146
+    action: confirm
+    message_id: true
+  - code: 147
+    default: AGRI_INPUT/1.2.5/on_confirm/on_confirm_147/default.yaml
+    action_id: on_confirm_147
+    action: on_confirm
+    message_id: false
+  - code: 148
+    default: AGRI_INPUT/1.2.5/on_update/on_update_part_cancel/default.yaml
+    action_id: on_update_part_cancel
+    action: on_update
+    message_id: false
+  - code: 149
+    default: AGRI_INPUT/1.2.5/update/update_settlement_trail/default.yaml
+    action_id: update_settlement_trail
+    action: update
+    message_id: true
+  - code: 150
+    default: AGRI_INPUT/1.2.5/on_status/on_status_pending_150/default.yaml
+    action_id: on_status_pending_150
+    action: on_status
+    message_id: true
+  - code: 151
+    default: AGRI_INPUT/1.2.5/on_status/on_status_packed_151/default.yaml
+    action_id: on_status_packed_151
+    action: on_status
+    message_id: true
+  - code: 152
+    default: AGRI_INPUT/1.2.5/on_status/on_status_picked_152/default.yaml
+    action_id: on_status_picked_152
+    action: on_status
+    message_id: true
+  - code: 153
+    default: AGRI_INPUT/1.2.5/on_status/on_status_out_for_delivery_153/default.yaml
+    action_id: on_status_out_for_delivery_153
+    action: on_status
+    message_id: true
+  - code: 154
+    default: AGRI_INPUT/1.2.5/on_status/on_status_order_delivered_154/default.yaml
+    action_id: on_status_order_delivered_154
+    action: on_status
+    message_id: true
+  - code: 155
+    default: AGRI_INPUT/1.2.5/on_status/on_status_pending_155/default.yaml
+    action_id: on_status_pending_155
+    action: on_status
+    message_id: true
+  - code: 156
+    default: AGRI_INPUT/1.2.5/on_status/on_status_packed_156/default.yaml
+    action_id: on_status_packed_156
+    action: on_status
+    message_id: true
+  - code: 157
+    default: AGRI_INPUT/1.2.5/on_status/on_status_picked_157/default.yaml
+    action_id: on_status_picked_157
+    action: on_status
+    message_id: true
+  - code: 158
+    default: AGRI_INPUT/1.2.5/on_status/on_status_out_for_delivery_158/default.yaml
+    action_id: on_status_out_for_delivery_158
+    action: on_status
+    message_id: true
+  - code: 159
+    default: AGRI_INPUT/1.2.5/on_status/on_status_order_delivered_159/default.yaml
+    action_id: on_status_order_delivered_159
+    action: on_status
+    message_id: true
+  - code: 160
+    default: AGRI_INPUT/1.2.5/update/update_liquidated/default.yaml
+    action_id: update_liquidated
+    action: update
+    message_id: true
+  - code: 161
+    default: AGRI_INPUT/1.2.5/on_update/on_update_interim_liquidated/default.yaml
+    action_id: on_update_interim_liquidated
+    action: on_update
+    message_id: false
+  - code: 162
+    default: AGRI_INPUT/1.2.5/on_update/on_update_liquidated/default.yaml
+    action_id: on_update_liquidated
+    action: on_update
+    message_id: false
+  - code: 163
+    default: AGRI_INPUT/1.2.5/update/update_liquidated_settlement/default.yaml
+    action_id: update_liquidated_settlement
+    action: update
+    message_id: true
+  - code: 164
+    default: AGRI_INPUT/1.2.5/update/update_reverse_qc/default.yaml
+    action_id: update_reverse_qc
+    action: update
+    message_id: true
+  - code: 165
+    default: AGRI_INPUT/1.2.5/on_update/on_update_interim_reverseQc/default.yaml
+    action_id: on_update_interim_reverseQc
+    action: on_update
+    message_id: false
+  - code: 166
+    default: AGRI_INPUT/1.2.5/on_update/on_update_approved/default.yaml
+    action_id: on_update_approved
+    action: on_update
+    message_id: false
+  - code: 167
+    default: AGRI_INPUT/1.2.5/on_update/on_update_picked/default.yaml
+    action_id: on_update_picked
+    action: on_update
+    message_id: false
+  - code: 168
+    default: AGRI_INPUT/1.2.5/update/update_reverse_qc_settlement/default.yaml
+    action_id: update_reverse_qc_settlement
+    action: update
+    message_id: true
+  - code: 169
+    default: AGRI_INPUT/1.2.5/on_update/on_update_return_delivered/default.yaml
+    action_id: on_update_return_delivered
+    action: on_update
+    message_id: false
+  - code: 170
+    default: AGRI_INPUT/1.2.5/on_update/on_update_interim_reverse_qc/default.yaml
+    action_id: on_update_interim_reverse_qc
+    action: on_update
+    message_id: false
+  - code: 171
+    default: AGRI_INPUT/1.2.5/on_update/on_update_approval/default.yaml
+    action_id: on_update_approval
+    action: on_update
+    message_id: false
+  - code: 172
+    default: AGRI_INPUT/1.2.5/on_update/on_update_picked_172/default.yaml
+    action_id: on_update_picked_172
+    action: on_update
+    message_id: false
+  - code: 173
+    default: AGRI_INPUT/1.2.5/on_update/on_update_return_delivered_173/default.yaml
+    action_id: on_update_return_delivered_173
+    action: on_update
+    message_id: false
+  - code: 174
+    default: AGRI_INPUT/1.2.5/on_update/on_update_interim_liquidated_174/default.yaml
+    action_id: on_update_interim_liquidated_174
+    action: on_update
+    message_id: false
+  - code: 175
+    default: AGRI_INPUT/1.2.5/on_update/on_update_liquidated_175/default.yaml
+    action_id: on_update_liquidated_175
+    action: on_update
+    message_id: false
+  - code: 176
+    default: AGRI_INPUT/1.2.5/update/update_return/default.yaml
+    action_id: update_return
+    action: update
+    message_id: true
+  - code: 177
+    default: AGRI_INPUT/1.2.5/on_update/on_update_return_init/default.yaml
+    action_id: on_update_return_init
+    action: on_update
+    message_id: false
+  - code: 178
+    action_id: on_update_return_approved
+    default: AGRI_INPUT/1.2.5/on_update/on_update_return_approved/default.yaml
+    action: on_update
+    message_id: true
+  - code: 179
+    action_id: on_update_return_picked
+    default: AGRI_INPUT/1.2.5/on_update/on_update_return_picked/default.yaml
+    message_id: true
+    action: on_update
+  - code: 180
+    action_id: on_search_inc_close
+    default: AGRI_INPUT/1.2.5/on_search/on_search_inc_close/default.yaml
+    action: on_search
+    message_id: true
+  - code: 181
+    action_id: on_search_inc_open
+    default: AGRI_INPUT/1.2.5/on_search/on_search_inc_open/default.yaml
+    action: on_search
+    message_id: true
+  - code: 182
+    action_id: init_cod
+    default: AGRI_INPUT/1.2.5/init/init_cod/default.yaml
+    action: init
+    message_id: true
+  - code: 183
+    action_id: on_init_cod
+    default: AGRI_INPUT/1.2.5/on_init/on_init_cod/default.yaml
+    action: on_init
+    message_id: false
+  - code: 184
+    action_id: confirm_cod
+    default: AGRI_INPUT/1.2.5/confirm/confirm_cod/default.yaml
+    action: confirm
+    message_id: true
+  - code: 185
+    action_id: on_confirm_cod
+    default: AGRI_INPUT/1.2.5/on_confirm/on_confirm_cod/default.yaml
+    action: on_confirm
+    message_id: false
+  - code: 186
+    action_id: on_status_order_delivered_cod
+    default: AGRI_INPUT/1.2.5/on_status/on_status_order_delivered_cod/default.yaml
+    action: on_status
+    message_id: true
+  - code: 187
+    action_id: on_select_buyer_delivery
+    default: AGRI_INPUT/1.2.5/on_select/on_select_buyer_delivery/default.yaml
+    action: on_select
+    message_id: false
+  - code: 188
+    action_id: init_buyer_delivery
+    default: AGRI_INPUT/1.2.5/init/init_buyer_delivery/default.yaml
+    action: init
+    message_id: true
+  - code: 189
+    action_id: on_init_buyer_delivery
+    default: AGRI_INPUT/1.2.5/on_init/on_init_buyer_delivery/default.yaml
+    action: on_init
+    message_id: false
+  - code: 190
+    action_id: on_status_ready_to_ship
+    default: AGRI_INPUT/1.2.5/on_status/on_status_ready_to_ship/default.yaml
+    action: on_status
+    message_id: true
+  - code: 191
+    action_id: update_picked_up
+    default: AGRI_INPUT/1.2.5/update/update_picked_up/default.yaml
+    action: update
+    message_id: true
+  - code: 192
+    action_id: update_delivered
+    default: AGRI_INPUT/1.2.5/update/update_delivered/default.yaml
+    action: update
+    message_id: true
+  - code: 193
+    action_id: on_select_multi_fulfillment
+    default: AGRI_INPUT/1.2.5/on_select/on_select_multi_fulfillment/default.yaml
+    action: on_select
+    message_id: false
+  - code: 194
+    action_id: init_multi_fulfillment
+    default: AGRI_INPUT/1.2.5/init/init_multi_fulfillment/default.yaml
+    action: init
+    message_id: true
+  - code: 195
+    action_id: on_init_multi_fulfillment
+    default: AGRI_INPUT/1.2.5/on_init/on_init_multi_fulfillment/default.yaml
+    action: on_init
+    message_id: false
+  - code: 196
+    action_id: dyn_on_status
+    default: AGRI_INPUT/1.2.5/on_status/dyn_on_status/default.yaml
+    action: on_status
+    message_id: true
+  - code: 197
+    action_id: confirm_multi_fulfillment
+    default: AGRI_INPUT/1.2.5/confirm/confirm_multi_fulfillment/default.yaml
+    action: confirm
+    message_id: true
+  - code: 198
+    default: AGRI_INPUT/1.2.5/update/update_buyer_instructions/default.yaml
+    action_id: update_buyer_instructions
+    action: update
+    message_id: true
+  - code: 199
+    default: AGRI_INPUT/1.2.5/update/update_delivery_address/default.yaml
+    action_id: update_delivery_address
+    action: update
+    message_id: true
+  - code: 200
+    default: AGRI_INPUT/1.2.5/on_update/on_update_buyer_instructions/default.yaml
+    action_id: on_update_buyer_instructions
+    action: on_update
+    message_id: false
+  - code: 201
+    default: AGRI_INPUT/1.2.5/on_update/on_update_delivery_address/default.yaml
+    action_id: on_update_delivery_address
+    action: on_update
+    message_id: false
+  - code: 202
+    default: AGRI_INPUT/1.2.5/on_update/on_update_delivery_auth/default.yaml
+    action_id: on_update_delivery_auth
+    action: on_update
+    message_id: true
+  - code: 203
+    default: AGRI_INPUT/1.2.5/on_select/on_select_slotted_delivery/default.yaml
+    action_id: on_select_slotted_delivery
+    action: on_select
+    message_id: false
+  - code: 204
+    default: AGRI_INPUT/1.2.5/init/init_slotted_delivery/default.yaml
+    action_id: init_slotted_delivery
+    action: init
+    message_id: true
+  - code: 205
+    default: AGRI_INPUT/1.2.5/on_init/on_init_slotted_delivery/default.yaml
+    action_id: on_init_slotted_delivery
+    action: on_init
+    message_id: false
+  - code: 206
+    default: AGRI_INPUT/1.2.5/on_select/on_select_self_pickup/default.yaml
+    action_id: on_select_self_pickup
+    action: on_select
+    message_id: false
+  - code: 207
+    default: AGRI_INPUT/1.2.5/init/init_self_pickup/default.yaml
+    action_id: init_self_pickup
+    action: init
+    message_id: true
+  - code: 208
+    default: AGRI_INPUT/1.2.5/on_init/on_init_self_pickup/default.yaml
+    action_id: on_init_self_pickup
+    action: on_init
+    message_id: false
+  - code: 209
+    default: AGRI_INPUT/1.2.5/on_status/on_status_accepted/default.yaml
+    action_id: on_status_accepted
+    action: on_status
+    message_id: true
+  - code: 210
+    default: AGRI_INPUT/1.2.5/on_status/on_status_self_pick_packed/default.yaml
+    action_id: on_status_self_pick_packed
+    action: on_status
+    message_id: true
+  - code: 211
+    default: AGRI_INPUT/1.2.5/on_status/on_status_self_pick_picked/default.yaml
+    action_id: on_status_self_pick_picked
+    action: on_status
+    message_id: true
+  - code: 212
+    action_id: search_inc_stop
+    default: AGRI_INPUT/1.2.5/search/search_inc/default.yaml
+    action: search
+    message_id: true
+  - code: 213
+    action_id: cancel_force
+    action: cancel
+    default: AGRI_INPUT/1.2.5/cancel/cancel_force/default.yaml
+    message_id: true
+  - code: 214
+    action_id: on_cancel_force
+    action: on_cancel
+    default: AGRI_INPUT/1.2.5/on_cancel/on_cancel_force/default.yaml
+    message_id: false
+  - code: 215
+    action_id: cancel_breach
+    action: cancel
+    default: AGRI_INPUT/1.2.5/cancel/cancel_breach/default.yaml
+    message_id: true
+  - code: 216
+    default: AGRI_INPUT/1.2.5/on_select/on_select_commercial_model/default.yaml
+    action_id: on_select_commercial_model
+    action: on_select
+    message_id: false
+  - code: 217
+    default: AGRI_INPUT/1.2.5/init/init_commercial_model/default.yaml
+    action_id: init_commercial_model
+    action: init
+    message_id: true
+  - code: 218
+    default: AGRI_INPUT/1.2.5/on_init/on_init_commercial_model/default.yaml
+    action_id: on_init_commercial_model
+    action: on_init
+    message_id: false
+  - code: 219
+    default: AGRI_INPUT/1.2.5/confirm/confirm_commercial_model/default.yaml
+    action_id: confirm_commercial_model
+    action: confirm
+    message_id: true
+  - code: 220
+    default: AGRI_INPUT/1.2.5/on_confirm/on_confirm_commercial_model/default.yaml
+    action_id: on_confirm_commercial_model
+    action: on_confirm
+    message_id: false
+  - code: 221
+    action_id: cancel_no
+    action: cancel
+    default: AGRI_INPUT/1.2.5/cancel/cancel_no/default.yaml
+    message_id: true
+  - code: 221
+    action_id: cancel_yes
+    action: cancel
+    default: AGRI_INPUT/1.2.5/cancel/cancel_yes/default.yaml
+    message_id: true
+  - code: 221
+    action_id: update_settlement_cancel
+    action: update
+    default: AGRI_INPUT/1.2.5/update/update_settlement_cancel/default.yaml
+    message_id: true
+  - code: 223
+    action_id: on_status_out_for_delivery_force
+    action: on_status
+    default: AGRI_INPUT/1.2.5/on_status/on_status_out_for_delivery_force/default.yaml
+    message_id: true
+  - code: 316
+    action_id: issue_open
+    action: issue
+    default: AGRI_INPUT/1.2.5/issue/issue_open/default.yaml
+    message_id: true
+  - code: 317
+    action_id: on_issue_processing
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 318
+    action_id: on_issue_need_more_info
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_need_more_info/default.yaml
+    message_id: true
+  - code: 319
+    action_id: issue_info_provided
+    action: issue
+    default: AGRI_INPUT/1.2.5/issue/issue_info_provided/default.yaml
+    message_id: true
+  - code: 320
+    action_id: on_issue_provided
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_provided/default.yaml
+    message_id: false
+  - code: 321
+    action_id: on_issue_resolution
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 322
+    action_id: issue_resolution_accept
+    action: issue
+    default: AGRI_INPUT/1.2.5/issue/issue_resolution_accept/default.yaml
+    message_id: true
+  - code: 323
+    action_id: on_issue_resolved
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_resolved/default.yaml
+    message_id: true
+  - code: 324
+    action_id: issue_close
+    action: issue
+    default: AGRI_INPUT/1.2.5/issue/issue_close/default.yaml
+    message_id: true
+  # - code: 163
+  #   action_id: issue_close_thumbs_Down
+  #   action: issue
+  #   default: issue/issue_close/default.yaml
+  #   message_id: true
+  - code: 325
+    action_id: issue_open_2
+    action: issue
+    default: AGRI_INPUT/1.2.5/issue/issue_open_2/default.yaml
+    message_id: true
+  - code: 326
+    action_id: issue_resolution_reject
+    action: issue
+    default: AGRI_INPUT/1.2.5/issue/issue_resolution_accept/default.yaml
+    message_id: true
+  - code: 326
+    action_id: on_issue_processing_1
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 327
+    action_id: on_issue_processing_2
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 328
+    action_id: issue_escalate
+    action: issue
+    default: AGRI_INPUT/1.2.5/issue/issue_open/default.yaml
+    message_id: true
+  - code: 329
+    action_id: on_issue_resolution_1
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 330
+    action_id: on_issue_resolution_2
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 331
+    action_id: on_issue_resolution_igm_3
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 332
+    action_id: issue_resolution_accept_igm_3
+    action: issue
+    default: AGRI_INPUT/1.2.5/issue/issue_resolution_accept/default.yaml
+    message_id: true
+  - code: 333
+    action_id: on_issue_resolved_igm_3
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_resolved/default.yaml
+    message_id: true
+  - code: 334
+    action_id: issue_close_igm_3
+    action: issue
+    default: AGRI_INPUT/1.2.5/issue/issue_close/default.yaml
+    message_id: true
+  - code: 335
+    action_id: on_update_igm_return
+    action: on_update
+    default: AGRI_INPUT/1.2.5/on_update/on_update_return_igm/default.yaml
+    message_id: true
+  - code: 336
+    action_id: on_update_igm_replacement
+    action: on_update
+    default: AGRI_INPUT/1.2.5/on_update/on_update_replacement_igm/default.yaml
+    message_id: true
+  - code: 337
+    action_id: on_status_igm_3
+    action: on_status
+    default: AGRI_INPUT/1.2.5/on_status/on_status_order_delivered/default.yaml
+    message_id: true
+
+        # _________________________IMG_1.0.0_________________________
+
+  - code: 340
+    action_id: issue_open_100
+    action: issue
+    default: AGRI_INPUT/1.2.5/issue/issue_100/issue_open/default.yaml
+    message_id: true
+  - code: 341
+    action_id: on_issue_processing_100
+    action: on_issue
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_100/on_issue_processing/default.yaml
+    message_id: false  
+  - code: 342
+    action_id: on_issue_resolved_100
+    action: on_issue_status
+    default: AGRI_INPUT/1.2.5/on_issue/on_issue_100/on_issue_resolved/default.yaml
+    message_id: true  
+  - code: 343
+    action_id: issue_close_100
+    action: issue
+    default: AGRI_INPUT/1.2.5/issue/issue_100/issue_close/default.yaml
+    message_id: true    
+  - code: 344
+    action_id: catalog_rejection
+    action: catalog_rejection
+    default: AGRI_INPUT/1.2.5/on_search/catalog_rejection/default.yaml
+    message_id: true

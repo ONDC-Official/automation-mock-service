@@ -1,0 +1,11 @@
+update_target: fulfillment
+order:
+  id: O1
+  fulfillments:
+    - id: F1
+      end:
+        instructions:
+          long_desc: Leave package outside the door and do not ring the bell.
+          additional_desc:
+            content_type: text/html
+            url: url for additional info
