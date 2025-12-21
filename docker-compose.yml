@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  mock-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${CONTAINER_NAME:-automation-mock-service}
+    ports:
+      - "${PORT:-8000}:${PORT:-8000}"
+    env_file:
+      - .env
+    restart: always

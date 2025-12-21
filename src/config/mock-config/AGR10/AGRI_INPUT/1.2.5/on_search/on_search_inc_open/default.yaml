@@ -1,0 +1,8 @@
+catalog:
+  bpp/providers:
+    - id: "P1"
+      locations:
+        - id: "L1"
+          time:
+            label: "open"
+            timestamp: "2025-01-08T08:30:00.000Z"

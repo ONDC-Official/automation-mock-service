@@ -1,0 +1,13 @@
+update_target: payment
+order:
+  id: 2025-02-10-293522
+  fulfillments:
+    - id: 67a9bfda73aa689a957ebafd
+      type: Return
+  payment:
+    '@ondc/org/settlement_details':
+      - settlement_counterparty: buyer
+        settlement_phase: refund
+        settlement_type: netbanking
+        settlement_amount: '500'
+        settlement_timestamp: '2025-02-10T10:00:58.182Z'

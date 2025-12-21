@@ -1,0 +1,16 @@
+order:
+  items:
+    - id: oc_72
+      quantity:
+        count: 5
+      location_id: location_15
+  provider:
+    id: oc_22
+    locations:
+      - id: location_15
+  fulfillments:
+    - end:
+        location:
+          gps: 12.963691,77.577137
+          address:
+            area_code: '560002'

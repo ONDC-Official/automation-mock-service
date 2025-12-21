@@ -1,0 +1,76 @@
+{
+  "transaction_id": "9e5b11bd-3498-4013-b1e8-7610e916d62c",
+  "message_id": "3143484f-3662-4a13-af74-9db0f6170fbf",
+  "city": "std:011",
+  "inc_mode": null,
+  "selected_items": [
+    {
+      "id": "I1",
+      "quantity": {
+        "count": 1
+      },
+      "location": "L1"
+    },
+    {
+      "id": "I2",
+      "quantity": {
+        "count": 1
+      },
+      "location": "L1"
+    }
+  ],
+  "selected_fulfillments": [
+    {
+      "end": {
+        "location": {
+          "gps": "12.1233,12.9992",
+          "address": {
+            "area_code": "110092"
+          }
+        }
+      }
+    }
+  ],
+  "items": [],
+  "provider": {
+    "id": "P1",
+    "locations": [
+      {
+        "id": "L1"
+      }
+    ]
+  },
+  "billing": null,
+  "fulfillments": [],
+  "quote": null,
+  "order_id": null,
+  "payment": null,
+  "order_state": null,
+  "order_created_at": null,
+  "on_select_fulfillments": [],
+  "on_status_fulfillments": [],
+  "tags": [],
+  "bap_terms": null,
+  "bpp_terms": null,
+  "out_of_stock_item_ids": [],
+  "cancellation_reason_id": null,
+  "update_fulfillments": [],
+  "on_select_items": [],
+  "selected_offers": [],
+  "last_updated_at": null,
+  "search_bap_terms": null,
+  "selected_np_fees": [],
+  "tat": null,
+  "latest_issue_payload": "any",
+  "provider_id": "any",
+  "status": "any",
+  "igm_action": "any",
+  "issue_action": [],
+  "issue_resolution": [],
+  "last_action": "any",
+  "bap_id": "dev-automation.ondc.org",
+  "bpp_id": "dev-automation.ondc.org",
+  "bap_uri": "https://dev-automation.ondc.org/buyer",
+  "bpp_uri": "https://dev-automation.ondc.org/seller",
+  "subscriber_url": "test-subscriber-url"
+}
