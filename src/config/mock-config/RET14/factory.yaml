@@ -397,3 +397,13 @@ codes:
     action: issue
     default: ELECTRONICS/1.2.5/issue/issue_100/issue_close/default.yaml
     message_id: true
+  - code: 344
+    action_id: track
+    action: track
+    default: ELECTRONICS/1.2.5/track/track/default.yaml
+    message_id: true
+  - code: 345
+    action_id: on_track
+    action: on_track
+    default: ELECTRONICS/1.2.5/on_track/on_track/default.yaml
+    message_id: false

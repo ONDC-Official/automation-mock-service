@@ -17,7 +17,8 @@ import { on_status_agent_assigned_generator } from "./on_status/on_status_agent_
 import { on_status_picked_generator } from "./on_status/on_status_picked/generator";
 import { on_status_out_for_delivery_generator } from "./on_status/on_status_out_for_delivery/generator";
 import { on_status_order_delivered_generator } from "./on_status/on_status_order_delivered/generator";
-
+import { track_generator } from "./track/track/generator";
+import { on_track_generator } from "./on_track/on_track/generator";
 import { select_out_of_stock_generator } from "./select/select_out_of_stock/generator";
 import { on_select_out_of_stock_generator } from "./on_select/on_select_out_of_stock/generator";
 
@@ -91,6 +92,10 @@ export async function Generator(
       return on_status_out_for_delivery_generator(existingPayload, sessionData);
     case "on_status_order_delivered":
       return on_status_order_delivered_generator(existingPayload, sessionData);
+    case "track":
+			return track_generator(existingPayload, sessionData);
+		case "on_track":
+			return on_track_generator(existingPayload, sessionData);
     case "select_out_of_stock":
       return select_out_of_stock_generator(existingPayload, sessionData);
     case "on_select_out_of_stock":
