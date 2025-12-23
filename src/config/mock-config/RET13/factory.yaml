@@ -467,3 +467,13 @@ codes:
     action: issue
     default: BPC/1.2.5/issue/issue_100/issue_close/default.yaml
     message_id: true
+  - code: 344
+    action_id: track
+    action: track
+    default: BPC/1.2.5/track/default.yaml
+    message_id: true
+  - code: 345
+    action_id: on_track
+    action: on_track
+    default: BPC/1.2.5/on_track/default.yaml
+    message_id: false
