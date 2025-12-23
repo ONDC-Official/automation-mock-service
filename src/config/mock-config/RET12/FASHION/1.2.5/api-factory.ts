@@ -67,6 +67,8 @@ import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replaceme
 import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
 import { catalog_rejection_generator } from "./on_search/catalog_rejection/generator";
+import { track_generator } from "./track/generator";
+import { on_track_generator } from "./on_track/generator";
 
 export async function Generator(
   action_id: string,
@@ -191,6 +193,10 @@ export async function Generator(
         existingPayload,
         sessionData
       );
+    case "track":
+      return track_generator(existingPayload, sessionData);
+    case "on_track":
+      return on_track_generator(existingPayload, sessionData);
     case "confirm_seller_cred":
       return confirm_seller_cred_generator(existingPayload, sessionData);
     case "on_confirm_seller_cred":
