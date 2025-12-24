@@ -53,6 +53,18 @@ export interface SessionData {
 	fulfillments_copy: any;
 	user_inputs: any;
 	init_items: any[];
+	igm_action: any;
+	issue_action: any[]
+	issue_resolution: any
+	latest_issue_payload: any;
+	issue_id: any;
+	issue_level: any
+	issue_created_at: any
+	on_issue_actions: any
+	issue_actions: any
+	provider: any
+	fulfillment_id: any
+	flow_id: any
 }
 
 export type BecknContext = {
@@ -76,3 +88,34 @@ export type BecknContext = {
 	ttl: string;
 	version: string;
 };
+
+export interface Input {
+  category?: string;
+  paymentType?: string;
+  city_code?: string;
+  start_gps?: string;
+  end_gps?: string;
+  start_code?: string;
+  end_code?: string;
+  feature_discovery?: string[];
+  fulfillRequest?: string;
+  retailCategory?: string;
+  returnToOrigin?: string;
+  default_feature?: string[];
+  SelectInputType?: {
+    provider?: string;
+    provider_location?: string[];
+    location_gps?: string;
+    location_pin_code?: string;
+    items?: {
+      itemId?: string;
+      quantity?: number;
+      location?: string;
+    }[];
+  };
+  CancelInputType: {
+    cancellation_reason_id?: string;
+  };
+  resolution_accept: any
+  rating: string
+}
