@@ -8,7 +8,7 @@ export async function createMockResponse(
 	session_id: string,
 	sessionData: SessionData,
 	action_id: string,
-	input?: any
+	input?: Record<any, any>
 ) {
 	RedisService.useDb(0);
 	const api_session = (await RedisService.getKey(session_id)) ?? "";
@@ -18,7 +18,7 @@ export async function createMockResponse(
  	sessionData.user_inputs = input;
 	let payload: any = {};
 	if (version === "2.1.0") {
-		payload = await createMockReponseTRV10(action_id, sessionData);
+		payload = await createMockReponseTRV10(action_id, sessionData, input);
 	}
 	if (data.npType === "BAP") {
 		payload.context.bap_uri = data.subscriberUrl;
