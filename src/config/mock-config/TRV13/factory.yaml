@@ -2,42 +2,42 @@ codes:
   - code: 100
     action_id: search_1
     action: search
-    default: TRV13/2.0.0/search/search_city_based/default.yaml
+    default: TRV13/2.0.0/search/search_1/default.yaml
     message_id: true
   - code: 101
     action_id: on_search_1
     action: on_search
-    default: TRV13/2.0.0/on_search/on_search_particular_city/default.yaml
+    default: TRV13/2.0.0/on_search/on_search_1/default.yaml
     message_id: false
   - code: 102
     action_id: search_2
     action: search
-    default: TRV13/2.0.0/search/search_incremental/default.yaml
+    default: TRV13/2.0.0/search/search_2/default.yaml
     message_id: true
   - code: 103
     action_id: on_search_2
     action: on_search
-    default: TRV13/2.0.0/on_search/on_search_delta_changes/default.yaml
+    default: TRV13/2.0.0/on_search/on_search_2/default.yaml
     message_id: false
   - code: 104
     action_id: search_3
     action: search
-    default: TRV13/2.0.0/search/search_availablity_of_hotel/default.yaml
+    default: TRV13/2.0.0/search/search_3/default.yaml
     message_id: true
   - code: 105
     action_id: on_search_3
     action: on_search
-    default: TRV13/2.0.0/on_search/on_search_available_accomodation/default.yaml
+    default: TRV13/2.0.0/on_search/on_search_3/default.yaml
     message_id: false
   - code: 106
     action_id: search_4
     action: search
-    default: TRV13/2.0.0/search/search_specific_hotel/default.yaml
+    default: TRV13/2.0.0/search/search_4/default.yaml
     message_id: true
   - code: 107
     action_id: on_search_4
     action: on_search
-    default: TRV13/2.0.0/on_search/on_search_particular_provider/default.yaml
+    default: TRV13/2.0.0/on_search/on_search_4/default.yaml
     message_id: false
   - code: 108
     action_id: select
@@ -48,6 +48,46 @@ codes:
     action_id: on_select
     action: on_select
     default: TRV13/2.0.0/on_select/default.yaml
+    message_id: false
+  - code: 110
+    action_id: select_1
+    action: select
+    default: TRV13/2.0.0/select/select_1/default.yaml
+    message_id: true
+  - code: 111
+    action_id: on_select_1
+    action: on_select
+    default: TRV13/2.0.0/on_select/on_select_1/default.yaml
+    message_id: false
+  - code: 112
+    action_id: select_2
+    action: select
+    default: TRV13/2.0.0/select/select_2/default.yaml
+    message_id: true
+  - code: 113
+    action_id: on_select_2
+    action: on_select
+    default: TRV13/2.0.0/on_select/on_select_2/default.yaml
+    message_id: false
+  - code: 114
+    action_id: select_3
+    action: select
+    default: TRV13/2.0.0/select/select_3/default.yaml
+    message_id: true
+  - code: 115
+    action_id: on_select_3
+    action: on_select
+    default: TRV13/2.0.0/on_select/on_select_3/default.yaml
+    message_id: false
+  - code: 116
+    action_id: select_4
+    action: select
+    default: TRV13/2.0.0/select/select_4/default.yaml
+    message_id: true
+  - code: 117
+    action_id: on_select_4
+    action: on_select
+    default: TRV13/2.0.0/on_select/on_select_4/default.yaml
     message_id: false
   - code: 110
     action_id: init
@@ -109,6 +149,96 @@ codes:
     action: on_search
     default: TRV13/2.0.0/on_search/on_search_5/default.yaml
     message_id: false   
+  - code: 122
+    action_id: init_1
+    action: init
+    default: TRV13/2.0.0/init/init_1/default.yaml
+    message_id: true
+  - code: 123
+    action_id: on_init_1
+    action: on_init
+    default: TRV13/2.0.0/on_init/on_init_1/default.yaml
+    message_id: false
+  - code: 124
+    action_id: confirm_1
+    action: confirm
+    default: TRV13/2.0.0/confirm/confirm_1/default.yaml
+    message_id: true
+  - code: 125
+    action_id: on_confirm_1
+    action: on_confirm
+    default: TRV13/2.0.0/on_confirm/on_confirm_1/default.yaml
+    message_id: false
+  - code: 126
+    action_id: status_1
+    action: status
+    default: TRV13/2.0.0/status/status_1/default.yaml
+    message_id: true
+  - code: 127
+    action_id: on_status_1
+    action: on_status
+    default: TRV13/2.0.0/on_status/on_status_1/default.yaml
+    message_id: false
+  - code: 128
+    action_id: init_3
+    action: init
+    default: TRV13/2.0.0/init/init_3/default.yaml
+    message_id: true
+  - code: 129
+    action_id: on_init_3
+    action: on_init
+    default: TRV13/2.0.0/on_init/on_init_3/default.yaml
+    message_id: false
+  - code: 130
+    action_id: confirm_3
+    action: confirm
+    default: TRV13/2.0.0/confirm/confirm_3/default.yaml
+    message_id: true
+  - code: 131
+    action_id: on_confirm_3
+    action: on_confirm
+    default: TRV13/2.0.0/on_confirm/on_confirm_3/default.yaml
+    message_id: false
+  - code: 132
+    action_id: status_3
+    action: status
+    default: TRV13/2.0.0/status/status_3/default.yaml
+    message_id: true
+  - code: 133
+    action_id: on_status_3
+    action: on_status
+    default: TRV13/2.0.0/on_status/on_status_3/default.yaml
+    message_id: false
+  - code: 134
+    action_id: init_4
+    action: init
+    default: TRV13/2.0.0/init/init_4/default.yaml
+    message_id: true
+  - code: 135
+    action_id: on_init_4
+    action: on_init
+    default: TRV13/2.0.0/on_init/on_init_4/default.yaml
+    message_id: false
+  - code: 136
+    action_id: confirm_4
+    action: confirm
+    default: TRV13/2.0.0/confirm/confirm_4/default.yaml
+    message_id: true
+  - code: 137
+    action_id: on_confirm_4
+    action: on_confirm
+    default: TRV13/2.0.0/on_confirm/on_confirm_4/default.yaml
+    message_id: false
+  - code: 138
+    action_id: status_4
+    action: status
+    default: TRV13/2.0.0/status/status_4/default.yaml
+    message_id: true
+  - code: 139
+    action_id: on_status_4
+    action: on_status
+    default: TRV13/2.0.0/on_status/on_status_4/default.yaml
+    message_id: false
   # - code: 118
   #   action_id: on_confirm_technical_cancellation
   #   action: on_confirm

@@ -5,7 +5,7 @@ import { MockAction, MockOutput, saveType } from "../../../classes/mock-action";
 import { SessionData } from "../../../session-types";
 import { search_ttl_based_generator } from "./generator";
 
-export class searchTTLBased extends MockAction {
+export class SearchTTLBased extends MockAction {
   get saveData(): saveType {
     return yaml.load(
       readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
@@ -14,7 +14,7 @@ export class searchTTLBased extends MockAction {
   get defaultData(): any {
     return yaml.load(
       readFileSync(
-        path.resolve(__dirname, "./search_incremental_pull.yaml"),
+        path.resolve(__dirname, "./default.yaml"),
         "utf8"
       )
     );
@@ -23,10 +23,10 @@ export class searchTTLBased extends MockAction {
     return {};
   }
   name(): string {
-    return "search_incremental_pull";
+    return "search_ttl_based";
   }
   get description(): string {
-    return "Mock for search_incremental_pull";
+    return "Mock for search TTL based";
   }
   generator(existingPayload: any, sessionData: SessionData): Promise<any> {
     return search_ttl_based_generator(existingPayload, sessionData);
