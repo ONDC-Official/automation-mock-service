@@ -1,0 +1,256 @@
+message:
+  order:
+    id: O2
+    state: Created
+
+    provider:
+      id: P1
+      locations:
+        - id: L1
+
+    items:
+      - id: I1
+        fulfillment_id: F1
+        time:
+          label: TAT
+          duration: P5D
+          timestamp: "2024-11-25"
+
+    quote:
+      price:
+        currency: INR
+        value: "19680.00"
+      breakup:
+        - "@ondc/org/item_id": I1
+          "@ondc/org/title_type": delivery
+          price:
+            currency: INR
+            value: "16500.00"
+
+        - "@ondc/org/item_id": I1
+          "@ondc/org/title_type": tax
+          price:
+            currency: INR
+            value: "2970.00"
+
+        - "@ondc/org/item_id": F1
+          "@ondc/org/title_type": insurance
+          price:
+            currency: INR
+            value: "200.00"
+
+        - "@ondc/org/item_id": F1
+          "@ondc/org/title_type": tax
+          price:
+            currency: INR
+            value: "10.00"
+          item:
+            tags:
+              - code: quote
+                list:
+                  - code: type
+                    value: insurance
+      ttl: PT15M
+
+    fulfillments:
+      - id: F1
+        type: FTL
+        "@ondc/org/awb_no": "1227262193237777"
+
+        start:
+          person:
+            name: person_name
+          location:
+            id: S1
+            gps: "12.4535,77.9283"
+            address:
+              name: Store name
+              building: House or building name
+              locality: Locality
+              city: Bengaluru
+              state: Karnataka
+              country: India
+              area_code: "560041"
+          contact:
+            phone: "9886098860"
+            email: abcd.efgh@gmail.com
+          instructions:
+            code: "2"
+            short_desc: value of PCC
+            long_desc: additional instructions for pickup
+
+        end:
+          person:
+            name: person_name
+          location:
+            gps: "12.3087,76.6314"
+            address:
+              name: My house #
+              building: My house or building name
+              locality: locality
+              city: Mysore
+              state: Karnataka
+              country: India
+              area_code: "570006"
+          contact:
+            phone: "9886098860"
+            email: abcd.efgh@gmail.com
+          instructions:
+            code: "3"
+            short_desc: value of DCC
+            long_desc: additional instructions for delivery
+
+        tags:
+          - code: linked_provider
+            list:
+              - code: id
+                value: P1
+              - code: name
+                value: Seller1
+              - code: address
+                value: shop_name,building_name,locality,city,state,pincode
+
+          - code: linked_order
+            list:
+              - code: currency
+                value: INR
+              - code: declared_value
+                value: "30000.0"
+              - code: category
+                value: Grocery
+
+          - code: linked_package
+            list:
+              - code: count
+                value: "1"
+              - code: weight_unit
+                value: tonne
+              - code: weight_value
+                value: "1.0"
+              - code: dim_unit
+                value: meter
+              - code: length
+                value: "2.0"
+              - code: breadth
+                value: "4.0"
+              - code: height
+                value: "1.0"
+
+          - code: linked_package
+            list:
+              - code: count
+                value: "10"
+              - code: weight_unit
+                value: kilogram
+              - code: weight_value
+                value: "2.0"
+              - code: dim_unit
+                value: centimeter
+              - code: length
+                value: "2.0"
+              - code: breadth
+                value: "1.0"
+              - code: height
+                value: "1.0"
+
+          - code: state
+            list:
+              - code: ready_to_ship
+                value: "no"
+
+          - code: rto_action
+            list:
+              - code: return_to_origin
+                value: "yes"
+
+          - code: special_req
+            list:
+              - code: cold_storage
+                value: "yes"
+              - code: cold_storage_min_temp
+                value: "0"
+              - code: cold_storage_max_temp
+                value: "4"
+              - code: cold_storage_temp_unit
+                value: celsius
+              - code: insurance_required
+                value: "yes"
+              - code: insurance_owner
+                value: lbnp
+              - code: insurance_amount
+                value: "100000"
+              - code: insurer_name
+                value: ICICI Lombard
+              - code: dangerous_goods
+                value: "no"
+              - code: fragile_handling
+                value: "no"
+              - code: transit_risk_owner
+                value: lsp
+
+    billing:
+      name: ONDC Logistics Buyer NP
+      address:
+        name: name
+        building: My house or building name
+        locality: My street name
+        city: Bengaluru
+        state: Karnataka
+        country: India
+        area_code: "560076"
+      tax_number: 29AAACU1901H1ZK
+      phone: "9886098860"
+      email: abcd.efgh@gmail.com
+      created_at: "2024-11-20T21:30:00.000Z"
+      updated_at: "2024-11-20T21:30:00.000Z"
+
+    payments:
+      - id: "1"
+        type: ON-ORDER
+        status: PAID
+        tags:
+          - code: part-payment
+            list:
+              - code: purpose
+                value: advance
+        "@ondc/org/settlement_details":
+          - settlement_counterparty: lsp
+            settlement_type: upi
+            beneficiary_name: xxxxx
+            upi_address: gft@oksbi
+            settlement_bank_account_no: XXXXXXXXXX
+            settlement_ifsc_code: XXXXXXXXX
+        params:
+          amount: "15000.00"
+          currency: INR
+          transaction_id: pymnt-utr-123
+
+      - id: "2"
+        type: POST-FULFILLMENT
+        status: NOT-PAID
+        tags:
+          - code: part-payment
+            list:
+              - code: purpose
+                value: balance
+        "@ondc/org/settlement_basis": pod
+        "@ondc/org/settlement_window": P2D
+        "@ondc/org/settlement_details":
+          - settlement_counterparty: lsp
+            settlement_type: upi
+            beneficiary_name: xxxxx
+            upi_address: gft@oksbi
+            settlement_bank_account_no: XXXXXXXXXX
+            settlement_ifsc_code: XXXXXXXXX
+        params:
+          amount: "4680.00"
+          currency: INR
+
+    tags:
+      - code: bap_terms
+        list:
+          - code: accept_bpp_terms
+            value: "yes"
+
+    created_at: "2024-11-20T22:00:00.000Z"
+    updated_at: "2024-11-20T22:00:00.000Z"
