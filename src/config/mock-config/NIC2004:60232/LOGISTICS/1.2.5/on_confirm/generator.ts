@@ -263,6 +263,10 @@ export const onConfirmGenerator = (
     }
     bppTerms.list.push(newEntry);
   }
+  if (action_id === "on_confirm_B2B_LOGISTICS") {
+    existingPayload.message.order.payments = sessionData.b2b_payments?.flat() ?? [];
+    delete existingPayload.message.order.payment
+  }
 
   return existingPayload;
 };

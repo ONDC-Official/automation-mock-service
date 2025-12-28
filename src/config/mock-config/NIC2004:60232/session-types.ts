@@ -79,6 +79,10 @@ export interface SessionData {
   issue_created_at: any
   issue_actions: any
   on_issue_actions: any
+  insurance_required:string
+  insurance_owner:string
+  on_search_categories?:any[]
+  b2b_payments:any[]
 };
 
 export type BecknContext = {
@@ -128,5 +132,9 @@ export interface Input {
   // api_endpoint:string,
   // ivr_number:string,
   // contact_number:string
-  item?:string
+  item?:string,
+  cold_storage?:string,
+  insurance_required?:string,
+  insurance_owner?:string
+  dangerous_goods?:string
 }
