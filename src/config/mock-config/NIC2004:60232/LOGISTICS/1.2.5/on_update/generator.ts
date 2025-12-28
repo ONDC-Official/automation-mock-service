@@ -219,5 +219,10 @@ export const onUpdateGenerator = (
     existingPayload.message.order.tags.push(igm_obj);
   }
 
+  if(action_id === "on_update_B2B_LOGISTICS"){
+    existingPayload.message.order.payments = sessionData.b2b_payments?.flat() ?? [];
+    delete existingPayload.message.order.payment
+  }
+
   return existingPayload;
 };

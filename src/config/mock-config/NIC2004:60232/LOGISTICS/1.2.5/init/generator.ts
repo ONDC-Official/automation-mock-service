@@ -22,12 +22,13 @@ export const initGenerator = async (
   inputs: any,
   action_id: string,
 ) => {
+  
   existingPayload.message.order.provider.id = sessionData.provider_id;
   // existingPayload.message.order.provider.locations[0].id =
   //   sessionData.location_id;
 
   sessionData?.on_search_items?.forEach((item: any) => {
-    console.log("on_search_items", sessionData.on_search_items);
+    console.log("on_search_items", sessionData.on_search_items, sessionData.on_search_fulfillment);
     const fulfillment_id = action_id === "init_REVERSE_QC_LOGISTICS" ? sessionData?.on_search_return_fulfillment.id : sessionData.on_search_fulfillment.id
 
     if (item.fulfillment_id === fulfillment_id) {
@@ -198,25 +199,30 @@ export const initGenerator = async (
     [startObj, endObj] = [endObj, startObj];
   }
 
+  const sourceFulfillment =
+    action_id === "init_REVERSE_QC_LOGISTICS"
+      ? sessionData.on_search_return_fulfillment
+      : sessionData.on_search_fulfillment;
+
   existingPayload.message.order.fulfillments[0] = {
     id:
       sessionData?.rate_basis === "rider" || sessionData?.rate_basis === "order"
         ? ""
-        : action_id === "init_REVERSE_QC_LOGISTICS"
-          ? sessionData.on_search_return_fulfillment.id
-          : sessionData.on_search_fulfillment.id,
-    type:
-      action_id === "init_REVERSE_QC_LOGISTICS"
-        ? sessionData.on_search_return_fulfillment.type
-        : sessionData.on_search_fulfillment.type,
+        : sourceFulfillment.id,
+
+    type: sourceFulfillment.type,
 
     start: startObj,
     end: endObj,
 
+    // ✅ vehicle ONLY for init_B2B_logistics
+    ...(action_id === "init_B2B_logistics" &&
+      sourceFulfillment?.vehicle && {
+      vehicle: sourceFulfillment.vehicle,
+    }),
+
     tags: removeTagsByCodes(
-      action_id === "init_REVERSE_QC_LOGISTICS"
-        ? sessionData.on_search_return_fulfillment.tags
-        : sessionData.on_search_fulfillment.tags,
+      sourceFulfillment.tags,
       ["distance"]
     ),
   };
@@ -246,6 +252,9 @@ export const initGenerator = async (
     });
   }
 
+  console.log("existingPayload.message.order.billing", existingPayload.message.order.billing);
+
+
   existingPayload.message.order.billing.created_at =
     existingPayload.context.timestamp;
   existingPayload.message.order.billing.updated_at =
@@ -255,6 +264,10 @@ export const initGenerator = async (
     type: sessionData.payment_type,
     ...getPayemntFields(sessionData.payment_type as string),
   };
+  if (action_id === "init_B2B_LOGISTICS") {
+    delete existingPayload.message.order.payment;
+  }
+
 
   return existingPayload;
 };

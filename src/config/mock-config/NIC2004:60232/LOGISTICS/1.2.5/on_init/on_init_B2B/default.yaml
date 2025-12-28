@@ -1,0 +1,153 @@
+message:
+  order:
+    provider:
+      id: P1
+      locations:
+        - id: L1
+
+    items:
+      - id: I1
+        fulfillment_id: F1
+
+    fulfillments:
+      - id: F1
+        type: FTL
+        start:
+          location:
+            id: S1
+            gps: "12.4535,77.9283"
+            address:
+              name: Store name
+              building: House or building name
+              locality: Locality
+              city: Bengaluru
+              state: Karnataka
+              country: India
+              area_code: "560041"
+          contact:
+            phone: "9886098860"
+            email: abcd.efgh@gmail.com
+
+        end:
+          location:
+            gps: "12.3087,76.6314"
+            address:
+              name: My house #
+              building: My house or building name
+              locality: locality
+              city: Mysore
+              state: Karnataka
+              country: India
+              area_code: "570006"
+          contact:
+            phone: "9886098860"
+            email: abcd.efgh@gmail.com
+
+        tags:
+          - code: rider_check
+            list:
+              - code: inline_check_for_rider
+                value: yes
+
+          - code: linked_provider
+            list:
+              - code: id
+                value: P1
+              - code: name
+                value: Seller1
+
+          - code: special_req
+            list:
+              - code: insurance_required
+                value: yes
+              - code: insurance_owner
+                value: lsp
+              - code: insurance_amount
+                value: "100000"
+              - code: insurer_name
+                value: ICICI Lombard
+
+    quote:
+      price:
+        currency: INR
+        value: "19680.00"
+
+      breakup:
+        - "@ondc/org/item_id": I1
+          "@ondc/org/title_type": delivery
+          price:
+            currency: INR
+            value: "16500.00"
+
+        - "@ondc/org/item_id": I1
+          "@ondc/org/title_type": tax
+          price:
+            currency: INR
+            value: "2970.00"
+
+        - "@ondc/org/item_id": F1
+          "@ondc/org/title_type": insurance
+          price:
+            currency: INR
+            value: "200.00"
+
+        - "@ondc/org/item_id": F1
+          "@ondc/org/title_type": tax
+          price:
+            currency: INR
+            value: "10.00"
+          item:
+            tags:
+              - code: quote
+                list:
+                  - code: type
+                    value: insurance
+
+      ttl: PT15M
+
+    payments:
+      - id: "1"
+        type: ON-ORDER
+        status: NOT-PAID
+        tags:
+          - code: part-payment
+            list:
+              - code: purpose
+                value: advance
+        "@ondc/org/settlement_details":
+          - settlement_counterparty: lsp
+            settlement_type: upi
+            beneficiary_name: xxxxx
+            upi_address: gft@oksbi
+            settlement_bank_account_no: XXXXXXXXXX
+            settlement_ifsc_code: XXXXXXXXX
+        params:
+          amount: "15000.00"
+          currency: INR
+
+      - id: "2"
+        type: POST-FULFILLMENT
+        status: NOT-PAID
+        tags:
+          - code: part-payment
+            list:
+              - code: purpose
+                value: balance
+        "@ondc/org/settlement_basis": pod
+        "@ondc/org/settlement_window": P2D
+        "@ondc/org/settlement_details":
+          - settlement_counterparty: lsp
+            settlement_type: upi
+            beneficiary_name: xxxxx
+            upi_address: gft@oksbi
+            settlement_bank_account_no: XXXXXXXXXX
+            settlement_ifsc_code: XXXXXXXXX
+        params:
+          amount: "4680.00"
+          currency: INR
+
+    tags:
+      - code: bpp_terms
+        list:
+          - code: static_terms
+            value: https://github.com/ONDC-Official/protocol-network-extension/discussions/79

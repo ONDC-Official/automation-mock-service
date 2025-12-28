@@ -13,3 +13,4 @@ save-data:
   rto_action: $.message.order.fulfillments[*].tags[?(@.code=="rto_action")].list[?(@.code=="return_to_origin")].value
   rto_verification_code: $.message.order.fulfillments[*].tags[?(@.code=="rto_verification")].list[?(@.code=="short_desc")].value
   confirm_tags: "$.message.order.tags"
+  b2b_payments: "$.message.order.payments"

@@ -25,7 +25,7 @@ const getPaymentStatus = (paymentType: string, orderState: string) => {
 export const onStatusGenerator = async (
   existingPayload: any,
   sessionData: SessionData,
-  action_id:string
+  action_id: string
 ) => {
   existingPayload.message.order.id = sessionData.order_id;
   if (sessionData?.fulfillments) {
@@ -77,11 +77,11 @@ export const onStatusGenerator = async (
             });
           }
           else if (fulfillment.type === "Return") {
-            const reverseqc_input = fulfillment.tags.find((tag:any)=>tag.code === "reverseqc_input")
+            const reverseqc_input = fulfillment.tags.find((tag: any) => tag.code === "reverseqc_input")
             const reverseQCOutput = {
               ...reverseqc_input,
               code: "reverseqc_output",
-              list: reverseqc_input.list.map((item:any) =>
+              list: reverseqc_input.list.map((item: any) =>
                 item.code === "Q001"
                   ? { ...item, value: "yes" }
                   : item
@@ -91,6 +91,13 @@ export const onStatusGenerator = async (
             if (action_id === "on_status_REVERSE_QC_LOGISTICS") fulfillment.tags.push(reverseQCOutput)
             console.log("reverseQCTagsObj", JSON.stringify(fulfillment));
 
+          }
+          else if (fulfillment.type === "FTL" || fulfillment.type === "PTL") {
+            fulfillment.start = fulfillment.start ?? {};
+            fulfillment.start.instructions = {
+              ...(fulfillment.start.instructions ?? {}),
+              images: ["link to LR copy"],
+            };
           }
           return fulfillment;
         });
@@ -163,6 +170,13 @@ export const onStatusGenerator = async (
                 ],
               });
             }
+          }
+          else if (fulfillment.type === "FTL" || fulfillment.type === "PTL") {
+            fulfillment.end = fulfillment.end ?? {};
+            fulfillment.end.instructions = {
+              ...(fulfillment.end.instructions ?? {}),
+              images: ["link to POD copy"],
+            };
           }
           return fulfillment;
         });
@@ -311,22 +325,22 @@ export const onStatusGenerator = async (
           const dynamicRiderTags =
             sessionData?.rate_basis && fulfillment.type === "Batch"
               ? Array.from({ length: count }, (_, i) => ({
-                  code: "rider_details",
-                  list: [
-                    {
-                      code: "name",
-                      value: `agent_name`,
-                    },
-                    {
-                      code: "phone",
-                      value: "9886098860",
-                    },
-                    {
-                      code: "vehicle_registration",
-                      value: `3LVJ945`,
-                    },
-                  ],
-                }))
+                code: "rider_details",
+                list: [
+                  {
+                    code: "name",
+                    value: `agent_name`,
+                  },
+                  {
+                    code: "phone",
+                    value: "9886098860",
+                  },
+                  {
+                    code: "vehicle_registration",
+                    value: `3LVJ945`,
+                  },
+                ],
+              }))
               : [];
 
           fulfillment.tags = [
@@ -376,7 +390,7 @@ export const onStatusGenerator = async (
     existingPayload.message.order.payment["@ondc/org/settlement_details"] = [
       {
         ...existingPayload.message.order.payment[
-          "@ondc/org/settlement_details"
+        "@ondc/org/settlement_details"
         ][0],
         settlement_status: "PAID",
         settlement_reference: "XXXXXXXXX",
@@ -398,14 +412,33 @@ export const onStatusGenerator = async (
       sessionData.linked_order;
   }
 
-  if(sessionData.on_confirm_tags){
+  if (sessionData.on_confirm_tags) {
     existingPayload.message.order.tags = sessionData.on_confirm_tags
   }
 
-  if(sessionData.on_update_tags.length>0){
-    console.log("sessionData.on_update_tags",JSON.stringify(sessionData.on_update_tags));
-    
+  if (sessionData.on_update_tags.length > 0) {
+    console.log("sessionData.on_update_tags", JSON.stringify(sessionData.on_update_tags));
+
     existingPayload.message.order.tags = sessionData.on_update_tags
+  }
+  if (sessionData.b2b_payments?.length > 0) {
+    existingPayload.message.order.payments = sessionData.b2b_payments?.flat() ?? [];
+    delete existingPayload.message.order.payment
+    if (existingPayload.message.order.state === "Completed") {
+      existingPayload.message.order.payments =
+        existingPayload.message.order.payments.map((payment: any) => {
+          if (payment.status === "NOT-PAID") {
+            return {
+              ...payment,
+              status: "PAID",
+              time:{
+                timestamp:existingPayload.context?.timestamp
+              }
+            };
+          }
+          return payment;
+        });
+    }
   }
 
   return existingPayload;
