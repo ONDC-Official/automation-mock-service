@@ -18,4 +18,6 @@ save-data:
   collection_amount: $.message.intent.fulfillment.tags[?(@.code=="linked_order")].list[?(@.code=="collection_amount")].value
   static_pickup_otp: $.message.intent.fulfillment.start.instructions.code
   static_delivery_otp: $.message.intent.fulfillment.end.instructions.code
+  insurance_required : $.message.intent.fulfillment.tags[?(@.code=="special_req")].list[?(@.code=="insurance_required")].value
+  insurance_owner : $.message.intent.fulfillment.tags[?(@.code=="special_req")].list[?(@.code=="insurance_owner")].value
 

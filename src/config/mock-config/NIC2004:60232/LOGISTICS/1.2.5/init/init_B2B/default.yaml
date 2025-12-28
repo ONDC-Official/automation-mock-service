@@ -1,0 +1,90 @@
+message:
+  order:
+    provider:
+      id: P1
+      locations:
+        - id: L1
+
+    items:
+      - id: I1
+        fulfillment_id: F1
+
+    fulfillments:
+      - id: F1
+        type: FTL
+        start:
+          location:
+            id: S1
+            gps: "12.4535,77.9283"
+            address:
+              name: My store name
+              building: My building name
+              locality: My street name
+              city: Bengaluru
+              state: Karnataka
+              country: India
+              area_code: "560041"
+          contact:
+            phone: "9886098860"
+            email: abcd.efgh@gmail.com
+
+        end:
+          location:
+            gps: "12.3087,76.6314"
+            address:
+              name: My house #
+              building: My house or building name
+              locality: locality
+              city: Mysore
+              state: Karnataka
+              country: India
+              area_code: "570006"
+          contact:
+            phone: "9886098860"
+            email: abcd.efgh@gmail.com
+
+        vehicle:
+          category: truck
+          size: ""
+          variant: open
+
+        tags:
+          - code: linked_provider
+            list:
+              - code: id
+                value: P1
+              - code: name
+                value: Seller1
+
+    billing:
+      name: ONDC Logistics Buyer NP
+      address:
+        name: My house or building no
+        building: My house or building name
+        locality: Jayanagar
+        city: Bengaluru
+        state: Karnataka
+        country: India
+        area_code: "560076"
+      tax_number: XXXXXXXXXXXXXXX
+      phone: "9886098860"
+      email: abcd.efgh@gmail.com
+      created_at: "2024-11-20T21:30:00.000Z"
+      updated_at: "2024-11-20T21:30:00.000Z"
+
+    payments:
+      - id: "1"
+        type: ON-ORDER
+        tags:
+          - code: part-payment
+            list:
+              - code: purpose
+                value: advance
+
+      - id: "2"
+        type: POST-FULFILLMENT
+        tags:
+          - code: part-payment
+            list:
+              - code: purpose
+                value: balance

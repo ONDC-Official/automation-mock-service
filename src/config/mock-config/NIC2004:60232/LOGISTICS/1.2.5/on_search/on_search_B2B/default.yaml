@@ -1,0 +1,199 @@
+message:
+  catalog:
+    bpp/descriptor:
+      name: LSP Aggregator Inc
+      tags:
+        - code: bpp_terms
+          list:
+            - code: static_terms
+              value: ""
+            - code: static_terms_new
+              value: >-
+                https://github.com/ONDC-Official/NP-Static-Terms/lspNP_LSP/1.0/tc.pdf
+            - code: effective_date
+              value: "2024-11-20T00:00:00.000Z"
+
+    bpp/providers:
+      - id: P1
+        descriptor:
+          name: LSP Freight Services
+          short_desc: FTL Trucking and Reefer Transport
+          long_desc: >
+            Full truck load services including cold chain and hazardous goods movements.
+
+        categories:
+          - id: Standard Delivery
+            time:
+              label: TAT
+              duration: P5D
+              timestamp: "2025-11-30"
+
+        fulfillments:
+          - id: F1
+            type: FTL
+            start:
+              location:
+                id: S1
+                gps: "12.4535,77.9283"
+                address:
+                  area_code: "560041"
+            end:
+              location:
+                gps: "12.3087,76.6314"
+                address:
+                  area_code: "570006"
+            vehicle:
+              category: truck
+              size: ""
+              variant: open
+            tags:
+              - code: special_req
+                list:
+                  - code: cold_storage
+                    value: "yes"
+                  - code: cold_storage_min_temp
+                    value: "0"
+                  - code: cold_storage_max_temp
+                    value: "4"
+                  - code: cold_storage_temp_unit
+                    value: celsius
+                  - code: insurance_required
+                    value: "yes"
+                  - code: insurance_owner
+                    value: lbnp
+                  - code: dangerous_goods
+                    value: "no"
+                  - code: fragile_handling
+                    value: "no"
+                  - code: transit_risk_owner
+                    value: carrier
+
+          - id: F2
+            type: PTL
+            start:
+              location:
+                id: S1
+                gps: "12.4535,77.9283"
+                address:
+                  area_code: "560041"
+            end:
+              location:
+                gps: "12.3087,76.6314"
+                address:
+                  area_code: "570006"
+            tags:
+              - code: special_req
+                list:
+                  - code: cold_storage
+                    value: "yes"
+                  - code: cold_storage_min_temp
+                    value: "0"
+                  - code: cold_storage_max_temp
+                    value: "4"
+                  - code: cold_storage_temp_unit
+                    value: celsius
+                  - code: insurance_required
+                    value: "yes"
+                  - code: insurance_owner
+                    value: lsp
+                  - code: dangerous_goods
+                    value: "no"
+                  - code: fragile_handling
+                    value: "no"
+                  - code: transit_risk_owner
+                    value: carrier
+
+          - id: F3
+            type: RTO
+
+        locations:
+          - id: L1
+            gps: "12.9500,77.7000"
+            address:
+              city: Bengaluru
+              area_code: "560041"
+              state: KA
+
+        payments:
+          - id: "1"
+            type: ON-ORDER
+            tags:
+              - code: part-payment
+                list:
+                  - code: allowed
+                    value: "yes"
+                  - code: purpose
+                    value: advance
+
+          - id: "2"
+            type: POST-FULFILLMENT
+            tags:
+              - code: part-payment
+                list:
+                  - code: allowed
+                    value: "yes"
+                  - code: purpose
+                    value: balance
+
+          - id: "3"
+            type: ON-FULFILLMENT
+            tags:
+              - code: part-payment
+                list:
+                  - code: allowed
+                    value: "no"
+
+        items:
+          - id: I1
+            category_id: Standard Delivery
+            fulfillment_id: F1
+            descriptor:
+              name: 32ft Open Truck FTL
+              short_desc: Open body full truck load
+              long_desc: Suitable for general cargo, hazardous goods allowed
+            price:
+              currency: INR
+              value: "16500.00"
+
+          - id: I2
+            category_id: Standard Delivery
+            fulfillment_id: F2
+            descriptor:
+              name: Partial Truck Load
+              short_desc: Temperature controlled cold chain
+              long_desc: Maintains 0 to 4 Celsius
+            price:
+              currency: INR
+              value: "18500.00"
+
+          - id: I3
+            parent_item_id: I1
+            category_id: Standard Delivery
+            fulfillment_id: F3
+            descriptor:
+              name: RTO quote
+              short_desc: RTO quote
+              long_desc: RTO quote
+            price:
+              currency: INR
+              value: "8000.50"
+            time:
+              label: TAT
+              duration: P5D
+              timestamp: "2024-11-20"
+
+          - id: I4
+            parent_item_id: I2
+            category_id: Standard Delivery
+            fulfillment_id: F3
+            descriptor:
+              name: RTO quote
+              short_desc: RTO quote
+              long_desc: RTO quote
+            price:
+              currency: INR
+              value: "8000.50"
+            time:
+              label: TAT
+              duration: P5D
+              timestamp: "2024-11-20"

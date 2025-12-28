@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { SessionData, Input } from "../../../session-types";
 import {
+  mergeFulfillmentTags,
   removeTagsByCodes,
   TatMapping,
 } from "../../../../../../utils/generic-utils";
@@ -58,6 +59,8 @@ export const confirmGenerator = (
 
   if (sessionData.fulfillments) {
     existingPayload.message.order.fulfillments = sessionData.fulfillments;
+    console.log("existing payload in confirm", JSON.stringify(existingPayload.message.order.fulfillments));
+
   }
 
   if (
@@ -289,6 +292,120 @@ export const confirmGenerator = (
   //     : []),
   // ];
 
+  // const tags = [
+  //   {
+  //     code: "linked_order",
+  //     list: [
+  //       ...(sessionData?.is_cod === "yes"
+  //         ? [
+  //           { code: "cod_order", value: "yes" },
+  //           { code: "collection_amount", value: "300.00" },
+  //         ]
+  //         : []),
+  //       { code: "id", value: "RO1" },
+  //       ...(sessionData?.category_id === "Immediate Delivery"
+  //         ? [
+  //           {
+  //             code: "prep_time",
+  //             value:
+  //               TatMapping[sessionData?.category_id].orderPrepTime || "PT30M",
+  //           },
+  //         ]
+  //         : []),
+  //       { code: "currency", value: "INR" },
+  //       { code: "declared_value", value: "300.0" },
+  //       { code: "weight_unit", value: "kilogram" },
+  //       { code: "weight_value", value: "3.0" },
+  //       { code: "dim_unit", value: "centimeter" },
+  //       { code: "length", value: "1.0" },
+  //       { code: "breadth", value: "1.0" },
+  //       { code: "height", value: "1.0" },
+  //       ...(sessionData?.domain === "ONDC:LOG11"
+  //         ? [{ code: "shipment_type", value: "box" }]
+  //         : []),
+  //     ],
+  //   },
+
+  //   // Dynamically create linked_order_item for each item
+  //   ...(sessionData?.on_search_items ?? []).map((item: any) => {
+  //     const baseList = [
+  //       { code: "category", value: sessionData?.retail_category || "Grocery" },
+  //       { code: "name", value: "item1" },
+  //       { code: "currency", value: "INR" },
+  //       { code: "value", value: item.value?.toString() || "0.0" },
+  //       { code: "quantity", value: "2" },
+  //       { code: "weight_unit", value: "kilogram" },
+  //       { code: "weight_value", value: "1.0" },
+  //     ];
+
+  //     // Only add hsn_code if condition matches
+  //     if (
+  //       action_id === "confirm_E_WAY_BILL_LOGISTICS"
+  //     ) {
+  //       baseList.push(
+  //         { code: "hsn_code", value: "1:2345" },
+  //         { code: "ebn_exempt", value: item.ebn_exempt || "no" }
+  //       );
+  //     }
+
+  //     return { code: "linked_order_item", list: baseList };
+  //   }),
+
+  //   {
+  //     code: "state",
+  //     list: [
+  //       {
+  //         code: "ready_to_ship",
+  //         value: sessionData.category_id === "Immediate Delivery" ? "yes" : "no",
+  //       },
+  //     ],
+  //   },
+
+  //   ...(sessionData?.domain === "ONDC:LOG10"
+  //     ? [
+  //       {
+  //         code: "rto_action",
+  //         list: [
+  //           { code: "return_to_origin", value: inputs?.returnToOrigin || "no" },
+  //         ],
+  //       },
+  //     ]
+  //     : []),
+
+  //   ...(sessionData?.domain === "ONDC:LOG11"
+  //     ? [
+  //       {
+  //         code: "rto_action",
+  //         list: [
+  //           { code: "return_to_origin", value: inputs?.returnToOrigin || "yes" },
+  //         ],
+  //       },
+  //     ]
+  //     : []),
+
+  //   ...(sessionData?.is_cod === "yes"
+  //     ? [
+  //       {
+  //         code: "cod_settlement_detail",
+  //         list: [
+  //           { code: "settlement_window", value: "P0D" },
+  //           { code: "settlement_type", value: "neft" },
+  //           { code: "beneficiary_name", value: "XXXXXXXXXX" },
+  //           { code: "upi_address", value: "" },
+  //           { code: "bank_account_no", value: "XXXXXXXXXX" },
+  //           { code: "ifsc_code", value: "XXXXXXXXX" },
+  //           { code: "bank_name", value: "xxxx" },
+  //           { code: "branch_name", value: "xxxx" },
+  //         ],
+  //       },
+  //     ]
+  //     : []),
+  // ];
+
+  // let allTags = [...tags];
+
+  const linked_provider = existingPayload.message.order.fulfillments[0]?.tags.find((tag: any) => tag.code === "linked_provider")
+
   const tags = [
     {
       code: "linked_order",
@@ -305,7 +422,7 @@ export const confirmGenerator = (
             {
               code: "prep_time",
               value:
-                TatMapping[sessionData?.category_id].orderPrepTime || "PT30M",
+                TatMapping[sessionData?.category_id]?.orderPrepTime || "PT30M",
             },
           ]
           : []),
@@ -323,7 +440,9 @@ export const confirmGenerator = (
       ],
     },
 
-    // Dynamically create linked_order_item for each item
+    // --------------------
+    // KEEP THIS LOGIC AS IS (linked_order_item)
+    // --------------------
     ...(sessionData?.on_search_items ?? []).map((item: any) => {
       const baseList = [
         { code: "category", value: sessionData?.retail_category || "Grocery" },
@@ -335,10 +454,7 @@ export const confirmGenerator = (
         { code: "weight_value", value: "1.0" },
       ];
 
-      // Only add hsn_code if condition matches
-      if (
-        action_id === "confirm_E_WAY_BILL_LOGISTICS"
-      ) {
+      if (action_id === "confirm_E_WAY_BILL_LOGISTICS") {
         baseList.push(
           { code: "hsn_code", value: "1:2345" },
           { code: "ebn_exempt", value: item.ebn_exempt || "no" }
@@ -353,7 +469,8 @@ export const confirmGenerator = (
       list: [
         {
           code: "ready_to_ship",
-          value: sessionData.category_id === "Immediate Delivery" ? "yes" : "no",
+          value:
+            sessionData?.category_id === "Immediate Delivery" ? "yes" : "no",
         },
       ],
     },
@@ -363,7 +480,10 @@ export const confirmGenerator = (
         {
           code: "rto_action",
           list: [
-            { code: "return_to_origin", value: inputs?.returnToOrigin || "no" },
+            {
+              code: "return_to_origin",
+              value: inputs?.returnToOrigin || "no",
+            },
           ],
         },
       ]
@@ -374,7 +494,10 @@ export const confirmGenerator = (
         {
           code: "rto_action",
           list: [
-            { code: "return_to_origin", value: inputs?.returnToOrigin || "yes" },
+            {
+              code: "return_to_origin",
+              value: inputs?.returnToOrigin || "yes",
+            },
           ],
         },
       ]
@@ -399,42 +522,19 @@ export const confirmGenerator = (
       : []),
   ];
 
-  let allTags = [...tags];
 
-  // if (action_id === "confirm_E_WAY_BILL_LOGISTICS") {
-  //   allTags = allTags.map(tag => {
-  //     if (tag.code === "linked_order_item") {
-  //       // Always add ebn_exempt
-  //       const updatedList = [
-  //         ...tag.list,
-  //         {
-  //           code: "ebn_exempt",
-  //           value: inputs?.ebn_exempt || "no",
-  //         },
-  //       ];
+  let allTags: any[] = mergeFulfillmentTags(
+    existingPayload.message.order.fulfillments[0]?.tags ?? [],
+    tags
+  );
 
-  //       // If not exempt, add hsn_code too
-  //       if ((inputs?.ebn_exempt || "no") === "no") {
-  //         const item = existingPayload.message.order.items.find((item:any)=>{
-  //           allTags.find((tag:any)=>{
-  //             return tag.code === "linked_order_item" && tag.list.ebn_exempt
-  //           })
-  //         })
-  //         updatedList.push({
-  //           code: "hsn_code",
-  //           value: inputs?.hsn_code || "1234",
-  //         });
-  //       }
 
-  //       return { ...tag, list: updatedList };
-  //     }
-  //     return tag;
-  //   });
-  // }
-
-  if (sessionData.rate_basis) {
+  if (
+    sessionData?.rate_basis &&
+    existingPayload.message.order.fulfillments.length > 1
+  ) {
     const preTags = removeTagsByCodes(
-      existingPayload.message.order.fulfillments[1].tags,
+      existingPayload.message.order.fulfillments[1].tags ?? [],
       ["linked_provider"]
     );
 
@@ -444,10 +544,12 @@ export const confirmGenerator = (
   allTags = removeTagsByCodes(allTags, ["rider_check"]);
 
   existingPayload.message.order.fulfillments =
-    existingPayload.message.order.fulfillments.map((fulfillment: any) => {
-      fulfillment.tags = allTags;
-      return fulfillment;
-    });
+    existingPayload.message.order.fulfillments.map((fulfillment: any) => ({
+      ...fulfillment,
+      tags: allTags,
+    }));
+
+  // --------------------
   let isReadyToShip = false;
 
   existingPayload.message.order.fulfillments[0].tags.forEach((tag: any) => {
@@ -463,6 +565,7 @@ export const confirmGenerator = (
   existingPayload.message.order.fulfillments =
     existingPayload.message.order.fulfillments.map(
       (fulfillment: {
+        type: string
         start: { instructions: any };
         end: { instructions: any };
         tags: any[];
@@ -494,6 +597,20 @@ export const confirmGenerator = (
               url: "http://delivery-info.com",
             },
           };
+        }
+        else if (fulfillment?.type === "FTL" || fulfillment.type === "PTL") {
+          updatedStartInstructions = {
+            "code": "2",
+            "short_desc": "value of PCC",
+            "long_desc": "additional instructions for pickup",
+          }
+          updatedEndInstructions =   {
+              "code": "3",
+              "short_desc": "value of DCC",
+              "long_desc": "additional instructions for delivery",
+             }
+
+
         }
         // ✅ Case 2: OTP / RTO based logic
         else {
@@ -551,8 +668,8 @@ export const confirmGenerator = (
         const rtoAction = rtoTag?.list?.find(
           (item: { code: string }) => item.code === "return_to_origin"
         )?.value;
-        console.log("inputs",inputs);
-        
+        console.log("inputs", inputs);
+
         const reverseQCTagsObj = {
           "code": "reverseqc_input",
           "list":
@@ -572,11 +689,7 @@ export const confirmGenerator = (
             ]
         }
 
-
-        // ✅ Final additional tags logic
-        const additionaltags = [
-          ...fulfillment.tags,
-
+        const linkedProviderTag =
           action_id === "confirm_LOGISTICS_SELLER_CREDS"
             ? {
               code: "linked_provider",
@@ -601,8 +714,17 @@ export const confirmGenerator = (
                   ? [{ code: "tax_id", value: "29GSTIN1234K2Z2" }]
                   : []),
               ],
-            },
+            };
 
+
+
+        const additionaltags = [
+          ...(fulfillment.tags ?? []).filter(
+            (tag: any) => tag.code !== "linked_provider"
+          ),
+          linkedProviderTag,
+
+          // optional rto_verification
           ...(endCode === "5" && rtoAction === "yes"
             ? [
               {
@@ -616,7 +738,8 @@ export const confirmGenerator = (
             : []),
         ];
 
-        if(action_id === "confirm_REVERSE_QC_LOGISTICS") additionaltags.push(reverseQCTagsObj) 
+
+        if (action_id === "confirm_REVERSE_QC_LOGISTICS") additionaltags.push(reverseQCTagsObj)
 
         // ✅ Final updated fulfillment
         const updatedFulfillment = {
@@ -742,6 +865,30 @@ export const confirmGenerator = (
       },
     },
   };
+  if (
+    sessionData.insurance_required === "yes" &&
+    sessionData.insurance_owner === "lbnp"
+  ) {
+    const fulfillment = existingPayload.message.order.fulfillments[0];
+    console.log("fulfillment.tags", JSON.stringify(fulfillment.tags));
+
+
+    const specialReqTag = fulfillment.tags?.find(
+      (tag: any) => tag.code === "special_req"
+    );
+
+    if (specialReqTag) {
+      // Ensure list exists
+      specialReqTag.list = specialReqTag.list || [];
+      console.log("specialReqTag.list", specialReqTag.list);
+
+
+      specialReqTag.list.push(
+        { code: "insurance_amount", value: "100000" },
+        { code: "insurer_name", value: "ICICI Lombard" }
+      );
+    }
+  }
   if (action_id === "confirm_LOGISTICS_EXCHANGE") {
     const orderTags: any = existingPayload.message.order?.tags || [];
     const newEntry = { code: "phone", value: "9886098861" };
@@ -832,9 +979,8 @@ export const confirmGenerator = (
       ]
     );
   }
-
-  // if(action_id === "confirm_SELLER_BUYER_INSTRUCTIONS"){
-
-  // }
+  if (action_id === "confirm_B2B_LOGISTICS") {
+    delete existingPayload.message.order.payment
+  }
   return existingPayload;
 };
