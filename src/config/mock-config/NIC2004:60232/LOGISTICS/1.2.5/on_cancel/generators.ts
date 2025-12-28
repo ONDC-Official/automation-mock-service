@@ -239,6 +239,10 @@ export const onCancelGenerator = (
   }
 
   existingPayload.message.order.updated_at = existingPayload.context.timestamp;
+  if (sessionData.b2b_payments?.length > 0) {
+    existingPayload.message.order.payments = sessionData.b2b_payments?.flat() ?? [];
+    delete existingPayload.message.order.payment
+  }
   console.log("existing payload in on_cancel", JSON.stringify(existingPayload));
 
   return existingPayload;

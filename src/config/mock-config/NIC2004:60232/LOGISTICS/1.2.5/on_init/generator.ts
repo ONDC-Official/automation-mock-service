@@ -3,8 +3,11 @@ import { SessionData } from "../../../session-types";
 
 export const onInitGenerator = (
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  action_id: string
 ) => {
+  console.log("action_id in on_init", action_id);
+
   existingPayload.message.order.provider.id = sessionData.provider_id;
   // existingPayload.message.order.provider.locations[0].id =
   //   sessionData.location_id;
@@ -24,26 +27,42 @@ export const onInitGenerator = (
   existingPayload.message.order.items = tempItems;
   existingPayload.message.order.fulfillments = sessionData.fulfillments;
 
-  existingPayload.message.order.quote = {
-    breakup: [
-      {
-        "@ondc/org/item_id": sessionData.items[0].id,
-        "@ondc/org/title_type": "delivery",
-        price: {
-          currency: "INR",
-          value: sessionData?.rate_basis ? "100.00" : "50.00",
+  if (action_id === "on_init_B2B_LOGISTICS") {
+    const finalItems: any[] = [];
+    tempItems?.forEach((sessItem: any) => {
+      const matchedItem = sessionData.on_search_items?.find(
+        (itm: any) => itm.id === sessItem.id
+      );
+      console.log("matchedItem", matchedItem);
+
+
+      if (matchedItem) {
+        finalItems.push(matchedItem);
+      }
+    });
+    const taxValue = (parseFloat(finalItems[0].price.value) * 18) / 100
+    console.log("tax value", taxValue);
+
+    existingPayload.message.order.quote = {
+      breakup: [
+        {
+          "@ondc/org/item_id": finalItems[0].id,
+          "@ondc/org/title_type": "delivery",
+          price: {
+            currency: "INR",
+            value: finalItems[0].price.value,
+          },
         },
-      },
-      {
-        "@ondc/org/item_id": sessionData.items[0].id,
-        "@ondc/org/title_type": "tax",
-        price: {
-          currency: "INR",
-          value: sessionData?.rate_basis ? "18.00" : "9.00",
+        {
+          "@ondc/org/item_id": sessionData.items[0].id,
+          "@ondc/org/title_type": "tax",
+          price: {
+            currency: "INR",
+            value: `${taxValue}`,
+          },
         },
-      },
-      ...(sessionData?.is_cod === "yes"
-        ? [
+        ...(sessionData?.is_cod === "yes"
+          ? [
             {
               "@ondc/org/item_id": sessionData.items[1].id,
               "@ondc/org/title_type": "cod",
@@ -61,10 +80,86 @@ export const onInitGenerator = (
               },
             },
           ]
-        : []),
-    ],
-    ttl: "PT15M",
-  };
+          : []),
+        ... (sessionData.insurance_owner === "lsp" && sessionData.insurance_required === "yes" ? [
+          {
+            "@ondc/org/item_id": sessionData.items[0].fulfillment_id,
+            "@ondc/org/title_type": "insurance",
+            price: {
+              currency: "INR",
+              value: "200.00",
+            },
+          },
+          {
+            "@ondc/org/item_id": sessionData.items[0].fulfillment_id,
+            "@ondc/org/title_type": "tax",
+            price: {
+              currency: "INR",
+              value: "10.00",
+            },
+            "item": {
+              "tags": [
+                {
+                  "code": "quote",
+                  "list": [
+                    {
+                      "code": "type",
+                      "value": "insurance"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+        ]
+          : [])
+      ],
+      ttl: "PT15M",
+    };
+  }
+  else {
+    existingPayload.message.order.quote = {
+      breakup: [
+        {
+          "@ondc/org/item_id": sessionData.items[0].id,
+          "@ondc/org/title_type": "delivery",
+          price: {
+            currency: "INR",
+            value: sessionData?.rate_basis ? "100.00" : "50.00",
+          },
+        },
+        {
+          "@ondc/org/item_id": sessionData.items[0].id,
+          "@ondc/org/title_type": "tax",
+          price: {
+            currency: "INR",
+            value: sessionData?.rate_basis ? "18.00" : "9.00",
+          },
+        },
+        ...(sessionData?.is_cod === "yes"
+          ? [
+            {
+              "@ondc/org/item_id": sessionData.items[1].id,
+              "@ondc/org/title_type": "cod",
+              price: {
+                currency: "INR",
+                value: "9.00",
+              },
+            },
+            {
+              "@ondc/org/item_id": sessionData.items[1].id,
+              "@ondc/org/title_type": "tax",
+              price: {
+                currency: "INR",
+                value: "2.00",
+              },
+            },
+          ]
+          : []),
+      ],
+      ttl: "PT15M",
+    };
+  }
 
   if (sessionData?.feature_cancellation_terms === "yes") {
     existingPayload.message.order.cancellation_terms = [
@@ -137,7 +232,32 @@ export const onInitGenerator = (
       }
       return fulfullment;
     });
+  console.log("insurance_required in on_init", sessionData.insurance_required, sessionData.insurance_owner);
 
+  if (
+    sessionData.insurance_required === "yes" &&
+    sessionData.insurance_owner === "lsp"
+  ) {
+    const fulfillment = existingPayload.message.order.fulfillments[0];
+    console.log("fulfillment.tags", JSON.stringify(fulfillment.tags));
+
+
+    const specialReqTag = fulfillment.tags?.find(
+      (tag: any) => tag.code === "special_req"
+    );
+
+    if (specialReqTag) {
+      // Ensure list exists
+      specialReqTag.list = specialReqTag.list || [];
+      console.log("specialReqTag.list", specialReqTag.list);
+
+
+      specialReqTag.list.push(
+        { code: "insurance_amount", value: "100000" },
+        { code: "insurer_name", value: "ICICI Lombard" }
+      );
+    }
+  }
   if (sessionData.payment) {
     existingPayload.message.order.payment = sessionData.payment;
   }
@@ -147,6 +267,7 @@ export const onInitGenerator = (
       sessionData.payment_type === "ON-FULFILLMENT") &&
     existingPayload.message.order.payment.collected_by === "BAP"
   ) {
+    // existingPayload.message.order.payment["@ondc/org/collection_amount"] = 
     existingPayload.message.order.payment["@ondc/org/settlement_details"] = [
       {
         settlement_counterparty: "lsp",

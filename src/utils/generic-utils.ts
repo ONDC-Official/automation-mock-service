@@ -194,11 +194,11 @@ export const generateQuoteTrail = (
           },
           ...(subType
             ? [
-                {
-                  code: "subtype",
-                  value: subType,
-                },
-              ]
+              {
+                code: "subtype",
+                value: subType,
+              },
+            ]
             : []),
 
           {
@@ -271,3 +271,85 @@ export function resetQuotePrices(quote: any) {
     }
   };
 }
+
+export function mergeFulfillmentTags(
+  existingTags: any[] = [],
+  newTags: any[] = []
+) {
+  const merged: any[] = [];
+
+  // Pick LAST occurrence from newTags (authoritative)
+  const newLinkedOrder = [...newTags]
+    .reverse()
+    .find(t => t.code === "linked_order");
+
+  const newLinkedProvider = [...newTags]
+    .reverse()
+    .find(t => t.code === "linked_provider");
+
+  let linkedOrderAdded = false;
+  let linkedProviderAdded = false;
+
+  // 1️⃣ Process existing tags
+  for (const tag of existingTags) {
+    if (tag.code === "linked_order") {
+      if (!linkedOrderAdded) {
+        merged.push(newLinkedOrder ?? tag);
+        linkedOrderAdded = true;
+      }
+      continue;
+    }
+
+    if (tag.code === "linked_provider") {
+      if (!linkedProviderAdded) {
+        merged.push(newLinkedProvider ?? tag);
+        linkedProviderAdded = true;
+      }
+      continue;
+    }
+
+    merged.push(tag);
+  }
+
+  // 2️⃣ Add missing singleton tags
+  if (newLinkedOrder && !linkedOrderAdded) {
+    merged.push(newLinkedOrder);
+  }
+
+  if (newLinkedProvider && !linkedProviderAdded) {
+    merged.push(newLinkedProvider);
+  }
+
+  // 3️⃣ Add NON-singleton new tags (dedup-safe)
+  for (const tag of newTags) {
+    if (
+      tag.code !== "linked_order" &&
+      tag.code !== "linked_provider"
+    ) {
+      merged.push(tag);
+    }
+  }
+
+  return merged;
+}
+
+// export function mergeFulfillmentTags(
+//   existingTags: any[] = [],
+//   newTags: any[] = []
+// ) {
+//   const tagMap = new Map<string, any>();
+
+//   // 1. Put existing tags first
+//   for (const tag of existingTags) {
+//     tagMap.set(tag.code, tag);
+//   }
+
+//   // 2. Overwrite with new tags (this replaces duplicates)
+//   for (const tag of newTags) {
+//     tagMap.set(tag.code, tag);
+//   }
+
+//   // 3. Return unique tags
+//   return Array.from(tagMap.values());
+// }
+

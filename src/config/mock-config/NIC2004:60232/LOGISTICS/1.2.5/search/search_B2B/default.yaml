@@ -1,0 +1,112 @@
+message:
+  intent:
+    category:
+      id: Standard Delivery
+    provider:
+      time:
+        days: "1,2,3,4,5,6,7"
+        schedule:
+          holidays:
+            - "2026-06-29"
+            - "2026-08-15"
+        range:
+          start: "1100"
+          end: "2100"
+
+    fulfillment:
+      type: FTL
+      start:
+        location:
+          id: S1
+          gps: "12.4535,77.9283"
+          address:
+            area_code: "560041"
+        time:
+          range:
+            start: "2025-11-27T05:00:00.000Z"
+            end: "2025-11-27T08:30:00.000Z"
+        authorization:
+          type: OTP
+
+      end:
+        location:
+          gps: "12.3087, 76.6314"
+          address:
+            area_code: "570006"
+        time:
+          range:
+            start: "2025-11-29T00:00:00.000Z"
+            end: "2025-12-01T00:30:00.000Z"
+        authorization:
+          type: OTP
+
+      vehicle:
+        category: truck
+        size: ""
+        variant: open
+
+      tags:
+        - code: special_req
+          list:
+            # - code: cold_storage
+            #   value: "no"
+            - code: insurance_required
+              value: "no"
+            # - code: insurance_owner
+            #   value: lbnp
+            - code: dangerous_goods
+              value: "no"
+            - code: fragile_handling
+              value: "no"
+            - code: transit_risk_owner
+              value: lsp
+
+        - code: linked_provider
+          list:
+            - code: id
+              value: P1
+            - code: name
+              value: Seller1
+
+        - code: linked_order
+          list:
+            - code: currency
+              value: INR
+            - code: declared_value
+              value: "30000.0"
+            - code: category
+              value: Grocery
+
+        - code: linked_package
+          list:
+            - code: count
+              value: "1"
+            - code: weight_unit
+              value: tonne
+            - code: weight_value
+              value: "1.0"
+            - code: dim_unit
+              value: meter
+            - code: length
+              value: "2.0"
+            - code: breadth
+              value: "4.0"
+            - code: height
+              value: "1.0"
+
+        - code: linked_package
+          list:
+            - code: count
+              value: "10"
+            - code: weight_unit
+              value: kilogram
+            - code: weight_value
+              value: "2.0"
+            - code: dim_unit
+              value: centimeter
+            - code: length
+              value: "2.0"
+            - code: breadth
+              value: "1.0"
+            - code: height
+              value: "1.0"

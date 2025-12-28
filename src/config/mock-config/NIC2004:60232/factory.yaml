@@ -551,4 +551,40 @@ codes:
   default: issue/issue_100/issue_close/default.yaml
   message_id: true
 
+- code: 344
+  action_id: search_B2B_LOGISTICS
+  action: search
+  default: search/search_B2B/default.yaml
+  message_id: true
+- code: 345
+  action_id: on_search_B2B_LOGISTICS
+  action: on_search
+  default: on_search/on_search_B2B/default.yaml
+  message_id: false
+- code: 346
+  action_id: init_B2B_LOGISTICS
+  action: init
+  default: init/init_B2B/default.yaml
+  message_id: true
+- code: 347
+  action_id: on_init_B2B_LOGISTICS
+  action: on_init
+  default: on_init/on_init_B2B/default.yaml
+  message_id: false
+- code: 348
+  action_id: confirm_B2B_LOGISTICS
+  action: confirm
+  default: confirm/confirm_B2B/default.yaml
+  message_id: true
+- code: 349
+  action_id: on_confirm_B2B_LOGISTICS
+  action: on_confirm
+  default: on_confirm/default.yaml
+  message_id: false
+- code: 350
+  action_id: on_update_B2B_LOGISTICS
+  action: on_update
+  default: on_update/default.yaml
+  message_id: false
+
 
