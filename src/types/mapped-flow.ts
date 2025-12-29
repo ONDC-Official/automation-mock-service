@@ -1,38 +1,56 @@
 import { FormConfigType } from "./flow-types";
 
 export interface ReducedApiData {
-	action: string;
-	messageId: string;
-	timestamp: string;
-	subStatus: "SUCCESS" | "ERROR";
-	payloads: {
-		payloadId: string;
-		response: any;
-	}[];
+  entryType: "API";
+  action: string;
+  messageId: string;
+  timestamp: string;
+  subStatus: "SUCCESS" | "ERROR";
+  payloads: {
+    payloadId: string;
+    response: any;
+  }[];
 }
 
+export type ReduceFormData = {
+  entryType: "FORM";
+  formType: "HTML_FORM" | "RES_FROM" | "DYNAMIC_FORM";
+  formId: string;
+  submissionId?: string;
+  timestamp: string;
+  subStatus?: "SUCCESS" | "ERROR";
+  error?: string;
+};
+
+export type ApiHistory = ReducedApiData | ReduceFormData;
 export type ReducedApiList = ReducedApiData[];
 
 export interface FlowMap {
-	sequence: MappedStep[];
-	missedSteps: MappedStep[];
+  sequence: MappedStep[];
+  missedSteps: MappedStep[];
+  reference_data?: Record<string, any>;
 }
 export interface MappedStep {
-	status:
-		| "COMPLETE"
-		| "LISTENING"
-		| "RESPONDING"
-		| "WAITING"
-		| "INPUT-REQUIRED";
-	actionId: string;
-	owner: "BAP" | "BPP";
-	actionType: string;
-	input?: FormConfigType;
-	payloads?: ReducedApiData;
-	index: number;
-	description?: string;
-	unsolicited: boolean;
-	pairActionId: string | null;
-	expect?: boolean;
-	missedStep?: boolean;
+  status:
+    | "COMPLETE"
+    | "LISTENING"
+    | "RESPONDING"
+    | "WAITING"
+    | "INPUT-REQUIRED"
+    | "PROCESSING"
+    | "WAITING-SUBMISSION";
+  actionId: string;
+  owner: "BAP" | "BPP";
+  actionType: string;
+  input?: FormConfigType;
+  payloads?: ApiHistory;
+  index: number;
+  description?: string;
+  unsolicited: boolean;
+  pairActionId: string | null;
+  expect?: boolean;
+  missedStep?: boolean;
+  label?: string;
+  force_proceed?: boolean;
+  repeat?: number;
 }
