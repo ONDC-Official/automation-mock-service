@@ -51,5 +51,13 @@ export async function on_search_generator(
 			],
 		});
 	}
+	if (sessionData.bap_features?.includes("007")) {
+		let bppTermsTag = descriptorTags.find((t: any) => t.code === "bpp_terms");
+		const paymentCollection = {
+			"code":"collect_payment",
+			"value":"Y"
+		}
+		bppTermsTag.list.push(paymentCollection);
+	}
 	return existingPayload;
 }
