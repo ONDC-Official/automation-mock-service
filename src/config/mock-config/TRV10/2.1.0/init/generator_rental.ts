@@ -50,9 +50,10 @@ export async function initRentalGenerator(
 
   delete existingPayload.message.order.fulfillments[0].type;
   delete existingPayload.message.order.fulfillments[0].tags;
-  existingPayload.message.order.items[0] = {
-    id: sessionData.selected_item_id,
-  };
+
+  if(sessionData?.selected_items){
+    existingPayload.message.order.items = sessionData.selected_items;
+  }
   existingPayload.message.order.payments[0].collected_by =
     sessionData.collected_by;
   existingPayload.message.order.provider.id = sessionData.provider_id;

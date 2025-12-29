@@ -42,33 +42,31 @@ export async function selectMultipleStopsRentalGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
-  // const result = getRandomItemWithAddon(sessionData.items);
-  // existingPayload.message.order.items = result.items
+  const userItems = sessionData.user_inputs?.items || [];
 
-  const items = sessionData.items || [];
-  const randomItem = items[Math.floor(Math.random() * items.length)];
-  if (sessionData.user_inputs?.items?.length > 0) {
-    const addOns = sessionData.user_inputs?.items
-      ?.filter((item: any) => item.count > 0)
-      .map((item: any) => {
-        return {
-          id: item.addOns,
-          quantity: {
-            selected: {
-              count: item.count,
-            },
-          },
-        };
-      });
+  if (!userItems.length) {
+    return existingPayload;
+  }
+
+  const orderItems = userItems.map((userItem: any) => {
     const updatedItem: any = {
-      id: randomItem.id,
+      id: userItem.itemId,
     };
 
-    if (addOns.length > 0) {
-      updatedItem.add_ons = addOns;
+    if (Array.isArray(userItem.addOns) && userItem.addOns.length > 0) {
+      updatedItem.add_ons = userItem.addOns.map((addon: any) => ({
+        id: addon.id,
+        quantity: {
+          selected: {
+            count: addon.quantity,
+          },
+        },
+      }));
     }
 
-    existingPayload.message.order.items[0] = updatedItem;
-  }
+    return updatedItem;
+  });
+
+  existingPayload.message.order.items = orderItems;
   return existingPayload;
 }

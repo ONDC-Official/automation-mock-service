@@ -80,6 +80,31 @@ const item_tags = [
   },
 ];
 
+function generateTags(count: number) {
+  return item_tags.map((tagGroup) => {
+    if (tagGroup.descriptor.code !== "INFO") {
+      return tagGroup;
+    }
+
+    return {
+      ...tagGroup,
+      list: tagGroup.list.map((item) => {
+        if (
+          item.descriptor.code === "TOTAL_HOURS" ||
+          item.descriptor.code === "TOTAL_DISTANCE"
+        ) {
+          return {
+            ...item,
+            value: String(Number(item.value) * count),
+          };
+        }
+
+        return item;
+      }),
+    };
+  });
+}
+
 function updateQuoteWithAddOns(quote: any, items: any[]) {
   if (!quote || !items?.length) return quote;
 
@@ -199,11 +224,12 @@ function filterFulfillmentsByItem(item: any, fulfillments: any[]) {
   );
 }
 
-function filterItemsById(sessionData: any, selected_item_id: string) {
-  if (sessionData?.items && Array.isArray(sessionData.items)) {
-    return sessionData.items.filter(
-      (item: any) => item.id === selected_item_id
+function filterItemsById(items: any, selectedItems: any[]) {
+  if (items && Array.isArray(items)) {
+    const selectedIds = selectedItems.map(
+      (selectedItem: any) => selectedItem.id
     );
+    return items.filter((item: any) => selectedIds.includes(item.id));
   }
   return [];
 }
@@ -278,7 +304,6 @@ function appendAddOns(item: any, sessionData: SessionData) {
         },
       };
 
-      delete addOn?.descriptor;
       return addOn;
     })
     .filter(Boolean);
@@ -290,32 +315,34 @@ export async function onSelectMultipleStopsRentalGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
-  const selected_item_id = sessionData.selected_item_id;
-  const item = filterItemsById(sessionData, selected_item_id);
-  existingPayload.message.order.items = item;
+  const selectedItems = sessionData.selected_items;
+  const filteredItem = filterItemsById(sessionData?.items, selectedItems);
+  existingPayload.message.order.items = filteredItem;
   if (sessionData.updated_price) {
     existingPayload.message.order.items[0].price.value =
       sessionData.updated_price;
   }
 
   existingPayload.message.order.items.map((item: any) => {
-    if (Array.isArray(item.tags)) {
-      item.tags = item_tags;
-    }
-
     const addOn = appendAddOns(item, sessionData);
     item.add_ons = addOn;
+    const addOnCount = addOn.reduce((acc: number, ao: any) => {
+      return acc + (ao.quantity?.selected?.count || 0);
+    }, 0);
+    if (Array.isArray(item.tags)) {
+      item.tags = generateTags(addOnCount);
+    }
     return item;
   });
   const filteredFulfillments = filterFulfillmentsByItem(
-    item[0],
+    filteredItem[0],
     sessionData.fulfillments
   );
-  existingPayload.message.order.quote = generateQuoteFromItems(item);
-      existingPayload.message.order.quote = updateQuoteWithAddOns(
-      existingPayload.message.order.quote,
-      existingPayload.message.order.items
-    );
+  existingPayload.message.order.quote = generateQuoteFromItems(filteredItem);
+  existingPayload.message.order.quote = updateQuoteWithAddOns(
+    existingPayload.message.order.quote,
+    existingPayload.message.order.items
+  );
   existingPayload.message.order.fulfillments = filteredFulfillments;
   if (sessionData.cancellation_terms) {
     existingPayload.message.order.cancellation_terms =

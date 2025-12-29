@@ -52,7 +52,8 @@ function getDetailsByActionId(
 
 export async function createMockReponseTRV10(
 	actionID: string,
-	sessionData: SessionData
+	sessionData: SessionData,
+	inputs?: Record<string, string>
 ) {
 	// 1. create context
 	// 2. load default
@@ -101,5 +102,5 @@ export async function createMockReponseTRV10(
 		logger.debug(`Error payload is ${JSON.stringify(payload)}`);
 		return payload;
 	}
-	return await Generator(actionID, payload, sessionData);
+	return await Generator(actionID, payload, sessionData, inputs);
 }

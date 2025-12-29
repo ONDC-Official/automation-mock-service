@@ -21,7 +21,7 @@ import { onUpdateRideSoftUpdateGenerator } from "./on_update/generator_ride_soft
 import { onUpdateRideUpdatedGenerator } from "./on_update/generator_ride_updated";
 import { onUpdateUpdateQuoteGenerator } from "./on_update/generator_update_quote";
 import { searchGenerator } from "./search/generator";
-import { onSearchGenerator} from "./on_search/generator"
+import { onSearchGenerator } from "./on_search/generator"
 import { searchMultipleStopsGenerator } from "./search/generator_multiple_stops";
 import { searchMultipleStopsRentalGenerator } from "./search/generator_rental";
 import { searchMultipleStopsRentalEndGenerator } from "./search/generator_rental_end";
@@ -68,12 +68,17 @@ import { cancelTechnicalCancellationHardGenerator } from "./cancel/generator-tec
 import { onStatusRideStartedSoftUpdateGenerator } from "./on_status/generator_ride_started_soft_update";
 import { onInitRentalGenerator } from "./on_init/generator_rental";
 import { initRentalGenerator } from "./init/generator_rental";
+import { issueStatusGenerator } from "./issue/generator";
+import { onIssueStatusGenerator } from "./on_issue/generator";
+import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
+import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
 
 
 export async function Generator(
     action_id: string,
     existingPayload: any,
-    sessionData: any
+    sessionData: any,
+    inputs?: any
 ) {
     switch (action_id) {
         case "search":
@@ -163,74 +168,270 @@ export async function Generator(
         case "search_ride":
             return await searchGenerator(existingPayload, sessionData);
         case "on_search_ride":
-            return await onSearchGenerator(existingPayload, sessionData);    
+            return await onSearchGenerator(existingPayload, sessionData);
         case "select_ride":
-            return await selectMultipleStopsGenerator(existingPayload, sessionData);  
+            return await selectMultipleStopsGenerator(existingPayload, sessionData);
         case "on_select_ride":
-                return await onSelectGenerator(existingPayload, sessionData);      
+            return await onSelectGenerator(existingPayload, sessionData);
         case "init_ride":
-                return await initGenerator(existingPayload, sessionData);  
+            return await initGenerator(existingPayload, sessionData);
         case "on_init_ride":
-                return await onInitGenerator(existingPayload, sessionData);      
+            return await onInitGenerator(existingPayload, sessionData);
         case "confirm_ride":
-                return await confirmGenerator(existingPayload, sessionData);   
+            return await confirmGenerator(existingPayload, sessionData);
         case "on_confirm_ride":
-                 return await onConfirmGenerator(existingPayload, sessionData); 
+            return await onConfirmGenerator(existingPayload, sessionData);
         case "on_confirm_technical":
-                 return await onConfirmGeneratorTechnical(existingPayload, sessionData); 
+            return await onConfirmGeneratorTechnical(existingPayload, sessionData);
         case "on_status_ride":
-                return await onStatusRideStartedGenerator(existingPayload, sessionData);
+            return await onStatusRideStartedGenerator(existingPayload, sessionData);
         case "track_ride":
-                return await trackGenerator(existingPayload, sessionData);
+            return await trackGenerator(existingPayload, sessionData);
         case "on_track_ride":
-                return await onTrackMultipleStopsGenerator(existingPayload, sessionData); 
+            return await onTrackMultipleStopsGenerator(existingPayload, sessionData);
         case "on_update_ride":
-                return await onUpdateGenerator(existingPayload, sessionData); 
+            return await onUpdateGenerator(existingPayload, sessionData);
         case "on_update_ride_with_purple":
-                return await onUpdatePurpleTagsGenerator(existingPayload, sessionData); 
+            return await onUpdatePurpleTagsGenerator(existingPayload, sessionData);
         case "on_update_ride_self_pickup":
-                return await onUpdateGeneratorWithSelfPickup(existingPayload, sessionData); 
+            return await onUpdateGeneratorWithSelfPickup(existingPayload, sessionData);
         case "status_ride":
-                return await statusGenerator(existingPayload, sessionData);      
+            return await statusGenerator(existingPayload, sessionData);
         case "on_cancel_ride_cancel":
-                return await onCancelSoftGenerator(existingPayload, sessionData); 
+            return await onCancelSoftGenerator(existingPayload, sessionData);
         case "on_init_driver_pruple":
-                return await onInitGenerator(existingPayload, sessionData);     
+            return await onInitGenerator(existingPayload, sessionData);
         case "on_confirm_driver_not_found":
-                return await onConfirmDriverNotFound(existingPayload, sessionData);     
+            return await onConfirmDriverNotFound(existingPayload, sessionData);
         case "on_confirm_driver_not_assigned":
-            return await onConfirmDriverNotAssignedGenerator(existingPayload, sessionData); 
+            return await onConfirmDriverNotAssignedGenerator(existingPayload, sessionData);
         case "on_confirm_self_pickup":
-            return await onConfirmSelfPickupGenerator(existingPayload, sessionData); 
+            return await onConfirmSelfPickupGenerator(existingPayload, sessionData);
         case "track_ride_update":
             return await trackGenerator(existingPayload, sessionData);
         case "on_cancel_async":
-            return await onCancelAsyncGenerator(existingPayload,sessionData)
+            return await onCancelAsyncGenerator(existingPayload, sessionData)
         case "on_cancel_hard":
-            return await onCancelHardGenerator(existingPayload,sessionData)
+            return await onCancelHardGenerator(existingPayload, sessionData)
         case "on_cancel_rider_not_found":
-            return await onCancelRiderNotFoundGenerator(existingPayload,sessionData)
+            return await onCancelRiderNotFoundGenerator(existingPayload, sessionData)
         case "select_preorder_bid":
             return await selectPreOrderBidGenerator(existingPayload, sessionData);
         case "select_rental":
-            return await selectMultipleStopsRentalGenerator(existingPayload,sessionData)
+            return await selectMultipleStopsRentalGenerator(existingPayload, sessionData)
         case "on_select_rental":
-            return await onSelectMultipleStopsRentalGenerator(existingPayload,sessionData)
+            return await onSelectMultipleStopsRentalGenerator(existingPayload, sessionData)
         case "search_schedule_rental":
-            return await searchMultipleStopsScheduleRentalGenerator(existingPayload,sessionData)
+            return await searchMultipleStopsScheduleRentalGenerator(existingPayload, sessionData)
         case "on_search_schedule_rental":
-            return await onSearchScheduleRentalGenerator(existingPayload,sessionData)
+            return await onSearchScheduleRentalGenerator(existingPayload, sessionData)
         case "on_update_ride_assigned":
-            return await onUpdateRideAssignedGenerator(existingPayload,sessionData)
+            return await onUpdateRideAssignedGenerator(existingPayload, sessionData)
         case "search_schedule_trip":
-            return await searchMultipleStopsScheduleTripGenerator(existingPayload,sessionData)
+            return await searchMultipleStopsScheduleTripGenerator(existingPayload, sessionData)
         case "on_search_schedule_trip":
-            return await onSearchMultipleStopsGenerator(existingPayload,sessionData)
+            return await onSearchMultipleStopsGenerator(existingPayload, sessionData)
         case "on_select_preorder":
-            return await onSelectMultipleStopsPreOrderGenerator(existingPayload,sessionData)
+            return await onSelectMultipleStopsPreOrderGenerator(existingPayload, sessionData)
         case "on_confirm_rental":
-            return await onConfirmMultipleStopsRentalGenerator(existingPayload,sessionData)
+            return await onConfirmMultipleStopsRentalGenerator(existingPayload, sessionData)
+
+        // __________IGM(2.0.0)_____________
+
+        case "issue_open":
+            return await issueStatusGenerator(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "issue_open",
+                },
+                inputs
+            );
+        case "issue_escalate":
+            return await issueStatusGenerator(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "issue_escalate",
+                },
+                inputs
+            );
+        case "issue_open_2":
+            return await issueStatusGenerator(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "issue_open_2",
+                },
+                inputs
+            );
+        case "on_issue_processing":
+            return await onIssueStatusGenerator(existingPayload, {
+                ...sessionData,
+                igm_action: "on_issue_processing",
+            });
+        case "on_issue_processing_1":
+            return await onIssueStatusGenerator(existingPayload, {
+                ...sessionData,
+                igm_action: "on_issue_processing_1",
+            });
+        case "on_issue_processing_2":
+            return await onIssueStatusGenerator(existingPayload, {
+                ...sessionData,
+                igm_action: "on_issue_processing_2",
+            });
+        case "on_issue_need_more_info":
+            return await onIssueStatusGenerator(existingPayload, {
+                ...sessionData,
+                igm_action: "on_issue_need_more_info",
+            });
+        case "issue_info_provided":
+            return await issueStatusGenerator(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "issue_info_provided",
+                },
+                inputs
+            );
+        case "on_issue_provided":
+            return await onIssueStatusGenerator(existingPayload, {
+                ...sessionData,
+                igm_action: "on_issue_provided",
+            });
+        case "on_issue_resolution":
+            return await onIssueStatusGenerator(existingPayload, {
+                ...sessionData,
+                igm_action: "on_issue_resolution",
+            });
+        case "on_issue_resolution_1":
+            return await onIssueStatusGenerator(existingPayload, {
+                ...sessionData,
+                igm_action: "on_issue_resolution_1",
+            });
+        case "on_issue_resolution_2":
+            return await onIssueStatusGenerator(existingPayload, {
+                ...sessionData,
+                igm_action: "on_issue_resolution_2",
+            });
+        case "on_issue_resolution_igm_3":
+            return await onIssueStatusGenerator(existingPayload, {
+                ...sessionData,
+                igm_action: "on_issue_resolution_igm_3",
+            });
+        case "issue_resolution_accept":
+            return await issueStatusGenerator(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "issue_resolution_accept",
+                },
+                inputs
+            );
+        case "issue_resolution_accept_igm_3":
+            return await issueStatusGenerator(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "issue_resolution_accept_igm_3",
+                },
+                inputs
+            );
+        case "issue_resolution_reject":
+            return await issueStatusGenerator(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "issue_resolution_reject",
+                },
+                inputs
+            );
+        case "on_issue_resolved":
+            return await onIssueStatusGenerator(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "on_issue_resolved",
+                },
+                inputs
+            );
+        case "on_issue_resolved_igm_3":
+            return await onIssueStatusGenerator(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "on_issue_resolved_igm_3",
+                },
+                inputs
+            );
+        case "issue_close":
+            return await issueStatusGenerator(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "issue_close",
+                },
+                inputs
+            );
+        case "issue_close_igm_3":
+            return await issueStatusGenerator(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "issue_close_igm_3",
+                },
+                inputs
+            );
+        // case "on_update_igm_return":
+        //     return await onUpdateIgmReturnGenerator(
+        //         existingPayload,
+        //         sessionData,
+        //         action_id
+        //     );
+        // case "on_update_igm_replacement":
+        //     return await onUpdateIgmReplacementGenerator(
+        //         existingPayload,
+        //         sessionData,
+        //         action_id
+        //     );
+        // case "on_status_igm_3":
+        //     return on_status_order_delivered_generator(existingPayload, sessionData);
+
+        // _____________IGM_1.0.0______________
+        case "issue_open_100":
+            return await issueStatusGenerator_100(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "issue_open",
+                },
+                inputs
+            );
+        case "on_issue_processing_100":
+            return await onIssueStatusGenerator_100(existingPayload, {
+                ...sessionData,
+                igm_action: "on_issue_processing",
+            });
+        case "on_issue_resolved_100":
+            return await onIssueStatusGenerator_100(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "on_issue_resolved",
+                },
+                inputs
+            );
+        case "issue_close_100":
+            return await issueStatusGenerator_100(
+                existingPayload,
+                {
+                    ...sessionData,
+                    igm_action: "issue_close",
+                },
+                inputs
+            );
         default:
-                throw new Error(`Invalid request type ${action_id}`);
-        }
+            throw new Error(`Invalid request type ${action_id}`);
+    }
 }
+
