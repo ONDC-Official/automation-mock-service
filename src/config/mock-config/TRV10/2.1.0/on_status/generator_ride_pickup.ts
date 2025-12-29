@@ -84,6 +84,9 @@ function updateFulfillmentStatus(order: any) {
   if (order.fulfillments) {
     order.fulfillments.forEach((fulfillment: any) => {
       fulfillment.state.descriptor.code = "RIDE_ENROUTE_PICKUP";
+      fulfillment.vehicle.registration = "KA01AB1234";
+      fulfillment.vehicle.make = "TATA";
+      fulfillment.vehicle.model = "Compact RE";
     });
   }
   return order;
