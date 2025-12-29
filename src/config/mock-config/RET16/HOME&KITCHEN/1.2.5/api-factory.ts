@@ -54,6 +54,8 @@ import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/gen
 import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
 import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
+import { track_generator } from "./track/generator";
+import { on_track_generator } from "./on_track/generator";
 
 export async function Generator(
   action_id: string,
@@ -153,6 +155,10 @@ export async function Generator(
         existingPayload,
         sessionData
       );
+    case "track":
+      return track_generator(existingPayload, sessionData);
+    case "on_track":
+      return on_track_generator(existingPayload, sessionData);
     case "select_input":
       return select_input_generator(existingPayload, sessionData);
     case "on_select_input":
