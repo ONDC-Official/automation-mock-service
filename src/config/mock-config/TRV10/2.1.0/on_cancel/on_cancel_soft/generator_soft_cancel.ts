@@ -45,10 +45,10 @@ export async function onCancelSoftGenerator(
     existingPayload.message.order.fulfillments =
       sessionData.selected_fulfillments;
 
-    delete existingPayload.message.order.fulfillments[0].stops[0].authorization
-      .valid_to;
-    delete existingPayload.message.order.fulfillments[0].stops[0].authorization
-      .status;
+    // delete existingPayload.message.order.fulfillments[0].stops[0].authorization
+    //   .valid_to;
+    // delete existingPayload.message.order.fulfillments[0].stops[0].authorization
+    //   .status;
   }
 
   if (sessionData.order_id) {
