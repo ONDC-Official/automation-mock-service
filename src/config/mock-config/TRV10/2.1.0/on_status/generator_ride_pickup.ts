@@ -1,6 +1,19 @@
 import { SessionData } from "../../session-types";
 import { onStatusMultipleStopsGenerator } from "./generator_multiple_stops";
 
+const agent = {
+  contact: {
+    phone: "9856798567",
+  },
+  person: {
+    name: "Jason Roy",
+  },
+};
+
+function generateOTP(): string {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
 function updateSettlementAmount(terms: any[], quote: any) {
   const total = Number(quote?.price?.value || 0);
 
@@ -87,6 +100,13 @@ function updateFulfillmentStatus(order: any) {
       fulfillment.vehicle.registration = "KA01AB1234";
       fulfillment.vehicle.make = "TATA";
       fulfillment.vehicle.model = "Compact RE";
+      fulfillment.agent = agent;
+      fulfillment.stops[0].authorization = {
+        type: "OTP",
+        token: generateOTP(),
+        valid_to: new Date(Date.now() + 30 * 60000).toISOString(), // 30 minutes validity
+        status: "UNCLAIMED",
+      };
     });
   }
   return order;
