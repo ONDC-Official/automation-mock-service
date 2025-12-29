@@ -105,3 +105,7 @@ export async function loadMockSessionData(
 		return sessionData;
 	}
 }
+
+export function getReferenceData(sessionData: MockSessionData) {
+	return {};
+}
