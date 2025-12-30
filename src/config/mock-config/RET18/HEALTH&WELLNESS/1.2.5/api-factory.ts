@@ -81,6 +81,8 @@ import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/gen
 import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
 import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
 import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
+import { track_generator } from "./track/generator";
+import { on_track_generator } from "./on_track/generator";
 import { catalog_rejection_generator } from "./on_search/catalog_rejection/generator";
 
 export async function Generator(
@@ -454,6 +456,10 @@ export async function Generator(
         },
         inputs
       );
+    case "track":
+      return track_generator(existingPayload, sessionData);
+    case "on_track":
+      return on_track_generator(existingPayload, sessionData);
     case "catalog_rejection":
       return await catalog_rejection_generator(existingPayload, sessionData)
     default:
