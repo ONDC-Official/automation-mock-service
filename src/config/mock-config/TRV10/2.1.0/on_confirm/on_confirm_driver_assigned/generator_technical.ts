@@ -112,7 +112,7 @@ export async function onConfirmGeneratorTechnical(
   sessionData: SessionData
 ) {
   const order_id = Math.random().toString(36).substring(2, 15);
-  existingPayload.message.order.id = order_id;
+  existingPayload.message.order.id = '01';
 
   // Update order status to ACTIVE
   existingPayload.message.order.status = "ACTIVE";

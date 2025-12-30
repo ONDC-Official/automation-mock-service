@@ -366,6 +366,16 @@ codes:
     action: on_init
     default: TRV10/2.1.0/on_init/default.yaml
     message_id: false
+  - code: 173
+    action_id: status_pre_order
+    action: status
+    default: TRV10/2.1.0/status/default.yaml
+    message_id: false
+  - code: 174
+    action_id: on_status_pre_order
+    action: on_status
+    default: TRV10/2.1.0/on_status/default.yaml
+    message_id: false
 
     # _________IGM(2.0.0)___________
 
