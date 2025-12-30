@@ -13,6 +13,7 @@ import { onSelectMultipleStopsGenerator } from "./on_select/generator_multiple_s
 import { onSelectPurpleTagsGenerator } from "./on_select/generator_purple_tags";
 import { onStatusRideArrivedGenerator } from "./on_status/generator_ride_arrived";
 import { onStatusRidePaidGenerator } from "./on_status/generator_ride_paid";
+import { onStatusPreOrderGenerator } from "./on_status/generator_pre_order";
 import { onStatusRideEnrouteGenerator } from "./on_status/generator_ride_pickup";
 import { onStatusRideStartedGenerator } from "./on_status/generator_ride_started";
 import { onStatusRideCancelGenerator } from "./on_status/generator_ride_soft_cancel";
@@ -28,6 +29,7 @@ import { searchMultipleStopsRentalEndGenerator } from "./search/generator_rental
 import { selectMultipleStopsGenerator } from "./select/generator";
 import { selectPurpleTagsGenerator } from "./select/generator-purple-tags";
 import { statusMultipleStopsGenerator } from "./status/generator_multiple_stops";
+import { statusPreOrderGenerator } from "./status/generator_pre_order";
 import { trackMultipleStopsGenerator } from "./track/generator_multiple_stops";
 import { updateFulfillmentSoftGenerator } from "./update_/generator_fulfillment";
 import { updateFulfillmentHardGenerator } from "./update_/generator_fulfillment_hard";
@@ -133,8 +135,12 @@ export async function Generator(
             return await onUpdateRideEndedGenerator(existingPayload, sessionData);
         case "status":
             return await statusMultipleStopsGenerator(existingPayload, sessionData);
+        case "status_pre_order":
+            return await statusPreOrderGenerator(existingPayload, sessionData);
         case "on_status_solicited":
             return await onStatusRidePaidGenerator(existingPayload, sessionData);
+        case "on_status_pre_order":
+            return await onStatusPreOrderGenerator(existingPayload, sessionData);
         case "update":
             return await updateFulfillmentSoftGenerator(existingPayload, sessionData);
         case "on_update_soft_update":

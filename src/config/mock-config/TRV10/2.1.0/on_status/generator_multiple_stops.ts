@@ -98,7 +98,7 @@ export async function onStatusMultipleStopsGenerator(
       sessionData.selected_fulfillments;
   }
 
-  if (sessionData.order_id) {
+  if (sessionData?.order_id) {
     existingPayload.message.order.id = sessionData.order_id;
   }
 
