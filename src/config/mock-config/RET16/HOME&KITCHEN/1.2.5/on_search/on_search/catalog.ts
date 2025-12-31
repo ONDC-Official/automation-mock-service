@@ -24,6 +24,10 @@ export const RET16HOMEKITCHEN125Catalog = {
               code: "np_type",
               value: "MSN",
             },
+            {
+              code: "accept_bap_terms",
+              value: "Y",
+            },
           ],
         },
       ],

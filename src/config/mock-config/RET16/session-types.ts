@@ -69,6 +69,7 @@ export type SessionData = {
   issue_created_at: any
   on_issue_actions: any
   issue_actions: any
+  bap_features?: string[]
 };
 
 export type BecknContext = {
