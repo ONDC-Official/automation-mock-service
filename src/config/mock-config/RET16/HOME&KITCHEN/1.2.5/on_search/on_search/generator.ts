@@ -53,11 +53,10 @@ export async function on_search_generator(
 	}
 	if (sessionData.bap_features?.includes("007")) {
 		let bppTermsTag = descriptorTags.find((t: any) => t.code === "bpp_terms");
-		const paymentCollection = {
-			"code":"collect_payment",
-			"value":"Y"
+		const hasCollectPayment = (bppTermsTag: any[]) => bppTermsTag?.some((t: any) => t.code === "collect_payment");
+		if (!hasCollectPayment(bppTermsTag.list)) {
+			bppTermsTag.list.push({ code: "collect_payment", value: "Y" });
 		}
-		bppTermsTag.list.push(paymentCollection);
 	}
 	return existingPayload;
 }
