@@ -346,7 +346,7 @@ export async function onSelectMultipleStopsRentalGenerator(
   existingPayload.message.order.fulfillments = filteredFulfillments;
   if (sessionData.cancellation_terms) {
     existingPayload.message.order.cancellation_terms =
-      sessionData.cancellation_terms[0];
+      sessionData.cancellation_terms.flat();
   }
   return existingPayload;
 }
