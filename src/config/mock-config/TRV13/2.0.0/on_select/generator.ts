@@ -9,90 +9,88 @@ export async function onSelectDefaultGenerator(
     sessionData?.select_provider_id ?? "P1";
 
   const selectItems = sessionData?.select_items[0] ?? [];
-  const on_search_1_item = sessionData?.on_search_1_items[0] ?? [];
+  const catalogItems = sessionData?.on_search_1_items[0] ?? [];
+
+  // Find selected item in catalog to get actual prices
+  const selectedItemId = selectItems[0]?.id;
+  const catalogItem = catalogItems.find((item: any) => item.id === selectedItemId) ?? catalogItems[0];
+  
+  // Get item price from catalog
+  const itemPrice = Number(catalogItem?.price?.value ?? "2000.00");
+  const quantity = selectItems[0]?.quantity?.selected?.count ?? 1;
+  
+  // Get selected addon and its price from catalog
+  const selectedAddonId = selectItems[0]?.add_ons?.[0]?.id;
+  const catalogAddon = catalogItem?.add_ons?.find((a: any) => a.id === selectedAddonId);
+  const addonPrice = Number(catalogAddon?.price?.value ?? "500.00");
+  const addonName = catalogAddon?.descriptor?.short_desc ?? "Accommodation with all meals included";
+  
+  // Calculate totals
+  const baseItemTotal = itemPrice * quantity;
+  const totalWithAddons = baseItemTotal + addonPrice;
+  const serviceTax = Math.round(totalWithAddons * 0.09);
+  const gst = Math.round(totalWithAddons * 0.12);
+  const totalPrice = totalWithAddons + serviceTax + gst;
 
   existingPayload.message.order.items = selectItems.map((item: any) => ({
     id: item.id,
     add_ons: item.add_ons,
-    payment_ids: [on_search_1_item[0]?.payment_ids[0]],
+    payment_ids: [catalogItems[0]?.payment_ids?.[0]],
   }));
 
   existingPayload.message.order.quote = {
     price: {
       currency: "INR",
-      value: "3025.00",
+      value: totalPrice.toFixed(2),
     },
     breakup: [
       {
         item: {
-          id: selectItems[0]?.id ?? "Accommodation-1",
+          id: selectedItemId ?? "Accommodation-1",
           quantity: selectItems[0]?.quantity ?? {
             selected: {
-              count: 2,
+              count: 1,
             },
           },
           price: {
             currency: "INR",
-            value: "2000.00",
+            value: itemPrice.toFixed(2),
           },
           add_ons: [
             {
-              id: selectItems[0]?.add_ons[0]?.id ?? "full-board",
+              id: selectedAddonId ?? "full-board",
               price: {
                 currency: "INR",
-                value: "500.00",
+                value: addonPrice.toFixed(2),
               },
             },
           ],
         },
-        title:
-          "Deluxe Room accommodation with all meals included (breakfast, lunch, and dinner)",
+        title: catalogItem?.descriptor?.name ?? "Deluxe Room accommodation with all meals included",
         price: {
           currency: "INR",
-          value: "300.00",
+          value: totalWithAddons.toFixed(2),
         },
       },
       {
         title: "Service Tax @ 9%",
         price: {
           currency: "INR",
-          value: "225",
+          value: serviceTax.toString(),
         },
       },
       {
         title: "GST @ 12%",
         price: {
           currency: "INR",
-          value: "400",
+          value: gst.toString(),
         },
       },
     ],
     ttl: "P1D",
   };
 
-  let totalPrice = 0;
 
-  existingPayload.message.order.quote.breakup.forEach((breakup: any) => {
-    if (breakup.item) {
-      let itemPrice =
-        Number(breakup.item.price.value) *
-        Number(breakup.item.quantity?.selected?.count ?? 1);
-
-      if (breakup.item.add_ons?.length) {
-        itemPrice += breakup.item.add_ons.reduce(
-          (sum: number, addon: any) => sum + Number(addon.price.value),
-          0
-        );
-      }
-
-      breakup.price.value = itemPrice.toString();
-      totalPrice += itemPrice;
-    } else {
-      totalPrice += Number(breakup.price.value);
-    }
-  });
-
-  existingPayload.message.order.quote.price.value = totalPrice.toString();
 
   existingPayload.message.order.payments = [
     {
@@ -174,7 +172,7 @@ export async function onSelectDefaultGenerator(
     },
   ];
 
-  const paymentIds = on_search_1_item[0]?.payment_ids ?? [];
+  const paymentIds = catalogItems[0]?.payment_ids ?? [];
 
   existingPayload.message.order.payments.forEach(
     (payment: any, index: number) => {

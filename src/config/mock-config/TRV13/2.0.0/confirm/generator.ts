@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 export async function confirmDefaultGenerator(
   existingPayload: any,
   sessionData: any
@@ -5,7 +7,14 @@ export async function confirmDefaultGenerator(
   const payments =
     sessionData?.on_init_payments?.[0]?.map((payment: any) => {
       if (payment.type === "PRE-ORDER") {
-        return { ...payment, status: "PAID" };
+        return { 
+          ...payment, 
+          status: "PAID",
+          params: {
+            ...payment.params,
+            transaction_id: `payment-utr-${uuidv4().slice(0, 8)}`
+          }
+        };
       } else {
         return { ...payment, status: "NOT-PAID" };
       }

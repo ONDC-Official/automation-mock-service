@@ -13,20 +13,23 @@ export async function selectDefaultGenerator(
         end: "2023-12-27T00:00:00.000Z",
       },
     };
-  // ...existing code...
-  existingPayload.message.order.items = [
-    {
-      id: items[0]?.id ?? "P1",
-      location_ids: [...(items[0]?.location_ids ?? [])],
-      quantity: {
-        selected: {
-          count: 1,
+
+  // If no items in payload, use defaults from session
+  if (!existingPayload.message.order.items || existingPayload.message.order.items.length === 0) {
+    existingPayload.message.order.items = [
+      {
+        id: items[0]?.id ?? "P1",
+        location_ids: [...(items[0]?.location_ids ?? [])],
+        quantity: {
+          selected: {
+            count: 1,
+          },
         },
+        add_ons: [{ id: items[0]?.add_ons?.[1]?.id ?? "full-board" }],
       },
-      add_ons: [{ id: items[0]?.add_ons?.[1]?.id ?? "full-board" }],
-    },
-  ];
-  // ...existing code...
+    ];
+  }
+
   return existingPayload;
 }
 
