@@ -25,7 +25,25 @@ export async function confirm_fin_generator(
   );
 
   const itemId = existingPayload.message.order.items[0].id;
-  existingPayload.message.order.tags = sessionData.order_tags;
+  const tags = sessionData.order_tags;
+
+  const bapTerms = tags.find((t: any) => t.code === "bap_terms");
+
+  if (bapTerms) {
+    bapTerms.list.push(
+      {
+        code: "accept_bpp_terms",
+        value: "Y",
+      },
+      {
+        code: "static_terms",
+        value:
+          "https://github.com/ONDC-Official/NP-Static-Terms/buyerNP_BNP/1.0/tc.pdf",
+      }
+    );
+  }
+
+  existingPayload.message.order.tags = tags;
   let extractedOfferItem: any = null;
 
   existingPayload.message.order.quote.breakup =
