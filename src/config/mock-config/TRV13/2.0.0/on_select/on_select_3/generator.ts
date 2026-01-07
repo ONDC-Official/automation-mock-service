@@ -89,10 +89,18 @@ export async function onSelectDefaultGenerator(
     ttl: "P1D",
   };
 
+  // Calculate payment amounts from quote total
+  const advanceDepositAmount = (totalPrice * 0.5).toFixed(2); // 50% advance
+  const finalPaymentAmount = (totalPrice * 0.5).toFixed(2); // 50% remaining
+
   existingPayload.message.order.payments = [
     {
       id: "pymnt-1",
       type: "PRE-ORDER",
+      params: {
+        currency: "INR",
+        amount: totalPrice.toFixed(2),
+      },
       tags: [
         {
           descriptor: {
@@ -104,6 +112,10 @@ export async function onSelectDefaultGenerator(
     {
       id: "pymnt-2",
       type: "ON-FULFILLMENT",
+      params: {
+        currency: "INR",
+        amount: totalPrice.toFixed(2),
+      },
       tags: [
         {
           descriptor: {
@@ -115,6 +127,10 @@ export async function onSelectDefaultGenerator(
     {
       id: "pymnt-3",
       type: "PART-PAYMENT",
+      params: {
+        currency: "INR",
+        amount: totalPrice.toFixed(2),
+      },
       tags: [
         {
           descriptor: {
@@ -149,7 +165,7 @@ export async function onSelectDefaultGenerator(
       ],
       params: {
         currency: "INR",
-        amount: "2000.00",
+        amount: advanceDepositAmount,
       },
     },
     {
@@ -163,8 +179,8 @@ export async function onSelectDefaultGenerator(
         },
       ],
       params: {
-        amount: "1025.00",
         currency: "INR",
+        amount: finalPaymentAmount,
       },
     },
   ];
