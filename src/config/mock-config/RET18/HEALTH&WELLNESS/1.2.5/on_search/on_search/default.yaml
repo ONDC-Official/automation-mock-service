@@ -62,7 +62,7 @@ catalog:
       - code: attr
         list:
         - code: name
-          value: item.tags.attribute.plating
+          value: item.tags.attribute.brand
         - code: seq
           value: "1"
     items:

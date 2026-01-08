@@ -92,7 +92,7 @@ export const RET18HEALTH125Catalog = {
                 list: [
                   {
                     code: "name",
-                    value: "item.tags.attribute.plating",
+                    value: "item.tags.attribute.brand",
                   },
                   {
                     code: "seq",
