@@ -485,6 +485,89 @@ catalog:
           value: '#000000'
         - code: colour_name
           value: black
+    - id: I6
+      time:
+        label: enable
+        timestamp: '2024-08-12T10:27:48.913Z'
+      rating: '4'
+      descriptor:
+        name: Samsung 1.5 Ton 5 Star WindFree Inverter Split AC
+        symbol: https://sellerNP.com/images/i1.png
+        short_desc: 5 Star WindFree Inverter Split AC
+        long_desc: 5 Star WindFree Inverter Split AC, 6 in 1 cooling 2 way swing
+        images:
+        - https://sellerNP.com/images/i1.png
+        code: 3:8806091608222
+      quantity:
+        unitized:
+          measure:
+            unit: unit
+            value: '1'
+        available:
+          count: '99'
+        maximum:
+          count: '99'
+      price:
+        currency: INR
+        value: '599.00'
+        maximum_value: '1199.00'
+      parent_item_id: V1
+      category_id: Air Conditioner
+      location_id: L1
+      fulfillment_id: F1
+      "@ondc/org/returnable": true
+      "@ondc/org/cancellable": true
+      "@ondc/org/available_on_cod": false
+      "@ondc/org/time_to_ship": P1D
+      "@ondc/org/seller_pickup_return": false
+      "@ondc/org/return_window": P3D
+      "@ondc/org/contact_details_consumer_care": Moaz,support@gmail.com,2343453434
+      "@ondc/org/statutory_reqs_packaged_commodities":
+        manufacturer_or_packer_name: Seller Business
+        manufacturer_or_packer_address: Seller Building Address, Jayanagar, Bengaluru, Karnataka, India - 560011
+        common_or_generic_name_of_commodity: Air Conditioner
+        month_year_of_manufacture_packing_import: NA
+      tags:
+      - code: origin
+        list:
+        - code: country
+          value: IND
+      - code: attribute
+        list:
+        - code: brand
+          value: Samsung 1.5 Ton 5 Star WindFree Inverter Split AC
+        - code: model
+          value: TS-A18JNXE3
+        - code: special_feature
+          value: frequency
+        - code: weight
+          value: '32.5'
+        - code: length
+          value: '18.9'
+        - code: breadth
+          value: '83.7'
+        - code: height
+          value: '30.8'
+        - code: includes
+          value: Indoor Unit, Outdoor Unit, Remote
+        - code: type
+          value: split
+        - code: refurbished
+          value: no
+        - code: warranty
+          value: '5'
+        - code: energy_rating
+          value: '3'
+        - code: installation_detail
+          value: Available
+        - code: wattage
+          value: '1482'
+        - code: voltage
+          value: '230'
+        - code: colour
+          value: '#000000'
+        - code: colour_name
+          value: black
     - id: C1
       descriptor:
         name: Custom_Input
