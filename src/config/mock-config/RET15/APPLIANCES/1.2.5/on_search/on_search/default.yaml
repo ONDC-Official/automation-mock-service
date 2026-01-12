@@ -482,9 +482,9 @@ catalog:
         - code: voltage
           value: '230'
         - code: colour
-          value: '#000000'
+          value: '#FF0000'
         - code: colour_name
-          value: black
+          value: red
     - id: I6
       time:
         label: enable
