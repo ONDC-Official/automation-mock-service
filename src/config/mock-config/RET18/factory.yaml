@@ -527,3 +527,63 @@ codes:
     action: catalog_rejection
     default: HEALTH&WELLNESS/1.2.5/on_search/catalog_rejection/default.yaml
     message_id: true
+  - code: 347
+    default: HEALTH&WELLNESS/1.2.5/select/select_ccc/default.yaml
+    action_id: select_ccc
+    action: select
+    message_id: true
+  - code: 348
+    default: HEALTH&WELLNESS/1.2.5/on_select/on_select_ccc/default.yaml
+    action_id: on_select_ccc
+    action: on_select
+    message_id: false
+  - code: 349
+    default: HEALTH&WELLNESS/1.2.5/init/init_ccc/default.yaml
+    action_id: init_ccc
+    action: init
+    message_id: true
+  - code: 350
+    default: HEALTH&WELLNESS/1.2.5/on_init/on_init_ccc/default.yaml
+    action_id: on_init_ccc
+    action: on_init
+    message_id: false
+  - code: 351
+    default: HEALTH&WELLNESS/1.2.5/confirm/confirm_ccc/default.yaml
+    action_id: confirm_ccc
+    action: confirm
+    message_id: true
+  - code: 352
+    default: HEALTH&WELLNESS/1.2.5/on_confirm/on_confirm_ccc/default.yaml
+    action_id: on_confirm_ccc
+    action: on_confirm
+    message_id: false
+  - code: 353
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_accepted_ccc/default.yaml
+    action_id: on_status_accepted_ccc
+    action: on_status
+    message_id: true
+  - code: 354
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_packed_ccc/default.yaml
+    action_id: on_status_packed_ccc
+    action: on_status
+    message_id: true
+  - code: 355
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_agent_assigned_ccc/default.yaml
+    action_id: on_status_agent_assigned_ccc
+    action: on_status
+    message_id: true
+  - code: 356
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_picked_ccc/default.yaml
+    action_id: on_status_picked_ccc
+    action: on_status
+    message_id: true
+  - code: 357
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_out_for_delivery_ccc/default.yaml
+    action_id: on_status_out_for_delivery_ccc
+    action: on_status
+    message_id: true
+  - code: 358
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_order_delivered_ccc/default.yaml
+    action_id: on_status_order_delivered_ccc
+    action: on_status
+    message_id: true
