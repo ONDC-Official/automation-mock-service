@@ -84,6 +84,18 @@ import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 import { track_generator } from "./track/generator";
 import { on_track_generator } from "./on_track/generator";
 import { catalog_rejection_generator } from "./on_search/catalog_rejection/generator";
+import { select_ccc_generator } from "./select/select_ccc/generator";
+import { on_select_ccc_generator } from "./on_select/on_select_ccc/generator";
+import { init_ccc_generator } from "./init/init_ccc/generator";
+import { on_init_ccc_generator } from "./on_init/on_init_ccc/generator";
+import { confirm_ccc_generator } from "./confirm/confirm_ccc/generator";
+import { on_confirm_ccc_generator } from "./on_confirm/on_confirm_ccc/generator";
+import { on_status_packed_ccc_generator } from "./on_status/on_status_packed_ccc/generator";
+import { on_status_accepted_ccc_generator } from "./on_status/on_status_accepted_ccc/generator";
+import { on_status_agent_assigned_ccc_generator } from "./on_status/on_status_agent_assigned_ccc/generator";
+import { on_status_picked_ccc_generator } from "./on_status/on_status_picked_ccc/generator";
+import { on_status_out_for_delivery_ccc_generator } from "./on_status/on_status_out_for_delivery_ccc/generator";
+import { on_status_order_delivered_ccc_generator } from "./on_status/on_status_order_delivered_ccc/generator";
 
 export async function Generator(
   action_id: string,
@@ -262,6 +274,30 @@ export async function Generator(
       return cancel_yes_generator(existingPayload, sessionData);
     case "on_cancel_yes":
       return on_cancel_yes_generator(existingPayload, sessionData);
+    case "select_ccc":
+        return select_ccc_generator(existingPayload, sessionData);
+    case "on_select_ccc":
+      return on_select_ccc_generator(existingPayload, sessionData);
+    case "init_ccc":
+      return init_ccc_generator(existingPayload, sessionData);
+    case "on_init_ccc":
+      return on_init_ccc_generator(existingPayload, sessionData);
+    case "confirm_ccc":
+      return confirm_ccc_generator(existingPayload, sessionData);
+    case "on_confirm_ccc":
+      return on_confirm_ccc_generator(existingPayload, sessionData);
+    case "on_status_accepted_ccc":
+      return on_status_accepted_ccc_generator(existingPayload, sessionData);
+    case "on_status_packed_ccc":
+      return on_status_packed_ccc_generator(existingPayload, sessionData);
+    case "on_status_agent_assigned_ccc":
+      return on_status_agent_assigned_ccc_generator(existingPayload, sessionData);
+    case "on_status_picked_ccc":
+      return on_status_picked_ccc_generator(existingPayload, sessionData);
+    case "on_status_out_for_delivery_ccc":
+      return on_status_out_for_delivery_ccc_generator(existingPayload, sessionData);
+    case "on_status_order_delivered_ccc":
+      return on_status_order_delivered_ccc_generator(existingPayload, sessionData);
     case "update_settlement_cancel":
       return update_settlement_cancel_generator(existingPayload, sessionData);
         case "issue_open":
