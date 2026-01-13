@@ -100,7 +100,7 @@ export async function setFlowAndTransactionId(
 		next();
 	} catch (err: any) {
 		logger.error(
-			`Error in setting request meta data for ${req.body.context.transaction_id}`,
+			`Error in setting request  for ${req.body.context.transaction_id}`,
 			getLoggerData(req),
 			err
 		);
@@ -425,6 +425,8 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			// Inject flow_id and session_id into sessionData
 			sessionData.flow_id = txData.flowId;
 			sessionData.session_id = txData.sessionId;
+			sessionData.subscriber_url = subscriberUrl;
+			sessionData.transaction_id = txId;
 			sessionData.domain = process.env.DOMAIN?.split(":")[1];
 			// const repeatTimes = sessionData.REPEAT_NEXT_API ?? latestMeta.repeat ?? 1;
 			for (let i = 0; i < 1; i++) {
@@ -512,6 +514,7 @@ async function GetMockSessionDataForGeneration(
 	// Inject flow_id and session_id into sessionData
 	sessionData.flow_id = txData.flowId;
 	sessionData.session_id = txData.sessionId;
+	sessionData.subscriber_url = subscriberUrl;
 	sessionData.domain = process.env.DOMAIN?.split(":")[1];
 	sessionData.transaction_id = txId;
 	return sessionData;
