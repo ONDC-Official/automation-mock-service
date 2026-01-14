@@ -258,8 +258,10 @@ async function processFormStep(
 		nextStep.actionId,
 		req.transactionData?.sessionId
 	);
+  	logger.info("fromAction res", JSON.stringify(fromAction));
 	const formValidationResult = await fromAction.validate({}, mockSessionData);
 
+  	logger.info("formValidationResult res", JSON.stringify(formValidationResult));
 	if (!formValidationResult.valid) {
 		await sendToApiServiceAboutForm(
 			subsUrl,
