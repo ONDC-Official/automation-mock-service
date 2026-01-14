@@ -37,6 +37,10 @@ export async function sendToApiServiceAboutForm(
 	}
 	const url = createApiServiceUrl(version, `form/html-form`, domain);
 	const body = {
+		context: {
+			version: version,
+			domain: domain,
+		},
 		subscriber_url: subscriberUrl,
 		transaction_id: transactionId,
 		form_action_id: formActionId,
@@ -52,7 +56,6 @@ export async function sendToApiServiceAboutForm(
 	console.log("sendToApiServiceAboutForm body", body);
 	const result = await axios.post(url, body);
 	console.log("sendToApiServiceAboutForm result", result);
-	
 }
 
 export function createSellerUrl(domain: string, version: string) {
