@@ -128,7 +128,7 @@ catalog:
       - code: attribute
         list:
         - code: brand
-          value: Shellcal HD
+          value: Ayur Herb
         - code: prescription_required
           value: no
     - id: I2
@@ -193,7 +193,7 @@ catalog:
       - code: attribute
         list:
         - code: brand
-          value: Shellcal HD
+          value: Himalaya Wellness
         - code: prescription_required
           value: no
     - id: I3
