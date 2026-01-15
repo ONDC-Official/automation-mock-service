@@ -80,29 +80,32 @@ export async function on_update_picked_generator(
 		})
 		.filter((x): x is NonNullable<typeof x> => x !== null);
 	existingPayload.message.order.fulfillments = sessionData.fulfillments.map(
-		(f: Fulfillment) => {
-			if (f.type == "Return") {
-				const tags = f?.tags as any[];
-				return {
-					...f,
-					state: {
-						descriptor: {
-							code: "Return_Picked",
-						},
-					},
-					start: {
-						location: deliveryFulfillment.end?.location,
-						time: {
-							...f.start?.time,
-							timestamp: new Date().toISOString(),
-						},
-					},
-					tags: [...tags, ...quoteTrails],
-				};
-			}
-			return f;
-		}
-	);
+  (f: Fulfillment) => {
+    if (f.type === "Return") {
+      const tags = (f?.tags ?? []).filter(
+        (t: any) => t && typeof t === "object" && "code" in t && Array.isArray(t.list)
+      );
+
+      return {
+        ...f,
+        state: {
+          descriptor: {
+            code: "Return_Picked",
+          },
+        },
+        start: {
+          location: deliveryFulfillment.end?.location,
+          time: {
+            ...f.start?.time,
+            timestamp: new Date().toISOString(),
+          },
+        },
+        tags: [...tags, ...quoteTrails], // ✅ only valid tags remain
+      };
+    }
+    return f;
+  }
+);
 	existingPayload.message.order.quote = sessionData.quote;
 	return existingPayload;
 }
