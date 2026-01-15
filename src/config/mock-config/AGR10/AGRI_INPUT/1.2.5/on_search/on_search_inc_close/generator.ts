@@ -15,6 +15,7 @@ export async function on_search_inc_close(
 						timestamp: new Date().toISOString(),
 						range: {
 							start: new Date().toISOString(),
+							end: new Date().toISOString(),
 						},
 					},
 				},

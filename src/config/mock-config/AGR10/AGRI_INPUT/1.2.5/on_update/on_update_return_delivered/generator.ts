@@ -20,7 +20,7 @@ export async function on_update_return_delivered_generator(
 					...f,
 					state: {
 						descriptor: {
-							code: "Order-delivered",
+							code: "Return-delivered",
 						},
 					},
 					end: {
