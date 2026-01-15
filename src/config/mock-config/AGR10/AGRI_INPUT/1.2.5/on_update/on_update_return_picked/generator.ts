@@ -100,7 +100,7 @@ export async function on_update_picked_generator(
             timestamp: new Date().toISOString(),
           },
         },
-        tags: [...tags, ...quoteTrails], // ✅ only valid tags remain
+        tags: [...tags, ...quoteTrails],
       };
     }
     return f;
