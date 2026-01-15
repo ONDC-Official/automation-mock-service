@@ -173,7 +173,7 @@ async function processMatchingStep(
 		// Save data for current step
 		const saveData = mockActionOb.saveData;
 		await saveDataForConfig(saveData, body);
-
+		mockSessionData = await loadMockSessionData(txId, subsUrl);
 		// Check for next step (HTML_FORM)
 		if (index < sequence.length - 1) {
 			const nextStep = sequence[index + 1];
@@ -258,10 +258,10 @@ async function processFormStep(
 		nextStep.actionId,
 		req.transactionData?.sessionId
 	);
-  	logger.info("fromAction res", JSON.stringify(fromAction));
+	logger.info("fromAction res", JSON.stringify(fromAction));
 	const formValidationResult = await fromAction.validate({}, mockSessionData);
 
-  	logger.info("formValidationResult res", JSON.stringify(formValidationResult));
+	logger.info("formValidationResult res", JSON.stringify(formValidationResult));
 	if (!formValidationResult.valid) {
 		await sendToApiServiceAboutForm(
 			subsUrl,
