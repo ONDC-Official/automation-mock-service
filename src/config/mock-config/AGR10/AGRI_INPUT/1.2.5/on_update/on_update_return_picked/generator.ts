@@ -30,19 +30,19 @@ export async function on_update_picked_generator(
 		(f: Fulfillment) => f.type == "Return"
 	)?.id;
 	console.log("fulfillmentId", fulfillmentId);
-	sessionData.items.forEach((item: any) => {
-		if (itemCodes.includes(item.id)) {
-			items.push({
-				id: item.id,
-				quantity: {
-					count: item.quantity.count,
-				},
-				fulfillment_id: fulfillmentId,
-			});
-			item.quantity.count = 0;
-		}
-		items.push(item);
-	});
+	// sessionData.items.forEach((item: any) => {
+	// 	if (itemCodes.includes(item.id)) {
+	// 		items.push({
+	// 			id: item.id,
+	// 			quantity: {
+	// 				count: item.quantity.count,
+	// 			},
+	// 			fulfillment_id: fulfillmentId,
+	// 		});
+	// 		item.quantity.count = 0;
+	// 	}
+	// 	items.push(item);
+	// });
 	existingPayload.message.order.items = items;
 	const quote = sessionData.quote as Quote;
 	const breakup = quote.breakup ?? [];
@@ -57,17 +57,17 @@ export async function on_update_picked_generator(
 	}
 	const quoteTrails = breakup
 		.map((item) => {
-			if (item["@ondc/org/item_id"] !== itemCodes[0]) {
-				return item;
-			}
+			// if (item["@ondc/org/item_id"] !== itemCodes[0]) {
+			// 	return item;
+			// }
 			const price = parseFloat(item.price?.value || "0");
 			if (price === 0) return null;
 			if (item.price) {
 				item.price.value = "0.00";
 			}
-			if (item["@ondc/org/item_quantity"]) {
-				item["@ondc/org/item_quantity"].count = 0;
-			}
+			// if (item["@ondc/org/item_quantity"]) {
+			// 	item["@ondc/org/item_quantity"].count = 0;
+			// }
 			return {
 				code: "quote_trail",
 				list: [
@@ -80,32 +80,29 @@ export async function on_update_picked_generator(
 		})
 		.filter((x): x is NonNullable<typeof x> => x !== null);
 	existingPayload.message.order.fulfillments = sessionData.fulfillments.map(
-  (f: Fulfillment) => {
-    if (f.type === "Return") {
-      const tags = (f?.tags ?? []).filter(
-        (t: any) => t && typeof t === "object" && "code" in t && Array.isArray(t.list)
-      );
-
-      return {
-        ...f,
-        state: {
-          descriptor: {
-            code: "Return_Picked",
-          },
-        },
-        start: {
-          location: deliveryFulfillment.end?.location,
-          time: {
-            ...f.start?.time,
-            timestamp: new Date().toISOString(),
-          },
-        },
-        tags: [...tags, ...quoteTrails],
-      };
-    }
-    return f;
-  }
-);
+		(f: Fulfillment) => {
+			if (f.type == "Return") {
+				const tags = f?.tags as any[];
+				return {
+					...f,
+					state: {
+						descriptor: {
+							code: "Return_Picked",
+						},
+					},
+					start: {
+						location: deliveryFulfillment.end?.location,
+						time: {
+							...f.start?.time,
+							timestamp: new Date().toISOString(),
+						},
+					},
+					tags: [...tags, ...quoteTrails],
+				};
+			}
+			return f;
+		}
+	);
 	existingPayload.message.order.quote = sessionData.quote;
 	return existingPayload;
 }
