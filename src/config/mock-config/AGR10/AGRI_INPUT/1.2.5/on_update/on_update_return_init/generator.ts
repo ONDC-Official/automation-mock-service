@@ -24,9 +24,10 @@ export async function on_update_interim_reverse_qc_generator(
 			console.log("🔍 Found Return fulfillment:", {
 				existingId: f.id,
 				tagId,
+				
 			});
 
-			return { ...f, id: tagId || f.id };
+			return { ...f, id: tagId || f.id, state: { descriptor: { code: "Return_Initiated" } } };
 		}
 		return f;
 	});
