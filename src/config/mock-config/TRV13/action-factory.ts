@@ -75,7 +75,34 @@ export function getMockAction(actionId: string) {
     case "search_7":
       return new search_7_Hotel();
     case "on_search_7":
-      return new MockOnSearch_7();       
+      return new MockOnSearch_7();
+    // GPS-Based Flow - _5 suffixed actions (reuse existing classes)
+    case "select_5":
+      return new MockSelectClass();
+    case "on_select_5":
+      return new MockOnSelectClass();
+    case "init_5":
+      return new MockInitClass();
+    case "on_init_5":
+      return new MockOnInitClass();
+    case "confirm_5":
+      return new MockConfirmClass();
+    case "on_confirm_5":
+      return new MockOnConfirmDefaultClass();
+    case "status_5":
+      return new MockStatusDefaultClass();
+    case "on_status_5":
+      return new MockOnStatusDefaultClass();
+    case "update_5":
+      return new MockUpdateClass();
+    case "on_update_5":
+      return new MockOnUpdateClass();
+    case "cancel_5":
+      return new MockCancelClass();
+    case "on_cancel_5":
+      return new MockOnCancelDefaultClass();
+    case "on_cancel_unsolicited":
+      return new MockOnCancelDefaultClass();       
     default:
       throw new Error(`Action with ID ${actionId} not found`);
   }
