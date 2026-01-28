@@ -52,7 +52,7 @@ export async function onInitDefaultGenerator(
           descriptor: {
             code: "DELAY_INTEREST",
           },
-          value: "New Delhi",
+          value: "5",
         },
         {
           descriptor: {
