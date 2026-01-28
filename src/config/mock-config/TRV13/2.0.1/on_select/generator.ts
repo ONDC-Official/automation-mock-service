@@ -63,7 +63,7 @@ export async function onSelectDefaultGenerator(
         title: "GST @ 12%",
         price: {
           currency: "INR",
-          value: "400",
+          value: "300",
         },
       },
     ],
