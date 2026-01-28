@@ -113,5 +113,72 @@ codes:
     action_id: on_search_7
     action: on_search
     default: TRV13/2.0.1/on_search/on_search_7/default.yaml
-    message_id: false       
+    message_id: false
+  # GPS-Based Flow (Flow 1) - _5 suffixed actions
+  - code: 123
+    action_id: select_5
+    action: select
+    default: TRV13/2.0.1/select/default.yaml
+    message_id: true
+  - code: 124
+    action_id: on_select_5
+    action: on_select
+    default: TRV13/2.0.1/on_select/default.yaml
+    message_id: false
+  - code: 125
+    action_id: init_5
+    action: init
+    default: TRV13/2.0.1/init/default.yaml
+    message_id: true
+  - code: 126
+    action_id: on_init_5
+    action: on_init
+    default: TRV13/2.0.1/on_init/default.yaml
+    message_id: false
+  - code: 127
+    action_id: confirm_5
+    action: confirm
+    default: TRV13/2.0.1/confirm/default.yaml
+    message_id: true
+  - code: 128
+    action_id: on_confirm_5
+    action: on_confirm
+    default: TRV13/2.0.1/on_confirm/default.yaml
+    message_id: false
+  - code: 129
+    action_id: status_5
+    action: status
+    default: TRV13/2.0.1/status/default.yaml
+    message_id: true
+  - code: 130
+    action_id: on_status_5
+    action: on_status
+    default: TRV13/2.0.1/on_status/default.yaml
+    message_id: false
+  - code: 131
+    action_id: update_5
+    action: update
+    default: TRV13/2.0.1/update/default.yaml
+    message_id: true
+  - code: 132
+    action_id: on_update_5
+    action: on_update
+    default: TRV13/2.0.1/on_update/default.yaml
+    message_id: false
+  - code: 133
+    action_id: cancel_5
+    action: cancel
+    default: TRV13/2.0.1/cancel/default.yaml
+    message_id: true
+  - code: 134
+    action_id: on_cancel_5
+    action: on_cancel
+    default: TRV13/2.0.1/on_cancel/default.yaml
+    message_id: false
+  # Unsolicited on_cancel for Merchant Cancellation Flow
+  - code: 135
+    action_id: on_cancel_unsolicited
+    action: on_cancel
+    default: TRV13/2.0.1/on_cancel/default.yaml
+    message_id: true
   
