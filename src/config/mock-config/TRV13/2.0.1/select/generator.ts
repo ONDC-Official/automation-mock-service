@@ -2,17 +2,22 @@ export async function selectDefaultGenerator(
   existingPayload: any,
   sessionData: any
 ) {
-  const items = sessionData?.on_search_5_items[0] ?? [];
+  // Use on_search_1_items which is populated by on_search_6/save-data.yaml
+  const items = sessionData?.on_search_1_items?.[0] ?? sessionData?.on_search_5_items?.[0] ?? [];
   existingPayload.message.order.provider.id =
-    sessionData?.search_5_provider_id ?? "P1";
-  existingPayload.message.order.provider.time =
-    sessionData?.search_5_provider_time ?? {
-      label: "AVAILABLE",
-      range: {
-        start: "2023-12-25T00:00:00.000Z",
-        end: "2023-12-27T00:00:00.000Z",
-      },
-    };
+    sessionData?.on_search_1_provider_id?.[0] ?? sessionData?.search_5_provider_id ?? "P1";
+  
+  const currentDate = new Date();
+  const futureDate = new Date(currentDate);
+  futureDate.setDate(currentDate.getDate() + 5);
+  
+  existingPayload.message.order.provider.time = {
+    label: "AVAILABLE",
+    range: {
+      start: currentDate.toISOString(),
+      end: futureDate.toISOString(),
+    },
+  };
   existingPayload.message.order.items = [
     {
       id: items[0]?.id ?? "Accommodation-1",
