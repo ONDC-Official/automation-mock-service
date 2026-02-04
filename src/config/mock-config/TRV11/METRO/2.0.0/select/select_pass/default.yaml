@@ -1,11 +1,11 @@
 message:
   order:
     items:
-      - id: I1
+      - id: I3
         quantity:
           selected:
-            count: 2
+            count: 1
     provider:
       id: P1
     fulfillments:
-      - id: F1
+      - id: F2
