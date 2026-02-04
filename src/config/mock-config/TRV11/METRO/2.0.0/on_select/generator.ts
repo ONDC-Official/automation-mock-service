@@ -65,9 +65,14 @@ function createAndAppendFulfillments(items: any[], fulfillments: any[]): void {
 				}
 			}
 		});
-		item.fulfillment_ids.shift()
+		// Only remove original if new fulfillments were added (preserve at least one)
+		if (item.fulfillment_ids.length > 1) {
+			item.fulfillment_ids.shift();
+		}
 	});
-	fulfillments.shift()
+	if (fulfillments.length > 1) {
+		fulfillments.shift();
+	}
 }
 
 
