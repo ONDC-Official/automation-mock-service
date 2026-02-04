@@ -123,3 +123,58 @@ codes:
     action: on_cancel
     default: on_cancel/on_cancel_hard/default.yaml
     message_id: true
+  - code: 130
+    action_id: select_pass
+    action: select
+    default: select/select_pass/default.yaml
+    message_id: true
+  - code: 131
+    action_id: on_select_pass
+    action: on_select
+    default: on_select/on_select_pass/default.yaml
+    message_id: false
+  - code: 132
+    action_id: init_pass
+    action: init
+    default: init/init_pass/default.yaml
+    message_id: true
+  - code: 133
+    action_id: on_init_pass
+    action: on_init
+    default: on_init/on_init_pass/default.yaml
+    message_id: false
+  - code: 134
+    action_id: confirm_pass
+    action: confirm
+    default: confirm/confirm_pass/default.yaml
+    message_id: true
+  - code: 135
+    action_id: on_confirm_pass
+    action: on_confirm
+    default: on_confirm/on_confirm_pass/default.yaml
+    message_id: false
+  - code: 136
+    action_id: on_status_pass
+    action: on_status
+    default: on_status/on_status_pass/default.yaml
+    message_id: false
+  - code: 140
+    action_id: status_expired
+    action: status
+    default: status/status_expired/default.yaml
+    message_id: true
+  - code: 141
+    action_id: on_status_expired
+    action: on_status
+    default: on_status/on_status_expired/default.yaml
+    message_id: false
+  - code: 142
+    action_id: status_cancelled
+    action: status
+    default: status/status_cancelled/default.yaml
+    message_id: true
+  - code: 143
+    action_id: on_status_cancelled
+    action: on_status
+    default: on_status/on_status_cancelled/default.yaml
+    message_id: false

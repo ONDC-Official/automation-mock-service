@@ -1,0 +1,26 @@
+message:
+  order:
+    items:
+      - id: I3
+        quantity:
+          selected:
+            count: 1
+    provider:
+      id: P1
+    fulfillments:
+      - id: F1
+    billing:
+      name: John Doe
+      email: john.doe@example.com
+      phone: '+91-9897867564'
+    payments:
+      - id: PA1
+        type: PRE-ORDER
+        collected_by: BAP
+        params:
+          transaction_id: 34cc9b0b-6887-4c63-8397-2f4fcf03e50d
+          currency: INR
+          amount: '1500'
+          bank_code: XXXXXXXX
+          bank_account_number: xxxxxxxxxxxxxx
+        status: PAID
