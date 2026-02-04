@@ -34,9 +34,6 @@ message:
     fulfillments:
       - id: F1
         type: TRIP
-        state:
-          descriptor:
-            code: JOURNEY_COMPLETED
         stops:
           - type: START
             location:
@@ -44,11 +41,6 @@ message:
                 name: Shaheed Sthal(New Bus Adda)
                 code: SHAHEED_STHAL
               gps: '28.686576, 77.441632'
-            authorization:
-              type: QR
-              token: 8ed21b6f
-              valid_to: '2027-12-31T23:59:59.999Z'
-              status: CLAIMED
             id: '1'
           - type: INTERMEDIATE_STOP
             instructions:
@@ -252,9 +244,6 @@ message:
                 value: 8ed21b6f
       - id: F2
         type: TRIP
-        state:
-          descriptor:
-            code: JOURNEY_COMPLETED
         stops:
           - type: START
             location:
@@ -262,11 +251,6 @@ message:
                 name: Shaheed Sthal(New Bus Adda)
                 code: SHAHEED_STHAL
               gps: '28.686576, 77.441632'
-            authorization:
-              type: QR
-              token: 7f3a8e9d
-              valid_to: '2027-12-31T23:59:59.999Z'
-              status: CLAIMED
             id: '1'
           - type: INTERMEDIATE_STOP
             instructions:

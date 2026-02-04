@@ -358,7 +358,7 @@ message:
                   gps: '28.472276, 77.072432'
                 id: '36'
                 parent_stop_id: '35'
-              - type: INTERMEDIATE_STOP
+              - type: END
                 instructions:
                   name: Stop 37
                 location:
@@ -427,7 +427,7 @@ message:
                   gps: '28.742156, 77.122232'
                 id: '6'
                 parent_stop_id: '5'
-              - type: INTERMEDIATE_STOP
+              - type: END
                 instructions:
                   name: Stop 6
                 location:
