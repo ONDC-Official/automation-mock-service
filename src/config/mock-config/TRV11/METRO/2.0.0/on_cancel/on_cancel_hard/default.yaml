@@ -483,7 +483,7 @@ message:
         vehicle:
           category: METRO
     cancellation:
-      cancelled_by: PROVIDER
+      cancelled_by: CONSUMER
       time: '2021-03-23T10:00:00.065Z'
     cancellation_terms:
       - external_ref:
@@ -523,13 +523,13 @@ message:
             id: I1
             price:
               currency: INR
-              value: '0'
+              value: '-60'
             quantity:
               selected:
                 count: 2
           price:
             currency: INR
-            value: '0'
+            value: '-120'
         - title: CANCELLATION_CHARGES
           price:
             currency: INR
