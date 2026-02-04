@@ -6,7 +6,7 @@ message:
       - id: I3
         descriptor:
           name: Journey Pass
-          code: Pass
+          code: PASS
         category_ids:
           - C2
         price:
