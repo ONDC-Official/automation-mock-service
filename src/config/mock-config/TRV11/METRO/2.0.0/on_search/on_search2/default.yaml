@@ -62,6 +62,25 @@ message:
             time:
               label: Validity
               duration: P2D
+          - id: I3
+            category_ids:
+              - C2
+            descriptor:
+              name: Journey Pass
+              code: PASS
+            price:
+              currency: INR
+              value: '500'
+            quantity:
+              maximum:
+                count: 1
+              minimum:
+                count: 1
+            fulfillment_ids:
+              - F2
+            time:
+              label: Validity
+              duration: P30D
         fulfillments:
           - id: F1
             type: TRIP

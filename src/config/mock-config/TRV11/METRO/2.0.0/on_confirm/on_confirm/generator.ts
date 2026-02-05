@@ -13,10 +13,16 @@ function updateOrderTimestamps(payload: any) {
 	return payload;
   }
 
-function updateFulfillmentsWithParentInfo(fulfillments: any[]): void {
-	// Calculate valid_to as 2 days from now (P2D validity per contract)
+function updateFulfillmentsWithParentInfo(fulfillments: any[], isPassFlow: boolean = false): void {
+	// Calculate valid_to based on flow type
 	const validToDate = new Date();
-	validToDate.setDate(validToDate.getDate() + 2);
+	if (isPassFlow) {
+		// P30D - Monthly Pass validity
+		validToDate.setDate(validToDate.getDate() + 30);
+	} else {
+		// P2D - SJT/RJT validity
+		validToDate.setDate(validToDate.getDate() + 2);
+	}
 	validToDate.setHours(23, 59, 59, 999);
 	const validTo = validToDate.toISOString();
 
@@ -84,7 +90,10 @@ export async function onConfirmGenerator(
 	if (!Array.isArray(sessionData.updated_payments)) {
 		sessionData.updated_payments = [sessionData.updated_payments];
 	}
-	updateFulfillmentsWithParentInfo(sessionData.fulfillments);
+	
+	// Detect Monthly Pass flow for P30D validity
+	const isPassFlow = sessionData.flowId === "ORDER_TO_CONFIRM_MONTHLY_PASS";
+	updateFulfillmentsWithParentInfo(sessionData.fulfillments, isPassFlow);
 	existingPayload.message.order.payments = updated_payments;
 	
 	  // Check if items is a non-empty array
