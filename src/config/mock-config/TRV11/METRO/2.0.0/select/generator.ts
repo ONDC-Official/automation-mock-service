@@ -42,6 +42,22 @@ const transformToItemFormat = (items: any[]): any => {
 	}
 };
 export async function selectGenerator(existingPayload: any, sessionData: any) {
+	// Detect Monthly Pass flow
+	const isPassFlow = sessionData.flowId === "ORDER_TO_CONFIRM_MONTHLY_PASS";
+	
+	if (isPassFlow) {
+		// For Pass flow, force select I3 with count 1
+		existingPayload.message.order.items = [{
+			id: "I3",
+			quantity: { selected: { count: 1 } }
+		}];
+		if (sessionData.provider_id) {
+			existingPayload.message.order.provider.id = sessionData.provider_id;
+		}
+		return existingPayload;
+	}
+	
+	// Standard SJT/RJT flow logic
 	const items = sessionData?.items;
 	const items_min_max = transformToItemFormat(items);
 	const chosen_items = getRandomItemsWithQuantities(items_min_max);

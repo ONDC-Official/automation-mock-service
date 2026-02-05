@@ -38,6 +38,7 @@ export interface SessionData {
 	created_at: string
 	update_fulfillment: any[]
 	buyer_side_fulfillment_ids: any[]
+	flowId: string | undefined
 }
 
 export type BecknContext = {
