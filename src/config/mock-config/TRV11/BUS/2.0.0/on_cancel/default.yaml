@@ -1,0 +1,12 @@
+context:
+  action: on_cancel
+message:
+  order:
+    status: CANCELLED
+    cancellation:
+      cancelled_by: PROVIDER
+      reason:
+        id: "1"
+        descriptor:
+          code: SERVICE_UNAVAILABLE
+          name: Service unavailable
