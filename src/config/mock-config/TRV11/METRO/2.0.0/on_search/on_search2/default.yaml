@@ -77,7 +77,7 @@ message:
               minimum:
                 count: 1
             fulfillment_ids:
-              - F2
+              - F1
             time:
               label: Validity
               duration: P30D

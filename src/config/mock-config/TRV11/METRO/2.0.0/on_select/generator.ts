@@ -116,8 +116,8 @@ export async function onSelectGenerator(
 				quantity: { selected: { count: 1 } }
 			};
 			
-			// Get F2 fulfillment for Pass
-			const passFulfillment = sessionData.fulfillments.find((f: any) => f.id === "F2");
+			// Get F1 fulfillment for Pass (same as SJT)
+			const passFulfillment = sessionData.fulfillments.find((f: any) => f.id === "F1");
 			const fulfillments = passFulfillment ? [{ ...passFulfillment }] : [];
 			
 			const quote = createQuoteFromItems([passItemWithQuantity]);
