@@ -78,7 +78,35 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
   }
 
 
+function applyMerchantCancellation(quote: Quote): Quote {
+    const currentTotal = parseFloat(quote.price.value);
+    
+    const refundBreakups: Breakup[] = quote.breakup
+      .filter((b) => b.title === "BASE_FARE" && b.item)
+      .map((baseFare) => ({
+        title: "REFUND",
+        item: {
+          ...baseFare.item!,
+          price: { ...baseFare.item!.price, value: `-${baseFare.item!.price.value}` }
+        },
+        price: { ...baseFare.price, value: `-${baseFare.price.value}` }
+      }));
+  
+    const cancellationBreakup: Breakup = {
+      title: "CANCELLATION_CHARGES",
+      price: { currency: "INR", value: "0" }
+    };
+  
+    return {
+      price: { ...quote.price, value: "0" },
+      breakup: [...quote.breakup, ...refundBreakups, cancellationBreakup]
+    };
+}
+
+
   export async function onCancelSoftGenerator(existingPayload: any,sessionData: any){
+    // Detect Merchant Side Cancellation flow
+    const isMerchantCancel = sessionData.flowId === "MERCHANT_SIDE_CANCELLATION_FLOW";
     if (sessionData.updated_payments.length > 0) {
       existingPayload.message.order.payments = sessionData.updated_payments;
       }
@@ -94,7 +122,22 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
     existingPayload.message.order.id = sessionData.order_id;
     }
     if(sessionData.quote != null){
-    existingPayload.message.order.quote = applyCancellation(sessionData.quote,15)
+      if (isMerchantCancel) {
+        // Merchant cancel: Full refund, 0 charges
+        existingPayload.message.order.quote = applyMerchantCancellation(sessionData.quote);
+      } else {
+        // User cancel: Apply charges
+        existingPayload.message.order.quote = applyCancellation(sessionData.quote, 15);
+      }
+    }
+    
+    // Set PROVIDER for merchant cancellation
+    if (isMerchantCancel && existingPayload.message.order.cancellation) {
+      existingPayload.message.order.cancellation.cancelled_by = "PROVIDER";
+      existingPayload.message.order.cancellation.reason = {
+        id: "1",
+        descriptor: { code: "SERVICE_UNAVAILABLE", name: "Service unavailable" }
+      };
     }
     const now = new Date().toISOString();
     existingPayload.message.order.created_at = sessionData.created_at
