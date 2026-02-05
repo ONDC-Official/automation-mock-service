@@ -14,7 +14,11 @@ function updateOrderTimestamps(payload: any) {
   }
 
 function updateFulfillmentsWithParentInfo(fulfillments: any[]): void {
-	const validTo = "2024-07-23T23:59:59.999Z";
+	// Calculate valid_to as 2 days from now (P2D validity per contract)
+	const validToDate = new Date();
+	validToDate.setDate(validToDate.getDate() + 2);
+	validToDate.setHours(23, 59, 59, 999);
+	const validTo = validToDate.toISOString();
 
 	fulfillments.forEach((fulfillment) => {
 		// Generate a random QR token
