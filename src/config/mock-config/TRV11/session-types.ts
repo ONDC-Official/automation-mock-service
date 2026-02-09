@@ -39,6 +39,7 @@ export interface SessionData {
 	update_fulfillment: any[]
 	buyer_side_fulfillment_ids: any[]
 	settlement_amount: string | undefined;
+	flowId: string | undefined
 }
 
 export type BecknContext = {

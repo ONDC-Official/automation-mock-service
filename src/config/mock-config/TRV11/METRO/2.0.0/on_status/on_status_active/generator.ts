@@ -2,6 +2,9 @@ import { SessionData } from "../../../../session-types";
 
 
 export async function onStatusActiveGenerator(existingPayload: any,sessionData: SessionData){
+    // Detect Ticket Expiry flow
+    const isExpiryFlow = sessionData.flowId === "TICKET_EXPIRY_CANCELLATION_FLOW";
+    
     if (sessionData.updated_payments.length > 0) {
 		existingPayload.message.order.payments = sessionData.updated_payments;
 	  }
@@ -11,7 +14,24 @@ export async function onStatusActiveGenerator(existingPayload: any,sessionData: 
 	}
 
 	if (sessionData.fulfillments.length > 0) {
-	existingPayload.message.order.fulfillments = sessionData.fulfillments;
+		const fulfillments = JSON.parse(JSON.stringify(sessionData.fulfillments));
+		
+		if (isExpiryFlow) {
+			// For expiry flow, set TICKET_EXPIRED state and EXPIRED authorization
+			fulfillments.forEach((fulfillment: any) => {
+				fulfillment.state = {
+					descriptor: { code: "TICKET_EXPIRED" }
+				};
+				if (fulfillment.stops?.length > 0) {
+					const startStop = fulfillment.stops.find((s: any) => s.type === "START");
+					if (startStop?.authorization) {
+						startStop.authorization.status = "EXPIRED";
+					}
+				}
+			});
+		}
+		
+		existingPayload.message.order.fulfillments = fulfillments;
 	}
 	if (sessionData.order_id) {
 	existingPayload.message.order.id = sessionData.order_id;

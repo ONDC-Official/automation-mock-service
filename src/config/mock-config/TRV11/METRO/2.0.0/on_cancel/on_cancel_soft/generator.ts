@@ -79,6 +79,9 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
 
 
   export async function onCancelSoftGenerator(existingPayload: any,sessionData: any){
+    // Detect Ticket Expiry flow
+    const isExpiryFlow = sessionData.flowId === "TICKET_EXPIRY_CANCELLATION_FLOW";
+    
     if (sessionData.updated_payments.length > 0) {
       existingPayload.message.order.payments = sessionData.updated_payments;
       }
@@ -94,10 +97,61 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
     existingPayload.message.order.id = sessionData.order_id;
     }
     if(sessionData.quote != null){
-    existingPayload.message.order.quote = applyCancellation(sessionData.quote,15)
+      if (isExpiryFlow) {
+        // For expiry flow: no refund, full cancellation charges
+        existingPayload.message.order.quote = applyCancellationExpiry(sessionData.quote);
+      } else {
+        existingPayload.message.order.quote = applyCancellation(sessionData.quote,15);
+      }
     }
+    
+    // For expiry flow, set cancelled_by to PROVIDER
+    if (isExpiryFlow && existingPayload.message.order.cancellation) {
+      existingPayload.message.order.cancellation.cancelled_by = "PROVIDER";
+    }
+    
     const now = new Date().toISOString();
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now
     return existingPayload;
+}
+
+// For expiry flow: REFUND = 0, CANCELLATION_CHARGES = full amount
+function applyCancellationExpiry(quote: Quote): Quote {
+    const currentTotal = parseFloat(quote.price.value);
+    
+    // REFUND breakups with 0 value
+    const refundBreakups: Breakup[] = quote.breakup
+      .filter((b) => b.title === "BASE_FARE" && b.item)
+      .map((baseFare) => ({
+        title: "REFUND",
+        item: {
+          ...baseFare.item!,
+          price: {
+            ...baseFare.item!.price,
+            value: "0",
+          },
+        },
+        price: {
+          ...baseFare.price,
+          value: "0",
+        },
+      }));
+  
+    // CANCELLATION_CHARGES = full amount (expired ticket, no refund)
+    const cancellationBreakup: Breakup = {
+      title: "CANCELLATION_CHARGES",
+      price: {
+        currency: "INR",
+        value: currentTotal.toFixed(2),
+      },
+    };
+  
+    return {
+      price: {
+        ...quote.price,
+        value: currentTotal.toFixed(2),
+      },
+      breakup: [...quote.breakup, ...refundBreakups, cancellationBreakup],
+    };
 }

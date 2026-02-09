@@ -265,6 +265,10 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 			res.status(200).send("Mock service is now responding");
 			logger.info("Mock service is now responding");
 			const sessionData = await loadMockSessionData(txId, subscriberUrl);
+			
+			// Inject flowId so generators can detect flow type (optional chaining for safety)
+			sessionData.flowId = txData?.flowId;
+			
 			let mockResponse = await generateMockResponse(
 				txData.sessionId as string,
 				sessionData,

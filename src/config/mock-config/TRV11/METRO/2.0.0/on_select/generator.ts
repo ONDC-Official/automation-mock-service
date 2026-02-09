@@ -104,6 +104,32 @@ export async function onSelectGenerator(
     existingPayload: any,
     sessionData: SessionData
 ) {
+	// Detect Monthly Pass flow
+	const isPassFlow = sessionData.flowId === "ORDER_TO_CONFIRM_MONTHLY_PASS";
+	
+	if (isPassFlow) {
+		// For Pass flow, use I3 with F2 fulfillment
+		const passItem = sessionData.items.find((item: any) => item.id === "I3");
+		if (passItem) {
+			const passItemWithQuantity = {
+				...passItem,
+				quantity: { selected: { count: 1 } }
+			};
+			
+			// Get F1 fulfillment for Pass (same as SJT)
+			const passFulfillment = sessionData.fulfillments.find((f: any) => f.id === "F1");
+			const fulfillments = passFulfillment ? [{ ...passFulfillment }] : [];
+			
+			const quote = createQuoteFromItems([passItemWithQuantity]);
+			
+			existingPayload.message.order.items = [passItemWithQuantity];
+			existingPayload.message.order.fulfillments = fulfillments;
+			existingPayload.message.order.quote = quote;
+			return existingPayload;
+		}
+	}
+	
+	// Standard SJT/RJT flow logic
 	let items = filterItemsBySelectedIds(
 		sessionData.items,
 		sessionData.selected_item_ids
