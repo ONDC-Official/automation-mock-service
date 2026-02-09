@@ -94,7 +94,7 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
     existingPayload.message.order.id = sessionData.order_id;
     }
     if(sessionData.quote != null){
-    existingPayload.message.order.quote = applyCancellation(sessionData.quote,15)
+    existingPayload.message.order.quote = applyCancellation(sessionData.quote,0)
     }
     const now = new Date().toISOString();
     existingPayload.message.order.created_at = sessionData.created_at
