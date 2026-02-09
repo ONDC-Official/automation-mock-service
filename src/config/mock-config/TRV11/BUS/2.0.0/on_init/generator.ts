@@ -33,7 +33,7 @@ export async function onInitGenerator(
               descriptor: {
                 code: "BUYER_FINDER_FEES_TYPE",
               },
-              value: "percent-annualized",
+              value: "percent",
             },
           ],
         },

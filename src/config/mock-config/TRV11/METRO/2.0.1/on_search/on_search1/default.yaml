@@ -480,7 +480,7 @@ message:
                     value: INVOICE_RECEIPT
                   - descriptor:
                       code: MANDATORY_ARBITRATION
-                    value: "TRUE"
+                    value: "true"
                   - descriptor:
                       code: COURT_JURISDICTION
                     value: New Delhi
