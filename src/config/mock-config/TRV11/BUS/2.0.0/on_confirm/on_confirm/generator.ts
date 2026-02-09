@@ -1,8 +1,22 @@
 import { randomBytes } from "crypto";
 import { SessionData } from "../../../../session-types";
 
+function enhancePayments(payments:any) {
+	const additionalParams = {
+	  bank_code: "XXXXXXXX",
+	  bank_account_number: "xxxxxxxxxxxxxx",
+	};
+  
+	return payments.map((payment:any) => ({
+	  ...payment,
+	  params: {
+		...payment.params,
+		...additionalParams
+	  }
+	}));
+  }
 function generateQrToken(): string {
-    return randomBytes(32).toString("base64");
+	return randomBytes(32).toString("base64");
 }
 function updateOrderTimestamps(payload: any) {
     const now = new Date().toISOString();
@@ -14,7 +28,7 @@ function updateOrderTimestamps(payload: any) {
   }
 
 function updateFulfillmentsWithParentInfo(fulfillments: any[]): void {
-    const validTo = "2024-07-23T23:59:59.999Z";
+    const validTo = new Date(Date.now()+ 6*60*60*60).toISOString();
 
     fulfillments.forEach((fulfillment) => {
         // Generate a random QR token
@@ -72,16 +86,9 @@ export async function onConfirmGenerator(
     sessionData: SessionData
 ) {
     const randomId = Math.random().toString(36).substring(2, 15);
-    const order_id = randomId;
-    sessionData["updated_payments"][0]["params"]["bank_code"] = "XXXXXXXX";
-    sessionData["updated_payments"][0]["params"]["bank_account_number"] =
-        "xxxxxxxxxxxxxx";
-    const updated_payments = sessionData.updated_payments;
-    if (!Array.isArray(sessionData.updated_payments)) {
-        sessionData.updated_payments = [sessionData.updated_payments];
-    }
+	const order_id = randomId;
+	existingPayload.message.order.payments = enhancePayments(sessionData.updated_payments)
     updateFulfillmentsWithParentInfo(sessionData.fulfillments);
-    existingPayload.message.order.payments = updated_payments;
     
       // Check if items is a non-empty array
     if (sessionData.items.length > 0) {
@@ -96,8 +103,6 @@ export async function onConfirmGenerator(
     existingPayload.message.order.quote = sessionData.quote
     }
     existingPayload.message.order.id = order_id;
-    const now = new Date().toISOString();
-    existingPayload.message.order.created_at = now
-    existingPayload.message.order.updated_at = now
+   	existingPayload = updateOrderTimestamps(existingPayload)
     return existingPayload;
 }
