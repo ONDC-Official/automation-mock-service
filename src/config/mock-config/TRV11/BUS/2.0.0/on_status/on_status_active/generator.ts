@@ -12,9 +12,6 @@ export async function onStatusActiveGenerator(existingPayload: any,sessionData: 
     if (sessionData.fulfillments.length > 0) {
     existingPayload.message.order.fulfillments = sessionData.fulfillments;
     }
-    // if (sessionData.order_id) {
-    // existingPayload.message.order_id = sessionData.order_id;
-    // }
     if(sessionData.quote != null){
     existingPayload.message.order.quote = sessionData.quote
     }
