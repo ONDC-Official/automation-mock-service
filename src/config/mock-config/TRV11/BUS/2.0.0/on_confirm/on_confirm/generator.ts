@@ -94,11 +94,6 @@ export async function onConfirmGenerator(
     if (sessionData.items.length > 0) {
     existingPayload.message.order.items = sessionData.items;
     }
-
-    // Check if fulfillments is a non-empty array
-    if (sessionData.fulfillments.length > 0) {
-    existingPayload.message.order.fulfillments = sessionData.fulfillments;
-    }
     if(sessionData.quote != null){
     existingPayload.message.order.quote = sessionData.quote
     }
