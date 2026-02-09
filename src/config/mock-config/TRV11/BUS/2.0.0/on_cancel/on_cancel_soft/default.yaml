@@ -22,7 +22,7 @@ message:
             count: 2
         time:
           label: Validity
-          duration: PT2D
+          duration: P2D
     provider:
       id: P1
       descriptor:
@@ -255,7 +255,7 @@ message:
                 value: '1'
               - descriptor:
                   code: BUYER_FINDER_FEES_TYPE
-                value: percent-annualized
+                value: percent
           - descriptor:
               code: SETTLEMENT_TERMS
             display: false
