@@ -2,8 +2,6 @@ export async function onSearch_2_Generator(
   existingPayload: any,
   sessionData: any
 ) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
   existingPayload.message.catalog = sessionData?.on_search_1_catalog ?? {};
   existingPayload.message.catalog.providers[0].items = [
     {
