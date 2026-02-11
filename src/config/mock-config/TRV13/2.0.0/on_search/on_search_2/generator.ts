@@ -2,11 +2,10 @@ export async function onSearchIncrementalPull1Generator(
   existingPayload: any,
   sessionData: any
 ) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
+
 
   const items = sessionData?.on_search_1_items[0] ?? [];
-  sessionData.my_items=items;
+  sessionData.my_items = items;
   existingPayload.message.catalog.providers[0].id =
     sessionData?.on_search_1_provider_id ?? "P1";
   existingPayload.message.catalog.providers[0].items = items.splice(0, 1);
