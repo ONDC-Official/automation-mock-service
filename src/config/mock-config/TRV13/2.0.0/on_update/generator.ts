@@ -2,10 +2,8 @@ export async function confirmDefaultGenerator(
   existingPayload: any,
   sessionData: any
 ) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
 
-  existingPayload.message.order.status = "COMPLETE";
+  existingPayload.message.order.status = "COMPLETED";
   existingPayload.message.order.payments =
     sessionData?.confirm_payments[0] ?? [];
 
