@@ -2,9 +2,6 @@ export async function onInitDefaultGenerator(
   existingPayload: any,
   sessionData: any
 ) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
-
   const payments =
     sessionData?.init_payments[0]?.map((payment: any) => {
       return { ...payment, status: "NOT-PAID" };
