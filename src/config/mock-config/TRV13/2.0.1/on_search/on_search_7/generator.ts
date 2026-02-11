@@ -1,6 +1,4 @@
 export async function onSearch_7_Generator(existingPayload: any, sessionData: any) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
   existingPayload.message.catalog = sessionData?.on_search_6_catalog ?? {};
   // existingPayload?.message?.catalog?.providers?.map((provider: any) => {
   //   provider.descriptor.code = sessionData?.search_1_descriptor_code ?? "HOTEL";
