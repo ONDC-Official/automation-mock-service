@@ -2,8 +2,6 @@ export async function onSelectDefaultGenerator(
   existingPayload: any,
   sessionData: any
 ) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
 
   existingPayload.message.order.provider.id =
     sessionData?.select_provider_id ?? "P1";

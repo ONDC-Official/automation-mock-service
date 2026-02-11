@@ -4,9 +4,6 @@ export async function onConfirmDefaultGenerator(
   sessionData: any
 ) {
   existingPayload.message.order.id = sessionData?.provider_id ?? "P1";
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
-
   existingPayload.message.order.id = String("ORDER_ID-" + uuidv4().slice(0, 8));
   existingPayload.message.order.status = "ACTIVE";
   existingPayload.message.order.payments =
