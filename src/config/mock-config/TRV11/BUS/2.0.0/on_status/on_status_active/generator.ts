@@ -9,8 +9,8 @@ export async function onStatusActiveGenerator(existingPayload: any,sessionData: 
     existingPayload.message.order.items = sessionData.items;
     }
 
-    if (sessionData.fulfillments.length > 0) {
-    existingPayload.message.order.fulfillments = sessionData.fulfillments;
+    if (sessionData.on_confirm_fulfillments.length > 0) {
+    existingPayload.message.order.fulfillments = sessionData.on_confirm_fulfillments;
     }
     if(sessionData.quote != null){
     existingPayload.message.order.quote = sessionData.quote

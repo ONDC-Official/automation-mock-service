@@ -38,3 +38,4 @@ session_data:
   update_fulfillment: []
   buyer_side_fulfillment_ids: []
   settlement_amount: null
+  on_confirm_fulfillments: []
