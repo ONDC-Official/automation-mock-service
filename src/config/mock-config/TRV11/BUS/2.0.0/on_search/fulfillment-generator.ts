@@ -245,7 +245,7 @@ export function createFullfillment(cityCode: string) {
         } else if (full.id === "F2") {
             full.stops.forEach((stop: any) => {
                 stop.location.descriptor.code = `MOCK_STATION_${maxIndex}`;
-                stop.location.descriptor.name = `MOCK_STATION_${index}`;
+                stop.location.descriptor.name = `MOCK_STATION_${maxIndex}`;
                 maxIndex--;
             });
         }

@@ -369,77 +369,8 @@ message:
                 parent_stop_id: '36'
             vehicle:
               category: METRO
-          - id: F2
-            type: ROUTE
-            stops:
-              - type: START
-                instructions:
-                  name: Stop 1
-                location:
-                  descriptor:
-                    code: NEW_DELHI
-                  gps: '28.738216, 77.130932'
-                id: '1'
-              - type: INTERMEDIATE_STOP
-                instructions:
-                  name: Stop 1
-                location:
-                  descriptor:
-                    code: SHIVAJI_STADIUM
-                  gps: '28.732276, 77.132132'
-                id: '2'
-                parent_stop_id: '1'
-              - type: TRANSIT_STOP
-                instructions:
-                  name: Stop 2
-                  short_desc: Change for Pink Line
-                location:
-                  descriptor:
-                    code: DHAULA_KUAN
-                  gps: '28.712276, 77.122132'
-                id: '3'
-                parent_stop_id: '2'
-              - type: INTERMEDIATE_STOP
-                instructions:
-                  name: Stop 3
-                location:
-                  descriptor:
-                    code: DELHI_AEROCITY
-                  gps: '28.712176, 77.122932'
-                id: '4'
-                parent_stop_id: '3'
-              - type: INTERMEDIATE_STOP
-                instructions:
-                  name: Stop 4
-                location:
-                  descriptor:
-                    code: IGI_AIRPORT
-                  gps: '28.742176, 77.122332'
-                id: '5'
-                parent_stop_id: '4'
-              - type: TRANSIT_STOP
-                instructions:
-                  name: Stop 5
-                  short_desc: Change for Blue Line
-                location:
-                  descriptor:
-                    code: DWARKA_SECTOR_21
-                  gps: '28.742156, 77.122232'
-                id: '6'
-                parent_stop_id: '5'
-              - type: END
-                instructions:
-                  name: Stop 6
-                location:
-                  descriptor:
-                    code: ECC_CENTRE_DWARKA_SECTOR_25
-                  gps: '28.712176, 77.112332'
-                id: '7'
-                parent_stop_id: '6'
-            vehicle:
-              category: METRO
         payments:
-          - collected_by: BPP
+          - collected_by: BAP
             tags:
               - descriptor:
                   code: BUYER_FINDER_FEES

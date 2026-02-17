@@ -11,10 +11,6 @@ message:
               name: Ticket
               code: TICKET
             id: C1
-          - descriptor:
-              name: Pass
-              code: PASS
-            id: C2
         time:
           range:
             start: '2023-09-14T05:30:00.000Z'
@@ -24,25 +20,6 @@ message:
           images:
             - url: 'https://delhimetrorail.com/logos/logo.ico'
         items:
-          - id: I1
-            category_ids:
-              - C1
-            descriptor:
-              name: Single Journey Ticket
-              code: SJT
-            price:
-              currency: INR
-              value: '60'
-            quantity:
-              maximum:
-                count: 6
-              minimum:
-                count: 1
-            fulfillment_ids:
-              - F1
-            time:
-              label: Validity
-              duration: P2D
           - id: I2
             category_ids:
               - C1
@@ -62,25 +39,6 @@ message:
             time:
               label: Validity
               duration: P2D
-          - id: I3
-            category_ids:
-              - C2
-            descriptor:
-              name: Journey Pass
-              code: PASS
-            price:
-              currency: INR
-              value: '500'
-            quantity:
-              maximum:
-                count: 1
-              minimum:
-                count: 1
-            fulfillment_ids:
-              - F1
-            time:
-              label: Validity
-              duration: P30D
         fulfillments:
           - id: F1
             type: TRIP
@@ -284,47 +242,8 @@ message:
                 parent_stop_id: '21'
             vehicle:
               category: METRO
-          - id: F2
-            type: TRIP
-            stops:
-              - type: START
-                location:
-                  descriptor:
-                    name: Shaheed Sthal(New Bus Adda)
-                    code: SHAHEED_STHAL
-                  gps: '28.686576, 77.441632'
-                id: '1'
-              - type: TRANSIT_STOP
-                instructions:
-                  short_desc: Please Change here for Yellow Line
-                location:
-                  descriptor:
-                    name: Kashmere Gate
-                  gps: '28.738426, 77.139922'
-                id: '2'
-                parent_stop_id: '1'
-              - type: END
-                location:
-                  descriptor:
-                    name: Azadpur
-                    code: AZADPUR
-                  gps: '28.707358, 77.180910'
-                id: '3'
-                parent_stop_id: '2'
-            tags:
-              - descriptor:
-                  code: TRIP_DETAILS
-                list:
-                  - descriptor:
-                      code: AVAILABLE_TRIPS
-                    value: '30'
-                  - descriptor:
-                      code: UTILIZED_TRIPS
-                    value: '0'
-            vehicle:
-              category: METRO
         payments:
-          - collected_by: BPP
+          - collected_by: BAP
             tags:
               - descriptor:
                   code: BUYER_FINDER_FEES

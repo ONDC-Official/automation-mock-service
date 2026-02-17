@@ -4,7 +4,7 @@ message:
       vehicle:
         category: METRO
     payment:
-      collected_by: BPP
+      collected_by: BAP
       tags:
         - descriptor:
             code: BUYER_FINDER_FEES

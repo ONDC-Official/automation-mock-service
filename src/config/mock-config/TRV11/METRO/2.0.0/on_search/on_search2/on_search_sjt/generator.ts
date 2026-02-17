@@ -1,6 +1,20 @@
+import { SessionData } from "../../../../../session-types";
+import { createFullfillment } from "../../fullfillment-generator";
 
-import { SessionData } from "../../../../session-types";
-import { createFullfillment } from "../fullfillment-generator";
+function updateProviderTime(payload: any) {
+	const now = new Date();
+	const twoDaysLater = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000);
+  
+	payload.message.catalog.providers.forEach((provider: any) => {
+	  if (provider.time && provider.time.range) {
+		provider.time.range.start = now.toISOString();
+		provider.time.range.end = twoDaysLater.toISOString();
+	  }
+	});
+  
+	return payload;
+  }
+
 function updatePaymentDetails(
 	payload: any,
 	sessionData: SessionData
@@ -99,7 +113,7 @@ const createCustomRoute = (
 	});
 };
 
-export async function onSearch2Generator(
+export async function onSearch2SjtGenerator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {
@@ -120,6 +134,7 @@ export async function onSearch2Generator(
 				fulfillment.type = "TRIP";
 			  }
 		})
+		existingPayload = updateProviderTime(existingPayload)
 		return existingPayload;
 
 	} catch (err) {

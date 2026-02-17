@@ -13,12 +13,14 @@ import { search2Generator } from "./search/search2/generator";
 import { cancelSoftGenerator } from "./cancel/cancel_soft/generator";
 import { cancelHardGenerator } from "./cancel/cancel_hard/generator";
 import { onSearch1Generator } from "./on_search/on_search1/generator";
-import { onSearch2Generator } from "./on_search/on_search2/generator";
 import { onStatusCompleteGenerator } from "./on_status/on_status_complete/generator";
 import { statusTechCancelGenerator } from "./status/status_tech_cancel/generator";
 import { onStatusActiveGenerator } from "./on_status/on_status_active/generator";
 import { cancelGenerator } from "./cancel/cancel_tech/generator";
 import { onCancelGenerator } from "./on_cancel/on_cancel/generator";
+import { onSearch2SjtGenerator } from "./on_search/on_search2/on_search_sjt/generator";
+import { onSearch2RjtGenerator } from "./on_search/on_search2/on_search_rjt/generator";
+import { onCancelTechCancelGenerator } from "./on_cancel/on_cancel_tech/generator";
 
 export async function Generator(
 	action_id: string,
@@ -48,8 +50,10 @@ export async function Generator(
 			return await cancelHardGenerator(existingPayload, sessionData);
 		case "on_search1_METRO_200":
 			return await onSearch1Generator(existingPayload, sessionData);
-		case "on_search2_METRO_200":
-			return await onSearch2Generator(existingPayload, sessionData);
+		case "on_search2_Sjt_METRO_200":
+			return await onSearch2SjtGenerator(existingPayload, sessionData);
+		case "on_search2_Rjt_METRO_200":
+			return await onSearch2RjtGenerator(existingPayload, sessionData);
 		case "on_select_METRO_200":
 			return await onSelectGenerator(existingPayload, sessionData);
 		case "on_init_METRO_200":
@@ -70,6 +74,8 @@ export async function Generator(
 			return await cancelGenerator(existingPayload,sessionData)
 		case "on_cancel_METRO_200":
 			return await onCancelGenerator(existingPayload,sessionData)
+		case "on_cancel_tech_METRO_200":
+			return await onCancelTechCancelGenerator(existingPayload,sessionData)
 		default:
 			throw new Error(`Invalid request type ${action_id}`);
 	}

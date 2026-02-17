@@ -19,7 +19,7 @@ export async function onStatusCompleteGenerator(existingPayload: any,sessionData
 		// Enhancement 1: Add fulfillment state for journey completed
 		fulfillment.state = {
 			descriptor: {
-				code: "COMPLETE"
+				code: "COMPLETED"
 			}
 		};
 		
