@@ -89,7 +89,7 @@ export async function onConfirmGenerator(
 	const order_id = randomId;
 	existingPayload.message.order.payments = enhancePayments(sessionData.updated_payments)
     updateFulfillmentsWithParentInfo(sessionData.fulfillments);
-    
+    existingPayload.message.order.fulfillments = sessionData.fulfillments;
       // Check if items is a non-empty array
     if (sessionData.items.length > 0) {
     existingPayload.message.order.items = sessionData.items;

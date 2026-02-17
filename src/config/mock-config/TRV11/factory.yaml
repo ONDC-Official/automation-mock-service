@@ -67,7 +67,7 @@ codes:
   - code: 113
     action_id: on_status_complete_METRO_200
     action: on_status
-    default: METRO/2.0.0/onon_status_complete/default.yaml
+    default: METRO/2.0.0/on_status/on_status_complete/default.yaml
     message_id: false
   - code: 114
     action_id: on_status_unsolicited_METRO_200
@@ -540,3 +540,23 @@ codes:
     action: on_search
     default: BUS/2.0.1/on_search/on_search_catalog/default5.yaml
     message_id: false  
+  - code: 205
+    action_id: on_search2_Sjt_METRO_200
+    action: on_search
+    default: METRO/2.0.0/on_search/on_search2/on_search_sjt/default.yaml
+    message_id: false
+  - code: 206
+    action_id: on_search2_Rjt_METRO_200
+    action: on_search 
+    default: METRO/2.0.0/on_search/on_search2/on_search_rjt/default.yaml
+    message_id: false
+  - code: 207
+    action_id: on_cancel_tech_METRO_200
+    action: on_cancel
+    default: METRO/2.0.0/on_cancel/on_cancel_tech/default.yaml
+    message_id: false
+  - code: 208
+    action_id: status_tech_cancel_METRO_200
+    action: status
+    default: METRO/2.0.0/status/status_tech_cancel/default.yaml
+    message_id: true
