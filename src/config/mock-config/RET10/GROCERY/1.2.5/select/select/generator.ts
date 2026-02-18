@@ -60,7 +60,7 @@ export async function select_generator(
 				quantity: {
 					count: item.quantity,
 				},
-				location: item.location,
+				location_id: item.location,
 			};
 		});
 	}
