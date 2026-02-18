@@ -93,6 +93,12 @@ export async function onSelectDefaultGenerator(
 
   existingPayload.message.order.quote.price.value = totalPrice.toString();
 
+  // Calculate payment amounts proportionally from dynamic quote total
+  // Original ratio: advance deposit is 2000/3025 of total, remaining is 1025/3025
+  const advanceDepositRatio = 2000 / 3025;
+  const advanceAmount = Math.round(totalPrice * advanceDepositRatio * 100) / 100;
+  const remainingAmount = Math.round((totalPrice - advanceAmount) * 100) / 100;
+
   existingPayload.message.order.payments = [
     {
       id: "pymnt-1",
@@ -153,7 +159,7 @@ export async function onSelectDefaultGenerator(
       ],
       params: {
         currency: "INR",
-        amount: "2000.00",
+        amount: advanceAmount.toFixed(2),
       },
     },
     {
@@ -167,7 +173,7 @@ export async function onSelectDefaultGenerator(
         },
       ],
       params: {
-        amount: "1025.00",
+        amount: remainingAmount.toFixed(2),
         currency: "INR",
       },
     },
