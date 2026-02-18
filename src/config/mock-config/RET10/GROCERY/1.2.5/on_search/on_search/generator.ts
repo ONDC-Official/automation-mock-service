@@ -21,7 +21,7 @@ export async function on_search_generator(
 
   existingPayload.message = RET10GROCERY125Catalog;
   if (existingPayload.context.city === "*") {
-    existingPayload.context.city = "std:0172";
+    existingPayload.context.city = sessionData?.city || "std:0172";
   }
   const cityCode = existingPayload.context.city;
   const cityCodeNum = cityCode.split(":")[1];
