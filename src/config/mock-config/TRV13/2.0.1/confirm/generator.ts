@@ -2,53 +2,13 @@ export async function confirmDefaultGenerator(
   existingPayload: any,
   sessionData: any
 ) {
-  // Get quote total for payment amount calculation
-  const quoteTotal = parseFloat(sessionData?.on_init_quote?.price?.value || "0");
-  const quoteCurrency = sessionData?.on_init_quote?.price?.currency || "INR";
-
   const payments =
     sessionData?.on_init_payments?.[0]?.map((payment: any) => {
-      let updatedPayment = { ...payment };
-      
-      // Update status based on type
       if (payment.type === "PRE-ORDER") {
-        updatedPayment.status = "PAID";
-        
-        // Update params.amount from quote
-        if (updatedPayment.params && quoteTotal > 0) {
-          // For split payments, calculate based on payment type tags
-          if (payment.tags) {
-            const advDepositTag = payment.tags.find((t: any) => 
-              t.descriptor?.code === "ADV-DEPOSIT"
-            );
-            if (advDepositTag) {
-              // Advance deposit - use amount from quote or keep existing
-              updatedPayment.params.amount = payment.params?.amount || quoteTotal.toFixed(2);
-            }
-          } else {
-            // Single PRE-ORDER payment - use full quote amount
-            updatedPayment.params.amount = quoteTotal.toFixed(2);
-          }
-          updatedPayment.params.currency = quoteCurrency;
-        }
-      } else if (payment.type === "ON-FULFILLMENT" || payment.type === "PART-PAYMENT") {
-        updatedPayment.status = "NOT-PAID";
-        
-        // Calculate remaining amount for ON-FULFILLMENT
-        if (updatedPayment.params && quoteTotal > 0) {
-          const preOrderPayments = (sessionData?.on_init_payments?.[0] || [])
-            .filter((p: any) => p.type === "PRE-ORDER");
-          
-          const paidAmount = preOrderPayments.reduce((sum: number, p: any) => 
-            sum + parseFloat(p.params?.amount || "0"), 0);
-          
-          const remainingAmount = quoteTotal - paidAmount;
-          updatedPayment.params.amount = remainingAmount.toFixed(2);
-          updatedPayment.params.currency = quoteCurrency;
-        }
+        return { ...payment, status: "PAID" };
+      } else {
+        return { ...payment, status: "NOT-PAID" };
       }
-      
-      return updatedPayment;
     }) ?? [];
 
   existingPayload.message.order.payments = payments;
