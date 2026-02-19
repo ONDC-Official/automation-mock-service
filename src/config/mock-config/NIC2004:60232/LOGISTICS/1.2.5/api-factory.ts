@@ -62,8 +62,12 @@ export async function Generator(
       return await searchGenerator(existingPayload, sessionData, inputs, action_id);
     case "search_B2B_LOGISTICS":
       return await search_B2B_Logistics(existingPayload, sessionData, inputs, action_id);
+    case "search_FIFO_LOGISTICS":
+      return await searchGenerator(existingPayload, sessionData, inputs, action_id);
     case "init_LOGISTICS":
       return await initGenerator(existingPayload, sessionData, inputs, action_id);
+    case "init_FIFO_LOGISTICS":
+      return await initGenerator(existingPayload, sessionData, inputs,action_id);
     case "call_masking_init_LOGISTICS":
       return await initGenerator(existingPayload, sessionData, inputs, action_id);
     case "init_qc":
@@ -74,6 +78,8 @@ export async function Generator(
       return await initGenerator(existingPayload, sessionData, inputs, action_id);
     case "confirm_LOGISTICS":
       return await confirmGenerator(existingPayload, sessionData, inputs, action_id);
+    case "confirm_FIFO_LOGISTICS":
+      return await confirmGenerator(existingPayload, sessionData, inputs,action_id,);
     case "confirm_B2B_LOGISTICS":
       return await confirmGenerator(existingPayload, sessionData, inputs, action_id);
     case "confirm_REVERSE_QC_LOGISTICS":
@@ -84,6 +90,8 @@ export async function Generator(
       return await confirmGenerator(existingPayload, sessionData, inputs, action_id);
     case "update_LOGISTICS":
       return await updateGenerator(existingPayload, sessionData, inputs, action_id);
+    case "update_FIFO_LOGISTICS":
+      return await updateGenerator(existingPayload, sessionData,inputs, action_id);
     case "update_DELIVERY_ADDRESS":
       return await updateGenerator(existingPayload, sessionData, inputs, action_id);
     case "update_E_WAY_BILL_LOGISTICS":
@@ -100,6 +108,8 @@ export async function Generator(
       return await onSearchQCGenerator(existingPayload, sessionData, inputs);
     case "on_search_LOGISTICS":
       return await onSearch1Generator(existingPayload, sessionData, action_id, inputs);
+    case "on_search_FIFO_LOGISTICS":
+      return await onSearch1Generator(existingPayload, sessionData, action_id, inputs);
     case "on_search_rate_card_P2P_LOGISTICS":
       return await onSearchRateCardP2PGenerator(existingPayload, sessionData, action_id, inputs)
     case "on_search_rate_card_P2H2P_LOGISTICS":
@@ -109,6 +119,8 @@ export async function Generator(
     case "on_search_B2B_LOGISTICS":
       return await on_search_B2B_logistics(existingPayload, sessionData, inputs, action_id);
     case "on_init_LOGISTICS":
+      return await onInitGenerator(existingPayload, sessionData, action_id);
+    case "on_init_FIFO_LOGISTICS":
       return await onInitGenerator(existingPayload, sessionData, action_id);
     case "on_init_B2B_LOGISTICS":
       return await onInitGenerator(existingPayload, sessionData, action_id);
@@ -122,11 +134,15 @@ export async function Generator(
       return await onConfirmQCGenerator(existingPayload, sessionData);
     case "on_confirm_LOGISTICS":
       return await onConfirmGenerator(existingPayload, sessionData, action_id);
+    case "on_confirm_FIFO_LOGISTICS":
+      return await onConfirmGenerator(existingPayload, sessionData, action_id);
     case "on_confirm_REVERSE_QC_LOGISTICS":
       return await onConfirmGenerator(existingPayload, sessionData, action_id);
     case "on_confirm_B2B_LOGISTICS":
       return await onConfirmGenerator(existingPayload, sessionData, action_id);
     case "on_update_LOGISTICS":
+      return await onUpdateGenerator(existingPayload, sessionData, action_id);
+    case "on_update_FIFO_LOGISTICS":
       return await onUpdateGenerator(existingPayload, sessionData, action_id);
     case "on_update_DELIVERY_ADDRESS":
       return await onUpdateGenerator(existingPayload, sessionData, action_id);
@@ -147,6 +163,13 @@ export async function Generator(
     case "on_status_LOGISTICS":
       return await onStatusGenerator(existingPayload, sessionData, action_id);
     case "on_status_1_LOGISTICS":
+      return await onStatusGenerator(existingPayload, {
+        ...sessionData,
+        stateCode: "Order-picked-up",
+      },
+        action_id
+      );
+    case "on_status_FIFO_LOGISTICS":
       return await onStatusGenerator(existingPayload, {
         ...sessionData,
         stateCode: "Order-picked-up",

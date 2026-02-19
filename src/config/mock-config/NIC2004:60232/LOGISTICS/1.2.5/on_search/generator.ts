@@ -64,9 +64,9 @@ export async function onSearch1Generator(
       category_id: "Instant Delivery",
       fulfillment_id: "1",
       descriptor: {
-        name: "Fast delivery",
-        short_desc: "Fast delivery services",
-        long_desc: "Fast delivery services",
+        name: "Immediate Delivery (8 PM-12 AM)",
+        short_desc: "Night Slab",
+        long_desc: "Delivery within 20 minutes for orders between 8 PM to midnight",
       },
       price: {
         currency: "INR",
@@ -76,6 +76,7 @@ export async function onSearch1Generator(
         label: "TAT",
         duration: "PT10M",
         timestamp: "2024-11-20",
+        days:"1,2,3,4,5,6,7",
       },
       tags: [
         {
@@ -109,7 +110,9 @@ export async function onSearch1Generator(
             TatMapping[sessionData.category_id as string].day
           ),
         };
-
+        if(action_id === "on_search_FIFO_LOGISTICS"){
+          item.time.days = "1,2,3,4,5,6,7"
+        }
         return item;
       }
     );
