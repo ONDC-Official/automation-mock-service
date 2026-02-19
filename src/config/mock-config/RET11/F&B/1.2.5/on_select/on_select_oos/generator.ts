@@ -44,9 +44,12 @@ export const onSelectOOSGenerator = (
   if (sessionData?.provider) {
     existingPayload.message.order.provider = sessionData.provider;
   }
+  const randomOutOfStockItem = getRandomItem(
+    sessionData?.items?.map((item) => item.id)
+  );
 
   let oosItmParentItemId = sessionData?.items?.find(
-    (item) => item.id === inputs?.oosItem
+    (item) => item.id === randomOutOfStockItem
   ).parent_item_id;
 
   if (sessionData?.items && sessionData?.select_fulfillment?.length) {
@@ -92,7 +95,7 @@ export const onSelectOOSGenerator = (
   const errorMsg = [
     {
       dynamic_item_id: oosItmParentItemId,
-      item_id: inputs?.oosItem,
+      item_id: randomOutOfStockItem,
       error: "400002",
     },
   ];
@@ -105,3 +108,11 @@ export const onSelectOOSGenerator = (
 
   return existingPayload;
 };
+
+export function getRandomItem(items: string[]): string | undefined {
+  if (items.length === 0) {
+    return undefined;
+  }
+  const randomIndex = Math.floor(Math.random() * items.length);
+  return items[randomIndex];
+}
