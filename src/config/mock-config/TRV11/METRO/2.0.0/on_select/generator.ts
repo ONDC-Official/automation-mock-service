@@ -1,3 +1,4 @@
+import { updateProviderTime } from "../../../../../../utils/generic-utils";
 import { SessionData } from "../../../session-types";
 
 const createQuoteFromItems = (items: any): any => {
@@ -163,6 +164,7 @@ export async function onSelectGenerator(
 			fulfillment.type = "TRIP";
 		  }
 	})
+	existingPayload = updateProviderTime(existingPayload)
 	existingPayload.message.order.quote = quote;
 	return existingPayload;
 }

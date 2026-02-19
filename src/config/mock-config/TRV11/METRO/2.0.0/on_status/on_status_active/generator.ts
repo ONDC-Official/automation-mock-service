@@ -1,3 +1,4 @@
+import { updateProviderTime } from "../../../../../../../utils/generic-utils";
 import { SessionData } from "../../../../session-types";
 
 
@@ -43,5 +44,6 @@ export async function onStatusActiveGenerator(existingPayload: any,sessionData: 
 	const now = new Date().toISOString();
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now
+	existingPayload = updateProviderTime(existingPayload)
     return existingPayload;
 }

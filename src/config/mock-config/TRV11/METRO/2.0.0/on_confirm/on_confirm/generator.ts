@@ -1,17 +1,11 @@
 import { randomBytes } from "crypto";
 import { SessionData } from "../../../../session-types";
+import { updateProviderTime } from "../../../../../../../utils/generic-utils";
 
 function generateQrToken(): string {
 	return randomBytes(32).toString("base64");
 }
-function updateOrderTimestamps(payload: any) {
-	const now = new Date().toISOString();
-	if (payload.message.order) {
-	  payload.message.order.created_at = now;
-	  payload.message.order.updated_at = now;
-	}
-	return payload;
-  }
+
 
 function updateFulfillmentsWithParentInfo(fulfillments: any[], isPassFlow: boolean = false): void {
 	// Calculate valid_to based on flow type
@@ -113,5 +107,6 @@ export async function onConfirmGenerator(
 	const now = new Date().toISOString();
     existingPayload.message.order.created_at = now
     existingPayload.message.order.updated_at = now
+	existingPayload = updateProviderTime(existingPayload)
 	return existingPayload;
 }

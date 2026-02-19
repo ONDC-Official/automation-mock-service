@@ -225,14 +225,27 @@ const exampleFullfillment = {
 };
 
 export function createFullfillment(cityCode: string) {
-	const fake = exampleFullfillment.fulfillments;
-	let index = 1;
+	// Deep clone to avoid mutating original object
+	const fake = JSON.parse(JSON.stringify(exampleFullfillment.fulfillments));
+
 	for (const full of fake) {
-		full.stops.forEach((stop: any) => {
-			stop.location.descriptor.code = `MOCK_STATION_${index}`;
-			stop.location.descriptor.name = `MOCK_STATION_${index}`;
-			index++;
+		full.stops.forEach((stop: any, index: number, arr: any[]) => {
+			// Update station code & name
+			stop.location.descriptor.code = `MOCK_STATION_${index + 1}`;
+			stop.location.descriptor.name = `MOCK_STATION_${index + 1}`;
+
+			// Update stop type dynamically
+			if (index === 0) {
+				stop.type = "START";
+				delete stop.parent_stop_id; // first stop shouldn't have parent
+			} else if (index === arr.length - 1) {
+				stop.type = "END";
+			} else {
+				stop.type = "INTERMEDIATE_STOP";
+			}
 		});
 	}
+
 	return { fulfillments: fake };
 }
+
