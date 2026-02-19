@@ -1,3 +1,4 @@
+import { updateProviderTime } from "../../../../../../../utils/generic-utils";
 import { SessionData } from "../../../../session-types";
 
 
@@ -15,15 +16,7 @@ export async function onStatusCompleteGenerator(existingPayload: any,sessionData
 	const fulfillments = JSON.parse(JSON.stringify(sessionData.fulfillments));
 	
 	// Add state and update authorization for journey completion
-	fulfillments.forEach((fulfillment: any) => {
-		// Enhancement 1: Add fulfillment state for journey completed
-		fulfillment.state = {
-			descriptor: {
-				code: "COMPLETED"
-			}
-		};
-		
-		// Enhancement 2: Update authorization status to CLAIMED in START stop
+	fulfillments.forEach((fulfillment: any) => {		
 		if (fulfillment.stops && fulfillment.stops.length > 0) {
 			const startStop = fulfillment.stops.find((s: any) => s.type === "START");
 			if (startStop && startStop.authorization) {
@@ -44,5 +37,6 @@ export async function onStatusCompleteGenerator(existingPayload: any,sessionData
 	const now = new Date().toISOString();
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now
+	existingPayload = updateProviderTime(existingPayload)
     return existingPayload;
 }

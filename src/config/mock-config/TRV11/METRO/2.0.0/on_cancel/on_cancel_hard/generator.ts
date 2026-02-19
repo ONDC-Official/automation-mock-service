@@ -1,3 +1,5 @@
+import { updateProviderTime } from "../../../../../../../utils/generic-utils";
+
 export async function onCancelHardGenerator(existingPayload: any,sessionData: any){
     if (sessionData.updated_payments.length > 0) {
 		existingPayload.message.order.payments = sessionData.updated_payments;
@@ -19,5 +21,6 @@ export async function onCancelHardGenerator(existingPayload: any,sessionData: an
 	const now = new Date().toISOString();
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now
+	existingPayload = updateProviderTime(existingPayload);
     return existingPayload;
 }

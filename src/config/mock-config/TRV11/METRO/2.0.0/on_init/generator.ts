@@ -1,3 +1,4 @@
+import { updateProviderTime } from "../../../../../../utils/generic-utils";
 import { SessionData } from "../../../session-types";
 
 const generateRandomId = () => {
@@ -62,5 +63,6 @@ export async function onInitGenerator(
 	if(sessionData.quote != null){
 	existingPayload.message.order.quote = sessionData.quote
 	}
+	existingPayload = updateProviderTime(existingPayload)
 	return existingPayload;
 }

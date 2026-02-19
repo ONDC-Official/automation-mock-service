@@ -1,3 +1,5 @@
+import { updateProviderTime } from "../../../../../../../utils/generic-utils";
+
 type Price = {
     value: string;
     currency: string;
@@ -99,5 +101,6 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
     const now = new Date().toISOString();
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now
+    existingPayload = updateProviderTime(existingPayload);
     return existingPayload;
 }
