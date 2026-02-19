@@ -328,7 +328,7 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				}
 			);
 
-			if (latestMeta.actionType === "HTML_FORM") {
+			if (latestMeta.actionType === "HTML_FORM" || latestMeta.actionType === "HTML_FORM_MULTI") {
 				console.log("HTML_FORM action detected", req.body);
 				const version = req.apiSessionCache?.version;
 				if (!version) {
@@ -359,12 +359,20 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				}
 				sessionData[firstKey as keyof typeof sessionData] =
 					req.body.inputs.submission_id;
+				// Also save to form_data for on_status generators
+				if (!sessionData.form_data) {
+					sessionData.form_data = {};
+				}
+				sessionData.form_data[firstKey] = {
+					form_submission_id: req.body.inputs.submission_id,
+					idType: req.body.inputs.idType || "SUCCESS",
+				};
 				await saveCompleteData(JSON.stringify(sessionData), txId);
 				await sendToApiServiceAboutForm(
 					subscriberUrl,
 					txId,
 					latestMeta.actionId,
-					"HTML_FORM",
+					latestMeta.actionType || "HTML_FORM",
 					version,
 					req.body.inputs.submission_id
 				);
@@ -379,10 +387,7 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				if (!req.body.inputs || !req.body.inputs.submission_id) {
 					throw new Error("submission_id not found in inputs");
 				}
-				const mockDynamicFormAction = await getMockActionObject(
-					latestMeta.actionId,
-					txData.sessionId
-				);
+				const mockDynamicFormAction = await getMockActionObject(latestMeta.actionId,txData.sessionId);
 				const saveData = mockDynamicFormAction.saveData;
 				const sessionData = await loadMockSessionData(txId, subscriberUrl);
 				const saveDataObj = saveData?.["save-data"];
@@ -401,6 +406,14 @@ export async function ActUponFlow(req: ApiRequest, res: Response) {
 				}
 				sessionData[firstKey as keyof typeof sessionData] =
 					req.body.inputs.submission_id;
+				// Also save to form_data for on_status generators
+				if (!sessionData.form_data) {
+					sessionData.form_data = {};
+				}
+				sessionData.form_data[firstKey] = {
+					form_submission_id: req.body.inputs.submission_id,
+					idType: req.body.inputs.idType || "SUCCESS",
+				};
 				await saveCompleteData(JSON.stringify(sessionData), txId);
 
 				console.log("check+++++", subscriberUrl, txId);

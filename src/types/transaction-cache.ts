@@ -9,7 +9,7 @@ export interface ApiData {
 
 export interface FormApiType {
 	entryType: "FORM";
-	formType: "HTML_FORM" | "RES_FROM";
+	formType: "HTML_FORM" | "HTML_FORM_MULTI" | "RES_FROM";
 	formId: string;
 	submissionId?: string;
 	timestamp: string;

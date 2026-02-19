@@ -112,7 +112,7 @@ async function findMatchingStep(sequence: any[], body: any) {
 	for (const step of sequence) {
 		const data = step.payloads;
 
-		if (!data || data.entryType === "FORM" || step.actionType === "HTML_FORM") {
+		if (!data || data.entryType === "FORM" || step.actionType === "HTML_FORM" || step.actionType === "HTML_FORM_MULTI") {
 			continue;
 		}
 
@@ -178,7 +178,7 @@ async function processMatchingStep(
 		if (index < sequence.length - 1) {
 			const nextStep = sequence[index + 1];
 
-			if (nextStep.actionType === "HTML_FORM") {
+			if (nextStep.actionType === "HTML_FORM" || nextStep.actionType === "HTML_FORM_MULTI") {
 				const formProcessResult = await processFormStep(
 					nextStep,
 					mockSessionData,
@@ -267,7 +267,7 @@ async function processFormStep(
 			subsUrl,
 			txId,
 			nextStep.actionId,
-			"HTML_FORM",
+			nextStep.actionType || "HTML_FORM",
 			req.body.context.version ?? req.body.context.core_version,
 			undefined,
 			{
