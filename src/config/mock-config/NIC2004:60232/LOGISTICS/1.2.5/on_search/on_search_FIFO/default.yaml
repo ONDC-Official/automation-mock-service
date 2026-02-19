@@ -1,0 +1,103 @@
+message:
+  catalog:
+    bpp/descriptor:
+      name: LSP Aggregator Inc
+      short_desc: Aggregated logistics network
+      long_desc: Aggregated courier services for hyperlocal delivery
+      images:
+        - https://lspaggregator.com/logo.png
+      tags:
+        - code: bpp_terms
+          list:
+            - code: static_terms
+              value: ""
+            - code: static_terms_new
+              value: >-
+                https://github.com/ONDC-Official/NP-Static-Terms/lspNP_LSP/1.0/tc.pdf
+            - code: effective_date
+              value: "2024-11-20T00:00:00.000Z"
+
+    bpp/providers:
+      - id: P1
+        descriptor:
+          name: FIFO Courier Pvt Ltd
+          short_desc: FIFO-based hyperlocal logistics
+          long_desc: First-In-First-Out routing based courier network
+
+        categories:
+          - id: Immediate Delivery
+            descriptor:
+              name: Immediate Delivery
+              short_desc: 20-30 min delivery
+              long_desc: Hyperlocal immediate delivery service
+            time:
+              label: TAT
+              duration: PT30M
+
+        fulfillments:
+          - id: "1"
+            type: FIFO
+            start:
+              time:
+                duration: PT15M
+            tags:
+              - code: fulfill_request
+                list:
+                  - code: motorable_distance
+                    value: "3.0"
+                  - code: pickup_slot_start
+                    value: "2025-06-24T00:00:00.000Z"
+                  - code: pickup_slot_end
+                    value: "2025-06-24T00:15:00.000Z"
+
+              - code: motorable_distance
+                list:
+                  - code: unit
+                    value: kilometer
+                  - code: lower
+                    value: "0"
+                  - code: upper
+                    value: "2"
+
+        payments:
+          - id: "1"
+            type: ON-FULFILLMENT
+
+        items:
+          - id: I1
+            parent_item_id: ""
+            category_id: Immediate Delivery
+            fulfillment_id: "1"
+            descriptor:
+              name: Immediate Delivery (6 AM – 4 PM)
+              short_desc: Morning slab
+              long_desc: Delivery within 20 minutes for orders between 6 AM to 4 PM
+            price:
+              currency: INR
+              value: "25.00"
+            time:
+              label: TAT
+              duration: PT20M
+              days: "1,2,3,4,5,6,7"
+              range:
+                start: "0600"
+                end: "1600"
+
+          - id: I2
+            parent_item_id: "I1"
+            category_id: Immediate Delivery
+            fulfillment_id: "1"
+            descriptor:
+              name: Immediate Delivery (4 PM – 8 PM)
+              short_desc: Evening slab
+              long_desc: Delivery within 30 minutes for orders between 4 PM to 8 PM
+            price:
+              currency: INR
+              value: "40.00"
+            time:
+              label: TAT
+              duration: PT30M
+              days: "1,2,3,4,5,6,7"
+              range:
+                start: "1601"
+                end: "2000"

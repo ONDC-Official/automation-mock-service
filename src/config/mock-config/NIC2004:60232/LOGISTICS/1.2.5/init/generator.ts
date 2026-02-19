@@ -223,7 +223,7 @@ export const initGenerator = async (
 
     tags: removeTagsByCodes(
       sourceFulfillment.tags,
-      ["distance"]
+      ["distance","motorable_distance"]
     ),
   };
 

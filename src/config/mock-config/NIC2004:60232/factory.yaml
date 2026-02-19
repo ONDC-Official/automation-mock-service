@@ -587,4 +587,50 @@ codes:
   default: on_update/default.yaml
   message_id: false
 
+- code: 351
+  action_id: search_FIFO_LOGISTICS
+  action: search
+  default: search/search_FIFO/default.yaml
+  message_id: true
+- code: 352
+  action_id: on_search_FIFO_LOGISTICS
+  action: on_search
+  default: on_search/on_search_FIFO/default.yaml
+  message_id: false
+- code: 353
+  action_id: init_FIFO_LOGISTICS
+  action: init
+  default: init/init_FIFO/default.yaml
+  message_id: true
+- code: 354
+  action_id: on_init_FIFO_LOGISTICS
+  action: on_init
+  default: on_init/default.yaml
+  message_id: false
+- code: 355
+  action_id: confirm_FIFO_LOGISTICS
+  action: confirm
+  default: confirm/confirm_FIFO/default.yaml
+  message_id: true
+- code: 356
+  action_id: on_confirm_FIFO_LOGISTICS
+  action: on_confirm
+  default: on_confirm/default.yaml
+  message_id: false
+- code: 357
+  action_id: update_FIFO_LOGISTICS
+  action: update
+  default: update/update_FIFO/default.yaml
+  message_id: true
+- code: 358
+  action_id: on_update_FIFO_LOGISTICS
+  action: on_update
+  default: on_update/on_update_FIFO/default.yaml
+  message_id: false
+- code: 359
+  action_id: on_status_FIFO_LOGISTICS
+  action: on_status
+  default: on_status/on_status_FIFO/default.yaml
+  message_id: true
+
 

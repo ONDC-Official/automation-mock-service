@@ -6,7 +6,7 @@ save-data:
   rto_id: $.message.catalog["bpp/providers"][*].fulfillments[?(@.type=="RTO")].id
   on_seach_categories: $.message.catalog["bpp/providers"][*].categories
   on_search_items: $.message.catalog["bpp/providers"][*].items[*]
-  on_search_fulfillment: $.message.catalog["bpp/providers"][*].fulfillments[?(@.type=="Delivery" || @.type=="FTL" || @.type=="PTL")]
+  on_search_fulfillment: $.message.catalog["bpp/providers"][*].fulfillments[?(@.type=="Delivery" || @.type=="FTL" || @.type=="PTL" || @.type=="FIFO")]
   on_search_batch_fulfillment: $.message.catalog["bpp/providers"][*].fulfillments[?(@.type=="Batch")]
   on_search_return_fulfillment: $.message.catalog["bpp/providers"][*].fulfillments[?(@.type=="Return")]
   feature_surge_fee: $.message.catalog.tags[?(@.code=="lsp_features")].list[?(@.code=="017")].value

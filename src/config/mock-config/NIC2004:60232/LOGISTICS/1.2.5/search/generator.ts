@@ -233,5 +233,6 @@ export async function searchGenerator(
       ]
     );
   }
+  console.log("existing payload in search",JSON.stringify(existingPayload))
   return existingPayload;
 }

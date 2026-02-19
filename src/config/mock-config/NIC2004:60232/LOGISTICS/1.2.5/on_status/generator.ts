@@ -92,6 +92,23 @@ export const onStatusGenerator = async (
             console.log("reverseQCTagsObj", JSON.stringify(fulfillment));
 
           }
+          else if (fulfillment.type === "FIFO") {
+            fulfillment.state.descriptor.code = sessionData.stateCode;
+            fulfillment.start.time = {
+              ...fulfillment.start.time,
+              timestamp: existingPayload.context?.timestamp,
+            };
+            fulfillment.stops.push({
+              "type": "Order-picked-up",
+              "location": {
+                "gps": "12.3456,13.6789"
+              },
+              "time": {
+                "timestamp": existingPayload.context.timestamp
+              }
+            }
+            )
+          }
           else if (fulfillment.type === "FTL" || fulfillment.type === "PTL") {
             fulfillment.start = fulfillment.start ?? {};
             fulfillment.start.instructions = {
@@ -119,6 +136,18 @@ export const onStatusGenerator = async (
           if (fulfillment.type === "Delivery") {
             fulfillment.state.descriptor.code = sessionData.stateCode;
           }
+          else if (fulfillment.type === "FIFO") {
+            fulfillment.state.descriptor.code = sessionData.stateCode;
+            fulfillment.stops.push({
+              type: "At-pickup",
+              location: {
+                gps: "12.3455,13.6788"
+              },
+              time: {
+                timestamp: existingPayload.context.timestamp
+              }
+            })
+          }
           return fulfillment;
         });
       break;
@@ -128,6 +157,19 @@ export const onStatusGenerator = async (
         existingPayload.message.order.fulfillments.map((fulfillment: any) => {
           if (fulfillment.type === "Delivery") {
             fulfillment.state.descriptor.code = sessionData.stateCode;
+          }
+          else if (fulfillment.type === "FIFO") {
+            fulfillment.state.descriptor.code = sessionData.stateCode;
+            fulfillment.stops.push({
+              "type": "At-delivery",
+              "location": {
+                "gps": "12.7890,13.0123"
+              },
+              "time": {
+                "timestamp": existingPayload.context.timestamp
+              }
+            }
+            )
           }
           return fulfillment;
         });
@@ -169,6 +211,17 @@ export const onStatusGenerator = async (
                   },
                 ],
               });
+            }
+          }
+          else if (fulfillment.type === "FIFO") {
+            fulfillment.state.descriptor.code = sessionData.stateCode;
+            if (!fulfillment.end.time) {
+              fulfillment.end.time = {
+                timestamp: existingPayload.context.timestamp,
+              };
+            } else {
+              fulfillment.end.time.timestamp =
+                existingPayload.context.timestamp;
             }
           }
           else if (fulfillment.type === "FTL" || fulfillment.type === "PTL") {
@@ -310,7 +363,18 @@ export const onStatusGenerator = async (
       existingPayload.message.order.fulfillments =
         existingPayload.message.order.fulfillments.map((fulfillment: any) => {
           fulfillment.state.descriptor.code = sessionData.stateCode;
-
+          if (fulfillment.type === "FIFO") {
+            fulfillment.stops =
+              [{
+                "type": "Agent-assigned",
+                "location": {
+                  "gps": "12.4523,72.9283"
+                },
+                "time": {
+                  "timestamp": existingPayload.context.timestamp
+                }
+              }]
+          }
           if (!(sessionData.rate_basis === "rider")) {
             fulfillment.agent = {
               name: "agent_name",
@@ -431,8 +495,8 @@ export const onStatusGenerator = async (
             return {
               ...payment,
               status: "PAID",
-              time:{
-                timestamp:existingPayload.context?.timestamp
+              time: {
+                timestamp: existingPayload.context?.timestamp
               }
             };
           }
