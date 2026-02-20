@@ -1,6 +1,7 @@
 import { updateProviderTime } from "../../../../../../../utils/generic-utils";
+import { SessionData } from "../../../../session-types";
 
-export async function onCancelHardGenerator(existingPayload: any,sessionData: any){
+export async function onCancelHardGenerator(existingPayload: any,sessionData: SessionData){
     if (sessionData.updated_payments.length > 0) {
 		existingPayload.message.order.payments = sessionData.updated_payments;
 	  }
@@ -22,5 +23,6 @@ export async function onCancelHardGenerator(existingPayload: any,sessionData: an
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now
 	existingPayload = updateProviderTime(existingPayload);
+	existingPayload.message.order.cancellation = sessionData.cancellation;
     return existingPayload;
 }

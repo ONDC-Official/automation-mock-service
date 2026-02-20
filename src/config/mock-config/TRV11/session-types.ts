@@ -41,6 +41,7 @@ export interface SessionData {
 	settlement_amount: string | undefined;
 	flowId: string | undefined
 	on_confirm_fulfillments: any[]
+	cancellation: any
 }
 
 export type BecknContext = {

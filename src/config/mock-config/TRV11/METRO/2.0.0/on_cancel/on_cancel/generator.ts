@@ -26,7 +26,6 @@ type Price = {
     breakup: Breakup[];
   };
 
-
 function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
     // Parse the current price
     const currentTotal = parseFloat(quote.price.value);

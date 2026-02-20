@@ -26,6 +26,31 @@ type Price = {
     breakup: Breakup[];
   };
 
+export function removeAuthorizationAndTicketInfo(fulfillments: any[]) {
+	return fulfillments?.map((fulfillment) => {
+		// Remove authorization from stops
+		fulfillment?.stops?.forEach((stop: any) => {
+			if (stop && "authorization" in stop) {
+				delete stop.authorization;
+			}
+		});
+
+		// Remove TICKET_INFO from tags (if exists)
+		if (Array.isArray(fulfillment?.tags)) {
+			fulfillment.tags = fulfillment.tags.filter(
+				(tag: any) =>
+					tag?.descriptor?.code !== "TICKET_INFO"
+			);
+
+			// If tags array becomes empty, remove tags completely
+			if (fulfillment.tags.length === 0) {
+				delete fulfillment.tags;
+			}
+		}
+
+		return fulfillment;
+	});
+}
 const markSettlementAmountZero = (payments: any[]) => {
 	return payments.map((payment: any) => {
 		const tags = payment.tags ?? [];
@@ -136,6 +161,9 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
     existingPayload.message.order.quote = applyCancellation(sessionData.quote,0)
     }
     const now = new Date().toISOString();
+     existingPayload.message.order.fulfillments = removeAuthorizationAndTicketInfo(
+      existingPayload.message.order.fulfillments
+    );
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now
     existingPayload = updateProviderTime(existingPayload);
