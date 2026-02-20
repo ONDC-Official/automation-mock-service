@@ -64,6 +64,7 @@ function updateFulfillmentsWithParentInfo(fulfillments: any[]): void {
       descriptor: {
         code: "TICKET_INFO",
       },
+      display: false,
       list: [
         {
           descriptor: {
