@@ -152,13 +152,13 @@ export async function onSelectDefaultGenerator(
               descriptor: {
                 code: "pymnt-4",
               },
-              value: "1",
+              value: advanceAmount.toFixed(2),
             },
             {
               descriptor: {
                 code: "pymnt-5",
               },
-              value: "2",
+              value: remainingAmount.toFixed(2),
             },
           ],
         },
