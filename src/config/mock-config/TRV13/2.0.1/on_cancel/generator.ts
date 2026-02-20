@@ -14,24 +14,6 @@ export async function onCancelDefaultGenerator(
       long_desc: "Hotel available at lower price",
     };
 
-  // Build REFUNDED payment from the advance deposit (pymnt-4) that was already paid
-  const confirmedPayments: any[] =
-    sessionData?.on_confirm_payments?.[0] ?? [];
-  const advancePayment = confirmedPayments.find(
-    (p: any) => p.id === "pymnt-4"
-  );
-  existingPayload.message.order.payments = [
-    {
-      id: "pymnt-4",
-      type: "PRE-ORDER",
-      status: "REFUNDED",
-      params: {
-        currency: advancePayment?.params?.currency ?? "INR",
-        amount: advancePayment?.params?.amount ?? "0.00",
-      },
-    },
-  ];
-
   existingPayload.message.order.updated_at =
     sessionData?.context?.timestamp ?? new Date().toISOString();
   return existingPayload;
