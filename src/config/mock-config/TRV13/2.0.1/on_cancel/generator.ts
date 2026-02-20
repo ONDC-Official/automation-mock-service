@@ -13,7 +13,9 @@ export async function onCancelDefaultGenerator(
       short_desc: "No more required",
       long_desc: "Hotel available at lower price",
     };
+
   existingPayload.message.order.updated_at =
     sessionData?.context?.timestamp ?? new Date().toISOString();
   return existingPayload;
 }
+
