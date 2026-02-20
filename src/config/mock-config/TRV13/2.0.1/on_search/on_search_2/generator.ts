@@ -2,13 +2,16 @@ export async function onSearch_2_Generator(
   existingPayload: any,
   sessionData: any
 ) {
+  const now = new Date().toISOString();
+  const nowPlusOneHour = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+
   existingPayload.message.catalog = sessionData?.on_search_1_catalog ?? {};
   existingPayload.message.catalog.providers[0].items = [
     {
       id: "Accommodation-1",
       time: {
         label: "ENABLE",
-        timestamp: "2023-12-20T05:28:04.300Z",
+        timestamp: now,
       },
       descriptor: {
         name: "Deluxe Room",
@@ -173,11 +176,11 @@ export async function onSearch_2_Generator(
       id: "Accommodation-2",
       time: {
         label: "ENABLE",
-        timestamp: "2023-12-20T05:28:04.300Z",
+        timestamp: now,
         duration: "PT2H",
         range: {
-          start: "2023-12-20T05:28:04.300Z",
-          end: "2023-12-20T06:28:04.300Z",
+          start: now,
+          end: nowPlusOneHour,
         },
       },
       descriptor: {
@@ -310,11 +313,11 @@ export async function onSearch_2_Generator(
       id: "Accommodation-3",
       time: {
         label: "ENABLE",
-        timestamp: "2023-12-20T05:28:04.300Z",
+        timestamp: now,
         duration: "PT2H",
         range: {
-          start: "2023-12-20T05:28:04.300Z",
-          end: "2023-12-20T06:28:04.300Z",
+          start: now,
+          end: nowPlusOneHour,
         },
       },
       descriptor: {
