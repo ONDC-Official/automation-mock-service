@@ -20,7 +20,9 @@ export async function onSelectDefaultGenerator(
   // Get selected addon and its price from catalog
   const selectedAddonId = selectItems[0]?.add_ons?.[0]?.id;
   const catalogAddon = catalogItem?.add_ons?.find((a: any) => a.id === selectedAddonId);
-  const addonPrice = Number(catalogAddon?.price?.value ?? "500.00");
+  const addonPrice = selectItems[0]?.add_ons?.length
+    ? Number(catalogAddon?.price?.value ?? "0.00")
+    : 0;
   const addonName = catalogAddon?.descriptor?.short_desc ?? "Accommodation with all meals included";
 
   // Calculate totals
@@ -54,17 +56,24 @@ export async function onSelectDefaultGenerator(
             currency: "INR",
             value: itemPrice.toFixed(2),
           },
-          add_ons: [
-            {
-              id: selectedAddonId ?? "full-board",
-              price: {
-                currency: "INR",
-                value: addonPrice.toFixed(2),
-              },
-            },
-          ],
+          // Only include add_ons when user actually selected them
+          ...(selectItems[0]?.add_ons?.length
+            ? {
+                add_ons: [
+                  {
+                    id: selectedAddonId,
+                    price: {
+                      currency: "INR",
+                      value: addonPrice.toFixed(2),
+                    },
+                  },
+                ],
+              }
+            : {}),
         },
-        title: catalogItem?.descriptor?.name ?? "Deluxe Room accommodation with all meals included",
+        title: selectItems[0]?.add_ons?.length
+          ? (catalogItem?.descriptor?.name ?? "Deluxe Room accommodation with all meals included")
+          : "Deluxe Room accommodation",
         price: {
           currency: "INR",
           value: totalWithAddons.toFixed(2),
@@ -130,13 +139,13 @@ export async function onSelectDefaultGenerator(
               descriptor: {
                 code: "pymnt-4",
               },
-              value: "1",
+              value: advanceDepositAmount,
             },
             {
               descriptor: {
                 code: "pymnt-5",
               },
-              value: "2",
+              value: finalPaymentAmount,
             },
           ],
         },
