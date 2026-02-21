@@ -33,18 +33,23 @@ export async function onSelectDefaultGenerator(
             currency: "INR",
             value: "2000.00",
           },
-          add_ons: [
-            {
-              id: selectItems[0]?.add_ons[0]?.id ?? "full-board",
-              price: {
-                currency: "INR",
-                value: "500.00",
-              },
-            },
-          ],
+          ...(selectItems[0]?.add_ons?.some((a: any) => !!a.id)
+            ? {
+                add_ons: [
+                  {
+                    id: selectItems[0]?.add_ons[0]?.id,
+                    price: {
+                      currency: "INR",
+                      value: "500.00",
+                    },
+                  },
+                ],
+              }
+            : {}),
         },
-        title:
-          "Deluxe Room accommodation with all meals included (breakfast, lunch, and dinner)",
+        title: selectItems[0]?.add_ons?.some((a: any) => !!a.id)
+          ? "Deluxe Room accommodation with all meals included (breakfast, lunch, and dinner)"
+          : "Deluxe Room accommodation",
         price: {
           currency: "INR",
           value: "300.00",
@@ -61,7 +66,7 @@ export async function onSelectDefaultGenerator(
         title: "GST @ 12%",
         price: {
           currency: "INR",
-          value: "400",
+          value: "300",
         },
       },
     ],
@@ -86,7 +91,17 @@ export async function onSelectDefaultGenerator(
       breakup.price.value = itemPrice.toString();
       totalPrice += itemPrice;
     } else {
-      totalPrice += Number(breakup.price.value);
+      // Parse percentage from title e.g. "Service Tax @ 9%" → 9
+      const pctMatch = breakup.title?.match(/(\d+(?:\.\d+)?)%/);
+      if (pctMatch) {
+        const taxAmount = Math.round(
+          (totalPrice * Number(pctMatch[1])) / 100
+        );
+        breakup.price.value = taxAmount.toString();
+        totalPrice += taxAmount;
+      } else {
+        totalPrice += Number(breakup.price.value);
+      }
     }
   });
 
@@ -144,13 +159,13 @@ export async function onSelectDefaultGenerator(
               descriptor: {
                 code: "pymnt-4",
               },
-              value: "1",
+              value: advanceDepositAmount,
             },
             {
               descriptor: {
                 code: "pymnt-5",
               },
-              value: "2",
+              value: finalPaymentAmount,
             },
           ],
         },
