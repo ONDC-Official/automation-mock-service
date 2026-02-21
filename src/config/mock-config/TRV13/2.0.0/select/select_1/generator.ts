@@ -25,7 +25,6 @@ export async function selectDefaultGenerator(
             count: 1,
           },
         },
-        add_ons: [{ id: items[0]?.add_ons?.[1]?.id ?? "full-board" }],
       },
     ];
   }
