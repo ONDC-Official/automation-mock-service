@@ -31,11 +31,14 @@ export async function onSelectDefaultGenerator(
   const gst = Math.round(totalWithAddons * 0.12);
   const totalPrice = totalWithAddons + serviceTax + gst;
 
-  existingPayload.message.order.items = selectItems.map((item: any) => ({
-    id: item.id,
-    add_ons: item.add_ons,
-    payment_ids: [catalogItems[0]?.payment_ids?.[0]],
-  }));
+  existingPayload.message.order.items = selectItems.map((item: any) => {
+    const validAddOns = (item.add_ons ?? []).filter((a: any) => !!a.id);
+    return {
+      id: item.id,
+      ...(validAddOns.length ? { add_ons: validAddOns } : {}),
+      payment_ids: [catalogItems[0]?.payment_ids?.[0]],
+    };
+  });
 
   existingPayload.message.order.quote = {
     price: {
