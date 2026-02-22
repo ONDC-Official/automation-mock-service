@@ -7,5 +7,10 @@ export async function onSearch_6_Generator(existingPayload: any, sessionData: an
   // existingPayload.message.intent.fulfillment.stops = sessionData.stops;
   // existingPayload.message.intent.tags = sessionData.tags;
   // existingPayload.message.intent.fulfillment.vehicle.category = sessionData.vehicle_category;
+
+  if (existingPayload?.message?.catalog?.providers?.[0]?.time) {
+    existingPayload.message.catalog.providers[0].time.timestamp = new Date().toISOString();
+  }
+
   return existingPayload;
 } 
