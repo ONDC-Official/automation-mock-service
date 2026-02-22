@@ -8,7 +8,7 @@ import { statusTechnicalCancellationGenerator } from "./generator";
 export class MockStatusTechnicalCancellationClass extends MockAction {
     get saveData(): saveType {
         return yaml.load(
-            readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
+            readFileSync(path.resolve(__dirname, "../save-data.yaml"), "utf8")
         ) as saveType;
     }
     get defaultData(): any {
