@@ -6,12 +6,11 @@ export async function onSelectDefaultGenerator(
   existingPayload.message.order.provider.id =
     sessionData?.select_provider_id ?? "P1";
 
-  const selectItems = sessionData?.select_items?.[0] ?? [];
+  const selectItems = sessionData?.select_items?.flat() ?? [];
   // Use on_search_1_items (from on_search_6) with fallback to on_search_5_items
-  const on_search_5_item = sessionData?.on_search_1_items?.[0] ?? sessionData?.on_search_5_items?.[0] ?? [];
+  const on_search_5_item = sessionData?.on_search_1_items?.flat() ?? sessionData?.on_search_5_items?.flat() ?? [];
 
-  existingPayload.message.order.items = (selectItems ?? [])
-    .flat()
+  existingPayload.message.order.items = selectItems
     .map((item: any) => ({
       id: item.id,
       add_ons: item.add_ons ?? [],
