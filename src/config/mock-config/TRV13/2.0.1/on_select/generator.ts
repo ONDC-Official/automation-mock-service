@@ -2,20 +2,23 @@ export async function onSelectDefaultGenerator(
   existingPayload: any,
   sessionData: any
 ) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
+
 
   existingPayload.message.order.provider.id =
     sessionData?.select_provider_id ?? "P1";
 
-  const selectItems = sessionData?.select_items[0] ?? [];
-  const on_search_5_item = sessionData?.on_search_5_items[0] ?? [];
+  const selectItems = sessionData?.select_items?.flat() ?? [];
+  // Use on_search_1_items (from on_search_6) with fallback to on_search_5_items
+  const on_search_5_item = sessionData?.on_search_1_items?.flat() ?? sessionData?.on_search_5_items?.flat() ?? [];
 
-  existingPayload.message.order.items = selectItems.map((item: any) => ({
-    id: item.id,
-    add_ons: item.add_ons,
-    payment_ids: [on_search_5_item[0]?.payment_ids[0]],
-  }));
+  existingPayload.message.order.items = selectItems
+    .map((item: any) => ({
+      id: item.id,
+      add_ons: item.add_ons ?? [],
+      payment_ids: on_search_5_item?.[0]?.payment_ids?.[0]
+        ? [on_search_5_item[0].payment_ids[0]]
+        : []
+    }));
 
   existingPayload.message.order.quote = {
     price: {
@@ -35,18 +38,24 @@ export async function onSelectDefaultGenerator(
             currency: "INR",
             value: "2000.00",
           },
-          add_ons: [
-            {
-              id: selectItems[0]?.add_ons[0]?.id ?? "full-board",
-              price: {
-                currency: "INR",
-                value: "500.00",
-              },
-            },
-          ],
+          // Only include add_ons when the user actually selected them
+          ...(selectItems[0]?.add_ons?.length
+            ? {
+              add_ons: selectItems[0].add_ons.map((addon: any) => {
+                const catalogAddon = on_search_5_item[0]?.add_ons?.find(
+                  (a: any) => a.id === addon.id
+                );
+                return {
+                  id: addon.id,
+                  price: catalogAddon?.price ?? { currency: "INR", value: "0.00" },
+                };
+              }),
+            }
+            : {}),
         },
-        title:
-          "Deluxe Room accommodation with all meals included (breakfast, lunch, and dinner)",
+        title: selectItems[0]?.add_ons?.length
+          ? "Deluxe Room accommodation with all meals included (breakfast, lunch, and dinner)"
+          : "Deluxe Room accommodation",
         price: {
           currency: "INR",
           value: "300.00",
@@ -63,7 +72,7 @@ export async function onSelectDefaultGenerator(
         title: "GST @ 12%",
         price: {
           currency: "INR",
-          value: "400",
+          value: "300",
         },
       },
     ],
@@ -71,6 +80,7 @@ export async function onSelectDefaultGenerator(
   };
 
   let totalPrice = 0;
+  let itemSubtotal = 0;
 
   existingPayload.message.order.quote.breakup.forEach((breakup: any) => {
     if (breakup.item) {
@@ -87,13 +97,28 @@ export async function onSelectDefaultGenerator(
 
       breakup.price.value = itemPrice.toString();
       totalPrice += itemPrice;
+      itemSubtotal = itemPrice; // capture for percentage-based tax lines below
     } else {
-      totalPrice += Number(breakup.price.value);
+      // Parse percentage from title e.g. "Service Tax @ 9%" → 9, "GST @ 12%" → 12
+      const pctMatch = breakup.title?.match(/(\d+(?:\.\d+)?)%/);
+      if (pctMatch) {
+        const taxAmount =
+          Math.round((itemSubtotal * Number(pctMatch[1])) / 100 * 100) / 100;
+        breakup.price.value = taxAmount.toFixed(2);
+        totalPrice += taxAmount;
+      } else {
+        totalPrice += Number(breakup.price.value);
+      }
     }
   });
 
   existingPayload.message.order.quote.price.value = totalPrice.toString();
 
+  // Calculate payment amounts proportionally from dynamic quote total
+  // Original ratio: advance deposit is 2000/3025 of total, remaining is 1025/3025
+  const advanceDepositRatio = 2000 / 3025;
+  const advanceAmount = Math.round(totalPrice * advanceDepositRatio * 100) / 100;
+  const remainingAmount = Math.round((totalPrice - advanceAmount) * 100) / 100;
   existingPayload.message.order.payments = [
     {
       id: "pymnt-1",
@@ -130,13 +155,13 @@ export async function onSelectDefaultGenerator(
               descriptor: {
                 code: "pymnt-4",
               },
-              value: "1",
+              value: advanceAmount.toFixed(2),
             },
             {
               descriptor: {
                 code: "pymnt-5",
               },
-              value: "2",
+              value: remainingAmount.toFixed(2),
             },
           ],
         },
@@ -154,7 +179,7 @@ export async function onSelectDefaultGenerator(
       ],
       params: {
         currency: "INR",
-        amount: "2000.00",
+        amount: advanceAmount.toFixed(2),
       },
     },
     {
@@ -168,7 +193,7 @@ export async function onSelectDefaultGenerator(
         },
       ],
       params: {
-        amount: "1025.00",
+        amount: remainingAmount.toFixed(2),
         currency: "INR",
       },
     },
