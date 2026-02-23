@@ -34,4 +34,4 @@ export class MockOnSearch_7 extends MockAction {
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
         return { valid: true };
     }
-} 
+}

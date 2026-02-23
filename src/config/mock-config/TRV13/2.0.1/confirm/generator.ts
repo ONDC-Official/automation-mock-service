@@ -15,6 +15,10 @@ export async function confirmDefaultGenerator(
 
   existingPayload.message.order.provider.id =
     sessionData?.on_init_provider_id ?? "P1";
+  
+  // Remove provider.tags as per ONDC spec (not needed in confirm)
+  delete existingPayload.message.order.provider.tags;
+  
   existingPayload.message.order.items = sessionData?.on_init_items[0] ?? [];
   existingPayload.message.order.quote = sessionData?.on_init_quote ?? {};
   existingPayload.message.order.billing = sessionData?.on_init_billing ?? {};
