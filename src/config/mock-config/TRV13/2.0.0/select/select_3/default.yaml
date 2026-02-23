@@ -13,6 +13,8 @@ order:
       quantity:
         selected:
           count: 1
+      add_ons:
+        - id: full-board
   fulfillments:
     - tags:
         - descriptor:
