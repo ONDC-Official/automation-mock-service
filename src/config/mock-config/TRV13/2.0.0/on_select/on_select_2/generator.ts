@@ -9,14 +9,11 @@ export async function onSelectDefaultGenerator(
   const selectItems = sessionData?.select_items[0] ?? [];
   const on_search_1_item = sessionData?.on_search_1_items[0] ?? [];
 
-  existingPayload.message.order.items = selectItems.map((item: any) => {
-    const validAddOns = (item.add_ons ?? []).filter((a: any) => !!a.id);
-    return {
-      id: item.id,
-      ...(validAddOns.length ? { add_ons: validAddOns } : {}),
-      payment_ids: [on_search_1_item[0]?.payment_ids[0]],
-    };
-  });
+  existingPayload.message.order.items = selectItems.map((item: any) => ({
+    id: item.id,
+    add_ons: item.add_ons,
+    payment_ids: [on_search_1_item[0]?.payment_ids[0]],
+  }));
 
   existingPayload.message.order.quote = {
     price: {
