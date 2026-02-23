@@ -18,17 +18,25 @@ export async function selectDefaultGenerator(
       end: futureDate.toISOString(),
     },
   };
+
+  // Respect the item_id the user entered via flow input
+  const userSelectedId = existingPayload.message.order.items?.[0]?.id;
+  const selectedItem = userSelectedId
+    ? (items.find((i: any) => i.id === userSelectedId) ?? items[0])
+    : items[0];
+
   existingPayload.message.order.items = [
     {
-      id: items[0]?.id ?? "Accommodation-1",
-      location_ids: [...(items[0]?.location_ids ?? [])],
+      id: selectedItem?.id ?? "Accommodation-1",
+      location_ids: [...(selectedItem?.location_ids ?? [])],
       quantity: {
         selected: {
           count: 1,
         },
       },
-      add_ons: [{ id: items[0]?.add_ons?.[1]?.id ?? "full-board" }],
+      add_ons: [{ id: selectedItem?.add_ons?.[1]?.id ?? "full-board" }],
     },
   ];
   return existingPayload;
 }
+

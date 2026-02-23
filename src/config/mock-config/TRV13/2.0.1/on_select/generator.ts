@@ -10,14 +10,19 @@ export async function onSelectDefaultGenerator(
   // Use on_search_1_items (from on_search_6) with fallback to on_search_5_items
   const on_search_5_item = sessionData?.on_search_1_items?.flat() ?? sessionData?.on_search_5_items?.flat() ?? [];
 
-  existingPayload.message.order.items = selectItems
-    .map((item: any) => ({
-      id: item.id,
-      add_ons: item.add_ons ?? [],
-      payment_ids: on_search_5_item?.[0]?.payment_ids?.[0]
-        ? [on_search_5_item[0].payment_ids[0]]
-        : []
-    }));
+  // Find the catalog item matching the selected item to get its real price
+  const selectedItemId = selectItems[0]?.id;
+  const catalogItem = on_search_5_item.find((item: any) => item.id === selectedItemId)
+    ?? on_search_5_item[0];
+  const itemPrice = Number(catalogItem?.price?.value ?? "2000.00");
+
+  existingPayload.message.order.items = selectItems.map((item: any) => ({
+    id: item.id,
+    add_ons: item.add_ons ?? [],
+    payment_ids: catalogItem?.payment_ids?.[0]
+      ? [catalogItem.payment_ids[0]]
+      : []
+  }));
 
   existingPayload.message.order.quote = {
     price: {
@@ -35,21 +40,21 @@ export async function onSelectDefaultGenerator(
           },
           price: {
             currency: "INR",
-            value: "2000.00",
+            value: itemPrice.toFixed(2),
           },
           // Only include add_ons when the user actually selected them
           ...(selectItems[0]?.add_ons?.length
             ? {
-              add_ons: selectItems[0].add_ons.map((addon: any) => {
-                const catalogAddon = on_search_5_item[0]?.add_ons?.find(
-                  (a: any) => a.id === addon.id
-                );
-                return {
-                  id: addon.id,
-                  price: catalogAddon?.price ?? { currency: "INR", value: "0.00" },
-                };
-              }),
-            }
+                add_ons: selectItems[0].add_ons.map((addon: any) => {
+                  const catalogAddon = catalogItem?.add_ons?.find(
+                    (a: any) => a.id === addon.id
+                  );
+                  return {
+                    id: addon.id,
+                    price: catalogAddon?.price ?? { currency: "INR", value: "0.00" },
+                  };
+                }),
+              }
             : {}),
         },
         title: selectItems[0]?.add_ons?.length
@@ -199,7 +204,7 @@ export async function onSelectDefaultGenerator(
     },
   ];
 
-  const paymentIds = on_search_5_item[0]?.payment_ids ?? [];
+  const paymentIds = catalogItem?.payment_ids ?? [];
 
   existingPayload.message.order.payments.forEach(
     (payment: any, index: number) => {
