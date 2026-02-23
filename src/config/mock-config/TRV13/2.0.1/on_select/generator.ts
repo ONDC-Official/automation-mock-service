@@ -10,11 +10,15 @@ export async function onSelectDefaultGenerator(
   // Use on_search_1_items (from on_search_6) with fallback to on_search_5_items
   const on_search_5_item = sessionData?.on_search_1_items?.[0] ?? sessionData?.on_search_5_items?.[0] ?? [];
 
-  existingPayload.message.order.items = selectItems.map((item: any) => ({
-    id: item.id,
-    add_ons: item.add_ons,
-    payment_ids: [on_search_5_item[0]?.payment_ids[0]],
-  }));
+  existingPayload.message.order.items = (selectItems ?? [])
+    .flat()
+    .map((item: any) => ({
+      id: item.id,
+      add_ons: item.add_ons ?? [],
+      payment_ids: on_search_5_item?.[0]?.payment_ids?.[0]
+        ? [on_search_5_item[0].payment_ids[0]]
+        : []
+    }));
 
   existingPayload.message.order.quote = {
     price: {
@@ -22,7 +26,7 @@ export async function onSelectDefaultGenerator(
       value: "3025.00",
     },
     breakup: [
-    {
+      {
         item: {
           id: selectItems[0]?.id ?? "Accommodation-1",
           quantity: selectItems[0]?.quantity ?? {
@@ -37,16 +41,16 @@ export async function onSelectDefaultGenerator(
           // Only include add_ons when the user actually selected them
           ...(selectItems[0]?.add_ons?.length
             ? {
-                add_ons: selectItems[0].add_ons.map((addon: any) => {
-                  const catalogAddon = on_search_5_item[0]?.add_ons?.find(
-                    (a: any) => a.id === addon.id
-                  );
-                  return {
-                    id: addon.id,
-                    price: catalogAddon?.price ?? { currency: "INR", value: "0.00" },
-                  };
-                }),
-              }
+              add_ons: selectItems[0].add_ons.map((addon: any) => {
+                const catalogAddon = on_search_5_item[0]?.add_ons?.find(
+                  (a: any) => a.id === addon.id
+                );
+                return {
+                  id: addon.id,
+                  price: catalogAddon?.price ?? { currency: "INR", value: "0.00" },
+                };
+              }),
+            }
             : {}),
         },
         title: selectItems[0]?.add_ons?.length
