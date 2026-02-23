@@ -9,7 +9,7 @@ type SelectInputType = {
 	items?: {
 		itemId?: string;
 		quantity?: number;
-		location_id?: string;
+		location?: string;
 	}[];
 	[key: string]: any; // Allow additional properties
 };
@@ -60,7 +60,7 @@ export async function select_generator(
 				quantity: {
 					count: item.quantity,
 				},
-				location: item.location_id,
+				location_id: item.location,
 			};
 		});
 	}
