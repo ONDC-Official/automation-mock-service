@@ -3,7 +3,7 @@ export async function confirmDefaultGenerator(
   sessionData: any
 ) {
 
-  existingPayload.message.order.status = "COMPLETE";
+  existingPayload.message.order.status = "COMPLETED";
 
   // Use on_confirm payments (BPP output) — all PAID at update/completion stage
   // pymnt-5 (ON-FULFILLMENT) additionally gets a time.timestamp
