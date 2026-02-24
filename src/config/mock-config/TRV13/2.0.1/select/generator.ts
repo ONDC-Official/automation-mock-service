@@ -25,6 +25,10 @@ export async function selectDefaultGenerator(
     ? (items.find((i: any) => i.id === userSelectedId) ?? items[0])
     : items[0];
 
+  // Only include add_ons if the incoming SELECT request already has them
+  const incomingAddOns = existingPayload.message.order.items?.[0]?.add_ons;
+  const hasAddOns = Array.isArray(incomingAddOns) && incomingAddOns.length > 0;
+
   existingPayload.message.order.items = [
     {
       id: selectedItem?.id ?? "Accommodation-1",
@@ -34,7 +38,7 @@ export async function selectDefaultGenerator(
           count: 1,
         },
       },
-      add_ons: [{ id: selectedItem?.add_ons?.[1]?.id ?? "full-board" }],
+      ...(hasAddOns ? { add_ons: incomingAddOns } : {}),
     },
   ];
   return existingPayload;

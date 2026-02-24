@@ -16,13 +16,16 @@ export async function onSelectDefaultGenerator(
     ?? on_search_5_item[0];
   const itemPrice = Number(catalogItem?.price?.value ?? "2000.00");
 
-  existingPayload.message.order.items = selectItems.map((item: any) => ({
-    id: item.id,
-    add_ons: item.add_ons ?? [],
-    payment_ids: catalogItem?.payment_ids?.[0]
-      ? [catalogItem.payment_ids[0]]
-      : []
-  }));
+  existingPayload.message.order.items = selectItems.map((item: any) => {
+    const itemHasAddOns = Array.isArray(item.add_ons) && item.add_ons.length > 0;
+    return {
+      id: item.id,
+      ...(itemHasAddOns ? { add_ons: item.add_ons } : {}),
+      payment_ids: catalogItem?.payment_ids?.[0]
+        ? [catalogItem.payment_ids[0]]
+        : [],
+    };
+  });
 
   existingPayload.message.order.quote = {
     price: {
@@ -51,7 +54,10 @@ export async function onSelectDefaultGenerator(
                   );
                   return {
                     id: addon.id,
-                    price: catalogAddon?.price ?? { currency: "INR", value: "0.00" },
+                    price: {
+                      currency: catalogAddon?.price?.currency ?? "INR",
+                      value: catalogAddon?.price?.value ?? "0.00",
+                    },
                   };
                 }),
               }
