@@ -3,14 +3,14 @@ export async function selectDefaultGenerator(
   sessionData: any
 ) {
   // Use on_search_1_items which is populated by on_search_6/save-data.yaml
-  const items = sessionData?.on_search_1_items?.[0] ?? sessionData?.on_search_5_items?.[0] ?? [];
+  const items = sessionData?.on_search_1_items?.flat() ?? sessionData?.on_search_5_items?.flat() ?? [];
   existingPayload.message.order.provider.id =
     sessionData?.on_search_1_provider_id?.[0] ?? sessionData?.search_5_provider_id ?? "P1";
-  
+
   const currentDate = new Date();
   const futureDate = new Date(currentDate);
   futureDate.setDate(currentDate.getDate() + 5);
-  
+
   existingPayload.message.order.provider.time = {
     label: "AVAILABLE",
     range: {
