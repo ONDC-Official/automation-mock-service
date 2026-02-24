@@ -25,9 +25,12 @@ export async function selectDefaultGenerator(
     ? (items.find((i: any) => i.id === userSelectedId) ?? items[0])
     : items[0];
 
-  // Only include add_ons if the incoming SELECT request already has them
-  const incomingAddOns = existingPayload.message.order.items?.[0]?.add_ons;
-  const hasAddOns = Array.isArray(incomingAddOns) && incomingAddOns.length > 0;
+  // Only include add_ons if the incoming SELECT request has them with non-empty ids.
+  // When user skips the optional add-on field, the flow framework writes "" to the id path,
+  // producing add_ons: [{ id: "" }] — filter those out.
+  const incomingAddOns = (existingPayload.message.order.items?.[0]?.add_ons ?? [])
+    .filter((a: any) => a.id && a.id.trim() !== "");
+  const hasAddOns = incomingAddOns.length > 0;
 
   existingPayload.message.order.items = [
     {
