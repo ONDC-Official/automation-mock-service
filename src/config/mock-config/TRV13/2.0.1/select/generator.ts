@@ -25,12 +25,12 @@ export async function selectDefaultGenerator(
     ? (items.find((i: any) => i.id === userSelectedId) ?? items[0])
     : items[0];
 
-  // Only include add_ons if the incoming SELECT request has them with non-empty ids.
-  // When user skips the optional add-on field, the flow framework writes "" to the id path,
-  // producing add_ons: [{ id: "" }] — filter those out.
-  const incomingAddOns = (existingPayload.message.order.items?.[0]?.add_ons ?? [])
-    .filter((a: any) => a.id && a.id.trim() !== "");
-  const hasAddOns = incomingAddOns.length > 0;
+  // Use the actual user input to decide if an add-on was selected.
+  // existingPayload comes from default.yaml (has "full-board" as template value) and
+  // replaceJsonPaths runs AFTER this generator — so we must read from sessionData.user_inputs
+  // to get the real user input before post-processing overwrites it with "".
+  const addOnId = (sessionData as any)?.user_inputs?.add_on_id;
+  const hasAddOns = addOnId && String(addOnId).trim() !== "";
 
   existingPayload.message.order.items = [
     {
@@ -41,7 +41,7 @@ export async function selectDefaultGenerator(
           count: 1,
         },
       },
-      ...(hasAddOns ? { add_ons: incomingAddOns } : {}),
+      ...(hasAddOns ? { add_ons: [{ id: String(addOnId).trim() }] } : {}),
     },
   ];
   return existingPayload;
