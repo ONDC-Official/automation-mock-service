@@ -16,7 +16,7 @@ export async function confirmDefaultGenerator(
               descriptor: {
                 code: "contact.email",
               },
-              value: "newemail@ondc.org",
+              value: sessionData.user_inputs?.email,
             },
           ],
         },

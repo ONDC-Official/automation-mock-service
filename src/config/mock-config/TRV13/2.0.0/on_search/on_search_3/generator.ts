@@ -1,16 +1,31 @@
-import { cloneDeep } from "lodash";
 
 export async function onSearchSellerPagination1Generator(
   existingPayload: any,
   sessionData: any
 ) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
 
   // Use lodash cloneDeep (better than JSON.parse(JSON.stringify))
   // existingPayload.message.catalog = sessionData?.on_search_1_catalog
   //   ? cloneDeep(sessionData.on_search_1_catalog)
   //   : {};
+
+  const currentTimestamp = new Date().toISOString();
+  const endTimestamp = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString();
+
+  existingPayload?.message?.catalog?.providers?.forEach((provider: any) => {
+    if (provider.time) {
+      provider.time.timestamp = currentTimestamp;
+    }
+    provider.items?.forEach((item: any) => {
+      if (item.time) {
+        item.time.timestamp = currentTimestamp;
+        if (item.time.range) {
+          item.time.range.start = currentTimestamp;
+          item.time.range.end = endTimestamp;
+        }
+      }
+    });
+  });
 
   return existingPayload;
 }
