@@ -2,8 +2,6 @@ export async function onStatusDefaultGenerator(
   existingPayload: any,
   sessionData: any
 ) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
 
   const payments =
     sessionData?.on_confirm_payments?.[0]?.map((item: any) => {
@@ -25,7 +23,7 @@ export async function onStatusDefaultGenerator(
     }) ?? [];
 
   existingPayload.message.order.id = sessionData?.on_confirm_orderID ?? "01";
-  existingPayload.message.order.status = "COMPLETE";
+  existingPayload.message.order.status = "COMPLETED";
   existingPayload.message.order.payments = payments;
 
   existingPayload.message.order.provider.id =

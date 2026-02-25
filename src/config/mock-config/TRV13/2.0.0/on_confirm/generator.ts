@@ -4,13 +4,40 @@ export async function onConfirmDefaultGenerator(
   sessionData: any
 ) {
   existingPayload.message.order.id = sessionData?.provider_id ?? "P1";
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
 
   existingPayload.message.order.id = String("ORDER_ID-" + uuidv4().slice(0, 8));
   existingPayload.message.order.status = "ACTIVE";
-  existingPayload.message.order.payments =
-    sessionData?.confirm_payments[0] ?? [];
+
+  // Build the correct 3-payment structure aligned with the contract:
+  // - pymnt-3 (PART-PAYMENT/LINKED): NOT-PAID
+  // - pymnt-4 (PRE-ORDER/ADV-DEPOSIT): PAID — advance deposit collected by BAP
+  // - pymnt-5 (ON-FULFILLMENT/FINAL-PAYMENT): NOT-PAID — to be collected at checkout
+  const onInitPayments: any[] = sessionData?.on_init_payments?.[0] ?? [];
+  const confirmPayments: any[] = sessionData?.confirm_payments?.[0] ?? [];
+  // Extract the transaction_id from the buyer's confirm payment (for pymnt-4)
+  const txnId =
+    confirmPayments.find((p: any) => p.params?.transaction_id)?.params
+      ?.transaction_id ?? "payment-utr-1234";
+
+  existingPayload.message.order.payments = onInitPayments.map((p: any) => {
+    if (p.id === "pymnt-4") {
+      // Advance deposit — now PAID with transaction_id
+      return {
+        ...p,
+        status: "PAID",
+        params: {
+          ...p.params,
+          transaction_id: txnId,
+        },
+      };
+    }
+    if (p.id === "pymnt-5") {
+      // Final payment — still NOT-PAID at confirm stage
+      return { ...p, status: "NOT-PAID" };
+    }
+    // pymnt-3 (PART-PAYMENT linked wrapper) — NOT-PAID
+    return { ...p, status: "NOT-PAID" };
+  });
 
   existingPayload.message.order.provider.id =
     sessionData?.confirm_provider_id ?? "P1";

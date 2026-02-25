@@ -96,4 +96,5 @@ export interface Input {
 	retailCategory?: string;
 	returnToOrigin?: string;
 	default_feature?: string[];
+	data: any
 }
