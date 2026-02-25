@@ -3,19 +3,19 @@ export async function onInitDefaultGenerator(
   sessionData: any
 ) {
   const payments =
-    sessionData?.init_payments[0]?.map((payment: any) => {
+    sessionData?.init_payments?.flat().map((payment: any) => {
       return { ...payment, status: "NOT-PAID" };
     }) ?? [];
   existingPayload.message.order.provider.id =
     sessionData?.init_provider_id ?? "P1";
-  existingPayload.message.order.items = sessionData?.init_items[0] ?? [];
+  existingPayload.message.order.items = sessionData?.init_items?.flat() ?? [];
   existingPayload.message.order.quote = sessionData?.select_quote ?? {};
   existingPayload.message.order.payments = payments ?? [];
   existingPayload.message.order.billing = sessionData?.init_billing ?? {};
   existingPayload.message.order.fulfillments =
-    sessionData?.init_fulfillments[0] ?? [];
+    sessionData?.init_fulfillments?.flat() ?? [];
   existingPayload.message.order.tags = [
-    ...(sessionData?.init_tags[0] ?? []),
+    ...(sessionData?.init_tags?.flat() ?? []),
     {
       descriptor: {
         code: "BPP_TERMS",
@@ -61,11 +61,11 @@ export async function onInitDefaultGenerator(
     },
   ];
   existingPayload.message.order.cancellation_terms =
-    sessionData?.on_select_cancellation_terms[0] ?? [];
+    sessionData?.on_select_cancellation_terms?.flat() ?? [];
   existingPayload.message.order.provider.tags =
-    sessionData?.on_select_provider_tags[0] ?? [];
+    sessionData?.on_select_provider_tags?.flat() ?? [];
   existingPayload.message.order.items[0].tags =
-    sessionData?.on_select_item_tags[0] ?? [];
+    sessionData?.on_select_item_tags?.flat() ?? [];
   return existingPayload;
 }
 

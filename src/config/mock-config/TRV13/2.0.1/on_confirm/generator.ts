@@ -9,8 +9,8 @@ export async function onConfirmDefaultGenerator(
 
   // Build correct 3-payment structure from on_init_payments:
   // pymnt-3 (PART-PAYMENT): NOT-PAID, pymnt-4 (PRE-ORDER/ADV): PAID + transaction_id, pymnt-5 (ON-FULFILLMENT): NOT-PAID
-  const onInitPayments: any[] = sessionData?.on_init_payments?.[0] ?? [];
-  const confirmPayments: any[] = sessionData?.confirm_payments?.[0] ?? [];
+  const onInitPayments: any[] = sessionData?.on_init_payments?.flat() ?? [];
+  const confirmPayments: any[] = sessionData?.confirm_payments?.flat() ?? [];
   const txnId =
     confirmPayments.find((p: any) => p.params?.transaction_id)?.params
       ?.transaction_id ?? "payment-utr-1234";
@@ -28,18 +28,18 @@ export async function onConfirmDefaultGenerator(
 
   existingPayload.message.order.provider.id =
     sessionData?.confirm_provider_id ?? "P1";
-  existingPayload.message.order.items = sessionData?.confirm_items[0] ?? [];
+  existingPayload.message.order.items = sessionData?.confirm_items?.flat() ?? [];
   existingPayload.message.order.quote = sessionData?.confirm_quote ?? {};
   existingPayload.message.order.billing = sessionData?.confirm_billing ?? {};
   existingPayload.message.order.fulfillments =
-    sessionData?.confirm_fulfillments[0] ?? [];
-  existingPayload.message.order.tags = sessionData?.confirm_tags[0] ?? [];
+    sessionData?.confirm_fulfillments?.flat() ?? [];
+  existingPayload.message.order.tags = sessionData?.confirm_tags?.flat() ?? [];
   existingPayload.message.order.cancellation_terms =
-    sessionData?.on_select_cancellation_terms[0] ?? [];
+    sessionData?.on_select_cancellation_terms?.flat() ?? [];
   existingPayload.message.order.provider.tags =
-    sessionData?.on_select_provider_tags[0] ?? [];
+    sessionData?.on_select_provider_tags?.flat() ?? [];
   existingPayload.message.order.items[0].tags =
-    sessionData?.on_select_item_tags[0] ?? [];
+    sessionData?.on_select_item_tags?.flat() ?? [];
   existingPayload.message.order.updated_at =
     sessionData?.context?.timestamp ?? new Date().toISOString();
   return existingPayload;
