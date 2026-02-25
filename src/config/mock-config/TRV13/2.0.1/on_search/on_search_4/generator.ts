@@ -2,9 +2,6 @@ export async function onSearch_4_Generator(
   existingPayload: any,
   sessionData: any
 ) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
-
   existingPayload.message.catalog = sessionData?.on_search_3_catalog ?? {};
   existingPayload.message.catalog.tags = sessionData?.on_search_3_tags[0] ?? [];
   existingPayload.message.catalog.tags.map((tag: any) => {

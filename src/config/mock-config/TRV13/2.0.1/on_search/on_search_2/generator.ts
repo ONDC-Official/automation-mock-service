@@ -2,9 +2,6 @@ export async function onSearch_2_Generator(
   existingPayload: any,
   sessionData: any
 ) {
-  delete existingPayload.context.bpp_uri;
-  delete existingPayload.context.bpp_id;
-
   const now = new Date().toISOString();
   const nowPlusOneHour = new Date(Date.now() + 60 * 60 * 1000).toISOString();
 
