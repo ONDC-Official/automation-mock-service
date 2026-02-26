@@ -3,7 +3,7 @@ name: ONDC Automation Mock Service Deployment
 on:
   workflow_dispatch:
   push:
-    branches: ["draft-trv11"]
+    branches: ["release-TRV11-2.0.0"]
 
 jobs:
   deployment-dev:
