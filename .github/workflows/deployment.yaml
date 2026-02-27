@@ -62,6 +62,7 @@ jobs:
           echo "DOMAIN=${{ vars.DOMAIN }}" >> \$REPO_DIR/.env
           echo "CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL_STAGING }}" >> \$REPO_DIR/.env
           echo "API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_STAGING }}" >> \$REPO_DIR/.env
+          echo "NODE_ENV=production" >> \$REPO_DIR/.env
 
           EOF
 
