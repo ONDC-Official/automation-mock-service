@@ -604,11 +604,11 @@ export const confirmGenerator = (
             "short_desc": "value of PCC",
             "long_desc": "additional instructions for pickup",
           }
-          updatedEndInstructions =   {
-              "code": "3",
-              "short_desc": "value of DCC",
-              "long_desc": "additional instructions for delivery",
-             }
+          updatedEndInstructions = {
+            "code": "3",
+            "short_desc": "value of DCC",
+            "long_desc": "additional instructions for delivery",
+          }
 
 
         }
@@ -982,5 +982,29 @@ export const confirmGenerator = (
   if (action_id === "confirm_B2B_LOGISTICS") {
     delete existingPayload.message.order.payment
   }
+
+  console.log("order.tags", JSON.stringify(sessionData.on_init_tags))
+  const existingTags =
+    existingPayload.message.order.tags || [];
+
+  const sessionTags =
+    sessionData?.on_init_tags || [];
+
+  const merged = [...existingTags];
+
+  sessionTags.forEach((newTag) => {
+    const index = merged.findIndex(
+      (tag) => tag.code === newTag.code
+    );
+
+    if (index !== -1) {
+      // Replace existing tag with session one
+      merged[index] = newTag;
+    } else {
+      merged.push(newTag);
+    }
+  });
+
+  existingPayload.message.order.tags = merged;
   return existingPayload;
 };
