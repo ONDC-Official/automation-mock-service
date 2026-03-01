@@ -267,6 +267,12 @@ export const onConfirmGenerator = (
     existingPayload.message.order.payments = sessionData.b2b_payments?.flat() ?? [];
     delete existingPayload.message.order.payment
   }
+  if (sessionData.confirm_tags) {
+    let orderTags = sessionData.confirm_tags || [];
+
+    orderTags = orderTags.flat(Infinity);
+    existingPayload.message.order.tags = orderTags
+  }
 
   return existingPayload;
 };
