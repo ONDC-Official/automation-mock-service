@@ -146,4 +146,16 @@ export const deepUpdate = (original: any, updates: any): any => {
   }
   return original;
 };
+export const generateAWB = () => {
+  const base = Date.now().toString(); // 13 digits
+  const random = Math.floor(Math.random() * 1000)
+    .toString()
+    .padStart(3, "0");
+  return base + random;
+}
+
+export const generateShippingLabelUrl = (bpp_id: string,orderId?: string) => {
+  const timestamp = Date.now();
+  return `https://${bpp_id}/ondc/shipping-labels/${orderId}_${timestamp}.pdf`;
+}
 

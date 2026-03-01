@@ -83,6 +83,7 @@ export interface SessionData {
   insurance_owner:string
   on_search_categories?:any[]
   b2b_payments:any[]
+  on_init_tags:any[]
 };
 
 export type BecknContext = {

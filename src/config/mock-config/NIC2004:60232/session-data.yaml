@@ -67,4 +67,5 @@ session_data:
   confirm_tags: any
   on_issue_actions: null
   issue_actions: null
+  on_init_tags: []
 
