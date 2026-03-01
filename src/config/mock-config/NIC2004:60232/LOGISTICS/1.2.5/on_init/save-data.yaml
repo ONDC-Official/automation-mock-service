@@ -5,3 +5,4 @@ save-data:
   payment: "$.message.order.payment"
   on_init_items: "$.message.order.items[*]"
   cancellation_terms: "$.message.order.cancellation_terms[*]"
+  on_init_tags: "$.message.order.tags[*]"
