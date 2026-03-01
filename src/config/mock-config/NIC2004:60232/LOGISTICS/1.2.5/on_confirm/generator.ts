@@ -1,4 +1,4 @@
-import { populateFulfillmentConfim } from "../common_generator";
+import { generateAWB, generateShippingLabelUrl, populateFulfillmentConfim } from "../common_generator";
 import { SessionData } from "../../../session-types";
 import { calculateQuotePrice } from "../../../../../../utils/generic-utils";
 
@@ -45,7 +45,22 @@ export const onConfirmGenerator = (
             value: "no",
           },
         ],
-      });
+      },
+        {
+          "code": "shipping_label",
+          "list":
+            [
+              {
+                "code": "type",
+                "value": "pdf"
+              },
+              {
+                "code": "url",
+                "value": generateShippingLabelUrl(existingPayload.context.bpp_id,sessionData?.order_id)
+              }
+            ]
+        }
+      );
 
       return fulfillmet;
     });
@@ -272,6 +287,13 @@ export const onConfirmGenerator = (
 
     orderTags = orderTags.flat(Infinity);
     existingPayload.message.order.tags = orderTags
+  }
+  if (sessionData.domain === "ONDC:LOG11") {
+    existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
+      if (fulfillment.type === "Delivery" || fulfillment.type === "FIFO") {
+        fulfillment["@ondc/org/awb_no"] = generateAWB();
+      }
+    })
   }
 
   return existingPayload;
