@@ -29,7 +29,7 @@ export interface SessionData {
 	error_message: string | undefined;
 	ref_id: string | undefined;
 	ttl: string | undefined;
-	usecaseId : string | undefined;
+	usecaseId: string | undefined;
 	stops: any[] | undefined;
 	update_stop: any[] | undefined;
 	update_quote: any[] | undefined;
@@ -57,6 +57,7 @@ export interface SessionData {
 	bap_terms_tags: any[] | undefined;
 	updated_at: string | undefined;
 	order_status: string | undefined;
+	update_email: string | undefined;
 	search_1_intent_category: any;
 	search_1_tags: any[];
 	search_6_intent_category: any;
