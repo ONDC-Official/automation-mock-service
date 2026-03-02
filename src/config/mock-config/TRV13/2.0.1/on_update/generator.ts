@@ -51,6 +51,5 @@ export async function confirmDefaultGenerator(
     sessionData?.on_select_item_tags?.flat() ?? [];
   existingPayload.message.order.updated_at =
     sessionData?.context?.timestamp ?? new Date().toISOString();
-  existingPayload.message.order.fulfillments = existingPayload.message.order.fulfillments.fo
   return existingPayload;
 }
