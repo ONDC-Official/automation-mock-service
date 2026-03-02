@@ -44,3 +44,4 @@ session_data:
   cancellation_reason_id: null
   cancellation_quote: []
   selected_fulfillment_id: null
+  update_email: null
