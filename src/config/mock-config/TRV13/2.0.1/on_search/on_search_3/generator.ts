@@ -3,7 +3,7 @@ export async function onSearch_3_Generator(
   sessionData: any
 ) {
   existingPayload.message.catalog = sessionData?.on_search_2_catalog ?? {};
-  existingPayload.message.catalog.tags = sessionData?.on_search_2_tags[0] ?? [];
+  existingPayload.message.catalog.tags = sessionData?.on_search_2_tags.flat() ?? [];
 
   existingPayload.message.catalog.tags.map((tag: any) => {
     tag.list.map((listItem: any) => {

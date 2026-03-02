@@ -11,4 +11,4 @@ save-data:
   # on_search_1_items: "$.message.catalog.providers[*].items"
   bpp_uri: "$.context.bpp_uri"
   on_search_1_catalog: "$.message.catalog"
-  on_search_1_tags: "$.message.catalog.tags"
+  on_search_1_tags: "$.message.catalog.tags[*]"
