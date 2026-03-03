@@ -501,18 +501,16 @@ export async function onSearch_2_Generator(
     },
   ];
 
-  // if (sessionData?.on_search_1_tags) {
-  //   console.log("on_search_1_tags", sessionData.on_search_1_tags);
-  //   existingPayload.message.catalog.tags = sessionData.on_search_1_tags.flat() ?? [];
-  //   if (existingPayload.message.catalog.tags[0]?.list) {
-  //     existingPayload.message.catalog.tags[0].list.push({
-  //       descriptor: {
-  //         code: "CURRENT_PAGE_NUMBER",
-  //       },
-  //       value: "1",
-  //     });
-  //   }
-  // }
+  if (existingPayload.message.catalog.tags[0]?.list) {
+    console.log("on_search_2_tags_list", existingPayload.message.catalog.tags[0]);
+    existingPayload.message.catalog.tags[0]?.list.push({
+      descriptor: {
+        code: "CURRENT_PAGE_NUMBER",
+      },
+      value: "1",
+    });
+  }
+
 
   // Use lodash cloneDeep (better than JSON.parse(JSON.stringify))
   // existingPayload.message.catalog = sessionData?.on_search_1_catalog
