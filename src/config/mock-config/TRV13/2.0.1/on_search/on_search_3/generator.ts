@@ -3,15 +3,9 @@ export async function onSearch_3_Generator(
   sessionData: any
 ) {
   existingPayload.message.catalog = sessionData?.on_search_2_catalog ?? {};
-  existingPayload.message.catalog.tags = sessionData?.on_search_2_tags.flat() ?? [];
+  // existingPayload.message.catalog.tags = sessionData?.on_search_2_tags.flat() ?? [];
 
-  existingPayload.message.catalog.tags.map((tag: any) => {
-    tag.list.map((listItem: any) => {
-      if (listItem.descriptor.code === "CURRENT_PAGE_NUMBER") {
-        listItem.value = String(Number(listItem.value) + 1);
-      }
-    });
-  });
+
 
   // const items = sessionData?.on_search_1_items[0] ?? [];
   // sessionData.my_items=items;

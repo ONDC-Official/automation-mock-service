@@ -17,7 +17,7 @@ export class MockOnSearch_2 extends MockAction {
   }
   get defaultData(): any {
     return yaml.load(
-      readFileSync(path.resolve(__dirname, "./on_search_available_accomodation.yaml"), "utf8")
+      readFileSync(path.resolve(__dirname, "./default.yaml"), "utf8")
     );
   }
   get inputs(): any {
