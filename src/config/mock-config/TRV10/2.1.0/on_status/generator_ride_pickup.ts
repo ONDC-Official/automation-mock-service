@@ -97,16 +97,7 @@ function updateFulfillmentStatus(order: any) {
   if (order.fulfillments) {
     order.fulfillments.forEach((fulfillment: any) => {
       fulfillment.state.descriptor.code = "RIDE_ENROUTE_PICKUP";
-      fulfillment.vehicle.registration = "KA01AB1234";
-      fulfillment.vehicle.make = "TATA";
-      fulfillment.vehicle.model = "Compact RE";
       fulfillment.agent = agent;
-      fulfillment.stops[0].authorization = {
-        type: "OTP",
-        token: generateOTP(),
-        valid_to: new Date(Date.now() + 30 * 60000).toISOString(), // 30 minutes validity
-        status: "UNCLAIMED",
-      };
     });
   }
   return order;
@@ -120,17 +111,10 @@ export async function onStatusRideEnrouteGenerator(
     existingPayload,
     sessionData
   );
-  console.log(existingPayload.message.order);
   existingPayload.message.order = updateFulfillmentStatus(
     existingPayload.message.order
   );
-  if (existingPayload.message.order.fulfillments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.fulfillments[0]["_EXTERNAL"];
-  }
   existingPayload.message.order.payments = sessionData.payments;
-  if (existingPayload.message.order.payments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.payments[0]["_EXTERNAL"];
-  }
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
   if (existingPayload.message.order.tags) {
     existingPayload.message.order.tags = updateSettlementAmount(

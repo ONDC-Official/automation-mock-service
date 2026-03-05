@@ -58,7 +58,6 @@ export async function onCancelSoftGenerator(
     existingPayload.message.order.quote = sessionData.quote;
   }
   let quote = existingPayload.message.order.quote;
-  console.log("existingPayload--", JSON.stringify(existingPayload));
   const refund_price = existingPayload.message.order.quote?.price?.value;
   quote.breakup.push(
     {

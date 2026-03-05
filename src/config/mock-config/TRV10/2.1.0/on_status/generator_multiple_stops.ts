@@ -93,7 +93,7 @@ export async function onStatusMultipleStopsGenerator(
   if (sessionData?.cancellation_fulfillments.length > 0) {
     existingPayload.message.order.fulfillments =
       sessionData?.cancellation_fulfillments;
-  } else if (sessionData.fulfillments.length > 0) {
+  } else if (sessionData.selected_fulfillments.length > 0) {
     existingPayload.message.order.fulfillments =
       sessionData.selected_fulfillments;
   }

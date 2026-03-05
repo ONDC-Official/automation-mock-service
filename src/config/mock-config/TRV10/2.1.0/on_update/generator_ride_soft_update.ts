@@ -185,19 +185,9 @@ export async function onUpdateRideSoftUpdateGenerator(
         existingPayload.message.order.fulfillments[0].tags
       );
 
-    console.log(
-      "sessionData?.update_stop",
-      JSON.stringify(sessionData?.update_stop)
-    );
     if (sessionData?.update_stop) {
-      console.log('item.stops', JSON.stringify(existingPayload.message.order.fulfillments[0].stops))
       existingPayload.message.order.fulfillments[0].stops?.map((stop: any) => {
-        console.log("stop.type", JSON.stringify(stop.type));
         if (stop.type === "END") {
-          console.log(
-            "sessionData.update_stop[0].location.gps;",
-            JSON.stringify(sessionData.update_stop[0].location.gps)
-          );
           stop.location.gps = sessionData.update_stop[0].location.gps;
         }
       });
