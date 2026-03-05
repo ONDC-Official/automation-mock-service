@@ -155,6 +155,11 @@ codes:
     action: on_status
     default: TRV13/2.0.1/on_status/default.yaml
     message_id: false
+  - code: 130
+    action_id: on_status_city_code
+    action: on_status
+    default: TRV13/2.0.1/on_status/default.yaml
+    message_id: false
   - code: 131
     action_id: update_5
     action: update
