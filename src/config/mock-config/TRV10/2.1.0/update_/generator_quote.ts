@@ -37,6 +37,5 @@ export async function updateQuoteGenerator(existingPayload: any,sessionData: Ses
     delete existingPayload.message.order.fulfillments
     delete existingPayload.message.order.status
     existingPayload = updateQuoteWithAdditionalAmount(sessionData, existingPayload)
-    console.log(existingPayload)
     return existingPayload;
 }

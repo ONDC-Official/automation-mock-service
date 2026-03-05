@@ -32,7 +32,7 @@ async function sendResponse(body: any) {
 			body.context.action,
 			body
 		);
-		console.log(mockResponseMetaData.action, mockResponseMetaData.actionID);
+		logger.info("Mock response metadata:", mockResponseMetaData.action, mockResponseMetaData.actionID);
 		const mockReponse = await generateMockResponse(
 			body.context.version,
 			mockResponseMetaData.sessionData,

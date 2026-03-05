@@ -26,6 +26,16 @@ type Quote = {
   breakup: Breakup[];
   ttl?: string;
 };
+const vehicleModelMap = {
+  CAB: "Magic Iris",
+  AUTO_RICKSHAW: "Compact RE",
+} as const;
+
+type VehicleCategory = "CAB" | "AUTO_RICKSHAW";
+const vehicleMakeMap: Record<VehicleCategory, string> = {
+  CAB: "TATA",
+  AUTO_RICKSHAW: "BAJAJ",
+};
 
 function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -46,7 +56,7 @@ function updateFulfillmentRouteTags(tags: any[]) {
               const [lat, lng] = wp.gps.split(",").map(Number);
               return {
                 gps: `${(lat + 0.00001).toFixed(6)},${(lng + 0.00001).toFixed(
-                  6
+                  6,
                 )}`,
               };
             });
@@ -93,10 +103,10 @@ function updateSettlementAmount(terms: any[], quote: any) {
 
     const buyerFeeItem =
       termBlock.list.find(
-        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE",
       ) || 1;
     const settlementItem = termBlock.list.find(
-      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
+      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT",
     );
 
     if (buyerFeeItem && settlementItem) {
@@ -162,9 +172,10 @@ function applyCancellationCharges(quote: Quote, state: string): Quote {
 
 export async function onUpdateGenerator(
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
 ) {
   // Update payments if present
+  console.log("IN here");
   if (sessionData.updated_payments?.length > 0) {
     existingPayload.message.order.payments = sessionData.updated_payments;
   }
@@ -179,6 +190,11 @@ export async function onUpdateGenerator(
     existingPayload.message.order.fulfillments.forEach(
       (fulfillment: any, index: number) => {
         const selectedFulfillment = sessionData.selected_fulfillments[index];
+        console.log(
+          "Selected fulfillment for index",
+          index,
+          selectedFulfillment,
+        );
         // Set default type to "DELIVERY" if not present
         if (!fulfillment.type) {
           fulfillment.type = "DELIVERY";
@@ -196,15 +212,23 @@ export async function onUpdateGenerator(
         } else if (!fulfillment.vehicle.registration) {
           fulfillment.vehicle.registration = "DL01AB1234";
         }
-
-        if (
-          selectedFulfillment.vehicle.make &&
-          selectedFulfillment.vehicle.model
-        ) {
-          fulfillment.vehicle.make = selectedFulfillment.vehicle.make;
-          fulfillment.vehicle.model = selectedFulfillment.vehicle.model;
-        }
-
+        fulfillment.vehicle = {
+          category: selectedFulfillment.vehicle.category || "AUTO_RICKSHAW",
+          variant: selectedFulfillment.vehicle.variant || "AUTO_RICKSHAW",
+          make:
+            selectedFulfillment?.vehicle?.make ||
+            vehicleMakeMap[
+              selectedFulfillment?.vehicle?.category as VehicleCategory
+            ],
+          model:
+            selectedFulfillment?.vehicle?.model ||
+            vehicleModelMap[
+              selectedFulfillment?.vehicle
+                ?.category as keyof typeof vehicleModelMap
+            ],
+          registration:
+            selectedFulfillment?.vehicle?.registration || "DL01AB1234",
+        };
         // Valid ride states
         const validRideStates = [
           "RIDE_CANCELLED",
@@ -277,13 +301,13 @@ export async function onUpdateGenerator(
             fulfillment.agent.contact.phone = "9876543210";
           }
         }
-      }
+      },
     );
 
     if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
       existingPayload.message.order.fulfillments[0].tags =
         updateFulfillmentRouteTags(
-          existingPayload.message.order.fulfillments[0].tags
+          existingPayload.message.order.fulfillments[0].tags,
         );
     }
   }
@@ -293,20 +317,9 @@ export async function onUpdateGenerator(
     existingPayload.message.order.status = sessionData.order_status;
   }
 
-  // Handle cancellation and quote updates
-  if ("cancellation" in sessionData) {
-    const fulfillmentState =
-      existingPayload.message.order.fulfillments[0]?.state?.descriptor?.code;
-    if (fulfillmentState && existingPayload.message.order.quote) {
-      existingPayload.message.order.quote = applyCancellationCharges(
-        existingPayload.message.order.quote,
-        fulfillmentState
-      );
-    }
-  } else if (sessionData.quote != null) {
+  if (sessionData.quote != null) {
     existingPayload.message.order.quote = sessionData.quote;
   }
-
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.id = sessionData.order_id;
   existingPayload.message.order.payments[0].id = sessionData.payments[0].id;
@@ -315,7 +328,7 @@ export async function onUpdateGenerator(
   if (existingPayload.message.order.tags) {
     existingPayload.message.order.tags = updateSettlementAmount(
       existingPayload.message.order.tags,
-      sessionData.quote
+      sessionData.quote,
     );
   }
 

@@ -44,11 +44,6 @@ export async function onCancelSoftGenerator(
   if (sessionData.fulfillments.length > 0) {
     existingPayload.message.order.fulfillments =
       sessionData.selected_fulfillments;
-
-    // delete existingPayload.message.order.fulfillments[0].stops[0].authorization
-    //   .valid_to;
-    // delete existingPayload.message.order.fulfillments[0].stops[0].authorization
-    //   .status;
   }
 
   if (sessionData.order_id) {
@@ -64,7 +59,7 @@ export async function onCancelSoftGenerator(
       title: "CANCELLATION_CHARGES",
       price: {
         currency: "INR",
-        value: "10",
+        value: "0",
       },
     },
     {
@@ -75,7 +70,7 @@ export async function onCancelSoftGenerator(
       },
     }
   );
-  existingPayload.message.order.quote.price = { currency: "INR", value: "10" };
+  existingPayload.message.order.quote.price = { currency: "INR", value: "0" };
   const now = new Date().toISOString();
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = existingPayload.context.timestamp;

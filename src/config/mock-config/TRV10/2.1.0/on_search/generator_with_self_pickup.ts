@@ -58,7 +58,6 @@ export async function onSearchWithSelfPickupGenerator(
   for (let payment of existingPayload.message.catalog.providers[0].payments) {
     payment.collected_by = sessionData.collected_by;
   }
-  // console.log("The start and end codes are",sessionData.start_location,sessionData.end_code)
   if (existingPayload.message.catalog.providers[0].locations) {
     const locations = generateNearbyLocations(
       sessionData.start_location,

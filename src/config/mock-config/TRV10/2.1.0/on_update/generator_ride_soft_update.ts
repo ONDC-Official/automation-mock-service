@@ -9,7 +9,6 @@ function updateStops(onUpdatePayload: any, updateStop: any) {
       const stopToUpdate = fulfillment.stops.find(
         (stop: any) => stop.type === updateStop.type
       );
-      console.log(updateStop);
       if (stopToUpdate) {
         // Update stop properties
         // stopToUpdate.location = updateStop.location;
@@ -157,7 +156,6 @@ export async function onUpdateRideSoftUpdateGenerator(
   }
 
   existingPayload.message.order.status = "SOFT_UPDATE";
-  console.log("the updated stop is ", sessionData.update_stop);
   existingPayload = updateStops(existingPayload, sessionData.update_stop[0]);
   for (const fulfillment of existingPayload.message.order.fulfillments) {
     for (const stop of fulfillment.stops) {
