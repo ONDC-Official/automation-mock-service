@@ -1,6 +1,7 @@
 export async function onStatusDefaultGenerator(
   existingPayload: any,
-  sessionData: any
+  sessionData: any,
+  isCityCode?: boolean
 ) {
 
   const payments =
@@ -23,7 +24,7 @@ export async function onStatusDefaultGenerator(
     }) ?? [];
 
   existingPayload.message.order.id = sessionData?.on_confirm_orderID ?? "01";
-  existingPayload.message.order.status = "ACTIVE";
+  existingPayload.message.order.status = isCityCode ? "COMPLETED" : "ACTIVE";
   existingPayload.message.order.payments = payments;
 
   existingPayload.message.order.provider.id =

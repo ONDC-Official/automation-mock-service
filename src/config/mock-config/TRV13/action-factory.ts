@@ -5,7 +5,7 @@ import { MockOnInitClass } from "./2.0.1/on_init/class";
 import { MockConfirmClass } from "./2.0.1/confirm/class";
 import { MockOnConfirmDefaultClass } from "./2.0.1/on_confirm/class";
 import { MockStatusDefaultClass } from "./2.0.1/status/class";
-import { MockOnStatusDefaultClass } from "./2.0.1/on_status/class";
+import { MockOnStatusDefaultCityCodeClass, MockOnStatusDefaultClass } from "./2.0.1/on_status/class";
 import { MockCancelClass } from "./2.0.1/cancel/class";
 import { MockOnCancelDefaultClass } from "./2.0.1/on_cancel/class";
 import { MockUpdateClass } from "./2.0.1/update/class";
@@ -93,6 +93,8 @@ export function getMockAction(actionId: string) {
       return new MockStatusDefaultClass();
     case "on_status_5":
       return new MockOnStatusDefaultClass();
+    case "on_status_city_code":
+      return new MockOnStatusDefaultCityCodeClass();  
     case "update_5":
       return new MockUpdateClass();
     case "on_update_5":
