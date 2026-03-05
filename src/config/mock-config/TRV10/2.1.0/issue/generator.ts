@@ -5,7 +5,6 @@ export const issueStatusGenerator = async (
   sessionData: SessionData,
   inputs?: Input
 ) => {
-  // console.log("existingPayload", JSON.stringify(existingPayload));
   const newDate = existingPayload.context.timestamp;
   existingPayload.message.issue.id =
     sessionData?.latest_issue_payload?.id || "ISSUE-1";

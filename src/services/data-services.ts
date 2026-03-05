@@ -96,11 +96,9 @@ export async function loadMockSessionData(
 		sessionData.bap_uri = "https://dev-automation.ondc.org/buyer";
 		sessionData.bpp_uri = "https://dev-automation.ondc.org/seller";
 		sessionData.subscriber_url = subscriber_url;
-		logger.info(`new session data is ${JSON.stringify(sessionData)}`);
 		return sessionData;
 	} else {
 		const rawData = await RedisService.getKey(transactionID);
-		logger.info(`loading session data for ${transactionID}`);
 		const sessionData = JSON.parse(rawData ?? "{}") as MockSessionData;
 		return sessionData;
 	}

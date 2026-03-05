@@ -112,19 +112,12 @@ export async function onConfirmGeneratorTechnical(
   sessionData: SessionData
 ) {
   const order_id = Math.random().toString(36).substring(2, 15);
-  existingPayload.message.order.id = '01';
+  existingPayload.message.order.id = order_id;
 
   // Update order status to ACTIVE
   existingPayload.message.order.status = "ACTIVE";
 
-  if (existingPayload.message.order.fulfillments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.fulfillments[0]["_EXTERNAL"];
-  }
   existingPayload.message.order.payments = sessionData.payments;
-  if (existingPayload.message.order.payments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.payments[0]["_EXTERNAL"];
-  }
-
   // Update fulfillments with driver information
   if (sessionData.fulfillments?.length > 0) {
     sessionData.fulfillments.forEach((fulfillment) => {
@@ -176,23 +169,11 @@ export async function onConfirmGeneratorTechnical(
       reason_required: true,
     },
   ];
-  if (existingPayload.message.order.fulfillments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.fulfillments[0]["_EXTERNAL"];
-  }
   existingPayload.message.order.payments = sessionData.payments;
-  if (existingPayload.message.order.payments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.payments[0]["_EXTERNAL"];
-  }
   // Update timestamps
   existingPayload = updateOrderTimestamps(existingPayload);
   existingPayload.message.order.fulfillments["type"] = "DELIVERY";
-  if (existingPayload.message.order.fulfillments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.fulfillments[0]["_EXTERNAL"];
-  }
   existingPayload.message.order.payments = sessionData.payments;
-  if (existingPayload.message.order.payments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.payments[0]["_EXTERNAL"];
-  }
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
   if (existingPayload.message.order.tags) {
