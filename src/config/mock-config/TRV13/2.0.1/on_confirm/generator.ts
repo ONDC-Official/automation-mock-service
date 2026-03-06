@@ -15,6 +15,27 @@ export async function onConfirmDefaultGenerator(
     confirmPayments.find((p: any) => p.params?.transaction_id)?.params
       ?.transaction_id ?? "payment-utr-1234";
 
+  // Derive quote total from the BAP's confirm quote for amount reconciliation
+  const quoteTotal = parseFloat(
+    sessionData?.confirm_quote?.price?.value ?? "0"
+  );
+
+  // Find ON-FULFILLMENT payment to calculate its portion
+  const onFulfillmentPayment = onInitPayments.find(
+    (p: any) => p.type === "ON-FULFILLMENT"
+  );
+  const onFulfillmentAmount = parseFloat(
+    onFulfillmentPayment?.params?.amount ?? "0"
+  );
+
+  // PRE-ORDER amount = quote total - ON-FULFILLMENT amount
+  // Guarantees: PRE-ORDER + ON-FULFILLMENT = quote total
+  // Falls back to on_init amount if quote total is unavailable (0)
+  const preOrderAmount =
+    quoteTotal > 0
+      ? (quoteTotal - onFulfillmentAmount).toFixed(2)
+      : (onFulfillmentPayment?.params?.amount ?? "2000.00");
+
   existingPayload.message.order.payments = onInitPayments.map((p: any) => {
     if (p.type === "PRE-ORDER") {
       return {
@@ -22,10 +43,7 @@ export async function onConfirmDefaultGenerator(
         status: "PAID",
         params: {
           ...p.params,
-          amount:
-            p.params?.amount && parseFloat(p.params.amount) > 0
-              ? p.params.amount
-              : "2000.00", // fallback to on_init default amount
+          amount: preOrderAmount,
           transaction_id: txnId,
         },
       };
