@@ -31,6 +31,15 @@ export async function confirmDefaultGenerator(
   existingPayload.message.order.billing = sessionData?.confirm_billing ?? {};
   existingPayload.message.order.fulfillments =
     sessionData?.confirm_fulfillments?.flat() ?? [];
+
+  if (sessionData?.update_email) {
+    existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
+      if (fulfillment?.customer?.contact) {
+        fulfillment.customer.contact.email = sessionData.update_email;
+      }
+    });
+  }
+
   existingPayload.message.order.documents =
     sessionData?.on_status_order_documents?.flat() ?? [];
   existingPayload.message.order.tags = sessionData?.confirm_tags?.flat() ?? [];

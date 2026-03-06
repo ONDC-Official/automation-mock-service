@@ -511,6 +511,7 @@ export async function onSearch_2_Generator(
     });
   }
 
+
   // Use lodash cloneDeep (better than JSON.parse(JSON.stringify))
   // existingPayload.message.catalog = sessionData?.on_search_1_catalog
   //   ? cloneDeep(sessionData.on_search_1_catalog)
