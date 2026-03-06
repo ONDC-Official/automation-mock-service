@@ -29,8 +29,8 @@ export async function initDefaultGenerator(
           ...(payment?.type === "PRE-ORDER"
             ? { collected_by: "BAP" }
             : payment?.type === "ON-FULFILLMENT"
-            ? { collected_by: "BPP" }
-            : {}),
+              ? { collected_by: "BPP" }
+              : {}),
         };
       }
     }) ?? [];

@@ -48,19 +48,19 @@ export async function onSelectDefaultGenerator(
           // Only include add_ons when the user actually selected them
           ...(selectItems[0]?.add_ons?.length
             ? {
-                add_ons: selectItems[0].add_ons.map((addon: any) => {
-                  const catalogAddon = catalogItem?.add_ons?.find(
-                    (a: any) => a.id === addon.id
-                  );
-                  return {
-                    id: addon.id,
-                    price: {
-                      currency: catalogAddon?.price?.currency ?? "INR",
-                      value: catalogAddon?.price?.value ?? "0.00",
-                    },
-                  };
-                }),
-              }
+              add_ons: selectItems[0].add_ons.map((addon: any) => {
+                const catalogAddon = catalogItem?.add_ons?.find(
+                  (a: any) => a.id === addon.id
+                );
+                return {
+                  id: addon.id,
+                  price: {
+                    currency: catalogAddon?.price?.currency ?? "INR",
+                    value: catalogAddon?.price?.value ?? "0.00",
+                  },
+                };
+              }),
+            }
             : {}),
         },
         title: selectItems[0]?.add_ons?.length
@@ -129,7 +129,6 @@ export async function onSelectDefaultGenerator(
   const advanceDepositRatio = 2000 / 3025;
   const advanceAmount = Math.round(totalPrice * advanceDepositRatio * 100) / 100;
   const remainingAmount = Math.round((totalPrice - advanceAmount) * 100) / 100;
-
   existingPayload.message.order.payments = [
     {
       id: "pymnt-1",
