@@ -16,11 +16,18 @@ export async function onConfirmDefaultGenerator(
       ?.transaction_id ?? "payment-utr-1234";
 
   existingPayload.message.order.payments = onInitPayments.map((p: any) => {
-    if (p.id === "pymnt-4") {
+    if (p.type === "PRE-ORDER") {
       return {
         ...p,
         status: "PAID",
-        params: { ...p.params, transaction_id: txnId },
+        params: {
+          ...p.params,
+          amount:
+            p.params?.amount && parseFloat(p.params.amount) > 0
+              ? p.params.amount
+              : "2000.00", // fallback to on_init default amount
+          transaction_id: txnId,
+        },
       };
     }
     return { ...p, status: "NOT-PAID" };
