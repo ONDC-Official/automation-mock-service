@@ -106,10 +106,10 @@ export async function onSelectDefaultGenerator(
     {
       id: "pymnt-1",
       type: "PRE-ORDER",
-      params: {
-        currency: "INR",
-        amount: totalPrice.toFixed(2),
-      },
+      // params: {
+      //   currency: "INR",
+      //   amount: totalPrice.toFixed(2),
+      // },
       tags: [
         {
           descriptor: {
@@ -121,10 +121,10 @@ export async function onSelectDefaultGenerator(
     {
       id: "pymnt-2",
       type: "ON-FULFILLMENT",
-      params: {
-        currency: "INR",
-        amount: totalPrice.toFixed(2),
-      },
+      // params: {
+      //   currency: "INR",
+      //   amount: totalPrice.toFixed(2),
+      // },
       tags: [
         {
           descriptor: {
@@ -136,10 +136,10 @@ export async function onSelectDefaultGenerator(
     {
       id: "pymnt-3",
       type: "PART-PAYMENT",
-      params: {
-        currency: "INR",
-        amount: totalPrice.toFixed(2),
-      },
+      // params: {
+      //   currency: "INR",
+      //   amount: totalPrice.toFixed(2),
+      // },
       tags: [
         {
           descriptor: {
