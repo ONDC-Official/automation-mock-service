@@ -67,7 +67,7 @@ export function getMockAction(actionId: string) {
     case "search_5":
       return new search_5_Hotel();
     case "on_search_5":
-      return new MockOnSearch_5();
+      return new MockOnSearch_5(); 
     case "search_6":
       return new search_6_Hotel();
     case "on_search_6":
@@ -104,7 +104,7 @@ export function getMockAction(actionId: string) {
     case "on_cancel_5":
       return new MockOnCancelDefaultClass();
     case "on_cancel_unsolicited":
-      return new MockOnCancelDefaultClass();
+      return new MockOnCancelDefaultClass();       
     default:
       throw new Error(`Action with ID ${actionId} not found`);
   }

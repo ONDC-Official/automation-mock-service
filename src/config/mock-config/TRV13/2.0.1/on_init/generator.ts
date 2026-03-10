@@ -1,9 +1,21 @@
 export async function onInitDefaultGenerator(
   existingPayload: any,
-  sessionData: any
+  sessionData: any,
 ) {
   const payments =
     sessionData?.init_payments?.flat().map((payment: any) => {
+      if (payment?.type === "PRE-ORDER") {
+        return {
+          ...payment,
+          status: "NOT-PAID",
+          params: {
+            ...(payment?.params ?? {}),
+            bank_code: "Bank Code of Seller App",
+            bank_account_number: "Bank Account Number of Seller App",
+            virtual_payment_address: "VPA of Seller App",
+          },
+        };
+      }
       return { ...payment, status: "NOT-PAID" };
     }) ?? [];
   existingPayload.message.order.provider.id =
