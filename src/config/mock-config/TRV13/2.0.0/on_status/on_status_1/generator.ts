@@ -13,6 +13,12 @@ export async function onStatusDefaultGenerator(
             timestamp:
               sessionData?.context?.timestamp ?? new Date().toISOString(),
           },
+          params: {
+            ...item.params,
+            transaction_id: Math.floor(
+              Math.random() * 900000000 + 100000000,
+            ).toString(),
+          }
         };
       } else {
         return {
