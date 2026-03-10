@@ -268,7 +268,7 @@ export async function onUpdatePurpleTagsGenerator(
   if ("cancellation" in sessionData) {
     const fulfillmentState =
       existingPayload.message.order.fulfillments[0]?.state?.descriptor?.code;
-    if (fulfillmentState && existingPayload.message.order.quote) {
+    if (fulfillmentState && existingPayload.message.order.quote){
       existingPayload.message.order.quote = applyCancellationCharges(
         existingPayload.message.order.quote,
         fulfillmentState

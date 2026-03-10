@@ -136,7 +136,7 @@ export async function onCancelHardGenerator(
     if (sessionData.quote != null) {
       existingPayload.message.order.quote = applyCancellation(
         sessionData.quote,
-        10
+        0
       );
     }
   } else {
