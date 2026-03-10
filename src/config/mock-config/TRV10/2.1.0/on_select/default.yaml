@@ -21,14 +21,12 @@ message:
               - descriptor:
                   code: ENCODED_POLYLINE
                   name: Path
-                value: _p~iF~ps|U_ulLnnqC_mqNvxq`@
+                value: qZ|nL~Hr`E_tuAxfKpmC~oBvUd@s
               - descriptor:
                   code: WAYPOINTS
                   name: Waypoints
                 value: >-
-                  [{"gps":"12.909982,
-                  77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,
-                  77.611822"}]
+                  [{ "gps": "12.910083,77.611742" },{ "gps": "12.909754,77.611815" },{ "gps": "12.910156,77.611901" },{ "gps": "12.909897,77.611640" }]
         type: DELIVERY
         vehicle:
           category: AUTO_RICKSHAW

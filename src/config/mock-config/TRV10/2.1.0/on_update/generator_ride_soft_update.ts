@@ -2,49 +2,217 @@ import { SessionData } from "../../session-types";
 import { onUpdateMultipleStopsGenerator } from "./generator_multiple_stops";
 
 function updateStops(onUpdatePayload: any, updateStop: any) {
-
   // Loop through fulfillments
   onUpdatePayload.message.order.fulfillments.forEach((fulfillment: any) => {
-      if (fulfillment?.stops && Array.isArray(fulfillment.stops)) {
-          // Find the stop that matches the type in update_stop
-          const stopToUpdate = fulfillment.stops.find((stop: any) => stop.type === updateStop.type);
-          console.log(updateStop)
-          if (stopToUpdate) {
-              // Update stop properties
-              stopToUpdate.location = updateStop.location;
-              stopToUpdate.id = updateStop.id;
-              stopToUpdate.parent_stop_id = updateStop.parent_stop_id;
-          }
+    if (fulfillment?.stops && Array.isArray(fulfillment.stops)) {
+      // Find the stop that matches the type in update_stop
+      const stopToUpdate = fulfillment.stops.find(
+        (stop: any) => stop.type === updateStop.type
+      );
+      console.log(updateStop);
+      if (stopToUpdate) {
+        // Update stop properties
+        // stopToUpdate.location = updateStop.location;
+        stopToUpdate.id = updateStop.id;
+        stopToUpdate.parent_stop_id = updateStop.parent_stop_id;
       }
+    }
   });
 
   return onUpdatePayload;
 }
 
-function updateFulfillmentStatus(order: any) {
-    // Check if fulfillments exist
-    if (order.fulfillments) {
-      order.fulfillments.forEach((fulfillment: any) => {
-          fulfillment.state.descriptor.code = "RIDE_STARTED";
-      });
+function updateSettlementAmount(terms: any[], quote: any) {
+  const total = Number(quote?.price?.value || 0);
+
+  terms.forEach((termBlock) => {
+    if (!termBlock.list) return;
+
+    const buyerFeeItem =
+      termBlock.list.find(
+        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+      ) || 1;
+    const settlementItem = termBlock.list.find(
+      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
+    );
+
+    if (buyerFeeItem && settlementItem) {
+      const percentage = Number(buyerFeeItem.value || 0);
+      const settlementAmount = ((total * percentage) / 100).toFixed(2);
+      settlementItem.value = settlementAmount;
     }
-    return order;
+  });
+
+  return terms;
+}
+
+function updateFulfillmentStatus(order: any) {
+  // Check if fulfillments exist
+  if (order.fulfillments) {
+    order.fulfillments.forEach((fulfillment: any) => {
+      fulfillment.state.descriptor.code = "RIDE_STARTED";
+    });
+  }
+  return order;
+}
+
+function updateFulfillmentRouteTags(tags: any[]) {
+  return tags.map((tag) => {
+    if (tag.descriptor?.code === "ROUTE_INFO" && Array.isArray(tag.list)) {
+      return {
+        ...tag,
+        list: tag.list.map((t: any) => {
+          if (t.descriptor.code === "ENCODED_POLYLINE") {
+            return { ...t, value: t.value + "M" };
+          }
+          if (t.descriptor.code === "WAYPOINTS") {
+            const waypoints = JSON.parse(t.value);
+            const updatedWaypoints = waypoints.map((wp: any) => {
+              const [lat, lng] = wp.gps.split(",").map(Number);
+              return {
+                gps: `${(lat + 0.00001).toFixed(6)},${(lng + 0.00001).toFixed(
+                  6
+                )}`,
+              };
+            });
+            return { ...t, value: JSON.stringify(updatedWaypoints) };
+          }
+          return t;
+        }),
+      };
+    }
+    return tag;
+  });
+}
+
+// Helper function to slightly modify distance and ETA
+function updateItemInfoTags(tags: any[]) {
+  return tags.map((tag) => {
+    if (tag.descriptor?.code === "INFO" && Array.isArray(tag.list)) {
+      return {
+        ...tag,
+        list: tag.list.map((t: any) => {
+          if (t.descriptor.code === "DISTANCE_TO_NEAREST_DRIVER_METER") {
+            // Slightly adjust distance, e.g., add 5 meters
+            const distance = Number(t.value || 0);
+            return { ...t, value: (distance - 5).toString() };
+          }
+          if (t.descriptor.code === "ETA_TO_NEAREST_DRIVER_MIN") {
+            // Slightly adjust ETA, e.g., add 1 minute
+            const eta = Number(t.value || 0);
+            return { ...t, value: (eta - 0.2).toString() };
+          }
+          return t;
+        }),
+      };
+    }
+    return tag;
+  });
+}
+
+function updateDistanceFare(quote: any) {
+  if (!quote || !Array.isArray(quote.breakup)) return quote;
+
+  let total = 0;
+
+  quote.breakup = quote.breakup.map((item: any) => {
+    const value = Number(item?.price?.value || 0);
+
+    if (item.title === "DISTANCE_FARE") {
+      const updatedValue = value + 10;
+      total += updatedValue;
+
+      return {
+        ...item,
+        price: {
+          ...item.price,
+          value: updatedValue.toString(),
+        },
+      };
+    }
+
+    total += value;
+    return item;
+  });
+
+  if (quote.price) {
+    quote.price.value = total.toString();
   }
 
-export async function onUpdateRideSoftUpdateGenerator(existingPayload: any,sessionData: SessionData){
-    existingPayload = await onUpdateMultipleStopsGenerator(existingPayload,sessionData)
-    if(existingPayload.fulfillments){
-      existingPayload.message.order = updateFulfillmentStatus(existingPayload.message.order)
-    }
+  return quote;
+}
 
-    existingPayload.message.order.status = "SOFT_UPDATE"
-    console.log("the updated stop is ",sessionData.update_stop)
-    existingPayload = updateStops(existingPayload,sessionData.update_stop[0])
-    for (const fulfillment of existingPayload.message.order.fulfillments) {
-      for (const stop of fulfillment.stops) {
-        delete stop.id;
-        delete stop.parent_stop_id;
-      }
+export async function onUpdateRideSoftUpdateGenerator(
+  existingPayload: any,
+  sessionData: SessionData
+) {
+  existingPayload = await onUpdateMultipleStopsGenerator(
+    existingPayload,
+    sessionData
+  );
+  if (existingPayload.fulfillments) {
+    existingPayload.message.order = updateFulfillmentStatus(
+      existingPayload.message.order
+    );
+  }
+
+  existingPayload.message.order.status = "SOFT_UPDATE";
+  console.log("the updated stop is ", sessionData.update_stop);
+  existingPayload = updateStops(existingPayload, sessionData.update_stop[0]);
+  for (const fulfillment of existingPayload.message.order.fulfillments) {
+    for (const stop of fulfillment.stops) {
+      delete stop.parent_stop_id;
     }
-    return existingPayload;
+  }
+
+  if (existingPayload.message.order.quote) {
+    existingPayload.message.order.quote = updateDistanceFare(
+      existingPayload.message.order.quote
+    );
+  }
+
+  // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
+  if (existingPayload.message.order.tags) {
+    existingPayload.message.order.tags = updateSettlementAmount(
+      existingPayload.message.order.tags,
+      sessionData.quote
+    );
+  }
+
+  if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
+    existingPayload.message.order.fulfillments[0].tags =
+      updateFulfillmentRouteTags(
+        existingPayload.message.order.fulfillments[0].tags
+      );
+
+    console.log(
+      "sessionData?.update_stop",
+      JSON.stringify(sessionData?.update_stop)
+    );
+    if (sessionData?.update_stop) {
+      console.log('item.stops', JSON.stringify(existingPayload.message.order.fulfillments[0].stops))
+      existingPayload.message.order.fulfillments[0].stops?.map((stop: any) => {
+        console.log("stop.type", JSON.stringify(stop.type));
+        if (stop.type === "END") {
+          console.log(
+            "sessionData.update_stop[0].location.gps;",
+            JSON.stringify(sessionData.update_stop[0].location.gps)
+          );
+          stop.location.gps = sessionData.update_stop[0].location.gps;
+        }
+      });
+    }
+  }
+
+  if (existingPayload.message.order.items?.length > 0) {
+    existingPayload.message.order.items =
+      existingPayload.message.order.items.map((item: any) => {
+        if (Array.isArray(item.tags)) {
+          item.tags = updateItemInfoTags(item.tags);
+        }
+        item.price.value = (Number(item.price.value) + 10).toString();
+        return item;
+      });
+  }
+  return existingPayload;
 }

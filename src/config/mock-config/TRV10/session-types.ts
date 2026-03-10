@@ -15,11 +15,13 @@ export interface SessionData {
 	buyer_app_fee: string | undefined;
 	vehicle_type: string | undefined;
 	fulfillments: any[]; // Replace `any` with a specific type if known
+	tags: any[]; // Replace `any` with a specific type if known
 	category_ids: string[]; // Assuming these are strings; adjust if needed
 	provider_id: string | undefined;
 	fullfillment_ids: string[]; // Assuming these are strings; adjust if needed
 	item_ids: string[]; // Assuming these are strings; adjust if needed
 	items: any[]; // Replace `any` with a specific type if known
+	cancellation_terms: any[]; // Replace `any` with a specific type if known
 	selected_items: any[];
 	selected_item_id: string; // Assuming these are strings; adjust if needed
 	billing: Record<string, any>; // Replace `any` with specific types if known
@@ -43,8 +45,26 @@ export interface SessionData {
 	selected_add_ons: any[]
 	created_at: string
 	cancellation_reason_id: string
-	cancellation_quote: any[]
+	cancellation_quote: any
 	selected_fulfillment_id: string
+	payment_id: string
+	cancellation_fulfillments: any[];
+	cancellation_reason: any
+	fulfillments_copy: any;
+	user_inputs: any;
+	init_items: any[];
+	igm_action: any;
+	issue_action: any[]
+	issue_resolution: any
+	latest_issue_payload: any;
+	issue_id: any;
+	issue_level: any
+	issue_created_at: any
+	on_issue_actions: any
+	issue_actions: any
+	provider: any
+	fulfillment_id: any
+	flow_id: any
 }
 
 export type BecknContext = {
@@ -68,3 +88,34 @@ export type BecknContext = {
 	ttl: string;
 	version: string;
 };
+
+export interface Input {
+  category?: string;
+  paymentType?: string;
+  city_code?: string;
+  start_gps?: string;
+  end_gps?: string;
+  start_code?: string;
+  end_code?: string;
+  feature_discovery?: string[];
+  fulfillRequest?: string;
+  retailCategory?: string;
+  returnToOrigin?: string;
+  default_feature?: string[];
+  SelectInputType?: {
+    provider?: string;
+    provider_location?: string[];
+    location_gps?: string;
+    location_pin_code?: string;
+    items?: {
+      itemId?: string;
+      quantity?: number;
+      location?: string;
+    }[];
+  };
+  CancelInputType: {
+    cancellation_reason_id?: string;
+  };
+  resolution_accept: any
+  rating: string
+}

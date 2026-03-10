@@ -288,3 +288,237 @@ codes:
     action: on_confirm
     default: TRV10/2.1.0/on_confirm/on_confirm_driver_not_assigned/default.yaml
     message_id: false
+  - code: 158
+    action_id: on_confirm_on_demand_rental
+    action: on_confirm
+    default: TRV10/2.1.0/on_confirm/on_confirm_multiple_auth/default.yaml
+    message_id: false
+  - code: 159
+    action_id: cancel_technical
+    action: cancel
+    default: TRV10/2.1.0/cancel/default.yaml
+    message_id: true  
+  - code: 159
+    action_id: cancel_technical_hard
+    action: cancel
+    default: TRV10/2.1.0/cancel/default.yaml
+    message_id: true  
+  - code: 160
+    action_id: on_search_purple
+    action: on_search
+    default: TRV10/2.1.0/on_search/default_purple_tags.yaml
+    message_id: false  
+  - code: 161
+    action_id: on_confirm_technical
+    action: on_confirm
+    default: TRV10/2.1.0/on_confirm/on_confirm_driver_assigned/default.yaml
+    message_id: false  
+  - code: 162
+    action_id: on_search_with_multiple_stops
+    action: on_search
+    default: TRV10/2.1.0/on_search/default.yaml
+    message_id: false
+  - code: 163
+    action_id: on_search_self_pickup
+    action: on_search
+    default: TRV10/2.1.0/on_search/default.yaml
+    message_id: false
+  - code: 164
+    action_id: on_confirm_self_pickup
+    action: on_confirm
+    default: TRV10/2.1.0/on_confirm/on_confirm_driver_not_assigned/default.yaml
+  - code: 165
+    action_id: init_with_self_pickup
+    action: init
+    default: TRV10/2.1.0/init/init_self_pickup/default.yaml
+    message_id: true
+  - code: 166
+    action_id: on_update_ride_self_pickup
+    action: on_update
+    default: TRV10/2.1.0/on_update/default.yaml
+  - code: 167
+    action_id: select_with_purple_tags
+    action: select
+    default: TRV10/2.1.0/select/default.yaml
+    message_id: true
+  - code: 168
+    action_id: on_select_with_purple_tags
+    action: on_select
+    default: TRV10/2.1.0/on_select/default.yaml
+    message_id: false
+  - code: 169
+    action_id: on_update_ride_with_purple
+    action: on_update
+    default: TRV10/2.1.0/on_update/default.yaml
+    message_id: true
+  - code: 170
+    action_id: on_status_ride_started_soft_update
+    action: on_status
+    default: TRV10/2.1.0/on_status/default.yaml
+    message_id: true
+  - code: 171
+    action_id: init_rental
+    action: init
+    default: TRV10/2.1.0/init/default.yaml
+    message_id: true
+  - code: 172
+    action_id: on_init_rental
+    action: on_init
+    default: TRV10/2.1.0/on_init/default.yaml
+    message_id: false
+  - code: 173
+    action_id: status_pre_order
+    action: status
+    default: TRV10/2.1.0/status/default.yaml
+    message_id: false
+  - code: 174
+    action_id: on_status_pre_order
+    action: on_status
+    default: TRV10/2.1.0/on_status/default.yaml
+    message_id: false
+
+    # _________IGM(2.0.0)___________
+
+  - code: 316
+    action_id: issue_open
+    action: issue
+    default: TRV10/2.1.0/issue/issue_open/default.yaml
+    message_id: true
+  - code: 317
+    action_id: on_issue_processing
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 318
+    action_id: on_issue_need_more_info
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_need_more_info/default.yaml
+    message_id: true
+  - code: 319
+    action_id: issue_info_provided
+    action: issue
+    default: TRV10/2.1.0/issue/issue_info_provided/default.yaml
+    message_id: true
+  - code: 320
+    action_id: on_issue_provided
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_provided/default.yaml
+    message_id: false
+  - code: 321
+    action_id: on_issue_resolution
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 322
+    action_id: issue_resolution_accept
+    action: issue
+    default: TRV10/2.1.0/issue/issue_resolution_accept/default.yaml
+    message_id: true
+  - code: 323
+    action_id: on_issue_resolved
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_resolved/default.yaml
+    message_id: true
+  - code: 324
+    action_id: issue_close
+    action: issue
+    default: TRV10/2.1.0/issue/issue_close/default.yaml
+    message_id: true
+  # - code: 163
+  #   action_id: issue_close_thumbs_Down
+  #   action: issue
+  #   default: issue/issue_close/default.yaml
+  #   message_id: true
+  - code: 325
+    action_id: issue_open_2
+    action: issue
+    default: TRV10/2.1.0/issue/issue_open_2/default.yaml
+    message_id: true
+  - code: 326
+    action_id: issue_resolution_reject
+    action: issue
+    default: TRV10/2.1.0/issue/issue_resolution_accept/default.yaml
+    message_id: true
+  - code: 326
+    action_id: on_issue_processing_1
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 327
+    action_id: on_issue_processing_2
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 328
+    action_id: issue_escalate
+    action: issue
+    default: TRV10/2.1.0/issue/issue_open/default.yaml
+    message_id: true
+  - code: 329
+    action_id: on_issue_resolution_1
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 330
+    action_id: on_issue_resolution_2
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 331
+    action_id: on_issue_resolution_igm_3
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 332
+    action_id: issue_resolution_accept_igm_3
+    action: issue
+    default: TRV10/2.1.0/issue/issue_resolution_accept/default.yaml
+    message_id: true
+  - code: 333
+    action_id: on_issue_resolved_igm_3
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_resolved/default.yaml
+    message_id: true
+  - code: 334
+    action_id: issue_close_igm_3
+    action: issue
+    default: TRV10/2.1.0/issue/issue_close/default.yaml
+    message_id: true
+  - code: 335
+    action_id: on_update_igm_return
+    action: on_update
+    default: TRV10/2.1.0/on_update/on_update_return_igm/default.yaml
+    message_id: true
+  - code: 336
+    action_id: on_update_igm_replacement
+    action: on_update
+    default: TRV10/2.1.0/on_update/on_update_replacement_igm/default.yaml
+    message_id: true
+  - code: 337
+    action_id: on_status_igm_3
+    action: on_status
+    default: TRV10/2.1.0/on_status/on_status_order_delivered/default.yaml
+    message_id: true
+
+    # _________________________IMG_1.0.0_________________________
+
+  - code: 340
+    action_id: issue_open_100
+    action: issue
+    default: TRV10/2.1.0/issue/issue_100/issue_open/default.yaml
+    message_id: true
+  - code: 341
+    action_id: on_issue_processing_100
+    action: on_issue
+    default: TRV10/2.1.0/on_issue/on_issue_100/on_issue_processing/default.yaml
+    message_id: false  
+  - code: 342
+    action_id: on_issue_resolved_100
+    action: on_issue_status
+    default: TRV10/2.1.0/on_issue/on_issue_100/on_issue_resolved/default.yaml
+    message_id: true  
+  - code: 343
+    action_id: issue_close_100
+    action: issue
+    default: TRV10/2.1.0/issue/issue_100/issue_close/default.yaml
+    message_id: true

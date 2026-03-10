@@ -7,17 +7,18 @@ import { createBuyerUrl, createSellerUrl } from "../../../utils/request-utils";
 export async function createMockResponse(
 	session_id: string,
 	sessionData: SessionData,
-	action_id: string
+	action_id: string,
+	input?: Record<any, any>
 ) {
 	RedisService.useDb(0);
 	const api_session = (await RedisService.getKey(session_id)) ?? "";
 	console.log(api_session);
 	const data = JSON.parse(api_session) as SessionCache;
 	const { version, usecaseId } = data;
-
+ 	sessionData.user_inputs = input;
 	let payload: any = {};
 	if (version === "2.1.0") {
-		payload = await createMockReponseTRV10(action_id, sessionData);
+		payload = await createMockReponseTRV10(action_id, sessionData, input);
 	}
 	if (data.npType === "BAP") {
 		payload.context.bap_uri = data.subscriberUrl;

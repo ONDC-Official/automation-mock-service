@@ -32,36 +32,24 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
 
   // Calculate the total refund for items
   const refundAmount = quote.breakup
-    .filter((b) => b.title === "BASE_FARE" && b.item)
     .reduce((sum, breakup) => {
       const itemTotal = parseFloat(breakup.price.value);
       return sum + itemTotal;
     }, 0);
 
-  // Create a REFUND breakup for items
-  const refundBreakups: Breakup[] = quote.breakup
-    .filter((b) => b.title === "BASE_FARE" && b.item)
-    .map((baseFare) => ({
-      title: "REFUND",
-      item: {
-        ...baseFare.item!,
-        price: {
-          ...baseFare.item!.price,
-          value: `-${baseFare.item!.price.value}`, // Negative for refund
-        },
-      },
-      price: {
-        ...baseFare.price,
-        value: `-${baseFare.price.value}`, // Negative for refund
-      },
-    }));
-
-  // Create a CANCELLATION_CHARGES breakup
+ // Create a CANCELLATION_CHARGES breakup
   const cancellationBreakup: Breakup = {
     title: "CANCELLATION_CHARGES",
     price: {
       currency: "INR",
       value: cancellationCharges.toFixed(2),
+    },
+  };
+  const refundBreakups: Breakup = {
+    title: "REFUND",
+    price: {
+      currency: "INR",
+      value: `-${refundAmount.toFixed(2)}`,
     },
   };
 
@@ -74,21 +62,48 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
       ...quote.price,
       value: newTotal.toFixed(2),
     },
-    breakup: [...quote.breakup, ...refundBreakups, cancellationBreakup],
+    breakup: [...quote.breakup, refundBreakups, cancellationBreakup],
   };
 }
 
-export async function onCancelAsyncGenerator(existingPayload: any, sessionData: SessionData) {
+export async function onCancelAsyncGenerator(
+  existingPayload: any,
+  sessionData: SessionData
+) {
   if (sessionData.payments?.length > 0) {
     existingPayload.message.order.payments = sessionData.payments;
   }
-  
+
   if (sessionData.items?.length > 0) {
     existingPayload.message.order.items = sessionData.items;
   }
 
   if (sessionData.fulfillments?.length > 0) {
-    existingPayload.message.order.fulfillments = sessionData.selected_fulfillments;
+    existingPayload.message.order.fulfillments =
+      sessionData.selected_fulfillments;
+      const stops = existingPayload.message.order.fulfillments[0].stops.map((stopItem: any) => {
+        const token = stopItem.authorization?.token;
+        const type = stopItem.authorization?.type;
+       return {
+          ...stopItem,
+          ...(token && {
+            authorization: {
+              token,
+              type
+            }
+          })
+        };
+      });
+      
+          existingPayload.message.order.fulfillments[0] = {
+      ...existingPayload.message.order.fulfillments[0],
+      state: {
+        descriptor: {
+          code: "RIDE_CANCELLED",
+        },
+       },
+       stops:stops
+    };
   }
 
   if (sessionData.order_id) {
@@ -97,10 +112,14 @@ export async function onCancelAsyncGenerator(existingPayload: any, sessionData: 
 
   if (sessionData.quote != null) {
     // Using standard cancellation charges for async cancellation
-    existingPayload.message.order.quote = applyCancellation(sessionData.quote, 20);
+    existingPayload.message.order.quote = applyCancellation(
+      sessionData.quote,
+      0
+    );
   }
+
   const now = new Date().toISOString();
-  existingPayload.message.order.created_at = sessionData.created_at
-  existingPayload.message.order.updated_at = now 
+  existingPayload.message.order.created_at =sessionData.created_at;
+  existingPayload.message.order.updated_at = existingPayload.context.timestamp;
   return existingPayload;
 }

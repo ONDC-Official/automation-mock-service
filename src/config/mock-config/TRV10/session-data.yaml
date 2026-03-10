@@ -4,6 +4,7 @@ session_data:
   last_action: null
   mock_type: null
   city_code: null
+  country_code: null
   bap_id: null
   bap_uri: null
   bpp_id: null
@@ -42,5 +43,50 @@ session_data:
   selected_add_ons: []
   created_at: null
   cancellation_reason_id: null
-  cancellation_quote: []
+  cancellation_quote: null
   selected_fulfillment_id: null
+  cancellation_fulfillments: []
+  cancellation_reason: null
+  payment_id: null
+  flow_id: null
+
+  # -------- IGM --------
+  city: null
+  inc_mode: null
+  provider: null
+  payment: null
+  update_payment: null
+  replacementId: null
+  order_state: null
+  domain: null
+  on_search_items: []
+  tat: null
+  order_items: []
+  select_fulfillment: []
+  confirm_created_at_timestamp: null
+  on_confirm_updated_at_timestamp: null
+  on_status_updated_at: null
+  stateCode: null
+  cancellation: null
+  cancellation_return_reason_id: null
+  np_type: null
+  order_tags: []
+  out_of_stock_item_ids: []
+  on_status_fulfillments: []
+  on_select_fulfillments: []
+  update_fulfillments: []
+  bpp_terms: null
+  bap_terms: null
+  order_created_at: null
+  last_updated_at: null
+  tags: []
+  on_select_items: []
+  selected_offers: []
+  bap_features: []
+  latest_issue_payload: null
+  igm_action: null
+  issue_action: []
+  issue_resolution: []
+  issue_id: null
+  on_issue_actions: null
+  issue_actions: null

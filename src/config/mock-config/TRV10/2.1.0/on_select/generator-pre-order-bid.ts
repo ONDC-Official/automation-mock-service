@@ -12,7 +12,7 @@ const fulfillment_tags = [
             "code": "ENCODED_POLYLINE",
             "name": "Path"
           },
-          "value": "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
+          "value": "qZ|nL~Hr`E_tuAxfKpmC~oBvUd@s"
         },
         {
           "descriptor": {
@@ -175,6 +175,9 @@ export async function onSelectMultipleStopsPreOrderGenerator(existingPayload: an
     const old_price = existingPayload.message.order.items[0].price.value
     if(sessionData.updated_price){
       existingPayload.message.order.items[0].price.value = sessionData.updated_price
+    }
+    if(sessionData.cancellation_terms){
+      existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms[0];
     }
     const filteredFulfillments = filterFulfillmentsByItem(item[0],sessionData.fulfillments)
     filteredFulfillments[0]["tags"] = fulfillment_tags

@@ -1,103 +1,171 @@
 import { SessionData } from "../../../session-types";
 
-
-
-const agent  = {
-    "contact": {
-        "phone": "9856798567"
-    },
-    "person": {
-        "name": "Jason Roy"
-    }
-}
-const vehicle = {
-    category: "AUTO_RICKSHAW",
-    variant: "AUTO_RICKSHAW",
-    make: "Bajaj",
-    model: "Compact RE",
-    registration: "KA-01-AD-9876"
+const agent = {
+  contact: {
+    phone: "9856798567",
+  },
+  person: {
+    name: "Jason Roy",
+  },
 };
+// const vehicle = {
+//   category: "AUTO_RICKSHAW",
+//   variant: "AUTO_RICKSHAW",
+// };
+
+function updateSettlementAmount(terms: any[], quote: any) {
+  const total = Number(quote?.price?.value || 0);
+
+  terms.forEach((termBlock) => {
+    if (!termBlock.list) return;
+
+    const buyerFeeItem =
+      termBlock.list.find(
+        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+      ) || 1;
+    const settlementItem = termBlock.list.find(
+      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
+    );
+
+    if (buyerFeeItem && settlementItem) {
+      const percentage = Number(buyerFeeItem.value || 0);
+      const settlementAmount = ((total * percentage) / 100).toFixed(2);
+      settlementItem.value = settlementAmount;
+    }
+  });
+
+  return terms;
+}
+
+// Helper function to slightly modify distance and ETA
+function updateItemInfoTags(tags: any[]) {
+  return tags.map((tag) => {
+    if (tag.descriptor?.code === "INFO" && Array.isArray(tag.list)) {
+      return {
+        ...tag,
+        list: tag.list.map((t: any) => {
+          if (t.descriptor.code === "DISTANCE_TO_NEAREST_DRIVER_METER") {
+            // Slightly adjust distance, e.g., add 5 meters
+            const distance = Number(t.value || 0);
+            return { ...t, value: (distance - 5).toString() };
+          }
+          if (t.descriptor.code === "ETA_TO_NEAREST_DRIVER_MIN") {
+            // Slightly adjust ETA, e.g., add 1 minute
+            const eta = Number(t.value || 0);
+            return { ...t, value: (eta - 0.2).toString() };
+          }
+          return t;
+        }),
+      };
+    }
+    return tag;
+  });
+}
 
 function updateOrderTimestamps(payload: any) {
-    const now = new Date().toISOString();
-    if (payload.message.order) {
-        payload.message.order.created_at = now;
-        payload.message.order.updated_at = now;
-    }
-    return payload;
+  const now = new Date().toISOString();
+  if (payload.message.order) {
+    payload.message.order.created_at = payload.context.timestamp;
+    payload.message.order.updated_at = payload.context.timestamp;
+  }
+  return payload;
 }
 
 function updateFulfillmentState(fulfillment: any): void {
-    // Set fulfillment state to RIDE_CONFIRMED
-    fulfillment.state = {
-        descriptor: {
-            code: "RIDE_CONFIRMED"
-        }
-    };
+  // Set fulfillment state to RIDE_CONFIRMED
+  fulfillment.state = {
+    descriptor: {
+      code: "RIDE_CONFIRMED",
+    },
+  };
 }
 
 export async function onConfirmDriverNotAssignedGenerator(
-    existingPayload: any,
-    sessionData: SessionData
+  existingPayload: any,
+  sessionData: SessionData
 ) {
-    const order_id = Math.random().toString(36).substring(2, 15);
-    existingPayload.message.order.id = order_id;
+  const order_id = Math.random().toString(36).substring(2, 15);
+  existingPayload.message.order.id = order_id;
 
-    // Update order status to ACTIVE
-    existingPayload.message.order.status = "ACTIVE";
+  // Update order status to ACTIVE
+  existingPayload.message.order.status = "ACTIVE";
 
+  // Update fulfillments with state
+  if (sessionData.fulfillments?.length > 0) {
+    sessionData.fulfillments.forEach((fulfillment) => {
+      updateFulfillmentState(fulfillment);
+    });
+    existingPayload.message.order.fulfillments =
+      sessionData.selected_fulfillments;
+    existingPayload.message.order.fulfillments[0]["state"] = {
+      descriptor: { code: "RIDE_CONFIRMED" },
+    };
+    // existingPayload.message.order.fulfillments[0]["agent"] = agent;
+    // existingPayload.message.order.fulfillments[0]["vehicle"] = vehicle;
+  }
 
+  // Update items if present
+  if (sessionData.items?.length > 0) {
+    existingPayload.message.order.items = sessionData.items;
+  }
 
-    // Update fulfillments with state
-    if (sessionData.fulfillments?.length > 0) {
-        sessionData.fulfillments.forEach(fulfillment => {
-            updateFulfillmentState(fulfillment);
-        });
-        existingPayload.message.order.fulfillments = sessionData.selected_fulfillments;
-        existingPayload.message.order.fulfillments[0]["state"] = {"descriptor": {"code": "RIDE_CONFIRMED"}}
-        existingPayload.message.order.fulfillments[0]["agent"] = agent
-        existingPayload.message.order.fulfillments[0]["vehicle"] = vehicle
-    }
+  // Update quote if present
+  if (sessionData.quote) {
+    existingPayload.message.order.quote = sessionData.quote;
+  }
 
-    // Update items if present
-    if (sessionData.items?.length > 0) {
-        existingPayload.message.order.items = sessionData.items;
-    }
+  // Update payments if present
+  if (sessionData.updated_payments?.length > 0) {
+    existingPayload.message.order.payments = sessionData.updated_payments;
+  }
 
-    // Update quote if present
-    if (sessionData.quote) {
-        existingPayload.message.order.quote = sessionData.quote;
-    }
+  // Update payments.id
+  if (existingPayload.message.order.payments?.length > 0) {
+    existingPayload.message.order.payments[0].id = sessionData.payment_id;
+  }
 
-    // Update payments if present
-    if (sessionData.updated_payments?.length > 0) {
-        existingPayload.message.order.payments = sessionData.updated_payments;
-    }
+  // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
+  if (existingPayload.message.order.tags) {
+    existingPayload.message.order.tags = updateSettlementAmount(
+      existingPayload.message.order.tags,
+      sessionData.quote
+    );
+  }
 
-    // Add cancellation terms
-    existingPayload.message.order.cancellation_terms = [
-        {
-            cancellation_fee: { percentage: "0" },
-            fulfillment_state: { descriptor: { code: "RIDE_ASSIGNED" } },
-            reason_required: true
-        },
-        {
-            cancellation_fee: { amount: { currency: "INR", value: "30" } },
-            fulfillment_state: { descriptor: { code: "RIDE_ENROUTE_PICKUP" } },
-            reason_required: true
-        },
-        {
-            cancellation_fee: { amount: { currency: "INR", value: "50" } },
-            fulfillment_state: { descriptor: { code: "RIDE_ARRIVED_PICKUP" } },
-            reason_required: true
-        },
-        {
-            cancellation_fee: { percentage: "100" },
-            fulfillment_state: { descriptor: { code: "RIDE_STARTED" } },
-            reason_required: true
+  // Add cancellation terms
+  existingPayload.message.order.cancellation_terms = [
+    {
+      cancellation_fee: { percentage: "0" },
+      fulfillment_state: { descriptor: { code: "RIDE_ASSIGNED" } },
+      reason_required: true,
+    },
+    {
+      cancellation_fee: { amount: { currency: "INR", value: "30" } },
+      fulfillment_state: { descriptor: { code: "RIDE_ENROUTE_PICKUP" } },
+      reason_required: true,
+    },
+    {
+      cancellation_fee: { amount: { currency: "INR", value: "50" } },
+      fulfillment_state: { descriptor: { code: "RIDE_ARRIVED_PICKUP" } },
+      reason_required: true,
+    },
+    {
+      cancellation_fee: { percentage: "100" },
+      fulfillment_state: { descriptor: { code: "RIDE_STARTED" } },
+      reason_required: true,
+    },
+  ];
+
+  if (existingPayload.message.order.items?.length > 0) {
+    existingPayload.message.order.items =
+      existingPayload.message.order.items.map((item: any) => {
+        if (Array.isArray(item.tags)) {
+          item.tags = updateItemInfoTags(item.tags);
         }
-    ];
-    // Update timestamps
-    existingPayload = updateOrderTimestamps(existingPayload);
-    return existingPayload;
-} 
+        return item;
+      });
+  }
+  // Update timestamps
+  existingPayload = updateOrderTimestamps(existingPayload);
+  return existingPayload;
+}

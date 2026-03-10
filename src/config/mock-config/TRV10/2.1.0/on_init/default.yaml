@@ -55,14 +55,12 @@ message:
               - descriptor:
                   code: ENCODED_POLYLINE
                   name: Path
-                value: _p~iF~ps|U_ulLnnqC_mqNvxq`@
+                value: qZ|nL~Hr`E_tuAxfKpmC~oBvUd@s
               - descriptor:
                   code: WAYPOINTS
                   name: Waypoints
                 value: >-
-                  [{"gps":"12.909982,
-                  77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,
-                  77.611822"}]
+                  [{ "gps": "12.909952,77.611703" },{ "gps": "12.910194,77.611801" },{ "gps": "12.909834,77.611882" },{ "gps": "12.910017,77.611955" }]
         type: DELIVERY
         vehicle:
           category: AUTO_RICKSHAW
@@ -187,4 +185,4 @@ message:
             value: 'https://example-test-bpp.com/static-terms.txt'
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: '1.46'
+            value: '1.96'

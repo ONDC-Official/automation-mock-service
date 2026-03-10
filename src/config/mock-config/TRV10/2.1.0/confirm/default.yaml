@@ -64,7 +64,7 @@ message:
             value: https://example-test-bap.com/static-terms.txt # Terms and conditions URL
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: "1.46" # Settlement amount in INR
+            value: "1.96" # Settlement amount in INR
           - descriptor:
               code: SETTLEMENT_BANK_CODE
             value: XXXXXXXX # Bank IFSC code
@@ -105,4 +105,4 @@ message:
             value: https://example-test-bpp.com/static-terms.txt # Terms and conditions URL
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: "1.46" # Settlement amount in INR
+            value: "1.96" # Settlement amount in INR

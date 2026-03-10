@@ -48,6 +48,8 @@ message:
           - authorization:
               token: '234234'
               type: OTP
+              valid_to: '2023-12-10T08:05:34.294Z'
+              status: UNCLAIMED
             location:
               gps: '13.008935, 77.644408'
             time:
@@ -65,14 +67,12 @@ message:
               - descriptor:
                   code: ENCODED_POLYLINE
                   name: Path
-                value: _p~iF~ps|U_ulLnnqC_mqNvxq`@
+                value: qZ|nL~Hr`E_tuAxfKpmC~oBvUd@s
               - descriptor:
                   code: WAYPOINTS
                   name: Waypoints
                 value: >-
-                  [{"gps":"12.909982,
-                  77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,77.611822"},{"gps":"12.909982,
-                  77.611822"}]
+                  [{ "gps": "12.910034,77.611948" },{ "gps": "12.909788,77.611710" },{ "gps": "12.910162,77.611701" },{ "gps": "12.909901,77.611865" }]
         type: DELIVERY
         vehicle:
           category: AUTO_RICKSHAW
@@ -137,10 +137,10 @@ message:
             list:
               - descriptor:
                   code: DISTANCE_TO_NEAREST_DRIVER_METER
-                value: '661'
+                value: '230'
               - descriptor:
                   code: ETA_TO_NEAREST_DRIVER_MIN
-                value: '3'
+                value: '1'
     payments:
       - collected_by: BAP
         id: PA1
@@ -210,7 +210,7 @@ message:
             value: 'https://example-test-bap.com/static-terms.txt'
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: '1.46'
+            value: '1.96'
           - descriptor:
               code: SETTLEMENT_BANK_CODE
             value: XXXXXXXX
@@ -251,4 +251,4 @@ message:
             value: 'https://example-test-bpp.com/static-terms.txt'
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: '1.46'
+            value: '1.96'

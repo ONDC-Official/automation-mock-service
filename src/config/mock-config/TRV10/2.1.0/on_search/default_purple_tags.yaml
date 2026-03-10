@@ -1,0 +1,217 @@
+message:
+  catalog:
+    descriptor:
+      name: "Mobility Servies BPP"
+    providers:
+      - id: "P1"
+        fulfillments:
+          - id: "F1"
+            stops:
+              - type: "START"
+                location:
+                  gps: "13.008935, 77.644408"
+                instructions:
+                  short_desc: "short description of the location"
+                  long_desc: "long description of the location"
+              - type: "END"
+                location:
+                  gps: "12.971186, 77.586812"
+            type: "DELIVERY"
+            vehicle:
+              category: "AUTO_RICKSHAW"
+              variant: "AUTO_RICKSHAW"
+
+          - id: "F2"
+            stops:
+              - type: "START"
+                location:
+                  gps: "13.008935, 77.644408"
+                instructions:
+                  short_desc: "short description of the location"
+                  long_desc: "long description of the location"
+              - type: "END"
+                location:
+                  gps: "12.971186, 77.586812"
+            type: "DELIVERY"
+            vehicle:
+              category: "CAB"
+              variant: "SEDAN"
+
+        items:
+          - id: "I1"
+            descriptor:
+              code: "RIDE"
+              name: "Auto Ride"
+            fulfillment_ids: ["F1"]
+            location_ids: ["L1", "L3"]
+            price:
+              currency: "INR"
+              maximum_value: "176"
+              minimum_value: "136"
+              value: "146"
+            category_ids: ["C5"]
+            tags:
+              - descriptor:
+                  name: "Vision Impairment"
+                  code: "DISABILITY_VIS"
+                display: false
+                list:
+                  - descriptor:
+                      code: "VIS_LEVEL"
+                      name: "Level of Disability"
+                      short_desc: "Disability of Blind and low vision"
+                  - descriptor:
+                      code: "VIS_SCREEN_READER_USAGE"
+                      name: "Screen Reader Usage"
+                      short_desc: "Screen Reader Usage"
+                  - descriptor:
+                      code: "VIS_CANE_USAGE"
+                      name: "Cane Usage"
+                      short_desc: "Cane Usage"
+                  - descriptor:
+                      code: "VIS_SPECIAL_REQUIREMENT"
+                      name: "special requirement"
+                      short_desc: "Custom description"
+              - descriptor:
+                  name: "Dwarfism"
+                  code: "DISABILITY_DWARFISM"
+                display: false
+                list:
+                  - descriptor:
+                      code: "DWARFISM_SPECIAL_REQUIREMENT"
+                      name: "Dwarfism"
+                      short_desc: "Custom description"
+            cancellation_terms:
+              - cancellation_fee:
+                  percentage: "0"
+                fulfillment_state:
+                  descriptor:
+                    code: "RIDE_ASSIGNED"
+                reason_required: true
+              - cancellation_fee:
+                  amount:
+                    currency: "INR"
+                    value: "30"
+                fulfillment_state:
+                  descriptor:
+                    code: "RIDE_ENROUTE_PICKUP"
+                reason_required: true
+              - cancellation_fee:
+                  amount:
+                    currency: "INR"
+                    value: "50"
+                fulfillment_state:
+                  descriptor:
+                    code: "RIDE_ARRIVED_PICKUP"
+                reason_required: true
+              - cancellation_fee:
+                  percentage: "100"
+                fulfillment_state:
+                  descriptor:
+                    code: "RIDE_STARTED"
+                reason_required: true
+
+          - id: "I2"
+            descriptor:
+              code: "RIDE"
+              name: "CAB Economy Ride"
+            category_ids: ["C5"]
+            fulfillment_ids: ["F2"]
+            location_ids: ["L2", "L4"]
+            price:
+              currency: "INR"
+              maximum_value: "236"
+              minimum_value: "206"
+              value: "206"
+            cancellation_terms:
+              - cancellation_fee:
+                  percentage: "10"
+                fulfillment_state:
+                  descriptor:
+                    code: "RIDE_ASSIGNED"
+                reason_required: true
+              - cancellation_fee:
+                  amount:
+                    currency: "INR"
+                    value: "50"
+                fulfillment_state:
+                  descriptor:
+                    code: "RIDE_ENROUTE_PICKUP"
+                reason_required: true
+              - cancellation_fee:
+                  amount:
+                    currency: "INR"
+                    value: "50"
+                fulfillment_state:
+                  descriptor:
+                    code: "RIDE_ARRIVED_PICKUP"
+                reason_required: true
+              - cancellation_fee:
+                  percentage: "90"
+                fulfillment_state:
+                  descriptor:
+                    code: "RIDE_STARTED"
+                reason_required: true
+
+        locations:
+          - id: "L1"
+            gps: "12.916468,77.608998"
+          - id: "L2"
+            gps: "12.916714,77.609298"
+          - id: "L3"
+            gps: "12.916573,77.615216"
+          - id: "L4"
+            gps: "12.906857,77.604456"
+
+        payments:
+          - collected_by: "BPP"
+
+        categories:
+          - id: "C5"
+            descriptor:
+              code: "ON_DEMAND_TRIP"
+              name: "on demand"
+
+        cancellation_terms:
+          - cancellation_fee:
+              percentage: "10"
+            fulfillment_state:
+              descriptor:
+                code: "RIDE_ASSIGNED"
+            reason_required: true
+          - external_ref:
+              url: "https://example-bpp.com/prod/seller/v1/cancellation_terms.pdf"
+              mimetype: "application/pdf"
+
+    tags:
+      - descriptor:
+          code: "BPP_TERMS"
+          name: "BPP Terms of Engagement"
+        list:
+          - descriptor:
+              code: "BUYER_FINDER_FEES_PERCENTAGE"
+            value: "1"
+          - descriptor:
+              code: "SETTLEMENT_WINDOW"
+            value: "PT60M"
+          - descriptor:
+              code: "SETTLEMENT_BASIS"
+            value: "DELIVERY"
+          - descriptor:
+              code: "SETTLEMENT_TYPE"
+            value: "UPI"
+          - descriptor:
+              code: "MANDATORY_ARBITRATION"
+            value: "true"
+          - descriptor:
+              code: "COURT_JURISDICTION"
+            value: "New Delhi"
+          - descriptor:
+              code: "DELAY_INTEREST"
+            value: "5"
+          - descriptor:
+              code: "STATIC_TERMS"
+            value: "https://example-test-bpp.com/static-terms.txt"
+
+
+
