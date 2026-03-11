@@ -5,7 +5,7 @@ export async function confirmDefaultGenerator(
   existingPayload.message.order.id = sessionData?.on_confirm_orderID ?? "01";
   existingPayload.message.order.fulfillments = [
     {
-      id: sessionData?.confirm_fulfillments[0][0]?.id ?? "customer-1",
+      id: sessionData?.confirm_fulfillments.flat()[0]?.id ?? "customer-1",
       tags: [
         {
           descriptor: {
