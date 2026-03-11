@@ -8,16 +8,16 @@ export async function onConfirmDefaultGenerator(
   existingPayload.message.order.id = String("ORDER_ID-" + uuidv4().slice(0, 8));
   existingPayload.message.order.status = "ACTIVE";
   existingPayload.message.order.payments =
-    sessionData?.confirm_payments[0] ?? [];
+    sessionData?.confirm_payments.flat() ?? [];
 
   existingPayload.message.order.provider.id =
     sessionData?.confirm_provider_id ?? "P1";
-  existingPayload.message.order.items = sessionData?.confirm_items[0] ?? [];
+  existingPayload.message.order.items = sessionData?.confirm_items.flat() ?? [];
   existingPayload.message.order.quote = sessionData?.confirm_quote ?? {};
   existingPayload.message.order.billing = sessionData?.confirm_billing ?? {};
   existingPayload.message.order.fulfillments =
-    sessionData?.confirm_fulfillments[0] ?? [];
-  existingPayload.message.order.tags = sessionData?.confirm_tags[0] ?? [];
+    sessionData?.confirm_fulfillments.flat() ?? [];
+  existingPayload.message.order.tags = sessionData?.confirm_tags.flat() ?? [];
   existingPayload.message.order.updated_at =
     sessionData?.context?.timestamp ?? new Date().toISOString();
   return existingPayload;

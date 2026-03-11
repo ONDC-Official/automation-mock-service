@@ -12,8 +12,8 @@ export async function onConfirmDefaultGenerator(
   // - pymnt-3 (PART-PAYMENT/LINKED): NOT-PAID
   // - pymnt-4 (PRE-ORDER/ADV-DEPOSIT): PAID — advance deposit collected by BAP
   // - pymnt-5 (ON-FULFILLMENT/FINAL-PAYMENT): NOT-PAID — to be collected at checkout
-  const onInitPayments: any[] = sessionData?.on_init_payments?.[0] ?? [];
-  const confirmPayments: any[] = sessionData?.confirm_payments?.[0] ?? [];
+  const onInitPayments: any[] = sessionData?.on_init_payments.flat() ?? [];
+  const confirmPayments: any[] = sessionData?.confirm_payments.flat() ?? [];
   // Extract the transaction_id from the buyer's confirm payment (for pymnt-4)
   const txnId =
     confirmPayments.find((p: any) => p.params?.transaction_id)?.params
@@ -41,12 +41,12 @@ export async function onConfirmDefaultGenerator(
 
   existingPayload.message.order.provider.id =
     sessionData?.confirm_provider_id ?? "P1";
-  existingPayload.message.order.items = sessionData?.confirm_items[0] ?? [];
+  existingPayload.message.order.items = sessionData?.confirm_items.flat() ?? [];
   existingPayload.message.order.quote = sessionData?.confirm_quote ?? {};
   existingPayload.message.order.billing = sessionData?.confirm_billing ?? {};
   existingPayload.message.order.fulfillments =
-    sessionData?.confirm_fulfillments[0] ?? [];
-  existingPayload.message.order.tags = sessionData?.confirm_tags[0] ?? [];
+    sessionData?.confirm_fulfillments.flat() ?? [];
+  existingPayload.message.order.tags = sessionData?.confirm_tags.flat() ?? [];
   existingPayload.message.order.updated_at =
     sessionData?.context?.timestamp ?? new Date().toISOString();
   return existingPayload;
