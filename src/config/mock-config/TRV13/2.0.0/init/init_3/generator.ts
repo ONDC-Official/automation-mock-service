@@ -4,9 +4,9 @@ export async function initDefaultGenerator(
 ) {
   existingPayload.message.order.provider.id =
     sessionData?.select_provider_id ?? "P1";
-  existingPayload.message.order.items = sessionData?.select_items[0] ?? [];
+  existingPayload.message.order.items = sessionData?.select_items.flat() ?? [];
   // existingPayload.message.order.tags = sessionData?.search_4_tags[0] ?? [];
-  let payments = sessionData?.select_payments[0].filter(
+  let payments = sessionData?.select_payments.flat().filter(
     (_: any, index: number) => index >= 2
   );
 
@@ -28,8 +28,8 @@ export async function initDefaultGenerator(
           ...(payment?.type === "PRE-ORDER"
             ? { collected_by: "BAP" }
             : payment?.type === "ON-FULFILLMENT"
-            ? { collected_by: "BPP" }
-            : {}),
+              ? { collected_by: "BPP" }
+              : {}),
         };
       }
     }) ?? [];

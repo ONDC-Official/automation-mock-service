@@ -3,7 +3,7 @@ export async function onInitDefaultGenerator(
   sessionData: any,
 ) {
   const payments =
-    sessionData?.init_payments?.[0]?.map((payment: any) => {
+    sessionData?.init_payments.flat()?.map((payment: any) => {
       if (payment?.type === "PRE-ORDER") {
         return {
           ...payment,
@@ -20,14 +20,14 @@ export async function onInitDefaultGenerator(
     }) ?? [];
   existingPayload.message.order.provider.id =
     sessionData?.init_provider_id ?? "P1";
-  existingPayload.message.order.items = sessionData?.init_items[0] ?? [];
+  existingPayload.message.order.items = sessionData?.init_items.flat() ?? [];
   existingPayload.message.order.quote = sessionData?.select_quote ?? {};
   existingPayload.message.order.payments = payments ?? [];
   existingPayload.message.order.billing = sessionData?.init_billing ?? {};
   existingPayload.message.order.fulfillments =
-    sessionData?.init_fulfillments[0] ?? [];
+    sessionData?.init_fulfillments.flat() ?? [];
   existingPayload.message.order.tags = [
-    ...(sessionData?.init_tags[0] ?? []),
+    ...(sessionData?.init_tags.flat() ?? []),
     {
       descriptor: {
         code: "BPP_TERMS",

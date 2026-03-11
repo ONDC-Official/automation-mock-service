@@ -16,7 +16,7 @@ export async function onCancelDefaultGenerator(
 
   // Build REFUNDED payment from the advance deposit (pymnt-4) that was already paid
   const confirmedPayments: any[] =
-    sessionData?.on_confirm_payments?.[0] ?? [];
+    sessionData?.on_confirm_payments?.flat() ?? [];
   const advancePayment = confirmedPayments.find(
     (p: any) => p.id === "pymnt-4"
   );
