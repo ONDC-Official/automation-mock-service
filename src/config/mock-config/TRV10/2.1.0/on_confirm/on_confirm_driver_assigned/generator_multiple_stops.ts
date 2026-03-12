@@ -1,5 +1,9 @@
 import { SessionData } from "../../../session-types";
 
+function generateRandom6Digit() {
+  return Math.floor(100000 + Math.random() * 900000);
+}
+
 const agent = {
   contact: {
     phone: "9856798567",
@@ -118,7 +122,7 @@ function updateFulfillments(fulfillments: any[]) {
       const now = new Date();
       const newTime = new Date(now.getTime() + 15 * 60000).toISOString();
       startStop.authorization = {
-        token: "234234",
+        token: generateRandom6Digit().toString(),
         type: "OTP",
         valid_to: newTime,
         status: "UNCLAIMED",
@@ -133,7 +137,6 @@ export async function onConfirmMultipleStopsGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
-  console.log(JSON.stringify(sessionData.fulfillments));
   const randomId = Math.random().toString(36).substring(2, 15);
   const order_id = randomId;
   existingPayload.message.order.payments = sessionData.payments;

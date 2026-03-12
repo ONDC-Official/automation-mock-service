@@ -143,7 +143,7 @@ message:
                   code: ETA_TO_NEAREST_DRIVER_MIN
                 value: '1'
     payments:
-      - collected_by: BAP
+      - collected_by: BPP
         id: PA1
         status: NOT-PAID
         type: ON-FULFILLMENT
@@ -252,4 +252,4 @@ message:
             value: 'https://example-test-bpp.com/static-terms.txt'
           - descriptor:
               code: SETTLEMENT_AMOUNT
-            value: '0.10'
+            value: '0'

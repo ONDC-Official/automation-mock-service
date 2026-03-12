@@ -103,14 +103,8 @@ export async function onConfirmSelfPickupGenerator(
 
   // Update order status to ACTIVE
   existingPayload.message.order.status = "ACTIVE";
-
-  if (existingPayload.message.order.fulfillments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.fulfillments[0]["_EXTERNAL"];
-  }
   existingPayload.message.order.payments = sessionData.payments;
-  if (existingPayload.message.order.payments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.payments[0]["_EXTERNAL"];
-  }
+
 
   // Update fulfillments with driver information
   if (sessionData.fulfillments?.length > 0) {
@@ -162,23 +156,13 @@ export async function onConfirmSelfPickupGenerator(
       reason_required: true,
     },
   ];
-  if (existingPayload.message.order.fulfillments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.fulfillments[0]["_EXTERNAL"];
-  }
+
   existingPayload.message.order.payments = sessionData.payments;
-  if (existingPayload.message.order.payments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.payments[0]["_EXTERNAL"];
-  }
   // Update timestamps
   existingPayload = updateOrderTimestamps(existingPayload);
   existingPayload.message.order.fulfillments["type"] = "DELIVERY";
-  if (existingPayload.message.order.fulfillments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.fulfillments[0]["_EXTERNAL"];
-  }
+
   existingPayload.message.order.payments = sessionData.payments;
-  if (existingPayload.message.order.payments[0]["_EXTERNAL"]) {
-    delete existingPayload.message.order.payments[0]["_EXTERNAL"];
-  }
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
   if (existingPayload.message.order.tags) {

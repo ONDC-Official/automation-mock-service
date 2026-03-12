@@ -23,5 +23,6 @@ export async function onSearchScheduleRentalGenerator(existingPayload: any, sess
         const locations = generateNearbyLocations(sessionData.start_location,sessionData.end_location)
         existingPayload.message.catalog.providers[0].locations = locations
     }
+    existingPayload.context.location.city.code = sessionData.city_code
     return existingPayload;
 }

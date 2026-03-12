@@ -33,7 +33,6 @@ export async function searchMultipleStopsScheduleTripGenerator(
         )
           .toLocaleString("sv-SE", { hour12: false })
           .replace(" ", "T");
-        console.log("time", updatedTime, updatedTime + ".000Z");
 
         startStop.time = {
           ...(startStop.time || {}),

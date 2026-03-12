@@ -12,8 +12,7 @@ export async function selectPurpleTagsGenerator(
   sessionData: SessionData
 ) {
   if (sessionData.item_ids) {
-    const item_ids = sessionData.item_ids;
-    const item_id = getRandomId(item_ids);
+    const item_id = sessionData.user_inputs.items[0].itemId
     const item = sessionData.items.find((i) => i.id === item_id);
     const fulfillmentId = item?.fulfillment_ids?.[0];
 

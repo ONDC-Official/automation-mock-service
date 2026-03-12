@@ -58,7 +58,6 @@ export async function onSearchWithSelfPickupGenerator(
   for (let payment of existingPayload.message.catalog.providers[0].payments) {
     payment.collected_by = sessionData.collected_by;
   }
-  // console.log("The start and end codes are",sessionData.start_location,sessionData.end_code)
   if (existingPayload.message.catalog.providers[0].locations) {
     const locations = generateNearbyLocations(
       sessionData.start_location,
@@ -66,5 +65,6 @@ export async function onSearchWithSelfPickupGenerator(
     );
     existingPayload.message.catalog.providers[0].locations = locations;
   }
+  existingPayload.context.location.city.code = sessionData.city_code
   return existingPayload;
 }

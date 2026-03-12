@@ -75,7 +75,7 @@ export const deleteExpectationService = async (
 		}
 
 		const parsed: SubscriberCache = JSON.parse(subscriberData);
-		logger.debug("Parsed data" + JSON.stringify(parsed));
+		// logger.debug("Parsed data" + JSON.stringify(parsed));
 		if (parsed.activeSessions === undefined) {
 			throw new Error("No active sessions found");
 		}

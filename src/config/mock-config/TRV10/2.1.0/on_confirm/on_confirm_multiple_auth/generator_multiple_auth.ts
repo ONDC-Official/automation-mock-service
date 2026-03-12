@@ -127,7 +127,6 @@ export async function onConfirmMultipleAuthGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
-  console.log(JSON.stringify(sessionData.fulfillments));
   const randomId = Math.random().toString(36).substring(2, 15);
   const order_id = randomId;
   existingPayload.message.order.payments = sessionData.payments;

@@ -321,4 +321,3 @@ const flow: Flow = {
 	],
 };
 
-// console.log(JSON.stringify(getFlowCompleteStatus(tsData, flow)));

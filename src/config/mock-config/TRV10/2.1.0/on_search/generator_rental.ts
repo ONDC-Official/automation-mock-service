@@ -73,6 +73,6 @@ export async function onSearchMultipleStopsRentalGenerator(
     const locations = generateNearbyLocations(start_location, start_location);
     provider.locations = locations;
   }
-
+  existingPayload.context.location.city.code = sessionData.city_code
   return existingPayload;
 }

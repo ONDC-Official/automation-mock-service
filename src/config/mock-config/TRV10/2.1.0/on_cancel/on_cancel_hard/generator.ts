@@ -133,20 +133,7 @@ export async function onCancelHardGenerator(
       existingPayload.message.order.tags = sessionData.tags[0]
     }
 
-    if (sessionData.quote != null) {
-      existingPayload.message.order.quote = applyCancellation(
-        sessionData.quote,
-        10
-      );
-    }
-  } else {
-    if (sessionData.quote != null) {
-      existingPayload.message.order.quote = applyCancellation(
-        sessionData.quote,
-        0
-      );
-    }
   }
-
+  existingPayload.message.order.quote = sessionData.quote
   return existingPayload;
 }
