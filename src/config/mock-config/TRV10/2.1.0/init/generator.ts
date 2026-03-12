@@ -1,14 +1,5 @@
 import { SessionData } from "../../session-types";
 
-const customer = {
-  contact: {
-    phone: "9876556789",
-  },
-  person: {
-    name: "Joe Adams",
-  },
-};
-
 function updateSettlementAmount(terms: any[], quote: any) {
   const total = Number(quote?.price?.value || 0);
 
@@ -41,10 +32,10 @@ export async function initGenerator(
     sessionData.selected_fulfillments;
   existingPayload.message.order.fulfillments[0]["customer"] = {
     contact: {
-      phone: "9876556789",
+      phone: "9876556781",
     },
     person: {
-      name: "Joe Adams",
+      name: "John Pork",
     },
   };
   delete existingPayload.message.order.fulfillments[0].type;

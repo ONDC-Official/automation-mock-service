@@ -100,7 +100,7 @@ export async function onInitMultipleStopsGenerator(
   if (sessionData.selected_fulfillments.length > 0) {
     existingPayload.message.order.fulfillments =
       sessionData.selected_fulfillments;
-    existingPayload.message.order.fulfillments[0]["customer"] = customer;
+    existingPayload.message.order.fulfillments[0]["customer"] = sessionData.fulfillments[0]?.customer;
     // existingPayload.message.order.fulfillments[0]["type"] = "DELIVERY"
 
     if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
