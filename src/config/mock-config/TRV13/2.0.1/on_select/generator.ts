@@ -16,8 +16,17 @@ export async function onSelectDefaultGenerator(
   const findCatalogItem = (id: string) =>
     catalogItems.find((ci: any) => ci.id === id) ?? catalogItems[0] ?? null;
 
-  // First catalog item — used as fallback for payment_ids normalization
-  const firstCatalogItem = findCatalogItem(selectItems[0]?.id);
+  // Collect all unique payment_ids across every selected item's catalog entry
+  // (handles both single and multiple items in select)
+  const allPaymentIds: string[] = [];
+  selectItems.forEach((item: any) => {
+    const cat = findCatalogItem(item.id);
+    const firstId: string | undefined = cat?.payment_ids?.[0];
+    if (firstId && !allPaymentIds.includes(firstId))
+      allPaymentIds.push(firstId);
+  });
+  // Fallback: if no payment_ids found from catalogs, keep existing payment ids
+  const paymentIds = allPaymentIds;
 
   existingPayload.message.order.items = selectItems.map((item: any) => {
     const itemHasAddOns =
@@ -216,8 +225,6 @@ export async function onSelectDefaultGenerator(
       },
     },
   ];
-
-  const paymentIds = firstCatalogItem?.payment_ids ?? [];
 
   existingPayload.message.order.payments.forEach(
     (payment: any, index: number) => {

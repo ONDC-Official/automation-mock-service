@@ -1,23 +1,38 @@
 export async function initDefaultGenerator(
   existingPayload: any,
-  sessionData: any
+  sessionData: any,
 ) {
   existingPayload.message.order.provider.id =
     sessionData?.select_provider_id ?? "P1";
   existingPayload.message.order.items = sessionData?.select_items[0] ?? [];
   // Use search_6_tags (from search_6) with fallback to search_5_tags
-  existingPayload.message.order.tags = sessionData?.search_6_tags?.[0] ?? sessionData?.search_5_tags?.[0] ?? [];
-  let payments = sessionData?.select_payments[0].filter(
-    (_: any, index: number) => index >= 2
+  existingPayload.message.order.tags =
+    sessionData?.search_6_tags?.[0] ?? sessionData?.search_5_tags?.[0] ?? [];
+  const hasTagCode = (payment: any, code: string) =>
+    payment?.tags?.some((tag: any) => tag?.descriptor?.code === code);
+
+  const allPayments: any[] = sessionData?.select_payments[0] ?? [];
+
+  const preOrderPayment = allPayments.find(
+    (p) => p.type === "PRE-ORDER" && hasTagCode(p, "ADV-DEPOSIT"),
+  );
+  const partPayment = allPayments.find((p) => p.type === "PART-PAYMENT");
+  const onFulfillmentPayment = allPayments.find(
+    (p) => p.type === "ON-FULFILLMENT" && hasTagCode(p, "FINAL-PAYMENT"),
   );
 
-  const lastIndex = payments.length - 1;
-  payments[lastIndex].params = {
-    ...payments[lastIndex].params,
-    bank_code: "Bank Code of Buyer App",
-    bank_account_number: "Bank Account Number of Buyer App",
-    virtual_payment_address: "VPA of Buyer App",
-  };
+  let payments = [partPayment, preOrderPayment, onFulfillmentPayment].filter(
+    Boolean,
+  );
+
+  if (onFulfillmentPayment) {
+    onFulfillmentPayment.params = {
+      ...onFulfillmentPayment.params,
+      bank_code: "Bank Code of Buyer App",
+      bank_account_number: "Bank Account Number of Buyer App",
+      virtual_payment_address: "VPA of Buyer App",
+    };
+  }
 
   payments =
     payments?.map((payment: any) => {
@@ -29,8 +44,8 @@ export async function initDefaultGenerator(
           ...(payment?.type === "PRE-ORDER"
             ? { collected_by: "BAP" }
             : payment?.type === "ON-FULFILLMENT"
-            ? { collected_by: "BPP" }
-            : {}),
+              ? { collected_by: "BPP" }
+              : {}),
         };
       }
     }) ?? [];
