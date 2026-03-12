@@ -224,7 +224,7 @@ export async function onSelectPurpleTagsGenerator(
   existingPayload.message.order.fulfillments = filteredFulfillments;
   if (sessionData.cancellation_terms) {
     existingPayload.message.order.cancellation_terms =
-      sessionData.cancellation_terms;
+      sessionData.cancellation_terms[0];
   }
   existingPayload.message.order.quote.breakup =
     existingPayload.message.order.quote.breakup.filter(

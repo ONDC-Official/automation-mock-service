@@ -97,7 +97,7 @@ export async function onSelectGenerator(
 
   existingPayload.message.order.items = items;
   if(sessionData.cancellation_terms){
-    existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms;
+    existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms[0];
   }
   existingPayload.message.order.fulfillments = fulfillments;
   existingPayload.message.order.quote = quote;
