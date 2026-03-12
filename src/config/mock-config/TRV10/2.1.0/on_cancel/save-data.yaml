@@ -5,3 +5,4 @@ save-data:
   cancellation_reason: "$.message.order.cancellation"
   cancellation_fulfillments: "$.message.order.fulfillments[*]"
   tags: "$.message.order.tags"
+  quote: "$.message.order.quote"

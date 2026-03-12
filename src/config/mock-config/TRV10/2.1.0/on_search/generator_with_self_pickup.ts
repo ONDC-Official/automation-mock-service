@@ -65,5 +65,6 @@ export async function onSearchWithSelfPickupGenerator(
     );
     existingPayload.message.catalog.providers[0].locations = locations;
   }
+  existingPayload.context.location.city.code = sessionData.city_code
   return existingPayload;
 }

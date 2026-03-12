@@ -112,7 +112,6 @@ type Location = {
       existingPayload.message.catalog.providers[0].fulfillments = fulfillments;
 
       existingPayload.context.location.city.code = city_code
-      existingPayload.context.location.country.code = country_code
 
       // Update items with new prices
       existingPayload.message.catalog.providers[0].items = 

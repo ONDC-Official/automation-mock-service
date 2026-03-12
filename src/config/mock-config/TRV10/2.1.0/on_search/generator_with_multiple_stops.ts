@@ -35,5 +35,6 @@ export async function onSearchWithMultipleStopsGenerator(existingPayload: any, s
         const locations = generateNearbyLocations(sessionData.start_location,sessionData.end_location)
         existingPayload.message.catalog.providers[0].locations = locations
     }
+    existingPayload.context.location.city.code = sessionData.city_code
     return existingPayload;
 }
