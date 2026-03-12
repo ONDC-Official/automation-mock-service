@@ -176,9 +176,12 @@ export async function onSelectMultipleStopsPreOrderGenerator(existingPayload: an
     if(sessionData.updated_price){
       existingPayload.message.order.items[0].price.value = sessionData.updated_price
     }
-    if(sessionData.cancellation_terms){
-      existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms[0];
-    }
+    if (sessionData.cancellation_terms) {
+  const terms = sessionData.cancellation_terms;
+
+  existingPayload.message.order.cancellation_terms =
+    Array.isArray(terms?.[0]) ? terms[0][0] : terms;
+}
     const filteredFulfillments = filterFulfillmentsByItem(item[0],sessionData.fulfillments)
     filteredFulfillments[0]["tags"] = fulfillment_tags
     existingPayload.message.order.quote = generateQuoteFromItems(item,old_price)

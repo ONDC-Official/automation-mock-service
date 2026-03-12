@@ -96,9 +96,12 @@ export async function onSelectGenerator(
   const quote = createQuoteFromItems(items);
 
   existingPayload.message.order.items = items;
-  if(sessionData.cancellation_terms){
-    existingPayload.message.order.cancellation_terms = sessionData.cancellation_terms[0];
-  }
+  if (sessionData.cancellation_terms) {
+  const terms = sessionData.cancellation_terms;
+
+  existingPayload.message.order.cancellation_terms =
+    Array.isArray(terms?.[0]) ? terms[0][0] : terms;
+}
   existingPayload.message.order.fulfillments = fulfillments;
   existingPayload.message.order.quote = quote;
   return existingPayload;
