@@ -9,3 +9,5 @@ save-data:
   collected_by: "$.message.intent.payment.collected_by"
   on_confirm_orderID: "$.message.order.id" 
   on_confirm_payments: "$.message.order.payments"
+  bpp_id: "$.context.bpp_id"
+  bap_id: "$.context.bap_id"

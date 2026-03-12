@@ -3,6 +3,8 @@ save-data:
   transaction_id: "$.context.transaction_id"
   cancel_reason_id: $.message.message.cancellation_reason_id
   cancel_descrioptor: $.message.message.descriptor
+  bpp_id: "$.context.bpp_id"
+  bap_id: "$.context.bap_id"
   # start_location: "$.message.intent.fulfillment.stops[?(@.type=='START')].location.gps"
   # intermediate_location: "$.message.intent.fulfillment.stops[?(@.type=='INTERMEDIATE_STOP')].location.gps"
   # end_location: "$.message.intent.fulfillment.stops[?(@.type=='END')].location.gps"

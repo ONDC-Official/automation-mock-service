@@ -13,3 +13,5 @@ save-data:
   init_billing: $.message.order.billing
   init_fulfillments: "$.message.order.fulfillments"
   init_tags: "$.message.order.tags"
+  bpp_id: "$.context.bpp_id"
+  bap_id: "$.context.bap_id"

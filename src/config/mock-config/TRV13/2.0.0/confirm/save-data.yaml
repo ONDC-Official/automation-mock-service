@@ -15,3 +15,5 @@ save-data:
   confirm_fulfillments: "$.message.order.fulfillments"
   confirm_tags: "$.message.order.tags"
   confirm_quote: "$.message.order.quote"
+  bpp_id: "$.context.bpp_id"
+  bap_id: "$.context.bap_id"
