@@ -222,12 +222,10 @@ export async function onSelectPurpleTagsGenerator(
   filteredFulfillments[0]["tags"] = fulfillment_tags;
   existingPayload.message.order.quote = generateQuoteFromItems(item);
   existingPayload.message.order.fulfillments = filteredFulfillments;
- if (sessionData.cancellation_terms) {
-  const terms = sessionData.cancellation_terms;
-
-  existingPayload.message.order.cancellation_terms =
-    Array.isArray(terms?.[0]) ? terms[0][0] : terms;
-}
+  if (sessionData.cancellation_terms) {
+    existingPayload.message.order.cancellation_terms =
+      sessionData.cancellation_terms;
+  }
   existingPayload.message.order.quote.breakup =
     existingPayload.message.order.quote.breakup.filter(
       (breakup: any) => breakup.title !== "ADD_ONS"
