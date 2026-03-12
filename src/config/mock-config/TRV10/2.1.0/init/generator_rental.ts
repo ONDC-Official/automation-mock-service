@@ -32,10 +32,10 @@ export async function initRentalGenerator(
     sessionData.selected_fulfillments;
   existingPayload.message.order.fulfillments[0]["customer"] = {
     contact: {
-      phone: "9876556781",
+      phone: "9876556789",
     },
     person: {
-      name: "John Pork",
+      name: "Joe Adams",
     },
   };
 
