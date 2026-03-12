@@ -9,3 +9,5 @@ save-data:
   collected_by: "$.message.intent.payment.collected_by" 
   select_payments: "$.message.order.payments"
   select_quote: "$.message.order.quote"
+  bpp_id: "$.context.bpp_id"
+  bap_id: "$.context.bap_id"

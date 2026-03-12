@@ -10,3 +10,5 @@ save-data:
   select_provider_id: "$.message.order.provider.id"
   select_provider_time: "$.message.order.provider.time"
   select_items: "$.message.order.items"
+  bpp_id: "$.context.bpp_id"
+  bap_id: "$.context.bap_id"
