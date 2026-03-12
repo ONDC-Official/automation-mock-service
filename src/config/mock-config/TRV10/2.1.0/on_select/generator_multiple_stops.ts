@@ -209,7 +209,7 @@ export async function onSelectMultipleStopsGenerator(
   existingPayload.message.order.fulfillments = filteredFulfillments;
   if (sessionData.cancellation_terms) {
     existingPayload.message.order.cancellation_terms =
-      sessionData.cancellation_terms[0];
+      sessionData.cancellation_terms.flat();
   }
   existingPayload.message.order.quote.breakup =
     existingPayload.message.order.quote.breakup.filter(
