@@ -8,7 +8,7 @@ export async function selectDefaultGenerator(
     sessionData?.on_search_5_items?.flat() ??
     [];
   existingPayload.message.order.provider.id =
-    sessionData?.on_search_1_provider_id?.[0] ??
+    sessionData?.on_search_1_provider_id ??
     sessionData?.search_5_provider_id ??
     "P1";
 
