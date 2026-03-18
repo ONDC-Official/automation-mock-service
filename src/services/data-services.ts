@@ -94,6 +94,7 @@ export async function loadMockSessionData(
 		sessionData = raw.session_data;
 		sessionData.transaction_id = transactionID;
 		sessionData.bpp_id = sessionData.bap_id = ownerId;
+		sessionData.bpp_id = ownerId?? "dev-automation.ondc.org";
 		sessionData.bap_uri = "https://dev-automation.ondc.org/buyer";
 		sessionData.bpp_uri = "https://dev-automation.ondc.org/seller";
 		sessionData.subscriber_url = subscriber_url;
