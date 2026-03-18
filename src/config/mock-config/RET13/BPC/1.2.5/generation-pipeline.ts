@@ -67,7 +67,7 @@ export async function createMockResponseRET13_125(
     transaction_id: sessionData?.transaction_id,
     bap_id: sessionData?.bap_id,
     bap_uri: sessionData?.bap_uri,
-    bpp_id: sessionData?.bpp_id,
+    bpp_id: sessionData?.bpp_id ?? "dev-automation.ondc.org",
     bpp_uri: sessionData?.bpp_uri,
     city: sessionData?.city ?? "std:011",
     country: "IND",
