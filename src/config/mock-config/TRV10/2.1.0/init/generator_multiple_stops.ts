@@ -35,7 +35,8 @@ function updateSettlementAmount(terms: any[], quote: any) {
 
 export async function initMultipleStopsGenerator(
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  isPriceValueNeeded?: boolean
 ) {
   existingPayload.message.order.fulfillments =
     sessionData.selected_fulfillments;
@@ -52,6 +53,8 @@ export async function initMultipleStopsGenerator(
   existingPayload.message.order.items[0] = {
     id: sessionData.selected_item_id,
   };
+  if(isPriceValueNeeded)
+    existingPayload.message.order.items = sessionData?.selected_items
   existingPayload.message.order.payments[0].collected_by =
     sessionData.collected_by;
   existingPayload.message.order.provider.id = sessionData.provider_id;

@@ -133,6 +133,7 @@ export async function onStatusRideCancelGenerator(
       });
   }
   existingPayload.message.order.status = "ACTIVE";
+  delete existingPayload.message.order.cancellation
   await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
   return existingPayload;
 }
