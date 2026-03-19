@@ -19,8 +19,8 @@ export const issueStatusGenerator_100 = async (
   switch (sessionData.igm_action) {
     case "issue_open":
       existingPayload.message.issue.id = "ISSUE-1";
-      existingPayload.message.issue.category = "ITEM";
-      existingPayload.message.issue.sub_category = "ITM04";
+      existingPayload.message.issue.category = "FULFILLMENT";
+      existingPayload.message.issue.sub_category = "FLM112";
       existingPayload.message.issue.complainant_info = {
         person: {
           name: "Sam Manuel",
@@ -42,7 +42,7 @@ export const issueStatusGenerator_100 = async (
         fulfillments: [
           {
             id: fulfillment ?? "Fulfillment1",
-            state: "Order-delivered",
+            state: "CLAIMED",
           },
         ],
         provider_id: provider ?? "Provider_1",
