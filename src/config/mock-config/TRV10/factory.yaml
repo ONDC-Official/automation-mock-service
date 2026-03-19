@@ -24,6 +24,11 @@ codes:
     action: init
     default: TRV10/2.1.0/init/default.yaml
     message_id: true
+  - code: 104
+    action_id: init_pre_order_bid
+    action: init
+    default: TRV10/2.1.0/init/default.yaml
+    message_id: true  
   - code: 105
     action_id: on_init
     action: on_init
