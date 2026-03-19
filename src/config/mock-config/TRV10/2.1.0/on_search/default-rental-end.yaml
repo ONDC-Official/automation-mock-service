@@ -83,6 +83,35 @@ message:
                   - descriptor:
                       code: "TOTAL_DISTANCE"
                     value: "10"
+            cancellation_terms:
+              - cancellation_fee:
+                  percentage: '0'
+                fulfillment_state:
+                  descriptor:
+                    code: RIDE_ASSIGNED
+                reason_required: true
+              - cancellation_fee:
+                  amount:
+                    currency: INR
+                    value: '30'
+                fulfillment_state:
+                  descriptor:
+                    code: RIDE_ENROUTE_PICKUP
+                reason_required: true
+              - cancellation_fee:
+                  amount:
+                    currency: INR
+                    value: '50'
+                fulfillment_state:
+                  descriptor:
+                    code: RIDE_ARRIVED_PICKUP
+                reason_required: true
+              - cancellation_fee:
+                  percentage: '100'
+                fulfillment_state:
+                  descriptor:
+                    code: RIDE_STARTED
+                reason_required: true        
           - id: "I2"
             descriptor:
               code: "RIDE"
@@ -130,35 +159,74 @@ message:
                   - descriptor:
                       code: "TOTAL_DISTANCE"
                     value: "10"
+            cancellation_terms:
+              - cancellation_fee:
+                  percentage: '10'
+                fulfillment_state:
+                  descriptor:
+                    code: RIDE_ASSIGNED
+                reason_required: true
+              - cancellation_fee:
+                  amount:
+                    currency: INR
+                    value: '50'
+                fulfillment_state:
+                  descriptor:
+                    code: RIDE_ENROUTE_PICKUP
+                reason_required: true
+              - cancellation_fee:
+                  amount:
+                    currency: INR
+                    value: '50'
+                fulfillment_state:
+                  descriptor:
+                    code: RIDE_ARRIVED_PICKUP
+                reason_required: true
+              - cancellation_fee:
+                  percentage: '90'
+                fulfillment_state:
+                  descriptor:
+                    code: RIDE_STARTED
+                reason_required: true        
+        # cancellation_terms:
+        #   - cancellation_fee:
+        #       percentage: '0'
+        #     fulfillment_state:
+        #       descriptor:
+        #         code: RIDE_ASSIGNED
+        #     reason_required: true
+        #   - cancellation_fee:
+        #       amount:
+        #         currency: INR
+        #         value: '30'
+        #     fulfillment_state:
+        #       descriptor:
+        #         code: RIDE_ENROUTE_PICKUP
+        #     reason_required: true
+        #   - cancellation_fee:
+        #       amount:
+        #         currency: INR
+        #         value: '50'
+        #     fulfillment_state:
+        #       descriptor:
+        #         code: RIDE_ARRIVED_PICKUP
+        #     reason_required: true
+        #   - cancellation_fee:
+        #       percentage: '100'
+        #     fulfillment_state:
+        #       descriptor:
+        #         code: RIDE_STARTED
+        #     reason_required: true
         cancellation_terms:
           - cancellation_fee:
-              percentage: '0'
+              percentage: "10"
             fulfillment_state:
               descriptor:
-                code: RIDE_ASSIGNED
+                code: "RIDE_ASSIGNED"
             reason_required: true
-          - cancellation_fee:
-              amount:
-                currency: INR
-                value: '30'
-            fulfillment_state:
-              descriptor:
-                code: RIDE_ENROUTE_PICKUP
-            reason_required: true
-          - cancellation_fee:
-              amount:
-                currency: INR
-                value: '50'
-            fulfillment_state:
-              descriptor:
-                code: RIDE_ARRIVED_PICKUP
-            reason_required: true
-          - cancellation_fee:
-              percentage: '100'
-            fulfillment_state:
-              descriptor:
-                code: RIDE_STARTED
-            reason_required: true
+          - external_ref:
+              url: "https://example-bpp.com/prod/seller/v1/cancellation_terms.pdf"
+              mimetype: "application/pdf"
         locations:
           - id: "L1"
             gps: "12.916468,77.608998"

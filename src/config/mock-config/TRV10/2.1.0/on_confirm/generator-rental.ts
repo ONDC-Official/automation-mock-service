@@ -67,6 +67,7 @@ export async function onConfirmMultipleStopsRentalGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
+  console.log(sessionData?.flow_id)
   existingPayload = await onConfirmMultipleStopsGenerator(
     existingPayload,
     sessionData
