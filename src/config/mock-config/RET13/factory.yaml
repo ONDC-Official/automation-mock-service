@@ -477,3 +477,13 @@ codes:
     action: on_track
     default: BPC/1.2.5/on_track/default.yaml
     message_id: false
+  - code: 350
+    default: BPC/1.2.5/select/select_offers/default.yaml
+    action_id: select_offers
+    action: select
+    message_id: true
+  - code: 351
+    default: BPC/1.2.5/on_select/on_select_offers/default.yaml
+    action_id: on_select_offers
+    action: on_select
+    message_id: false
