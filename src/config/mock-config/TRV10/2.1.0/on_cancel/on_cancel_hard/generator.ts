@@ -34,10 +34,10 @@ function updateSettlementAmount(terms: any[], quote: any) {
 
     const buyerFeeItem =
       termBlock.list.find(
-        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE",
       ) || 1;
     const settlementItem = termBlock.list.find(
-      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
+      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT",
     );
 
     if (buyerFeeItem && settlementItem) {
@@ -91,7 +91,7 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
 
 export async function onCancelHardGenerator(
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
 ) {
   if (sessionData.payments?.length > 0) {
     existingPayload.message.order.payments = sessionData.payments;
@@ -110,11 +110,22 @@ export async function onCancelHardGenerator(
     sessionData.cancellation_reason_id;
 
   for (const fulfillment of existingPayload.message.order.fulfillments) {
-    if (fulfillment.stops && Array.isArray(fulfillment.stops)) {
-      fulfillment.stops = fulfillment.stops.map((stop: any) => {
-        const { authorization, ...rest } = stop;
-        return rest;
-      });
+    if (Array.isArray(fulfillment.stops)) {
+      fulfillment.stops = fulfillment.stops
+        .filter((stop: any) => stop.type === "START")
+        .map((stop: any) => {
+          if (!stop.authorization) return stop;
+
+          const { valid_to, status, ...remaining } = stop.authorization;
+
+          return {
+            ...stop,
+            authorization: remaining,
+            time: {
+              duration: "PT2H",
+            },
+          };
+        });
     }
 
     fulfillment.state.descriptor.code = "RIDE_CANCELLED";
@@ -130,20 +141,20 @@ export async function onCancelHardGenerator(
 
   if (sessionData.cancellation_reason_id !== "000") {
     if (existingPayload.message.order.tags) {
-      existingPayload.message.order.tags = sessionData.tags[0]
+      existingPayload.message.order.tags = sessionData.tags[0];
     }
 
     if (sessionData.quote != null) {
       existingPayload.message.order.quote = applyCancellation(
         sessionData.quote,
-        0
+        10,
       );
     }
   } else {
     if (sessionData.quote != null) {
       existingPayload.message.order.quote = applyCancellation(
         sessionData.quote,
-        0
+        0,
       );
     }
   }
