@@ -15,7 +15,7 @@ import { cancelHardGenerator } from "./cancel/cancel_hard/generator";
 import { onSearch1Generator } from "./on_search/on_search1/generator";
 import { onSearch2Generator } from "./on_search/on_search2/generator";
 import { statusTechCancelGenerator } from "./status/status_tech_cancel/generator";
-import { onStatusActiveGenerator } from "./on_status/on_status_active/generator";
+import { onStatusActiveGenerator, onStatusCompletedGenerator } from "./on_status/on_status_active/generator";
 import { cancelTechGenerator } from "./cancel/cancel_tech/generator";
 import { onCancelTechGenerator } from "./on_cancel/on_cancel_tech/generator";
 
@@ -56,7 +56,7 @@ export async function Generator(
 		case "on_status_BUS_200":
 			return await onStatusActiveGenerator(existingPayload, sessionData);
 		case "unsoliciated_on_status_BUS_200":
-			return await onStatusActiveGenerator(existingPayload, sessionData);	
+			return await onStatusCompletedGenerator(existingPayload, sessionData);
 		case "on_status_active_BUS_200":
 			return await onStatusActiveGenerator(existingPayload, sessionData);
 		case "on_confirm_delayed_BUS_200":
