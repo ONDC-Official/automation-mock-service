@@ -64,6 +64,8 @@ export async function Generator(
 			return await onStatusActiveGenerator(existingPayload, sessionData);
 		case "on_status_complete_METRO_200":
 			return await onStatusCompleteGenerator(existingPayload, sessionData);
+		case "unsolicited_on_status_complete_METRO_200":
+			return await onStatusCompleteGenerator(existingPayload, sessionData);	
 		case "on_confirm_delayed_METRO_200":
 			return await onConfirmDelayedGenerator(existingPayload, sessionData);
 		case "on_cancel_soft_METRO_200":

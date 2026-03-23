@@ -42,6 +42,7 @@ export interface SessionData {
 	flowId: string | undefined
 	on_confirm_fulfillments: any[]
 	cancellation: any
+	on_confirm_fulfillment: any
 }
 
 export type BecknContext = {

@@ -40,3 +40,4 @@ session_data:
   settlement_amount: null
   on_confirm_fulfillments: []
   cancellation: null
+  on_confirm_fulfillment: []
