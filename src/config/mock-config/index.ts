@@ -48,7 +48,6 @@ export function getSaveDataContent(version: string, action: string) {
   if (/\/update$/.test(actionFolderPath)) {
     actionFolderPath += "_";
   }
-  console.log(actionFolderPath)
   const saveDataFilePath = path.join(actionFolderPath, "save-data.yaml");
   const fileContent = readFileSync(saveDataFilePath, "utf8");
   const cont = yaml.load(fileContent) as any;
