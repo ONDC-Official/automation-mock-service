@@ -24,6 +24,6 @@ export async function on_status_accepted_ccc_generator(
     sessionData.update_payment = null;
   }
   existingPayload.message.order.quote = removeItemQuantitiesFromQuote(sessionData.quote);
-  generalPayload.context.domain = "ONDC:FFFFF";
+  //generalPayload.context.domain = "ONDC:FFFFF";
   return generalPayload;
 }
