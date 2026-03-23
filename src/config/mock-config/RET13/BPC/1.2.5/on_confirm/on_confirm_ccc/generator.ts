@@ -34,6 +34,6 @@ export async function on_confirm_ccc_generator(
                 : i
         );
     }
-    existingPayload.context.domain = "ONDC:FFFFF";
+    //existingPayload.context.domain = "ONDC:FFFFF";
     return existingPayload;
 }
