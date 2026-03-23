@@ -67,12 +67,12 @@ codes:
   - code: 113
     action_id: on_status_complete_METRO_200
     action: on_status
-    default: METRO/2.0.0/onon_status_complete/default.yaml
+    default: METRO/2.0.0/on_status_complete/default.yaml
     message_id: false
   - code: 113
     action_id: unsolicited_on_status_complete_METRO_200
     action: on_status
-    default: METRO/2.0.0/onon_status_complete/default.yaml
+    default: METRO/2.0.0/on_status_complete/default.yaml
     message_id: true
   - code: 114
     action_id: on_status_unsolicited_METRO_200
