@@ -507,3 +507,23 @@ codes:
     action_id: on_confirm_offers
     action: on_confirm
     message_id: false
+  - code: 356
+    default: BPC/1.2.5/on_status/on_status_pending/default.yaml
+    action_id: on_status_offers
+    action: on_status
+    message_id: true
+  - code: 357
+    default: BPC/1.2.5/on_cancel/on_cancel/default.yaml
+    action_id: on_cancel_offers
+    action: on_cancel
+    message_id: false
+  - code: 358
+    default: BPC/1.2.5/on_update/on_update_part_cancel/default.yaml
+    action_id: on_update_offers
+    action: on_update
+    message_id: false
+  - code: 359
+    default: BPC/1.2.5/update/update_partial_cancel_settlement/default.yaml
+    action_id: update_offers
+    action: update
+    message_id: true
