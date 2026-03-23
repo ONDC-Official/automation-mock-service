@@ -487,3 +487,23 @@ codes:
     action_id: on_select_offers
     action: on_select
     message_id: false
+  - code: 352
+    default: BPC/1.2.5/init/init/default.yaml
+    action_id: init_offers
+    action: init
+    message_id: true
+  - code: 353
+    default: BPC/1.2.5/on_init/on_init/default.yaml
+    action_id: on_init_offers
+    action: on_init
+    message_id: false
+  - code: 354
+    default: BPC/1.2.5/confirm/confirm/default.yaml
+    action_id: confirm_offers
+    action: confirm
+    message_id: true
+  - code: 355
+    default: BPC/1.2.5/on_confirm/on_confirm/default.yaml
+    action_id: on_confirm_offers
+    action: on_confirm
+    message_id: false
