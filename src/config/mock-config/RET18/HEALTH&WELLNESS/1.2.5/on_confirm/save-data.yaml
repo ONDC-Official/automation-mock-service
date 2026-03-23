@@ -1,0 +1,7 @@
+save-data:
+  order_id: $.message.order.id
+  order_state: $.message.order.state
+  on_confirm_updated_at_timestamp: $.message.order.updated_at
+  payment: $.message.order.payment
+  last_updated_at: $.message.order.updated_at
+  fulfillments: $.message.order.fulfillments[*]

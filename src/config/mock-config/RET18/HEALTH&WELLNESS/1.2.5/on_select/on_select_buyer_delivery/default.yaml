@@ -1,0 +1,68 @@
+order:
+  provider:
+    id: P1
+    locations:
+    - id: L1
+  fulfillments:
+  - id: F3
+    type: Buyer-Delivery
+    "@ondc/org/provider_name": ""
+    tracking: false
+    "@ondc/org/category": ""
+    "@ondc/org/TAT": P2D
+    state:
+      descriptor:
+        code: Serviceable
+    tags:
+    - code: order_details
+    list:
+      - code: weight_unit
+        value: kilogram
+      - code: weight_value
+        value: "1"
+      - code: dim_unit
+        value: centimeter
+      - code: length
+        value: "1"
+      - code: breadth
+        value: "1"
+      - code: height
+        value: "1"
+  quote:
+    price:
+      value: "100.00"
+      currency: INR
+    breakup:
+    - "@ondc/org/item_id": I1
+      "@ondc/org/item_quantity":
+        count: 1
+      title: Plain Atta
+      "@ondc/org/title_type": item
+      price:
+        currency: INR
+        value: "100.00"
+      item:
+        quantity:
+          available:
+            count: "99"
+          maximum:
+            count: "99"
+        price:
+          currency: INR
+          value: "100.00"
+    - "@ondc/org/item_id": F3
+      title: Delivery charges
+      "@ondc/org/title_type": delivery
+      price:
+        currency: INR
+        value: "00.00"
+    - "@ondc/org/item_id": F3
+      title: Convenience Fee
+      "@ondc/org/title_type": misc
+      price:
+        currency: INR
+        value: "00.00"
+    ttl: P1D
+  items:
+  - id: I1
+    fulfillment_id: F3

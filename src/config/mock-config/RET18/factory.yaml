@@ -1,0 +1,584 @@
+codes:
+  - code: 100
+    default: HEALTH&WELLNESS/1.2.5/search/search/default.yaml
+    action_id: search
+    action: search
+    message_id: true
+  - code: 101
+    default: HEALTH&WELLNESS/1.2.5/on_search/on_search/default.yaml
+    action_id: on_search
+    action: on_search
+    message_id: false
+  - code: 102
+    default: HEALTH&WELLNESS/1.2.5/search/search_inc/default.yaml
+    action_id: search_inc
+    action: search
+    message_id: true
+  - code: 103
+    default: HEALTH&WELLNESS/1.2.5/on_search/on_search_inc/default.yaml
+    action_id: on_search_inc
+    action: on_search
+    message_id: true
+  - code: 104
+    default: HEALTH&WELLNESS/1.2.5/on_search/on_search_inc_disable/default.yaml
+    action_id: on_search_inc_disable
+    action: on_search
+    message_id: true
+  - code: 187
+    action_id: on_select_buyer_delivery
+    default: HEALTH&WELLNESS/1.2.5/on_select/on_select_buyer_delivery/default.yaml
+    action: on_select
+    message_id: false
+  - code: 188
+    action_id: init_buyer_delivery
+    default: HEALTH&WELLNESS/1.2.5/init/init_buyer_delivery/default.yaml
+    action: init
+    message_id: true
+  - code: 189
+    action_id: on_init_buyer_delivery
+    default: HEALTH&WELLNESS/1.2.5/on_init/on_init_buyer_delivery/default.yaml
+    action: on_init
+    message_id: false
+  - code: 190
+    action_id: on_status_ready_to_ship
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_ready_to_ship/default.yaml
+    action: on_status
+    message_id: true
+  - code: 191
+    action_id: update_picked_up
+    default: HEALTH&WELLNESS/1.2.5/update/update_picked_up/default.yaml
+    action: update
+    message_id: true
+  - code: 192
+    action_id: update_delivered
+    default: HEALTH&WELLNESS/1.2.5/update/update_delivered/default.yaml
+    action: update
+    message_id: true
+  - code: 193
+    default: HEALTH&WELLNESS/1.2.5/update/update_buyer_instructions/default.yaml
+    action_id: update_buyer_instructions
+    action: update
+    message_id: true
+  - code: 194
+    default: HEALTH&WELLNESS/1.2.5/update/update_delivery_address/default.yaml
+    action_id: update_delivery_address
+    action: update
+    message_id: true
+  - code: 195
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_buyer_instructions/default.yaml
+    action_id: on_update_buyer_instructions
+    action: on_update
+    message_id: false
+  - code: 196
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_delivery_address/default.yaml
+    action_id: on_update_delivery_address
+    action: on_update
+    message_id: false
+  - code: 197
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_delivery_auth/default.yaml
+    action_id: on_update_delivery_auth
+    action: on_update
+    message_id: true
+  - code: 201
+    default: HEALTH&WELLNESS/1.2.5/select/select/default.yaml
+    action_id: select
+    action: select
+    message_id: true
+  - code: 202
+    default: HEALTH&WELLNESS/1.2.5/on_select/on_select/default.yaml
+    action_id: on_select
+    action: on_select
+    message_id: false
+  - code: 203
+    default: HEALTH&WELLNESS/1.2.5/init/init/default.yaml
+    action_id: init
+    action: init
+    message_id: true
+  - code: 213
+    default: HEALTH&WELLNESS/1.2.5/init/init_cod/default.yaml
+    action_id: init_cod
+    action: init
+    message_id: true
+  - code: 204
+    default: HEALTH&WELLNESS/1.2.5/on_init/on_init/default.yaml
+    action_id: on_init
+    action: on_init
+    message_id: false
+  - code: 214
+    default: HEALTH&WELLNESS/1.2.5/on_init/on_init_cod/default.yaml
+    action_id: on_init_cod
+    action: on_init
+    message_id: false
+  - code: 205
+    default: HEALTH&WELLNESS/1.2.5/confirm/confirm/default.yaml
+    action_id: confirm
+    action: confirm
+    message_id: true
+  - code: 206
+    default: HEALTH&WELLNESS/1.2.5/on_select/on_select_slotted_delivery/default.yaml
+    action_id: on_select_slotted_delivery
+    action: on_select
+    message_id: false
+  - code: 207
+    default: HEALTH&WELLNESS/1.2.5/init/init_slotted_delivery/default.yaml
+    action_id: init_slotted_delivery
+    action: init
+    message_id: true
+  - code: 208
+    default: HEALTH&WELLNESS/1.2.5/on_init/on_init_slotted_delivery/default.yaml
+    action_id: on_init_slotted_delivery
+    action: on_init
+    message_id: false
+  - code: 209
+    default: HEALTH&WELLNESS/1.2.5/on_select/on_select_self_pickup/default.yaml
+    action_id: on_select_self_pickup
+    action: on_select
+    message_id: false
+  - code: 210
+    default: HEALTH&WELLNESS/1.2.5/init/init_self_pickup/default.yaml
+    action_id: init_self_pickup
+    action: init
+    message_id: true
+  - code: 211
+    default: HEALTH&WELLNESS/1.2.5/on_init/on_init_self_pickup/default.yaml
+    action_id: on_init_self_pickup
+    action: on_init
+    message_id: false
+  - code: 212
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_accepted/default.yaml
+    action_id: on_status_accepted
+    action: on_status
+    message_id: true
+  - code: 213
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_self_pick_packed/default.yaml
+    action_id: on_status_self_pick_packed
+    action: on_status
+    message_id: true
+  - code: 214
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_self_pick_picked/default.yaml
+    action_id: on_status_self_pick_picked
+    action: on_status
+    message_id: true
+  - code: 215
+    default: HEALTH&WELLNESS/1.2.5/confirm/confirm_cod/default.yaml
+    action_id: confirm_cod
+    action: confirm
+    message_id: true
+  - code: 225
+    default: HEALTH&WELLNESS/1.2.5/confirm/confirm_seller_cred/default.yaml
+    action_id: confirm_seller_cred
+    action: confirm
+    message_id: true
+  - code: 206
+    default: HEALTH&WELLNESS/1.2.5/on_confirm/on_confirm/default.yaml
+    action_id: on_confirm
+    action: on_confirm
+    message_id: false
+  - code: 216
+    default: HEALTH&WELLNESS/1.2.5/on_confirm/on_confirm_cod/default.yaml
+    action_id: on_confirm_cod
+    action: on_confirm
+    message_id: false
+  - code: 226
+    default: HEALTH&WELLNESS/1.2.5/on_confirm/on_confirm_seller_cred/default.yaml
+    action_id: on_confirm_seller_cred
+    action: on_confirm
+    message_id: false
+  - code: 207
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_pending/default.yaml
+    action_id: on_status_pending
+    action: on_status
+    message_id: true
+  - code: 208
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_packed/default.yaml
+    action_id: on_status_packed
+    action: on_status
+    message_id: true
+  - code: 209
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_agent_assigned/default.yaml
+    action_id: on_status_agent_assigned
+    action: on_status
+    message_id: true
+  - code: 210
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_picked/default.yaml
+    action_id: on_status_picked
+    action: on_status
+    message_id: true
+  - code: 211
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_out_for_delivery/default.yaml
+    action_id: on_status_out_for_delivery
+    action: on_status
+    message_id: true
+  - code: 212
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_order_delivered/default.yaml
+    action_id: on_status_order_delivered
+    action: on_status
+    message_id: true
+  - code: 222
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_order_delivered_cod/default.yaml
+    action_id: on_status_order_delivered_cod
+    action: on_status
+    message_id: true
+  - code: 302
+    default: HEALTH&WELLNESS/1.2.5/select/select_out_of_stock/default.yaml
+    action_id: select_out_of_stock
+    action: select
+    message_id: true
+  - code: 303
+    default: HEALTH&WELLNESS/1.2.5/on_select/on_select_out_of_stock/default.yaml
+    action_id: on_select_out_of_stock
+    action: on_select
+    message_id: false
+  - code: 401
+    default: HEALTH&WELLNESS/1.2.5/cancel/cancel/default.yaml
+    action_id: cancel
+    action: cancel
+    message_id: true
+  - code: 402
+    default: HEALTH&WELLNESS/1.2.5/on_cancel/on_cancel/default.yaml
+    action_id: on_cancel
+    action: on_cancel
+    message_id: false
+  - code: 135
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_pending/default.yaml
+    action_id: on_status_pending
+    action: on_status
+    message_id: true
+  - code: 139
+    default: HEALTH&WELLNESS/1.2.5/on_cancel/on_cancel_rto/default.yaml
+    action_id: on_cancel_rto
+    action: on_cancel
+    message_id: true
+  - code: 140
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_rto_delivereddisposed/default.yaml
+    action_id: on_status_rto_delivereddisposed
+    action: on_status
+    message_id: true
+  - code: 148
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_part_cancel/default.yaml
+    action_id: on_update_part_cancel
+    action: on_update
+    message_id: false
+  - code: 149
+    default: HEALTH&WELLNESS/1.2.5/update/update_partial_cancel_settlement/default.yaml
+    action_id: update_partial_cancel_settlement
+    action: update
+    message_id: true
+  - code: 164
+    default: HEALTH&WELLNESS/1.2.5/update/update_reverse_qc/default.yaml
+    action_id: update_reverse_qc
+    action: update
+    message_id: true
+  - code: 165
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_interim_reverseQc/default.yaml
+    action_id: on_update_interim_reverseQc
+    action: on_update
+    message_id: false
+  - code: 166
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_return_approved/default.yaml
+    action_id: on_update_return_approved
+    action: on_update
+    message_id: true
+  - code: 167
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_return_picked/default.yaml
+    action_id: on_update_return_picked
+    action: on_update
+    message_id: true
+  - code: 168
+    default: HEALTH&WELLNESS/1.2.5/update/update_reverse_qc_settlement/default.yaml
+    action_id: update_reverse_qc_settlement
+    action: update
+    message_id: true
+  - code: 169
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_return_delivered/default.yaml
+    action_id: on_update_return_delivered
+    action: on_update
+    message_id: false
+  - code: 169
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_return_delivered/default.yaml
+    action_id: on_update_return_delivered_rep
+    action: on_update
+    message_id: true
+  - code: 176
+    default: HEALTH&WELLNESS/1.2.5/cancel/cancel_return_request/default.yaml
+    action_id: cancel_return_request
+    action: cancel
+    message_id: true
+  - code: 177
+    default: HEALTH&WELLNESS/1.2.5/on_cancel/on_cancel_return_request/default.yaml
+    action_id: on_cancel_return_request
+    action: on_cancel
+    message_id: false
+  - code: 164
+    default: HEALTH&WELLNESS/1.2.5/update/update_reverse_qc_rep/default.yaml
+    action_id: update_reverse_qc_rep
+    action: update
+    message_id: true
+  - code: 167
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_return_picked_rep/default.yaml
+    action_id: on_update_return_picked_rep
+    action: on_update
+    message_id: true
+  - code: 270
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_picked_rep/default.yaml
+    action_id: on_status_picked_rep
+    action: on_status
+    message_id: true
+  - code: 207
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_packed_rep/default.yaml
+    action_id: on_status_packed_rep
+    action: on_status
+    message_id: true
+  - code: 208
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_out_for_delivery_rep/default.yaml
+    action_id: on_status_out_for_delivery_rep
+    action: on_status
+    message_id: true
+  - code: 209
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_order_delivered_rep/default.yaml
+    action_id: on_status_order_delivered_rep
+    action: on_status
+    message_id: true
+  - code: 210
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_order_delivered_rep/default.yaml
+    action_id: on_status_order_delivered_rep
+    action: on_status
+    message_id: true
+  - code: 300
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_out_for_delivery_force/default.yaml
+    action_id: on_status_out_for_delivery_force
+    action: on_status
+    message_id: true
+  - code: 301
+    default: HEALTH&WELLNESS/1.2.5/cancel/cancel_no/default.yaml
+    action_id: cancel_no
+    action: cancel
+    message_id: true
+  - code: 302
+    default: HEALTH&WELLNESS/1.2.5/cancel/cancel_yes/default.yaml
+    action_id: cancel_yes
+    action: cancel
+    message_id: true
+  - code: 303
+    default: HEALTH&WELLNESS/1.2.5/on_cancel/on_cancel_yes/default.yaml
+    action_id: on_cancel_yes
+    action: on_cancel
+    message_id: false
+  - code: 304
+    default: HEALTH&WELLNESS/1.2.5/update/update_settlement_cancel/default.yaml
+    action_id: update_settlement_cancel
+    action: update
+    message_id: true
+  - code: 316
+    action_id: issue_open
+    action: issue
+    default: HEALTH&WELLNESS/1.2.5/issue/issue_open/default.yaml
+    message_id: true
+  - code: 317
+    action_id: on_issue_processing
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 318
+    action_id: on_issue_need_more_info
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_need_more_info/default.yaml
+    message_id: true
+  - code: 319
+    action_id: issue_info_provided
+    action: issue
+    default: HEALTH&WELLNESS/1.2.5/issue/issue_info_provided/default.yaml
+    message_id: true
+  - code: 320
+    action_id: on_issue_provided
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_provided/default.yaml
+    message_id: false
+  - code: 321
+    action_id: on_issue_resolution
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 322
+    action_id: issue_resolution_accept
+    action: issue
+    default: HEALTH&WELLNESS/1.2.5/issue/issue_resolution_accept/default.yaml
+    message_id: true
+  - code: 323
+    action_id: on_issue_resolved
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_resolved/default.yaml
+    message_id: true
+  - code: 324
+    action_id: issue_close
+    action: issue
+    default: HEALTH&WELLNESS/1.2.5/issue/issue_close/default.yaml
+    message_id: true
+  # - code: 163
+  #   action_id: issue_close_thumbs_Down
+  #   action: issue
+  #   default: issue/issue_close/default.yaml
+  #   message_id: true
+  - code: 325
+    action_id: issue_open_2
+    action: issue
+    default: HEALTH&WELLNESS/1.2.5/issue/issue_open_2/default.yaml
+    message_id: true
+  - code: 326
+    action_id: issue_resolution_reject
+    action: issue
+    default: HEALTH&WELLNESS/1.2.5/issue/issue_resolution_accept/default.yaml
+    message_id: true
+  - code: 326
+    action_id: on_issue_processing_1
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 327
+    action_id: on_issue_processing_2
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_processing/default.yaml
+    message_id: false
+  - code: 328
+    action_id: issue_escalate
+    action: issue
+    default: HEALTH&WELLNESS/1.2.5/issue/issue_open/default.yaml
+    message_id: true
+  - code: 329
+    action_id: on_issue_resolution_1
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 330
+    action_id: on_issue_resolution_2
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 331
+    action_id: on_issue_resolution_igm_3
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_resolution/default.yaml
+    message_id: true
+  - code: 332
+    action_id: issue_resolution_accept_igm_3
+    action: issue
+    default: HEALTH&WELLNESS/1.2.5/issue/issue_resolution_accept/default.yaml
+    message_id: true
+  - code: 333
+    action_id: on_issue_resolved_igm_3
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_resolved/default.yaml
+    message_id: true
+  - code: 334
+    action_id: issue_close_igm_3
+    action: issue
+    default: HEALTH&WELLNESS/1.2.5/issue/issue_close/default.yaml
+    message_id: true
+  - code: 335
+    action_id: on_update_igm_return
+    action: on_update
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_return_igm/default.yaml
+    message_id: true
+  - code: 336
+    action_id: on_update_igm_replacement
+    action: on_update
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_replacement_igm/default.yaml
+    message_id: true
+  - code: 337
+    action_id: on_status_igm_3
+    action: on_status
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_order_delivered/default.yaml
+    message_id: true
+
+    # _________________________IMG_1.0.0_________________________
+
+  - code: 340
+    action_id: issue_open_100
+    action: issue
+    default: HEALTH&WELLNESS/1.2.5/issue/issue_100/issue_open/default.yaml
+    message_id: true
+  - code: 341
+    action_id: on_issue_processing_100
+    action: on_issue
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_100/on_issue_processing/default.yaml
+    message_id: false  
+  - code: 342
+    action_id: on_issue_resolved_100
+    action: on_issue_status
+    default: HEALTH&WELLNESS/1.2.5/on_issue/on_issue_100/on_issue_resolved/default.yaml
+    message_id: true  
+  - code: 343
+    action_id: issue_close_100
+    action: issue
+    default: HEALTH&WELLNESS/1.2.5/issue/issue_100/issue_close/default.yaml
+    message_id: true
+  - code: 344
+    action_id: track
+    action: track
+    default: HEALTH&WELLNESS/1.2.5/track/default.yaml
+    message_id: true
+  - code: 345
+    action_id: on_track
+    action: on_track
+    default: HEALTH&WELLNESS/1.2.5/on_track/default.yaml
+    message_id: false
+  - code: 346
+    default: HEALTH&WELLNESS/1.2.5/select/select_ccc/default.yaml
+    action_id: select_ccc
+    action: select
+    message_id: true
+  - code: 347
+    default: HEALTH&WELLNESS/1.2.5/on_select/on_select_ccc/default.yaml
+    action_id: on_select_ccc
+    action: on_select
+    message_id: false
+  - code: 348
+    default: HEALTH&WELLNESS/1.2.5/init/init_ccc/default.yaml
+    action_id: init_ccc
+    action: init
+    message_id: true
+  - code: 349
+    default: HEALTH&WELLNESS/1.2.5/on_init/on_init_ccc/default.yaml
+    action_id: on_init_ccc
+    action: on_init
+    message_id: false
+  - code: 350
+    default: HEALTH&WELLNESS/1.2.5/confirm/confirm_ccc/default.yaml
+    action_id: confirm_ccc
+    action: confirm
+    message_id: true
+  - code: 351
+    default: HEALTH&WELLNESS/1.2.5/on_confirm/on_confirm_ccc/default.yaml
+    action_id: on_confirm_ccc
+    action: on_confirm
+    message_id: false
+  - code: 353
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_accepted_ccc/default.yaml
+    action_id: on_status_accepted_ccc
+    action: on_status
+    message_id: true
+  - code: 353
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_packed_ccc/default.yaml
+    action_id: on_status_packed_ccc
+    action: on_status
+    message_id: true
+  - code: 354
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_agent_assigned_ccc/default.yaml
+    action_id: on_status_agent_assigned_ccc
+    action: on_status
+    message_id: true
+  - code: 355
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_picked_ccc/default.yaml
+    action_id: on_status_picked_ccc
+    action: on_status
+    message_id: true
+  - code: 356
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_out_for_delivery_ccc/default.yaml
+    action_id: on_status_out_for_delivery_ccc
+    action: on_status
+    message_id: true
+  - code: 357
+    default: HEALTH&WELLNESS/1.2.5/on_status/on_status_order_delivered_ccc/default.yaml
+    action_id: on_status_order_delivered_ccc
+    action: on_status
+    message_id: true

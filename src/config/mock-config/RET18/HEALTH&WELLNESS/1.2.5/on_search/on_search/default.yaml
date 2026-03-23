@@ -1,0 +1,297 @@
+catalog:
+  bpp/fulfillments:
+  - id: F1
+    type: Delivery
+  bpp/descriptor:
+    name: Mock Seller NP
+    symbol: https://sellerNP.com/images/np.png
+    short_desc: Seller Marketplace
+    long_desc: Seller Marketplace
+    images:
+    - https://sellerNP.com/images/np.png
+    tags:
+    - code: bpp_terms
+      list:
+      - code: np_type
+        value: MSN
+  bpp/providers:
+  - id: P1
+    time:
+      label: enable
+      timestamp: "2024-08-13T06:46:19.736Z"
+    ttl: PT24H
+    locations:
+    - id: L1
+      gps: 12.925810,77.583624
+      address:
+        city: Bengaluru
+        state: Karnataka
+        area_code: "560011"
+        street: Jayanagar
+        locality: Jayanagar
+      time:
+        label: enable
+        timestamp: "2024-08-13T06:46:19.736Z"
+        days: "1,2,3,4,5"
+        schedule:
+          holidays: []
+        range:
+          start: "0000"
+          end: "2359"
+      circle:
+        gps: 12.925810,77.583624
+        radius:
+          unit: km
+          value: "5"
+    descriptor:
+      name: Seller Business
+      symbol: https://sellerNP.com/images/store1.png
+      short_desc: Store 1
+      long_desc: Store 1
+      images:
+      - https://sellerNP.com/images/store1.png
+    categories:
+    - id: V1
+      descriptor:
+        name: Variant Group 1
+      tags:
+      - code: type
+        list:
+        - code: type
+          value: variant_group
+      - code: attr
+        list:
+        - code: name
+          value: item.tags.attribute.brand
+        - code: seq
+          value: "1"
+    items:
+    - id: I1
+      time:
+        label: enable
+        timestamp: "2025-01-08T07:30:00.000Z"
+      rating: "4"
+      parent_item_id: "V1"
+      descriptor:
+        name: Calcium and Vitamin D3 tablets
+        symbol: https://snp.com/images/i1.png
+        short_desc: Calcium and Vitamin D3 tablets
+        long_desc: Calcium and Vitamin D3 tablets
+        images:
+        - https://snp.com/images/i1.png
+        code: 1:XXXXXXXXXXXXX
+      quantity:
+        unitized:
+          measure:
+            unit: unit
+            value: "1"
+        available:
+          count: "99"
+        maximum:
+          count: "99"
+      price:
+        currency: INR
+        value: "65.00"
+        maximum_value: "65.0"
+      category_id: Nutrition and Fitness Supplements
+      location_id: L1
+      fulfillment_id: F1
+      "@ondc/org/returnable": true
+      "@ondc/org/cancellable": true
+      "@ondc/org/available_on_cod": false
+      "@ondc/org/time_to_ship": PT45M
+      "@ondc/org/seller_pickup_return": true
+      "@ondc/org/return_window": PT1H
+      "@ondc/org/contact_details_consumer_care": Ramesh,ramesh@abc.com,18004254444
+      "@ondc/org/statutory_reqs_packaged_commodities":
+        manufacturer_or_packer_name: Pure and Cure Healthcare Pvt Ltd
+        manufacturer_or_packer_address: Plot No 26A-30, Sector 8A, IIE, SIDCUL, Ranipur, Haridwar-249403
+        mfg_license_no: 51/UA/SC/P-2013
+        common_or_generic_name_of_commodity: Shelcal HD
+        multiple_products_name_number_or_qty: "15"
+        month_year_of_manufacture_packing_import: Mar-24
+        expiry_date: Feb-25
+      "@ondc/org/statutory_reqs_prepackaged_food":
+        ingredients_info: >
+          Every film-coated tablet contains: 1250 mg Calcium Carbonate from an organic source (powdered oyster shell) equivalent to Elemental Calcium 500 mg, Vitamin D3 I.P 500 IU, Colors: lake of sunset yellow FCF and titanium dioxide I.P
+      tags:
+      - code: origin
+        list:
+        - code: country
+          value: IND
+      - code: image
+        list:
+        - code: type
+          value: back_image
+        - code: url
+          value: https://snp.com/ondc/images/I1-back.jpg
+      - code: attribute
+        list:
+        - code: brand
+          value: Ayur Herb
+        - code: prescription_required
+          value: no
+    - id: I2
+      time:
+        label: enable
+        timestamp: "2025-01-08T07:30:00.000Z"
+      rating: "3"
+      parent_item_id: "V1"
+      descriptor:
+        name: Himalaya Ashvagandha Tablets
+        symbol: https://snp.com/images/i1.png
+        short_desc: General Wellness Tablets
+        long_desc: Himalaya Wellness Pure Herbs Ashvagandha 60 Tablets
+        images:
+        - https://snp.com/images/i1.png
+        code: 1:XXXXXXXXXXXXX
+      quantity:
+        unitized:
+          measure:
+            unit: unit
+            value: "1"
+        available:
+          count: "99"
+        maximum:
+          count: "99"
+      price:
+        currency: INR
+        value: "180.00"
+        maximum_value: "180.00"
+      category_id: Nutrition and Fitness Supplements
+      location_id: L1
+      fulfillment_id: F1
+      "@ondc/org/returnable": true
+      "@ondc/org/cancellable": true
+      "@ondc/org/available_on_cod": false
+      "@ondc/org/time_to_ship": PT45M
+      "@ondc/org/seller_pickup_return": true
+      "@ondc/org/return_window": PT1H
+      "@ondc/org/contact_details_consumer_care": Ramesh,ramesh@abc.com,18004254444
+      "@ondc/org/statutory_reqs_packaged_commodities":
+        manufacturer_or_packer_name: The Himalaya Drug Company
+        manufacturer_or_packer_address: Plot No 26A-30, Sector 8A, IIE, SIDCUL, Ranipur, Haridwar-249403
+        mfg_license_no: AYU/1234
+        common_or_generic_name_of_commodity: Shelcal HD
+        multiple_products_name_number_or_qty: "15"
+        month_year_of_manufacture_packing_import: Mar-24
+        expiry_date: Feb-25
+      "@ondc/org/statutory_reqs_prepackaged_food":
+        ingredients_info: >
+          Every film-coated tablet contains: 1250 mg Calcium Carbonate from an organic source (powdered oyster shell) equivalent to Elemental Calcium 500 mg, Vitamin D3 I.P 500 IU, Colors: lake of sunset yellow FCF and titanium dioxide I.P
+      tags:
+      - code: origin
+        list:
+        - code: country
+          value: IND
+      - code: image
+        list:
+        - code: type
+          value: back_image
+        - code: url
+          value: https://snp.com/ondc/images/I1-back.jpg
+      - code: attribute
+        list:
+        - code: brand
+          value: Himalaya Wellness
+        - code: prescription_required
+          value: no
+    - id: I3
+      time:
+        label: enable
+        timestamp: "2025-01-08T07:30:00.000Z"
+      rating: "3"
+      parent_item_id: "V1"
+      descriptor:
+        name: Optimum Nutrition Gold Standard Whey Protein
+        symbol: https://snp.com/images/i1.png
+        short_desc: 100% Whey Protein Powder
+        long_desc: 24g Protein, 5.5g BCAAs, Double Rich Chocolate flavour
+        images:
+        - https://snp.com/images/i1.png
+        code: 1:XXXXXXXXXXXXX
+      quantity:
+        unitized:
+          measure:
+            unit: unit
+            value: "1"
+        available:
+          count: "99"
+        maximum:
+          count: "99"
+      price:
+        currency: INR
+        value: "180.00"
+        maximum_value: "180.00"
+      category_id: Nutrition and Fitness Supplements
+      location_id: L1
+      fulfillment_id: F1
+      "@ondc/org/returnable": true
+      "@ondc/org/cancellable": true
+      "@ondc/org/available_on_cod": false
+      "@ondc/org/time_to_ship": PT45M
+      "@ondc/org/seller_pickup_return": true
+      "@ondc/org/return_window": PT1H
+      "@ondc/org/contact_details_consumer_care": Ramesh,ramesh@abc.com,18004254444
+      "@ondc/org/statutory_reqs_packaged_commodities":
+        manufacturer_or_packer_name: The Himalaya Drug Company
+        manufacturer_or_packer_address: Plot No 26A-30, Sector 8A, IIE, SIDCUL, Ranipur, Haridwar-249403
+        mfg_license_no: AYU/1234
+        common_or_generic_name_of_commodity: Shelcal HD
+        multiple_products_name_number_or_qty: "15"
+        month_year_of_manufacture_packing_import: Mar-24
+        expiry_date: Feb-25
+      "@ondc/org/statutory_reqs_prepackaged_food":
+        ingredients_info: >
+          Protein Blend (Whey Protein Isolate, Whey Protein Concentrate), Cocoa, Lecithin, Natural and Artificial flavour, Acesulfame Potassium
+      tags:
+      - code: origin
+        list:
+        - code: country
+          value: IND
+      - code: image
+        list:
+        - code: type
+          value: back_image
+        - code: url
+          value: https://snp.com/ondc/images/I1-back.jpg
+      - code: attribute
+        list:
+        - code: brand
+          value: Shellcal HD
+        - code: prescription_required
+          value: no
+    fulfillments:
+    - id: F1
+      type: Delivery
+      contact:
+        phone: "9876543210"
+        email: test@gmail.com
+    tags:
+    - code: serviceability
+      list:
+      - code: location
+        value: L1
+      - code: category
+        value: Nutrition and Fitness Supplements
+      - code: type
+        value: "11"
+      - code: unit
+        value: pincode
+      - code: val
+        value": "560001-560076,560083"
+        value: IND
+    - code: timing
+      list:
+      - code: type
+        value: All
+      - code: location
+        value: L1
+      - code: day_from
+        value: "1"
+      - code: day_to
+        value: "5"
+      - code: time_from
+        value: "0000"
+      - code: time_to
+        value: "2359"

@@ -1,4 +1,5 @@
-import { JSONPath } from "jsonpath-plus";
+import jsonpath from "jsonpath";
+import { logger, logInfo } from "../logger";
 
 /**
  * Updates a JSON object at a specific JSONPath with a new value.
@@ -13,29 +14,32 @@ function updateJsonPath<T extends object>(
 	jsonPath: string,
 	newValue: any
 ): T {
-	const results = JSONPath({
-		path: jsonPath,
-		json,
-		resultType: "all",
-	});
-
-	if (!results.length) {
-		throw new Error(`No match found for JSONPath: ${jsonPath}`);
+	logInfo({
+		message: "Inside updateJsonPath Function",
+		meta: {
+			jsonPath,
+			newValue,
+		},
+		});
+		try {
+		jsonpath.apply(json, jsonPath, (_) => newValue);
+		return json;
+	} catch (err) {
+		// logger.info(
+		// 	`Error in updating JSONPath ${jsonPath} with value ${newValue}: ${err}`
+		// );
+		logInfo({	
+			message: `Error in updating JSONPath ${jsonPath} with value ${newValue}`,
+			meta: {
+				jsonPath,
+				newValue,
+			},
+			error: err,
+		});
+		throw new Error(
+			`Error in updating JSONPath ${jsonPath} with value ${newValue}: ${err}`
+		);
 	}
-
-	for (const result of results) {
-		// Use the pointer to navigate the JSON structure
-		const { pointer, parent, parentProperty } = result;
-
-		if (!parent || !parentProperty) {
-			throw new Error(`Invalid result structure for JSONPath: ${jsonPath}`);
-		}
-
-		// Update the target property
-		parent[parentProperty] = newValue;
-	}
-
-	return json;
 }
 
 /**
@@ -49,9 +53,22 @@ export function updateAllJsonPaths<T extends object>(
 	json: T,
 	pathObject: Record<string, any>
 ): T {
+	logInfo({
+		message: "Entering updateAllJsonPaths Function",
+		meta: {
+			pathObject,
+		},
+	});
 	for (const jsonPath in pathObject) {
 		const value = pathObject[jsonPath];
 		json = updateJsonPath(json, jsonPath, value);
 	}
+	logInfo({
+		message: "Exiting updateAllJsonPaths Function",
+		meta: {
+			pathObject,
+			json,
+		},
+	});
 	return json;
 }
