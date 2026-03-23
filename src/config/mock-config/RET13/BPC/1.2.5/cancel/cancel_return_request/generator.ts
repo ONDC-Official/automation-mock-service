@@ -12,7 +12,7 @@ export async function cancel_return_request_generator(
 
   const inputs = sessionData.user_inputs as CancelInputType;
 
-  const reasonId = inputs?.cancellation_reason_id ?? "001";
+  const reasonId = inputs?.cancellation_reason_id ?? "052";
 
   existingPayload.message.cancellation_reason_id = reasonId;
 
