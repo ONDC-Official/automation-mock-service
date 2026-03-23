@@ -55,6 +55,6 @@ export async function select_ccc_generator(
 			};
 		});
 	}
-	existingPayload.context.domain = "ONDC:FFFFF";
+	// existingPayload.context.domain = "ONDC:FFFFF";
 	return existingPayload;
 }

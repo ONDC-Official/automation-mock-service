@@ -16,6 +16,6 @@ export async function on_status_order_delivered_ccc_generator(
   generalPayload.message.order.fulfillments[0].end.time.timestamp = existingPayload.context.timestamp;
   generalPayload.message.order.updated_at = existingPayload.context.timestamp;
   generalPayload.message.order.state = "Completed";
-    generalPayload.context.domain = "ONDC:FFFFF";
+//     generalPayload.context.domain = "ONDC:FFFFF";
   return generalPayload;
 }

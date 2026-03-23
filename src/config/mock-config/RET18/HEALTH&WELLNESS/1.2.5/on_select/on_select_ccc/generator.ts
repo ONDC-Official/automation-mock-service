@@ -85,6 +85,6 @@ export async function on_select_ccc_generator(
   );
   existingPayload.message.order.quote = quote;
   console.log("existingpayload", JSON.stringify(existingPayload));
-  existingPayload.context.domain = "ONDC:FFFFF"
+//   existingPayload.context.domain = "ONDC:FFFFF"
   return existingPayload;
 }
