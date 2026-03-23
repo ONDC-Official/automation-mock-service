@@ -7,9 +7,9 @@ type CancelInputType = {
 
 export async function cancel_no_generator(
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  inputs?: any
 ) {
-  const inputs = sessionData.user_inputs as CancelInputType;
 
   const reasonId = inputs?.cancellation_reason_id ?? "052";
   existingPayload.message.order_id = sessionData.order_id;
@@ -35,12 +35,13 @@ export async function cancel_no_generator(
   };
 
   const tat = sessionData.tat;
-  const updatedTime = addDurationToTimestamp(
-    existingPayload.context.timestamp,
-    tat
-  );
-
-  existingPayload.context.timestamp = updatedTime;
+  if (tat) {
+    const updatedTime = addDurationToTimestamp(
+      existingPayload.context.timestamp,
+      tat
+    );
+    existingPayload.context.timestamp = updatedTime;
+  }
 
   return existingPayload;
 }

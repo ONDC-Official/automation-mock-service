@@ -6,10 +6,9 @@ type CancelInputType = {
 
 export async function cancel_generator(
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
+  inputs?: any
 ) {
-
-  const inputs = sessionData.user_inputs as CancelInputType;
 
   const reasonId = inputs?.cancellation_reason_id ?? "052";
 
