@@ -40,7 +40,7 @@ export async function confirm_ccc_generator(
 	if (bppTerms) {
 		bppTerms.list = sessionData.bpp_terms.list;
 	}
-	existingPayload.context.domain = "ONDC:FFFFF";
+	// existingPayload.context.domain = "ONDC:FFFFF";
 	return existingPayload;
 }
 

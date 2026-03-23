@@ -20,6 +20,6 @@ export async function on_init_ccc_generator(
 	);
 	existingPayload.message.order.provider = sessionData.provider;
 	existingPayload.message.order.quote = removeItemQuantitiesFromQuote(sessionData.quote);
-	existingPayload.context.domain = "ONDC:FFFFF";
+	// existingPayload.context.domain = "ONDC:FFFFF";
 	return existingPayload;
 }
