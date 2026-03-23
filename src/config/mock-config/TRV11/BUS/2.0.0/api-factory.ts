@@ -55,6 +55,8 @@ export async function Generator(
 			return await onConfirmGenerator(existingPayload, sessionData);
 		case "on_status_BUS_200":
 			return await onStatusActiveGenerator(existingPayload, sessionData);
+		case "unsoliciated_on_status_BUS_200":
+			return await onStatusActiveGenerator(existingPayload, sessionData);	
 		case "on_status_active_BUS_200":
 			return await onStatusActiveGenerator(existingPayload, sessionData);
 		case "on_confirm_delayed_BUS_200":
