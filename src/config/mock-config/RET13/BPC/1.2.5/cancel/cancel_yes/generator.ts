@@ -11,7 +11,7 @@ export async function cancel_yes_generator(
 ) {
   const inputs = sessionData.user_inputs as CancelInputType;
 
-  const reasonId = inputs?.cancellation_reason_id ?? "001";
+  const reasonId = inputs?.cancellation_reason_id ?? "052";
   existingPayload.message.order_id = sessionData.order_id;
   existingPayload.message.cancellation_reason_id = reasonId;
   existingPayload.message.descriptor = {
