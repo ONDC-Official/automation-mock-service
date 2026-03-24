@@ -148,8 +148,14 @@ export async function Generator(
       return on_select_out_of_stock_generator(existingPayload, sessionData);
     case "cancel":
       return cancel_generator(existingPayload, sessionData);
+    case "cancel_yes":
+      return cancel_yes_generator(existingPayload, sessionData);
+    case "cancel_no":
+      return cancel_no_generator(existingPayload, sessionData);
     case "on_cancel":
       return on_cancel_generator(existingPayload, sessionData);
+    case "on_cancel_yes":
+      return on_cancel_yes_generator(existingPayload, sessionData);
     case "on_cancel_rto":
       return on_cancel_rto_generator(existingPayload, sessionData);
     case "on_status_rto_delivereddisposed":
@@ -208,35 +214,35 @@ export async function Generator(
       return update_reverse_qc_rep_generator(existingPayload, sessionData);
     case "on_update_return_picked_rep":
       return on_update_picked_rep_generator(existingPayload, sessionData);
-      case "select_ccc":
-        return select_ccc_generator(existingPayload, sessionData);
-      case "on_select_ccc":
-        return on_select_ccc_generator(existingPayload, sessionData);
-      case "init_ccc":
-        return init_ccc_generator(existingPayload, sessionData);
-      case "on_init_ccc":
-        return on_init_ccc_generator(existingPayload, sessionData);
-      case "confirm_ccc":
-        return confirm_ccc_generator(existingPayload, sessionData);
-      case "on_confirm_ccc":
-        return on_confirm_ccc_generator(existingPayload, sessionData);
-      case "on_status_accepted_ccc":
-        return on_status_accepted_ccc_generator(existingPayload, sessionData);
-      case "on_status_packed_ccc":
-        return on_status_packed_ccc_generator(existingPayload, sessionData);
-      case "on_status_agent_assigned_ccc":
-        return on_status_agent_assigned_ccc_generator(existingPayload, sessionData);
-      case "on_status_picked_ccc":
-        return on_status_picked_ccc_generator(existingPayload, sessionData);
-      case "on_status_out_for_delivery_ccc":
-        return on_status_out_for_delivery_ccc_generator(existingPayload, sessionData);
-      case "on_status_order_delivered_ccc":
-        return on_status_order_delivered_ccc_generator(existingPayload, sessionData);
-      case "track":
-        return track_generator(existingPayload, sessionData);
-      case "on_track":
-        return on_track_generator(existingPayload, sessionData);
-      case "issue_open":
+    case "select_ccc":
+      return select_ccc_generator(existingPayload, sessionData);
+    case "on_select_ccc":
+      return on_select_ccc_generator(existingPayload, sessionData);
+    case "init_ccc":
+      return init_ccc_generator(existingPayload, sessionData);
+    case "on_init_ccc":
+      return on_init_ccc_generator(existingPayload, sessionData);
+    case "confirm_ccc":
+      return confirm_ccc_generator(existingPayload, sessionData);
+    case "on_confirm_ccc":
+      return on_confirm_ccc_generator(existingPayload, sessionData);
+    case "on_status_accepted_ccc":
+      return on_status_accepted_ccc_generator(existingPayload, sessionData);
+    case "on_status_packed_ccc":
+      return on_status_packed_ccc_generator(existingPayload, sessionData);
+    case "on_status_agent_assigned_ccc":
+      return on_status_agent_assigned_ccc_generator(existingPayload, sessionData);
+    case "on_status_picked_ccc":
+      return on_status_picked_ccc_generator(existingPayload, sessionData);
+    case "on_status_out_for_delivery_ccc":
+      return on_status_out_for_delivery_ccc_generator(existingPayload, sessionData);
+    case "on_status_order_delivered_ccc":
+      return on_status_order_delivered_ccc_generator(existingPayload, sessionData);
+    case "track":
+      return track_generator(existingPayload, sessionData);
+    case "on_track":
+      return on_track_generator(existingPayload, sessionData);
+    case "issue_open":
       return await issueStatusGenerator(existingPayload, {
         ...sessionData,
         igm_action: "issue_open",
@@ -245,113 +251,113 @@ export async function Generator(
       return await issueStatusGenerator(existingPayload, {
         ...sessionData,
         igm_action: "issue_escalate",
-      }, inputs);  
+      }, inputs);
     case "issue_open_2":
       return await issueStatusGenerator(existingPayload, {
         ...sessionData,
         igm_action: "issue_open_2",
       }, inputs);
-		case "on_issue_processing":
-			return await onIssueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "on_issue_processing",
-			});
+    case "on_issue_processing":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_processing",
+      });
     case "on_issue_processing_1":
-			return await onIssueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "on_issue_processing_1",
-			});
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_processing_1",
+      });
     case "on_issue_processing_2":
-			return await onIssueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "on_issue_processing_2",
-			});    
-		case "on_issue_need_more_info":
-			return await onIssueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "on_issue_need_more_info",
-			});
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_processing_2",
+      });
+    case "on_issue_need_more_info":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_need_more_info",
+      });
     case "issue_info_provided":
       return await issueStatusGenerator(existingPayload, {
         ...sessionData,
         igm_action: "issue_info_provided",
       }, inputs);
-		case "on_issue_provided":
-			return await onIssueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "on_issue_provided",
-			});
-		case "on_issue_resolution":
-			return await onIssueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "on_issue_resolution",
-			});
+    case "on_issue_provided":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_provided",
+      });
+    case "on_issue_resolution":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_resolution",
+      });
     case "on_issue_resolution_1":
-			return await onIssueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "on_issue_resolution_1",
-			});
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_resolution_1",
+      });
     case "on_issue_resolution_2":
-			return await onIssueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "on_issue_resolution_2",
-			});  
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_resolution_2",
+      });
     case "on_issue_resolution_igm_3":
-			return await onIssueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "on_issue_resolution_igm_3",
-			});     
-		case "issue_resolution_accept":
-			return await issueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "issue_resolution_accept",
-			}, inputs);
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_resolution_igm_3",
+      });
+    case "issue_resolution_accept":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_resolution_accept",
+      }, inputs);
     case "issue_resolution_accept_igm_3":
-			return await issueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "issue_resolution_accept_igm_3",
-			}, inputs);  
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_resolution_accept_igm_3",
+      }, inputs);
     case "issue_resolution_reject":
-			return await issueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "issue_resolution_reject",
-			}, inputs);  
-		case "on_issue_resolved":
-			return await onIssueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "on_issue_resolved",
-			}, inputs);
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_resolution_reject",
+      }, inputs);
+    case "on_issue_resolved":
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_resolved",
+      }, inputs);
     case "on_issue_resolved_igm_3":
-			return await onIssueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "on_issue_resolved_igm_3",
-			}, inputs);  
-		case "issue_close":
-			return await issueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "issue_close",
-			}, inputs)
+      return await onIssueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_resolved_igm_3",
+      }, inputs);
+    case "issue_close":
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_close",
+      }, inputs)
     case "issue_close_igm_3":
-			return await issueStatusGenerator(existingPayload, {
-				...sessionData,
-				igm_action: "issue_close_igm_3",
-			}, inputs)  
-    case "on_update_igm_return": 
-			return await onUpdateIgmReturnGenerator(
+      return await issueStatusGenerator(existingPayload, {
+        ...sessionData,
+        igm_action: "issue_close_igm_3",
+      }, inputs)
+    case "on_update_igm_return":
+      return await onUpdateIgmReturnGenerator(
         existingPayload,
         sessionData,
         action_id,
-      ); 
+      );
     case "on_update_igm_replacement":
-			return await onUpdateIgmReplacementGenerator(
+      return await onUpdateIgmReplacementGenerator(
         existingPayload,
         sessionData,
         action_id,
-      ); 
+      );
     case "on_status_igm_3":
-			return on_status_order_delivered_generator(existingPayload, sessionData);
+      return on_status_order_delivered_generator(existingPayload, sessionData);
 
-      // _____________IGM_1.0.0______________
+    // _____________IGM_1.0.0______________
     case "issue_open_100":
       return await issueStatusGenerator_100(
         existingPayload,
@@ -384,8 +390,8 @@ export async function Generator(
         },
         inputs
       );
-      default:
-        console.log(action_id);
-        throw new Error("Invalid action id found! ");
+    default:
+      console.log(action_id);
+      throw new Error("Invalid action id found! ");
   }
 }
