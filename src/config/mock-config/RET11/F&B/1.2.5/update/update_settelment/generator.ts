@@ -19,7 +19,7 @@ export const updateSettlelmentGenerator = (
       )?.id;
 
     if (inputs?.isRefund === "yes") {
-      refundAmount = sessionData.on_confirm_quote.price.value;
+      refundAmount = (parseFloat(sessionData?.on_confirm_quote?.price?.value) - parseFloat(sessionData?.quote_amount)).toFixed(2).toString();
     }
   } else if (action_id === "update_settelment_return") {
     sessionData.fulfillments?.forEach((fulfillment:any) => {
