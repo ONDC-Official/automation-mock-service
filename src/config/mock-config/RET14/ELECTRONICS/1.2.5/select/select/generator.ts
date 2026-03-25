@@ -4,7 +4,6 @@ import { stateCodes } from "../state-codes";
 type SelectInputType = {
 	provider?: string;
 	provider_location?: string[];
-	provider_location?: string[];
 	location_gps?: string;
 	location_pin_code?: string;
 	items?: {
