@@ -139,6 +139,11 @@ codes:
     action_id: update_partial_cancel_settlement
     action: update
     message_id: true
+  - code: 150
+    default: ELECTRONICS/1.2.5/update/update_settlement_trail/default.yaml
+    action_id: update_settlement_trail
+    action: update
+    message_id: true
   - code: 164
     default: ELECTRONICS/1.2.5/update/update_reverse_qc/default.yaml
     action_id: update_reverse_qc
@@ -169,6 +174,26 @@ codes:
     action_id: on_update_return_delivered
     action: on_update
     message_id: false
+  - code: 176
+    default: ELECTRONICS/1.2.5/update/update_return/default.yaml
+    action_id: update_return
+    action: update
+    message_id: true
+  - code: 177
+    default: ELECTRONICS/1.2.5/on_update/on_update_return_init/default.yaml
+    action_id: on_update_return_init
+    action: on_update
+    message_id: false
+  - code: 178
+    action_id: on_update_return_approved
+    default: ELECTRONICS/1.2.5/on_update/on_update_return_approved/default.yaml
+    action: on_update
+    message_id: true
+  - code: 179
+    action_id: on_update_return_picked
+    default: ELECTRONICS/1.2.5/on_update/on_update_return_picked/default.yaml
+    message_id: true
+    action: on_update
   - code: 176
     default: ELECTRONICS/1.2.5/cancel/cancel_return_request/default.yaml
     action_id: cancel_return_request

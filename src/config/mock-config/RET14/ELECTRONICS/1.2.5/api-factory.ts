@@ -44,12 +44,31 @@ import { on_status_order_delivered_fin_generator } from "./on_status/on_status_o
 import { on_confirm_fin_generator } from "./on_confirm/on_confirm_fin/generator";
 import { select_input_generator } from "./select/select_input/generator";
 import { on_select_input_generator } from "./on_select/on_select_input/generator";
+import { on_status_out_for_delivery_force_generator } from "./on_status/on_status_out_for_delivery_force/generator";
+import { cancel_no_generator } from "./cancel/cancel_no/generator";
+import { cancel_yes_generator } from "./cancel/cancel_yes/generator";
+import { on_cancel_yes_generator } from "./on_cancel/on_cancel_yes/generator";
+import { update_settlement_cancel_generator } from "./update/update_settlement_cancel/generator";
 import { onIssueStatusGenerator } from "./on_issue/generator";
 import { issueStatusGenerator } from "./issue/generator";
-import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
 import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/generator";
+import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
 import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
+import { catalog_rejection_generator } from "./on_search/catalog_rejection/generator";
+import { update_reverse_qc_generator } from "./update/update_reverse_qc/generator";
+import { on_update_interim_reverseQc_generator } from "./on_update/on_update_interim_reverseQc/generator";
+import { on_update_approved_generator } from "./on_update/on_update_return_approved/generator";
+import { on_update_picked_generator } from "./on_update/on_update_return_picked/generator";
+import { update_reverse_qc_settlement_generator } from "./update/update_reverse_qc_settlement/generator";
+import { on_update_return_delivered_generator } from "./on_update/on_update_return_delivered/generator";
+import { on_update_interim_reverse_qc_generator } from "./on_update/on_update_return_init/generator";
+import { on_update_approval_generator } from "./on_update/on_update_approval/generator";
+import { on_update_picked_172_generator } from "./on_update/on_update_picked_172/generator";
+import { on_update_return_delivered_173_generator } from "./on_update/on_update_return_delivered_173/generator";
+import { update_return } from "./update/update_return/generator";
+import { update_picked_up_generator } from "./update/update_picked_up/generator";
+import { update_delivered_generator } from "./update/update_delivered/generator";
 
 export async function Generator(
   action_id: string,
@@ -96,6 +115,10 @@ export async function Generator(
 			return track_generator(existingPayload, sessionData);
 		case "on_track":
 			return on_track_generator(existingPayload, sessionData);
+    case "track":
+      return track_generator(existingPayload, sessionData);
+    case "on_track":
+      return on_track_generator(existingPayload, sessionData);
     case "select_out_of_stock":
       return select_out_of_stock_generator(existingPayload, sessionData);
     case "on_select_out_of_stock":
@@ -157,6 +180,62 @@ export async function Generator(
       return select_input_generator(existingPayload, sessionData);
     case "on_select_input":
       return on_select_input_generator(existingPayload, sessionData);
+    case "on_status_out_for_delivery_force":
+      return on_status_out_for_delivery_force_generator(
+        existingPayload,
+        sessionData
+      );
+    case "cancel_no":
+      return cancel_no_generator(existingPayload, sessionData);
+    case "cancel_yes":
+      return cancel_yes_generator(existingPayload, sessionData);
+    case "on_cancel_yes":
+      return on_cancel_yes_generator(existingPayload, sessionData);
+    case "update_settlement_cancel":
+      return update_settlement_cancel_generator(existingPayload, sessionData);
+    case "update_reverse_qc":
+      return update_reverse_qc_generator(existingPayload, sessionData);
+    case "on_update_interim_reverseQc":
+      return on_update_interim_reverseQc_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_update_return_approved":
+      return on_update_approved_generator(existingPayload, sessionData);
+    case "on_update_return_picked":
+      return on_update_picked_generator(existingPayload, sessionData);
+    case "update_reverse_qc_settlement":
+      return update_reverse_qc_settlement_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_update_return_delivered":
+      return on_update_return_delivered_generator(existingPayload, sessionData);
+    case "on_update_return_init":
+      return on_update_interim_reverse_qc_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_update_approval":
+      return on_update_approval_generator(existingPayload, sessionData);
+    case "on_update_picked_172":
+      return on_update_picked_172_generator(existingPayload, sessionData);
+    case "on_update_return_delivered_173":
+      return on_update_return_delivered_173_generator(
+        existingPayload,
+        sessionData
+      );
+    case "update_settlement_trail":
+      return update_partial_cancel_settlement_generator(
+        existingPayload,
+        sessionData
+      );
+    case "update_return":
+      return update_return(existingPayload, sessionData);
+    case "update_picked_up":
+      return update_picked_up_generator(existingPayload, sessionData);
+    case "update_delivered":
+      return update_delivered_generator(existingPayload, sessionData);
     case "issue_open":
       return await issueStatusGenerator(
         existingPayload,
@@ -316,7 +395,7 @@ export async function Generator(
     case "on_status_igm_3":
       return on_status_order_delivered_generator(existingPayload, sessionData);
 
-      // _____________IGM_1.0.0______________
+    // _____________IGM_1.0.0______________
     case "issue_open_100":
       return await issueStatusGenerator_100(
         existingPayload,
@@ -349,6 +428,10 @@ export async function Generator(
         },
         inputs
       );
+    case "catalog_rejection":
+      return await catalog_rejection_generator(existingPayload, sessionData)
+
+
     default:
       console.log(action_id);
       throw new Error("Invalid action id found! ");

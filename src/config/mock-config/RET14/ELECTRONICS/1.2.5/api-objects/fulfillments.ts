@@ -942,7 +942,7 @@ export function createFulfillments(
                     start: start_end,
                     end: new Date(
                       time.getTime() +
-                        1000 * isoDurToSec(f["@ondc/org/TAT"] || "PT0H")
+                      1000 * isoDurToSec(f["@ondc/org/TAT"] || "PT0H")
                     ).toISOString(),
                   },
                 },
@@ -978,7 +978,7 @@ export function createFulfillments(
                 },
               },
               tags: tags.tags,
-              
+
             };
           }
           return f;
@@ -1119,7 +1119,7 @@ export function createFulfillments(
                     start: start_end,
                     end: new Date(
                       time.getTime() +
-                        1000 * isoDurToSec(f["@ondc/org/TAT"] || "PT0H")
+                      1000 * isoDurToSec(f["@ondc/org/TAT"] || "PT0H")
                     ).toISOString(),
                   },
                 },

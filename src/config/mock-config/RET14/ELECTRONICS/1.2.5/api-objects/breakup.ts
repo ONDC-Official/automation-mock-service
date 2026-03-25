@@ -8,7 +8,7 @@ const breakupItem = {
   "@ondc/org/item_quantity": {
     count: 1,
   },
-  title: "Power Bank",
+  title: "Apple Mobile Phone Standard",
   "@ondc/org/title_type": "item",
   price: {
     currency: "INR",
