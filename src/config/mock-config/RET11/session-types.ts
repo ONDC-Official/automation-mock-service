@@ -65,6 +65,7 @@ export interface SessionData {
   issue_created_at: any
   on_issue_actions: any
   issue_actions: any
+  quote_amount: string
 }
 
 export type BecknContext = {
