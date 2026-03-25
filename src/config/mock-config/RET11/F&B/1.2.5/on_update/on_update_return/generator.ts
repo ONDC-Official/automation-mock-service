@@ -72,8 +72,11 @@ export const onUpdateReturnGenerator = (
       sessionData.update_return_fulfillments &&
       action_id === "on_update_return_intermin"
     ) {
+      const returnId =
+  sessionData.update_return_fulfillments[0].tags.find((t: { code: string; }) => t.code === "return_request")
+    ?.list.find((l: { code: string; }) => l.code === "id")?.value;
       existingPayload.message.order.fulfillments.push({
-        id: sessionData.update_return_fulfillments[0].id,
+        id: returnId,
         type: "Return",
         state: {
           descriptor: {

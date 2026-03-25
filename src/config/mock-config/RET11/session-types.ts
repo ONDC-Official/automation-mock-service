@@ -107,4 +107,6 @@ export interface Input {
   isRefund?: string;
   np_fees?: string[];
   resolution_accept?: string;
+  rating: string;
+  cancellation_reason_id: string;
 }

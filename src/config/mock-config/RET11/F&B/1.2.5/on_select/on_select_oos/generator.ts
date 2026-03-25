@@ -12,6 +12,20 @@ type Tag = {
   list: TagEntry[];
 };
 
+type BreakupItem = {
+  ["@ondc/org/title_type"]?: string;
+  price?: { currency?: string; value?: string };
+  item?: {
+    quantity?: {
+      available?: { count: string | number };
+      maximum?: { count: string | number };
+    };
+    price?: { currency?: string; value?: string };
+  };
+  [key: string]: any;
+};
+
+
 function getTagType(tags: Tag[]): string | undefined {
   const typeTag = tags.find((tag) => tag.code === "type");
 
@@ -57,6 +71,22 @@ export const onSelectOOSGenerator = (
     on_search_items,
     existingPayload.message.order.fulfillments
   );
+
+
+  const breakup: BreakupItem[] = existingPayload.message.order.quote.breakup || [];
+
+  breakup.forEach((b) => {
+
+    b.item ??= {};
+    b.item.quantity ??= {
+      available: { count: "0" },
+      maximum: { count: "0" }
+    };
+    b.item.price ??= {
+      currency: b.price?.currency || "INR",
+      value: b.price?.value || "0.00"
+    };
+  });
 
 
   const errorMsg = [

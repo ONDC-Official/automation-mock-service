@@ -410,4 +410,41 @@ codes:
     default: issue/issue_close/default.yaml
     message_id: true 
 
+    # _________________________IMG_1.0.0_________________________
+
+  - code: 340
+    action_id: issue_open_100
+    action: issue
+    default: issue/issue_100/issue_open/default.yaml
+    message_id: true
+  - code: 341
+    action_id: on_issue_processing_100
+    action: on_issue
+    default: on_issue/on_issue_100/on_issue_processing/default.yaml
+    message_id: false  
+  - code: 342
+    action_id: on_issue_resolved_100
+    action: on_issue_status
+    default: on_issue/on_issue_100/on_issue_resolved/default.yaml
+    message_id: true  
+  - code: 343
+    action_id: issue_close_100
+    action: issue
+    default: issue/issue_100/issue_close/default.yaml
+    message_id: true    
+  - code: 344
+    action_id: cancel_no
+    action: cancel
+    default: cancel/cancel_no/default.yaml
+    message_id: true
+  - code: 345
+    action_id: catalog_rejection
+    action: catalog_rejection
+    default: on_search/catalog_rejection/default.yaml
+    message_id: true
+  - code: 346
+    action_id: search_inc_pull
+    action: search
+    default: search/search_inc_pull/default.yaml
+    message_id: true
     

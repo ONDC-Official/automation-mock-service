@@ -14,6 +14,7 @@ import { onSelectOOSGenerator } from "./on_select/on_select_oos/generator";
 import { cancelGenerator } from "./cancel/generator";
 import { onCancelGenerator } from "./on_cancel/generator";
 import { cancelForceGenerator } from "./cancel/cancel_force/generator";
+import { cancelNoGenerator } from "./cancel/cancel_no/generator";
 import { onSelectMultipleFulfillmentGenerator } from "./on_select/on_select_multiple_fulfillment/generator";
 import { trackGenerator } from "./track/generator";
 import { onTrackGenerator } from "./on_track/generator";
@@ -43,12 +44,16 @@ import { issueStatusGenerator } from "./issue/generator";
 import { onIssueStatusGenerator } from "./on_issue/generator";
 import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/generator";
 import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
+import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
+import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
+import { catalog_rejection_generator } from "./on_search/catalog_rejection/generator";
+import { searchPullGenerator } from "./search/search_inc_pull/generator"
 
 export async function Generator(
   action_id: string,
   existingPayload: any,
   sessionData: any,
-  inputs?: Record<string, string>
+  inputs?: any
 ) {
   switch (action_id) {
     case "search":
@@ -163,6 +168,8 @@ export async function Generator(
       return await cancelGenerator(existingPayload, sessionData);
     case "cancel_force":
       return await cancelForceGenerator(existingPayload, sessionData);
+    case "cancel_no":
+      return await cancelNoGenerator(existingPayload, sessionData, inputs);
     case "on_cancel":
       return await onCancelGenerator(existingPayload, sessionData, inputs);
     case "on_cancel_rto":
@@ -358,6 +365,44 @@ export async function Generator(
         ...sessionData,
         stateCode: "Order-delivered",
       }); 
+
+      // _____________IGM_1.0.0______________
+    case "issue_open_100":
+      return await issueStatusGenerator_100(
+        existingPayload,
+        {
+          ...sessionData,
+          igm_action: "issue_open",
+        },
+        inputs
+      );
+    case "on_issue_processing_100":
+      return await onIssueStatusGenerator_100(existingPayload, {
+        ...sessionData,
+        igm_action: "on_issue_processing",
+      });
+    case "on_issue_resolved_100":
+      return await onIssueStatusGenerator_100(
+        existingPayload,
+        {
+          ...sessionData,
+          igm_action: "on_issue_resolved",
+        },
+        inputs
+      );
+    case "issue_close_100":
+      return await issueStatusGenerator_100(
+        existingPayload,
+        {
+          ...sessionData,
+          igm_action: "issue_close",
+        },
+        inputs
+      );
+    case "catalog_rejection":
+      return catalog_rejection_generator(existingPayload, sessionData);
+    case "search_inc_pull":
+      return searchPullGenerator(existingPayload, sessionData);
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }
