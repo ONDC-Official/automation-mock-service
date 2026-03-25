@@ -37,6 +37,7 @@ export const onConfirmGenerator = (
         },
       },
       "@ondc/org/provider_name": "LSP Provider",
+      "@ondc/org/TAT": "PT60M",
       tracking: sessionData.fulfillments[0].type === "Delivery" ? true : false,
       start: {
         location: {
