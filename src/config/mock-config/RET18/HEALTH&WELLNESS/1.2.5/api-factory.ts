@@ -96,6 +96,9 @@ import { on_status_agent_assigned_ccc_generator } from "./on_status/on_status_ag
 import { on_status_picked_ccc_generator } from "./on_status/on_status_picked_ccc/generator";
 import { on_status_out_for_delivery_ccc_generator } from "./on_status/on_status_out_for_delivery_ccc/generator";
 import { on_status_order_delivered_ccc_generator } from "./on_status/on_status_order_delivered_ccc/generator";
+import { update_return } from "./update/update_return/generator";
+import { on_update_return_init_generator } from "./on_update/on_update_return_init/generator";
+import { update_settlement_trail_generator } from "./update/update_settlement_trail/generator";
 
 export async function Generator(
   action_id: string,
@@ -103,8 +106,8 @@ export async function Generator(
   sessionData: any,
   inputs?: any
 ) {
-  console.log("action_id in this with sessionData",action_id,existingPayload,sessionData);
-  
+  console.log("action_id in this with sessionData", action_id, existingPayload, sessionData);
+
   switch (action_id) {
     case "search":
       return search_generator(existingPayload, sessionData);
@@ -157,49 +160,49 @@ export async function Generator(
         sessionData
       );
     case "on_select_slotted_delivery":
-			return on_select_slotted_delivery_generator(existingPayload, sessionData);
-		case "init_slotted_delivery":
-			return init_slotted_delivery_generator(existingPayload, sessionData);
-		case "on_init_slotted_delivery":
-			return on_init_slotted_delivery_generator(existingPayload, sessionData);
+      return on_select_slotted_delivery_generator(existingPayload, sessionData);
+    case "init_slotted_delivery":
+      return init_slotted_delivery_generator(existingPayload, sessionData);
+    case "on_init_slotted_delivery":
+      return on_init_slotted_delivery_generator(existingPayload, sessionData);
     case "on_select_buyer_delivery":
-			return on_select_buyer_delivery_generator(existingPayload, sessionData);
-		case "init_buyer_delivery":
-			return init_buyer_delivery_generator(existingPayload, sessionData);
-		case "on_init_buyer_delivery":
-			return on_init_buyer_delivery_generator(existingPayload, sessionData);
-		case "on_status_ready_to_ship":
-			return on_status_ready_to_ship_generator(existingPayload, sessionData);
-		case "update_picked_up":
-			return update_picked_up_generator(existingPayload, sessionData);
-		case "update_delivered":
-			return update_delivered_generator(existingPayload, sessionData);
+      return on_select_buyer_delivery_generator(existingPayload, sessionData);
+    case "init_buyer_delivery":
+      return init_buyer_delivery_generator(existingPayload, sessionData);
+    case "on_init_buyer_delivery":
+      return on_init_buyer_delivery_generator(existingPayload, sessionData);
+    case "on_status_ready_to_ship":
+      return on_status_ready_to_ship_generator(existingPayload, sessionData);
+    case "update_picked_up":
+      return update_picked_up_generator(existingPayload, sessionData);
+    case "update_delivered":
+      return update_delivered_generator(existingPayload, sessionData);
     case "on_select_self_pickup":
-			return on_select_self_pickup_generator(existingPayload, sessionData);
+      return on_select_self_pickup_generator(existingPayload, sessionData);
     case "init_self_pickup":
-			return init_self_pickup_generator(existingPayload, sessionData);
-		case "on_init_self_pickup":
-			return on_init_self_pickup_generator(existingPayload, sessionData);
-		case "on_status_self_pick_packed":
-			return on_status_self_pickup_packed_generator(
-				existingPayload,
-				sessionData
-			);
-		case "on_status_self_pick_picked":
-			return on_status_self_pickup_picked_generator(
-				existingPayload,
-				sessionData
-			);
+      return init_self_pickup_generator(existingPayload, sessionData);
+    case "on_init_self_pickup":
+      return on_init_self_pickup_generator(existingPayload, sessionData);
+    case "on_status_self_pick_packed":
+      return on_status_self_pickup_packed_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_status_self_pick_picked":
+      return on_status_self_pickup_picked_generator(
+        existingPayload,
+        sessionData
+      );
     case "update_buyer_instructions":
-			return update_buyer_instructions(existingPayload, sessionData);
-		case "on_update_buyer_instructions":
-			return on_update_buyer_instructions(existingPayload, sessionData);
-		case "update_delivery_address":
-			return update_delivery_address(existingPayload, sessionData);
-		case "on_update_delivery_address":
-			return on_update_delivery_address(existingPayload, sessionData);
-		case "on_update_delivery_auth":
-			return on_update_delivery_auth(existingPayload, sessionData);
+      return update_buyer_instructions(existingPayload, sessionData);
+    case "on_update_buyer_instructions":
+      return on_update_buyer_instructions(existingPayload, sessionData);
+    case "update_delivery_address":
+      return update_delivery_address(existingPayload, sessionData);
+    case "on_update_delivery_address":
+      return on_update_delivery_address(existingPayload, sessionData);
+    case "on_update_delivery_auth":
+      return on_update_delivery_auth(existingPayload, sessionData);
     case "select_out_of_stock":
       return select_out_of_stock_generator(existingPayload, sessionData);
     case "on_select_out_of_stock":
@@ -215,8 +218,21 @@ export async function Generator(
         existingPayload,
         sessionData
       );
+    case "update_return":
+      return update_return(existingPayload, sessionData);
+    case "on_update_return_init":
+      return on_update_return_init_generator(existingPayload, sessionData);
     case "on_update_part_cancel":
       return on_update_part_cancel_generator(existingPayload, sessionData);
+    case "on_update_return_picked":
+      return on_update_picked_generator(existingPayload, sessionData);
+    case "on_update_return_approved":
+      return on_update_approved_generator(existingPayload, sessionData);
+    case "on_update_return_delivered":
+      return on_update_return_delivered_generator(existingPayload, sessionData);
+    case "update_settlement_trail":
+      return update_settlement_trail_generator(existingPayload, sessionData);
+
     case "update_partial_cancel_settlement":
       return update_partial_cancel_settlement_generator(
         existingPayload,
@@ -275,7 +291,7 @@ export async function Generator(
     case "on_cancel_yes":
       return on_cancel_yes_generator(existingPayload, sessionData);
     case "select_ccc":
-        return select_ccc_generator(existingPayload, sessionData);
+      return select_ccc_generator(existingPayload, sessionData);
     case "on_select_ccc":
       return on_select_ccc_generator(existingPayload, sessionData);
     case "init_ccc":
@@ -300,7 +316,7 @@ export async function Generator(
       return on_status_order_delivered_ccc_generator(existingPayload, sessionData);
     case "update_settlement_cancel":
       return update_settlement_cancel_generator(existingPayload, sessionData);
-        case "issue_open":
+    case "issue_open":
       return await issueStatusGenerator(
         existingPayload,
         {
@@ -459,7 +475,7 @@ export async function Generator(
     case "on_status_igm_3":
       return on_status_order_delivered_generator(existingPayload, sessionData);
 
-      // _____________IGM_1.0.0______________
+    // _____________IGM_1.0.0______________
     case "issue_open_100":
       return await issueStatusGenerator_100(
         existingPayload,
