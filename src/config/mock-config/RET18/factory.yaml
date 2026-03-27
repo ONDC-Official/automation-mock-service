@@ -254,6 +254,21 @@ codes:
     action_id: on_status_rto_delivereddisposed
     action: on_status
     message_id: true
+  - code: 1066
+    default: HEALTH&WELLNESS/1.2.5/update/update_return/default.yaml
+    action_id: update_return
+    action: update
+    message_id: true
+  - code: 1067  
+    default: HEALTH&WELLNESS/1.2.5/update/update_settlement_trail/default.yaml
+    action_id: update_settlement_trail
+    action: update
+    message_id: true
+  - code: 1068
+    default: HEALTH&WELLNESS/1.2.5/on_update/on_update_return_init/default.yaml
+    action_id: on_update_return_init
+    action: on_update
+    message_id: false
   - code: 148
     default: HEALTH&WELLNESS/1.2.5/on_update/on_update_part_cancel/default.yaml
     action_id: on_update_part_cancel
