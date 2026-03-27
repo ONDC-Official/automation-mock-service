@@ -186,10 +186,9 @@ const generateQuoteTrail = (breakup: any) => {
           },
           {
             code: "value",
-            value: `-${
-              Number(item?.item?.price?.value || 0) *
+            value: `-${Number(item?.item?.price?.value || 0) *
               Number(item["@ondc/org/item_quantity"]?.count || 1)
-            }`,
+              }`,
           },
         ],
       });
