@@ -21,8 +21,8 @@ export async function on_status_out_for_delivery_force_generator(
     tat
   );
 
-  existingPayload.context.timestamp = updatedTime;
   generalPayload.message.order.updated_at = updatedTime;
+  generalPayload.context.timestamp = updatedTime;
   return generalPayload;
 }
 
