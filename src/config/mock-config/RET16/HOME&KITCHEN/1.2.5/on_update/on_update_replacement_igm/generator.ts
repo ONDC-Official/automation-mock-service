@@ -145,8 +145,8 @@ export const onUpdateIgmReplacementGenerator = (
               start: start_end,
               end: new Date(
                 time.getTime() +
-                  1000 *
-                    isoDurToSec(forwardFulfillment["@ondc/org/TAT"] || "PT0H")
+                1000 *
+                isoDurToSec(forwardFulfillment["@ondc/org/TAT"] || "PT0H")
               ).toISOString(),
             },
           },
@@ -210,8 +210,6 @@ export const onUpdateIgmReplacementGenerator = (
     existingPayload.message.order.quote = sessionData.quote;
   }
 
-  existingPayload.message.order.updated_at =
-    sessionData?.confirm_created_at_timestamp ?? new Date().toISOString();
   existingPayload.message.order.updated_at = existingPayload.context.timestamp;
   return existingPayload;
 };
