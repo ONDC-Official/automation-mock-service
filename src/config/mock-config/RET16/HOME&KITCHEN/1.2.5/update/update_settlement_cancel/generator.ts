@@ -19,7 +19,7 @@ export async function update_settlement_cancel_generator(
   const fulfillments = sessionData.fulfillments as Fulfillments;
   existingPayload.message.order.fulfillments = [];
   const cancelId =
-    fulfillments.filter((f) => f.type === "Cancel")[0]?.id || undefined;
+    fulfillments.filter((f) => f.type === "Cancel")[0]?.id || fulfillments[0].id;
   if (cancelId) {
     existingPayload.message.order.fulfillments = [
       { id: cancelId, type: "Cancel" },
@@ -56,7 +56,6 @@ export async function update_settlement_cancel_generator(
     tat
   );
 
-  existingPayload.context.timestamp = updatedTime;
 
   existingPayload.message.order.payment = {
     "@ondc/org/settlement_details": [

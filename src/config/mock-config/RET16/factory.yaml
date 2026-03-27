@@ -154,6 +154,21 @@ codes:
     action_id: on_update_return_approved
     action: on_update
     message_id: true
+  - code: 1066
+    default: HOME&KITCHEN/1.2.5/update/update_return/default.yaml
+    action_id: update_return
+    action: update
+    message_id: true
+  - code: 1067  
+    default: HOME&KITCHEN/1.2.5/update/update_settlement_trail/default.yaml
+    action_id: update_settlement_trail
+    action: update
+    message_id: true
+  - code: 1068
+    default: HOME&KITCHEN/1.2.5/on_update/on_update_return_init/default.yaml
+    action_id: on_update_return_init
+    action: on_update
+    message_id: false
   - code: 167
     default: HOME&KITCHEN/1.2.5/on_update/on_update_return_picked/default.yaml
     action_id: on_update_return_picked
@@ -168,7 +183,7 @@ codes:
     default: HOME&KITCHEN/1.2.5/on_update/on_update_return_delivered/default.yaml
     action_id: on_update_return_delivered
     action: on_update
-    message_id: false
+    message_id: true
   - code: 176
     default: HOME&KITCHEN/1.2.5/cancel/cancel_return_request/default.yaml
     action_id: cancel_return_request
