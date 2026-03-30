@@ -56,6 +56,13 @@ import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
 import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 import { track_generator } from "./track/generator";
 import { on_track_generator } from "./on_track/generator";
+import { update_return } from "./update/update_return/generator";
+import { on_update_return_init_generator } from "./on_update/on_update_return_init/generator";
+import { on_update_return_picked_generator } from "./on_update/on_update_return_picked/generator";
+import { on_update_return_approved_generator } from "./on_update/on_update_return_approved/generator";
+import { on_update_return_delivered_generator } from "./on_update/on_update_return_delivered/generator";
+import { update_settlement_trail_generator } from "./update/update_settlement_trail/generator";
+import { on_status_accepted_generator } from "./on_status/on_status_accepted/generator";
 import { catalog_rejection_generator } from "./on_search/catalog_rejection/generator";
 
 export async function Generator(
@@ -114,6 +121,18 @@ export async function Generator(
         existingPayload,
         sessionData
       );
+    case "update_return":
+      return update_return(existingPayload, sessionData);
+    case "on_update_return_init":
+      return on_update_return_init_generator(existingPayload, sessionData);
+    case "on_update_return_picked":
+      return on_update_return_picked_generator(existingPayload, sessionData);
+    case "on_update_return_approved":
+      return on_update_return_approved_generator(existingPayload, sessionData);
+    case "on_update_return_delivered":
+      return on_update_return_delivered_generator(existingPayload, sessionData);
+    case "update_settlement_trail":
+      return update_settlement_trail_generator(existingPayload, sessionData);
     case "on_update_part_cancel":
       return on_update_part_cancel_generator(existingPayload, sessionData);
     case "update_partial_cancel_settlement":
@@ -137,6 +156,8 @@ export async function Generator(
       return on_confirm_fin_generator(existingPayload, sessionData);
     case "on_status_pending_fin":
       return on_status_pending_fin_generator(existingPayload, sessionData);
+    case "on_status_accepted":
+      return on_status_accepted_generator(existingPayload, sessionData);
     case "on_status_packed_fin":
       return on_status_packed_fin_generator(existingPayload, sessionData);
     case "on_status_agent_assigned_fin":
@@ -332,7 +353,7 @@ export async function Generator(
     case "on_status_igm_3":
       return on_status_order_delivered_generator(existingPayload, sessionData);
 
-      // _____________IGM_1.0.0______________
+    // _____________IGM_1.0.0______________
     case "issue_open_100":
       return await issueStatusGenerator_100(
         existingPayload,
@@ -368,6 +389,7 @@ export async function Generator(
           igm_action: "issue_close",
         },
         inputs
+      );
       );
     case "catalog_rejection":
       return await catalog_rejection_generator(existingPayload, sessionData)
