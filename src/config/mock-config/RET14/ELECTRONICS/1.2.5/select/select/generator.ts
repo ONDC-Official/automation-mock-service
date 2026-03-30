@@ -19,10 +19,10 @@ export async function select_generator(
 	sessionData: SessionData
 ) {
 
-  const inputs = sessionData.user_inputs as SelectInputType;
+	const inputs = sessionData.user_inputs as SelectInputType;
 	if (!inputs) return existingPayload;
 
-  if (inputs.provider) {
+	if (inputs.provider) {
 		existingPayload.message.order.provider.id = inputs.provider;
 	}
 	
@@ -42,9 +42,8 @@ export async function select_generator(
 	if (inputs.location_pin_code) {
 		existingPayload.message.order.fulfillments[0].end.location.address.area_code =
 			inputs.location_pin_code;
-		existingPayload.context.city = `std:${
-			stateCodes[inputs.location_pin_code as keyof typeof stateCodes] ?? "011"
-		}`;
+		existingPayload.context.city = `std:${stateCodes[inputs.location_pin_code as keyof typeof stateCodes] ?? "011"
+			}`;
 	}
 	if (inputs.items) {
 		existingPayload.message.order.items = inputs.items.map((item) => {
