@@ -34,7 +34,7 @@ import { StatusCityBased } from "./2.0.0/status/status_1/class";
 import { StatusTimeRangeBased } from "./2.0.0/status/status_3/class";
 import { StatusProviderSpecific } from "./2.0.0/status/status_4/class";
 import { OnStatusCityBased } from "./2.0.0/on_status/on_status_1/class";
-import { OnStatusTimeRangeBased } from "./2.0.0/on_status/on_status_3/class";
+import { OnStatusTimeRangeBased, OnStatusUnsoliciated } from "./2.0.0/on_status/on_status_3/class";
 import { OnStatusProviderSpecific } from "./2.0.0/on_status/on_status_4/class";
 import { SearchCityBased } from "./2.0.0/search/search_1/class";
 import { SearchIncremental } from "./2.0.0/search/search_2/class";
@@ -129,6 +129,8 @@ export function getMockAction(actionId: string) {
       return new StatusTimeRangeBased();
     case "on_status_3":
       return new OnStatusTimeRangeBased();
+    case "on_status_unsoliciated":
+      return new OnStatusUnsoliciated();    
     case "status_4":
       return new StatusProviderSpecific();
     case "on_status_4":

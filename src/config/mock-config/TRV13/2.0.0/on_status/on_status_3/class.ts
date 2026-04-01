@@ -35,3 +35,41 @@ export class OnStatusTimeRangeBased extends MockAction {
         return { valid: true };
     }
 } 
+
+export class OnStatusUnsoliciated extends MockAction {
+    get saveData(): saveType {
+        return yaml.load(
+            readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
+        ) as saveType;
+    }
+    get defaultData(): any {
+        return yaml.load(
+            readFileSync(path.resolve(__dirname, "./default.yaml"), "utf8")
+        );
+    }
+    get inputs(): any {
+        return {};
+    }
+    name(): string {
+        return "on_status_time_range_based";
+    }
+    get description(): string {
+        return "Mock for on_status time range based";
+    }
+    generator(existingPayload: any, sessionData: SessionData): Promise<any> {
+        return onStatusDefaultGenerator(existingPayload, sessionData);
+    }
+    async validate(targetPayload: any): Promise<MockOutput> {
+        const order = targetPayload?.message?.order;   
+        if (order?.status !== "COMPLETED") {
+            return {
+                valid: false,
+                message: `Invalid order state. Expected "COMPLETED", got ${order?.status}`,
+            };
+        }
+    return { valid: true };
+    }
+    async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
+        return { valid: true };
+    }
+} 

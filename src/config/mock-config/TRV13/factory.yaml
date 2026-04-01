@@ -209,6 +209,11 @@ codes:
     action: on_status
     default: TRV13/2.0.0/on_status/on_status_3/default.yaml
     message_id: false
+  - code: 133
+    action_id: on_status_unsoliciated
+    action: on_status
+    default: TRV13/2.0.0/on_status/on_status_3/default.yaml
+    message_id: true  
   - code: 134
     action_id: init_4
     action: init
