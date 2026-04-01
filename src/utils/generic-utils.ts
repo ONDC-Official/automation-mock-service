@@ -281,12 +281,12 @@ export const buildRetailQuote = (
 
     return result;
   }
-
-  let isCancelFulfillment = false;
-  let isRTO = false;
-  let isReturn = false;
+  let hasCancelFulfillment = false;
 
   items.forEach((item: any) => {
+    let isCancelFulfillment = false;
+    let isRTO = false;
+    let isReturn = false;
     console.log("items: ", item);
     if (item.quantity.count === 0) {
       return;
@@ -462,6 +462,9 @@ export const buildRetailQuote = (
         tags: removeTagsByCodes(item.tags, ["rto_action"]),
       },
     });
+    if (isCancelFulfillment) {
+      hasCancelFulfillment = true;
+    }
   });
 
   options?.offers?.forEach((offer: any) => {
@@ -541,7 +544,7 @@ export const buildRetailQuote = (
 
   let deliveryBreakup: any[] = [];
 
-  if (!isCancelFulfillment && options?.fulfillmentState !== "PRE") {
+  if (!hasCancelFulfillment && options?.fulfillmentState !== "PRE") {
     fulfillments.forEach((fulfillment: any) => {
       if (fulfillment.type === "Delivery") {
         if (fulfillment["@ondc/org/TAT"] === "PT60M") {
@@ -690,3 +693,4 @@ export const buildRetailQuote = (
 
   return quote;
 };
+
