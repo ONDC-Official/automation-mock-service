@@ -483,7 +483,7 @@ export const buildRetailQuote = (
         if (benifitType === "amount") {
           price = conditions?.benefit?.value;
 
-          totalPrice -= parseInt(conditions?.benefit?.valu || "0");
+          totalPrice += parseInt(conditions?.benefit?.value || "0");
         }
 
         if (benifitType === "percent") {
