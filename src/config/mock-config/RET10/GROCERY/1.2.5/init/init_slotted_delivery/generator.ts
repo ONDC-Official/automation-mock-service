@@ -55,6 +55,8 @@ export async function init_slotted_delivery_generator(
 		existingPayload.message.order.billing,
 		true
 	);
+	existingPayload.message.order.provider = sessionData.provider;
+
 	if (sessionData.selected_offers) {
 		existingPayload.message.order.offers = sessionData.selected_offers.map(
 			(offer: any) => {
