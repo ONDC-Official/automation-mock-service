@@ -13,6 +13,12 @@ export async function on_status_packed_generator(
 		sessionData,
 		generalPayload.message.order.fulfillments
 	);
+	if(sessionData.instructions) {
+		console.log("instructions:", sessionData.instructions);
+		generalPayload.message.order.fulfillments[0].end.instructions = {
+			...sessionData.instructions,
+		};
+	}
 	return generalPayload;
 }
 
@@ -32,5 +38,11 @@ export function createGenericOnStatus(
 	existingPayload.message.order.updated_at = timeISO;
 	existingPayload.message.order.created_at = sessionData.order_created_at;
 	existingPayload.message.order.payment = sessionData.payment;
+	if(sessionData.instructions) {
+		console.log("instructions:", sessionData.instructions);
+		existingPayload.message.order.fulfillments[0].end.instructions = {
+			...sessionData.instructions,
+		};
+	}
 	return existingPayload;
 }

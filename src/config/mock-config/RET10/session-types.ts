@@ -75,7 +75,8 @@ export type SessionData = {
   issue_level: any
   issue_created_at: any
   on_issue_actions: any
-  issue_actions: any
+  issue_actions: any;
+  instructions: any
 };
 
 export type BecknContext = {
