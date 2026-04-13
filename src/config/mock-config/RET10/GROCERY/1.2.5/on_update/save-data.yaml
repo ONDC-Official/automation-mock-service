@@ -3,3 +3,4 @@ save-data:
   quote: $.message.order.quote
   items: $.message.order.items[*]
   # quote_trail: $.message.order.fulfillments[*].tags[?(@.code=="quote_trail")]
+  instructions: $.message.order.fulfillments[*].end.instructions
