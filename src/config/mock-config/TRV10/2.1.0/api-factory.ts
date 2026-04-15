@@ -102,7 +102,9 @@ export async function Generator(
         case "on_select":
             return await onSelectMultipleStopsGenerator(existingPayload, sessionData);
         case "init":
-            return await initMultipleStopsGenerator(existingPayload, sessionData);
+            return await initMultipleStopsGenerator(existingPayload, sessionData, false);
+        case "init_pre_order_bid":    
+            return await initMultipleStopsGenerator(existingPayload, sessionData, true); 
         case "init_with_self_pickup":
             return await initSelfPickupGenerator(existingPayload, sessionData);
         case "init_rental":

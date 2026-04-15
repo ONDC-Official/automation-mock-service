@@ -123,6 +123,37 @@ message:
               maximum_value: "236"
               minimum_value: "206"
               value: "206"
+            tags:
+              - descriptor:
+                  name: "Vision Impairment"
+                  code: "DISABILITY_VIS"
+                display: false
+                list:
+                  - descriptor:
+                      code: "VIS_LEVEL"
+                      name: "Level of Disability"
+                      short_desc: "Disability of Blind and low vision"
+                  - descriptor:
+                      code: "VIS_SCREEN_READER_USAGE"
+                      name: "Screen Reader Usage"
+                      short_desc: "Screen Reader Usage"
+                  - descriptor:
+                      code: "VIS_CANE_USAGE"
+                      name: "Cane Usage"
+                      short_desc: "Cane Usage"
+                  - descriptor:
+                      code: "VIS_SPECIAL_REQUIREMENT"
+                      name: "special requirement"
+                      short_desc: "Custom description"
+              - descriptor:
+                  name: "Dwarfism"
+                  code: "DISABILITY_DWARFISM"
+                display: false
+                list:
+                  - descriptor:
+                      code: "DWARFISM_SPECIAL_REQUIREMENT"
+                      name: "Dwarfism"
+                      short_desc: "Custom description"  
             cancellation_terms:
               - cancellation_fee:
                   percentage: "10"

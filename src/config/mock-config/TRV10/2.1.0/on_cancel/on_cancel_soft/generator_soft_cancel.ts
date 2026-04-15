@@ -12,10 +12,10 @@ function updateSettlementAmount(terms: any[], quote: any) {
 
     const buyerFeeItem =
       termBlock.list.find(
-        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE",
       ) || 1;
     const settlementItem = termBlock.list.find(
-      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
+      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT",
     );
 
     if (buyerFeeItem && settlementItem) {
@@ -30,7 +30,7 @@ function updateSettlementAmount(terms: any[], quote: any) {
 
 export async function onCancelSoftGenerator(
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
 ) {
   if (sessionData.payments.length > 0) {
     existingPayload.message.order.payments = sessionData.payments;
@@ -46,6 +46,28 @@ export async function onCancelSoftGenerator(
       sessionData.selected_fulfillments;
   }
 
+  for (const fulfillment of existingPayload.message.order.fulfillments) {
+    if (Array.isArray(fulfillment.stops)) {
+      fulfillment.stops = fulfillment.stops
+        .filter((stop: any) => stop.type === "START")
+        .map((stop: any) => {
+          if (!stop.authorization) return stop;
+
+          const { valid_to, status, ...remaining } = stop.authorization;
+
+          return {
+            ...stop,
+            authorization: remaining,
+            time: {
+              duration: "PT2H",
+            },
+          };
+        });
+    }
+
+    // fulfillment.state.descriptor.code = "RIDE_CANCELLED";
+  }
+
   if (sessionData.order_id) {
     existingPayload.message.order.id = sessionData.order_id;
   }
@@ -54,12 +76,14 @@ export async function onCancelSoftGenerator(
   }
   let quote = existingPayload.message.order.quote;
   const refund_price = existingPayload.message.order.quote?.price?.value;
+  const cancellation_charge =
+    sessionData.cancellation_reason_id !== "000" ? "10" : "0";
   quote.breakup.push(
     {
       title: "CANCELLATION_CHARGES",
       price: {
         currency: "INR",
-        value: "0",
+        value: cancellation_charge,
       },
     },
     {
@@ -68,9 +92,12 @@ export async function onCancelSoftGenerator(
         currency: "INR",
         value: String("-" + refund_price),
       },
-    }
+    },
   );
-  existingPayload.message.order.quote.price = { currency: "INR", value: "0" };
+  existingPayload.message.order.quote.price = {
+    currency: "INR",
+    value: cancellation_charge,
+  };
   const now = new Date().toISOString();
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = existingPayload.context.timestamp;
@@ -79,7 +106,7 @@ export async function onCancelSoftGenerator(
   if (existingPayload.message.order.tags) {
     existingPayload.message.order.tags = updateSettlementAmount(
       existingPayload.message.order.tags,
-      sessionData.quote
+      sessionData.quote,
     );
   }
   return existingPayload;

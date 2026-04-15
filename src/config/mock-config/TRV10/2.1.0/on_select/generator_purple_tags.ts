@@ -109,6 +109,7 @@ const item_tags = [
       code: "DISABILITY_VIS",
       name: "Vision Impairment",
     },
+    display: false,
     list: [
       {
         descriptor: {
@@ -148,7 +149,7 @@ function generateQuoteFromItems(items: any[]) {
           item.tags
             .find((tag: any) => tag.descriptor.code === "FARE_POLICY")
             ?.list.find((t: any) => t.descriptor.code === "MIN_FARE")?.value ||
-            "0"
+            "0",
         );
 
         const distanceFare = price - minFare;
@@ -187,14 +188,14 @@ function filterFulfillmentsByItem(item: any, fulfillments: any[]) {
   }
 
   return fulfillments.filter((fulfillment) =>
-    item.fulfillment_ids.includes(fulfillment.id)
+    item.fulfillment_ids.includes(fulfillment.id),
   );
 }
 
 function filterItemsById(sessionData: any, selected_item_id: string) {
   if (sessionData?.items && Array.isArray(sessionData.items)) {
     return sessionData.items.filter(
-      (item: any) => item.id === selected_item_id
+      (item: any) => item.id === selected_item_id,
     );
   }
   return [];
@@ -202,15 +203,18 @@ function filterItemsById(sessionData: any, selected_item_id: string) {
 
 export async function onSelectPurpleTagsGenerator(
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
 ) {
   const selected_item_id = sessionData.selected_item_id;
   const item = filterItemsById(sessionData, selected_item_id);
   item[0]["tags"] = item_tags;
-  existingPayload.message.order.items = item;
+  existingPayload.message.order.items = item?.map((item: any) => {
+    const { cancellation_terms, ...rest } = item;
+    return rest;
+  });
   const filteredFulfillments = filterFulfillmentsByItem(
     item[0],
-    sessionData.fulfillments
+    sessionData.fulfillments,
   );
   if (sessionData.selected_add_ons?.length < 1) {
     existingPayload.message.order.items =
@@ -228,7 +232,7 @@ export async function onSelectPurpleTagsGenerator(
   }
   existingPayload.message.order.quote.breakup =
     existingPayload.message.order.quote.breakup.filter(
-      (breakup: any) => breakup.title !== "ADD_ONS"
+      (breakup: any) => breakup.title !== "ADD_ONS",
     );
   existingPayload.message.order.provider.id = sessionData.provider_id;
   return existingPayload;
