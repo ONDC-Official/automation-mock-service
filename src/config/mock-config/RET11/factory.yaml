@@ -447,4 +447,9 @@ codes:
     action: search
     default: search/search_inc_pull/default.yaml
     message_id: true
+  - code: 347
+    action_id: on_update_reverse_offers
+    action: on_update
+    default: on_update/on_update_reverse_offers/default.yaml
+    message_id: true
     

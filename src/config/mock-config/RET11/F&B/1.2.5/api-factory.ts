@@ -24,6 +24,7 @@ import { onSelectFulfillmentArrayGenerator } from "./on_select/on_select_fulfill
 import { updateAddressGenerator } from "./update/update_address/generator";
 import { updateBuyerInstGenerator } from "./update/update_buyer_inst/generator";
 import { onUpdateGenerator } from "./on_update/generator";
+import { onUpdateReverseOffersGenerator } from "./on_update/on_update_reverse_offers/generator";
 import { initMultipleFulfillmentGenerator } from "./init/init_multiple_fulfillment/generator";
 import { updateSettlelmentGenerator } from "./update/update_settelment/generator";
 import { onUpdatePartCancelGenerator } from "./on_update/on_update_part_cancel/generator";
@@ -226,6 +227,8 @@ export async function Generator(
         ...sessionData,
         deliveryAuth: true,
       });
+    case "on_update_reverse_offers":
+      return await onUpdateReverseOffersGenerator(existingPayload, sessionData);
     case "on_update_part_cancel":
       return await onUpdatePartCancelGenerator(
         existingPayload,
