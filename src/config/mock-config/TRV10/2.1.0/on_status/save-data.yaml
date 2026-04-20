@@ -4,6 +4,7 @@ save-data:
   selected_fulfillments: "$.message.order.fulfillments[*]"
   quote: "$.message.order.quote"
   items: "$.message.order.items[*]"
+  tags: "$.message.order.tags[*]"
   payments: "$.message.order.payments[*]"
   fulfillments_copy: "$.message.order.fulfillments[*]"
 

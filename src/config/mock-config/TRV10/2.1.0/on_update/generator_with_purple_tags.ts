@@ -81,80 +81,80 @@ function updateItemInfoTags(tags: any[]) {
   });
 }
 
-function updateSettlementAmount(terms: any[], quote: any) {
-  const total = Number(quote?.price?.value || 0);
+// function updateSettlementAmount(terms: any[], quote: any) {
+//   const total = Number(quote?.price?.value || 0);
 
-  terms.forEach((termBlock) => {
-    if (!termBlock.list) return;
+//   terms.forEach((termBlock) => {
+//     if (!termBlock.list) return;
 
-    const buyerFeeItem =
-      termBlock.list.find(
-        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
-      ) || 1;
-    const settlementItem = termBlock.list.find(
-      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
-    );
+//     const buyerFeeItem =
+//       termBlock.list.find(
+//         (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+//       ) || 1;
+//     const settlementItem = termBlock.list.find(
+//       (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
+//     );
 
-    if (buyerFeeItem && settlementItem) {
-      const percentage = Number(buyerFeeItem.value || 0);
-      const settlementAmount = ((total * percentage) / 100).toFixed(2);
-      settlementItem.value = settlementAmount;
-    }
-  });
+//     if (buyerFeeItem && settlementItem) {
+//       const percentage = Number(buyerFeeItem.value || 0);
+//       const settlementAmount = ((total * percentage) / 100).toFixed(2);
+//       settlementItem.value = settlementAmount;
+//     }
+//   });
 
-  return terms;
-}
+//   return terms;
+// }
 
-function applyCancellationCharges(quote: Quote, state: string): Quote {
-  // Get cancellation fee based on ride state
-  const getCancellationFee = (state: string): number => {
-    switch (state) {
-      case "RIDE_ASSIGNED":
-        return 0;
-      case "RIDE_ENROUTE_PICKUP":
-        return 30;
-      case "RIDE_ARRIVED_PICKUP":
-        return 50;
-      case "RIDE_STARTED":
-        return parseFloat(quote.price.value); // 100% of ride value
-      default:
-        return 0;
-    }
-  };
+// function applyCancellationCharges(quote: Quote, state: string): Quote {
+//   // Get cancellation fee based on ride state
+//   const getCancellationFee = (state: string): number => {
+//     switch (state) {
+//       case "RIDE_ASSIGNED":
+//         return 0;
+//       case "RIDE_ENROUTE_PICKUP":
+//         return 30;
+//       case "RIDE_ARRIVED_PICKUP":
+//         return 50;
+//       case "RIDE_STARTED":
+//         return parseFloat(quote.price.value); // 100% of ride value
+//       default:
+//         return 0;
+//     }
+//   };
 
-  const cancellationFee = getCancellationFee(state);
-  const currentTotal = parseFloat(quote.price.value);
+//   const cancellationFee = getCancellationFee(state);
+//   const currentTotal = parseFloat(quote.price.value);
 
-  // Create refund breakup for the base fare
-  const refundBreakups: Breakup[] = quote.breakup.map((breakup) => ({
-    title: "REFUND",
-    price: {
-      currency: breakup.price.currency,
-      value: `-${breakup.price.value}`,
-    },
-  }));
+//   // Create refund breakup for the base fare
+//   const refundBreakups: Breakup[] = quote.breakup.map((breakup) => ({
+//     title: "REFUND",
+//     price: {
+//       currency: breakup.price.currency,
+//       value: `-${breakup.price.value}`,
+//     },
+//   }));
 
-  // Add cancellation charge breakup
-  const cancellationBreakup: Breakup = {
-    title: "CANCELLATION_CHARGES",
-    price: {
-      currency: "INR",
-      value: cancellationFee.toFixed(2),
-    },
-  };
+//   // Add cancellation charge breakup
+//   const cancellationBreakup: Breakup = {
+//     title: "CANCELLATION_CHARGES",
+//     price: {
+//       currency: "INR",
+//       value: cancellationFee.toFixed(2),
+//     },
+//   };
 
-  // Calculate final amount (original - refund + cancellation charges)
-  const finalAmount = cancellationFee;
+//   // Calculate final amount (original - refund + cancellation charges)
+//   const finalAmount = cancellationFee;
 
-  return {
-    price: {
-      value: finalAmount.toFixed(2),
-      currency: "INR",
-    },
-    breakup: [...quote.breakup, ...refundBreakups, cancellationBreakup],
-    ttl: "PT30S",
-  };
-}
+//   return {
+//     price: {
+//       value: finalAmount.toFixed(2),
+//       currency: "INR",
+//     },
+//     breakup: [...quote.breakup, ...refundBreakups, cancellationBreakup],
+//     ttl: "PT30S",
+//   };
+// }
 
 export async function onUpdatePurpleTagsGenerator(
   existingPayload: any,
@@ -268,11 +268,8 @@ export async function onUpdatePurpleTagsGenerator(
   if ("cancellation" in sessionData) {
     const fulfillmentState =
       existingPayload.message.order.fulfillments[0]?.state?.descriptor?.code;
-    if (fulfillmentState && existingPayload.message.order.quote){
-      existingPayload.message.order.quote = applyCancellationCharges(
-        existingPayload.message.order.quote,
-        fulfillmentState
-      );
+    if (fulfillmentState && existingPayload.message.order.quote) {
+      existingPayload.message.order.quote = sessionData.quote
     }
   } else if (sessionData.quote != null) {
     existingPayload.message.order.quote = sessionData.quote;
@@ -284,23 +281,20 @@ export async function onUpdatePurpleTagsGenerator(
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
   if (existingPayload.message.order.tags) {
-    existingPayload.message.order.tags = updateSettlementAmount(
-      existingPayload.message.order.tags,
-      sessionData.quote
-    );
-  }
+    existingPayload.message.order.tags = sessionData.tags
 
-  if (existingPayload.message.order.items?.length > 0) {
-    existingPayload.message.order.items =
-      existingPayload.message.order.items.map((item: any) => {
-        if (Array.isArray(item.tags)) {
-          item.tags = updateItemInfoTags(item.tags);
-        }
-        return item;
-      });
-  }
+    if (existingPayload.message.order.items?.length > 0) {
+      existingPayload.message.order.items =
+        existingPayload.message.order.items.map((item: any) => {
+          if (Array.isArray(item.tags)) {
+            item.tags = updateItemInfoTags(item.tags);
+          }
+          return item;
+        });
+    }
 
-  // Update timestamps
-  existingPayload.message.order.updated_at = new Date().toISOString();
-  return existingPayload;
+    // Update timestamps
+    existingPayload.message.order.updated_at = new Date().toISOString();
+    return existingPayload;
+  }
 }
