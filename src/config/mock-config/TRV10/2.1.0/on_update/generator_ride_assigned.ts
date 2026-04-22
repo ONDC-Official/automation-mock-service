@@ -161,12 +161,13 @@ export async function onUpdateRideAssignedGenerator(
   existingPayload.message.order.fulfillments[0]["agent"] = agent;
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
-  if (existingPayload.message.order.tags) {
-    existingPayload.message.order.tags = updateSettlementAmount(
-      existingPayload.message.order.tags,
-      sessionData.quote
-    );
-  }
+  // if (existingPayload.message.order.tags) {
+  //   existingPayload.message.order.tags = updateSettlementAmount(
+  //     existingPayload.message.order.tags,
+  //     sessionData.quote
+  //   );
+  // }
+  existingPayload.message.order.tags = (sessionData as any).confirm_tags?.flat();
 
   const fulfillmentStops = existingPayload.message.order.fulfillments[0].stops;
   const existingEndStop = fulfillmentStops.find(

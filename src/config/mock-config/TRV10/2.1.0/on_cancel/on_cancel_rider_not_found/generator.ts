@@ -88,7 +88,7 @@ export async function onCancelRiderNotFoundGenerator(
 
   if (sessionData.tags?.length > 0) {
     // existingPayload.message.order.tags = sessionData.tags;
-    existingPayload.message.order.tags = modifyBAPNBPPTags(sessionData.tags);
+    existingPayload.message.order.tags = modifyBAPNBPPTags((sessionData as any)?.confirm_tags?.flat(),);
   }
 
   // Update items if available

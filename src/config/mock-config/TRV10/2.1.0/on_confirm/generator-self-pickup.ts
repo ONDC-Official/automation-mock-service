@@ -165,12 +165,13 @@ export async function onConfirmSelfPickupGenerator(
   existingPayload.message.order.payments = sessionData.payments;
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
-  if (existingPayload.message.order.tags) {
-    existingPayload.message.order.tags = updateSettlementAmount(
-      existingPayload.message.order.tags,
-      sessionData.quote
-    );
-  }
+  // if (existingPayload.message.order.tags) {
+  //   existingPayload.message.order.tags = updateSettlementAmount(
+  //     existingPayload.message.order.tags,
+  //     sessionData.quote
+  //   );
+  // }
+  existingPayload.message.order.tags = (sessionData as any).confirm_tags?.flat();
   if (existingPayload.message.order.items?.length > 0) {
     existingPayload.message.order.items =
       existingPayload.message.order.items.map((item: any) => {
@@ -180,5 +181,6 @@ export async function onConfirmSelfPickupGenerator(
         return item;
       });
   }
+  
   return existingPayload;
 }

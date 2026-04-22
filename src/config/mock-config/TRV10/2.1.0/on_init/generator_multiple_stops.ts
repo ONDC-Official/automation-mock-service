@@ -24,7 +24,7 @@ function updateFulfillmentRouteTags(tags: any[]) {
               const [lat, lng] = wp.gps.split(",").map(Number);
               return {
                 gps: `${(lat + 0.00001).toFixed(6)},${(lng + 0.00001).toFixed(
-                  6
+                  6,
                 )}`,
               };
             });
@@ -71,10 +71,10 @@ function updateSettlementAmount(terms: any[], quote: any) {
 
     const buyerFeeItem =
       termBlock.list.find(
-        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE",
       ) || 1;
     const settlementItem = termBlock.list.find(
-      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
+      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT",
     );
 
     if (buyerFeeItem && settlementItem) {
@@ -89,7 +89,7 @@ function updateSettlementAmount(terms: any[], quote: any) {
 
 export async function onInitMultipleStopsGenerator(
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
 ) {
   const randomPaymentId = Math.random().toString(36).substring(2, 15);
 
@@ -106,7 +106,7 @@ export async function onInitMultipleStopsGenerator(
     if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
       existingPayload.message.order.fulfillments[0].tags =
         updateFulfillmentRouteTags(
-          existingPayload.message.order.fulfillments[0].tags
+          existingPayload.message.order.fulfillments[0].tags,
         );
     }
   }
@@ -131,11 +131,28 @@ export async function onInitMultipleStopsGenerator(
   }
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
-  if (existingPayload.message.order.tags) {
-    existingPayload.message.order.tags = updateSettlementAmount(
-      existingPayload.message.order.tags,
-      sessionData.quote
-    );
-  }
+  // if (existingPayload.message.order.tags) {
+  //   existingPayload.message.order.tags = updateSettlementAmount(
+  //     existingPayload.message.order.tags,
+  //     sessionData.quote,
+  //   );
+  // }
+  const initTags = (sessionData as any)?.init_tags?.flat();
+  let settlementAmount = initTags
+    ?.find((tag: any) => tag?.descriptor?.code === "BAP_TERMS")
+    ?.list?.find((item: any) => item?.descriptor?.code === "SETTLEMENT_AMOUNT");
+
+  existingPayload.message.order.tags = (
+    (sessionData as any)?.on_search_tags?.flat() ?? []
+  ).map((tag: any) => {
+    if (tag?.descriptor?.code === "BPP_TERMS") {
+      return {
+        ...tag,
+        list: [...(tag.list ?? []), settlementAmount],
+      };
+    }
+    return tag;
+  });
+
   return existingPayload;
 }

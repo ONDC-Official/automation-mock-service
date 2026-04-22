@@ -9,3 +9,4 @@ save-data:
   collected_by: "$.message.intent.payment.collected_by"
   country_code: "$.context.location.country.code"
   city_code: "$.context.location.city.code"
+  search_tags: "$.message.intent.tags"

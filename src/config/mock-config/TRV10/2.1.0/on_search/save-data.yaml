@@ -12,3 +12,4 @@ save-data:
   locations_id: "$.message.catalog.providers[*].locations[*].id"
   payments: "$.message.catalog.providers[*].payments[*]"
   cancellation_terms: "$.message.catalog.providers[*].cancellation_terms"
+  on_search_tags: "$.message.catalog.tags"

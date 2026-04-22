@@ -275,12 +275,13 @@ export async function onUpdateGeneratorWithSelfPickup(
   existingPayload.message.order.id = sessionData.order_id;
   existingPayload.message.order.payments[0].id = sessionData.payments[0].id;
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
-  if (existingPayload.message.order.tags) {
-    existingPayload.message.order.tags = updateSettlementAmount(
-      existingPayload.message.order.tags,
-      sessionData.quote
-    );
-  }
+  // if (existingPayload.message.order.tags) {
+  //   existingPayload.message.order.tags = updateSettlementAmount(
+  //     existingPayload.message.order.tags,
+  //     sessionData.quote
+  //   );
+  // }
+  existingPayload.message.order.tags = (sessionData as any).confirm_tags?.flat();
 
   if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
     existingPayload.message.order.fulfillments[0].tags =

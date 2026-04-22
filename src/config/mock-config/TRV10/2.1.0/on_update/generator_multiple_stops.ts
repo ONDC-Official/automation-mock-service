@@ -122,12 +122,13 @@ export async function onUpdateMultipleStopsGenerator(
   }
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
-  if (existingPayload.message.order.tags) {
-    existingPayload.message.order.tags = updateSettlementAmount(
-      existingPayload.message.order.tags,
-      sessionData.quote
-    );
-  }
+  // if (existingPayload.message.order.tags) {
+  //   existingPayload.message.order.tags = updateSettlementAmount(
+  //     existingPayload.message.order.tags,
+  //     sessionData.quote
+  //   );
+  // }
+  existingPayload.message.order.tags = (sessionData as any).confirm_tags?.flat();
   if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
     existingPayload.message.order.fulfillments[0].tags =
       updateFulfillmentRouteTags(

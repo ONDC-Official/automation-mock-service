@@ -145,12 +145,28 @@ export async function onInitGenerator(
   }
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
-  if (existingPayload.message.order.tags) {
-    existingPayload.message.order.tags = updateSettlementAmount(
-      existingPayload.message.order.tags,
-      sessionData.quote
-    );
-  }
+  // if (existingPayload.message.order.tags) {
+  //   existingPayload.message.order.tags = updateSettlementAmount(
+  //     existingPayload.message.order.tags,
+  //     sessionData.quote
+  //   );
+  // }
+  const initTags = (sessionData as any)?.init_tags?.flat();
+  let settlementAmount = initTags
+    ?.find((tag: any) => tag?.descriptor?.code === "BAP_TERMS")
+    ?.list?.find((item: any) => item?.descriptor?.code === "SETTLEMENT_AMOUNT");
+
+  existingPayload.message.order.tags = (
+    (sessionData as any)?.on_search_tags?.flat() ?? []
+  ).map((tag: any) => {
+    if (tag?.descriptor?.code === "BPP_TERMS") {
+      return {
+        ...tag,
+        list: [...(tag.list ?? []), settlementAmount],
+      };
+    }
+    return tag;
+  });
 
   return existingPayload;
 }

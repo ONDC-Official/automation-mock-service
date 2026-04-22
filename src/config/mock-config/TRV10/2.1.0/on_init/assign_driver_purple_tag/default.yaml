@@ -10,7 +10,7 @@ message:
       - cancellation_fee:
           amount:
             currency: "INR"
-            value: "30"
+            value: "10"
         fulfillment_state:
           descriptor:
             code: "RIDE_ENROUTE_PICKUP"
@@ -18,7 +18,7 @@ message:
       - cancellation_fee:
           amount:
             currency: "INR"
-            value: "50"
+            value: "10"
         fulfillment_state:
           descriptor:
             code: "RIDE_ARRIVED_PICKUP"
