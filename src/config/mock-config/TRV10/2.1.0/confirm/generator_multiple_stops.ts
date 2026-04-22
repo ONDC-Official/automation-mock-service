@@ -17,10 +17,10 @@ function updateSettlementAmount(terms: any[], quote: any) {
 
     const buyerFeeItem =
       termBlock.list.find(
-        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE"
+        (i: any) => i.descriptor?.code === "BUYER_FINDER_FEES_PERCENTAGE",
       ) || 1;
     const settlementItem = termBlock.list.find(
-      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT"
+      (i: any) => i.descriptor?.code === "SETTLEMENT_AMOUNT",
     );
 
     if (buyerFeeItem && settlementItem) {
@@ -35,7 +35,7 @@ function updateSettlementAmount(terms: any[], quote: any) {
 
 export async function confirmMultipleStopsGenerator(
   existingPayload: any,
-  sessionData: SessionData
+  sessionData: SessionData,
 ) {
   existingPayload.message.order.fulfillments =
     sessionData.selected_fulfillments;
@@ -43,7 +43,7 @@ export async function confirmMultipleStopsGenerator(
   existingPayload.message.order.items[0] = {
     id: sessionData.selected_item_id,
   };
-  
+
   const flattenedItems = sessionData.selected_items.flat();
   if (flattenedItems && flattenedItems.length > 0) {
     existingPayload.message.order.items = flattenedItems;
@@ -55,11 +55,15 @@ export async function confirmMultipleStopsGenerator(
   existingPayload.message.order.provider.id = sessionData.provider_id;
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
-  if (existingPayload.message.order.tags) {
-    existingPayload.message.order.tags = updateSettlementAmount(
-      existingPayload.message.order.tags,
-      sessionData.quote
-    );
-  }
+  // if (existingPayload.message.order.tags) {
+  //   existingPayload.message.order.tags = updateSettlementAmount(
+  //     existingPayload.message.order.tags,
+  //     sessionData.quote
+  //   );
+  // }
+  existingPayload.message.order.tags = [
+    ...(sessionData as any)?.init_tags?.flat(),
+    ...(sessionData as any)?.on_init_tags?.flat(),
+  ];
   return existingPayload;
 }

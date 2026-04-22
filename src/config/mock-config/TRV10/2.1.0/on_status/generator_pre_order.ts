@@ -35,12 +35,13 @@ export async function onStatusPreOrderGenerator(
   );
 
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
-  if (existingPayload.message.order.tags) {
-    existingPayload.message.order.tags = updateSettlementAmount(
-      existingPayload.message.order.tags,
-      sessionData.quote
-    );
-  }
+  // if (existingPayload.message.order.tags) {
+  //   existingPayload.message.order.tags = updateSettlementAmount(
+  //     existingPayload.message.order.tags,
+  //     sessionData.quote
+  //   );
+  // }
+  existingPayload.message.order.tags = (sessionData as any).confirm_tags?.flat();
 
   return existingPayload;
 }

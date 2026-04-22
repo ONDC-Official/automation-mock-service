@@ -105,7 +105,7 @@ export async function onCancelSoftGenerator(
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
   if (existingPayload.message.order.tags) {
     existingPayload.message.order.tags = updateSettlementAmount(
-      existingPayload.message.order.tags,
+      (sessionData as any)?.confirm_tags?.flat(),
       sessionData.quote,
     );
   }

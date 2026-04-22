@@ -182,12 +182,12 @@ export async function onConfirmGenerator(
       reason_required: true,
     },
     {
-      cancellation_fee: { amount: { currency: "INR", value: "30" } },
+      cancellation_fee: { amount: { currency: "INR", value: "10" } },
       fulfillment_state: { descriptor: { code: "RIDE_ENROUTE_PICKUP" } },
       reason_required: true,
     },
     {
-      cancellation_fee: { amount: { currency: "INR", value: "50" } },
+      cancellation_fee: { amount: { currency: "INR", value: "10" } },
       fulfillment_state: { descriptor: { code: "RIDE_ARRIVED_PICKUP" } },
       reason_required: true,
     },

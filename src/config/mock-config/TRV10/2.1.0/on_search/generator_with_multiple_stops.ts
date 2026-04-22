@@ -35,5 +35,46 @@ export async function onSearchWithMultipleStopsGenerator(existingPayload: any, s
         const locations = generateNearbyLocations(sessionData.start_location,sessionData.end_location)
         existingPayload.message.catalog.providers[0].locations = locations
     }
+
+    // Extract BAP_TERMS from search_tags
+  const searchTags = (sessionData as any).search_tags?.flat() ?? [];
+  const bapTerms = searchTags.find(
+    (tag: any) => tag?.descriptor?.code === "BAP_TERMS",
+  );
+  const bapList: any[] = bapTerms?.list ?? [];
+  const fromBap = (code: string) =>
+    bapList.find((item: any) => item?.descriptor?.code === code);
+
+  // Base BPP_TERMS list
+  let bppList = [
+    { descriptor: { code: "BUYER_FINDER_FEES_PERCENTAGE" }, value: "1" },
+    { descriptor: { code: "SETTLEMENT_WINDOW" }, value: "PT60M" },
+    { descriptor: { code: "SETTLEMENT_BASIS" }, value: "DELIVERY" },
+    { descriptor: { code: "SETTLEMENT_TYPE" }, value: "UPI" },
+    { descriptor: { code: "MANDATORY_ARBITRATION" }, value: "true" },
+    { descriptor: { code: "COURT_JURISDICTION" }, value: "New Delhi" },
+    { descriptor: { code: "DELAY_INTEREST" }, value: "5" },
+    {
+      descriptor: { code: "STATIC_TERMS" },
+      value: "https://example-test-bpp.com/static-terms.txt",
+    },
+  ];
+
+  // Override BUYER_FINDER_FEES_PERCENTAGE and DELAY_INTEREST from BAP_TERMS
+  const codesToOverride = ["BUYER_FINDER_FEES_PERCENTAGE", "DELAY_INTEREST"];
+  bppList = bppList.map((item) => {
+    if (codesToOverride.includes(item.descriptor.code)) {
+      const bapItem = fromBap(item.descriptor.code);
+      if (bapItem) return { ...item, value: bapItem.value };
+    }
+    return item;
+  });
+
+  existingPayload.message.catalog.tags = [
+    {
+      descriptor: { code: "BPP_TERMS", name: "BPP Terms of Engagement" },
+      list: bppList,
+    },
+  ];
     return existingPayload;
 }

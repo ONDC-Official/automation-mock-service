@@ -101,19 +101,20 @@ export async function onStatusRideCancelGenerator(
     existingPayload.message.order
   );
 
-  if (sessionData?.tags) {
-    existingPayload.message.order.tags = sessionData.tags[0];
-  }
+  // if (sessionData?.tags) {
+  //   existingPayload.message.order.tags = sessionData.tags[0];
+  // }
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
-  if (existingPayload.message.order.tags) {
-    existingPayload.message.order.tags = updateSettlementAmount(
-      existingPayload.message.order.tags,
-      sessionData.quote
-    );
-  }
+  // if (existingPayload.message.order.tags) {
+  //   existingPayload.message.order.tags = updateSettlementAmount(
+  //     existingPayload.message.order.tags,
+  //     sessionData.quote
+  //   );
+  // }
+  existingPayload.message.order.tags = sessionData.tags?.flat();
 
   if(sessionData.quote){
-    existingPayload.message.order.quote = sessionData.quote
+    existingPayload.message.order.quote = (sessionData as any).on_cancel_quote
   }
 
   if (Array.isArray(existingPayload.message.order.fulfillments[0].tags)) {
