@@ -114,6 +114,16 @@ export async function on_select_self_pickup_generator(
 	for (let i = 0; i < fulfillment_breakup.length; i++) {
 		quote.breakup.push(fulfillment_breakup[i]);
 	}
+	existingPayload.message.order.fulfillments =
+		existingPayload.message.order.fulfillments.map((f: any) => {
+			if (f.id === "F2") {
+			return {
+				...f,
+				tracking: true,
+			};
+			}
+			return f;
+		});
 	existingPayload.message.order.quote = quote;
 	return existingPayload;
 }
