@@ -16,11 +16,13 @@ export async function on_status_self_pickup_picked_generator(
             name: "ONDC order",
             short_desc: "value of PCC"
           },
-          timestamp: new Date().toISOString()
+          time:{
+            timestamp: new Date().toISOString()
+          }
         },
         state: {
           descriptor: {
-            code: "Picked-Up"
+            code: "Order-picked-up"
           }
         }
       }
