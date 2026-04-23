@@ -94,6 +94,7 @@ export const RET10GROCERY125Catalog = JSON.parse(
 						{
 							id: "F2",
 							type: "Self-Pickup",
+							tracking: true,
 							contact: {
 								phone: "9594663999",
 								email: "mock@nomail.com",

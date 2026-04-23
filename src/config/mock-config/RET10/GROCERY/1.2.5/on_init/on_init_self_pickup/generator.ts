@@ -13,7 +13,7 @@ export async function on_init_self_pickup_generator(
 		sessionData,
 		existingPayload.message.order.fulfillments
 	);
-	delete existingPayload.message.order.fulfillments[0].tracking;
+	// delete existingPayload.message.order.fulfillments[0].tracking;
 	existingPayload.message.order.billing = getUpdatedBilling(
 		sessionData.billing
 	);
