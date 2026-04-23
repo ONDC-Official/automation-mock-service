@@ -167,5 +167,12 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now
     existingPayload = updateProviderTime(existingPayload);
+    if(sessionData.cancel_code!=="CONFIRM_CANCEL"){
+      existingPayload.error = {
+        message:"Please send CONFIRM_CANCEL in message.descriptor.code",
+        code:"CANCEL_DESCRIPTOR_CODE_MISMATCH",
+        valid: false
+      }
+    }
     return existingPayload;
 }
