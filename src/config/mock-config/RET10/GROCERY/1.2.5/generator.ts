@@ -129,6 +129,12 @@ import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/gen
 import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
 import { catalog_rejection_generator } from "./on_search/catalog_rejection/generator";
+import { update_reverse_qc_rep_generator } from "./update/update_reverse_qc_rep/generator";
+import { on_update_picked_rep_generator } from "./on_update/on_update_return_picked_rep/generator";
+import { on_status_packed_rep_generator } from "./on_status/on_status_packed_rep/generator";
+import { on_status_picked_rep_generator } from "./on_status/on_status_picked_rep/generator";
+import { on_status_out_for_delivery_rep_generator } from "./on_status/on_status_out_for_delivery_rep/generator";
+import { on_status_order_delivered_rep_generator } from "./on_status/on_status_order_delivered_rep/generator";
 
 export async function Generator(
 	action_id: string,
@@ -274,11 +280,30 @@ export async function Generator(
 				existingPayload,
 				sessionData
 			);
-		case "on_status_order_delivered_154":
-			return on_status_order_delivered_154_generator(
+		case "on_status_out_for_delivery_rep":
+			return on_status_out_for_delivery_rep_generator(
 				existingPayload,
 				sessionData
-			);
+		);
+		case "on_status_order_delivered_rep":
+			return on_status_order_delivered_rep_generator(
+				existingPayload,
+				sessionData
+		);
+		case "on_status_order_delivered_rep":
+			return on_status_order_delivered_rep_generator(
+				existingPayload,
+				sessionData
+		);
+		case "on_status_packed_rep":
+      		return on_status_packed_rep_generator(existingPayload, sessionData);
+		case "on_status_picked_rep":
+      		return on_status_picked_rep_generator(existingPayload, sessionData);
+		case "on_status_order_delivered_154":
+		return on_status_order_delivered_154_generator(
+			existingPayload,
+			sessionData
+		);
 		case "on_status_pending_155":
 			return on_status_pending_155_generator(existingPayload, sessionData);
 		case "on_status_packed_156":
@@ -311,6 +336,8 @@ export async function Generator(
 			);
 		case "update_reverse_qc":
 			return update_reverse_qc_generator(existingPayload, sessionData);
+		case "update_reverse_qc_rep":
+      		return update_reverse_qc_rep_generator(existingPayload, sessionData);
 		case "on_update_interim_reverseQc":
 			return on_update_interim_reverseQc_generator(
 				existingPayload,
@@ -407,6 +434,10 @@ export async function Generator(
 			return on_update_delivery_address(existingPayload, sessionData);
 		case "on_update_delivery_auth":
 			return on_update_delivery_auth(existingPayload, sessionData);
+		case "on_update_return_picked_rep":
+      		return on_update_picked_rep_generator(existingPayload, sessionData);
+		case "on_update_return_delivered_rep":
+      		return on_update_return_delivered_generator(existingPayload, sessionData);
 		case "on_select_slotted_delivery":
 			return on_select_slotted_delivery_generator(existingPayload, sessionData);
 		case "init_slotted_delivery":
