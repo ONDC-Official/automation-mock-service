@@ -782,3 +782,28 @@ codes:
     action: catalog_rejection
     default: GROCERY/1.2.5/on_search/catalog_rejection/default.yaml
     message_id: true
+  - code: 345
+    default: GROCERY/1.2.5/update/update_reverse_qc_rep/default.yaml
+    action_id: update_reverse_qc_rep
+    action: update
+    message_id: true
+  - code: 346
+    default: GROCERY/1.2.5/on_update/on_update_return_picked_rep/default.yaml
+    action_id: on_update_return_picked_rep
+    action: on_update
+    message_id: true
+  - code: 347
+    default: GROCERY/1.2.5/on_status/on_status_picked_rep/default.yaml
+    action_id: on_status_picked_rep
+    action: on_status
+    message_id: true
+  - code: 348
+    default: GROCERY/1.2.5/on_status/on_status_packed_rep/default.yaml
+    action_id: on_status_packed_rep
+    action: on_status
+    message_id: true
+  - code: 349
+    default: GROCERY/1.2.5/on_status/on_status_out_for_delivery_rep/default.yaml
+    action_id: on_status_out_for_delivery_rep
+    action: on_status
+    message_id: true
