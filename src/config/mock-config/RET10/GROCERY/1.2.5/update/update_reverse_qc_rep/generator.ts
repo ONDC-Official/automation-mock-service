@@ -1,5 +1,5 @@
 import { SessionData } from "../../../../session-types";
-import { getRandomItem } from "../../api-objects/utils";
+// import { getRandomItem } from "../../on_select/on_select_out_of_stock/generator";
 import { v4 as uuid } from "uuid";
 export async function update_reverse_qc_rep_generator(
 	existingPayload: any,

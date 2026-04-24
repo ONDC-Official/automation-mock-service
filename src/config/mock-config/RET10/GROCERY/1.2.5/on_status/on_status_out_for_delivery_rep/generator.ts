@@ -1,4 +1,4 @@
-import { createGenericOnStatus } from "../../api-objects/on_status";
+import { createGenericOnStatus } from "../on_status_packed/generator";
 
 export async function on_status_out_for_delivery_rep_generator(
   existingPayload: any,
