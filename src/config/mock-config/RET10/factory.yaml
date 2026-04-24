@@ -807,3 +807,8 @@ codes:
     action_id: on_status_out_for_delivery_rep
     action: on_status
     message_id: true
+  - code: 350
+    default: GROCERY/1.2.5/on_update/on_update_return_delivered/default.yaml
+    action_id: on_update_return_delivered_rep
+    action: on_update
+    message_id: true
