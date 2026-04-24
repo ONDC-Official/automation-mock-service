@@ -812,3 +812,8 @@ codes:
     action_id: on_update_return_delivered_rep
     action: on_update
     message_id: true
+  - code: 351
+    default: GROCERY/1.2.5/on_status/on_status_order_delivered_rep/default.yaml
+    action_id: on_status_order_delivered_rep
+    action: on_status
+    message_id: true
