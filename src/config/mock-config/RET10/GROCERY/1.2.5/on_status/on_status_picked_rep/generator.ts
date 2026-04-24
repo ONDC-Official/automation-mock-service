@@ -1,5 +1,5 @@
 import { createFulfillments } from "../../api-objects/fulfillments";
-import { createGenericOnStatus } from "../../api-objects/on_status";
+import { createGenericOnStatus } from "../on_status_packed/generator";
 
 export async function on_status_picked_rep_generator(
   existingPayload: any,
