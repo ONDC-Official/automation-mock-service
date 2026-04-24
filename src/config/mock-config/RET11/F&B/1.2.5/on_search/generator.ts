@@ -30,6 +30,7 @@ export const onSearchGenerator = (
   }
 
   const uniqueBapCodes = Array.from(bapCodes);
+  existingPayload.context.city=sessionData.city_code ?? "std:011";
 
   existingPayload.message.catalog[
     "bpp/providers"
