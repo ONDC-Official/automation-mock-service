@@ -159,5 +159,12 @@ export async function onCancelHardGenerator(
     }
   }
 
+  if((sessionData as any).cancel_code!=="CONFIRM_CANCEL"){
+      existingPayload.error = {
+        message:"Please send CONFIRM_CANCEL in message.descriptor.code",
+        code:"CANCEL_DESCRIPTOR_CODE_MISMATCH",
+        valid: false
+      }
+  }
   return existingPayload;
 }

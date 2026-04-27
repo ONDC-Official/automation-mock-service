@@ -61,7 +61,7 @@ export const issueStatusGenerator_100 = async (
         ],
       };
       existingPayload.message.issue.source = {
-        network_participant_id: "buyerapp.com/ondc",
+        network_participant_id: existingPayload?.context?.bap_id ?? "buyerapp.com/ondc",
         type: "CONSUMER",
       };
       existingPayload.message.issue.expected_response_time = {

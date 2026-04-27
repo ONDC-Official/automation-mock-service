@@ -33,7 +33,6 @@ export async function onStatusPreOrderGenerator(
     existingPayload,
     sessionData
   );
-
   // UPDATE SETTLEMENT AMOUNT BASED ON QUOTE PRICE
   // if (existingPayload.message.order.tags) {
   //   existingPayload.message.order.tags = updateSettlementAmount(
@@ -42,6 +41,30 @@ export async function onStatusPreOrderGenerator(
   //   );
   // }
   existingPayload.message.order.tags = (sessionData as any).confirm_tags?.flat();
+
+  if(!(sessionData as any).status_message.ref_id){
+      existingPayload.error = {
+        message:"Ref_id is not present in status call inside message object",
+        code:"REF_ID_MISSING",
+        valid: false
+      }
+  }
+
+  else if((sessionData as any).status_message.order_id){
+      existingPayload.error = {
+        message:"Order_id is not needed in case of technical cancellation flow",
+        code:"ORDER_ID_MISMATCH",
+        valid: false
+      }
+  }
+
+  else if((sessionData as any).status_message.ref_id!==existingPayload.context.transaction_id){
+      existingPayload.error = {
+        message:"Ref_id is not matching with transaction_id",
+        code:"REF_ID_MISMATCH",
+        valid: false
+      }
+  }
 
   return existingPayload;
 }
