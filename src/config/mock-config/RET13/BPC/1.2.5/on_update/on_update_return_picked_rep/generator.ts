@@ -143,6 +143,7 @@ export async function on_update_picked_rep_generator(
         code: "Pending",
       },
     },
+    type: "Delivery"
   };
 
   returnItems.forEach((retItem: any) => {
