@@ -109,5 +109,13 @@ export async function onCancelSoftGenerator(
       sessionData.quote,
     );
   }
+
+   if((sessionData as any).cancel_code!=="SOFT_CANCEL"){
+      existingPayload.error = {
+        message:"Please send SOFT_CANCEL in message.descriptor.code",
+        code:"CANCEL_DESCRIPTOR_CODE_MISMATCH",
+        valid: false
+      }
+    }
   return existingPayload;
 }
