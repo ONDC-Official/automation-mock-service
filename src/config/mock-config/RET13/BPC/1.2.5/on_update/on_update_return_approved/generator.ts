@@ -16,7 +16,7 @@ export async function on_update_approved_generator(
 	existingPayload.message.order.quote = sessionData.quote;
 	existingPayload.message.order.payment = sessionData.payment;
 	existingPayload.message.order.created_at = sessionData.order_created_at;
-	existingPayload.message.order.updated_at = new Date().toISOString();
+	existingPayload.message.order.updated_at = existingPayload.context.timestamp;
 	const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
 		(f: Fulfillment) => f.type == "Delivery"
 	) as Fulfillment;

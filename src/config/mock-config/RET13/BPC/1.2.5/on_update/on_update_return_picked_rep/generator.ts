@@ -14,7 +14,7 @@ export async function on_update_picked_rep_generator(
   existingPayload.message.order.billing = sessionData.billing;
   existingPayload.message.order.payment = sessionData.payment;
   existingPayload.message.order.created_at = sessionData.order_created_at;
-  existingPayload.message.order.updated_at = new Date().toISOString();
+  existingPayload.message.order.updated_at = existingPayload.context.timestamp;
 
   const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
     (f: Fulfillment) => f.type == "Delivery"
@@ -44,6 +44,7 @@ export async function on_update_picked_rep_generator(
   });
 
   const items: any[] = sessionData.items;
+  console.log('Items Before: ', sessionData.items);
   const fulfillments = sessionData.fulfillments as Fulfillments;
   const returnFulfillmentId = fulfillments.find(
     (f: Fulfillment) => f.type == "Return"
@@ -94,7 +95,7 @@ export async function on_update_picked_rep_generator(
     ],
   };
 
-  if (sessionData.on_status_fulfillments.length <= 0) {
+  if (sessionData.on_status_fulfillments.length >= 0) {
     const now = new Date();
     const startTime = new Date(now.getTime() + 10 * 60 * 1000);
     const endTime = new Date(
@@ -103,7 +104,7 @@ export async function on_update_picked_rep_generator(
 
     const deliveryFulfillment = sessionDataFulfillments.find(
       (f) => f.type === "Delivery"
-    );
+    ) ;
 
     if (deliveryFulfillment) {
       replacementFulfillment = {
@@ -134,7 +135,7 @@ export async function on_update_picked_rep_generator(
       };
     }
   }
-
+    console.log("replacementFulfillment", JSON.stringify(replacementFulfillment));
   replacementFulfillment = {
     ...replacementFulfillment,
     id: replacementId,
@@ -143,6 +144,7 @@ export async function on_update_picked_rep_generator(
         code: "Pending",
       },
     },
+    type: "Delivery"
   };
 
   returnItems.forEach((retItem: any) => {
@@ -229,7 +231,7 @@ export async function on_update_picked_rep_generator(
             location: deliveryFulfillment.end?.location,
             time: {
               ...f.start?.time,
-              timeStamp: new Date().toISOString(),
+              timestamp: existingPayload.context.timestamp,
             },
           },
           tags: [...tags, replacementTag, ...quoteTrails],
@@ -238,6 +240,9 @@ export async function on_update_picked_rep_generator(
       return f;
     }
   );
+  sessionData.items = existingPayload.message.order.items;
+  console.log('Items After: ', sessionData.items);
+  
   existingPayload.message.order.fulfillments.push(replacementFulfillment);
   existingPayload.message.order.state = "Completed";
   return existingPayload;
