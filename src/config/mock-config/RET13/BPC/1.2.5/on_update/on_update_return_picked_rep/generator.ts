@@ -14,7 +14,7 @@ export async function on_update_picked_rep_generator(
   existingPayload.message.order.billing = sessionData.billing;
   existingPayload.message.order.payment = sessionData.payment;
   existingPayload.message.order.created_at = sessionData.order_created_at;
-  existingPayload.message.order.updated_at = new Date().toISOString();
+  existingPayload.message.order.updated_at = existingPayload.context.timestamp;
 
   const deliveryFulfillment = existingPayload.message.order.fulfillments.find(
     (f: Fulfillment) => f.type == "Delivery"
@@ -229,7 +229,7 @@ export async function on_update_picked_rep_generator(
             location: deliveryFulfillment.end?.location,
             time: {
               ...f.start?.time,
-              timeStamp: new Date().toISOString(),
+              timestamp: new Date().toISOString(),
             },
           },
           tags: [...tags, replacementTag, ...quoteTrails],
