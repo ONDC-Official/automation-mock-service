@@ -452,3 +452,43 @@ codes:
     action: on_track
     default: APPLIANCES/1.2.5/on_track/default.yaml
     message_id: false
+  - code: 346
+    action_id: catalog_rejection
+    action: catalog_rejection
+    default: APPLIANCES/1.2.5/on_search/catalog_rejection/default.yaml
+    message_id: true
+  - code: 347
+    default: APPLIANCES/1.2.5/update/update_reverse_qc_rep/default.yaml
+    action_id: update_reverse_qc_rep
+    action: update
+    message_id: true
+  - code: 348
+    default: APPLIANCES/1.2.5/on_update/on_update_return_picked_rep/default.yaml
+    action_id: on_update_return_picked_rep
+    action: on_update
+    message_id: true
+  - code: 349
+    default: APPLIANCES/1.2.5/on_status/on_status_picked_rep/default.yaml
+    action_id: on_status_picked_rep
+    action: on_status
+    message_id: true
+  - code: 350
+    default: APPLIANCES/1.2.5/on_status/on_status_packed_rep/default.yaml
+    action_id: on_status_packed_rep
+    action: on_status
+    message_id: true
+  - code: 351
+    default: APPLIANCES/1.2.5/on_status/on_status_out_for_delivery_rep/default.yaml
+    action_id: on_status_out_for_delivery_rep
+    action: on_status
+    message_id: true
+  - code: 352
+    default: APPLIANCES/1.2.5/on_status/on_status_order_delivered_rep/default.yaml
+    action_id: on_status_order_delivered_rep
+    action: on_status
+    message_id: true
+  - code: 353
+    default: APPLIANCES/1.2.5/on_update/on_update_return_delivered/default.yaml
+    action_id: on_update_return_delivered_rep
+    action: on_update
+    message_id: true
