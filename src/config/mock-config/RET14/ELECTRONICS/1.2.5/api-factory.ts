@@ -55,18 +55,24 @@ import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/gen
 import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replacement_igm/generator";
 import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
+import { update_return } from "./update/update_return/generator";
+import { update_reverse_qc_rep_generator } from "./update/update_reverse_qc_rep/generator";
+import { on_update_picked_rep_generator } from "./on_update/on_update_return_picked_rep/generator";
+import { on_update_interim_reverseQc_generator } from "./on_update/on_update_interim_reverseQc/generator";
+import { on_update_return_delivered_generator } from "./on_update/on_update_return_delivered/generator";
+import { on_status_packed_rep_generator } from "./on_status/on_status_packed_rep/generator";
+import { on_status_picked_rep_generator } from "./on_status/on_status_picked_rep/generator";
+import { on_status_out_for_delivery_rep_generator } from "./on_status/on_status_out_for_delivery_rep/generator";
+import { on_status_order_delivered_rep_generator } from "./on_status/on_status_order_delivered_rep/generator";
 import { catalog_rejection_generator } from "./on_search/catalog_rejection/generator";
 import { update_reverse_qc_generator } from "./update/update_reverse_qc/generator";
-import { on_update_interim_reverseQc_generator } from "./on_update/on_update_interim_reverseQc/generator";
 import { on_update_approved_generator } from "./on_update/on_update_return_approved/generator";
 import { on_update_picked_generator } from "./on_update/on_update_return_picked/generator";
 import { update_reverse_qc_settlement_generator } from "./update/update_reverse_qc_settlement/generator";
-import { on_update_return_delivered_generator } from "./on_update/on_update_return_delivered/generator";
 import { on_update_interim_reverse_qc_generator } from "./on_update/on_update_return_init/generator";
 import { on_update_approval_generator } from "./on_update/on_update_approval/generator";
 import { on_update_picked_172_generator } from "./on_update/on_update_picked_172/generator";
 import { on_update_return_delivered_173_generator } from "./on_update/on_update_return_delivered_173/generator";
-import { update_return } from "./update/update_return/generator";
 import { update_picked_up_generator } from "./update/update_picked_up/generator";
 import { update_delivered_generator } from "./update/update_delivered/generator";
 
@@ -111,6 +117,18 @@ export async function Generator(
       return on_status_out_for_delivery_generator(existingPayload, sessionData);
     case "on_status_order_delivered":
       return on_status_order_delivered_generator(existingPayload, sessionData);
+    case "on_status_packed_rep":
+      return on_status_packed_rep_generator(existingPayload, sessionData);
+    case "on_status_picked_rep":
+      return on_status_picked_rep_generator(existingPayload, sessionData);
+    case "on_status_out_for_delivery_rep":
+      return on_status_out_for_delivery_rep_generator(existingPayload, sessionData);
+    case "on_status_order_delivered_rep":
+      return on_status_order_delivered_rep_generator(existingPayload, sessionData);
+    case "track":
+			return track_generator(existingPayload, sessionData);
+		case "on_track":
+			return on_track_generator(existingPayload, sessionData);
     case "track":
 			return track_generator(existingPayload, sessionData);
 		case "on_track":
@@ -141,6 +159,19 @@ export async function Generator(
         existingPayload,
         sessionData
       );
+    case "update_reverse_qc_rep":
+      return update_reverse_qc_rep_generator(existingPayload, sessionData);
+    case "on_update_return_picked_rep":
+      return on_update_picked_rep_generator(existingPayload, sessionData);
+    case "on_update_interim_reverseQc":
+      return on_update_interim_reverseQc_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_update_return_approved":
+      return on_update_approved_generator(existingPayload, sessionData);
+    case "on_update_return_delivered_rep":
+      return on_update_return_delivered_generator(existingPayload, sessionData);
     case "on_init_snp":
       return on_init_snp_generator(existingPayload, sessionData);
     case "on_init_snp_unsolicited":
