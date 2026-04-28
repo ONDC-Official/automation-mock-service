@@ -62,6 +62,13 @@ import { on_update_return_approved_generator } from "./on_update/on_update_retur
 import { on_update_return_picked_generator } from "./on_update/on_update_return_picked/generator";
 import { update_settlement_trail_generator } from "./update/update_settlement_trail/generator";
 import { on_update_return_delivered_generator } from "./on_update/on_update_return_delivered/generator";
+import { update_reverse_qc_rep_generator } from "./update/update_reverse_qc_rep/generator";
+import { on_update_picked_rep_generator } from "./on_update/on_update_return_picked_rep/generator";
+import { on_update_interim_reverseQc_generator } from "./on_update/on_update_interim_reverseQc/generator";
+import { on_status_packed_rep_generator } from "./on_status/on_status_packed_rep/generator";
+import { on_status_picked_rep_generator } from "./on_status/on_status_picked_rep/generator";
+import { on_status_out_for_delivery_rep_generator } from "./on_status/on_status_out_for_delivery_rep/generator";
+import { on_status_order_delivered_rep_generator } from "./on_status/on_status_order_delivered_rep/generator";
 
 export async function Generator(
   action_id: string,
@@ -104,6 +111,18 @@ export async function Generator(
       return on_status_out_for_delivery_generator(existingPayload, sessionData);
     case "on_status_order_delivered":
       return on_status_order_delivered_generator(existingPayload, sessionData);
+    case "on_status_packed_rep":
+      return on_status_packed_rep_generator(existingPayload, sessionData);
+    case "on_status_picked_rep":
+      return on_status_picked_rep_generator(existingPayload, sessionData);
+    case "on_status_out_for_delivery_rep":
+      return on_status_out_for_delivery_rep_generator(existingPayload, sessionData);
+    case "on_status_order_delivered_rep":
+      return on_status_order_delivered_rep_generator(existingPayload, sessionData);
+    case "track":
+			return track_generator(existingPayload, sessionData);
+		case "on_track":
+			return on_track_generator(existingPayload, sessionData);
     case "select_out_of_stock":
       return select_out_of_stock_generator(existingPayload, sessionData);
     case "on_select_out_of_stock":
@@ -138,6 +157,19 @@ export async function Generator(
         existingPayload,
         sessionData
       );
+    case "update_reverse_qc_rep":
+      return update_reverse_qc_rep_generator(existingPayload, sessionData);
+    case "on_update_return_picked_rep":
+      return on_update_picked_rep_generator(existingPayload, sessionData);
+    case "on_update_interim_reverseQc":
+      return on_update_interim_reverseQc_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_update_return_approved":
+      return on_update_return_approved_generator(existingPayload, sessionData);
+    case "on_update_return_delivered_rep":
+      return on_update_return_delivered_generator(existingPayload, sessionData);
     case "on_init_snp":
       return on_init_snp_generator(existingPayload, sessionData);
     case "on_init_snp_unsolicited":
