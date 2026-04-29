@@ -128,6 +128,12 @@ import { onUpdateIgmReplacementGenerator } from "./on_update/on_update_replaceme
 import { onUpdateIgmReturnGenerator } from "./on_update/on_update_return_igm/generator";
 import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
+import { update_reverse_qc_rep_generator } from "./update/update_reverse_qc_rep/generator";
+import { on_update_picked_rep_generator } from "./on_update/on_update_return_picked_rep/generator";
+import { on_status_packed_rep_generator } from "./on_status/on_status_packed_rep/generator";
+import { on_status_picked_rep_generator } from "./on_status/on_status_picked_rep/generator";
+import { on_status_out_for_delivery_rep_generator } from "./on_status/on_status_out_for_delivery_rep/generator";
+import { on_status_order_delivered_rep_generator } from "./on_status/on_status_order_delivered_rep/generator";
 
 export async function Generator(
   action_id: string,
@@ -295,6 +301,25 @@ export async function Generator(
         existingPayload,
         sessionData
       );
+    case "on_status_order_delivered_rep":
+			return on_status_order_delivered_rep_generator(
+				existingPayload,
+				sessionData
+		);
+		case "on_status_order_delivered_rep":
+			return on_status_order_delivered_rep_generator(
+				existingPayload,
+				sessionData
+		);
+		case "on_status_packed_rep":
+      		return on_status_packed_rep_generator(existingPayload, sessionData);
+		case "on_status_picked_rep":
+      		return on_status_picked_rep_generator(existingPayload, sessionData);
+    case "on_status_out_for_delivery_rep":
+			return on_status_out_for_delivery_rep_generator(
+				existingPayload,
+				sessionData
+		);
     case "on_status_order_delivered_159":
       return on_status_order_delivered_159_generator(
         existingPayload,
@@ -325,6 +350,16 @@ export async function Generator(
       return on_update_approved_generator(existingPayload, sessionData);
     case "on_update_return_picked":
       return on_update_picked_generator(existingPayload, sessionData);
+    case "on_update_return_picked_rep":
+      return on_update_picked_rep_generator(existingPayload, sessionData);
+		case "on_update_return_delivered_rep":
+      return on_update_return_delivered_generator(existingPayload, sessionData);
+    case "on_update_return_picked_rep":
+      	return on_update_picked_rep_generator(existingPayload, sessionData);
+		case "on_update_return_delivered_rep":
+      	return on_update_return_delivered_generator(existingPayload, sessionData);
+    case "update_reverse_qc_rep":
+      return update_reverse_qc_rep_generator(existingPayload, sessionData);
     case "update_reverse_qc_settlement":
       return update_reverse_qc_settlement_generator(
         existingPayload,
