@@ -452,4 +452,53 @@ codes:
     action: on_update
     default: on_update/on_update_reverse_offers/default.yaml
     message_id: true
-    
+  - code: 348
+    default: on_update/on_update_return_delivered/default.yaml
+    action_id: on_update_return_delivered_rep
+    action: on_update
+    message_id: true
+  - code: 349
+    default: update/update_reverse_qc_rep/default.yaml
+    action_id: update_reverse_qc_rep
+    action: update
+    message_id: true
+  - code: 350
+    default: on_update/on_update_return_picked_rep/default.yaml
+    action_id: on_update_return_picked_rep
+    action: on_update
+    message_id: true
+  - code: 351
+    default: on_status/on_status_picked_rep/default.yaml
+    action_id: on_status_picked_rep
+    action: on_status
+    message_id: true
+  - code: 352
+    default: on_status/on_status_packed_rep/default.yaml
+    action_id: on_status_packed_rep
+    action: on_status
+    message_id: true
+  - code: 353
+    default: on_status/on_status_out_for_delivery_rep/default.yaml
+    action_id: on_status_out_for_delivery_rep
+    action: on_status
+    message_id: true
+  - code: 354
+    default: on_status/on_status_order_delivered_rep/default.yaml
+    action_id: on_status_order_delivered_rep
+    action: on_status
+    message_id: true
+  - code: 355
+    default: on_status/on_status_order_delivered_rep/default.yaml
+    action_id: on_status_order_delivered_rep
+    action: on_status
+    message_id: true
+  - code: 356
+    default: on_update/on_update_interim_reverseQc/default.yaml
+    action_id: on_update_interim_reverseQc
+    action: on_update
+    message_id: false
+  - code: 357
+    default: on_update/on_update_return_approved/default.yaml
+    action_id: on_update_return_approved
+    action: on_update
+    message_id: true

@@ -3,3 +3,4 @@ save-data:
   on_update_quote: "$.message.order.quote"
   items: "$.message.order.items[*]"
   quote: "$.message.order.quote"
+  quote_trail: $.message.order.fulfillments[*].tags[?(@.code=="quote_trail")]

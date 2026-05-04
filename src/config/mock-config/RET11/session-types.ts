@@ -66,6 +66,9 @@ export interface SessionData {
   on_issue_actions: any
   issue_actions: any
   quote_amount: string
+  update_payment: any;
+  replacementId?: string;
+  on_status_fulfillments: any | undefined;
 }
 
 export type BecknContext = {

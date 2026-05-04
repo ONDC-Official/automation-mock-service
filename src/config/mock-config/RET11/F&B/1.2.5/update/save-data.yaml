@@ -7,3 +7,5 @@ save-data:
   return_item_count: '$.message.order.fulfillments[*].tags[*].list[?(@.code=="item_quantity")].value'
   buyer_delivery_start_time: '$.message.order.fulfillments[*].tags[?(@.code=="update_state")].list[?(@.code=="start_time")].value'
   buyer_delivery_order_status: '$.message.order.fulfillments[*].tags[?(@.code=="update_state")].list[?(@.code=="state")].value'
+  update_fulfillments: $.message.order.fulfillments[*]
+  update_payment: $.message.order.payment["@ondc/org/settlement_details"]
