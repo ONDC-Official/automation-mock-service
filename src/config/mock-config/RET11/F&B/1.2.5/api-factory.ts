@@ -49,6 +49,15 @@ import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
 import { catalog_rejection_generator } from "./on_search/catalog_rejection/generator";
 import { searchPullGenerator } from "./search/search_inc_pull/generator"
+import { update_reverse_qc_rep_generator } from "./update/update_reverse_qc_rep/generator";
+import { on_update_picked_rep_generator } from "./on_update/on_update_return_picked_rep/generator";
+import { on_update_interim_reverseQc_generator } from "./on_update/on_update_interim_reverseQc/generator";
+import { on_update_approved_generator } from "./on_update/on_update_return_approved/generator";
+import { on_update_return_delivered_generator } from "./on_update/on_update_return_delivered/generator";
+import { on_status_packed_rep_generator } from "./on_status/on_status_packed_rep/generator";
+import { on_status_out_for_delivery_rep_generator } from "./on_status/on_status_out_for_delivery_rep/generator";
+import { on_status_order_delivered_rep_generator } from "./on_status/on_status_order_delivered_rep/generator";
+import { on_status_picked_rep_generator } from "./on_status/on_status_picked_rep/generator";
 
 export async function Generator(
   action_id: string,
@@ -218,6 +227,34 @@ export async function Generator(
       return await updateDocumentGenerator(existingPayload, sessionData);
     case "update_return":
       return await updateReturnGenerator(existingPayload, sessionData, inputs);
+    case "update_reverse_qc_rep":
+      return update_reverse_qc_rep_generator(existingPayload, sessionData);
+    case "on_update_return_picked_rep":
+      return on_update_picked_rep_generator(existingPayload, sessionData);
+    case "on_update_interim_reverseQc":
+      return on_update_interim_reverseQc_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_update_return_approved":
+      return on_update_approved_generator(existingPayload, sessionData);
+    case "on_update_return_delivered_rep":
+      return on_update_return_delivered_generator(existingPayload, sessionData);
+    case "on_status_packed_rep":
+      return on_status_packed_rep_generator(existingPayload, sessionData);
+    case "on_status_out_for_delivery_rep":
+      return on_status_out_for_delivery_rep_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_status_order_delivered_rep":
+      return on_status_order_delivered_rep_generator(
+        existingPayload,
+        sessionData
+      );
+    case "on_status_picked_rep":
+      return on_status_picked_rep_generator(existingPayload, sessionData);
+    
     case "on_update_address":
       return await onUpdateGenerator(existingPayload, sessionData);
     case "on_update_buyer_inst":
