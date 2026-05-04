@@ -23,6 +23,7 @@ export async function confirmGenerator(existingPayload: any,sessionData: any){
         existingPayload.message.order.provider.id = sessionData.provider_id
       }
     if(sessionData.payments){
+      console.log('sessionData', sessionData)
       existingPayload.message.order.payments = transformPaymentsToPaid(sessionData.payments,sessionData.price);
     }
     return existingPayload;

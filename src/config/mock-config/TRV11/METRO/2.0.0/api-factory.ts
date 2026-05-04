@@ -21,6 +21,7 @@ import { onCancelGenerator } from "./on_cancel/on_cancel/generator";
 import { onSearch2SjtGenerator } from "./on_search/on_search2/on_search_sjt/generator";
 import { onSearch2RjtGenerator } from "./on_search/on_search2/on_search_rjt/generator";
 import { onCancelTechCancelGenerator } from "./on_cancel/on_cancel_tech/generator";
+import { initWithUserInputGenerator } from "./init/init_with_user_input/generator";
 
 export async function Generator(
 	action_id: string,
@@ -36,6 +37,8 @@ export async function Generator(
 			return await selectGenerator(existingPayload, sessionData);
 		case "init_METRO_200":
 			return await initGenerator(existingPayload, sessionData);
+		case "init_with_user_input_METRO_200":
+			return await initWithUserInputGenerator(existingPayload, sessionData);
 		case "confirm_METRO_200":
 			return await confirmGenerator(existingPayload, sessionData);
 		case "status_METRO_200":

@@ -43,6 +43,7 @@ export interface SessionData {
 	on_confirm_fulfillments: any[]
 	cancellation: any
 	on_confirm_fulfillment: any
+	user_inputs: any;
 }
 
 export type BecknContext = {

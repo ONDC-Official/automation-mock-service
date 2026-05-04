@@ -18,10 +18,11 @@ export const defaultSessionData = yaml.load(
 export async function generateMockResponse(
   session_id: string,
   sessionData: any,
-  action_id: string
+  action_id: string,
+	input?: any
 ) {
   try {
-    let payload = await createMockResponse(session_id, sessionData, action_id);
+    let payload = await createMockResponse(session_id, sessionData, action_id, input);
     payload.context.timestamp = new Date().toISOString();
     return payload
   } catch (e) {
