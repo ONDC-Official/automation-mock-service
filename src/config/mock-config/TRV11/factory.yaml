@@ -570,3 +570,8 @@ codes:
     action: status
     default: METRO/2.0.0/status/status_tech_cancel/default.yaml
     message_id: true
+  - code: 209
+    action_id: init_with_user_input_METRO_200
+    action: init
+    default: METRO/2.0.0/init/default.yaml
+    message_id: true
