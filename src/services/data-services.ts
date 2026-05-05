@@ -93,7 +93,8 @@ export async function loadMockSessionData(
 		const raw = defaultSessionData;
 		sessionData = raw.session_data;
 		sessionData.transaction_id = transactionID;
-		sessionData.bpp_id = sessionData.bap_id = "staging-automation.ondc.org";
+		sessionData.bpp_id = sessionData.bpp_id ?? "staging-automation.ondc.org";
+		sessionData.bap_id = "staging-automation.ondc.org";
 		sessionData.bap_uri = "https://dev-automation.ondc.org/buyer";
 		sessionData.bpp_uri = "https://dev-automation.ondc.org/seller";
 		sessionData.subscriber_url = subscriber_url;
