@@ -3,3 +3,5 @@ save-data:
   fulfillments: $.message.order.fulfillments[*]
   on_select_items: $.message.order.items[*]
   message_id: "$.context.message_id"
+  bpp_id: "$.context.bpp_id"
+  bpp_uri: "$.context.bpp_uri"
