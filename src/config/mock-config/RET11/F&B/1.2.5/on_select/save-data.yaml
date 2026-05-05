@@ -1,5 +1,5 @@
 save-data:
-  quote: "$.message.order.quote"
-  fulfillments: "$.message.order.fulfillments[*]"
-  on_select_items: "$.message.order.items[*]"
+  quote: $.message.order.quote
+  fulfillments: $.message.order.fulfillments[*]
+  on_select_items: $.message.order.items[*]
   message_id: "$.context.message_id"
