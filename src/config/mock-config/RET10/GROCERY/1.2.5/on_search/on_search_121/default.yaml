@@ -16,6 +16,8 @@ catalog:
         list:
           - code: np_type
             value: MSN
+          - code: accept_bap_terms
+            value: "Y"
   bpp/providers:
     - id: 5b3981a7-512d-4ac4-bd75-ea48eff89a53
       descriptor:

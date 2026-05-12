@@ -31,6 +31,10 @@ export const RET10GROCERY125Catalog = JSON.parse(
 								code: "np_type",
 								value: "MSN",
 							},
+							{
+								code: "accept_bap_terms",
+								value: "Y",
+							}
 						],
 					},
 				],

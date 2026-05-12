@@ -19,6 +19,8 @@ catalog:
         list:
           - code: np_type
             value: MSN
+          - code: accept_bap_terms
+            value: "Y"
   bpp/providers:
     - id: oc_22
       time:
