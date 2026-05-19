@@ -9,6 +9,11 @@ codes:
     action_id: on_search
     action: on_search
     message_id: false
+  - code: 420
+    default: GROCERY/1.2.5/on_search/on_search_catalog_rejection/default.yaml
+    action_id: on_search_catalog_rejection
+    action: on_search
+    message_id: false
   - code: 102
     default: GROCERY/1.2.5/search/search_inc/default.yaml
     action_id: search_inc
