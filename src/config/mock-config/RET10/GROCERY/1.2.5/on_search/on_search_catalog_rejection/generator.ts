@@ -20,6 +20,8 @@ export async function on_search_catalog_rejection_generator(
   const uniqueBapCodes = Array.from(bapCodes);
 
   existingPayload.message = RET10GROCERY125CatalogRejection;
+  console.log("existingPayload.message",JSON.stringify(existingPayload.message));
+  
   const cityCode = existingPayload.context.city; // std:001
   const cityCodeNum = cityCode.split(":")[1];
   const areas = stateCodeToPin[cityCodeNum as keyof typeof stateCodeToPin] ?? [
