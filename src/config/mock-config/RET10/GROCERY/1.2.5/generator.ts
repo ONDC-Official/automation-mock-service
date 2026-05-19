@@ -135,6 +135,7 @@ import { on_status_packed_rep_generator } from "./on_status/on_status_packed_rep
 import { on_status_picked_rep_generator } from "./on_status/on_status_picked_rep/generator";
 import { on_status_out_for_delivery_rep_generator } from "./on_status/on_status_out_for_delivery_rep/generator";
 import { on_status_order_delivered_rep_generator } from "./on_status/on_status_order_delivered_rep/generator";
+import { on_search_catalog_rejection_generator } from "./on_search/on_search_catalog_rejection/generator";
 
 export async function Generator(
 	action_id: string,
@@ -151,7 +152,7 @@ export async function Generator(
 		case "on_search":
 			return on_search_generator(existingPayload, sessionData);
 		case "on_search_catalog_rejection":
-			return on_search_generator(existingPayload, sessionData);
+			return on_search_catalog_rejection_generator(existingPayload, sessionData);
 		case "search_inc":
 			return search_inc_generator(existingPayload, sessionData);
 		case "on_search_inc":
