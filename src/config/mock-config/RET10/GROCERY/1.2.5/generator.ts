@@ -141,167 +141,152 @@ export async function Generator(
   sessionData: any,
   inputs?: any
 ) {
-  if (action_id.includes("dyn_on_status")) {
-    return dyn_on_status_generator(existingPayload, sessionData);
-  }
-  switch (action_id) {
-    case "search":
-      return search_generator(existingPayload, sessionData);
-    case "on_search":
-      return on_search_generator(existingPayload, sessionData);
-    case "search_inc":
-      return search_inc_generator(existingPayload, sessionData);
-    case "on_search_inc":
-      return on_search_inc_generator(existingPayload, sessionData);
-    case "on_search_inc_disable":
-      return on_search_inc_disable_generator(existingPayload, sessionData);
-    case "on_search_104":
-      return on_search_104_generator(existingPayload, sessionData);
-    case "select":
-      return select_generator(existingPayload, sessionData);
-    case "on_select":
-      return on_select_generator(existingPayload, sessionData);
-    case "on_select_commercial_model":
-      return on_select_commercial_model_generator(existingPayload, sessionData);
-    case "init":
-      return init_generator(existingPayload, sessionData);
-    case "init_commercial_model":
-      return init_commercial_model_generator(existingPayload, sessionData);
-    case "on_init":
-      return on_init_generator(existingPayload, sessionData);
-    case "on_init_commercial_model":
-      return on_init_commercial_model_generator(existingPayload, sessionData);
-    case "confirm":
-      return confirm_generator(existingPayload, sessionData);
-    case "on_confirm":
-      return on_confirm_generator(existingPayload, sessionData);
-    case "on_confirm_commercial_model":
-      return on_confirm_commercial_model_generator(
-        existingPayload,
-        sessionData
-      );
-    case "confirm_commercial_model":
-      return confirm_commercial_model_generator(existingPayload, sessionData);
-    case "on_status_packed":
-      return on_status_packed_generator(existingPayload, sessionData);
-    case "on_status_agent_assigned":
-      return on_status_agent_assigned_generator(existingPayload, sessionData);
-    case "on_status_picked":
-      return on_status_picked_generator(existingPayload, sessionData);
-    case "on_status_out_for_delivery":
-      return on_status_out_for_delivery_generator(existingPayload, sessionData);
-    case "on_status_out_for_delivery_force":
-      return on_status_out_for_delivery_force_generator(
-        existingPayload,
-        sessionData
-      );
-    case "on_status_order_delivered":
-      return on_status_order_delivered_generator(existingPayload, sessionData);
-    case "track":
-      return track_generator(existingPayload, sessionData);
-    case "on_track":
-      return on_track_generator(existingPayload, sessionData);
-    case "on_search_118":
-      return on_search_118_generator(existingPayload, sessionData);
-    case "select_out_of_stock":
-      return select_out_of_stock_generator(existingPayload, sessionData);
-    case "on_select_out_of_stock":
-      return on_select_out_of_stock_generator(existingPayload, sessionData);
-    case "on_search_121":
-      return on_search_121_generator(existingPayload, sessionData);
-    case "select_122":
-      return select_122_generator(existingPayload, sessionData);
-    case "on_select_123":
-      return on_select_123_generator(existingPayload, sessionData);
-    case "init_124":
-      return init_124_generator(existingPayload, sessionData);
-    case "on_init_125":
-      return on_init_125_generator(existingPayload, sessionData);
-    case "confirm_126":
-      return confirm_126_generator(existingPayload, sessionData);
-    case "on_confirm_127":
-      return on_confirm_127_generator(existingPayload, sessionData);
-    case "cancel":
-      return cancel_generator(existingPayload, sessionData);
-    case "on_cancel":
-      return on_cancel_generator(existingPayload, sessionData);
-    case "on_select_130":
-      return on_select_130_generator(existingPayload, sessionData);
-    case "init_131":
-      return init_131_generator(existingPayload, sessionData);
-    case "on_init_132":
-      return on_init_132_generator(existingPayload, sessionData);
-    case "confirm_133":
-      return confirm_133_generator(existingPayload, sessionData);
-    case "on_confirm_134":
-      return on_confirm_134_generator(existingPayload, sessionData);
-    case "on_status_pending":
-      return on_status_pending_generator(existingPayload, sessionData);
-    case "on_status_packed_136":
-      return on_status_packed_136_generator(existingPayload, sessionData);
-    case "on_status_picked_137":
-      return on_status_picked_137_generator(existingPayload, sessionData);
-    case "on_status_out_for_delivery_138":
-      return on_status_out_for_delivery_138_generator(
-        existingPayload,
-        sessionData
-      );
-    case "on_cancel_rto":
-      return on_cancel_rto_generator(existingPayload, sessionData);
-    case "on_status_rto_delivereddisposed":
-      return on_status_rto_delivereddisposed_generator(
-        existingPayload,
-        sessionData
-      );
-    case "on_search_141":
-      return on_search_141_generator(existingPayload, sessionData);
-    case "select_142":
-      return select_142_generator(existingPayload, sessionData);
-    case "on_select_143":
-      return on_select_143_generator(existingPayload, sessionData);
-    case "init_144":
-      return init_144_generator(existingPayload, sessionData);
-    case "on_init_145":
-      return on_init_145_generator(existingPayload, sessionData);
-    case "confirm_146":
-      return confirm_146_generator(existingPayload, sessionData);
-    case "on_confirm_147":
-      return on_confirm_147_generator(existingPayload, sessionData);
-    case "on_update_part_cancel":
-      return on_update_part_cancel_generator(existingPayload, sessionData);
-    case "update_settlement_trail":
-      return update_partial_cancel_settlement_generator(
-        existingPayload,
-        sessionData
-      );
-    case "on_status_pending_150":
-      return on_status_pending_150_generator(existingPayload, sessionData);
-    case "on_status_packed_151":
-      return on_status_packed_151_generator(existingPayload, sessionData);
-    case "on_status_picked_152":
-      return on_status_picked_152_generator(existingPayload, sessionData);
-    case "on_status_out_for_delivery_153":
-      return on_status_out_for_delivery_153_generator(
-        existingPayload,
-        sessionData
-      );
-    case "on_status_order_delivered_154":
-      return on_status_order_delivered_154_generator(
-        existingPayload,
-        sessionData
-      );
-    case "on_status_pending_155":
-      return on_status_pending_155_generator(existingPayload, sessionData);
-    case "on_status_packed_156":
-      return on_status_packed_156_generator(existingPayload, sessionData);
-    case "on_status_picked_157":
-      return on_status_picked_157_generator(existingPayload, sessionData);
-    case "on_status_out_for_delivery_158":
-      return on_status_out_for_delivery_158_generator(
-        existingPayload,
-        sessionData
-      );
-    case "on_status_order_delivered_rep":
+	if (action_id.includes("dyn_on_status")) {
+		return dyn_on_status_generator(existingPayload, sessionData);
+	}
+	switch (action_id) {
+		case "search":
+			return search_generator(existingPayload, sessionData);
+		case "on_search":
+			return on_search_generator(existingPayload, sessionData);
+		case "on_search_catalog_rejection":
+			return on_search_generator(existingPayload, sessionData);
+		case "search_inc":
+			return search_inc_generator(existingPayload, sessionData);
+		case "on_search_inc":
+			return on_search_inc_generator(existingPayload, sessionData);
+		case "on_search_inc_disable":
+			return on_search_inc_disable_generator(existingPayload, sessionData);
+		case "on_search_104":
+			return on_search_104_generator(existingPayload, sessionData);
+		case "select":
+			return select_generator(existingPayload, sessionData);
+		case "on_select":
+			return on_select_generator(existingPayload, sessionData);
+		case "on_select_commercial_model":
+			return on_select_commercial_model_generator(existingPayload, sessionData);
+		case "init":
+			return init_generator(existingPayload, sessionData);
+		case "init_commercial_model":
+			return init_commercial_model_generator(existingPayload, sessionData);
+		case "on_init":
+			return on_init_generator(existingPayload, sessionData);
+		case "on_init_commercial_model":
+			return on_init_commercial_model_generator(existingPayload, sessionData);
+		case "confirm":
+			return confirm_generator(existingPayload, sessionData);
+		case "on_confirm":
+			return on_confirm_generator(existingPayload, sessionData);
+		case "on_confirm_commercial_model":
+			return on_confirm_commercial_model_generator(existingPayload, sessionData);
+		case "confirm_commercial_model":
+			return confirm_commercial_model_generator(existingPayload, sessionData);
+		case "on_status_packed":
+			return on_status_packed_generator(existingPayload, sessionData);
+		case "on_status_agent_assigned":
+			return on_status_agent_assigned_generator(existingPayload, sessionData);
+		case "on_status_picked":
+			return on_status_picked_generator(existingPayload, sessionData);
+		case "on_status_out_for_delivery":
+			return on_status_out_for_delivery_generator(existingPayload, sessionData);
+		case "on_status_out_for_delivery_force":
+			return on_status_out_for_delivery_force_generator(existingPayload, sessionData);
+		case "on_status_order_delivered":
+			return on_status_order_delivered_generator(existingPayload, sessionData);
+		case "track":
+			return track_generator(existingPayload, sessionData);
+		case "on_track":
+			return on_track_generator(existingPayload, sessionData);
+		case "on_search_118":
+			return on_search_118_generator(existingPayload, sessionData);
+		case "select_out_of_stock":
+			return select_out_of_stock_generator(existingPayload, sessionData);
+		case "on_select_out_of_stock":
+			return on_select_out_of_stock_generator(existingPayload, sessionData);
+		case "on_search_121":
+			return on_search_121_generator(existingPayload, sessionData);
+		case "select_122":
+			return select_122_generator(existingPayload, sessionData);
+		case "on_select_123":
+			return on_select_123_generator(existingPayload, sessionData);
+		case "init_124":
+			return init_124_generator(existingPayload, sessionData);
+		case "on_init_125":
+			return on_init_125_generator(existingPayload, sessionData);
+		case "confirm_126":
+			return confirm_126_generator(existingPayload, sessionData);
+		case "on_confirm_127":
+			return on_confirm_127_generator(existingPayload, sessionData);
+		case "cancel":
+			return cancel_generator(existingPayload, sessionData);
+		case "on_cancel":
+			return on_cancel_generator(existingPayload, sessionData);
+		case "on_select_130":
+			return on_select_130_generator(existingPayload, sessionData);
+		case "init_131":
+			return init_131_generator(existingPayload, sessionData);
+		case "on_init_132":
+			return on_init_132_generator(existingPayload, sessionData);
+		case "confirm_133":
+			return confirm_133_generator(existingPayload, sessionData);
+		case "on_confirm_134":
+			return on_confirm_134_generator(existingPayload, sessionData);
+		case "on_status_pending":
+			return on_status_pending_generator(existingPayload, sessionData);
+		case "on_status_packed_136":
+			return on_status_packed_136_generator(existingPayload, sessionData);
+		case "on_status_picked_137":
+			return on_status_picked_137_generator(existingPayload, sessionData);
+		case "on_status_out_for_delivery_138":
+			return on_status_out_for_delivery_138_generator(
+				existingPayload,
+				sessionData
+			);
+		case "on_cancel_rto":
+			return on_cancel_rto_generator(existingPayload, sessionData);
+		case "on_status_rto_delivereddisposed":
+			return on_status_rto_delivereddisposed_generator(
+				existingPayload,
+				sessionData
+			);
+		case "on_search_141":
+			return on_search_141_generator(existingPayload, sessionData);
+		case "select_142":
+			return select_142_generator(existingPayload, sessionData);
+		case "on_select_143":
+			return on_select_143_generator(existingPayload, sessionData);
+		case "init_144":
+			return init_144_generator(existingPayload, sessionData);
+		case "on_init_145":
+			return on_init_145_generator(existingPayload, sessionData);
+		case "confirm_146":
+			return confirm_146_generator(existingPayload, sessionData);
+		case "on_confirm_147":
+			return on_confirm_147_generator(existingPayload, sessionData);
+		case "on_update_part_cancel":
+			return on_update_part_cancel_generator(existingPayload, sessionData);
+		case "update_settlement_trail":
+			return update_partial_cancel_settlement_generator(
+				existingPayload,
+				sessionData
+			);
+		case "on_status_pending_150":
+			return on_status_pending_150_generator(existingPayload, sessionData);
+		case "on_status_packed_151":
+			return on_status_packed_151_generator(existingPayload, sessionData);
+		case "on_status_picked_152":
+			return on_status_picked_152_generator(existingPayload, sessionData);
+		case "on_status_out_for_delivery_153":
+			return on_status_out_for_delivery_153_generator(
+				existingPayload,
+				sessionData
+			);
+		case "on_status_out_for_delivery_rep":
+			return on_status_out_for_delivery_rep_generator(
+				existingPayload,
+				sessionData
+		);
+		case "on_status_order_delivered_rep":
 			return on_status_order_delivered_rep_generator(
 				existingPayload,
 				sessionData
