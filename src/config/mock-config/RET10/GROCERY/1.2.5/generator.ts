@@ -150,6 +150,8 @@ export async function Generator(
 			return search_generator(existingPayload, sessionData);
 		case "on_search":
 			return on_search_generator(existingPayload, sessionData);
+		case "on_search_catalog_rejection":
+			return on_search_generator(existingPayload, sessionData);
 		case "search_inc":
 			return search_inc_generator(existingPayload, sessionData);
 		case "on_search_inc":
