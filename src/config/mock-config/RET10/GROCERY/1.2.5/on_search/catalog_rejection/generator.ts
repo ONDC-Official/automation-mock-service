@@ -24,7 +24,7 @@ export async function catalog_rejection_generator(
 
   const items = sessionData.on_search_items || [];
 
-  console.log("Items in session data:", items);
+  console.log("Items in session data:", JSON.stringify(items));
 
 
   for (const item of items) {
@@ -41,12 +41,12 @@ export async function catalog_rejection_generator(
     }
   }
 
-  existingPayload.errors.push({
-    type: "PROVIDER-ERROR",
-    code: "90003",
-    message: "Select call failure more than published threshold",
-    path: "sessionData.on_search_items"
-  });
+  // existingPayload.errors.push({
+  //   type: "PROVIDER-ERROR",
+  //   code: "90003",
+  //   message: "Select call failure more than published threshold",
+  //   path: "sessionData.on_search_items"
+  // });
 
   return existingPayload;
 }
