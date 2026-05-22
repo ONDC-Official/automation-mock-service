@@ -1,2 +1,2 @@
 save-data:
-  on_search_items: $.message.catalog['bpp/providers'][*].items[*]
+  on_search_items: $.message.catalog['bpp/providers'][*].items
