@@ -22,7 +22,9 @@ export async function catalog_rejection_generator(
   }
 
 
-  const items = sessionData.on_search_items || [];
+  const providersItems = sessionData.on_search_items || [];
+
+  const items = providersItems.flat();
 
   console.log("Items in session data:", JSON.stringify(items));
 
