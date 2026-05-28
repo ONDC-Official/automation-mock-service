@@ -817,3 +817,8 @@ codes:
     action_id: on_status_order_delivered_rep
     action: on_status
     message_id: true
+  - code: 352
+    default: GROCERY/1.2.5/on_search/catalog_rejection/default.yaml
+    action_id: catalog_rejection
+    action: catalog_rejection
+    message_id: true
