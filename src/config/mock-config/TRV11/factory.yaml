@@ -70,7 +70,7 @@ codes:
     default: METRO/2.0.0/on_status/on_status_complete/default.yaml
     message_id: false
   - code: 113
-    action_id: unsolicited_on_status_complete_METRO_200
+    action_id: unsoliciated_on_status_complete_METRO_200
     action: on_status
     default: METRO/2.0.0/on_status/on_status_complete/default.yaml
     message_id: true  
@@ -188,7 +188,7 @@ codes:
     action_id: unsoliciated_on_status_BUS_200
     action: on_status
     default: BUS/2.0.0/on_status/on_status_active/default.yaml
-    message_id: true  
+    message_id: true
   - code: 136
     action_id: on_status_active_BUS_200
     action: on_status
@@ -569,4 +569,32 @@ codes:
     action_id: status_tech_cancel_METRO_200
     action: status
     default: METRO/2.0.0/status/status_tech_cancel/default.yaml
+    message_id: true
+  - code: 209
+    action_id: init_with_user_input_METRO_200
+    action: init
+    default: METRO/2.0.0/init/default.yaml
+    message_id: true
+
+# _________________________IMG_1.0.0_________________________
+
+  - code: 340
+    action_id: issue_open_100
+    action: issue
+    default: METRO/2.0.0/issue/issue_100/issue_open/default.yaml
+    message_id: true
+  - code: 341
+    action_id: on_issue_processing_100
+    action: on_issue
+    default: METRO/2.0.0/on_issue/on_issue_100/on_issue_processing/default.yaml
+    message_id: false  
+  - code: 342
+    action_id: on_issue_resolved_100
+    action: on_issue_status
+    default: METRO/2.0.0/on_issue/on_issue_100/on_issue_resolved/default.yaml
+    message_id: true  
+  - code: 343
+    action_id: issue_close_100
+    action: issue
+    default: METRO/2.0.0/issue/issue_100/issue_close/default.yaml
     message_id: true

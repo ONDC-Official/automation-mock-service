@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFileSync, existsSync } from "fs";
 import logger from "../../utils/logger";
 
 import path from "path";
@@ -18,10 +18,11 @@ export const defaultSessionData = yaml.load(
 export async function generateMockResponse(
   session_id: string,
   sessionData: any,
-  action_id: string
+  action_id: string,
+	input?: any
 ) {
   try {
-    let payload = await createMockResponse(session_id, sessionData, action_id);
+    let payload = await createMockResponse(session_id, sessionData, action_id, input);
     payload.context.timestamp = new Date().toISOString();
     return payload
   } catch (e) {
@@ -49,6 +50,11 @@ export function getSaveDataContent(version: string, action: string) {
     actionFolderPath += "_";
   }
   const saveDataFilePath = path.join(actionFolderPath, "save-data.yaml");
+  
+  if (!existsSync(saveDataFilePath)) {
+    return { "save-data": {} };
+  }
+  
   const fileContent = readFileSync(saveDataFilePath, "utf8");
   const cont = yaml.load(fileContent) as any;
   console.log(cont);
