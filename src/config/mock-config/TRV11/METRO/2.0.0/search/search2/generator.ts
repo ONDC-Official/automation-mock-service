@@ -25,5 +25,21 @@ export async function search2Generator(existingPayload: any,sessionData: Session
     const stops = existingPayload.message.intent.fulfillment.stops;
     stops[0].location.descriptor.code = "start_station"
     stops[1].location.descriptor.code = "end_station"
+    if(sessionData.user_inputs){
+      const {start_stop_code, end_stop_code, city_code, collector} = sessionData.user_inputs
+      if(start_stop_code){
+        stops[0].location.descriptor.code = start_stop_code
+      }
+      if(end_stop_code){
+        stops[1].location.descriptor.code = end_stop_code
+      }
+      if(city_code){
+        existingPayload.context.location.city.code = city_code
+      }
+      if(collector){
+        existingPayload.message.intent.payment.collected_by = collector
+      }
+    }
+
     return existingPayload;
 }

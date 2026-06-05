@@ -10,7 +10,8 @@ import { createMockResponseBUS201 } from "./BUS/2.0.1/generation-pipline";
 export async function createMockResponse(
   session_id: string,
   sessionData: SessionData,
-  action_id: string
+  action_id: string,
+	input?: Record<any, any>
 ) {
   RedisService.useDb(0);
   console.log("session id in create mock response", session_id);
@@ -20,11 +21,12 @@ export async function createMockResponse(
   const { version, usecaseId } = data;
   // let version = "2.0.1"
   // let usecaseId = "BUS"
+ 	sessionData.user_inputs = input as any;
   let payload: any = {};
 
   if (usecaseId === "Metro") {
     if (version === "2.0.0") {
-      payload = await createMockResponseMETRO200(action_id, sessionData);
+      payload = await createMockResponseMETRO200(action_id, sessionData, input);
     } else if (version === "2.0.1") {
       payload = await createMockResponseMETRO201(action_id, sessionData);
     }

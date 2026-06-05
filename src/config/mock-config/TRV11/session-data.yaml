@@ -39,5 +39,11 @@ session_data:
   buyer_side_fulfillment_ids: []
   settlement_amount: null
   on_confirm_fulfillments: []
-  cancellation: null
   on_confirm_fulfillment: []
+  cancellation: null
+  igm_action: any
+  issue_action: []
+  issue_resolution: []
+  issue_id: any
+  on_issue_actions: null
+  issue_actions: null
