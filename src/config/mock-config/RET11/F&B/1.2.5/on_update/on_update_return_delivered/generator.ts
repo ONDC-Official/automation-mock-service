@@ -41,6 +41,25 @@ export async function on_update_return_delivered_generator(
           },
         };
       }
+
+      if (f.type == "Delivery" && f.state?.descriptor?.code != "Order-delivered") {
+        return {
+          ...f,
+          state: {
+            descriptor: {
+              code: "Order-delivered",
+            },
+          },
+          end: {
+            ...f.end,
+            time: {
+              ...f.end?.time,
+              timeStamp: new Date().toISOString(),
+            },
+          },
+        };
+      }
+  
       return f;
     }
   );
