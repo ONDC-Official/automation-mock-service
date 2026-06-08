@@ -8,7 +8,7 @@ export async function updateReverseQcGenerator(
   existingPayload.message.order.id = sessionData.order_id;
 
   existingPayload.message.order.items = sessionData.items.map(
-    (item: { id: any; category_id: any }) => ({
+    (item: { id: any; category_id: any , descriptor:any}) => ({
       id: item.id,
       category_id: item.category_id,
       descriptor: item.descriptor
