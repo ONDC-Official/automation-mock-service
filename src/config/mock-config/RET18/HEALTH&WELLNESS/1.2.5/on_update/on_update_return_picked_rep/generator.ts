@@ -144,7 +144,7 @@ export async function on_update_picked_rep_generator(
     id: replacementId,
     state: {
       descriptor: {
-        code: "Pending",
+        code: "Order-picked-up",
       },
     },
     type: "Delivery"
