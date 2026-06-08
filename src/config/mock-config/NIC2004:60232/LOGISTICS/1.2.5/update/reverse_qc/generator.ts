@@ -11,6 +11,7 @@ export async function updateReverseQcGenerator(
     (item: { id: any; category_id: any }) => ({
       id: item.id,
       category_id: item.category_id,
+      descriptor: item.descriptor
     })
   );
 

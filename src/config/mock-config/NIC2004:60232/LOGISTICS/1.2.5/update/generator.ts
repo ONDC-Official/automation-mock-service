@@ -13,7 +13,9 @@ export async function updateGenerator(
 
   existingPayload.message.order.items = sessionData.items.map((item: { id: any; category_id: any; }) => ({
     id: item.id,
-    category_id: item.category_id
+    category_id: item.category_id,
+    descriptor: item.descriptor
+
   }));
 
   if (sessionData?.fulfillments) {
