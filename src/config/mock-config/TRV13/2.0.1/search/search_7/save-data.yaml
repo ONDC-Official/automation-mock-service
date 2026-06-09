@@ -12,3 +12,6 @@ save-data:
   search_4_descriptor_code: "$.message.intent.category.descriptor.code"
   search_4_intent_category: "$.message.intent.category"
   search_4_provider_time: "$.message.intent.provider.time"
+  bap_id: "$.context.bap_id"
+  bap_uri: "$.context.bap_uri"
+  city_code: "$.context.location.city.code"

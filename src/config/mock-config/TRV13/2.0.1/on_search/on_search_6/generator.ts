@@ -1,4 +1,11 @@
 export async function onSearch_6_Generator(existingPayload: any, sessionData: any) {
+  if (existingPayload.context) {
+    existingPayload.context.bap_id = sessionData?.bap_id;
+    existingPayload.context.bap_uri = sessionData?.bap_uri;
+    if (existingPayload.context.location?.city) {
+      existingPayload.context.location.city.code = sessionData?.city_code;
+    }
+  }
   // existingPayload?.message?.catalog?.providers?.map((provider: any) => {
   //   provider.descriptor.code = sessionData?.search_1_descriptor_code ?? "HOTEL";
   // })
