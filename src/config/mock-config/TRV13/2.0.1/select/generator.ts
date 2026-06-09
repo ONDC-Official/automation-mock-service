@@ -82,7 +82,7 @@ export async function selectDefaultGenerator(
   const location_id = on_searchItem.location_ids;
   existingPayload.message.order.items = [
     {
-      id: on_searchItem.id,
+      id: on_searchItem?.id ?? "Accommodation-1",
       location_ids: location_id ?? ["L1"],
       quantity: {
         selected: {
