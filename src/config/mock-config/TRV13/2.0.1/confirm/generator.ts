@@ -12,7 +12,7 @@ export async function confirmDefaultGenerator(
     }
   }
   const payments =
-    sessionData?.on_init_payments?.[0]?.map((payment: any) => {
+    sessionData?.on_init_payments?.flat()?.map((payment: any) => {
       if (payment.type === "PRE-ORDER") {
         return {
           ...payment,
