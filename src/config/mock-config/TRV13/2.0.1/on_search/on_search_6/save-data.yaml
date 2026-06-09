@@ -10,4 +10,8 @@ save-data:
   on_search_1_provider_id: "$.message.catalog.providers[*].id"
   on_search_1_items: "$.message.catalog.providers[*].items"
   bpp_uri: "$.context.bpp_uri"
+  bap_uri: "$.context.bap_uri"
+  bap_id: "$.context.bap_id"
+  bpp_id: "$.context.bpp_id"
+  city_code: "$.context.location.city.code"
   on_search_6_catalog: "$.message.catalog"
