@@ -3,6 +3,15 @@ export async function onConfirmDefaultGenerator(
   existingPayload: any,
   sessionData: any
 ) {
+  if (existingPayload.context) {
+    existingPayload.context.bap_id = sessionData?.bap_id;
+    existingPayload.context.bap_uri = sessionData?.bap_uri;
+    existingPayload.context.bpp_id = sessionData?.bpp_id;
+    existingPayload.context.bpp_uri = sessionData?.bpp_uri;
+    if (existingPayload.context.location?.city) {
+      existingPayload.context.location.city.code = sessionData?.city_code;
+    }
+  }
   existingPayload.message.order.id = sessionData?.provider_id ?? "P1";
   existingPayload.message.order.id = String("ORDER_ID-" + uuidv4().slice(0, 8));
   existingPayload.message.order.status = "ACTIVE";

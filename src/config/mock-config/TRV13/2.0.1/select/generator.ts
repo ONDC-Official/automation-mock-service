@@ -2,6 +2,15 @@ export async function selectDefaultGenerator(
   existingPayload: any,
   sessionData: any,
 ) {
+  if (existingPayload.context) {
+    existingPayload.context.bap_id = sessionData?.bap_id;
+    existingPayload.context.bap_uri = sessionData?.bap_uri;
+    existingPayload.context.bpp_id = sessionData?.bpp_id;
+    existingPayload.context.bpp_uri = sessionData?.bpp_uri;
+    if (existingPayload.context.location?.city) {
+      existingPayload.context.location.city.code = sessionData?.city_code;
+    }
+  }
   // Use on_search_1_items which is populated by on_search_6/save-data.yaml
   const items =
     sessionData?.on_search_1_items?.flat() ??
