@@ -11,3 +11,6 @@ save-data:
   search_2_tags: "$.message.intent.tags"
   search_2_descriptor_code: "$.message.intent.category.descriptor.code"
   search_2_intent_category: "$.message.intent.category"
+  bap_id: "$.context.bap_id"
+  bap_uri: "$.context.bap_uri"
+  city_code: "$.context.location.city.code"

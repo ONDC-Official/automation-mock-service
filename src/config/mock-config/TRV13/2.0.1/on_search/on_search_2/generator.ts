@@ -2,6 +2,13 @@ export async function onSearch_2_Generator(
   existingPayload: any,
   sessionData: any
 ) {
+  if (existingPayload.context) {
+    existingPayload.context.bap_id = sessionData?.bap_id;
+    existingPayload.context.bap_uri = sessionData?.bap_uri;
+    if (existingPayload.context.location?.city) {
+      existingPayload.context.location.city.code = sessionData?.city_code;
+    }
+  }
   const now = new Date().toISOString();
   const nowPlusOneHour = new Date(Date.now() + 60 * 60 * 1000).toISOString();
 

@@ -13,3 +13,6 @@ save-data:
   search_5_intent_category: "$.message.intent.category"
   search_5_provider_id: "$.message.intent.provider.id"
   search_5_provider_time: "$.message.intent.provider.time"
+  bap_id: "$.context.bap_id"
+  bap_uri: "$.context.bap_uri"
+  city_code: "$.context.location.city.code"
