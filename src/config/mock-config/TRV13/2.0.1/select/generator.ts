@@ -34,41 +34,63 @@ export async function selectDefaultGenerator(
   };
 
   // Collect all item IDs the user selected (from each entry in the existing payload's items array)
-  const userSelectedItems: any[] = existingPayload.message.order.items ?? [];
+  // const userSelectedItems: any[] = existingPayload.message.order.items ?? [];
 
   // Use the actual user input to decide if an add-on was selected.
   // existingPayload comes from default.yaml (has "full-board" as template value) and
   // replaceJsonPaths runs AFTER this generator — so we must read from sessionData.user_inputs
   // to get the real user input before post-processing overwrites it with "".
+  // const addOnId = (sessionData as any)?.user_inputs?.add_on_id;
+  // const hasAddOns = addOnId && String(addOnId).trim() !== "";
+
+  // // Build one item object per selected item ID, looking each up in the catalog
+  // existingPayload.message.order.items =
+  //   userSelectedItems.length > 0
+  //     ? userSelectedItems.map((userItem: any) => {
+  //         const userItemId = userItem?.id;
+  //         const catalogItem = userItemId
+  //           ? (items.find((i: any) => i.id === userItemId) ?? null)
+  //           : null;
+  //         return {
+  //           id: catalogItem?.id ?? userItemId ?? "Accommodation-1",
+  //           location_ids: [...(catalogItem?.location_ids ?? [])],
+  //           quantity: {
+  //             selected: {
+  //               count: userItem?.quantity?.selected?.count ?? 1,
+  //             },
+  //           },
+  //           ...(hasAddOns ? { add_ons: [{ id: String(addOnId).trim() }] } : {}),
+  //         };
+  //       })
+  //     : [
+  //         {
+  //           id: items[0]?.id ?? "Accommodation-1",
+  //           location_ids: [...(items[0]?.location_ids ?? [])],
+  //           quantity: { selected: { count: 1 } },
+  //           ...(hasAddOns ? { add_ons: [{ id: String(addOnId).trim() }] } : {}),
+  //         },
+  //       ];
+
+  const itemId = (sessionData as any)?.user_inputs?.item_id;
   const addOnId = (sessionData as any)?.user_inputs?.add_on_id;
   const hasAddOns = addOnId && String(addOnId).trim() !== "";
-
-  // Build one item object per selected item ID, looking each up in the catalog
-  existingPayload.message.order.items =
-    userSelectedItems.length > 0
-      ? userSelectedItems.map((userItem: any) => {
-          const userItemId = userItem?.id;
-          const catalogItem = userItemId
-            ? (items.find((i: any) => i.id === userItemId) ?? null)
-            : null;
-          return {
-            id: catalogItem?.id ?? userItemId ?? "Accommodation-1",
-            location_ids: [...(catalogItem?.location_ids ?? [])],
-            quantity: {
-              selected: {
-                count: userItem?.quantity?.selected?.count ?? 1,
-              },
-            },
-            ...(hasAddOns ? { add_ons: [{ id: String(addOnId).trim() }] } : {}),
-          };
-        })
-      : [
-          {
-            id: items[0]?.id ?? "Accommodation-1",
-            location_ids: [...(items[0]?.location_ids ?? [])],
-            quantity: { selected: { count: 1 } },
-            ...(hasAddOns ? { add_ons: [{ id: String(addOnId).trim() }] } : {}),
-          },
-        ];
+  const itemQuantity = (sessionData as any)?.user_inputs?.quantity;
+  const on_searchItem =
+    sessionData?.on_search_6_catalog?.providers[0].items.find(
+      (item: any) => item.id === itemId,
+    );
+  const location_id = on_searchItem.location_ids;
+  existingPayload.message.order.items = [
+    {
+      id: on_searchItem?.id ?? "Accommodation-1",
+      location_ids: location_id ?? ["L1"],
+      quantity: {
+        selected: {
+          count: Number(itemQuantity) ?? 1,
+        },
+      },
+      ...(hasAddOns ? { add_ons: [{ id: String(addOnId).trim() }] } : {}),
+    },
+  ];
   return existingPayload;
 }
