@@ -20,7 +20,7 @@ export async function initDefaultGenerator(
   const hasTagCode = (payment: any, code: string) =>
     payment?.tags?.some((tag: any) => tag?.descriptor?.code === code);
 
-  const allPayments: any[] = sessionData?.select_payments[0] ?? [];
+  const allPayments: any[] = sessionData?.select_payments?.flat() ?? [];
 
   const preOrderPayment = allPayments.find(
     (p) => p.type === "PRE-ORDER" && hasTagCode(p, "ADV-DEPOSIT"),
