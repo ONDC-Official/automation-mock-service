@@ -57,7 +57,7 @@ export class MockOnStatusDefaultCityCodeClass extends MockAction {
         return "Mock for on_status_city_code";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-        return onStatusDefaultGenerator(existingPayload, sessionData, true);
+        return onStatusDefaultGenerator(existingPayload, sessionData, false);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
         return { valid: true };
