@@ -12,7 +12,7 @@ export async function search_7_generator(
   futureDate.setDate(currentDate.getDate() + 5);
   existingPayload.message.intent.category =
     sessionData?.search_6_intent_category;
-  existingPayload.message.intent.tags = sessionData.search_6_tags[0] ?? [];
+  existingPayload.message.intent.tags = sessionData.search_6_tags?.flat() ?? [];
 
   existingPayload.message.intent.category.time = {
     label: "AVAILABLE",
