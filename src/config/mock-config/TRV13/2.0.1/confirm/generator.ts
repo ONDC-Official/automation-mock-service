@@ -37,12 +37,12 @@ export async function confirmDefaultGenerator(
   // Remove provider.tags as per ONDC spec (not needed in confirm)
   delete existingPayload.message.order.provider.tags;
 
-  existingPayload.message.order.items = sessionData?.on_init_items[0] ?? [];
+  existingPayload.message.order.items = sessionData?.on_init_items?.flat() ?? [];
   existingPayload.message.order.quote = sessionData?.on_init_quote ?? {};
   existingPayload.message.order.billing = sessionData?.on_init_billing ?? {};
   existingPayload.message.order.fulfillments =
-    sessionData?.on_init_fulfillments[0] ?? [];
-  existingPayload.message.order.tags = sessionData?.on_init_tags[0] ?? [];
+    sessionData?.on_init_fulfillments?.flat() ?? [];
+  existingPayload.message.order.tags = sessionData?.on_init_tags?.flat() ?? [];
 
   existingPayload.message.order.created_at =
     sessionData?.context?.timestamp ?? new Date().toISOString();

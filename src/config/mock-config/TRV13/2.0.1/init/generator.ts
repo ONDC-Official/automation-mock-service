@@ -13,10 +13,10 @@ export async function initDefaultGenerator(
   }
   existingPayload.message.order.provider.id =
     sessionData?.select_provider_id ?? "P1";
-  existingPayload.message.order.items = sessionData?.select_items[0] ?? [];
+  existingPayload.message.order.items = sessionData?.select_items?.flat() ?? [];
   // Use search_6_tags (from search_6) with fallback to search_5_tags
   existingPayload.message.order.tags =
-    sessionData?.search_6_tags?.[0] ?? sessionData?.search_5_tags?.[0] ?? [];
+    sessionData?.search_6_tags?.flat() ?? sessionData?.search_5_tags?.flat() ?? [];
   const hasTagCode = (payment: any, code: string) =>
     payment?.tags?.some((tag: any) => tag?.descriptor?.code === code);
 
