@@ -1,6 +1,9 @@
 const getRandomItemsWithQuantities = (items: any): any => {
+	if (!Array.isArray(items) || items.length === 0) {
+		return [];
+	}
 	// Shuffle the array to select random items
-	const shuffledItems = items.sort(() => Math.random() - 0.5);
+	const shuffledItems = [...items].sort(() => Math.random() - 0.5);
 
 	// Determine a random number of items to pick
 	const randomItemCount = Math.floor(Math.random() * items.length) + 1;
@@ -10,8 +13,8 @@ const getRandomItemsWithQuantities = (items: any): any => {
 
 	// Assign random quantities within the minimum and maximum range
 	return selectedItems.map((item: any) => {
-		const min = item.quantity.minimum.count;
-		const max = item.quantity.maximum.count;
+		const min = item?.quantity?.minimum?.count ?? 1;
+		const max = item?.quantity?.maximum?.count ?? 1;
 
 		return {
 			id: item.id,
@@ -25,20 +28,24 @@ const getRandomItemsWithQuantities = (items: any): any => {
 };
 
 const transformToItemFormat = (items: any[]): any => {
+	if (!Array.isArray(items)) {
+		return [];
+	}
 	try {
 		return items.map((item) => ({
 			id: item.id,
 			quantity: {
 				maximum: {
-					count: item.quantity.maximum.count,
+					count: item?.quantity?.maximum?.count ?? 1,
 				},
 				minimum: {
-					count: item.quantity.minimum.count,
+					count: item?.quantity?.minimum?.count ?? 1,
 				},
 			},
 		}));
 	} catch (e: any) {
 		console.error(e.message);
+		return [];
 	}
 };
 export async function selectGenerator(existingPayload: any, sessionData: any) {
@@ -65,11 +72,11 @@ export async function selectGenerator(existingPayload: any, sessionData: any) {
 		? sessionData.selected_ids
 		: [sessionData.selected_ids];
 	const items_chosen = chosen_items;
-	if(items_chosen){
+	if (items_chosen && items_chosen.length > 0) {
 		existingPayload.message.order.items = items_chosen;
 	}
-	if(sessionData.provider_id){
-		existingPayload.message.order.provider.id = sessionData.provider_id
-	  }
+	if (sessionData.provider_id) {
+		existingPayload.message.order.provider.id = sessionData.provider_id;
+	}
 	return existingPayload;
 }

@@ -598,3 +598,23 @@ codes:
     action: issue
     default: METRO/2.0.0/issue/issue_100/issue_close/default.yaml
     message_id: true
+  - code: 344
+    action_id: update_METRO_201
+    action: update
+    default: METRO/2.0.0/update/update_partial_soft_cancel/default.yaml
+    message_id: true  
+  - code: 345
+    action_id: on_update_METRO_201
+    action: on_update
+    default: METRO/2.0.0/on_update/on_update_partial_soft_cancel/default.yaml
+    message_id: false  
+  - code: 346
+    action_id: update_METRO_202
+    action: update
+    default: METRO/2.0.0/update/update_partial_confirm_cancel/default.yaml
+    message_id: true  
+  - code: 347
+    action_id: on_update_METRO_202
+    action: on_update
+    default: METRO/2.0.0/on_update/on_update_partial_confirm_cancel/default.yaml
+    message_id: false

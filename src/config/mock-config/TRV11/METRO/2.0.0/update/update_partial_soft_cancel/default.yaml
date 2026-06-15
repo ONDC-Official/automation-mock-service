@@ -1,0 +1,12 @@
+message:
+  update_target: order.fulfillments
+  order:
+    id: 077b248f
+    fulfillments:
+      - id: F2
+        type: TRIP
+    cancellation:
+      reason:
+        id: '001'
+        descriptor:
+          code: SOFT_CANCEL

@@ -24,6 +24,10 @@ import { onCancelTechCancelGenerator } from "./on_cancel/on_cancel_tech/generato
 import { initWithUserInputGenerator } from "./init/init_with_user_input/generator";
 import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
+import { UpdatePartialSoftCancelGenerator } from "./update/update_partial_soft_cancel/generator";
+import { onUpdatePartialSoftCancelGenerator } from "./on_update/on_update_partial_soft_cancel/generator";
+import { UpdatePartialConfirmCancelGenerator } from "./update/update_partial_confirm_cancel/generator";
+import { onUpdateConfirmPartialCancelGenerator } from "./on_update/on_update_partial_confirm_cancel/generator";
 
 export async function Generator(
   action_id: string,
@@ -116,6 +120,15 @@ export async function Generator(
         },
         inputs,
       );
+    case "update_METRO_201":
+			return await UpdatePartialSoftCancelGenerator(existingPayload,sessionData)
+		case "on_update_METRO_201":
+			return await onUpdatePartialSoftCancelGenerator(existingPayload,sessionData)
+		case "update_METRO_202":
+			return await UpdatePartialConfirmCancelGenerator(existingPayload,sessionData)
+		case "on_update_METRO_202":
+			return await onUpdateConfirmPartialCancelGenerator(existingPayload,sessionData)
+
     default:
       throw new Error(`Invalid request type ${action_id}`);
   }

@@ -48,7 +48,7 @@ function getDetailsByActionId(
 			message_id: entry.message_id,
 		};
 	}
-	throw new Error("Invalid action id found!");
+	throw new Error(`Invalid action id found! ${actionId}`);
 }
 
 export async function createMockResponseMETRO200(

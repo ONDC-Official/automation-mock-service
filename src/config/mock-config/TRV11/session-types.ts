@@ -54,6 +54,9 @@ export interface SessionData {
 	issue_actions: any
 	latest_issue_payload: any
 	fulfillment_ids: any
+	cancellation_terms:any
+	tags:any
+	provider:any
 }
 
 export type BecknContext = {
