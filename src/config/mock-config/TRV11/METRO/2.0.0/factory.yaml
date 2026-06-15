@@ -123,3 +123,23 @@ codes:
     action: on_cancel
     default: on_cancel/on_cancel_hard/default.yaml
     message_id: true
+  - code: 125
+    action_id: update_METRO_201
+    action: update
+    default: update/update_partial_soft_cancel/default.yaml
+    message_id: true  
+  - code: 126
+    action_id: on_update_METRO_201
+    action: on_update
+    default: on_update/on_update_partial_soft_cancel/default.yaml
+    message_id: false  
+  - code: 127
+    action_id: update_METRO_202
+    action: update
+    default: update/update_partial_confirm_cancel/default.yaml
+    message_id: true  
+  - code: 128
+    action_id: on_update_METRO_202
+    action: on_update
+    default: on_update/on_update_partial_confirm_cancel/default.yaml
+    message_id: false 

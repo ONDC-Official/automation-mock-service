@@ -1,12 +1,22 @@
 import { SessionData } from "../../../session-types";
 
 const createQuoteFromItems = (items: any): any => {
+	if (!Array.isArray(items) || items.length === 0) {
+		return {
+			price: {
+				value: "0.00",
+				currency: "INR",
+			},
+			breakup: [],
+		};
+	}
 	let totalPrice = 0;
-	const currency = items[0]?.price.currency || "INR";
+	const currency = items[0]?.price?.currency || "INR";
 
-	const breakup = items.map((item: any) => {
-		const itemTotalPrice =
-			Number(item.price.value) * item.quantity.selected.count;
+	const breakup: any[] = items.map((item: any) => {
+		const selectedCount = item?.quantity?.selected?.count ?? 0;
+		const itemPrice = Number(item?.price?.value ?? 0);
+		const itemTotalPrice = itemPrice * selectedCount;
 		totalPrice += itemTotalPrice;
 
 		return {
@@ -15,11 +25,11 @@ const createQuoteFromItems = (items: any): any => {
 				id: item.id,
 				price: {
 					currency,
-					value: item.price.value,
+					value: itemPrice.toFixed(2),
 				},
 				quantity: {
 					selected: {
-						count: item.quantity.selected.count,
+						count: selectedCount,
 					},
 				},
 			},
@@ -58,47 +68,51 @@ const createQuoteFromItems = (items: any): any => {
 };
 
 function createAndAppendFulfillments(items: any[], fulfillments: any[]): void {
+	if (!Array.isArray(items) || !Array.isArray(fulfillments)) {
+		return;
+	}
 	items.forEach((item) => {
-
-		// item.fulfillment_ids =
-		item.fulfillment_ids.forEach((parentFulfillmentId: string) => {
-			// Get the parent fulfillment object from the fulfillments array
-			const parentFulfillment = fulfillments.find(
-				(f) => f.id === parentFulfillmentId
-			);
-			if (parentFulfillment) {
-				// Get the quantity based on the selected count
-				const quantity = item.quantity.selected.count;
-				for (let i = 0; i < quantity; i++) {
-					// Create new fulfillment object
-					const newFulfillment = {
-						id: `F${Math.random().toString(36).substring(2, 9)}`, // Unique ID for new fulfillment
-						type: "TICKET",
-						tags: [
-							{
-								descriptor: {
-									code: "INFO",
-								},
-								list: [
-									{
-										descriptor: {
-											code: "PARENT_ID",
-										},
-										value: parentFulfillment.id, // Set parent ID
+		if (item && Array.isArray(item.fulfillment_ids)) {
+			const idsToProcess = [...item.fulfillment_ids];
+			idsToProcess.forEach((parentFulfillmentId: string) => {
+				// Get the parent fulfillment object from the fulfillments array
+				const parentFulfillment = fulfillments.find(
+					(f) => f && f.id === parentFulfillmentId
+				);
+				if (parentFulfillment) {
+					// Get the quantity based on the selected count
+					const quantity = item.quantity?.selected?.count ?? 0;
+					for (let i = 0; i < quantity; i++) {
+						// Create new fulfillment object
+						const newFulfillment = {
+							id: `F${Math.random().toString(36).substring(2, 9)}`, // Unique ID for new fulfillment
+							type: "TICKET",
+							tags: [
+								{
+									descriptor: {
+										code: "INFO",
 									},
-								],
-							},
-						],
-					};
+									list: [
+										{
+											descriptor: {
+												code: "PARENT_ID",
+											},
+											value: parentFulfillment.id, // Set parent ID
+										},
+									],
+								},
+							],
+						};
 
-					// Append the new fulfillment to the fulfillments array
-					fulfillments.push(newFulfillment);
+						// Append the new fulfillment to the fulfillments array
+						fulfillments.push(newFulfillment);
 
-					// Append the new fulfillment's id to the item's fulfillment_ids
-					item.fulfillment_ids.push(newFulfillment.id);
+						// Append the new fulfillment's id to the item's fulfillment_ids
+						item.fulfillment_ids.push(newFulfillment.id);
+					}
 				}
-			}
-		});
+			});
+		}
 	});
 }
 
@@ -106,17 +120,20 @@ function getUniqueFulfillmentIdsAndFilterFulfillments(
 	items: any[],
 	fulfillments: any[]
 ): any[] {
+	if (!Array.isArray(items)) {
+		return [];
+	}
 	if (!Array.isArray(fulfillments)) {
 		fulfillments = fulfillments ? [fulfillments] : [];
 	}
 	// Step 1: Get all unique fulfillment IDs from the items
 	const fulfillmentIds = items
-		.flatMap((item) => item.fulfillment_ids) // Flatten the fulfillment_ids arrays
+		.flatMap((item) => item?.fulfillment_ids || []) // Flatten the fulfillment_ids arrays
 		.filter((value, index, self) => self.indexOf(value) === index); // Remove duplicates
 
 	// Step 2: Filter the fulfillments based on the unique fulfillment IDs
 	const filteredFulfillments = fulfillments.filter(
-		(fulfillment) => fulfillmentIds.includes(fulfillment.id) // Check if fulfillment.id is in the unique fulfillmentIds list
+		(fulfillment) => fulfillment && fulfillmentIds.includes(fulfillment.id) // Check if fulfillment.id is in the unique fulfillmentIds list
 	);
 
 	return filteredFulfillments;
@@ -126,11 +143,14 @@ const filterItemsBySelectedIds = (
 	items: any[],
 	selectedIds: string | string[]
 ): any[] => {
+	if (!Array.isArray(items)) {
+		return [];
+	}
 	// Convert selectedIds to an array if it's a string
-	const idsToFilter = Array.isArray(selectedIds) ? selectedIds : [selectedIds];
+	const idsToFilter = Array.isArray(selectedIds) ? selectedIds : (selectedIds ? [selectedIds] : []);
 
 	// Filter the items array based on the presence of ids in selectedIds
-	return items.filter((item) => idsToFilter.includes(item.id));
+	return items.filter((item) => item && idsToFilter.includes(item.id));
 };
 
 export async function onSelectGenerator(
@@ -146,29 +166,36 @@ export async function onSelectGenerator(
 	// 	sessionData.items,
 	// 	sessionData.fulfillments
 	// );
+	
+	// const selectedItems = Array.isArray(sessionData.selected_items) ? sessionData.selected_items : [];
 	// const ids_with_quantities = {
-	// 	items: sessionData.selected_items.reduce((acc: any, item: any) => {
-	// 		acc[item.id] = item.quantity.selected.count;
+	// 	items: selectedItems.reduce((acc: any, item: any) => {
+	// 		if (item && item.id && item.quantity?.selected?.count !== undefined) {
+	// 			acc[item.id] = item.quantity.selected.count;
+	// 		}
 	// 		return acc;
 	// 	}, {}),
 	// };
-	// const updatedItems = sessionData.items.map((item: any) => ({
+	
+	// const sessionItems = Array.isArray(sessionData.items) ? sessionData.items : [];
+	// const updatedItems = sessionItems.map((item: any) => ({
 	// 	...item,
 	// 	quantity: {
 	// 		selected: {
 	// 			count: ids_with_quantities["items"][item.id] ?? 0, // Default to 0 if not in the mapping
 	// 		},
 	// 	},
-	// })).filter((item) => item.quantity.selected.count > 0);
+	// })).filter((item) => item?.quantity?.selected?.count > 0);
+	
 	// items = updatedItems;
 	// createAndAppendFulfillments(updatedItems, fulfillments);
 	// const quote = createQuoteFromItems(updatedItems);
 	// existingPayload.message.order.items = items;
 	// existingPayload.message.order.fulfillments = fulfillments; 
 	// existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
-	// 	if (fulfillment.type === "ROUTE") {
+	// 	if (fulfillment && fulfillment.type === "ROUTE") {
 	// 		fulfillment.type = "TRIP";
-	// 	  }
+	// 	}
 	// })
 	// existingPayload.message.order.quote = quote;
 	return existingPayload;
