@@ -72,7 +72,7 @@ export async function UpdatePartialSoftCancelGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
-	console.log(`sesssion data in updatePortal : ${JSON.stringify(sessionData)}`)
+  console.log(`sesssion data in updatePortal : ${JSON.stringify(sessionData)}`)
   const cancelledFulfillment =
     Array.isArray(sessionData.fulfillments)
       ? sessionData.fulfillments[0] // F2

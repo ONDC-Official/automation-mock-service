@@ -71,6 +71,7 @@ export async function onUpdatePartialSoftCancelGenerator(
   existingPayload: any,
   sessionData: SessionData
 ) {
+  existingPayload.context.message_id = sessionData?.message_id
   if (!Array.isArray(sessionData.updated_payments) || sessionData.updated_payments.length === 0 || !sessionData.updated_payments[0]) {
     sessionData.updated_payments = existingPayload.message?.order?.payments || [];
   }
