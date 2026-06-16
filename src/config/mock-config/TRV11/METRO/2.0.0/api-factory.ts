@@ -24,9 +24,9 @@ import { onCancelTechCancelGenerator } from "./on_cancel/on_cancel_tech/generato
 import { initWithUserInputGenerator } from "./init/init_with_user_input/generator";
 import { issueStatusGenerator_100 } from "./issue/issue_100/generator";
 import { onIssueStatusGenerator_100 } from "./on_issue/on_issue_100/generator";
-import { UpdatePartialSoftCancelGenerator } from "./update/update_partial_soft_cancel/generator";
+import { UpdatePartialSoftCancelGenerator } from "./update_/update_partial_soft_cancel/generator";
 import { onUpdatePartialSoftCancelGenerator } from "./on_update/on_update_partial_soft_cancel/generator";
-import { UpdatePartialConfirmCancelGenerator } from "./update/update_partial_confirm_cancel/generator";
+import { UpdatePartialConfirmCancelGenerator } from "./update_/update_partial_confirm_cancel/generator";
 import { onUpdateConfirmPartialCancelGenerator } from "./on_update/on_update_partial_confirm_cancel/generator";
 
 export async function Generator(
