@@ -4,3 +4,5 @@ save-data:
   updated_payments: "$.message.order.payments[*]"
   created_at: "$.message.order.created_at"
   message_id: "$.context.message_id"
+  update_fulfillment: "$.message.order.fulfillments[*]"
+  update_order: "$.message"
