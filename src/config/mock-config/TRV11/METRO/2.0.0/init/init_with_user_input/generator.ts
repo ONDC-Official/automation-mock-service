@@ -76,8 +76,10 @@ function updateSettlementAmount(payload: any, sessionData: SessionData) {
         (entry: any) => entry.descriptor?.code === "SETTLEMENT_AMOUNT",
       );
 
-      const price: any = sessionData.price;
-      const feePercentage: any = sessionData.buyer_app_fee;
+      const priceVal = sessionData.price;
+      const price = priceVal ? parseFloat(priceVal) : 0;
+      const feePercentageVal = sessionData.buyer_app_fee;
+      const feePercentage = feePercentageVal ? parseFloat(feePercentageVal) : 0;
       const feeAmount = (price * feePercentage) / 100;
 
       const finalAmount = collectedBy === "BAP" ? price - feeAmount : feeAmount;
@@ -118,6 +120,20 @@ export async function initWithUserInputGenerator(
       };
 
       return existingPayload;
+    }
+
+    // Calculate total price based on user inputs and catalog items
+    let totalPrice = 0;
+    if (sessionData.items && sessionData.items.length > 0) {
+      for (const inputItem of sessionData.user_inputs.items) {
+        const matchedItem = sessionData.items.find(
+          (item: any) => item.id === inputItem.itemId,
+        );
+        if (matchedItem) {
+          totalPrice += parseFloat(matchedItem.price.value) * inputItem.count;
+        }
+      }
+      sessionData.price = totalPrice.toString();
     }
 
     existingPayload.message.order.items = sessionData.user_inputs.items.map(

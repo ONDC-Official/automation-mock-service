@@ -57,8 +57,10 @@ function updateSettlementAmount(payload: any, sessionData: SessionData) {
         (entry: any) => entry.descriptor?.code === "SETTLEMENT_AMOUNT",
       );
 
-      const price: any = sessionData.price;
-      const feePercentage: any = sessionData.buyer_app_fee;
+      const priceVal = payload?.message?.order?.quote?.price?.value ?? sessionData.price;
+      const price = priceVal ? parseFloat(priceVal) : 0;
+      const feePercentageVal = sessionData.buyer_app_fee;
+      const feePercentage = feePercentageVal ? parseFloat(feePercentageVal) : 0;
       const feeAmount = (price * feePercentage) / 100;
 
       const finalAmount = collectedBy === "BAP" ? price - feeAmount : feeAmount;
@@ -126,22 +128,48 @@ export async function onInitGenerator(
   sessionData: SessionData,
 ) {
   if (sessionData.items.length > 0) {
-    existingPayload.message.order.items = sessionData.items;
-    const items = existingPayload.message.order.items;
-    if (items[0].quantity.maximum) {
-      delete items[0].quantity.maximum;
-      delete items[0].quantity.mainimum;
-      items.forEach((item: any) => {
-        item.quantity = {
+    const selectedItemsMap = new Map<string, number>();
+    if (sessionData.selected_items && sessionData.selected_items.length > 0) {
+      sessionData.selected_items.forEach((selectedItem: any) => {
+        selectedItemsMap.set(selectedItem.id, selectedItem.quantity?.selected?.count || 1);
+      });
+    }
+
+    const matchedItems = sessionData.items
+      .filter((item: any) => selectedItemsMap.has(item.id))
+      .map((item: any) => {
+        const clonedItem = JSON.parse(JSON.stringify(item));
+        if (clonedItem.quantity) {
+          delete clonedItem.quantity.maximum;
+          delete clonedItem.quantity.minimum;
+        }
+        clonedItem.quantity = {
+          selected: {
+            count: selectedItemsMap.get(item.id) || 1,
+          },
+        };
+        return clonedItem;
+      });
+
+    if (matchedItems.length > 0) {
+      existingPayload.message.order.items = matchedItems;
+    } else {
+      existingPayload.message.order.items = sessionData.items.map((item: any) => {
+        const clonedItem = JSON.parse(JSON.stringify(item));
+        if (clonedItem.quantity) {
+          delete clonedItem.quantity.maximum;
+          delete clonedItem.quantity.minimum;
+        }
+        clonedItem.quantity = {
           selected: {
             count: 4,
           },
         };
-        //   sessionData?.user_inputs?.Item_Quantity || 3; // Default to 1 if not provided
+        return clonedItem;
       });
     }
 
-    console.log("items", items);
+    console.log("items", existingPayload.message.order.items);
     if (sessionData.quote == null) {
       const quote = createQuoteFromItems(existingPayload.message.order.items);
       existingPayload.message.order.quote = quote;

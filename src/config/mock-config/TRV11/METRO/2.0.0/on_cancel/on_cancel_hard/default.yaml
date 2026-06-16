@@ -16,7 +16,6 @@ message:
             count: 2
         fulfillment_ids:
           - F1
-          - F2
         time:
           label: Validity
           duration: P2D
