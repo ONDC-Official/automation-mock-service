@@ -5,3 +5,5 @@ save-data:
   created_at: "$.message.order.created_at"
   fulfillments: "$.message.order.fulfillments[*]"
   on_confirm_fulfillment: "$.message.order.fulfillments"
+  cancellation_terms: "$.message.order.cancellation_terms"
+  on_confirm_order: "$.message.order"
