@@ -1,3 +1,38 @@
+function updateSettlementAmount(payload: any, sessionData: any) {
+  const payments = payload?.message?.order?.payments || [];
+
+  payments.forEach((payment: any) => {
+    const collectedBy = sessionData.collected_by;
+    const settlementTerms = payment.tags?.find(
+      (tag: any) => tag.descriptor?.code === "SETTLEMENT_TERMS",
+    );
+
+    if (settlementTerms && settlementTerms.list) {
+      const settlementAmountEntry = settlementTerms.list.find(
+        (entry: any) => entry.descriptor?.code === "SETTLEMENT_AMOUNT",
+      );
+
+      const price: any = Number(payload.message?.order?.quote?.price?.value);
+      const feePercentage: any = sessionData.buyer_app_fee;
+      const feeAmount = (price * feePercentage) / 100;
+
+      const finalAmount = collectedBy === "BAP" ? price - feeAmount : feeAmount;
+
+      if (settlementAmountEntry) {
+        settlementAmountEntry.value = finalAmount.toString();
+      } else {
+        // Add it if not already present
+        settlementTerms.list.push({
+          descriptor: { code: "SETTLEMENT_AMOUNT" },
+          value: finalAmount.toString(),
+        });
+      }
+    }
+  });
+
+  return payload;
+}
+
 export async function onUpdatePartialSoftCancelGenerator(
   existingPayload: any,
   sessionData: any,
@@ -67,6 +102,6 @@ export async function onUpdatePartialSoftCancelGenerator(
   }
 
   existingPayload.message.order.quote = quote;
-
+  existingPayload = updateSettlementAmount(existingPayload, sessionData);
   return existingPayload
 }
