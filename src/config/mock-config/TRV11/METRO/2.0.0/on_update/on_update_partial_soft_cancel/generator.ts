@@ -101,6 +101,9 @@ export async function onUpdatePartialSoftCancelGenerator(
     });
   }
 
+  if (sessionData.billing) {
+    existingPayload.message.order.billing = sessionData.billing;
+  }
   existingPayload.message.order.quote = quote;
   existingPayload = updateSettlementAmount(existingPayload, sessionData);
   const now = new Date().toISOString();

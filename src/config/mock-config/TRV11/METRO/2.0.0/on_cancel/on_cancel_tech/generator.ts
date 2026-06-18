@@ -164,6 +164,9 @@ function applyCancellation(quote: Quote, cancellationCharges: number): Quote {
      existingPayload.message.order.fulfillments = removeAuthorizationAndTicketInfo(
       existingPayload.message.order.fulfillments
     );
+    if (sessionData.billing) {
+    existingPayload.message.order.billing = sessionData.billing;
+    }
     existingPayload.message.order.created_at = sessionData.created_at
     existingPayload.message.order.updated_at = now
     existingPayload = updateProviderTime(existingPayload);

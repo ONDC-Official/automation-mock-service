@@ -164,6 +164,9 @@ export async function onCancelSoftGenerator(
   existingPayload.message.order.fulfillments = removeAuthorizationAndTicketInfo(
     existingPayload.message.order.fulfillments,
   );
+  if (sessionData.billing) {
+    existingPayload.message.order.billing = sessionData.billing;
+  }
   existingPayload.message.order = updateSettlementAmount(
     existingPayload.message.order,
     sessionData,

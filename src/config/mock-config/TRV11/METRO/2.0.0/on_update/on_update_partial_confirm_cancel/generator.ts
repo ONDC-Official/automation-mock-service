@@ -27,7 +27,9 @@ export async function onUpdateConfirmPartialCancelGenerator(
       });
     }
   }
-
+  if (sessionData.billing) {
+    existingPayload.message.order.billing = sessionData.billing;
+  }
   const now = new Date().toISOString();
     existingPayload.message.order.updated_at = now
 
