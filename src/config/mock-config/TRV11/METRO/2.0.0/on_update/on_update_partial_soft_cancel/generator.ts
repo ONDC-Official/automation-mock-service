@@ -103,5 +103,7 @@ export async function onUpdatePartialSoftCancelGenerator(
 
   existingPayload.message.order.quote = quote;
   existingPayload = updateSettlementAmount(existingPayload, sessionData);
+  const now = new Date().toISOString();
+    existingPayload.message.order.updated_at = now
   return existingPayload
 }
