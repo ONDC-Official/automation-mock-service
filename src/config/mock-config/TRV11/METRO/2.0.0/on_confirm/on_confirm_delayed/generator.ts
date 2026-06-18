@@ -105,6 +105,9 @@ export async function onConfirmDelayedGenerator(
   if (sessionData.quote != null) {
     existingPayload.message.order.quote = sessionData.quote;
   }
+  if (sessionData.billing) {
+    existingPayload.message.order.billing = sessionData.billing;
+  }
   existingPayload.message.order.id = order_id;
   const delay_duration = isoDurationToSeconds(sessionData.ttl) + 2;
   await delay(delay_duration * 1000);

@@ -33,6 +33,9 @@ export async function onStatusCompleteGenerator(existingPayload: any,sessionData
 	if(sessionData.quote != null){
 	existingPayload.message.order.quote = sessionData.quote
 	}
+	if (sessionData.billing) {
+    existingPayload.message.order.billing = sessionData.billing;
+    }
     existingPayload.message.order.status = "COMPLETED"
 	const now = new Date().toISOString();
     existingPayload.message.order.created_at = sessionData.created_at

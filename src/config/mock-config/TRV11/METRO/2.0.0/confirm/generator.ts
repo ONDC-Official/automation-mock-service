@@ -12,9 +12,9 @@ const transformPaymentsToPaid = (payments: any, amount:any,currency = "INR") => 
   }));
 };
 export async function confirmGenerator(existingPayload: any,sessionData: any){
-    if (sessionData.billing && Object.keys(sessionData.billing).length > 0) {
-        existingPayload.message.order.billing = sessionData.billing;
-      }
+    if (sessionData.billing) {
+      existingPayload.message.order.billing = sessionData.billing;
+    }
 
     if (sessionData.selected_items && sessionData.selected_items.length > 0) {
     existingPayload.message.order.items = sessionData.selected_items;

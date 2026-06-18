@@ -157,6 +157,9 @@ export async function onInitGenerator(
   if (sessionData.quote != null) {
     existingPayload.message.order.quote = sessionData.quote;
   }
+  if (sessionData.billing) {
+    existingPayload.message.order.billing = sessionData.billing;
+  }
   existingPayload = updateSettlementAmount(existingPayload, sessionData);
   existingPayload = updateProviderTime(existingPayload);
   return existingPayload;
