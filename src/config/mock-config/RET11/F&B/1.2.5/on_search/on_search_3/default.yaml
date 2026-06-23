@@ -1,9 +1,27 @@
 message:
   catalog:
     bpp/providers:
-      - id: P1
+      - id: a48b0756-c7fe-469a-bf52-946529b5b2ba
         locations:
-          - id: L1
+          - id: a48b0756-c7fe-469a-bf52-946529b5b2ba
             time:
               label: open
-              timestamp: "2025-01-08T08:30:00.000Z"
+              timestamp: '2025-01-08T08:30:00.000Z'
+      - id: EFP01
+        locations:
+          - id: LOC01
+            time:
+              label: open
+              timestamp: '2025-01-08T08:30:00.000Z'
+      - id: pramaan_provider_1
+        locations:
+          - id: SSL1
+            time:
+              label: open
+              timestamp: '2025-01-08T08:30:00.000Z'
+      - id: pramaan_provider_2
+        locations:
+          - id: SSL2
+            time:
+              label: open
+              timestamp: '2025-01-08T08:30:00.000Z'
