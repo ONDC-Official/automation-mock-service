@@ -34,6 +34,7 @@ export function getTimestampFromDuration(
 }
 
 export function removeTagsByCodes(tags: any[], codesToRemove: string[]): Tag[] {
+  if (!tags) return [];
   return tags.filter((tag) => !codesToRemove.includes(tag.code));
 }
 
@@ -123,6 +124,7 @@ export const generateQuoteTrail = (
   const quoteTrailTags: any[] = [];
 
   function extractType(tags: any) {
+    if (!tags) return null;
     const typeTag = tags.find((tag: any) => tag.code === "type");
     if (!typeTag || !typeTag.list) return null;
 
@@ -181,50 +183,45 @@ export const generateQuoteTrail = (
         ],
       });
     } else if (
-      parseInt(item.price.value) !== 0 &&
       (!parentItemId || item?.item?.parent_item_id === parentItemId)
     ) {
-      console.log("items:", items);
-      console.log("item{asdas", item["@ondc/org/item_id"]);
-
-      const tags = items.find(
+      const matchedItem = items.find(
         (allItem: any) => allItem.id === item["@ondc/org/item_id"]
-      ).tags;
-      const subType = extractType(tags);
+      );
+      const subType = matchedItem ? extractType(matchedItem?.tags) : null;
+
+      const list: any[] = [
+        {
+          code: "type",
+          value: item["@ondc/org/title_type"],
+        },
+      ];
+
+      if (subType) {
+        list.push({
+          code: "subtype",
+          value: subType,
+        });
+      }
+
+      list.push(
+        {
+          code: "id",
+          value: item["@ondc/org/item_id"],
+        },
+        {
+          code: "currency",
+          value: "INR",
+        },
+        {
+          code: "value",
+          value: `-${Number(item.price.value).toFixed(2)}`,
+        }
+      );
 
       quoteTrailTags.push({
         code: "quote_trail",
-        list: [
-          {
-            code: "type",
-            value: item["@ondc/org/title_type"],
-          },
-          ...(subType
-            ? [
-                {
-                  code: "subtype",
-                  value: subType,
-                },
-              ]
-            : []),
-
-          {
-            code: "parent_item_id",
-            value: item.item.parent_item_id,
-          },
-          {
-            code: "id",
-            value: item["@ondc/org/item_id"],
-          },
-          {
-            code: "currency",
-            value: "INR",
-          },
-          {
-            code: "value",
-            value: `-${item.price.value}`,
-          },
-        ],
+        list: list,
       });
     }
   });
@@ -267,6 +264,7 @@ export const buildRetailQuote = (
   let totalPrice = 0.0;
 
   function extractTags(tags: any) {
+    if (!tags) return {};
     const result: any = {};
 
     tags.forEach((tag: any) => {
@@ -282,19 +280,24 @@ export const buildRetailQuote = (
     return result;
   }
   let hasCancelFulfillment = false;
+  const processed = new Set();
 
   items.forEach((item: any) => {
     let isCancelFulfillment = false;
     let isRTO = false;
     let isReturn = false;
     console.log("items: ", item);
-    if (item.quantity.count === 0) {
+    const uniqueKey = `${item.id}_${item.parent_item_id || 'root'}`;
+    if (item.quantity?.count === 0 || item.fulfillment_id?.includes("cancel") || processed.has(uniqueKey)) {
       return;
     }
+    processed.add(uniqueKey);
 
     const initialItemsData: any = initalItems?.find(
       (on_search_item: any) => on_search_item.id === item.id
     );
+
+    if (!initialItemsData) return;
 
     fulfillments.forEach((fulfillment: any) => {
       if (
@@ -309,55 +312,43 @@ export const buildRetailQuote = (
       }
     });
 
-    const itemPrice =
-      parseInt(initialItemsData.price.value) *
-      (isCancelFulfillment ||
-      isRTO ||
-      (options?.returnParentItemId &&
-        item.parent_item_id === options.returnParentItemId)
-        ? 0
-        : item.quantity.count);
+    const quantity = options?.cancelled || isCancelFulfillment || isRTO || (options?.returnParentItemId && item.parent_item_id === options.returnParentItemId) ? 0 : (item.quantity?.count ?? 1);
+    
+    const unitPrice = parseFloat(initialItemsData.price?.value ?? "0");
+    const totalItemPrice = unitPrice * quantity;
 
-    if (!isCancelFulfillment) {
-      totalPrice += itemPrice;
-    }
+    totalPrice += totalItemPrice;
 
     breakup.push({
       "@ondc/org/item_id": item.id,
       "@ondc/org/item_quantity": {
-        count:
-          isCancelFulfillment ||
-          isRTO ||
-          (options?.returnParentItemId &&
-            item.parent_item_id === options.returnParentItemId)
-            ? 0
-            : item.quantity.count,
+        count: quantity,
       },
-      title: initialItemsData.descriptor.name,
+      title: initialItemsData.descriptor?.name || "Item",
       "@ondc/org/title_type": "item",
       price: {
         currency: "INR",
-        value: itemPrice.toString(),
+        value: totalItemPrice.toFixed(2),
       },
       item: {
-        parent_item_id: item.parent_item_id,
+        ...(item.parent_item_id ? { parent_item_id: item.parent_item_id } : {}),
         quantity: {
           available: {
-            count: initialItemsData.quantity.available.count,
+            count: initialItemsData.quantity?.available?.count || "99",
           },
           maximum: {
-            count: initialItemsData.quantity.maximum.count,
+            count: initialItemsData.quantity?.maximum?.count || "99",
           },
         },
         price: {
           currency: "INR",
-          value: initialItemsData.price.value,
+          value: initialItemsData.price?.value || "0.00",
         },
-        tags: removeTagsByCodes(item.tags, ["rto_action"]),
+        tags: removeTagsByCodes(item?.tags || [], ["rto_action"]),
       },
     });
 
-    const taxPrice = (itemPrice * 0.05).toFixed(2).toString();
+    const taxPrice = (totalItemPrice * 0.05).toFixed(2).toString();
 
     totalPrice += parseFloat(taxPrice);
 
@@ -458,8 +449,8 @@ export const buildRetailQuote = (
         value: taxPrice,
       },
       item: {
-        parent_item_id: item.parent_item_id,
-        tags: removeTagsByCodes(item.tags, ["rto_action"]),
+        ...(item.parent_item_id ? { parent_item_id: item.parent_item_id } : {}),
+        tags: removeTagsByCodes(item?.tags || [], ["rto_action"]),
       },
     });
     if (isCancelFulfillment) {
@@ -470,7 +461,7 @@ export const buildRetailQuote = (
   options?.offers?.forEach((offer: any) => {
     options?.initalOffers?.forEach((initOffer: any) => {
       if (initOffer.id === offer.id) {
-        const conditions = extractTags(initOffer.tags);
+        const conditions = extractTags(initOffer?.tags);
 
         if (parseInt(conditions?.qualifier?.min_value) > totalPrice) {
           return;
@@ -544,79 +535,64 @@ export const buildRetailQuote = (
 
   let deliveryBreakup: any[] = [];
 
-  if (!hasCancelFulfillment && options?.fulfillmentState !== "PRE") {
+  if ((!hasCancelFulfillment || options?.partCancel) && options?.fulfillmentState !== "PRE") {
     fulfillments.forEach((fulfillment: any) => {
       if (fulfillment.type === "Delivery") {
-        if (fulfillment["@ondc/org/TAT"] === "PT60M") {
-          totalPrice += 75;
-          deliveryBreakup = [
-            ...deliveryBreakup,
-            {
-              "@ondc/org/item_id": fulfillment.id,
-              title: "Delivery charges",
-              "@ondc/org/title_type": "delivery",
-              price: {
-                currency: "INR",
-                value: "50.00",
-              },
-            },
-            {
-              "@ondc/org/item_id": fulfillment.id,
-              title: "Packing charges",
-              "@ondc/org/title_type": "packing",
-              price: {
-                currency: "INR",
-                value: "25.00",
-              },
-            },
-          ];
-        } else if (fulfillment["@ondc/org/TAT"] === "PT30M") {
-          totalPrice += 85;
-          deliveryBreakup = [
-            ...deliveryBreakup,
-            {
-              "@ondc/org/item_id": fulfillment.id,
-              title: "Delivery charges",
-              "@ondc/org/title_type": "delivery",
-              price: {
-                currency: "INR",
-                value: "60.00",
-              },
-            },
-            {
-              "@ondc/org/item_id": fulfillment.id,
-              title: "Packing charges",
-              "@ondc/org/title_type": "packing",
-              price: {
-                currency: "INR",
-                value: "25.00",
-              },
-            },
-          ];
-        } else {
-          totalPrice += 75;
-          deliveryBreakup = [
-            ...deliveryBreakup,
-            {
-              "@ondc/org/item_id": fulfillment.id,
-              title: "Delivery charges",
-              "@ondc/org/title_type": "delivery",
-              price: {
-                currency: "INR",
-                value: "50.00",
-              },
-            },
-            {
-              "@ondc/org/item_id": fulfillment.id,
-              title: "Packing charges",
-              "@ondc/org/title_type": "packing",
-              price: {
-                currency: "INR",
-                value: "25.00",
-              },
-            },
-          ];
+        let deliveryCost = 50;
+        let packingCost = 25;
+        if (fulfillment["@ondc/org/TAT"] === "PT30M") {
+          deliveryCost = 60;
         }
+
+        totalPrice += (deliveryCost + packingCost + 9 + 10);
+        
+        deliveryBreakup = [
+          ...deliveryBreakup,
+          {
+            "@ondc/org/item_id": fulfillment.id,
+            title: "Delivery charges",
+            "@ondc/org/title_type": "delivery",
+            price: {
+              currency: "INR",
+              value: deliveryCost.toFixed(2),
+            },
+          },
+          {
+            "@ondc/org/item_id": fulfillment.id,
+            title: "Tax",
+            "@ondc/org/title_type": "tax",
+            price: {
+              currency: "INR",
+              value: "9.00",
+            },
+            item: {
+              tags: [
+                {
+                  code: "quote",
+                  list: [{ code: "type", value: "fulfillment" }],
+                },
+              ],
+            },
+          },
+          {
+            "@ondc/org/item_id": fulfillment.id,
+            title: "Packing charges",
+            "@ondc/org/title_type": "packing",
+            price: {
+              currency: "INR",
+              value: packingCost.toFixed(2),
+            },
+          },
+          {
+            "@ondc/org/item_id": fulfillment.id,
+            title: "Convenience Fee",
+            "@ondc/org/title_type": "misc",
+            price: {
+              currency: "INR",
+              value: "10.00",
+            },
+          },
+        ];
       } else if (fulfillment.type === "Buyer-Delivery") {
         totalPrice += 25;
         deliveryBreakup = [
