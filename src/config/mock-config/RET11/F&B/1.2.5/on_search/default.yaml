@@ -384,7 +384,7 @@ message:
                       value: '229.00'
             category_id: F&B
             category_ids:
-              - '501'
+              - '5:1'
             location_id: a48b0756-c7fe-469a-bf52-946529b5b2ba
             fulfillment_id: '1'
             '@ondc/org/returnable': true
@@ -819,7 +819,7 @@ message:
                       value: '269.00'
             category_id: F&B
             category_ids:
-              - '502'
+              - '5:2'
             location_id: a48b0756-c7fe-469a-bf52-946529b5b2ba
             fulfillment_id: '1'
             '@ondc/org/returnable': true
